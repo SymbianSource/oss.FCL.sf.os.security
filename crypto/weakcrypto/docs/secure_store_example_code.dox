@@ -1,0 +1,180 @@
+/**
+	@page secure_store_example_code Secure store example code
+	
+	This example covers: 
+	-# @ref store_example_1 "Creating and opening a new secure store protected by the supplied password"
+	-# @ref store_example_2 "Opening an existing secure store"
+	-# @ref store_example_3 "Writing some data to a new stream in the currently opened store, and returning the ID of the stream"
+	-# @ref store_example_4 "Reading the data in a given stream from the currently opened store"
+	-# @ref store_example_5 "Closing the currently opened store"
+	-# @ref store_example_6 "Changing the password for the currently opened store".
+
+	Also, see:
+	- @ref pbe_example_code
+	- @ref secure_stream_example_code
+	
+<hr>
+
+	@ref secure_store_example_code_support "Supporting code for this example"
+
+@anchor store_example_1
+@code
+/*
+ * Create and open a new secure store protected by the supplied password.
+ */
+void CSecureStoreExample::CreateNewStoreL(const TDesC& aPassword)
+		 {
+		 // Check store is not already open
+		 ASSERT(!iEncryptSet && !iSecureStore && !iFileStore);
+
+		 // Create a standard file store
+		 iFileStore = CPermanentFileStore::ReplaceL(iFs, iFilename, EFileRead | EFileWrite | EFileShareExclusive);
+		 iFileStore->SetTypeL(KPermanentFileStoreLayoutUid);
+		 
+		 // Create a CPBEncryptSet object (because a store is comprised of multiple
+		 // independent objects)
+		 TPBPassword password(aPassword);
+		 iEncryptSet = CPBEncryptSet::NewL(password, ECipherDES_CBC);
+
+		 // Write encryption data and encrypted master key to the root stream of the
+		 // store.  We need to store both of these pieces of information to be able
+		 // to access the secure store at a later time.
+		 RStoreWriteStream writeStream;
+		 TStreamId rootId = writeStream.CreateLC(*iFileStore);
+		 writeStream << iEncryptSet->EncryptionData();
+		 writeStream << iEncryptSet->EncryptedMasterKey();
+		 writeStream.CommitL();
+		 CleanupStack::PopAndDestroy(&writeStream);
+		 iFileStore->SetRootL(rootId);
+		 iFileStore->CommitL();
+
+		 // Create the secure store - this wraps the file store providing transparent
+		 // encryption/decryption of streams.
+		 iSecureStore = CSecureStore::NewL(*iFileStore, *iEncryptSet);
+		 }
+@endcode
+
+@anchor store_example_2
+@code
+/*
+ * Open an existing secure store.  Leaves with KErrBadPassphrase if the password
+ * is not the same as the one used when creating the store.
+ */
+void CSecureStoreExample::OpenExistingStoreL(const TDesC& aPassword)
+		 {
+		 // Check store is not already open
+		 ASSERT(!iEncryptSet && !iSecureStore && !iFileStore);
+
+		 // Open a standard file store
+		 iFileStore = CPermanentFileStore::OpenL(iFs, iFilename, EFileRead | EFileWrite | EFileShareExclusive);
+		 
+		 // Read the encryption data and encrypted master key from the root stream
+		 TStreamId rootId = iFileStore->Root();
+		 RStoreReadStream readStream;
+		 readStream.OpenLC(*iFileStore, rootId);
+		 CPBEncryptionData* encryptionData = CPBEncryptionData::NewLC(readStream);
+		 HBufC8* encryptedMasterKey = HBufC8::NewLC(readStream, KMaxTInt);
+
+		 // Use these to recreate the CPBEncryptSet object (this leaves if
+		 // aPassword is wrong)
+		 iEncryptSet = CPBEncryptSet::NewL(*encryptionData, *encryptedMasterKey, aPassword);
+
+		 // Create the secure store
+		 iSecureStore = CSecureStore::NewL(*iFileStore, *iEncryptSet);
+
+		 // Free memory
+		 CleanupStack::PopAndDestroy(3, &readStream);
+		 }
+@endcode
+
+@anchor store_example_3
+@code
+/*
+ * Write some data to a new stream in the currently opened store and return the
+ * ID of the stream.
+ */
+TStreamId CSecureStoreExample::WriteEncryptedDataL(const TDesC8& aInput)
+		 {
+		 // Check store is open
+		 ASSERT(iEncryptSet && iSecureStore && iFileStore);
+
+		 // Create a new stream in the store 
+		 RStoreWriteStream writeStream;
+		 TStreamId newStreamId = writeStream.CreateLC(*iSecureStore);
+
+		 // Write data - this is automatically encrypted
+		 writeStream << aInput;
+		 writeStream.CommitL();
+		 iSecureStore->CommitL();
+
+		 CleanupStack::PopAndDestroy(&writeStream);
+		 return newStreamId;
+		 }
+@endcode
+
+@anchor store_example_4
+@code
+/*
+ * Read the data in a given stream from the currently opened store.
+ */
+HBufC8* CSecureStoreExample::ReadEncryptedDataLC(TStreamId aStreamId)
+		 {
+		 // Check store is open
+		 ASSERT(iEncryptSet && iSecureStore && iFileStore);
+
+		 // Open an existing stream in the store
+		 RStoreReadStream readStream;
+		 readStream.OpenLC(*iSecureStore, aStreamId);
+
+		 // Read data - this is automatically decrypted
+		 HBufC8* output = HBufC8::NewL(readStream, KMaxTInt);
+
+		 CleanupStack::PopAndDestroy(&readStream);
+		 CleanupStack::PushL(output);
+		 return output;
+		 }
+@endcode
+
+@anchor store_example_5
+@code
+/*
+ * Close the currently opened store.
+ */
+void CSecureStoreExample::CloseStore()
+		 {
+		 delete iSecureStore;
+		 iSecureStore = NULL;
+		 delete iEncryptSet;
+		 iEncryptSet = NULL;
+		 delete iFileStore;
+		 iFileStore = NULL;
+		 }
+@endcode
+
+@anchor store_example_6
+@code
+/*
+ * Change the password for the currently opened store.
+ */
+void CSecureStoreExample::ChangePasswordL(const TDesC& aNewPassword)
+		 {
+		 // Check store is open
+		 ASSERT(iEncryptSet && iSecureStore && iFileStore);
+
+		 // Change password on encrypt set object
+		 iEncryptSet->ChangePasswordL(aNewPassword);
+
+		 // Must now rewrite data in root stream
+		 TStreamId rootId = iFileStore->Root();
+		 RStoreWriteStream writeStream;
+		 writeStream.ReplaceLC(*iFileStore, rootId);
+		 writeStream << iEncryptSet->EncryptionData();
+		 writeStream << iEncryptSet->EncryptedMasterKey();
+		 writeStream.CommitL();
+		 iFileStore->CommitL();
+		 
+		 CleanupStack::PopAndDestroy(&writeStream);
+		 }
+
+@endcode
+*/

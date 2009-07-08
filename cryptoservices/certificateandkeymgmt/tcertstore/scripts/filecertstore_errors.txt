@@ -1,0 +1,336 @@
+// Error tests for filetokens cert store, run in configuration 1
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-filecertstore_errors-1
+//! @SYMTestCaseDesc Opening a writable certificate store manager
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Opening a writable certificate store manager</actionname>
+	<actiontype>init</actiontype>
+	<actionbody>
+		<mode>write</mode>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-filecertstore_errors-2
+//! @SYMTestCaseDesc Deleting all certs
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Deleting all certs</actionname>
+	<actiontype>deletecert</actiontype>
+	<actionbody>
+		<label>*.*</label>
+		<deleteallcerts>1</deleteallcerts>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-filecertstore_errors-3
+//! @SYMTestCaseDesc Add the certificate CAX1
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Add the certificate CAX1</actionname>
+	<actiontype>addcert</actiontype>
+	<actionbody>
+		<format>X509</format>
+		<label>CAX1</label>
+		<issuerkey></issuerkey>
+		<subjectkey></subjectkey>
+		<certstore>0</certstore>
+		<certfile>c:\unifiedcertstore2\CAX1.cer</certfile>
+		`<certowner>ca</certowner>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-filecertstore_errors-4
+//! @SYMTestCaseDesc Add a certificate with duplicate label
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrBadName
+<action>
+	<actionname>Add a certificate with duplicate label</actionname>
+	<actiontype>addcert</actiontype>
+	<actionbody>
+		<format>X509</format>
+		<label>CAX1</label>
+		<issuerkey></issuerkey>
+		<subjectkey></subjectkey>
+		<certstore>0</certstore>
+		<certfile>c:\unifiedcertstore2\CAX1.cer</certfile>
+		`<certowner>ca</certowner>
+	</actionbody>
+	<actionresult>
+		<return>KErrBadName</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-filecertstore_errors-5
+//! @SYMTestCaseDesc Add a cert with no label
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrArgument
+<action>
+	<actionname>Add a cert with no label</actionname>
+	<actiontype>addcert</actiontype>
+	<actionbody>
+		<format>X509</format>
+		<label></label>
+		<issuerkey></issuerkey>
+		<subjectkey></subjectkey>
+		<certstore>0</certstore>
+		<certfile>c:\unifiedcertstore2\CAX1.cer</certfile>
+		`<certowner>ca</certowner>
+	</actionbody>
+	<actionresult>
+		<return>KErrArgument</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-filecertstore_errors-6
+//! @SYMTestCaseDesc Add a cert with the maximum label length (64)
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Add a cert with the maximum label length (64)</actionname>
+	<actiontype>addcert</actiontype>
+	<actionbody>
+		<format>X509</format>
+		<label>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</label>
+		<issuerkey></issuerkey>
+		<subjectkey></subjectkey>
+		<certstore>0</certstore>
+		<certfile>c:\unifiedcertstore2\CAX1.cer</certfile>
+		`<certowner>ca</certowner>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-filecertstore_errors-7
+//! @SYMTestCaseDesc Add a cert with a label longer than max length (65)
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrOverflow
+<action>
+	<actionname>Add a cert with a label longer than max length (65)</actionname>
+	<actiontype>addcert</actiontype>
+	<actionbody>
+		<format>X509</format>
+		<label>bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb</label>
+		<issuerkey></issuerkey>
+		<subjectkey></subjectkey>
+		<certstore>0</certstore>
+		<certfile>c:\unifiedcertstore2\CAX1.cer</certfile>
+		`<certowner>ca</certowner>
+	</actionbody>
+	<actionresult>
+		<return>KErrOverflow</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-filecertstore_errors-8
+//! @SYMTestCaseDesc Add a cert with an unknown format
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNotSupported
+<action>
+	<actionname>Add a cert with an unknown format</actionname>
+	<actiontype>addcert</actiontype>
+	<actionbody>
+		<format>unknown</format>
+		<label>test</label>
+		<issuerkey></issuerkey>
+		<subjectkey></subjectkey>
+		<certstore>0</certstore>
+		<certfile>c:\unifiedcertstore2\CAX1.cer</certfile>
+		`<certowner>ca</certowner>
+	</actionbody>
+	<actionresult>
+		<return>KErrNotSupported</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-filecertstore_errors-9
+//! @SYMTestCaseDesc Add a cert with an unknown owner type
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrArgument
+<action>
+	<actionname>Add a cert with an unknown owner type</actionname>
+	<actiontype>addcert</actiontype>
+	<actionbody>
+		<format>X509</format>
+		<label>test</label>
+		<issuerkey></issuerkey>
+		<subjectkey></subjectkey>
+		<certstore>0</certstore>
+		<certfile>c:\unifiedcertstore2\CAX1.cer</certfile>
+		<certowner>unknown</certowner>
+	</actionbody>
+	<actionresult>
+		<return>KErrArgument</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-filecertstore_errors-10
+//! @SYMTestCaseDesc Test can't add user cert without corresponding private key
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrPrivateKeyNotFound
+<action>
+	<actionname>Test can't add user cert without corresponding private key</actionname>
+	<actiontype>addcert</actiontype>
+	<actionbody>
+		<format>X509</format>
+		<label>U5K3</label>
+		<issuerkey></issuerkey>
+		<subjectkey>eeda2c6da84f17519ee837eadb8a5289dadfbb26</subjectkey>
+		<certstore>0</certstore>
+		<certfile>c:\unifiedcertstore2\U5K3.crt</certfile>
+		`<certowner>user</certowner>
+	</actionbody>
+	<actionresult>
+		<return>KErrPrivateKeyNotFound</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-filecertstore_errors-11
+//! @SYMTestCaseDesc Test can add peer cert without corresponding private key
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Test can add peer cert without corresponding private key</actionname>
+	<actiontype>addcert</actiontype>
+	<actionbody>
+		<format>X509</format>
+		<label>U5K3</label>
+		<issuerkey></issuerkey>
+		<subjectkey>eeda2c6da84f17519ee837eadb8a5289dadfbb26</subjectkey>
+		<certstore>0</certstore>
+		<certfile>c:\unifiedcertstore2\U5K3.crt</certfile>
+		`<certowner>peer</certowner>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-filecertstore_errors-12
+//! @SYMTestCaseDesc Get the list of CA certificates
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Get the list of CA certificates</actionname>
+	<actiontype>listcert</actiontype>
+	<actionbody>
+		<filter>
+		<ownertype>ca</ownertype>
+		</filter>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<CCTCertInfo><label>CAX1</label></CCTCertInfo>
+		<CCTCertInfo><label>aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa</label></CCTCertInfo>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-filecertstore_errors-13
+//! @SYMTestCaseDesc Get the list of user certificates
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Get the list of user certificates</actionname>
+	<actiontype>listcert</actiontype>
+	<actionbody>
+		<filter>
+		<ownertype>user</ownertype>
+		</filter>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-filecertstore_errors-14
+//! @SYMTestCaseDesc Get the list of peer certificates
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Get the list of peer certificates</actionname>
+	<actiontype>listcert</actiontype>
+	<actionbody>
+		<filter>
+		<ownertype>peer</ownertype>
+		</filter>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<CCTCertInfo><label>U5K3</label></CCTCertInfo>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-filecertstore_errors-15
+//! @SYMTestCaseDesc Delete all certs
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Delete all certs</actionname>
+	<actiontype>deletecert</actiontype>
+	<actionbody>
+		<label>*.*</label>
+		<deleteallcerts>1</deleteallcerts>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-filecertstore_errors-16
+//! @SYMTestCaseDesc Delete the writable certificate store manager
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Delete the writable certificate store manager</actionname>
+	<actiontype>delete</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>

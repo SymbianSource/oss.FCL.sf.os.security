@@ -1,0 +1,587 @@
+# This file defines a test specification for all the MCL codelines and consists
+# of the two following sections: COMPONENT ASSIGNMENT and TEST DEFINITION
+#
+# COMPONENT ASSIGNMENT - this section assigns components (defined below) to
+# codelines they should be run for.
+#
+# TEST DEFINITION - this section defines Security tests and assigns them to
+# components. A component is defined using square brackets and its scope ends
+# at the next component. A component can be a Security component, for example
+# [SWI], [JMI], [Crypto] but also a group of various tests, for example [Misc]
+# that contains panicscan.pl and cdrive.pl.
+# It is strongly recommended to use the UDEB#UREL option if possible in order
+# to define the udeb and urel tests at once.
+#
+
+# Tests are executed according to the sequence in the TEST DEFINITION section.
+#
+# WARNING - There must not be more than one test block for any of the components.  
+# E.g. SWI has one and only one [SWI] section in this file.  Otherwise 
+# \security\testframework\test\test_launcher.pl will be broken.
+
+  
+###############################################################################
+#                             COMPONENT ASSIGNMENT                            #
+###############################################################################
+{9.4}=Init,Common,SWI,SisTools,SwiTools,Misc
+{9.5}=Init,Common,SWI,SisTools,SwiTools,Misc
+{future}=Init,Common,SWI,SisTools,SwiTools,Misc
+
+###############################################################################
+#                               TEST DEFINITION                               #
+###############################################################################
+
+# Each test defines the following:
+# program,log,commdb,script,timeout(secs),release,pre cmd,post cmd
+
+# Configuration 1
+
+[Init]
+# Setup the emulator network support and backup/restore emulator drives.
+TESTEXECUTE, \logs\testexecute\dummytefscript.htm,, \dummytefscript.script, 2500, UDEB, \epoc32\winscw\c\config_udeb.bat, 
+TESTEXECUTE, \logs\testexecute\dummytefscript.htm,, \dummytefscript.script, 2500, UREL, \config_urel.bat, 
+
+
+
+[Crypto]
+thash, \hashlog.txt,, -Dtextshell --, 2500, UDEB,, 
+thash, \hashlog.txt,, -Dtextshell --, 2500, UREL,, 
+t_random, \t_random.log,, -Dtextshell --, 300, UDEB#UREL,,
+
+# Padding tests - these run using testexecute
+TESTEXECUTE, \logs\testexecute\tpadding.htm,, -Dtextshell -- \tpadding\tpadding.script, 300, UDEB,,
+TESTEXECUTE, \logs\testexecute\tpaddingudeb.htm,, -Dtextshell -- \tpadding\tpaddingudeb.script, 300, UDEB,,
+
+# CRYPTO 
+tasymmetric, \tasymmetrictests.log,, -Dtextshell -- \tasymmetric\tasymmetrictests.txt \tasymmetrictests.log, 300, UDEB#UREL,,
+tsymmetric, \tsymmetrictests.log,, -Dtextshell -- \tsymmetric\tsymmetrictests.txt \tsymmetrictests.log, 300, UDEB#UREL,,
+tsymmetric, \AESECBVectorsScript.log,, -Dtextshell -- \tsymmetric\AESECBVectorsScript.txt \AESECBVectorsScript.log, 300, UDEB#UREL,,
+tsymmetric, \AESECB_KAT_VT.log,, -Dtextshell -- \tsymmetric\AESECB_KAT_VT.txt \AESECB_KAT_VT.log, 300, UDEB#UREL,,
+tsymmetric, \AESECB_KAT_VK.log,, -Dtextshell -- \tsymmetric\AESECB_KAT_VK.txt \AESECB_KAT_VK.log, 300, UDEB#UREL,,
+tsymmetric, \AESMonteCarloEncryptECB128.log,, -Dtextshell -- \tsymmetric\AESMonteCarloEncryptECB128.txt \AESMonteCarloEncryptECB128.log, 300, UDEB#UREL,,
+tsymmetric, \AESMonteCarloEncryptECB192.log,, -Dtextshell -- \tsymmetric\AESMonteCarloEncryptECB192.txt \AESMonteCarloEncryptECB192.log, 300, UDEB#UREL,,
+tsymmetric, \AESMonteCarloEncryptECB256.log,, -Dtextshell -- \tsymmetric\AESMonteCarloEncryptECB256.txt \AESMonteCarloEncryptECB256.log, 300, UDEB#UREL,,
+tsymmetric, \AESMonteCarloDecryptECB128.log,, -Dtextshell -- \tsymmetric\AESMonteCarloDecryptECB128.txt \AESMonteCarloDecryptECB128.log, 300, UDEB#UREL,,
+tsymmetric, \AESMonteCarloDecryptECB192.log,, -Dtextshell -- \tsymmetric\AESMonteCarloDecryptECB192.txt \AESMonteCarloDecryptECB192.log, 300, UDEB#UREL,,
+tsymmetric, \AESMonteCarloDecryptECB256.log,, -Dtextshell -- \tsymmetric\AESMonteCarloDecryptECB256.txt \AESMonteCarloDecryptECB256.log, 300, UDEB#UREL,,
+tsymmetric, \AESMonteCarloEncryptCBC128.log,, -Dtextshell -- \tsymmetric\AESMonteCarloEncryptCBC128.txt \AESMonteCarloEncryptCBC128.log, 300, UDEB#UREL,,
+tsymmetric, \AESMonteCarloEncryptCBC192.log,, -Dtextshell -- \tsymmetric\AESMonteCarloEncryptCBC192.txt \AESMonteCarloEncryptCBC192.log, 300, UDEB#UREL,,
+tsymmetric, \AESMonteCarloEncryptCBC256.log,, -Dtextshell -- \tsymmetric\AESMonteCarloEncryptCBC256.txt \AESMonteCarloEncryptCBC256.log, 300, UDEB#UREL,,
+tsymmetric, \AESMonteCarloDecryptCBC128.log,, -Dtextshell -- \tsymmetric\AESMonteCarloDecryptCBC128.txt \AESMonteCarloDecryptCBC128.log, 300, UDEB#UREL,,
+tsymmetric, \AESMonteCarloDecryptCBC192.log,, -Dtextshell -- \tsymmetric\AESMonteCarloDecryptCBC192.txt \AESMonteCarloDecryptCBC192.log, 300, UDEB#UREL,,
+tsymmetric, \AESMonteCarloDecryptCBC256.log,, -Dtextshell -- \tsymmetric\AESMonteCarloDecryptCBC256.txt \AESMonteCarloDecryptCBC256.log, 300, UDEB#UREL,,
+tsymmetric, \symmetricOOMtests.log,, -Dtextshell -- \tsymmetric\symmetricOOMtests.txt  \symmetricOOMtests.log, 300, UDEB#UREL,,
+
+tbigint, \tconstruction.log,, -Dtextshell -- \tbigint\tconstructiontests.txt  \tconstruction.log, 300, UDEB#UREL,,
+tbigint, \tbasicmaths.log,, -Dtextshell -- \tbigint\tbasicmathstests.txt  \tbasicmaths.log, 300, UDEB#UREL,,
+tbigint, \tmontgomery.log,, -Dtextshell -- \tbigint\tmontgomerytests.txt  \tmontgomery.log, 300, UDEB#UREL,,
+tbigint, \tprime.log,, -Dtextshell -- \tbigint\tprimetests.txt  \tprime.log, 300, UDEB#UREL,,
+tbigint, \tprime2.log,, -Dtextshell -- \tbigint\tprimetests2.txt  \tprime2.log, 600, UDEB#UREL,,
+tbigint, \tprimegen.log,, -Dtextshell -- \tbigint\tprimegen.txt  \tprimegen.log, 300, UDEB#UREL,,
+tbigint, \tprimefailure.log,, -Dtextshell -- \tbigint\tprimefailuretests.txt  \tprimefailure.log, 300, UDEB#UREL,,
+
+tpkcs5kdf, \tpkcs12kdftests.log,, -Dtextshell -- \tpkcs5kdf\tpkcs12kdftests.txt   \tpkcs12kdftests.log, 600, UDEB#UREL,,
+TPBE, \tpbetestsv2.log,, -Dtextshell -- \tpbe\tpbetests_v2.txt \tpbetestsv2.log, 900, UDEB#UREL,,
+
+
+
+[CryptoTokens]
+T_CTFRAMEWORK, \T_CTFRAMEWORKlog.txt,, -Dtextshell --, 300, UDEB#UREL,,
+
+
+
+[CAF2] 
+# Requires the following additional components to be built: RefTestAgent
+TESTEXECUTE, \logs\testexecute\TCAF.htm,, z:\TCAF\TCAF.script,1800, UDEB#UREL,\techview.bat,
+TESTEXECUTE, \logs\testexecute\RTA.htm,, z:\RTA\RTA.script,1800, UDEB#UREL,\techview.bat,
+
+
+
+[Common]
+TESTEXECUTE, \logs\testexecute\trecogcert.htm,, \trecog\trecogcert.script, 300, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\trecogpkcs12.htm,, \trecog\trecogpkcs12.script, 300, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\tsecurityutils.htm,, z:\tsecurityutils\tsecurityutils.script, 300, UDEB#UREL,,
+
+[Certman]
+# PKCS7 tests - these run using testexecute
+TESTEXECUTE, \logs\testexecute\tpkcs7_v2.htm,, -Dtextshell --  \tpkcs7\tpkcs7_v2.script, 300, UDEB#UREL,,
+
+# PKCS12 tests - these run using testexecute
+TESTEXECUTE, \logs\testexecute\tpkcs12lib.htm,, -Dtextshell -- \tpkcs12intg\data\tpkcs12lib.script, 600, UDEB#UREL,,
+# CMS tests - these run using testexecute
+TESTEXECUTE, \logs\testexecute\tcms.htm,, -Dtextshell -- \tpkcs7\tcms.script, 300, UDEB#UREL,,
+# CMS tests by integration - these run using testexecute
+TESTEXECUTE, \logs\testexecute\tinteg_cms.htm,, -Dtextshell -- \tpkcs7\tinteg_cms.script, 1200, UDEB#UREL,,
+# New tpkcs10 testframe work these run using testexecute
+TESTEXECUTE, \logs\testexecute\tpkcs10_v2.htm,, -Dtextshell --  \tpkcs10\scripts\tpkcs10_v2.script, 900, UDEB#UREL, \epoc32\winscw\c\tpkcs10\batchfiles\t_pkcs10_backup.bat, \epoc32\winscw\c\tpkcs10\batchfiles\t_pkcs10_cleanup.bat
+#New tpkixcert tests using TEF framework
+TESTEXECUTE, \logs\testexecute\tpkixcert_tef.htm,, -Dtextshell --  \tpkixcert_tef\scripts\tpkixcert_tef.script, 900, UDEB#UREL,,
+
+TASN1, \TASN1.log,, -Dtextshell -- \tasn1\scripts\tasn1.txt \tasn1.log, 300, UDEB#UREL,, \epoc32\winscw\c\tasn1\scripts\batchfiles\tasn1_cleanup.bat
+Tx509, \tx509.log,, -Dtextshell -- \tx509\scripts\tx509.txt \tx509.log, 300, UDEB#UREL,, \epoc32\winscw\c\tx509\scripts\batchfiles\tx509_cleanup.bat
+Tx509, \tx509_dev_certs.log,, -Dtextshell -- \tx509\scripts\tx509_dev_certs.txt \tx509_dev_certs.log, 300, UDEB#UREL,,
+Tx509, \outFileOOM1.log,, -Dtextshell -- \TX509\SCRIPTS\TX509-OOM1.TXT \outFileOOM1.log, 300, UDEB#UREL,, \epoc32\winscw\c\tx509\scripts\batchfiles\tx509_cleanup.bat
+Tx509, \outFileOOM2.log,, -Dtextshell -- \TX509\SCRIPTS\TX509-OOM2.TXT \outFileOOM2.log, 300, UDEB#UREL,,
+Tx509, \tx509_dev_certs_oom.log,, -Dtextshell -- \tx509\scripts\tx509_dev_certs_oom.txt \tx509_dev_certs_oom.log, 300, UDEB#UREL,,
+tx509, \tx509_dnames.log,, -Dtextshell -- \tx509\scripts\tx509-dnames.txt \tx509_dnames.log, 300, UDEB#UREL,,
+
+TWTLSCERT, \twtlscert.log,, -Dtextshell -- \twtlscert\scripts\twtlscert.txt \twtlscert.log, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\precert_backup.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
+TWTLSCERT, \wtlstests1.log,, -Dtextshell -- \twtlscert\scripts\TWTLSCERT1.TXT \wtlstests1.log, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\precert_backup.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
+TWTLSCERT, \wtlstests2.log,, -Dtextshell -- \twtlscert\scripts\TWTLSCERT2.TXT \wtlstests2.log, 300, UDEB#UREL,, \epoc32\winscw\c\twtlscert\scripts\batchfiles\twtlscert_cleanup.bat
+TWTLSCERT, \wtlstests3.log,, -Dtextshell -- \twtlscert\scripts\TWTLSCERT3.TXT \wtlstests3.log, 900, UDEB#UREL,, \epoc32\winscw\c\twtlscert\scripts\batchfiles\twtlscert_cleanup.bat
+
+TPKIXCERT, \TPKIXCERT_log1.txt,,	-Dtextshell -- \TPKIXCERT\SCRIPTS\TPKIXTEST_part1.TXT \TPKIXCERT_log1.txt, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\precert_backup.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
+TPKIXCERT, \TPKIXCERT_log2.txt,,	-Dtextshell -- \TPKIXCERT\SCRIPTS\TPKIXTEST_part2.TXT \TPKIXCERT_log2.txt, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\precert_backup.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
+TPKIXCERT, \TPKIXCERT_logcancel.txt,, -Dtextshell -- \TPKIXCERT\SCRIPTS\CANCEL1.TXT \TPKIXCERT_logcancel.txt, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\precert_backup.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
+TPKIXCERT, \TPKIXCERT_logoom1.txt,, -Dtextshell -- \TPKIXCERT\SCRIPTS\OOM1.TXT \TPKIXCERT_logoom1.txt, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\precert_backup.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
+TPKIXCERT, \TPKIXCERT_logoom2.txt,, -Dtextshell -- \TPKIXCERT\SCRIPTS\OOM2.TXT \TPKIXCERT_logoom2.txt, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\precert_backup.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
+TPKIXCERT, \TPKIXCERT_logoom3.txt,, -Dtextshell -- \TPKIXCERT\SCRIPTS\OOM3.TXT \TPKIXCERT_logoom3.txt, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\precert_backup.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
+TPKIXCERT, \TPKIXCERT_logoom4.txt,, -Dtextshell -- \TPKIXCERT\SCRIPTS\OOM4.TXT \TPKIXCERT_logoom4.txt, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\precert_backup.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
+
+tocsp, \tocsp_openssl.log,,         \system\tocsp\scripts\openssl.txt       \tocsp_openssl.log,          300, UDEB, \epoc32\winscw\c\tcertstore\scripts\batchfiles\pre_tocsp_backup.bat, 	\epoc32\winscw\c\tcertstore\scripts\batchfiles\post_tocsp_restore.bat
+tocsp, \tocsp_logxcert_local.log,,  \system\tocsp\scripts\xcert-local.txt   \tocsp_logxcert_local.log,   300, UDEB, \epoc32\winscw\c\tcertstore\scripts\batchfiles\pre_tocsp_backup.bat, 	\epoc32\winscw\c\tcertstore\scripts\batchfiles\post_tocsp_restore.bat
+tocsp, \tocsp_logopenssl_local.log,,\system\tocsp\scripts\openssl-local.txt \tocsp_logopenssl_local.log, 300, UDEB, \epoc32\winscw\c\tcertstore\scripts\batchfiles\pre_tocsp_backup.bat, 	\epoc32\winscw\c\tcertstore\scripts\batchfiles\post_tocsp_restore.bat
+tocsp, \tocsp_logerror.log,,        \system\tocsp\scripts\error.txt         \tocsp_logerror.log,         300, UDEB, \epoc32\winscw\c\tcertstore\scripts\batchfiles\pre_tocsp_backup.bat, 	\epoc32\winscw\c\tcertstore\scripts\batchfiles\post_tocsp_restore.bat
+tocsp, \tocsp_defaultpolicy.log,,   \system\tocsp\scripts\defaultpolicy.txt \tocsp_defaultpolicy.log,    300, UDEB, \epoc32\winscw\c\system\tocsp\scripts\setupocsppolicy.bat ocsppolicy.ini,
+tocsp, \tocsp_newpolicy.log,,       \system\tocsp\scripts\newpolicy.txt     \tocsp_newpolicy.log,        300, UDEB, \epoc32\winscw\c\system\tocsp\scripts\setupocsppolicy.bat newpolicy.ini, 	\epoc32\winscw\c\system\tocsp\scripts\setupocsppolicy.bat ocsppolicy.ini
+tocsp, \tocsp_httpinterface.log,,   \system\tocsp\scripts\httpinterface.txt \tocsp_httpinterface.log,	 300, UDEB, \epoc32\winscw\c\tcertstore\scripts\batchfiles\pre_tocsp_backup.bat, 	\epoc32\winscw\c\tcertstore\scripts\batchfiles\post_httpinterface_restore.bat
+
+tocsp, \tocsp_openssl.log,, -Dtextshell --          \system\tocsp\scripts\openssl.txt 	    \tocsp_openssl.log,          300, UREL, \epoc32\winscw\c\tcertstore\scripts\batchfiles\pre_tocsp_backup.bat, 	   \epoc32\winscw\c\tcertstore\scripts\batchfiles\post_tocsp_restore.bat
+tocsp, \tocsp_logxcert_local.log,, -Dtextshell --   \system\tocsp\scripts\xcert-local.txt   \tocsp_logxcert_local.log,   300, UREL, \epoc32\winscw\c\tcertstore\scripts\batchfiles\pre_tocsp_backup.bat, 	   \epoc32\winscw\c\tcertstore\scripts\batchfiles\post_tocsp_restore.bat
+tocsp, \tocsp_logopenssl_local.log,, -Dtextshell -- \system\tocsp\scripts\openssl-local.txt \tocsp_logopenssl_local.log, 300, UREL, \epoc32\winscw\c\tcertstore\scripts\batchfiles\pre_tocsp_backup.bat, 	   \epoc32\winscw\c\tcertstore\scripts\batchfiles\post_tocsp_restore.bat
+tocsp, \tocsp_logerror.log,, -Dtextshell --         \system\tocsp\scripts\error.txt         \tocsp_logerror.log,         300, UREL, \epoc32\winscw\c\tcertstore\scripts\batchfiles\pre_tocsp_backup.bat, 	   \epoc32\winscw\c\tcertstore\scripts\batchfiles\post_tocsp_restore.bat
+tocsp, \tocsp_defaultpolicy.log,, -Dtextshell --    \system\tocsp\scripts\defaultpolicy.txt \tocsp_defaultpolicy.log,    300, UREL, \epoc32\winscw\c\system\tocsp\scripts\setupocsppolicy_urel.bat ocsppolicy.ini,
+tocsp, \tocsp_newpolicy.log,, -Dtextshell --        \system\tocsp\scripts\newpolicy.txt     \tocsp_newpolicy.log,        300, UREL, \epoc32\winscw\c\system\tocsp\scripts\setupocsppolicy_urel.bat newpolicy.ini,  \epoc32\winscw\c\system\tocsp\scripts\setupocsppolicy_urel.bat ocsppolicy.ini
+tocsp, \tocsp_httpinterface.log,, -Dtextshell --    \system\tocsp\scripts\httpinterface.txt \tocsp_httpinterface.log,    300, UREL, \epoc32\winscw\c\tcertstore\scripts\batchfiles\pre_tocsp_backup.bat, 	   \epoc32\winscw\c\tcertstore\scripts\batchfiles\post_httpinterface_restore.bat
+
+tocsp, \tocsp_logoom.log,, -Dtextshell -- \system\tocsp\scripts\xcert-oom.txt     \tocsp_logoom.log,           900, UDEB#UREL, \epoc32\winscw\c\tcertstore\scripts\batchfiles\pre_tocsp_backup.bat, 	\epoc32\winscw\c\tcertstore\scripts\batchfiles\post_tocsp_restore.bat
+
+t_certstore, \tcertstore_conf1.1.txt,, -Dtextshell -- \tcertstore\scripts\unifiedcertstore1-conf1.txt \tcertstore_conf1.1.txt, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\precert_backup.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
+t_certstore, \tcertstore_conf1.2.txt,, -Dtextshell -- \tcertstore\scripts\unifiedcertstore2-conf1.txt \tcertstore_conf1.2.txt, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\precert_backup.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
+t_certstore, \tcertstore_conf1.3.txt,, -Dtextshell -- \tcertstore\scripts\unifiedcertstore3-conf1.txt \tcertstore_conf1.3.txt, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\precert_backup.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
+t_certstore, \t_handle_1.txt,, -Dtextshell -- \tcertstore\scripts\t_handle_1.txt \t_handle_1.txt, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\precert_backup.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
+
+t_certstore, \tcertstore_oom.conf1.1.log,, -Dtextshell -- \tcertstore\scripts\oom1.txt \tcertstore_oom.conf1.1.log, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\precert_backup.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
+t_certstore, \tcertstore_oom.conf1.2.log,, -Dtextshell -- \tcertstore\scripts\oom2.txt \tcertstore_oom.conf1.2.log, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\precert_backup.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
+t_certstore, \tcertstore_oom.conf1.3.log,, -Dtextshell -- \tcertstore\scripts\oom3.txt \tcertstore_oom.conf1.3.log, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\precert_backup.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
+t_certstore, \tcertstore_cancel.conf1.1.log,, -Dtextshell -- \tcertstore\scripts\cancel1.txt \tcertstore_cancel.conf1.1.log, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\precert_backup.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
+t_certstore, \tcertstore_dsa.conf1.log,, -Dtextshell -- \tcertstore\scripts\dsa.txt \tcertstore_dsa.conf1.log, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\precert_backup.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
+t_certstore, \tcertstore_reload.log,, -Dtextshell -- \tcertstore\scripts\reload.txt \tcertstore_reload.log, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\precert_backup.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
+t_certstore, \tcertstore_apipolicing.log,, -Dtextshell -- \tcertstore\scripts\apipolicing.txt \tcertstore_apipolicing.log, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\precert_backup.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
+t_certstore, \tcertstore_errors.log,, -Dtextshell -- \tcertstore\scripts\filecertstore_errors.txt \tcertstore_errors.log, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\precert_backup.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
+
+# Configuration 2
+
+t_certstore, \tcertstore_conf2.1.txt,, -Dtextshell -- \tcertstore\scripts\unifiedcertstore1-conf2.txt \tcertstore_conf2.1.txt, 300, UDEB#UREL, %SECURITYSOURCEDIR%\testframework\test\autotesting\Configuration2.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\enableplugin.bat 
+t_certstore, \tcertstore_conf2.2.txt,, -Dtextshell -- \tcertstore\scripts\unifiedcertstore2-conf2.txt \tcertstore_conf2.2.txt, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\cert_backup1.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
+t_certstore, \tcertstore_conf2.3.txt,, -Dtextshell -- \tcertstore\scripts\unifiedcertstore3-conf2.txt \tcertstore_conf2.3.txt, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\cert_backup1.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
+
+# Configuration 2a (asynch store)
+
+t_certstore, \tcertstore_conf2a.1.txt,, -Dtextshell -- \tcertstore\scripts\unifiedcertstore1-conf2.txt  \tcertstore_conf2a.1.txt, 300, UDEB#UREL, %SECURITYSOURCEDIR%\testframework\test\autotesting\Configuration2a.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\enableplugin.bat 
+t_certstore, \tcertstore_conf2a.2.txt,, -Dtextshell -- \tcertstore\scripts\unifiedcertstore2-conf2a.txt \tcertstore_conf2a.2.txt, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\cert_backup1.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
+t_certstore, \tcertstore_conf2a.3.txt,, -Dtextshell -- \tcertstore\scripts\unifiedcertstore3-conf2.txt  \tcertstore_conf2a.3.txt, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\cert_backup1.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
+
+# Configuration 3
+
+t_certstore, \tcertstore_conf3.1.txt,, -Dtextshell -- \tcertstore\scripts\unifiedcertstore1-conf3.txt \tcertstore_conf3.1.txt, 300, UDEB#UREL, %SECURITYSOURCEDIR%\testframework\test\autotesting\Configuration3.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\enableplugin.bat
+t_certstore, \tcertstore_conf3.2.txt,, -Dtextshell -- \tcertstore\scripts\unifiedcertstore2-conf3.txt \tcertstore_conf3.2.txt, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\cert_backup2.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
+t_certstore, \tcertstore_conf3.3.txt,, -Dtextshell -- \tcertstore\scripts\unifiedcertstore3-conf3.txt \tcertstore_conf3.3.txt, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\cert_backup2.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
+
+# Configuration multicertstore
+
+t_certstore, \tcertstore_multi.txt,, -Dtextshell -- \tcertstore\scripts\multiplecertstoresfilter.txt \tcertstore_multi.txt, 300, UDEB#UREL, %SECURITYSOURCEDIR%\testframework\test\autotesting\Configurationmulti.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\enableplugin.bat
+
+# Configuration multicertstore 1
+
+t_certstore, \tcertstore_multi.1.txt,, -Dtextshell -- \tcertstore\scripts\multiplecertstoresfilter1.txt \tcertstore_multi.1.txt, 300, UDEB#UREL, %SECURITYSOURCEDIR%\testframework\test\autotesting\Configurationmulti1.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\enableplugin.bat
+
+# Configuration multicertstore 2
+
+t_certstore, \tcertstore_multi.2.txt,, -Dtextshell -- \tcertstore\scripts\multiplecertstoresfilter2.txt \tcertstore_multi.2.txt, 300, UDEB#UREL, %SECURITYSOURCEDIR%\testframework\test\autotesting\Configurationmulti2.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\enableplugin.bat
+
+# Configuration 4
+
+t_certstore, \swicertstore1.txt,, -Dtextshell --          \tcertstore\scripts\swicertstore1.txt \swicertstore1.txt,       300, UDEB#UREL, \epoc32\winscw\c\tcertstore\scripts\batchfiles\swicert_backup.bat, \epoc32\winscw\c\tcertstore\scripts\batchfiles\swicert_restore.bat
+t_certstore, \swicertstore2.txt,, -Dtextshell --          \tcertstore\scripts\swicertstore2.txt \swicertstore2.txt,       300, UDEB#UREL, \epoc32\winscw\c\tcertstore\scripts\batchfiles\swicert_backup.bat, \epoc32\winscw\c\tcertstore\scripts\batchfiles\swicert_restore.bat 
+t_certstore, \swicertstore4.txt,, -Dtextshell --          \tcertstore\scripts\swicertstore4.txt \swicertstore4.txt,       300, UDEB#UREL, \epoc32\winscw\c\tcertstore\scripts\batchfiles\swicert_backup.bat, \epoc32\winscw\c\tcertstore\scripts\batchfiles\swicert_restore.bat 
+t_certstore, \swicertstore_oom.txt,, -Dtextshell --    -o \tcertstore\scripts\swicertstore1.txt \swicertstore_oom.txt,    300, UDEB#UREL, \epoc32\winscw\c\tcertstore\scripts\batchfiles\swicert_backup.bat, \epoc32\winscw\c\tcertstore\scripts\batchfiles\swicert_restore.bat 
+t_certstore, \swicertstore_cancel.txt,, -Dtextshell -- -c \tcertstore\scripts\swicertstore1.txt \swicertstore_cancel.txt, 300, UDEB#UREL, \epoc32\winscw\c\tcertstore\scripts\batchfiles\swicert_backup.bat, \epoc32\winscw\c\tcertstore\scripts\batchfiles\swicert_restore.bat
+t_certstore, \wri-swicertstore1.txt,, -Dtextshell --      \tcertstore\scripts\wri-swicertstore1.txt \wri-swicertstore1.txt,300, UDEB#UREL, \epoc32\winscw\c\tcertstore\scripts\batchfiles\swicert_backup.bat, \epoc32\winscw\c\tcertstore\scripts\batchfiles\swicert_restore.bat
+t_certstore, \wri-swicertstore2.txt,, -Dtextshell --      \tcertstore\scripts\wri-swicertstore2.txt \wri-swicertstore2.txt,300, UDEB#UREL, \epoc32\winscw\c\tcertstore\scripts\batchfiles\swicert_backup.bat, \epoc32\winscw\c\tcertstore\scripts\batchfiles\swicert_restore.bat
+
+# Configuration 5
+t_certstore, \wri-swicertstore3.txt,, -Dtextshell --      \tcertstore\scripts\wri-swicertstore3.txt \wri-swicertstore3.txt,300, UDEB#UREL, \epoc32\winscw\c\tcertstore\scripts\batchfiles\swicert_backup1.bat, \epoc32\winscw\c\tcertstore\scripts\batchfiles\swicert_restore.bat
+
+
+######### Composite Certstore Testing###################################################################################
+t_certstore, \tfilecertstore01.log,, -Dtextshell -- \tcertstore\multiple_certstore\scripts\tfilecertstore01.txt \tfilecertstore01.log, 600, UDEB#UREL, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/initialise_certstore.bat initialisefilecertstore 5 void, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/cleanup_certstore.bat
+t_certstore, \tfilecertstore02.log,, -Dtextshell -- \tcertstore\multiple_certstore\scripts\tfilecertstore02.txt \tfilecertstore02.log, 600, UDEB#UREL, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/initialise_certstore.bat initialisefilecertstore corrupt 6 5, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/cleanup_certstore.bat
+t_certstore, \tfilecertstore03.log,, -Dtextshell -- \tcertstore\multiple_certstore\scripts\tfilecertstore03.txt \tfilecertstore03.log, 600, UDEB#UREL, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/initialise_certstore.bat initialisefilecertstore corrupt 4 5 3, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/cleanup_certstore.bat
+t_certstore, \tfilecertstore04.log,, -Dtextshell -- \tcertstore\multiple_certstore\scripts\tfilecertstore04.txt \tfilecertstore04.log, 600, UDEB#UREL, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/initialise_certstore.bat initialisefilecertstore corrupt 6 5 3, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/cleanup_certstore.bat
+t_certstore, \tfilecertstore05.log,, -Dtextshell -- \tcertstore\multiple_certstore\scripts\tfilecertstore05.txt \tfilecertstore05.log, 600, UDEB#UREL, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/initialise_certstore.bat initialisefilecertstore corrupt 4 5, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/cleanup_certstore.bat
+t_certstore, \tfilecertstore06.log,, -Dtextshell -- \tcertstore\multiple_certstore\scripts\tfilecertstore06.txt \tfilecertstore06.log, 600, UDEB#UREL, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/initialise_certstore.bat initialisefilecertstore corrupt 1, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/cleanup_certstore.bat
+t_certstore, \tfilecertstore07.log,, -Dtextshell -- \tcertstore\multiple_certstore\scripts\tfilecertstore07.txt \tfilecertstore07.log, 600, UDEB#UREL, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/initialise_certstore.bat initialisefilecertstore corrupt 4 3 2, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/cleanup_certstore.bat
+t_certstore, \tfilecertstore08.log,, -Dtextshell -- \tcertstore\multiple_certstore\scripts\tfilecertstore08.txt \tfilecertstore08.log, 600, UDEB#UREL, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/initialise_certstore.bat initialisefilecertstore corrupt middle 3 2, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/cleanup_certstore.bat
+t_certstore, \tfilecertstore09.log,, -Dtextshell -- \tcertstore\multiple_certstore\scripts\tfilecertstore09.txt \tfilecertstore09.log, 600, UDEB#UREL, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/initialise_certstore.bat initialisefilecertstore corrupt 1 3 2, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/cleanup_certstore.bat
+t_certstore, \tfilecertstore10.log,, -Dtextshell -- \tcertstore\multiple_certstore\scripts\tfilecertstore10.txt \tfilecertstore10.log, 600, UDEB#UREL, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/initialise_certstore.bat initialisefilecertstore 5 3 2, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/cleanup_certstore.bat
+t_certstore, \tfilecertstore11.log,, -Dtextshell -- \tcertstore\multiple_certstore\scripts\tfilecertstore11.txt \tfilecertstore11.log, 600, UDEB#UREL, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/initialise_certstore.bat initialisefilecertstore renamed 1 3 2, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/cleanup_certstore.bat
+t_certstore, \tfilecertstore12.log,, -Dtextshell -- \tcertstore\multiple_certstore\scripts\tfilecertstore12.txt \tfilecertstore12.log, 600, UDEB#UREL, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/initialise_certstore.bat initialisefilecertstore 3 2, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/cleanup_certstore.bat
+t_certstore, \tfilecertstore13.log,, -Dtextshell -- \tcertstore\multiple_certstore\scripts\tfilecertstore13.txt \tfilecertstore13.log, 600, UDEB#UREL, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/initialise_certstore.bat initialisefilecertstore corrupt 3 2 1, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/cleanup_certstore.bat
+t_certstore, \tfilecertstore14.log,, -Dtextshell -- \tcertstore\multiple_certstore\scripts\tfilecertstore14.txt \tfilecertstore14.log, 600, UDEB#UREL, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/initialise_certstore.bat initialisefilecertstore corrupt middle 2 1, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/cleanup_certstore.bat
+t_certstore, \tfilecertstore15.log,, -Dtextshell -- \tcertstore\multiple_certstore\scripts\tfilecertstore15.txt \tfilecertstore15.log, 600, UDEB#UREL, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/initialise_certstore.bat initialisefilecertstore corrupt 0 2 1, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/cleanup_certstore.bat
+t_certstore, \tfilecertstore16.log,, -Dtextshell -- \tcertstore\multiple_certstore\scripts\tfilecertstore16.txt \tfilecertstore16.log, 600, UDEB#UREL, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/initialise_certstore.bat initialisefilecertstore 2 1, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/cleanup_certstore.bat
+t_certstore, \tfilecertstore17.log,, -Dtextshell -- \tcertstore\multiple_certstore\scripts\tfilecertstore17.txt \tfilecertstore17.log, 600, UDEB#UREL, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/initialise_certstore.bat initialisefilecertstore void, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/cleanup_certstore.bat
+t_certstore, \tfilecertstore18.log,, -Dtextshell -- \tcertstore\multiple_certstore\scripts\tfilecertstore18.txt \tfilecertstore18.log, 600, UDEB#UREL, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/initialise_certstore.bat initialisefilecertstore 5 3 2 1 0, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/cleanup_certstore.bat
+
+t_certstore, \tswicertstore01.log,, -Dtextshell -- \tcertstore\multiple_certstore\scripts\tswicertstore01.txt \tswicertstore01.log, 600, UDEB#UREL, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/initialise_certstore.bat initialiseswicertstore 5 void, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/cleanup_certstore.bat
+t_certstore, \tswicertstore02.log,, -Dtextshell -- \tcertstore\multiple_certstore\scripts\tswicertstore02.txt \tswicertstore02.log, 600, UDEB#UREL, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/initialise_certstore.bat initialiseswicertstore corrupt 6 5, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/cleanup_certstore.bat
+t_certstore, \tswicertstore03.log,, -Dtextshell -- \tcertstore\multiple_certstore\scripts\tswicertstore03.txt \tswicertstore03.log, 600, UDEB#UREL, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/initialise_certstore.bat initialiseswicertstore corrupt 4 5 3, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/cleanup_certstore.bat
+t_certstore, \tswicertstore04.log,, -Dtextshell -- \tcertstore\multiple_certstore\scripts\tswicertstore04.txt \tswicertstore04.log, 600, UDEB#UREL, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/initialise_certstore.bat initialiseswicertstore corrupt 6 5 3, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/cleanup_certstore.bat
+t_certstore, \tswicertstore05.log,, -Dtextshell -- \tcertstore\multiple_certstore\scripts\tswicertstore05.txt \tswicertstore05.log, 600, UDEB#UREL, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/initialise_certstore.bat initialiseswicertstore corrupt 4 5, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/cleanup_certstore.bat
+t_certstore, \tswicertstore06.log,, -Dtextshell -- \tcertstore\multiple_certstore\scripts\tswicertstore06.txt \tswicertstore06.log, 600, UDEB#UREL, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/initialise_certstore.bat initialiseswicertstore corrupt 1, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/cleanup_certstore.bat
+t_certstore, \tswicertstore07.log,, -Dtextshell -- \tcertstore\multiple_certstore\scripts\tswicertstore07.txt \tswicertstore07.log, 600, UDEB#UREL, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/initialise_certstore.bat initialiseswicertstore corrupt 4 3 2, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/cleanup_certstore.bat
+t_certstore, \tswicertstore08.log,, -Dtextshell -- \tcertstore\multiple_certstore\scripts\tswicertstore08.txt \tswicertstore08.log, 600, UDEB#UREL, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/initialise_certstore.bat initialiseswicertstore corrupt middle 3 2, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/cleanup_certstore.bat
+t_certstore, \tswicertstore09.log,, -Dtextshell -- \tcertstore\multiple_certstore\scripts\tswicertstore09.txt \tswicertstore09.log, 600, UDEB#UREL, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/initialise_certstore.bat initialiseswicertstore corrupt 1 3 2, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/cleanup_certstore.bat
+t_certstore, \tswicertstore10.log,, -Dtextshell -- \tcertstore\multiple_certstore\scripts\tswicertstore10.txt \tswicertstore10.log, 600, UDEB#UREL, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/initialise_certstore.bat initialiseswicertstore 5 3 2, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/cleanup_certstore.bat
+t_certstore, \tswicertstore11.log,, -Dtextshell -- \tcertstore\multiple_certstore\scripts\tswicertstore11.txt \tswicertstore11.log, 600, UDEB#UREL, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/initialise_certstore.bat initialiseswicertstore renamed 1 3 2, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/cleanup_certstore.bat
+t_certstore, \tswicertstore12.log,, -Dtextshell -- \tcertstore\multiple_certstore\scripts\tswicertstore12.txt \tswicertstore12.log, 600, UDEB#UREL, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/initialise_certstore.bat initialiseswicertstore 3 2, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/cleanup_certstore.bat
+t_certstore, \tswicertstore13.log,, -Dtextshell -- \tcertstore\multiple_certstore\scripts\tswicertstore13.txt \tswicertstore13.log, 600, UDEB#UREL, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/initialise_certstore.bat initialiseswicertstore corrupt 3 2 1, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/cleanup_certstore.bat
+t_certstore, \tswicertstore14.log,, -Dtextshell -- \tcertstore\multiple_certstore\scripts\tswicertstore14.txt \tswicertstore14.log, 600, UDEB#UREL, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/initialise_certstore.bat initialiseswicertstore corrupt middle 2 1, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/cleanup_certstore.bat
+t_certstore, \tswicertstore15.log,, -Dtextshell -- \tcertstore\multiple_certstore\scripts\tswicertstore15.txt \tswicertstore15.log, 600, UDEB#UREL, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/initialise_certstore.bat initialiseswicertstore corrupt 0 2 1, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/cleanup_certstore.bat
+t_certstore, \tswicertstore16.log,, -Dtextshell -- \tcertstore\multiple_certstore\scripts\tswicertstore16.txt \tswicertstore16.log, 600, UDEB#UREL, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/initialise_certstore.bat initialiseswicertstore 2 1, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/cleanup_certstore.bat
+t_certstore, \tswicertstore17.log,, -Dtextshell -- \tcertstore\multiple_certstore\scripts\tswicertstore17.txt \tswicertstore17.log, 600, UDEB#UREL, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/initialise_certstore.bat initialiseswicertstore void, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/cleanup_certstore.bat
+t_certstore, \tswicertstore18.log,, -Dtextshell -- \tcertstore\multiple_certstore\scripts\tswicertstore18.txt \tswicertstore18.log, 600, UDEB#UREL, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/initialise_certstore.bat initialiseswicertstore 5 3 2 1 0, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/cleanup_certstore.bat
+t_certstore, \tswicertstore19.log,, -Dtextshell -- \tcertstore\multiple_certstore\scripts\tswicertstore19.txt \tswicertstore19.log, 600, UDEB#UREL, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/initialise_certstore.bat initialiseswicertstore writable void, /epoc32/winscw/c/tcertstore/multiple_certstore/scripts/batchfiles/cleanup_certstore.bat
+
+######### Composite Certstore Testing###################################################################################
+
+
+
+[SWI]
+# Requires the following additional components to be built: SisTools, Certman
+
+TESTEXECUTE, \logs\testexecute\dummytefscript.htm,, \dummytefscript.script, 2500, UDEB#UREL, %SECURITYSOURCEDIR%\testframework\test\autotesting\copyswitestfiles.bat,
+
+#NQP Tests for DataProvider
+TESTEXECUTE, \logs\testexecute\tdataprovider.htm,, -Dstartupmode=1 -- z:\tswi\tdataprovider\scripts\tdataprovider.script, 600, UDEB#UREL,,
+
+TESTEXECUTE, \logs\testexecute\testwritableswicertstore.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\testwritableswicertstore.script, 300, UDEB#UREL, \epoc32\winscw\c\tswi\tuiscriptadaptors\scripts\batchfiles\copytuiscriptadaptors.bat, \epoc32\winscw\c\tswi\tuiscriptadaptors\scripts\batchfiles\cleanswicertstore.bat
+TESTEXECUTE, \logs\testexecute\tsilent_winscw.htm,, \tswi\tuiscriptadaptors\scripts\tsilent_winscw.script, 300, UDEB#UREL, \epoc32\winscw\c\tswi\tuiscriptadaptors\scripts\batchfiles\copytuiscriptadaptors.bat, \epoc32\winscw\c\tswi\tuiscriptadaptors\scripts\batchfiles\cleanswicertstore.bat
+TESTEXECUTE, \logs\testexecute\tswidaemonstub.htm,, \tswi\tuiscriptadaptors\scripts\tswidaemonstub.script, 300, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\inc098114_winscw.htm,, \tswi\tuiscriptadaptors\scripts\inc098114_winscw.script, 300, UDEB#UREL, \epoc32\winscw\c\tswi\tuiscriptadaptors\scripts\batchfiles\copytuiscriptadaptors.bat
+TESTEXECUTE, \logs\testexecute\tcleanupinfrastructure.htm,, \tswi\tuiscriptadaptors\scripts\tcleanupinfrastructure.script, 300, UDEB#UREL,\epoc32\winscw\c\tswi\tuiscriptadaptors\scripts\batchfiles\tcleanupinfrastructure_pre.bat, \epoc32\winscw\c\tswi\tuiscriptadaptors\scripts\batchfiles\tcleanupinfrastructure_post.bat
+
+TESTEXECUTE, \logs\testexecute\tsis.htm,, \tswi\tsis\scripts\tsis.script, 600, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\tsis_signed.htm,, -Dstartupmode=1 -- \tswi\tsis\scripts\tsis_signed.script, 600, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\tsis_failure.htm,, -Dstartupmode=1 -- \tswi\tsis\scripts\tsis_failure.script, 600, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\tsis_large.htm,, -Dstartupmode=1 -- \tswi\tsis\scripts\tsis_large.script, 600, UDEB#UREL,, 
+TESTEXECUTE, \logs\testexecute\tsis_new_recognizer.htm,, \tswi\tsis\scripts\tsis_new_recognizer.script, 300, UDEB#UREL, \epoc32\winscw\c\tswi\tsis\batchfiles\new_recognizer_pre.bat, \epoc32\winscw\c\tswi\tsis\batchfiles\new_recognizer_post.bat
+TESTEXECUTE, \logs\testexecute\tsishelper.htm,, -Dstartupmode=1 -- \tswi\tsishelper\scripts\tsishelper.script, 300, UDEB#UREL,,
+
+[IntegrityServices]
+TESTEXECUTE, \logs\testexecute\tstartuprecovery.htm,, \tswi\tintegrityservices\scripts\tstartuprecovery.script, 300, UDEB#UREL, \epoc32\winscw\c\tswi\tintegrityservices\scripts\batchfiles\recoverystartup_pre.bat,
+TESTEXECUTE, \logs\testexecute\tintegrityservices.htm,, -Dstartupmode=1 -- \tswi\tintegrityservices\scripts\tintegrityservices.script, 300, UDEB#UREL,,
+
+[SWI]
+TESTEXECUTE, \logs\testexecute\testexpressions.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\testexpressions.script, 300, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\testdrives.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\testdrives.script, 300, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\testlocations.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\testlocations.script, 300, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\testupgrades.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\testupgrades.script, 300, UDEB#UREL,\epoc32\winscw\c\tswi\tuiscriptadaptors\scripts\batchfiles\copytuiscriptadaptors.bat, \epoc32\winscw\c\tswi\tuiscriptadaptors\scripts\batchfiles\cleanswicertstore.bat
+
+TESTEXECUTE, \logs\testexecute\testaugmentations.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\testaugmentations.script, 300, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\testpreinstalled.htm,, \tswi\tuiscriptadaptors\scripts\testpreinstalled.script, 300, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\testpreinstalled_delete.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\testpreinstalled_delete.script, 300, UDEB#UREL, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy_deletepreinstalledfiles.ini, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy.ini
+TESTEXECUTE, \logs\testexecute\testdependencies.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\testdependencies.script, 300, UDEB#UREL,,
+
+TESTEXECUTE, \logs\testexecute\tuiscriptadaptors.htm,, \tswi\tuiscriptadaptors\scripts\tuiscriptadaptors.script, 10000, UDEB#UREL, \epoc32\winscw\c\tswi\tuiscriptadaptors\scripts\batchfiles\tuiscriptadaptors_pre.bat, \epoc32\winscw\c\tswi\tuiscriptadaptors\scripts\batchfiles\tuiscriptadaptors_post.bat
+TESTEXECUTE, \logs\testexecute\tuiscriptadaptors_winscw.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\tuiscriptadaptors_winscw.script, 300, UDEB#UREL, \epoc32\winscw\c\tswi\tuiscriptadaptors\scripts\batchfiles\copytuiscriptadaptors.bat,
+TESTEXECUTE, \logs\testexecute\testvids.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\testvids.script, 300, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\tuiscriptadaptorsFH.htm,, \tswi\tuiscriptadaptors\scripts\tuiscriptadaptorsFH.script, 300, UDEB#UREL, %SECURITYSOURCEDIR%\testframework\test\autotesting\useautocfg.bat,
+
+TESTEXECUTE, \logs\testexecute\testrucert.htm,, \tswi\tuiscriptadaptors\scripts\testrucert.script, 500, UDEB#UREL, \epoc32\winscw\c\tswi\tuiscriptadaptors\scripts\batchfiles\romupdate_withoutstubs_pre.bat, \epoc32\winscw\c\tswi\tuiscriptadaptors\scripts\batchfiles\romupdate_withoutstubs_post.bat
+
+TESTEXECUTE, \logs\testexecute\testrun.htm,, \tswi\tuiscriptadaptors\scripts\testrun.script, 300, UDEB#UREL, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy_shortrunwait.ini, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy.ini
+TESTEXECUTE, \logs\testexecute\testrunft.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\testrunft.script, 300, UDEB#UREL, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy_shortrunwait.ini,
+
+TESTEXECUTE, \logs\testexecute\testrun2.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\testrun2.script, 300, UDEB#UREL, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy_notallowrun.ini, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy.ini
+TESTEXECUTE, \logs\testexecute\testshutdown.htm,, \tswi\tuiscriptadaptors\scripts\testshutdown.script, 300, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\testasync.htm,, \tswi\tuiscriptadaptors\scripts\testasync.script, 300, UDEB#UREL, %SECURITYSOURCEDIR%\testframework\test\autotesting\useautocfg.bat,
+TESTEXECUTE, \logs\testexecute\testasynccancel.htm,, \tswi\tuiscriptadaptors\scripts\testasynccancel.script, 3000, UDEB#UREL,,
+
+TESTEXECUTE, \logs\testexecute\tsisstub.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\tsisstub.script, 300, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\tsisstub_delete.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\tsisstub_delete.script, 300, UDEB#UREL, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy_deletepreinstalledfiles.ini, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy.ini
+TESTEXECUTE, \logs\testexecute\testasynccaps.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\testasynccaps.script, 300, UDEB#UREL,,
+
+TESTEXECUTE, \logs\testexecute\devcerts_match.htm,, -Dstartupmode=1 -- \tswi\tdevcerts\scripts\devcerts_match.script, 300, UDEB#UREL, %SECURITYSOURCEDIR%\testframework\test\autotesting\useautosimtsycfg.bat, %SECURITYSOURCEDIR%\testframework\test\autotesting\useautocfg.bat
+TESTEXECUTE, \logs\testexecute\devcerts_mismatch.htm,, -Dstartupmode=1 -- \tswi\tdevcerts\scripts\devcerts_mismatch.script, 300, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\devcerts_aggregate.htm,, -Dstartupmode=1 -- \tswi\tdevcerts\scripts\devcerts_aggregate.script, 300, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\devcerts_corrupt.htm,, -Dstartupmode=1 -- \tswi\tdevcerts\scripts\devcerts_corrupt.script, 300, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\devcerts_ocsp.htm,, -Dstartupmode=1 -- \tswi\tdevcerts\scripts\devcerts_ocsp.script, 300, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\devcerts_backuprestore.htm,, -Dstartupmode=1 -- \tswi\tdevcerts\scripts\devcerts_backuprestore.script, 300, UDEB#UREL,%SECURITYSOURCEDIR%\testframework\test\autotesting\useautosimtsycfg.bat, %SECURITYSOURCEDIR%\testframework\test\autotesting\useautocfg.bat
+TESTEXECUTE, \logs\testexecute\devcerts_backup.htm,, -Dstartupmode=1 -- \tswi\tdevcerts\scripts\devcerts_backup.script, 300, UDEB#UREL,%SECURITYSOURCEDIR%\testframework\test\autotesting\useautosimtsycfg.bat, %SECURITYSOURCEDIR%\testframework\test\autotesting\useautocfg.bat
+TESTEXECUTE, \logs\testexecute\devcerts_restore.htm,, -Dstartupmode=1 -- \tswi\tdevcerts\scripts\devcerts_restore.script, 300, UDEB#UREL, %SECURITYSOURCEDIR%\testframework\test\autotesting\changedevid.bat, \epoc32\winscw\c\tswi\tdevcerts\scripts\batchfiles\devcerts_restore_post.bat
+
+TESTEXECUTE, \logs\testexecute\tsisregistrytest.htm,, -Dstartupmode=1 -- \tswi\tsisregistrytest\scripts\tsisregistrytest.script, 1500, UDEB#UREL, %SECURITYSOURCEDIR%\testframework\test\autotesting\useautocfg.bat, \epoc32\winscw\c\tswi\tsisregistrytest\Scripts\batchfiles\tsisregistrytest_post.bat
+
+TESTEXECUTE, \logs\testexecute\testdevicelanguages.htm,, \tswi\tuiscriptadaptors\scripts\testdevicelanguages.script, 300, UDEB,,
+
+TESTEXECUTE, \logs\testexecute\testVFPOnEmulator.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\testVFPOnEmulator.script, 300, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\tdaemon.htm,, -Dstartupmode=1 -- \tswi\tdaemon\scripts\tdaemon.script, 300, UDEB#UREL,,  
+
+# createandsignunicode.pl needs to be run as it builds some SIS files the following tests rely on, however it is a SisTools test so it is run through a batch file and the results not recorded here
+TESTEXECUTE, \logs\testexecute\dummytefscript.htm,, \dummytefscript.script, 2500, UDEB#UREL, %SECURITYSOURCEDIR%\testframework\test\autotesting\callcreateandsignunicode.bat,
+TESTEXECUTE, \logs\testexecute\tbackuprestore.htm,, -Dstartupmode=1 -- \tswi\tbackuprestore\scripts\tbackuprestore.script, 1500, UDEB#UREL,\epoc32\winscw\c\tswi\tbackuprestore\scripts\batchfiles\tbackuprestore_pre.bat, \epoc32\winscw\c\tswi\tbackuprestore\scripts\batchfiles\tbackuprestore_post.bat
+TESTEXECUTE, \logs\testexecute\tbackuprestoredrive_emulator.htm,, -Dstartupmode=1 -- \tswi\tbackuprestore\scripts\tbackuprestoredrive_emulator.script, 300, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\tbackuprestore_emulator.htm,, -Dstartupmode=1 -- \tswi\tbackuprestore\scripts\tbackuprestore_emulator.script, 300, UDEB#UREL, \epoc32\winscw\c\tswi\tbackuprestore\scripts\batchfiles\tbackuprestore_pre.bat, \epoc32\winscw\c\tswi\tbackuprestore\scripts\batchfiles\tbackuprestore_post.bat
+TESTEXECUTE, \logs\testexecute\tbackuprestore_policy_prepost_emulator.htm,, -Dstartupmode=1 -- \tswi\tbackuprestore\scripts\tbackuprestore_policy_prepost_emulator.script, 300, UDEB#UREL, \epoc32\winscw\c\tswi\tbackuprestore\scripts\batchfiles\tbackuprestore_policy_pre.bat, \epoc32\winscw\c\tswi\tbackuprestore\scripts\batchfiles\tbackuprestore_policy_post.bat
+TESTEXECUTE, \logs\testexecute\tbackuprestore_policylst_certfst_emulator.htm,, -Dstartupmode=1 -- \tswi\tbackuprestore\scripts\tbackuprestore_policylst_certfst_emulator.script, 300, UDEB#UREL, ,
+TESTEXECUTE, \logs\testexecute\tbackuprestore_cert_prepost_emulator.htm,, -Dstartupmode=1 -- \tswi\tbackuprestore\scripts\tbackuprestore_cert_prepost_emulator.script, 300, UDEB#UREL, \epoc32\winscw\c\tswi\tbackuprestore\scripts\batchfiles\tbackuprestore_cert_pre.bat, \epoc32\winscw\c\tswi\tbackuprestore\scripts\batchfiles\tbackuprestore_cert_post.bat
+TESTEXECUTE, \logs\testexecute\tbackuptrestore_exploratory.htm,, -Dstartupmode=1 -- \tswi\tbackuprestore\scripts\tbackuptrestore_exploratory.script, 300, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\tgenbackupmeta_udeb.htm,, -Dstartupmode=1 -- \tswi\tgenbackupmeta\scripts\tgenbackupmeta_udeb.script, 300, UDEB,\epoc32\winscw\c\tswi\tgenbackupmeta\scripts\premeta.bat,
+TESTEXECUTE, \logs\testexecute\tgenbackupmeta_urel.htm,, -Dstartupmode=1 -- \tswi\tgenbackupmeta\scripts\tgenbackupmeta_urel.script, 300, UREL,\epoc32\winscw\c\tswi\tgenbackupmeta\scripts\premeta.bat,
+
+TESTEXECUTE, \logs\testexecute\tgenbackupmeta_mandatory_udeb.htm,, -Dstartupmode=1 -- \tswi\tgenbackupmeta\scripts\tgenbackupmeta_mandatory_udeb.script, 300,UDEB,%SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiCertstore.bat swicertstore_mandatory.dat,\epoc32\winscw\c\tswi\tgenbackupmeta\scripts\postmeta.bat
+TESTEXECUTE, \logs\testexecute\tgenbackupmeta_mandatory_urel.htm,, -Dstartupmode=1 -- \tswi\tgenbackupmeta\scripts\tgenbackupmeta_mandatory_urel.script, 300,UREL,%SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiCertstore.bat swicertstore_mandatory.dat,\epoc32\winscw\c\tswi\tgenbackupmeta\scripts\postmeta.bat
+TESTEXECUTE, \logs\testexecute\trevocation.htm,, -Dstartupmode=1 -- \tswi\trevocation\scripts\trevocation.script, 600, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\trevocation_unsigned.htm,, -Dstartupmode=1 -- \tswi\trevocation\scripts\trevocation_unsigned.script, 600, UDEB#UREL, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy_allowunsigned.ini, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy.ini
+TESTEXECUTE, \logs\testexecute\tautosigning.htm,, -Dstartupmode=1 -- \tswi\tautosigning\scripts\tautosigning.script, 300, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\testdrm.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\testdrm.script, 300, UDEB#UREL, \copytestdrm.bat,
+TESTEXECUTE, \logs\testexecute\testdrmasync.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\testdrmasync.script, 300, UDEB#UREL, \copytestdrm.bat,
+TESTEXECUTE, \logs\testexecute\testdrmFH.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\testdrmFH.script, 300, UDEB#UREL, \copytestdrmFH.bat,
+TESTEXECUTE, \logs\testexecute\testdiskfullemulator.htm,, \tswi\tuiscriptadaptors\scripts\testdiskfullemulator.script, 300, UDEB#UREL,,
+
+TESTEXECUTE, \logs\testexecute\testcancel.htm,, \tswi\tuiscriptadaptors\scripts\testcancel.script, 1500, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\testmandatory.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\testmandatory.script, 300, UDEB#UREL, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiCertstore.bat swicertstore_mandatory.dat, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiCertstore.bat swicertstore.dat
+TESTEXECUTE, \logs\testexecute\testnotargetdevices.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\testnotargetdevices.script, 300, UDEB#UREL, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy_incompifnotargetdevices.ini, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy.ini
+TESTEXECUTE, \logs\testexecute\testsystemcaps.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\testsystemcaps.script, 300, UDEB, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiCertstore.bat swicertstore.dat,
+TESTEXECUTE, \logs\testexecute\testsystemcaps.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\testsystemcaps.script, 300, UREL,,
+TESTEXECUTE, \logs\testexecute\testusercaps.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\testusercaps.script, 300, UREL, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy.ini,
+TESTEXECUTE, \logs\testexecute\testusercaps.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\testusercaps.script, 300, UDEB,,
+
+TESTEXECUTE, \logs\testexecute\testusercaps_nousergrantcaps.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\testusercaps_nousergrantcaps.script, 300, UDEB#UREL, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy_nousergrantcaps.ini, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy.ini
+TESTEXECUTE, \logs\testexecute\testusercaps_restrictedusercaps.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\testusercaps_restrictedusercaps.script, 300, UDEB#UREL, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy_restrictedusercaps.ini, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy.ini
+TESTEXECUTE, \logs\testexecute\testnoorphanedoverwrite.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\testnoorphanedoverwrite.script, 300, UDEB#UREL, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy_noorphanedoverwrite.ini, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy.ini
+TESTEXECUTE, \logs\testexecute\overwriteprivate.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\overwriteprivate.script, 300, UDEB#UREL, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy_noprotectedorphanoverwrite.ini, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy.ini 
+TESTEXECUTE, \logs\testexecute\overwriteprivate_positive.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\overwriteprivate_positive.script, 300, UDEB, \epoc32\release\winscw\UDEB\Z\tswi\tuiscriptadaptors\scripts\overwriteprivate_positive.bat swipolicy.ini 
+TESTEXECUTE, \logs\testexecute\overwriteprivate_positive.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\overwriteprivate_positive.script, 300, UREL,%SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy.ini 
+TESTEXECUTE, \logs\testexecute\testallowunsigned.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\testallowunsigned.script, 300, UDEB#UREL, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy_allowunsigned.ini, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy.ini
+TESTEXECUTE, \logs\testexecute\tpathsubst.htm,, -Dstartupmode=1 -- \tswi\tpathsubst\scripts\tpathsubst.script, 300, UDEB#UREL, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy_pathsubst.ini, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy.ini
+TESTEXECUTE, \logs\testexecute\tpathsubstsysdrive.htm,, -Dstartupmode=1 -- \tswi\tpathsubst\scripts\tpathsubstsysdrive.script, 300, UDEB#UREL, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy_verifysysdrive.ini, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy.ini
+
+TESTEXECUTE, \logs\testexecute\tpropagation_winscw.htm,, -Dtextshell -- \tswi\tuiscriptadaptors\scripts\tpropagation_winscw.script, 600, UDEB#UREL,,
+
+
+TESTEXECUTE, \logs\testexecute\testeclipseemulator.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\testeclipseemulator.script, 300, UDEB#UREL,%SECURITYSOURCEDIR%\testframework\test\autotesting\pre_testeclipseemulator.bat,%SECURITYSOURCEDIR%\testframework\test\autotesting\delstubtemp.bat
+
+TESTEXECUTE, \logs\testexecute\testeclipse.htm,, \tswi\tuiscriptadaptors\scripts\testeclipse.script, 500, UDEB#UREL, \epoc32\winscw\c\tswi\tuiscriptadaptors\scripts\batchfiles\testeclipse_pre.bat,\epoc32\winscw\c\tswi\tuiscriptadaptors\scripts\batchfiles\testeclipse_post.bat
+
+TESTEXECUTE, \logs\testexecute\swicaptests.htm,, -Dstartupmode=1 -- \tswi\swicaptests\scripts\swicaptests.script, 500, UDEB#UREL,,
+
+TESTEXECUTE, \logs\testexecute\testappinuse.htm,, \tswi\tuiscriptadaptors\scripts\testappinuse.script, 1500, UDEB#UREL,,
+
+
+TESTEXECUTE, \logs\testexecute\switermination.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\switermination.script, 500, UDEB#UREL,,
+
+TESTEXECUTE, \logs\testexecute\tuileavedialog.htm,, \tswi\tuiscriptadaptors\scripts\tuileavedialog.script, 300, UDEB#UREL, \epoc32\winscw\c\tswi\tuiscriptadaptors\scripts\batchfiles\tuileavedialog_pre.bat, \epoc32\winscw\c\tswi\tuiscriptadaptors\scripts\batchfiles\tuileavedialog_post.bat
+TESTEXECUTE, \logs\testexecute\tuileavedialogasync.htm,, \tswi\tuiscriptadaptors\scripts\tuileavedialogasync.script, 300, UDEB#UREL, \epoc32\winscw\c\tswi\tuiscriptadaptors\scripts\batchfiles\tuileavedialog_pre.bat, \epoc32\winscw\c\tswi\tuiscriptadaptors\scripts\batchfiles\tuileavedialog_post.bat
+
+TESTEXECUTE, \logs\testexecute\cr956_test.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\cr956_test.script, 2000, UDEB#UREL,,
+
+TESTEXECUTE, \logs\testexecute\testuninstallation.htm,, \tswi\tuiscriptadaptors\scripts\testuninstallation.script, 300, UDEB#UREL, \epoc32\winscw\c\tswi\tuiscriptadaptors\scripts\batchfiles\testuninstallation_pre.bat, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy.ini
+
+TESTEXECUTE, \logs\testexecute\tuninstallpkgs.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\tuninstallpkgs.script, 1000, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\testlogging.htm,, -Dstartupmode=1 -- z:\tswi\tsisregistrytest\scripts\testlogging.script, 100, UDEB#UREL,\epoc32\winscw\c\tswi\tsisregistrytest\Scripts\batchfiles\testlogging_pre.bat,%SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy.iniwinscw\c\tswi\tsisregistrytest\Scripts\batchfiles\testlogging_pre.bat,%SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy.ini
+
+TESTEXECUTE, \logs\testexecute\test_pa_sapropagated_notdelete.htm,, \tswi\tuiscriptadaptors\scripts\test_pa_sapropagated_notdelete.script, 100, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\testpastub.htm,, \tswi\tuiscriptadaptors\scripts\testpastub.script, 100, UDEB#UREL,%SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy_deletepreinstalledfiles.ini, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy.ini
+TESTEXECUTE, \logs\testexecute\testsapropagatedstub.htm,, \tswi\tuiscriptadaptors\scripts\testsapropagatedstub.script, 100, UDEB#UREL,%SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy_deletepreinstalledfiles.ini, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy.ini
+
+
+# Extended Key Usage check while installation of signed sis files.
+TESTEXECUTE, \logs\testexecute\testextension.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\testextension.script, 300, UDEB#UREL,%SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy.ini,
+TESTEXECUTE, \logs\testexecute\testextension_mandatecodesigning.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\testextension_mandatecodesigning.script, 300, UDEB#UREL, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy_mandatecodesigning.ini,
+TESTEXECUTE, \logs\testexecute\testextension_alternatecodesigningoid.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\testextension_alternatecodesigningoid.script, 300, UDEB#UREL,%SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy_altcodesigningoid.ini,
+TESTEXECUTE, \logs\testexecute\testextension_mandatecodesigning_altcodesigningoid.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\testextension_mandatecodesigning_altcodesigningoid.script, 300, UDEB#UREL, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy_mandatecodesigning_altcodesigningoid.ini, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy.ini
+
+# SwiConsole Tests
+TESTEXECUTE, \logs\testexecute\tswiconsole.htm,, -Dstartupmode=1 -- \tswi\tswiconsole\scripts\tswiconsole.script, 300, UDEB#UREL,
+TESTEXECUTE, \logs\testexecute\tswiconsole_allowunsigned.htm,, -Dstartupmode=1 -- \tswi\tswiconsole\scripts\tswiconsole_allowunsigned.script, 300, UDEB#UREL, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy_allowunsigned.ini, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy.ini
+
+TESTEXECUTE, \logs\testexecute\testmulti.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\testmulti.script, 300, UDEB#UREL,
+TESTEXECUTE, \logs\testexecute\generateregistrytestdata.htm,, -Dstartupmode=1 -- \tswi\tsisregistrytest\scripts\generateregistrytestdata.script, 300, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\runregistrytests.htm,, -Dstartupmode=1 -- \tswi\tsisregistrytest\scripts\runregistrytests.script, 300, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\removeregistrytestdata.htm,, -Dstartupmode=1 -- \tswi\tsisregistrytest\scripts\removeregistrytestdata.script, 300, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\truststatus.htm,, -Dstartupmode=1 -- \tswi\trevocation\scripts\truststatus.script, 600, UDEB#UREL,, 
+TESTEXECUTE, \logs\testexecute\testtruststatus.htm,, \tswi\tuiscriptadaptors\scripts\testtruststatus.script, 300, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\tresetdevice.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\tresetdevice.script, 600, UDEB#UREL, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy_deletepreinstalledfiles.ini, %SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiPolicy.bat swipolicy.ini
+
+# Test Non-Removable Flag
+TESTEXECUTE, \logs\testexecute\testnonremovable.htm,, -Dstartupmode=1 -- \tswi\tuiscriptadaptors\scripts\testnonremovable.script, 300, UDEB#UREL, \epoc32\winscw\c\tswi\tuiscriptadaptors\scripts\batchfiles\testnonremovable_pre.bat, \epoc32\winscw\c\tswi\tuiscriptadaptors\scripts\batchfiles\testnonremovable_post.bat
+
+# Adorned filename handling tests
+TESTEXECUTE, \logs\testexecute\adornedfilenames.htm,, \tswi\tuiscriptadaptors\scripts\adornedfilenames.script, 300, UDEB#UREL,, \epoc32\winscw\c\tswi\tuiscriptadaptors\scripts\batchfiles\adornedfilenames_pre.bat, \epoc32\winscw\c\tswi\tuiscriptadaptors\scripts\batchfiles\adornedfilenames_post.bat
+
+# Testing asynchronous cancellation of installation
+TESTEXECUTE, \logs\testexecute\asynccancel.htm,, \tswi\tasynccancel\scripts\asynccancel.script, 10000, UDEB,,
+
+# DevInfoSupport test -
+tdevinfosupport,\swi.log,,-Dtextshell -- ,  300, UDEB,,
+
+# DemandPaging tests - these run using testexecute
+TESTEXECUTE, \logs\testexecute\tdempaging_winscw.htm,, -Dstartupmode=1 -- z:\tswi\tuiscriptadaptors\scripts\tdempaging_winscw.script, 1000, UDEB#UREL,,
+
+#CR0914 Tests
+TESTEXECUTE, \logs\testexecute\integritychecktest.htm,, -Dstartupmode=1 -- z:\tswi\tsisregistrytest\scripts\integritychecktest.script, 1000, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\integritychecktest5Install_winscw.htm,, -Dstartupmode=1 -- z:\tswi\tsisregistrytest\scripts\integritychecktest5Install_winscw.script, 1000, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\integritychecktest5verify_winscw.htm,, -Dstartupmode=1 -- z:\tswi\tsisregistrytest\scripts\integritychecktest5verify_winscw.script, 1000, UDEB#UREL,%SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiCertstore.bat some_swicertstore.dat,%SECURITYSOURCEDIR%\testframework\test\autotesting\setupSwiCertstore.bat swicertstore.dat
+
+TESTEXECUTE, \logs\testexecute\testswiobserver.htm,, -Dstartupmode=1 -- z:\tswi\tswiobserver\scripts\testswiobserver.script, 300, UDEB#UREL,,
+swiobservertest.exe, \swiobservertest.log,, , 800, UDEB#UREL,,
+swiobservertestoom.exe, \swiobservertestoom.log,, , 800, UDEB#UREL,,
+
+[Asnpkcs]
+TASNPKCS, \tasnpkcstests.log,, -Dtextshell -- \tasnpkcstests.txt \tasnpkcstests.log,	 300, UDEB#UREL,,
+
+[Filetokens]
+TESTEXECUTE, \logs\testexecute\sec-filetokens-tools.htm,,  -Dtextshell -- \ttesttools\scripts\sec-filetokens-tools.script, 600, UDEB#UREL, \epoc32\winscw\c\ttesttools\data\pretools.bat, \epoc32\winscw\c\ttesttools\data\posttools.bat
+T_KEYSTORE, \tkeystore.log,,		     -Dtextshell -- \tkeystore\scripts\tkeystore.txt	\tkeystore.log,				300, UDEB#UREL, %SECURITYSOURCEDIR%\testframework\test\autotesting\RemoveSecDlg.bat, \epoc32\winscw\c\tkeystore\scripts\batchfiles\tkeystore_post.bat 
+T_KEYSTORE, \tkeystore_authobjects.log,, -Dtextshell -- \tkeystore\scripts\authobjects.txt	\tkeystore_authobjects.log,		300, UDEB#UREL,, \epoc32\winscw\c\tkeystore\scripts\batchfiles\tkeystore_authobject_post.bat 
+T_KEYSTORE, \tkeystore_export.log,,      -Dtextshell -- \tkeystore\scripts\exportscript.txt	\tkeystore_export.log,			300, UDEB#UREL,, \epoc32\winscw\c\tkeystore\scripts\batchfiles\tkeystore_export_post.bat
+T_KEYSTORE, \tkeystore_oom.log,,         -Dtextshell -- \tkeystore\scripts\oom.txt		\tkeystore_oom.log,			300, UDEB#UREL,, \epoc32\winscw\c\tkeystore\scripts\batchfiles\tkeystore_oom_post.bat
+T_KEYSTORE, \tkeystore_cancel.log,,      -Dtextshell -- \tkeystore\scripts\cancel.txt		\tkeystore_cancel.log,			300, UDEB#UREL,, \epoc32\winscw\c\tkeystore\scripts\batchfiles\tkeystore_oom_post.bat
+T_KEYSTORE, \tkeystore_servoom.log,,	 -Dtextshell -- \tkeystore\scripts\servoom.txt		\tkeystore_servoom.log,			1800, UDEB,, \epoc32\winscw\c\tkeystore\scripts\batchfiles\tkeystore_oom_post.bat
+T_KEYSTORE, \tkeystore_reload.log,,      -Dtextshell -- \tkeystore\scripts\reload.txt		\tkeystore_reload.log,			300, UDEB#UREL,, \epoc32\winscw\c\tkeystore\scripts\batchfiles\tkeystore_post.bat
+
+t_certapps, \tcertapps.log,, -Dtextshell -- \tcertapps\scripts\script1.txt \tcertapps.log, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\precert_backup.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
+t_certapps, \tcertapps-oom.log,, -Dtextshell -- -o \tcertapps\scripts\script1.txt \tcertapps-oom.log, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\precert_backup.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
+t_certapps, \tcertapps-apipolicing.log,, -Dtextshell -- \tcertapps\scripts\apipolicing.txt \tcertapps-apipolicing.log, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\precert_backup.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
+
+
+
+
+[ToolsLegacy]
+
+# Interpretsis Test Harness
+PERL, \interpretsis_test_harness.txt,,\epoc32\winscw\c\tswi\tinterpretsisinteg\runtest.pl native, 1000, UDEB,,
+
+[SisTools]
+# MAKESIS test
+# program,log,commdb,script,timeout,release,pre cmd,post cmd
+PERL, \createandsignunicode.txt,,\epoc32\winscw\c\tswi\tsignsis\createandsignunicode.pl, 300, UDEB#UREL,,
+
+PERL, \makesis_test.txt,,\epoc32\winscw\c\tswi\testMakesis.pl, 300, UDEB,, 
+# DUMPSIS test
+PERL, \dumpsis_test.txt,,\epoc32\winscw\c\tswi\tdumpsis\testDumpsis.pl, 300, UDEB,,\epoc32\winscw\c\tswi\tdumpsis\postdumpsistest.bat
+# SIGNSIS test
+PERL, \signsis_test.txt,,\epoc32\winscw\c\tswi\tsignsis\testSignsis.pl, 300, UDEB,,
+
+# Interpretsis
+PERL, \interpretsis_test.txt,,\epoc32\winscw\c\tswi\tinterpretsis\runtests.pl, 300, UDEB,, 
+
+[ToolsNew]
+
+# Interpretsis Test Harness
+PERL, \interpretsis_test_harness.txt,,\epoc32\winscw\c\tswi\tinterpretsisinteg\runtest.pl usifnative, 1000, UDEB,,
+
+# Interpretsis Test Harness - This test is for testing the installation using database to store registration information.
+PERL, \interpretsis_test_harness_db.txt,,\epoc32\winscw\c\tswi\tinterpretsisinteg\runtest.pl usif, 1000, UDEB,,
+
+# tdbtool 
+PERL, \tdbtool.txt,,\epoc32\winscw\c\tswi\tdbtool\tdbtool.pl, 300, UDEB,,\epoc32\winscw\c\tswi\tdbtool\postdbtool.bat 
+
+[SwiTools]
+# DUMPSWICERTSTORE test
+PERL, \dumpswicertstore_test.txt,,\epoc32\winscw\c\tswi\tdumpcertstore\testswiCertstore.pl, 600, UDEB,\epoc32\winscw\c\tswi\tdumpcertstore\predumpcertstoretest.bat, \epoc32\winscw\c\tswi\tdumpcertstore\postdumpcertstoretest.bat
+# DUMPCHAINVALIDITY test
+PERL, \dumpchainvalidity_test.txt,,\epoc32\winscw\c\tswi\tchainvalidity\testChainValidity.pl, 300, UDEB,,
+# DUMPINSTALLFILESTATUS test
+PERL, \dumpinstallstatus_test.txt,,\epoc32\winscw\c\tswi\tinstallfilestatus\testInstallStatus.pl, 300, UDEB,,
+# DUMPSWIREGISTRY test
+PERL, \dumpregistry_test.txt,,\epoc32\winscw\c\tswi\tdumpregistry\testregistry.pl, 300, UDEB,,
+
+
+
+[CryptoSpi]
+TESTEXECUTE, \logs\testexecute\tcryptospi.htm,, -Dtextshell -- \testdata\tcryptospi\scripts\tcryptospi.script, 900, UDEB#UREL,,
+
+
+
+[UPS]
+# UPS tests by integration - these run using testexecute
+TESTEXECUTE, \logs\testexecute\tups_integ.htm,, -Dtextshell --  z:\tups\integ\scripts\tups_integ.script, 500, UDEB#UREL,\epoc32\data\Z\tups\integ\scripts\tups_integ_pre.bat, \epoc32\data\Z\tups\integ\scripts\tups_integ_post.bat
+
+#PREQ1262 Tests
+TESTEXECUTE, \logs\testexecute\tupsdb.htm,, -Dtextshell --  z:\tups\tupsdb\scripts\tupsdb.script,300,UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\tupsdbperformance.htm,, -Dtextshell --  z:\tups\tupsdb\scripts\tupsdbperformance.script,300,UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\tpolicycache.htm,,  z:\tups\tpolicies\scripts\tpolicycache.script,300,UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\tpolicyreader.htm,,-Dtextshell --  z:\tups\tpolicies\scripts\tpolicyreader.script,300,UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\tserviceconfig.htm,,-Dtextshell --  z:\tups\tpolicies\scripts\tserviceconfig.script,300,UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\tpolicycacheoom.htm,,-Dtextshell --  z:\tups\tpolicies\scripts\tpolicycacheoom.script,300,UDEB#UREL,,
+
+dumpupsdb.exe, \upsdb.txt,, -Dtextshell -- -e -db c:\private\10283690\tups.db -f c:\upsdb.txt -t, 800, UDEB#UREL,,
+scstest.exe, \scstest.log,, -Dtextshell --, 800, UDEB#UREL,,
+upstest.exe, \upstest.log,,, 800, UDEB#UREL,,
+upstestobsif.exe, \upstestobsif.log,,, 800, UDEB#UREL,,
+upstestoom.exe, \upstestoom.log,,  , 800, UDEB,,
+upstestobsifoom.exe, \upstestobsifoom.log,, , 800, UDEB,,
+tmsgapp.exe, \tmsgapp.log,, -Dtextshell -- , 800, UDEB#UREL,,
+
+
+
+[AuthServer]
+# AuthServer tests
+TESTEXECUTE, \logs\testexecute\tauthkeys.htm,,-Dtextshell --  \tauth\tauthkeys\scripts\tauthkeys.script, 30, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\tauthdb.htm,, -Dtextshell -- \tauth\tauthdb\scripts\tauthdb.script, 30, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\tauthcliserv.htm,, -Dtextshell --  \tauth\tauthcliserv\scripts\tauthcliserv.script, 300, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\tauthcliserv_debug.htm,,-Dtextshell --   \tauth\tauthcliserv\scripts\tauthcliserv_debug.script, 30, UDEB,,
+TESTEXECUTE, \logs\testexecute\tauthexpr.htm,, -Dtextshell --  \tauth\tauthexpr\scripts\tauthexpr.script, 500, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\tauthplugins.htm,, -Dtextshell --  \tauth\tauthplugins\scripts\tauthplugins.script, 30, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\tauthsvr2.htm,, -Dtextshell --  \tauth\tauthsvr\scripts\tauthsvr2.script, 1600, UDEB#UREL,,
+
+# Scan for unexpected panics in epocwind.out files
+PERL, \panicscanlog.txt,,\epoc32\winscw\c\tswi\panicscan_authserver.pl, 300, UDEB,,
+
+
+
+[StreamingCAF]
+#Streaming CAF Tests
+TESTEXECUTE, \logs\testexecute\tscaf.htm,,-Dtextshell --  z:\tcaf\tscaf\tscaf.script, 300, UDEB#UREL, ,
+TESTEXECUTE, \logs\testexecute\tscaf_oom.htm,,-Dtextshell --  z:\tcaf\tscaf\tscaf_oom.script, 300, UDEB, ,
+
+[USIF]
+#Universal Software Install Framework Tests
+TESTEXECUTE, \logs\testexecute\usifsecuritytests.htm,,z:\tusif\securitytests\usifsecuritytests.script, 300, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\tsifintegration.htm,,z:\tusif\tsifintegration.script, 300, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\tsif.htm,,z:\tusif\tsif\tsif.script, 300, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\tsifoom.htm,,z:\tusif\tsif\tsifoom.script, 300, UDEB,,
+TESTEXECUTE, \logs\testexecute\tscr.htm,,z:\tusif\tscr\tscr.script, 300, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\tsts_bootuptimerecovery.htm,,z:\tusif\tsts\tsts_bootuptimerecovery.script, 300, UDEB#UREL, \epoc32\data\z\tusif\tsts\batchfiles\tsts_bootuptimerecovery.bat,
+TESTEXECUTE, \logs\testexecute\tsts_rollbackall.htm,,z:\tusif\tsts\tsts_rollbackall.script, 300, UDEB#UREL, ,
+TESTEXECUTE, \logs\testexecute\tsts.htm,,z:\tusif\tsts\tsts.script, 300, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\tsts_tintegrityservices.htm,,z:\tusif\tsts\tintegrityservices\scripts\tsts_tintegrityservices.script, 300, UDEB#UREL,,
+TESTEXECUTE, \logs\testexecute\tsifrefinstaller.htm,,z:\tusif\tsifrefinstaller\tsifrefinstaller.script, 300, UDEB#UREL,,
+
+[SecurityTools]
+# Security tools tests
+PERL, \security_tools\tcertapp\tCertapp_Output.txt,, \epoc32\winscw\c\security_tools\tcertapp\run_tcertapp.pl, 1600, UDEB#UREL,,
+t_certapps, \SDP-Security_Tools-CertApp-CCDAT-EMU00.log,, -Dtextshell -- \security_tools\tcertapp\SDP-Security_Tools-CertApp-CCDAT-EMU00.txt \SDP-Security_Tools-CertApp-CCDAT-EMU00.log, 300, UDEB#UREL, \epoc32\winscw\c\security_tools\tcertapp\pre_tcertapp.bat, \epoc32\winscw\c\security_tools\tcertapp\post_tcertapp.bat
+t_certstore, \SDP-Security_Tools-CertApp-FILEDAT-EMU00.log,, -Dtextshell -- \security_tools\tcertapp\SDP-Security_Tools-CertApp-FILEDAT-EMU00.txt \SDP-Security_Tools-CertApp-FILEDAT-EMU00.log, 600, UDEB#UREL, \epoc32\winscw\c\security_tools\tcertapp\pre_tcertapp.bat, \epoc32\winscw\c\security_tools\tcertapp\post_tcertapp.bat
+t_certstore, \SDP-Security_Tools-CertApp-SWIDAT-EMU00.log,, -Dtextshell -- \security_tools\tcertapp\SDP-Security_Tools-CertApp-SWIDAT-EMU00.txt \SDP-Security_Tools-CertApp-SWIDAT-EMU00.log, 600, UDEB#UREL, \epoc32\winscw\c\security_tools\tcertapp\pre_tcertapp.bat, \epoc32\winscw\c\security_tools\tcertapp\post_tcertapp.bat
+
+
+[Misc]
+# Check that there are no test certificates in invalid locations in the source code
+PERL, \checklocationofcertificateslog.txt,, \epoc32\winscw\c\checklocationofcertificates.pl %SECURITYSOURCEDIR%, 300, UDEB,,
+
+# Scan for occurrences of "C: , EDriveC and [<index>]='C' in source files
+PERL, \cdrivewarnings.htm,,\epoc32\winscw\c\cdrive.pl --exclude=\epoc32\winscw\c\cdrive_exclude.txt --excludedir=%SECURITYSOURCEDIR%\caf2\ --log=cdrivewarnings.htm %SECURITYSOURCEDIR%,300,UDEB,,
+
+# Categorisation tags are checked for all of security sub-system 
+PERL, \searchtags.txt,,\epoc32\winscw\c\tswi\searchtags.pl, 300, UDEB,,
+
+[UptoMCL]
+# Scan for unexpected panics in epocwind.out files
+PERL, \panicscanlog.txt,,\epoc32\winscw\c\tswi\panicscan.pl, 300, UDEB,,
+# END of file
+

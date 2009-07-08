@@ -1,0 +1,12 @@
+<action>
+	<actionname>WTLSCERT Corruption Test</actionname>
+	<actiontype>Corruption</actiontype>
+	<actionbody>
+		<path>\twtlscert\data\</path>
+		<iterations>100</iterations>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+

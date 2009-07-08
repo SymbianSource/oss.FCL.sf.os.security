@@ -1,0 +1,53 @@
+/**
+
+@page SS_Cryptalg_weak_strong_crypto Weak and strong crypto
+\n
+
+<b>Pre-v.8.0</b>
+
+There are multiple versions of \c cryptalg.dll, supporting different strengths of cryptography:
+
+@li \c crypt40.dll
+
+@li \c crypt56.dll
+
+@li \c crypt64.dll
+
+@li \c crypt128.dll
+
+@li \c crypt256.dll
+
+The weakest is \c crypt40.dll and the strongest is \c crypt256.dll.
+
+They are available for different build targets and variants in:
+
+\c <your-SDK-path>\\src\\generic\\security\\cryptalg\\import\\bin\\\<target>\\\<variant>\ 
+
+Where \c target is one of the following build targets: \c wins, \c winscw, \c winc, \c thumb, \c armi, or \c arm4; and 
+\c variant is either \c udeb or \c urel.
+
+The \c crypt56.dll (weak) version of the crypto library is the default one. This is the version that is exported to the 
+\c \\epoc32 tree as \c cryptalg.dll. This default version may be replaced with any of the other versions. 
+See @ref SS_Cryptalg_howto_change_crypto_strength for instructions on how to do this.
+
+The default weak crypto library (\c crypt56.dll) is limited as follows:
+
+@li Symmetric algorithms (@ref DES, 3DES, RC2, RC4, RC5) are limited to 56 bit key sizes.
+
+@li The 3DES symmetric algorithm is not supported since this requires key sizes greater than 56 bits.
+
+@li @ref RSA and @ref DSA may be used for decryption using any key size, but encryption is limited to 512 bits.
+
+@li DH is limited to 512 bits.
+
+The strong crypto library supports any key length.
+
+If attempts are made to use key lengths not supported by a weak crypto library then the library will return an error.
+
+The strong and weak crypto APIs are identical. The \c TCrypto API is available which allows higher level components 
+to determine at runtime whether the crypto library supports full strength crypto. 
+See @ref SS_Cryptalg_howto_find_crypto_strength.
+
+
+
+*/

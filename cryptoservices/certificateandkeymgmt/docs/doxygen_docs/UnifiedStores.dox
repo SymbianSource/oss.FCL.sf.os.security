@@ -1,0 +1,683 @@
+/**
+
+@page UnifiedStores The unified stores
+
+@section intro Introduction
+
+This document describes the unified certificate store and unified key store.
+
+A Symbian OS device may contain zero or more individual cert stores, and zero or
+more key stores.  Software implementations for both of these are supplied, and
+licensees may add their own, perhaps using special hardware on the device - for
+example using a WIM.  The unified store classes acts as an central interfaces
+for certificate and key management, so that application writers do not need to
+know details of the specific implementations present.  They automatically
+discovers all implementations of the relevant interface on the device using the
+crypto token framework.
+
+These stores are unified in the sense that client requests which related to all
+store implementations (such as "list keys" or "list certificates") are passed to
+every implementation in turn, and the results collated.  Requests that relate to
+a specific store are routed to the correct implementation.
+
+Clients should only use the unified store class to access certificates and keys.
+There is no need to use the crypto token framework directly, and although this
+is possible, it is not recommended.
+
+This document gives a description of how to perform basic certificate and key
+operations using the unified stores.  
+
+@section programmingUnifiedStores Programming with the unified stores
+
+The ctframework component provides the interfaces for key store and cert store
+implementations, and the unified stores themselves are implemented in certman's
+certstore component.  Programs wishing to use the unified stores should
+therefore be linked against both certstore.lib and ctframework.lib.  Note that
+certstore.lib provides both the unified cert store and the unified key store.
+
+The software cert store implementation supplied with Symbian OS is provided by
+filecertstore.dll, and this runs entirely in the client application.  The
+software key store runs in a separate server process - this is implemented by
+fstokenserver.dll, and the client side part that communicates with the server is
+provided by fstokencli.dll.  The unified stores use the ECom framework to load
+these DLLs automatically, so there is no need to link against them in client
+applications.
+
+The main header files used are unifiedcertstore.h and unfiedkeystore.h, and you
+should refer to them while reading the example code.
+
+Most methods are asynchronous and this means that clients need to be implemented
+as active objects to work.  All calls to asynchronous methods must be called
+from the context of active objects - the active scheduler will call the client's
+RunL() method when the asynchronous method completes.
+
+This means that the following code will not work:
+
+@code 
+// Broken!
+TRequestStatus status;
+certStore->DoSomething(parameters, status);
+User::WaitForRequest(&status);
+@endcode
+
+@section commonConcepts Common concepts
+
+This section describes concepts common to both unified stores.
+
+@subsection tokenObjectHandler Token object handle - TCTTokenObjectHandle
+
+A token object handle is a concept from the crypto token framework that is used
+to identify an object associated with a particular token.  It consists of a
+token identifier and an object identifier which is unique among all objects with
+that token.  The object is lightweight and can be easily passed between
+processes.
+
+These are used to identify keys and certificates.  This allows the unified store
+to route client requests that concern a particular object onto the token that
+actually has that object.
+
+This class is defined in tcttokenobjecthandle.h.
+
+@section unifiedKeyStore The unified key store
+
+@subsection limiatations Limitations
+
+Currently, this document does not cover owners and users, authentication or
+private key export.
+
+@subsection sec2 Key store concepts
+
+@subsubsection sec21 Key info - CCTKeyInfo
+
+Detailed information about a key is represented as a CCTKeyInfo object.  Objects
+of this type are passed back to the client by "list" and "get key info"
+operations.  The class is defined in the mctkeystore.h header file.  It has
+accessors for the following attributes:
+
+@li ID - a SHA-1 hash of the public key, used to uniquely identify it.
+@li Usage - a bitfield representing the allowed usages of the key.  This is of
+	type TKeyUsagePKCS15, defined in securitydefs.h.
+@li Size - the size of the key in bits.
+@li Label - a text string to identify the key to users.
+@li Owner - the UID of the application that created or imported the key.  
+@li Users - a list of UIDs of applications that are allowed to use the key.
+@li Algorithm - the key algorithm: RSA, DSA or DH.
+@li AccessType - a bitfield that determines the sensitivity of the key.
+@li Native - indicates whether cryptographic operations involving the key are
+	carried out within the key store implementation itself (ie in hardware if
+	the key store is implemented in hardware).
+@li StartDate - the start of the validity period of the key.
+@li EndDate - the end of the validity period of the key.
+@li PKCS8AttributeSet - additional key attributes as a DER-encoded set.
+@li Protector - an MCTAuthenticationObject that can be used to access the
+	authentication mechanism for the key store.
+@li Token - an MCTToken object that represents the actual key store
+	implementation the key is in.  It is possible to use this to get access to the
+	key store implementation, but this is not recommended.
+
+For a description of owners, users and authentication objects, please see the
+functional specification and architecture analysis documents.
+
+CCTKeyInfo has a conversion operator to TCTTokenObjectHandle, so instances of
+this class can be passed to any methods in the unified key store requiring a
+token object handle.
+
+@subsubsection authObject Authentication objects - MCTAuthenticationObject
+
+Authentication objects are used to control the authentication mechanism of the
+key store.  They are accessed by calling the Protector() method of a CCTKeyInfo.
+The authentication object returned is owned by the keystore implementation and
+you should not attempt to free it yourself - this is managed automatically.
+They may also be shared between keys - ie, the same object may be returned for
+more than one key.  The software key store implementation works like this - it
+associates one auth object instance with each key owner application.  In other
+words, every key with the same owner has the same auth object.  This is because
+authetication properties like the passphrase timeout are set on a per-owner
+basis in this implementation.
+
+@subsection sec3 Creating a CUnifiedKeyStore
+
+The object is created in the usual way, by calling the static NewL() or NewLC()
+methods, and then must be initialised by calling the asynchronous Initialize()
+method.  
+
+For example, a client might use the following code to create and initialise a
+unified key store object:
+
+@code
+void CKeyStoreExample::CreateUnifiedKeystoreL()
+	{
+	// iKeyStore is a CUnifiedKeyStore* 
+	// iFS is an RFs (file server client)
+	// iState is an enum that records the state of the active object
+
+	iKeyStore = CUnifiedKeyStore::NewL(iFs);
+	iKeyStore->Initialize(iStatus);
+	iState = EInitializingKeystore;
+	SetActive();
+
+	// RunL called when this completes
+	}
+@endcode
+
+@subsection sec4 Finding keys
+
+The unified key store allows a client to search all keys on a device regardless
+of which physical store they are in.  A filter object is specified which determines
+which keys are returned - you can filter on:
+
+@li The key indentifier - used when you are searching for a particular key.
+@li The key usage
+@li Tke key owner UID
+@li The key algorithm
+
+All of these default to "don't care".  So, an application that wishes to find
+all DSA keys owned by a certain application that are usable for signing might do
+the following:
+
+@code
+void CKeyStoreExample::FindSomeKeys()
+{
+	// KApplicationUID is UID of key owner application
+	// iKeys is an RMPointerArray<CCTKeyInfo> that is filled with the keys found
+
+	TCTKeyAttributeFilter filter;
+	filter.iOwner = KApplicationUID;
+	filter.iUsage = EPKCS15UsageSign;
+	filter.iKeyAlgorithm = CCTKeyInfo::EDSA;
+
+	iKeyStore->List(iKeys, filter, iStatus);
+	iState = EFindingKeys;
+	SetActive();
+
+	// RunL called when this completes
+}
+@endcode
+
+@subsection sec5 Performing cryptographic operations with keys
+
+Performing a cryptographic operation is a two stage process.  First, the key
+must be "opened", which creates an object capable of performing the required
+operation.  Then the new object's methods are called to actually execute
+it. Below is a list of the supported operations together with the objects
+created:
+
+@li DSA Sign - MDSASigner
+@li RSA Sign - MRSASigner
+@li RSA Decrypt - MCTDecryptor
+@li DH agreement - MCTDH
+
+These interfaces are defined in the header file mkeystore.h.
+
+The created objects are owned by the client, and hence must be disposed of by
+calling their Release() method when they are no longer required.
+
+To perform an RSA signing operation, the key is opened to create an MRSASigner
+object.  This object supports two signing methods:
+
+@li SignMessage, which computes a SHA-1 digest of the input data and signs that.
+@li Sign, which takes as input a message digest to sign (ie does a raw RSA sign
+operation).
+
+These signing methods create a CRSASignature object as output.
+
+For example, to RSA sign some data in iDataToSign:
+
+@code
+void CKeyStoreExample::RSASign(const CCTKeyInfo& aKey)
+{
+	// iRSASigner is an MRSASigner*
+	// iDataToSign is a HBufC8* containing data to be signed
+	// iRSASignature is a CRSASignature* which will contain the result
+
+	iKeyStore->Open(aKey, iRSASigner, iStatus);
+	iState = EOpenRSAKeyForSigning;
+	SetActive();
+}
+
+void CKeyStoreExample::RunL()
+{
+	switch (iState)
+	{
+		...
+
+		case EOpenRSAKeyForSigning:
+			PerformRSASignOperation();
+			break;
+
+		...
+	}
+}
+
+void CKeyStoreExample::PerformRSASignOperation()
+{
+	iRSASigner->SignMessage(*iData, iRSASignature, iStatus);
+	iState = EPerformRSASignOperation;
+	SetActive();
+
+	// RunL called again when this completes
+}
+@endcode
+
+DSA Signing works much the same as for RSA Signing described above.  The only
+difference is that the Open() method creates an MDSASigner object (The Open()
+methods are overloaded on the type of the created object).  The DSA signer
+differs from an MRSASigner only in that the signing method creates a
+CDSASignature object.
+
+RSA encryption and Diffie-Hellman key agreement are analogous.
+
+@subsection sec6 Generating keys
+
+For this operation it is necessary to know in advance which of the key stores
+implementations on the device the new key should be stored in.  The application
+could ask the user for this information, or it could choose a store itself based
+on some policy.  Either way, the available key stores that support write
+operations can be found using the KeyStoreManagerCount() and KeyStoreManager()
+accessor methods.
+
+A key store manager object is a token interface (see MCTTokenInteface defined in
+mcttokeninterface.h), and from this it is possible the get the token via the
+Token() method and hence the token label.  So, in order to ask the user which
+key store they wanted a key to be created in, a list of the labels of available
+key stores could be built up like this:
+
+@code
+void CKeyStoreExample::GetKeyStoreManagerLabelsL()
+{
+	// iLabelList is a RPointerArray<HBufC8>
+
+	for (TInt index = 0 ; index < iKeyStore->KeyStoreManagerCount() ; ++i)
+	{
+		MCTKeyStoreManager& manager = iKeyStore->KeyStoreManager(index);
+		MCTToken& token = manager->Token();
+		HBufC* label = token->Label().AllocLC();
+		User::LeaveIfError(iLabelList.Append(label));
+		CleanupStack::Pop(label);
+	}
+}
+@endcode
+
+Once the index of the key store manager has been determined, the key can be
+created by calling the CreateKey() method.  Among other things it takes the
+following parameters that are a subset of the attributes of a CCTKeyInfo:
+
+@li aUsage - The key usage flags in the PKCS15 format.
+@li aSize - The key size in bits.
+@li aLabel - The textual label for the key.
+@li aAlgorithm - The key algorithm - RSA, DSA or DH.
+@li aAccessType - The key's access type bitfield.  Only two of the bits defined
+	may be set when creating a key - EExtractable and ESensitive.
+@li aStartDate - the start of the validity period of the key.
+@li aEndDate - the end of the validity period of the key.
+
+For example:
+
+@code
+void CKeyStoreExample::CreateRSAKey(TInt aKeyStoreIndex)
+{
+	// iKey is a CCTKeyInfo* that will be set if the method succeeds
+
+	_LIT(KMyKeyName, "Example key");
+
+	TTime startDate, endDate;
+	startDate.UniversalTime();
+	endDate.UniversalTime();
+	endDate += TTimeIntervalYears(1); // key valid for a year
+
+	iKeyStore->CreateKey(
+		aKeyStoreIndex,
+		EPKCS15UsageSign,
+		1024,
+		KMyKeyName,
+		CCTKeyInfo::ERSA,
+		CCTKeyInfo::EExtractable,
+		startDate,
+		endDate,
+		iKey,
+		iStatus);
+	iState = ECreateKey;
+	SetActive();
+
+	// RunL called when this completes
+}
+@endcode
+
+@subsection importKey Importing keys
+
+Importing keys is very similar to creating keys, except that the ImportKey()
+method takes an additional two parameters:
+
+@li aKeyData - the key data in pkcs#8 format.
+@li aIsEncrypted - whether the key data is pkcs#5 encrypted.
+
+@subsection deleteKey Deleting keys
+
+Keys can be deleted with the DeleteKey() method, for example:
+
+@code
+void CKeyStoreExample::DeleteKey()
+{
+	// iKey is a CCTKeyInfo*
+
+	iKeyStore->DeleteKey(*iKey, iStatus);
+	iState = EDeleteKey;
+	SetActive();
+	
+	// RunL called when this completes
+}
+@endcode
+
+@subsection exportPublicKey Getting the public key
+
+The ExportPublic() method allows the public key to be exported, in DER-encoded
+ASN.1 format.  To export an RSA public key, and then reconstruct a useful key
+object from it, an application might do the following:
+
+@code
+CKeyStoreExample::ExportRSAPublicKey()
+{
+	// iKey is a CCTKeyInfo*
+	// iPublicKeyData is an HBufC8*
+
+	iKeyStore->ExportPublic(*iKey, iPublicKeyData, iStatus);
+	iState = EExportPublic;
+	SetActive();
+}
+
+void CKeyStoreExample::RunL()
+{
+	switch (iState)
+	{
+		...
+
+		case EExportPublic:
+			DecodeRSAPublicKeyData();
+			break;
+
+		...
+	}
+}
+
+void CKeyStoreExample::DecodeRSAPublicKeyData()
+{
+	// iRSAPublicKey is a CRSAPublicKey*
+
+	TX509KeyFactory factory; 
+	iRSAPublicKey = factory.RSAPublicKeyL(*iPublicKeyData);
+}
+@endcode
+
+@subsection changePassphrase Changing the passphrase
+
+Changing the passphrase is accomplished by telling a key store to ask the user
+for the new passphrase.  This is done by obtaining the authentication object for
+a key in the appropriate key store, and calling its ChangeReferenceData()
+method.  The keystore will then prompt the user for the old and new passphrases,
+and it the old passphrase is entered correctly, the passphrase is changed.  The
+old and new passphrases are never seen by the calling application.
+
+For example:
+
+@code
+void ChangePassphraseL(CCTKeyInfo& aKey)
+{
+	MCTAuthenticationObject* authObject = aKey.Protector();
+	if (authObject == NULL)
+		User::Leave(KErrNotSupported);
+
+	authObject->ChangeReferenceData(iStatus);
+	iState = EChangePassphrase;
+	SetActive();
+
+	// RunL called when this completes
+}
+@endcode
+
+@section unifiedCertStore The Unified Certificate Store
+
+@subsection certstoreConcepts Certificate store concepts
+
+@subsubsection certTypes Supported certificate types
+
+The certificate store APIs support X509 and WTLS certificates.  Certificates can
+be physically present in the store (as is normally the case), or they can be
+referenced by a URL.  There are three "owner types" supported:
+
+@li CA - CA certs are used as trust roots when validating certificate chains.
+@li User - User certs are used to establish the user's identity with a remote server.
+@li Peer - Peer certs are a third party's user certs.
+
+@subsubsection certInfo Certificate info - CCTCertInfo
+
+This class holds information about a certificate, and is used to represent that
+certificate in the unified cert store API.  It has accessors for the following
+attributes:
+
+@li Label - a text string to identify the cert to users.
+@li SubjectKeyId - A hash of the subject's public key.
+@li IssuerKeyId - A hash of the issuer's public key
+@li CertificateFormat - The format of the certificate - X509, WTLS X509 URL or
+	WTLS URL - as defined by the TCertificateFormat enum.
+@li CertificateOwnerType - The type of the certificate - CA, user or peer - as
+	defined by the TCertificateOwnerType enum
+@li Size - The size of the actual certificate data in bytes.
+@li IsDeletable - Whether it is possible to delete this certificate.
+@li IssuerHash - A hash of the issuer's X500 distinguished name, or NULL if it is
+	unknown.
+@li Token - an MCTToken object that represents the actual cert store
+	implementation the cert is in.  It is possible to use this to get access to the
+	cert store implementation, but this is not recommended.
+
+Like CCTKeyInfo, this object has a conversion operator to TCTTokenObjectHandle.
+
+@subsubsection appTrustConcept Applicability and trust
+
+Certificates are marked to indicate what purpose they are to be used for - these
+uses are referred to as "applications".  Examples of applications include
+"software install" and "TLS client authentication".  Certs also have a "trust"
+setting - this indicates whether or not the certificate should be trusted for
+any of its application.  The idea is that a program will look for all
+certificates which have the correct application and that are trusted, in order
+to restrict its search to relevant certificates.
+
+@subsection creatingUnifiedCertStore Creating a Unified Certificate Store
+
+The unified cert store can be opened in two modes - writeable and read only.
+The mode is determined by a parameter passed to the NewL() and NewLC() methods.
+Once the object has been created, it must be initialised, and this is done by
+the asynchronous Initialize() method.
+
+For example, to create and open a unified cert store in writable mode a client
+might use the following code:
+
+@code
+void CCertStoreExample::OpenUnifiedCertStoreL()
+	{
+	// iCertStore is a CUnifiedCertStore* 
+	// iFS is an RFs (file server client)
+	// iState is an enum that records the state of the active object
+
+	iCertStore = CUnifiedCertStore::NewL(iFs, ETrue);
+	iCertStore->Initialize(iStatus);
+	iState = EInitializingCertStore;
+	SetActive();
+
+	// RunL called when this completes
+	}
+@endcode
+
+@subsection listCerts Finding certificates
+
+The unified cert store supplies a List() methods to find certificates in the
+stores.  A filter object of type CCertAttibuteFilter is passed in to restrict
+the certificates returned.  This is defined in ccertattributefilter.h.  It has
+setter methods for the following attributes:
+
+@li Label - The label to match.
+@li Uid - The UID of an application the certificates must support.
+@li Format - The desired format.
+@li OwnerType - The desired owner type.
+@li KeyUsage - The key usage the certificates must support.
+@li SubjectKeyId - Used when searching for a certificate that matches a key.
+@li IssuerKeyId - Used when searching for all certs issued by particular cert.
+
+These attributes default to a "don't care" setting.  All attributes that have
+been set must match for a certificate to be returned.
+
+The first version of the list method just takes a filter and a reference to an
+array of cert info objects which it populates with the results of the search.
+For example to list all X509 CA certs on a device:
+
+@code
+void CCertStoreExample::ListCertsL()
+{
+	// iCerts is an RMPointerArray<CCTCertInfo> which will be filled with the certs found 
+	// iCertFilter is a CCertAttributeFilter*, initially set to NULL
+
+	// Create filter object
+	iCertFilter = CCertAttributeFilter::NewL();		
+	iCertFilter->SetFormat(EX509Certificate);
+	iCertFilter->SetOwnerType(ECACertificate);
+
+	iCertStore->List(iCerts, *iCertFilter, iStatus);
+	iState = EListCerts;
+	SetActive();		
+
+	// RunL called when this completes
+}
+@endcode
+
+There are two further List() overloads that allow filtering based on the
+issuer's distinguished name.  These take a single DN to match, and a list of
+possible DNs to match.
+
+@subsection addCert Adding certificates
+
+To add a certificate it is first necessary to determine which actual certificate
+store the new certificate should reside in.  The unified cert store gives access
+to all writable cert stores through the WritableCertStoreCount() and
+WritableCertStore() methods.  Note that if the unified cert store has been
+opened in readonly mode, it will report that there are no writable cert stores
+available.  Writable cert store implement the MCTWritableCertStore interface,
+defined in mctwritablecertstore.h.
+
+Using these methods is much the same as for the equivalent methods to get key
+store managers in the unified key store.  So, to compile a list of the available
+writable cert store, an application might use the following code:
+
+@code
+void CCertStoreExample::GetWritableCertStoreLabelsL()
+{
+	// iLabelList is a RPointerArray<HBufC8>
+
+	for (TInt index = 0 ; index < iCertStore->WritableCertStoreCount() ; ++i)
+	{
+		MCTWritableCertStore& store = iCertStore->WritableCertStore(index);
+		MCTToken& token = store->Token();
+		HBufC* label = token->Label().AllocLC();
+		User::LeaveIfError(iLabelList.Append(label));
+		CleanupStack::Pop(label);
+	}
+}
+@endcode
+
+When a writable cert store has been chosen, the certificate can be added.  The
+Add method takes the following parameters:
+
+@li Label - The label used to refer to the cert in the user interface.
+@li OwnerType - Whether it's a CA, user or peer certificate.
+@li SubjectKeyId - The hash of the subject public key - mandatory for URL certs, optional otherwise
+@li IssuerKeyId - The hash of the issuer public key - optional.
+@li Cert - The certificate data in DER encoded ASN.1.
+
+For example, to add an X509 CA cert, an application might do the following:
+
+@code
+void CCertStoreExample::AddCert()
+{
+	// iCertData is an HBufC8* containing the certificate
+	// iCertLabel is an HBufC* containing the label
+
+	iCertStore->Add(*iCertLabel, ECACert, NULL, NULL, *iCertData, iStatus);
+	iState = EAddingCert;
+	SetActive();
+
+	// RunL called when this completes
+}
+@endcode
+
+@subsection removeCert Removing certificates
+
+Removing a certificate is done by simply calling the Remove() method and passing
+it the CCTCertInfo of the certificate to be removed.  For example:
+
+@code
+void CCertStoreExample::RemoveCert()
+{
+	// iCert is a CCTCertInfo*
+
+	iCertStore->Remove(iCert, iStatus);
+	iState = ERemovingCert;
+	SetActive();
+
+	// RunL called when this completes
+}
+@endcode
+
+@subsection retrieveCert Retrieving certificates
+
+There are two Retrieve() methods - one allows the caller to retrieve the ASN.1
+certificate data and the other the parsed representation, a CCertificate-derived
+object (CCertificate is defined in signed.h).
+
+It is not possible to retrieve the parsed representation of URL certificates -
+the method will complete with KErrNotSupported in this case.
+
+For example, to get the ASN.1 data for a certificate:
+
+@code
+void CCertStoreExample::RetrieveCertData()
+{
+	// iCert is a CCTCertInfo*
+	// iCertData is an HBufC8*
+
+	// Allocate buffer of appropriate length
+	iCertData = HBufC8::NewMaxL(iCert->Size());
+
+	iCertStore->Retrieve(iCert, iCertData->Des(), iStatus);
+	iState = ERetrievingCertData;
+	SetActive();
+
+	// RunL called when this completes
+}
+@endcode
+
+And to get the parsed representation:
+
+@code
+void CCertStoreExample::RetrieveCertObject()
+{
+	// iCert is a CCTCertInfo*
+	// iCertObject is an CCertificate*
+
+	iCertStore->Retrieve(iCert, iCertObject, iStatus);
+	iState = ERetrievingCertObject;
+	SetActive();
+
+	// RunL called when this completes
+}
+@endcode
+
+@subsection certApps Certificate applications and trust
+
+The unified cert store API provides the following methods to get and set the
+applicability and trust settings for certificates:
+
+@li Applications - Get a list of application UIDs for a cert
+@li IsApplicable - Determine whether a cert has a specific application UID
+@li Trused - Determine whether a cert is trusted
+@li SetApplicability - Set the list of application UIDs
+@li SetTrust - Set the trust flag
+
+*/

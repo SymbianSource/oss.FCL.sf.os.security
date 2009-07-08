@@ -1,0 +1,88 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Cryptographic token framework
+*
+*/
+
+
+
+
+/**
+ @file
+*/
+
+
+PRJ_PLATFORMS
+DEFAULT
+
+PRJ_EXPORTS
+../inc/ct/MCTTokenTypeFilter.h 							/epoc32/include/ct/mcttokentypefilter.h
+../inc/ct/TCTAllTokenTypes.h 							/epoc32/include/ct/tctalltokentypes.h
+../inc/ct/CCTTokenTypeInfo.h 							/epoc32/include/ct/ccttokentypeinfo.h
+../inc/ct/MCTTokenType.h 								/epoc32/include/ct/mcttokentype.h
+../inc/ct/MCTTokenInterface.h 							/epoc32/include/ct/mcttokeninterface.h
+../inc/ct/mcttokenobject.h 								/epoc32/include/ct/mcttokenobject.h
+../inc/ct/CCTTokenType_v2.h								/epoc32/include/ct/ccttokentype.h
+../inc/ct/MCTToken.h 									/epoc32/include/ct/mcttoken.h
+../inc/ct/tcttokenobjecthandle.h						/epoc32/include/ct/tcttokenobjecthandle.h
+../inc/ct/TCTTokenTypeAttribute.h						/epoc32/include/ct/tcttokentypeattribute.h
+../inc/ct/TCTFindTokenTypesByInterface.h				/epoc32/include/ct/tctfindtokentypesbyinterface.h
+../inc/ct/TCTFindTokenTypesByInterfaceAndAttribute.h	/epoc32/include/ct/tctfindtokentypesbyinterfaceandattribute.h
+../inc/ct/InterfaceUID.hrh 								/epoc32/include/ct/interfaceuid.hrh
+../inc/CryptoTokenRegistryInfo.rh						/epoc32/include/cryptotokenregistryinfo.rh
+../inc/ct/tcttokenhandle.h								/epoc32/include/ct/tcttokenhandle.h
+../inc/ct/RCPointerArray.h								/epoc32/include/ct/rcpointerarray.h
+../inc/ct/RMPointerArray.h								/epoc32/include/ct/rmpointerarray.h
+../inc/ct/logger.h										/epoc32/include/ct/logger.h
+../inc/ct.h
+../inc_interfaces/MCTAuthObject.h						/epoc32/include/mctauthobject.h
+../inc_interfaces/mcertstore.h 							/epoc32/include/mcertstore.h
+../inc_interfaces/mctcertstore.h 						/epoc32/include/mctcertstore.h
+../inc_interfaces/mctwritablecertstore_v2.h				/epoc32/include/mctwritablecertstore.h
+../inc_interfaces/MCTWritableCertStore.inl				/epoc32/include/mctwritablecertstore.inl
+../inc_interfaces/CCTCertInfo_v2.h 						/epoc32/include/cctcertinfo.h
+../inc_interfaces/MCTCertApps.h							/epoc32/include/mctcertapps.h
+../inc/securitydefs.h
+../inc/securitydefs.inl
+../inc/secdlg.h
+../inc/secdlgImplDefs.h /epoc32/include/secdlgimpldefs.h
+../inc_interfaces/mkeystore_v2.h						/epoc32/include/mkeystore.h
+../inc_interfaces/MCTKeyStore_v2.h						/epoc32/include/mctkeystore.h
+../inc_interfaces/MCTKeyStore_v2.inl					/epoc32/include/mctkeystore.inl
+../inc_interfaces/MCTKeyStoreManager_v2.h				/epoc32/include/mctkeystoremanager.h
+../inc_interfaces/CCertAttributeFilter.h /epoc32/include/ccertattributefilter.h
+
+PRJ_TESTEXPORTS
+
+// ROMKIT includes
+../inc/ctframeworktests.iby /epoc32/rom/include/ctframeworktests.iby
+
+PRJ_MMPFILES
+#ifndef TOOLS
+#ifndef TOOLS2
+CTFinder.mmp
+CTFramework.mmp
+#endif //TOOLS2
+#endif //TOOLS
+
+PRJ_TESTMMPFILES
+#ifndef TOOLS
+#ifndef TOOLS2
+../tframework/TestPlugin.mmp
+../tframework/t_ctframework.mmp
+../tsecdlg/t_secdlg.mmp
+../tsecdlg/t_secdlg_text.mmp
+#endif //TOOLS2
+#endif //TOOLS

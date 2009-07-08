@@ -1,0 +1,49 @@
+/*
+* Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* BLD.INF
+* Builds the security subsystem 
+* This is the bld.inf file for building the secuirity subsystem.  It works for
+* both beech and cedar, using the appropriate macros (if defined) to determine
+* what gets built.
+*
+*/
+
+
+
+
+/**
+ @file
+*/
+
+#ifndef TOOLS2
+// Disable everything except sistools and security_tools for TOOLS2 target
+
+#include "common/group/bld.inf"
+
+#include "testframework/group/bld.inf"
+
+#include "securityconfig/group/bld.inf"
+
+
+#include "swi/group/bld.inf"
+#include "swi/devicetools/group/bld.inf"
+#include "swi/pctools/group/bld.inf"
+
+#include "caf2/test/RefTestAgent/group/bld.inf"
+
+#endif
+
+// Only the SISTOOLS (makesis/signsis) and certapp build with TOOLS2
+#include "swi/sistools/group/bld.inf"

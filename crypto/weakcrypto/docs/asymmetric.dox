@@ -1,0 +1,135 @@
+/**
+	@page asymmetric_cryptography Asymmetric Cryptography
+
+- @ref asymmetricWhat 
+- @ref asymmetricHow 
+
+@section asymmetricWhat What is asymmetric cryptography?
+
+- @ref asymmetricWhatEncryption
+- @ref asymmetricWhatSignature
+
+The base concept of asymmetric cryptography revolves around the existence of two
+keys (instead of a single secret key as in a symmetric system).  In an
+asymmetric cryptosystem, each participant has both a public and a private key.
+For schemes which are thought to be secure, it is believed that deriving the
+private key from the public key, or any transformation resulting from the public
+key, is computationally infeasible.  There are four basic primitives in
+asymmetric cryptography: encryption and decryption, and signing and
+verification.
+
+@subsection asymmetricWhatEncryption Encryption schemes.
+
+In order to encrypt a message with an asymmetric scheme, one peforms a
+well-known transformation on the message using the public key of the intended
+recipient.  Upon receipt, the receiver can decrypt this message using the inverse
+transformation and the associated private key.  Provided that only the intended
+recipient knows the associated private key, it is believed that message secrecy
+between the sender and receiver is achieved.
+
+@subsection asymmetricWhatSignature Signature schemes.
+
+Conversely, in order to digitally sign a message with an asymmetric scheme, one
+performs another well-known transformation on the message using one's own
+private key.  Both the original message and the resulting transformation are
+sent to the intended receipient.  Upon receipt, the receiver can verify that the
+message was signed by the associated private key by peforming the inverse
+operation with the public key as input, and then comparing the received message
+with the message obtained from the transformation of the signature.  
+
+@section asymmetricHow How do I use the asymmetric crypto framework?
+
+The asymmetric crypto framework consists of the following logically separate
+concepts: 
+
+-# Key storage classes (For instance, CRSAPublicKey, CDSAPrivateKey)
+-# Cipher transformation classes (CRSAPKCS1v15Encryptor, CDSASigner)
+-# Signature representative classes (CRSASignature, CDSASignature)
+
+The first and third are simply containers for their represpective concepts.
+Each implementation of item two is responsible for performing one of the four
+primitive operations on some data using a key specified at construction.  If the
+operation is signing or verification, then the transformation outputs a
+signature representative class.  On the other hand, in the case of encryption or
+decryption, input and output consist of binary descriptor data.
+
+Before showing some example code, an important note about object ownership.  In
+general, unless otherwise stated, the following three rules apply.
+-# All key storage and signature representative constructors <B>take
+ownership</B> of objects given to them (typically RIntegers).
+-# All cipher transformation classes <B>only use</B> objects given to them
+(typically key storage classes, signature representatives, and descriptors).
+-# Any functions that return pointers to objects (typically the Signer classes)
+<B>transfer ownership</B> of the returned object to the caller.
+
+@subsection asymmetricHowEncryption Sample code for Encryption/Decryption
+
+The following code illustrates how to encrypt data using an RSA PKCS1 v1.5
+encryptor.  It assumes you already have access to the CRSAPublicKey, rsaPublicKey,
+you wish to encrypt to.
+
+@code
+CRSAPKCS1v15Encryptor* encryptor = CRSAPKCS1v15Encryptor::NewLC(rsaPublicKey);
+//As per rules described above, encryptor does not own rsaPublicKey
+HBufC8* encryptedMessage = HBufC8::NewLC(encryptor->MaxOutputLength());
+encryptor->EncryptL(messageToEncrypt, *encryptedMessage);
+CleanupStack::Pop(encryptedMessage);
+CleanupStack::PopAndDestroy(encryptor); 
+@endcode
+
+To subsequently decrypt, again presuming access to a CRSAPrivateKey,
+rsaPrivateKey.
+
+@code
+CRSAPKCS1v15Decryptor* decryptor = CRSAPKCS1v15Decryptor::NewLC(rsaPrivateKey);
+//As per rules described above, decryptor does not own rsaPrivateKey
+HBufC8* decryptedMessage = HBufC8::NewLC(decryptor->MaxOutputLength());
+encryptor->EncryptL(*decryptedMessage, *encryptedMessage);
+CleanupStack::Pop(decryptedMessage);
+CleanupStack::PopAndDestroy(decryptor); 
+@endcode
+
+@subsection asymmetricHowSigner Sample code for Signing/Verifying
+
+All implemented signature systems (both signing and verifying) do not perform
+any manipulation of the input message prior to performing their internal signing
+mechanism.  For instance, both CRSAPKCS1v15Signer and CDSASigner do not hash the
+data to be signed prior to signing it.  Some people refer to this as a "raw sign
+primitive".  The decision to operate this way was taken because large numbers of
+higher level standards dictate different ways for the data to be hashed prior to
+signing (and similarly for verification) and accomadating all of them
+significantly confused the api.  Instead it is suggested a class that handles
+specification specific (for example, RSA signatures for TLS or X509),
+pre-signing transformation is created.  Upon calling a Final()-like call on such
+a class, it shall return a descriptor that can be "raw signed" by the
+implemented signing primitives.
+
+The following code illustrates how to DSA sign an unhashed descriptor,
+messageToBeSigned given a CDSAPrivateKey, dsaPrivateKey.  In this case, the
+pre-signing transformation required by the DSA is simply a SHA1 hash.  As a
+result, CSHA1 is used as the specification specific, pre-signing transformation
+class.
+
+@code
+CDSASigner* signer = CDSASigner::NewLC(dsaPrivateKey);
+//As per rules described above, signer does not own dsaPrivateKey
+CSHA1* sha1 = CSHA1::NewLC();
+CDSASignature* signature = signer->SignL(sha1->Final(messageToBeSigned));
+//Caller owns signature as per rules described above.
+CleanupStack::PopAndDestroy(2, signer); //sha1, signer
+CleanupStack::PushL(signature);
+@endcode
+
+To subsequently verify given a CDSAPublicKey, dsaPublicKey, and a CDSASignature,
+signature:
+
+@code
+CDSAVerifier* verifier = CDSAVerifier::NewLC(dsaPublicKey);
+//As per rules described above, verifier does not own dsaPublicKey
+CSHA1* sha1 = CSHA1::NewLC();
+TBool result = verifier->VerifyL(sha1->Final(messageToBeVerified), *signature);
+CleanupStack::PopAndDestroy(2, verifier); //sha1, verifier
+@endcode
+
+
+*/

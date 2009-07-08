@@ -1,0 +1,63 @@
+<action>
+	<actionname>None</actionname>
+	<actiontype>startmemfailure</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>CP.01.01</actionname>
+	<actiontype>ValidateWithStore</actiontype>
+	<actionbody>
+		<chain>
+			<root>
+				<certificate>validation\cp_01_01\TrustAnchorCP_01_01.crt</certificate>
+				<label>TrustAnchor_CP_01_01</label>
+			</root>
+			<ee>
+				<certificate>validation\cp_01_01\EndCertificateCP_01_01.crt</certificate>
+				<label>EndCertificate_CP_01_01</label>
+			</ee>
+		</chain>
+		<io>
+			<oresult>Validated OK</oresult>
+		</io>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>CP.01.01</actionname>
+	<actiontype>ValidateWithSuppliedCerts</actiontype>
+	<actionbody>
+		<chain>
+			<root>
+				<certificate>validation\cp_01_01\TrustAnchorCP_01_01.crt</certificate>
+				<label>TrustAnchor_CP_01_01</label>
+			</root>
+			<ee>
+				<certificate>validation\cp_01_01\EndCertificateCP_01_01.crt</certificate>
+				<label>EndCertificate_CP_01_01</label>
+			</ee>
+		</chain>
+		<io>
+			<oresult>Validated OK</oresult>
+		</io>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>None</actionname>
+	<actiontype>stopmemfailure</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>

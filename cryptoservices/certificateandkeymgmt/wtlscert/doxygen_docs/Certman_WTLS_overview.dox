@@ -1,0 +1,223 @@
+/**
+
+@page overview_WTLS WTLS
+\n
+
+@section WTLS_component_overview WTLS Certificate Management component overview
+ 
+The WTLS component provides support for validating WTLS certificate chains. 
+WTLS certificates are used for server authentication in the @ref protocol_WTLS "WTLS protocol". 
+
+WTLS certificate management is implemented as a single DLL, \c WTLSCert.DLL. This includes an implementation of the WTLS 
+certificate class and its components, and an implementation of the WTLS certificate validation algorithm.
+
+Symbian OS supports only @ref WTLS_server_authentication "WTLS server authentication" (class 2), which involves parsing, 
+validating and storing WTLS certificates.
+The WTLS Certificate Management component only offers support for the validation of chains composed exclusively of 
+WTLS certificates. The component offers the following functionality for processing WTLS certificates:
+
+@li ability to parse a set of WTLS certificates, sent from the server, from their binary encoded form into a form in which
+	they are useful, and in which client code can extract interesting information (e.g. name information)
+
+@li	use of these certificates to construct a chain back to a locally stored trusted @ref root_certificate "root certificate"
+
+@li validation of this certificate chain; this includes verifying the signature and validity dates on each @ref certificate.
+
+<hr>
+
+@section WTLS_certificate WTLS certificate
+
+@section basic_data_structures Basic data structures
+
+The following classes derive from their counterparts in \c Crypto.DLL, and add only a set of constructors for construction 
+from encoded binary data:
+@li \c CWTLSValidityPeriod: derived from \c CValidityPeriod
+@li \c CWTLSAlgorithmIdentifier: derived from \c CAlgorithmIdentifier
+@li \c CWTLSSigningAlgorithmIdentifier: derived from \c CSigningAlgorithmIdentifier
+@li \c CWTLSSubjectPublicKeyInfo: derived from \c CSubjectPublicKeyInfo
+@li \c CWTLSRSAPublicKey: derived from \c CRSAPublicKey 
+
+Classes representing public keys are derived from the corresponding classes in \c cryptalg.h and add only a set of 
+constructors for construction from encoded binary data. The WTLS Certificate Management component only offers support for 
+RSA asymmetric algorithms (and RSA with SHA-1).
+
+@section name_forms Name forms
+
+The name forms/identifiers supported are: text strings (Latin-1 and Unicode), and X.500 Distinguished Names.
+The WTLS name is implemented in the \c CWTLSName class and stores the type of the underlying name (as a value for the 
+\c TWTLSNameType enumeration, accessible through the \c CWTLSName::NameType() function) and the encoding of the underlying type 
+(accessible as a pointer descriptor through the \c CWTLSName::NameData() function). The \c CWTLSName class also provides a function 
+to do matching, \c CWTLSName::ExactMatchL(), which returns a boolean value. This function is needed for constructing/validating 
+certificate chains and performs a simple byte comparison of the name forms.
+
+@section text_type Text type
+
+The \c CWTLSText class is provided to represent the text type, and can be constructed from encoded binary data. It provides 
+the function, \c CWTLSText::CharacterSet(), for accessing the character set, which in turn is an integer representing the IANA designated 
+number for the character set. The text can be retreived using the \c CWTLSText::Name() function. \c CWTLSText also provides the function,
+\c CWTLSText::ExactMatchL(), for matching, for which two strings that are the same, but represented in different character sets, 
+should match. This differs from \c CWTLSName::ExactMatchL() for which the same two strings would not match as the bytes 
+would be different.
+
+@section structured_text_type Structured text type
+
+Structured text types are represented by a subclass of \c CWTLSText called \c CWTLSStructuredText. For this type, the name 
+is parsed into a set of fields. Accessors are provided for the mandatory fields: \c CWTLSStructuredText::ServiceName(), \c CWTLSStructuredText::Organization(), 
+\c CWTLSStructuredText::Country(). Optional fields are represented by the \c TWTLSStructuredTextField class. This provides two accessors, 
+\c TWTLSStructuredTextField::Type() and \c TWTLSStructuredTextField::Value(), to return the type of the field (this is the part of the field text on the left hand side of the 
+assignment operator in the name) and its value. To access the optional fields in \c CWTLSStructuredText, functions are 
+provided to return the number of fields, \c CWTLSStructuredText::Count(), and to return a particular field by its index, \c CWTLSStructuredText::FieldByIndex(). It 
+is also possible to access a field value by its type using the \c CWTLSStructuredText::FieldByName() function, giving as a parameter the type of 
+the desired field. This function returns a pointer because the field may not be present, in which case the return value is
+\c NULL. However, the field returned remains the property of \c CWTLSStructuredText, so calling code should not destroy it.
+
+
+@section CWTLSCertificate_class CWTLSCertificate class
+
+The \c CWTLSCertificate class is a subclass of \c CCertificate. It offers eight differing \c CWTLSCertificate::NewL()/NewLC() functions that 
+allow class construction from encoded binary form, streams, or from the @ref  WTLS_certificate_storage "certificate store".
+The \c CWTLSCertificate::IsEqualL() function tests whether two certificates are equal, which is not a simple as it sounds. 
+For @ref X509_certificate "X.509 certificates", equality means that the issuer name and serial number fields are the same. 
+This guarantees equality since a @ref CA "Certification Authority" (CA) must ensure that every certificate it issues has a 
+unique serial number. But WTLS certificates do not include serial numbers, so there seems to be no definition of equality. 
+The equality operator here will use a byte-for-byte comparison of the signatures on the certificates: this should not 
+result in any false positives, but may give false negatives if CAs do naughty things like recertifying the same key (which 
+they have been known to do).
+
+The functions \c CWTLSCertificate::IssuerName() and \c CWTLSCertificate::SubjectName() return the certificate's issuer and subject names, respectively, as 
+@ref name_forms "WTLSName objects". If the certificate is an X.509 certificate, then if the name contains a Common name, 
+that will be returned; otherwise, if the name contains an Organization name, that will be returned. Otherwise, an empty 
+string will be returned. If the certificate is a WTLS certificate, then if the name is an X.500 @ref DN then the same rules
+will apply as for X.509 certificates. If the name is null, an empty string will be returned. If the name is of type text, 
+then if the name is not a 'structured' name, the entire string will be returned; otherwise, the same procedure will be 
+followed as for X.509 certificates.
+
+The \c CWTLSCertificate::ExternalizeL() function externalises the certificate to a stream. This should not be used if client code is using 
+certstore. The \c CWTLSCertificate::InternalizeL() function initialises the certificate from a stream. This should not be called by client 
+code; instead one of the \c CWTLSCertificate::NewL()/NewLC() static factory functions above should be used. If a client is using the 
+certstore component for storage then it should use \c MCTWritableCertStore::AddL() for externalising and 
+\c CWTLSCert::NewL(CCertStore& aStore, const CCertStoreEntry& aEntry) for restoring. The \c CWTLSCertificate::IsTCAL() 
+function tests whether the certificate is capable of signing other certificates. Currently, this only supports structured 
+text variety of WTLS certificates; other certificate types will return \c EFalse. 
+
+
+
+<hr>
+
+@section WTLS_certificate_processing WTLS Certificate processing
+
+This specifies how the certificates are used for authentication: that is, how a collection of certificates is made 
+into a chain terminating at a trusted root, and how that chain is then validated.
+
+The following inputs need to be supplied to the validation process:
+@li the time for which validation is to be performed
+@li a set of one or more encoded WTLS certificates sent from the server
+@li some way of indicating where to find trusted roots to complete the chain.
+
+For WTLS, the server is expected to supply an ordered collection of certificates; that is, the first certificate should be
+the server's own certificate, each subsequent certificate should certify the one immediately preceding it in the chain. 
+Some checks are run on the chain in advance of validation to limit the number of requests made to the 
+@ref WTLS_certificate_storage "certificate store". In particular, the chain is checked to ensure that each parent 
+certificate has the authority to sign subsequent child certificates.  Additionally, the chain is scanned for the earliest
+certificate in the chain that may already be declared to be trusted by the user, therefore cutting down on both retrieval 
+and validation time.  Finally, if no trusted certificate can be found within the given chain, a search of the local store 
+is made to see whether any trusted certificates exist that can complete and validate the chain.
+
+To work around the absence of a means within the WTLS certificate data structure for a @ref CA to indicate whether the 
+entity it is certifying is a CA or an @ref EE "End Entity" (EE), the maximum length of a WTLS certificate chain will be 2:
+that is, there may be no intermediate CAs.
+
+The result is a @ref CWTLSValidationResult_class object indicating the success or failure of the operation, with a reason 
+for failure if appropriate and an integer indicating which certificate in the chain was bad, if appropriate. It is possible
+for client code to iterate through the certificates in the chain to retrieve and examine them.
+
+Client code uses the \c CWTLSCertificate class to do actual validation, using a set of one or more certificates supplied by a 
+server and a local store of trusted root certificates. It uses two public classes, \c CWTLSCertChain and 
+\c CWTLSValidationResult.
+
+@section CWTLSCertChain_class CWTLSCertChain
+
+Validation consists of constructing a chain from a set of one or more certificates supplied by the client, a set of trusted 
+root certificates, and a time for which validation is to be performed.  Each subsequent certificate must directly certify 
+the preceding one. The chain object will attempt to construct a valid chain ending in a trusted root from the encoded 
+certificates supplied by the server and the set of trusted roots.
+
+The chain supplied by the client is limited only by memory considerations.  However, a check of the proposed chain is done
+to attempt to validate the shortest chain possible.  For example, if the client supplied 15 certificates, but the third 
+certificate is marked as trusted in the @ref WTLS_certificate_storage "certificate store", then validation will proceed 
+with only the first three certificates. The remaining 12 certificates are discarded and are no longer part of the chain. 
+
+Validating the chain consists in ensuring that:
+@li the issuer name for each certificate is the same as the subject name on the next certificate in the chain: this is 
+	really guaranteed in the construction process
+@li every certificate is within its validity period for the time specified
+@li the signature on each certificate is valid
+@li all non-self-signed CA certificates contain the appropriate values within the certificate allowing them to sign child
+	certificates. In the case of @ref structured_text_type "WTLS structured text certificates", this is indicated by the 
+	presence of the extension field \c "T=ca" in the subject, where \c T stands for WTLS title.
+
+This class may be constructed in one of two ways:
+
+
+@li @code IMPORT_C static CWTLSCertChain* NewL(RFs& aFs, const TPtrC8& aEncodedCerts, const TUid aClient); @endcode
+	Here, the first parameter is an open file server session, the second is a single descriptor containing a simple 
+	concatenation of one or more encoded WTLS certificates. The third parameter is a UID identifying the client for whom 
+	validation is being performed. With this version of	the function the certstore is used to find candidate root 
+	certificates; only certificates in the store which are trusted by that client will be considered as valid.
+
+@li	@code IMPORT_C static CWTLSCertChain* NewL(RFs& aFs, const TPtrC8& aEncodedCerts, const CArrayPtr<CWTLSCertificate>& aRootCerts); @endcode
+	The only difference here is that rather than using the certstore for root certificates, the client supplies a 
+	collection of WTLS certificates which may be considered candidate roots for the validation process. This version should 
+	be used when clients do not want to use the certificate store provided (for example, an application may require that a 
+	certificate chain can only be completed by a certificate found on the device's WIM). Because they're not using the 
+	certificate store clients don't have to supply a UID.
+
+The \c CWTLSCertChain::ValidateL() function actually does the validation and takes a single parameter, which is the time for which 
+validation should be performed. Clients can find the number of certificates in the chain using the \c CWTLSCertChain::Count() function, and
+retrieve individual certificates using the \c CWTLSCertChain::Cert() function. It should be noted that both of these functions return 
+undefined values after the call to \c CWTLSCertChain::ValidateL() and until the completion of the associated active object. This is because 
+the validation procedure potentially optimises the chain handed to it and thus the chain can change after validation.  
+In summary:
+@li	Before calling \c CWTLSCertChain::ValidateL(), these functions return values consistent with the certificates that have been added to 
+	the chain.
+@li	During the execution of the active object, these return undefined values.
+@li	After the completion of the active object, these functions return values consistent with the chain that was actually 
+	used for validation.  These values may or may not be same as before the call to \c CWTLSCertChain::ValidateL().
+	
+The \c CWTLSCertChain::AppendCertsL() function can be used to append one or more encoded certificates to the certificate chain.
+
+
+@section CWTLSValidationResult_class CWTLSValidationResult
+
+The \c CWTLSValidationResult object encapsulates the result of the validation operation. The \c CWTLSValidationResult::Error() function returns 
+the error status for the chain. Any errors here are considered fatal: validation has failed. The \c CWTLSValidationResult::Warnings() function 
+returns an array of any warnings generated: these may or may not be fatal, depending on the context, which the client is 
+expected to provide. 
+
+
+Class \c TWTLSValidationStatus contains the following public data: \c iReason, and \c iCert.
+The reason for the error is given by \c iReason, while \c iCert gives the index number for the certificate that gave rise 
+to the error. Some errors cannot be blamed on any single certificate, in which case the \c iCert value is meaningless. The 
+same structure is used for errors and for warnings.
+ 
+The following errors are defined in the \c TValidationError enumeration:
+@li \c EChainHasNoRoot: it was not possible to find a trusted root to complete the chain; the \c iCert variable is 
+	meaningless.
+@li \c ESignatureInvalid: signature verification failed; the \c iCert variable is set to the position in the chain of the 
+	certificate whose signature failed to verify.
+@li	\c EDateOutOfRange: the date supplied to the validation algorithm lay outside the validity period for one of the 
+	certificates; the \c iCert variable is set to the position in the chain of the certificate whose validity period did 
+	not include the supplied time.
+
+<hr>
+
+@section WTLS_certificate_storage Certificate storage
+
+Certificate management already provides a means for applications to store certificates, retrieve them from storage, and 
+mark them as trusted or untrusted for various applications. It currently does this using a kind of registration scheme 
+where users of certificate-based authentication supply a UID to the certificate store, and users can edit the certificates
+associated with each UID through a control panel application. When they require validation they supply the UID to the 
+validation component, which uses this to select a set of those certificates in the store that may be considered trust roots 
+for this application. 
+
+*/

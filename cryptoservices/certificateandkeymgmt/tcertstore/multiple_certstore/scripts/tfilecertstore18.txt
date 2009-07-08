@@ -1,0 +1,222 @@
+// CASE18: No Duplicates (ND), Duplicates in Distinct certstore (DD), Duplicates in same certstore (SD), Empty certstore (E)
+// If all of the above are present, do basic operations like List, Add, Retrieve, Delete
+
+// TEST-CASE:         SEC-FILECERTSTORE-0018
+// FILES:             cacerts5.dat, cacerts3.dat, cacerts2.dat, cacerts1.dat, cacerts0.dat
+// LABELS:            Testing XXX Root, Testing XXX Root, Testing ACS Root, TOCSP-Signing5-RSA, Testing ACS Root, Identity ACS Root
+// EXPECTED RESULTS:  All the operations should succeed with KErrNone
+// VARIANT:           UDEB, UREL
+
+// TEST-CASE:         SEC-FILECERTAPPSTORE-0018
+// FILES:             certclients5.dat, certclients3.dat, certclients2.dat, certclients1.dat, certclients0.dat  
+// UIDS:              270506793, 270506793, 270506792, 268478646, 270506792, 268452523 
+// EXPECTED RESULTS:  All the operations should succeed with KErrNone   
+// VARIANT:           UDEB, UREL
+
+
+//! @file
+//! @SYMTestCaseID SEC-FILECERTSTORE-0018
+//! @SYMTestCaseDesc Aggregating and opening a filecertstore
+//! @SYMREQ REQ9983, REQ9986, REQ10141  
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Aggregation and opening of filecertstore</actionname>
+	<actiontype>init</actiontype>
+	<actionbody>
+		<mode>write</mode>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Get the list of CA certificates</actionname>
+	<actiontype>listcert</actiontype>
+	<actionbody>
+		<filter>
+		<ownertype>ca</ownertype>
+		</filter>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<CCTCertInfo><label>Testing XXX Root</label></CCTCertInfo>
+		<CCTCertInfo><label>Testing ACS Root</label></CCTCertInfo>
+		<CCTCertInfo><label>TOCSP-Signing5-RSA</label></CCTCertInfo>
+    <CCTCertInfo><label>Identity ACS Root</label></CCTCertInfo>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Add CAXXX cert</actionname>
+	<actiontype>addcert</actiontype>
+	<actionbody>
+		<format>X509</format>
+		<label>CAXXX</label>
+		<issuerkey></issuerkey>
+		<subjectkey></subjectkey>
+		<certstore>0</certstore>
+		<certfile>c:\rootcerts\SymbianA.der</certfile>
+		<certowner>ca</certowner>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Get the list of CA certificates</actionname>
+	<actiontype>listcert</actiontype>
+	<actionbody>
+		<filter>
+		<ownertype>ca</ownertype>
+		</filter>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<CCTCertInfo><label>Testing XXX Root</label></CCTCertInfo>
+		<CCTCertInfo><label>Testing ACS Root</label></CCTCertInfo>
+		<CCTCertInfo><label>TOCSP-Signing5-RSA</label></CCTCertInfo>
+    <CCTCertInfo><label>Identity ACS Root</label></CCTCertInfo>
+    <CCTCertInfo><label>CAXXX</label></CCTCertInfo>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Retrieve CAXXX cert</actionname>
+	<actiontype>retrieve</actiontype>
+	<actionbody>
+		<label>CAXXX</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Retrieve TOCSP-Signing5-RSA cert</actionname>
+	<actiontype>retrieve</actiontype>
+	<actionbody>
+		<label>TOCSP-Signing5-RSA</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Deleting the certificate CAXXX</actionname>
+	<actiontype>deletecert</actiontype>
+	<actionbody>
+		<certtype>ca</certtype>
+		<label>CAXXX</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Get the list of CA certificates</actionname>
+	<actiontype>listcert</actiontype>
+	<actionbody>
+		<filter>
+		<ownertype>ca</ownertype>
+		</filter>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<CCTCertInfo><label>Testing XXX Root</label></CCTCertInfo>
+		<CCTCertInfo><label>Testing ACS Root</label></CCTCertInfo>
+		<CCTCertInfo><label>TOCSP-Signing5-RSA</label></CCTCertInfo>
+    <CCTCertInfo><label>Identity ACS Root</label></CCTCertInfo>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Delete the writable certificate store manager</actionname>
+	<actiontype>delete</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>  
+
+
+//! @file
+//! @SYMTestCaseID SEC-FILECERTAPPSTORE-0018
+//! @SYMTestCaseDesc Aggregating and opening a filecertappstore
+//! @SYMREQ REQ9983, REQ9989
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Creating a CertificateAppInfoManager</actionname>
+	<actiontype>initappmanager</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Retrieving the clients</actionname>
+	<actiontype>getclients</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<uid>270506793 270506792 268478646 268452523</uid>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Adding client XXX</actionname>
+	<actiontype>addclient</actiontype>
+	<actionbody>
+		<name>XXX</name>
+		<uid>111111111</uid>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Retrieving the clients</actionname>
+	<actiontype>getclients</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<uid>270506793 270506792 268478646 268452523 111111111</uid>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Deleting the client XXX</actionname>
+	<actiontype>removeclient</actiontype>
+	<actionbody>
+		<uid>111111111</uid>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Retrieving the clients</actionname>
+	<actiontype>getclients</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<uid>270506793 270506792 268478646 268452523</uid>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Deleting the CertificateAppInfoManager</actionname>
+	<actiontype>deleteappmanager</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>

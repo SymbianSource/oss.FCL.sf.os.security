@@ -1,0 +1,11 @@
+<action>
+	<actionname>WTLSCERT Syntax Tests</actionname>
+	<actiontype>Syntax</actiontype>
+	<actionbody>
+		<path>\twtlscert\data\</path>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<relnotes name="Security Tools">
+  <purpose>
+    Security related Tools and Applications
+  </purpose>
+
+  <defect number="DEF128001" title="TOOLS2 compilation errors for certapp.cpp on Linux" revision="001">  
+	Included "unistd.h" and "stdio.h" in certapp.cpp. These files are only required for Linux build. 
+  </defect>
+
+</relnotes>

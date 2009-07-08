@@ -1,0 +1,290 @@
+// swicertstore3.txt
+//
+// Test Symbian Signed certificates are present in pre-build SWI cert store
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore1-1
+//! @SYMTestCaseDesc Open the SWI cert store
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Open the SWI cert store</actionname>
+	<actiontype>initswicertstore</actiontype>
+	<actionbody>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore1-2
+//! @SYMTestCaseDesc Get the list of CA certificates
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Get the list of CA certificates</actionname>
+	<actiontype>listcert</actiontype>
+	<actionbody>
+		<filter>
+			<ownertype>ca</ownertype>
+		</filter>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<CCTCertInfo><label>SymbianA</label><readonly>True</readonly></CCTCertInfo>
+		<CCTCertInfo><label>SymbianB</label><readonly>True</readonly></CCTCertInfo>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore1-3
+//! @SYMTestCaseDesc Get the list of user certificates
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Get the list of user certificates</actionname>
+	<actiontype>listcert</actiontype>
+	<actionbody>
+		<filter>
+			<ownertype>user</ownertype>
+		</filter>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore1-4
+//! @SYMTestCaseDesc Retrieve SymbianA cert
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Retrieve SymbianA cert</actionname>
+	<actiontype>retrieve</actiontype>
+	<actionbody>
+		<label>SymbianA</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore1-5
+//! @SYMTestCaseDesc Retrieve SymbianB cert
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Retrieve SymbianB cert</actionname>
+	<actiontype>retrieve</actiontype>
+	<actionbody>
+		<label>SymbianB</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore1-7
+//! @SYMTestCaseDesc Get applications for SymbianA
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Get applications for SymbianA</actionname>
+	<actiontype>getapplications</actiontype>
+	<actionbody>
+		<label>SymbianA</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<uid>268452523 268478646</uid>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore1-8
+//! @SYMTestCaseDesc Get the trust for Root5CA
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Get the trust for SymbianA</actionname>
+	<actiontype>gettrusters</actiontype>
+	<actionbody>
+		<label>SymbianA</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<trust>1</trust>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore1-9
+//! @SYMTestCaseDesc Get applications for SymbianB
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Get applications for SymbianB</actionname>
+	<actiontype>getapplications</actiontype>
+	<actionbody>
+		<label>SymbianB</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<uid>268452523 268478646</uid>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore1-10
+//! @SYMTestCaseDesc Get the trust for SymbianB
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Get the trust for SymbianB</actionname>
+	<actiontype>gettrusters</actiontype>
+	<actionbody>
+		<label>SymbianB</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<trust>1</trust>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore1-13
+//! @SYMTestCaseDesc Get the capabilities for SymbianA
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Get the capabilities for SymbianA</actionname>
+	<actiontype>getcapabilities</actiontype>
+	<actionbody>
+		<label>SymbianA</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<capability>TCB</capability>
+		<capability>CommDD</capability>
+		<capability>PowerMgmt</capability>
+		<capability>MultimediaDD</capability>
+		<capability>ReadDeviceData</capability>
+		<capability>WriteDeviceData</capability>
+		<capability>DRM</capability>
+		<capability>TrustedUI</capability>
+		<capability>ProtServ</capability>
+		<capability>DiskAdmin</capability>
+		<capability>NetworkControl</capability>
+		<capability>AllFiles</capability>
+		<capability>SwEvent</capability>
+		<capability>NetworkServices</capability>
+		<capability>LocalServices</capability>
+		<capability>ReadUserData</capability>
+		<capability>WriteUserData</capability>
+		<capability>Location</capability>
+		<capability>SurroundingsDD</capability>
+		<capability>UserEnvironment</capability>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore1-14
+//! @SYMTestCaseDesc Get the mandatory flag for SymbianA
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Get the mandatory flag for SymbianA</actionname>
+	<actiontype>getmandatory</actiontype>
+	<actionbody>
+		<label>SymbianA</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<mandatory>EFalse</mandatory>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore1-15
+//! @SYMTestCaseDesc Get the capabilities for SymbianB
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Get the capabilities for SymbianB</actionname>
+	<actiontype>getcapabilities</actiontype>
+	<actionbody>
+		<label>SymbianB</label>
+	</actionbody>
+	<actionresult>
+		<capability>TCB</capability>
+		<capability>CommDD</capability>
+		<capability>PowerMgmt</capability>
+		<capability>MultimediaDD</capability>
+		<capability>ReadDeviceData</capability>
+		<capability>WriteDeviceData</capability>
+		<capability>DRM</capability>
+		<capability>TrustedUI</capability>
+		<capability>ProtServ</capability>
+		<capability>DiskAdmin</capability>
+		<capability>NetworkControl</capability>
+		<capability>AllFiles</capability>
+		<capability>SwEvent</capability>
+		<capability>NetworkServices</capability>
+		<capability>LocalServices</capability>
+		<capability>ReadUserData</capability>
+		<capability>WriteUserData</capability>
+		<capability>Location</capability>
+		<capability>SurroundingsDD</capability>
+		<capability>UserEnvironment</capability>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore1-16
+//! @SYMTestCaseDesc Get the mandatory flag for SymbianB
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Get the mandatory flag for SymbianB</actionname>
+	<actiontype>getmandatory</actiontype>
+	<actionbody>
+		<label>SymbianB</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<mandatory>EFalse</mandatory>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore1-19
+//! @SYMTestCaseDesc Deleting the SWI cert store
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Deleting the SWI cert store</actionname>
+	<actiontype>delete</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>

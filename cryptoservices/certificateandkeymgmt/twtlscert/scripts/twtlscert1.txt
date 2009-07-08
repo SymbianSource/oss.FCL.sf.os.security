@@ -1,0 +1,825 @@
+<action>
+	<actionname>WTLSCERT Valdiation Test 01</actionname>
+	<actiontype>Validate</actiontype>
+	<actionbody>
+		<chain>
+			<server>
+				<certificate>\twtlscert\data\wtls-ee.cer</certificate>
+				<label>wtls-ee</label>
+			</server>
+			<root>
+				<certificate>\twtlscert\data\wtls-root.cer</certificate>
+				<label>wtls-root</label>
+			</root>
+		</chain>
+		<io>
+			<oresult>ValidatedOK</oresult>
+		</io>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+	<actionname>WTLSCERT Valdiation Test 02</actionname>
+	<actiontype>Validate</actiontype>
+	<actionbody>
+		<chain>
+			<server>
+				<certificate>\twtlscert\data\symbian-freecerts-wtls.cer</certificate>
+				<label>symbian-freecerts-wtls</label>
+			</server>
+			<root>
+				<certificate>\twtlscert\data\wtls-root.cer</certificate>
+				<label>wtls-root</label>
+			</root>
+		</chain>
+		<io>
+			<oresult>ValidatedOK</oresult>
+		</io>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>WTLSCERT Valdiation Test 03</actionname>
+	<actiontype>Validate</actiontype>
+	<actionbody>
+		<chain>
+			<server>
+				<certificate>\twtlscert\data\will-ent-wtls.cer</certificate>
+				<label>will-ent-wtls</label>
+			</server>
+			<root>
+				<certificate>\twtlscert\data\ent-wtls.cer</certificate>
+				<label>ent-wtls</label>
+			</root>
+		</chain>
+		<io>
+			<oresult>ValidatedOK</oresult>
+		</io>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>WTLSCERT Valdiation Test 04</actionname>
+	<actiontype>Validate</actiontype>
+	<actionbody>
+		<chain>
+			<server>
+				<certificate>\twtlscert\data\william.bamberg@symbian.com.wap</certificate>
+				<label>william.bamberg@symbian.com</label>
+			</server>
+			<root>
+				<certificate>\twtlscert\data\MobileServiceCA.wap</certificate>
+				<label>MobileServiceCA</label>
+			</root>
+		</chain>
+		<io>
+			<oresult>ValidatedOK</oresult>
+		</io>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+	<actionname>WTLSCERT Valdiation Test 05</actionname>
+	<actiontype>Validate</actiontype>
+	<actionbody>
+		<chain>
+			<server>
+				<certificate>\twtlscert\data\wtls-ee-badsig.cer</certificate>
+				<label>wtls-ee-badsig</label>
+			</server>
+			<root>
+				<certificate>\twtlscert\data\wtls-root.cer</certificate>
+				<label>wtls-root</label>
+			</root>
+		</chain>
+		<io>
+			<oresult>SignatureInvalid</oresult>
+		</io>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>WTLSCERT Valdiation Test 06</actionname>
+	<actiontype>Validate</actiontype>
+	<actionbody>
+		<chain>
+			<server>
+				<certificate>\twtlscert\data\wtls-ee.cer</certificate>
+				<label>wtls-ee</label>
+			</server>
+			<root>
+				<certificate>\twtlscert\data\wtls-root-badsig.cer</certificate>
+				<label>wtls-root-badsig</label>
+			</root>
+		</chain>
+		<io>
+			<oresult>SignatureInvalid</oresult>
+		</io>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>WTLSCERT Valdiation Test 07</actionname>
+	<actiontype>Validate</actiontype>
+	<actionbody>
+		<chain>
+			<server>
+				<certificate>\twtlscert\data\will-ent-wtls-badsig.cer</certificate>
+				<label>will-ent-wtls-badsig</label>
+			</server>
+			<root>
+				<certificate>\twtlscert\data\ent-wtls.cer</certificate>
+				<label>ent-wtls</label>
+			</root>
+		</chain>
+		<io>
+			<oresult>SignatureInvalid</oresult>
+		</io>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+	<actionname>WTLSCERT Valdiation Test 08</actionname>
+	<actiontype>Validate</actiontype>
+	<actionbody>
+		<chain>
+			<server>
+				<certificate>\twtlscert\data\will-ent-wtls.cer</certificate>
+				<label>will-ent-wtls</label>
+			</server>
+			<root>
+				<certificate>\twtlscert\data\ent-wtls-badsig.cer</certificate>
+				<label>ent-wtls-badsig</label>
+			</root>
+		</chain>
+		<io>
+			<oresult>SignatureInvalid</oresult>
+		</io>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>WTLSCERT Valdiation Test 09</actionname>
+	<actiontype>Validate</actiontype>
+	<actionbody>
+		<chain>
+			<server>
+				<certificate>\twtlscert\data\william.bamberg@symbian.com-badsig.wap</certificate>
+				<label>william.bamberg@symbian.com-badsig</label>
+			</server>
+			<root>
+				<certificate>\twtlscert\data\MobileServiceCA.wap</certificate>
+				<label>MobileServiceCA</label>
+			</root>
+		</chain>
+		<io>
+			<oresult>SignatureInvalid</oresult>
+		</io>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>WTLSCERT Valdiation Test 10</actionname>
+	<actiontype>Validate</actiontype>
+	<actionbody>
+		<chain>
+			<server>
+				<certificate>\twtlscert\data\william.bamberg@symbian.com.wap</certificate>
+				<label>william.bamberg@symbian.com</label>
+			</server>
+			<root>
+				<certificate>\twtlscert\data\MobileServiceCA-badsig.wap</certificate>
+				<label>MobileServiceCA-badsig</label>
+			</root>
+		</chain>
+		<io>
+			<oresult>SignatureInvalid</oresult>
+		</io>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>WTLSCERT Valdiation Test 11</actionname>
+	<actiontype>Validate</actiontype>
+	<actionbody>
+		<chain>
+			<server>
+				<certificate>\twtlscert\data\will-ent-wtls.cer</certificate>
+				<label>will-ent-wtls</label>
+			</server>
+			<root>
+				<certificate>\twtlscert\data\entrustnetwap.bin</certificate>
+				<label>entrustnetwap</label>
+			</root>
+		</chain>
+		<io>
+			<oresult>ChainHasNoRoot</oresult>
+		</io>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>WTLSCERT Valdiation Test 12</actionname>
+	<actiontype>Validate</actiontype>
+	<actionbody>
+		<chain>
+			<server>
+				<certificate>\twtlscert\data\ent-wtls.cer</certificate>
+				<label>ent-wtls</label>
+			</server>
+			<root>
+				<certificate>\twtlscert\data\ent-wtls.cer</certificate>
+				<label>ent-wtls</label>
+			</root>
+		</chain>
+		<io>
+			<oresult>ValidatedOK</oresult>
+		</io>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>WTLSCERT Valdiation Test 13</actionname>
+	<actiontype>Validate</actiontype>
+	<actionbody>
+		<chain>
+			<server>
+				<certificate>\twtlscert\data\ent-wtls.cer</certificate>
+				<label>ent-wtls</label>
+			</server>
+			<root>
+				<certificate>\twtlscert\data\MobileServiceCA.wap</certificate>
+				<label>MobileServiceCA</label>
+			</root>
+		</chain>
+		<io>
+			<oresult>ChainHasNoRoot</oresult>
+		</io>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>WTLSCERT Valdiation Test 14</actionname>
+	<actiontype>Validate</actiontype>
+	<actionbody>
+		<dateissued>
+			<value>true</value>
+		</dateissued>
+		<chain>
+			<server>
+				<certificate>\twtlscert\data\Vancouver_Canucks.crt</certificate>
+				<label>Vancouver Canucks sText</label>
+			</server>
+			<server>
+				<certificate>\twtlscert\data\Winnipeg_Jets_Missing_CN.crt</certificate>
+				<label>Winnipeg Jets Missing sText</label>
+			</server>
+			<server>
+				<certificate>\twtlscert\data\Montreal_Canadiens.crt</certificate>
+				<label>Montreal Canadiens sText</label>
+			</server>
+			<server>
+				<certificate>\twtlscert\data\Ottawa_Senators.crt</certificate>
+				<label>Ottawa Senators sText</label>
+			</server>
+			<server>
+				<certificate>\twtlscert\data\Toronto_Maple_Leafs.crt</certificate>
+				<label>Toronto Maple Leafs sText</label>
+			</server>
+			<root>
+				<certificate>\twtlscert\data\Canadian_Hockey_Teams.crt</certificate>
+				<label>Canadian Hockey Teams sText</label>
+			</root>
+		</chain>
+		<io>
+			<oresult>ValidatedOK</oresult>
+		</io>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>WTLSCERT Valdiation Test 15</actionname>
+	<actiontype>Validate</actiontype>
+	<actionbody>
+		<dateissued>
+			<value>true</value>
+		</dateissued>
+		<chain>
+			<server>
+				<certificate>\twtlscert\data\Vancouver_Canucks.crt</certificate>
+				<label>Vancouver Canucks sText</label>
+			</server>
+			<server>
+				<certificate>\twtlscert\data\Winnipeg_Jets_Missing_CN.crt</certificate>
+				<label>Winnipeg Jets Missing sText</label>
+			</server>
+			<root>
+				<certificate>\twtlscert\data\Winnipeg_Jets_Missing_CN.crt</certificate>
+				<label>Winnipeg Jets Missing sText</label>
+			</root>
+		</chain>
+		<io>
+			<oresult>ValidatedOK</oresult>
+		</io>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>WTLSCERT Valdiation Test 16</actionname>
+	<actiontype>Validate</actiontype>
+	<actionbody>
+		<dateissued>
+			<value>true</value>
+		</dateissued>
+		<chain>
+			<server>
+				<certificate>\twtlscert\data\Ottawa_Senators.crt</certificate>
+				<label>Ottawa Senators sText</label>
+			</server>
+			<server>
+				<certificate>\twtlscert\data\Toronto_Maple_Leafs.crt</certificate>
+				<label>Toronto Maple Leafs sText</label>
+			</server>
+			<root>
+				<certificate>\twtlscert\data\Canadian_Hockey_Teams.crt</certificate>
+				<label>Canadian Hockey Teams sText</label>
+			</root>
+		</chain>
+		<io>
+			<oresult>ValidatedOK</oresult>
+		</io>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>WTLSCERT Valdiation Test 17</actionname>
+	<actiontype>Validate</actiontype>
+	<actionbody>
+		<dateissued>
+			<value>true</value>
+		</dateissued>
+		<chain>
+			<server>
+				<certificate>\twtlscert\data\Vancouver_Canucks.crt</certificate>
+				<label>Vancouver Canucks sText</label>
+			</server>
+			<server>
+				<certificate>\twtlscert\data\Winnipeg_Jets_Missing_CN.crt</certificate>
+				<label>Winnipeg Jets Missing sText</label>
+			</server>
+			<server>
+				<certificate>\twtlscert\data\Montreal_Canadiens.crt</certificate>
+				<label>Montreal Canadiens sText</label>
+			</server>
+			<server>
+				<certificate>\twtlscert\data\Ottawa_Senators.crt</certificate>
+				<label>Ottawa Senators sText</label>
+			</server>
+			<server>
+				<certificate>\twtlscert\data\Toronto_Maple_Leafs.crt</certificate>
+				<label>Toronto Maple Leafs sText</label>
+			</server>
+			<root>
+				<certificate>\twtlscert\data\Toronto_Maple_Leafs.crt</certificate>
+				<label>Toronto Maple Leafs sText</label>
+			</root>
+			<root>
+				<certificate>\twtlscert\data\Canadian_Hockey_Teams.crt</certificate>
+				<label>Canadian Hockey Teams sText</label>
+			</root>
+		</chain>
+		<io>
+			<oresult>ValidatedOK</oresult>
+		</io>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>WTLSCERT Valdiation Test 18</actionname>
+	<actiontype>Validate</actiontype>
+	<actionbody>
+		<dateissued>
+			<value>true</value>
+		</dateissued>
+		<chain>
+			<server>
+				<certificate>\twtlscert\data\Vancouver_Canucks.crt</certificate>
+				<label>Vancouver Canucks sText</label>
+			</server>
+			<server>
+				<certificate>\twtlscert\data\Winnipeg_Jets_Missing_CN.crt</certificate>
+				<label>Winnipeg Jets Missing sText</label>
+			</server>
+			<server>
+				<certificate>\twtlscert\data\Montreal_Canadiens.crt</certificate>
+				<label>Montreal Canadiens sText</label>
+			</server>
+			<server>
+				<certificate>\twtlscert\data\Ottawa_Senators.crt</certificate>
+				<label>Ottawa Senators sText</label>
+			</server>
+			<server>
+				<certificate>\twtlscert\data\Toronto_Maple_Leafs.crt</certificate>
+				<label>Toronto Maple Leafs sText</label>
+			</server>
+			<root>
+				<certificate>\twtlscert\data\Canadian_Hockey_Teams.crt</certificate>
+				<label>Canadian Hockey Teams sText</label>
+			</root>
+			<root>
+				<certificate>\twtlscert\data\Winnipeg_Jets_Missing_CN.crt</certificate>
+				<label>Winnipeg Jets Missing sText</label>
+			</root>
+		</chain>
+		<io>
+			<oresult>ValidatedOK</oresult>
+		</io>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>WTLSCERT Valdiation Test 19</actionname>
+	<actiontype>Validate</actiontype>
+	<actionbody>
+		<dateissued>
+			<value>true</value>
+		</dateissued>
+		<chain>
+			<server>
+				<certificate>\twtlscert\data\Ottawa_Senators.crt</certificate>
+				<label>Ottawa Senators sText</label>
+			</server>
+			<server>
+				<certificate>\twtlscert\data\Toronto_Maple_Leafs.crt</certificate>
+				<label>Toronto Maple Leafs sText</label>
+			</server>
+			<server>
+				<certificate>\twtlscert\data\Canadian_Hockey_Teams.crt</certificate>
+				<label>Canadian Hockey Teams sText</label>
+			</server>
+			<root>
+				<certificate>\twtlscert\data\wtls-root.cer</certificate>
+				<label>wtls-root</label>
+			</root>
+		</chain>
+		<io>
+			<oresult>ChainHasNoRoot</oresult>
+		</io>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>WTLSCERT Valdiation Test 20</actionname>
+	<actiontype>Validate</actiontype>
+	<actionbody>
+		<dateissued>
+			<value>true</value>
+		</dateissued>
+		<chain>
+			<server>
+				<certificate>\twtlscert\data\Vancouver_Canucks.crt</certificate>
+				<label>Vancouver Canucks sText</label>
+			</server>
+			<server>
+				<certificate>\twtlscert\data\Winnipeg_Jets_Missing_CN.crt</certificate>
+				<label>Winnipeg Jets Missing sText</label>
+			</server>
+			<server>
+				<certificate>\twtlscert\data\Montreal_Canadiens.crt</certificate>
+				<label>Montreal Canadiens sText</label>
+			</server>
+			<server>
+				<certificate>\twtlscert\data\Ottawa_Senators.crt</certificate>
+				<label>Ottawa Senators sText</label>
+			</server>
+			<server>
+				<certificate>\twtlscert\data\Toronto_Maple_Leafs.crt</certificate>
+				<label>Toronto Maple Leafs sText</label>
+			</server>
+			<root>
+				<certificate>\twtlscert\data\Winnipeg_Jets_Missing_CN.crt</certificate>
+				<label>Winnipeg Jets Missing sText</label>
+			</root>
+		</chain>
+		<io>
+			<oresult>ValidatedOK</oresult>
+		</io>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>WTLSCERT Valdiation Test 21</actionname>
+	<actiontype>Validate</actiontype>
+	<actionbody>
+		<dateissued>
+			<value>true</value>
+		</dateissued>
+		<chain>
+			<server>
+				<certificate>\twtlscert\data\Toronto_Maple_Leafs.crt</certificate>
+				<label>Toronto Maple Leafs sText</label>
+			</server>
+			<server>
+				<certificate>\twtlscert\data\wtls-root.cer</certificate>
+				<label>wtls-root</label>
+			</server>
+			<root>
+				<certificate>\twtlscert\data\wtls-root.cer</certificate>
+				<label>wtls-root</label>
+			</root>
+		</chain>
+		<io>
+			<oresult>NamesDontChain</oresult>
+		</io>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>WTLSCERT Valdiation Test 22</actionname>
+	<actiontype>Validate</actiontype>
+	<actionbody>
+		<dateissued>
+			<value>true</value>
+		</dateissued>
+		<chain>
+			<server>
+				<certificate>\twtlscert\data\Vancouver_Canucks.crt</certificate>
+				<label>Vancouver Canucks sText</label>
+			</server>
+			<server>
+				<certificate>\twtlscert\data\Winnipeg_Jets_Missing_CN.crt</certificate>
+				<label>Winnipeg Jets Missing sText</label>
+			</server>
+			<server>
+				<certificate>\twtlscert\data\will-ent-wtls.cer</certificate>
+				<label>will-ent-wtls</label>
+			</server>
+			<server>
+				<certificate>\twtlscert\data\Montreal_Canadiens.crt</certificate>
+				<label>Montreal Canadiens sText</label>
+			</server>
+			<server>
+				<certificate>\twtlscert\data\Ottawa_Senators.crt</certificate>
+				<label>Ottawa Senators sText</label>
+			</server>
+			<server>
+				<certificate>\twtlscert\data\Toronto_Maple_Leafs.crt</certificate>
+				<label>Toronto Maple Leafs sText</label>
+			</server>
+			<root>
+				<certificate>\twtlscert\data\Canadian_Hockey_Teams.crt</certificate>
+				<label>Canadian Hockey Teams sText</label>
+			</root>
+		</chain>
+		<io>
+			<oresult>NotCACert</oresult>
+		</io>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>WTLSCERT Valdiation Test 23</actionname>
+	<actiontype>Validate</actiontype>
+	<actionbody>
+		<dateissued>
+			<value>true</value>
+		</dateissued>
+		<chain>
+			<server>
+				<certificate>\twtlscert\data\Vancouver_Canucks.crt</certificate>
+				<label>Vancouver Canucks sText</label>
+			</server>
+			<server>
+				<certificate>\twtlscert\data\Winnipeg_Jets_Missing_CN.crt</certificate>
+				<label>Winnipeg Jets Missing sText</label>
+			</server>
+			<server>
+				<certificate>\twtlscert\data\Montreal_Canadiens.crt</certificate>
+				<label>Montreal Canadiens sText</label>
+			</server>
+			<server>
+				<certificate>\twtlscert\data\Winnipeg_Jets_Missing_CN.crt</certificate>
+				<label>Winnipeg Jets Missing sText</label>
+			</server>
+			<server>
+				<certificate>\twtlscert\data\Ottawa_Senators.crt</certificate>
+				<label>Ottawa Senators sText</label>
+			</server>
+			<server>
+				<certificate>\twtlscert\data\Toronto_Maple_Leafs.crt</certificate>
+				<label>Toronto Maple Leafs sText</label>
+			</server>
+			<root>
+				<certificate>\twtlscert\data\Canadian_Hockey_Teams.crt</certificate>
+				<label>Canadian Hockey Teams sText</label>
+			</root>
+		</chain>
+		<io>
+			<oresult>NamesDontChain</oresult>
+		</io>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>WTLSCERT Valdiation Test 24</actionname>
+	<actiontype>Validate</actiontype>
+	<actionbody>
+		<dateissued>
+			<value>true</value>
+		</dateissued>
+		<chain>
+			<server>
+				<certificate>\twtlscert\data\Toronto_Maple_Leafs.crt</certificate>
+				<label>Toronto Maple Leafs sText</label>
+			</server>
+			<root>
+				<certificate>\twtlscert\data\Toronto_Maple_Leafs.crt</certificate>
+				<label>Toronto Maple Leafs sText</label>
+			</root>
+		</chain>
+		<io>
+			<oresult>ValidatedOK</oresult>
+		</io>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>WTLSCERT Valdiation Test 25</actionname>
+	<actiontype>Validate</actiontype>
+	<actionbody>
+		<dateissued>
+			<value>true</value>
+		</dateissued>
+		<chain>
+			<server>
+				<certificate>\twtlscert\data\Vancouver_Canucks.crt</certificate>
+				<label>Vancouver Canucks sText</label>
+			</server>
+			<server>
+				<certificate>\twtlscert\data\Winnipeg_Jets_Missing_CN.crt</certificate>
+				<label>Winnipeg Jets Missing sText</label>
+			</server>
+			<server>
+				<certificate>\twtlscert\data\Montreal_Canadiens_Invalid.crt</certificate>
+				<label>Montreal Canadiens Invalid sText</label>
+			</server>
+			<server>
+				<certificate>\twtlscert\data\Ottawa_Senators.crt</certificate>
+				<label>Ottawa Senators sText</label>
+			</server>
+			<server>
+				<certificate>\twtlscert\data\Toronto_Maple_Leafs.crt</certificate>
+				<label>Toronto Maple Leafs sText</label>
+			</server>
+			<root>
+				<certificate>\twtlscert\data\Canadian_Hockey_Teams.crt</certificate>
+				<label>Canadian Hockey Teams sText</label>
+			</root>
+		</chain>
+		<io>
+			<oresult>SignatureInvalid</oresult>
+		</io>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>WTLSCERT Valdiation Test 26</actionname>
+	<actiontype>Validate</actiontype>
+	<actionbody>
+		<dateissued>
+			<value>true</value>
+		</dateissued>
+		<chain>
+			<server>
+				<certificate>\twtlscert\data\Vancouver_Canucks.crt</certificate>
+				<label>Vancouver Canucks sText</label>
+			</server>
+			<server>
+				<certificate>\twtlscert\data\Winnipeg_Jets_Missing_CN.crt</certificate>
+				<label>Winnipeg Jets Missing sText</label>
+			</server>
+			<server>
+				<certificate>\twtlscert\data\Montreal_Canadiens.crt</certificate>
+				<label>Montreal Canadiens sText</label>
+			</server>
+			<server>
+				<certificate>\twtlscert\data\Ottawa_Senators.crt</certificate>
+				<label>Ottawa Senators sText</label>
+			</server>
+			<server>
+				<certificate>\twtlscert\data\Toronto_Maple_Leafs.crt</certificate>
+				<label>Toronto Maple Leafs sText</label>
+			</server>
+			<root>
+				<certificate>\twtlscert\data\Canadian_Hockey_Teams.crt</certificate>
+				<label>Canadian Hockey Teams sText</label>
+			</root>
+			<root>
+				<certificate>\twtlscert\data\Ottawa_Senators.crt</certificate>
+				<label>Ottawa Senators sText</label>
+			</root>
+			<root>
+				<certificate>\twtlscert\data\Vancouver_Canucks.crt</certificate>
+				<label>Vancouver Canucks sText</label>
+			</root>
+			<root>
+				<certificate>\twtlscert\data\Montreal_Canadiens.crt</certificate>
+				<label>Montreal Canadiens sText</label>
+			</root>
+			<root>
+				<certificate>\twtlscert\data\Winnipeg_Jets_Missing_CN.crt</certificate>
+				<label>Winnipeg Jets Missing sText</label>
+			</root>
+			<root>
+				<certificate>\twtlscert\data\Toronto_Maple_Leafs.crt</certificate>
+				<label>Toronto Maple Leafs sText</label>
+			</root>
+		</chain>
+		<io>
+			<oresult>ValidatedOK</oresult>
+		</io>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+

@@ -1,0 +1,40 @@
+/**
+
+@page SS_Cryptalg_howto_find_crypto_strength How to find the crypto strength
+\n
+
+<b>Pre-v.8.0</b>
+
+The \c TCrypto class enables the user software to find out the strength of a crypto library. The example below shows how:
+
+@code
+// 1. Get the crypto strength.
+
+TCrypto::TStrength strength = TCrypto::Strength();
+
+
+// 2. Determine the crypto strength.
+
+switch (strength)
+    {
+    case TCrypto::ECrypto_40:
+        // Using 40 bit key strength.
+        break;
+    case TCrypto::ECrypto_56:
+        // Using 56 bit key strength.
+        break;
+    case TCrypto::ECrypto_64:
+        // Using 64 bit key strength.
+        break;
+    case TCrypto::ECrypto_256:
+        // Using 256 bit key strength.
+        break;
+    case TCrypto::ECrypto_unrestricted:
+        // Using any key strength.
+        break;
+    default:
+    }
+@endcode
+
+
+*/

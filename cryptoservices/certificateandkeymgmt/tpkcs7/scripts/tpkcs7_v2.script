@@ -1,0 +1,95 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+// tpkcs7.script
+
+LOAD_SUITE tpkcs7server
+
+RUN_TEST_STEP 100 tpkcs7server Corrupt     C:\tpkcs7\tpkcs7_v2.ini INVALID1	# Not corrupt
+RUN_TEST_STEP 100 tpkcs7server Corrupt     C:\tpkcs7\tpkcs7_v2.ini CORRUPT1	# Empty
+RUN_TEST_STEP 100 tpkcs7server Corrupt     C:\tpkcs7\tpkcs7_v2.ini CORRUPT2	# Corrupt
+RUN_TEST_STEP 100 tpkcs7server Corrupt     C:\tpkcs7\tpkcs7_v2.ini CORRUPT3	# Corrupt
+RUN_TEST_STEP 100 tpkcs7server Corrupt     C:\tpkcs7\tpkcs7_v2.ini CORRUPT3	# Repeat
+RUN_TEST_STEP 100 tpkcs7server Corrupt     C:\tpkcs7\tpkcs7_v2.ini INVALID2	# Not corrupt
+RUN_TEST_STEP 100 tpkcs7server Corrupt     C:\tpkcs7\tpkcs7_v2.ini GOODFILE1	# Not corrupt
+RUN_TEST_STEP 100 tpkcs7server Corrupt     C:\tpkcs7\tpkcs7_v2.ini GOODFILE1	# Repeat
+RUN_TEST_STEP 100 tpkcs7server Corrupt     C:\tpkcs7\tpkcs7_v2.ini CORRUPT4	# Corrupt
+RUN_TEST_STEP 100 tpkcs7server Corrupt     C:\tpkcs7\tpkcs7_v2.ini GOODFILE2	# Not corrupt
+RUN_TEST_STEP 100 tpkcs7server Corrupt     C:\tpkcs7\tpkcs7_v2.ini GOODFILE3	# Not corrupt
+
+RUN_TEST_STEP 100 tpkcs7server Valid       C:\tpkcs7\tpkcs7_v2.ini INVALID1	# Not valid
+RUN_TEST_STEP 100 tpkcs7server Valid       C:\tpkcs7\tpkcs7_v2.ini GOODFILE1	# Valid
+RUN_TEST_STEP 100 tpkcs7server Valid       C:\tpkcs7\tpkcs7_v2.ini GOODFILE1	# Repeat
+RUN_TEST_STEP 100 tpkcs7server Valid       C:\tpkcs7\tpkcs7_v2.ini INVALID2	# Not valid
+RUN_TEST_STEP 100 tpkcs7server Valid       C:\tpkcs7\tpkcs7_v2.ini INVALID2	# Repeat
+RUN_TEST_STEP 100 tpkcs7server Valid       C:\tpkcs7\tpkcs7_v2.ini GOODFILE2	# Valid
+RUN_TEST_STEP 100 tpkcs7server Valid       C:\tpkcs7\tpkcs7_v2.ini GOODFILE3	# Valid
+
+RUN_TEST_STEP 100 tpkcs7server Content     C:\tpkcs7\tpkcs7_v2.ini INVALID1	# Check content
+RUN_TEST_STEP 100 tpkcs7server Content     C:\tpkcs7\tpkcs7_v2.ini GOODFILE1	# Check content
+RUN_TEST_STEP 100 tpkcs7server Content     C:\tpkcs7\tpkcs7_v2.ini GOODFILE2	# Check long length
+RUN_TEST_STEP 100 tpkcs7server Content     C:\tpkcs7\tpkcs7_v2.ini INVALID2	# Check content
+RUN_TEST_STEP 100 tpkcs7server Content     C:\tpkcs7\tpkcs7_v2.ini GOODFILE3	# Check zero length
+
+RUN_TEST_STEP 100 tpkcs7server Certificate C:\tpkcs7\tpkcs7_v2.ini INVALID1	# Expect fail
+RUN_TEST_STEP 100 tpkcs7server Certificate C:\tpkcs7\tpkcs7_v2.ini INVALID2
+RUN_TEST_STEP 100 tpkcs7server Certificate C:\tpkcs7\tpkcs7_v2.ini GOODFILE1
+RUN_TEST_STEP 100 tpkcs7server Certificate C:\tpkcs7\tpkcs7_v2.ini GOODFILE2
+RUN_TEST_STEP 100 tpkcs7server Certificate C:\tpkcs7\tpkcs7_v2.ini GOODFILE2
+
+RUN_TEST_STEP 100 tpkcs7server Signer      C:\tpkcs7\tpkcs7_v2.ini INVALID1	# Expect fail
+RUN_TEST_STEP 100 tpkcs7server Signer      C:\tpkcs7\tpkcs7_v2.ini INVALID2
+RUN_TEST_STEP 100 tpkcs7server Signer      C:\tpkcs7\tpkcs7_v2.ini GOODFILE1
+RUN_TEST_STEP 100 tpkcs7server Signer      C:\tpkcs7\tpkcs7_v2.ini GOODFILE2
+RUN_TEST_STEP 100 tpkcs7server Signer      C:\tpkcs7\tpkcs7_v2.ini GOODFILE2
+
+RUN_TEST_STEP 100 tpkcs7server EncryptedData C:\tpkcs7\tpkcs7_v2.ini GOOD2_ENCRYPTEDDATA #valid
+RUN_TEST_STEP 100 tpkcs7server EncryptedData C:\tpkcs7\tpkcs7_v2.ini GOOD3_ENCRYPTEDDATA #valid
+RUN_TEST_STEP 100 tpkcs7server EncryptedData C:\tpkcs7\tpkcs7_v2.ini GOOD4_ENCRYPTEDDATA #valid
+RUN_TEST_STEP 100 tpkcs7server EncryptedData C:\tpkcs7\tpkcs7_v2.ini GOOD5_ENCRYPTEDDATA #valid
+RUN_TEST_STEP 100 tpkcs7server EncryptedData C:\tpkcs7\tpkcs7_v2.ini GOOD6_ENCRYPTEDDATA #valid
+RUN_TEST_STEP 100 tpkcs7server EncryptedData C:\tpkcs7\tpkcs7_v2.ini GOOD8_ENCRYPTEDDATA #valid
+RUN_TEST_STEP 100 tpkcs7server EncryptedData C:\tpkcs7\tpkcs7_v2.ini GOOD9_ENCRYPTEDDATA #valid
+
+RUN_TEST_STEP 100 tpkcs7server EncryptedData C:\tpkcs7\tpkcs7_v2.ini GOOD1_ENCRYPTEDDATA #invalid
+RUN_TEST_STEP 100 tpkcs7server EncryptedDataCorrupt C:\tpkcs7\tpkcs7_v2.ini GOOD7_ENCRYPTEDDATA #invalid
+RUN_TEST_STEP 100 tpkcs7server EncryptedData C:\tpkcs7\tpkcs7_v2.ini GOOD10_ENCRYPTEDDATA #invalid
+RUN_TEST_STEP 100 tpkcs7server EncryptedData C:\tpkcs7\tpkcs7_v2.ini GOOD11_ENCRYPTEDDATA #invalid
+
+RUN_TEST_STEP 100 tpkcs7server EncryptedData C:\tpkcs7\tpkcs7_v2.ini GOOD13_ENCRYPTEDDATA #invalid
+RUN_TEST_STEP 100 tpkcs7server EncryptedData C:\tpkcs7\tpkcs7_v2.ini GOOD14_ENCRYPTEDDATA #invalid
+
+RUN_TEST_STEP 100 tpkcs7server EncryptedDataCorrupt C:\tpkcs7\tpkcs7_v2.ini GOOD12_ENCRYPTEDDATA #invalid
+RUN_TEST_STEP 100 tpkcs7server EncryptedDataCorrupt C:\tpkcs7\tpkcs7_v2.ini CORRUPT1                        #empty
+RUN_TEST_STEP 100 tpkcs7server EncryptedDataCorrupt C:\tpkcs7\tpkcs7_v2.ini GOODFILE_ENCRYPTEDDATA_Corrupt2 #corrupt
+
+RUN_TEST_STEP 100 tpkcs7server DigestInfo C:\tpkcs7\tpkcs7_v2.ini GOODFILE_DIGESTINFO                #valid
+RUN_TEST_STEP 100 tpkcs7server DigestInfo C:\tpkcs7\tpkcs7_v2.ini GOODFILE_DIGESTINFO1               #invalid
+RUN_TEST_STEP 100 tpkcs7server DigestInfo C:\tpkcs7\tpkcs7_v2.ini GOODFILE_DIGESTINFO2               #Valid
+RUN_TEST_STEP 100 tpkcs7server DigestInfo C:\tpkcs7\tpkcs7_v2.ini GOODFILE_DIGESTINFO3               #inValid
+RUN_TEST_STEP 100 tpkcs7server DigestInfo C:\tpkcs7\tpkcs7_v2.ini GOODFILE_DIGESTINFO4             #inValid
+
+RUN_TEST_STEP 100 tpkcs7server DigestInfoCorrupt C:\tpkcs7\tpkcs7_v2.ini CORRUPT1                    #empty
+RUN_TEST_STEP 100 tpkcs7server DigestInfoCorrupt C:\tpkcs7\tpkcs7_v2.ini GOODFILE_DIGESTINFO_CORRUPT #corrupt
+
+
+// OOMTEST
+RUN_TEST_STEP 100 tpkcs7server PKCS7OOM                 C:\tpkcs7\tpkcs7_v2.ini OOMTEST1
+
+RUN_TEST_STEP 100 tpkcs7server PKCS7OOM	                C:\tpkcs7\tpkcs7_v2.ini OOMTEST2
+
+RUN_TEST_STEP 100 tpkcs7server PKCS7OOM	                C:\tpkcs7\tpkcs7_v2.ini OOMTEST3
+
+

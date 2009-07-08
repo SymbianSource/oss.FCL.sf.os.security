@@ -1,0 +1,106 @@
+// swicertstore4.txt
+//
+// Test Symbian Signed certificates for the deletion flag
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore1-1
+//! @SYMTestCaseDesc Open the SWI cert store
+//! @SYMREQ INC059712 
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Open the SWI cert store</actionname>
+	<actiontype>initswicertstore</actiontype>
+	<actionbody>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore4-2
+//! @SYMTestCaseDesc Check mulitple readers work
+//! @SYMREQ INC086998
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+       <actionname>Check multiple readers</actionname>
+       <actiontype>multiplereaders</actiontype>
+       <actionbody>
+               <label>Root5CA</label>
+       </actionbody>
+       <actionresult>
+               <return>KErrNone</return>
+       </actionresult>
+</action>    
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore
+//! @SYMTestCaseDesc Get the deletable flag for Root5CA
+//! @SYMREQ INC059712 
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Get the deletable flag for Root5CA</actionname>
+	<actiontype>getdeletable</actiontype>
+	<actionbody>
+		<label>Root5CA</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<deletable>EFalse</deletable>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore
+//! @SYMTestCaseDesc Get the deletable flag for SymbianTestDSACA
+//! @SYMREQ INC059712 
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Get the deletable flag for SymbianTestDSACA</actionname>
+	<actiontype>getdeletable</actiontype>
+	<actionbody>
+		<label>SymbianTestDSACA</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<deletable>EFalse</deletable>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore
+//! @SYMTestCaseDesc Get the deletable flag for SymbianTestRSACA
+//! @SYMREQ INC059712 
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Get the deletable flag for SymbianTestRSACA</actionname>
+	<actiontype>getdeletable</actiontype>
+	<actionbody>
+		<label>SymbianTestRSACA</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<deletable>EFalse</deletable>
+	</actionresult>
+</action>
+
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore
+//! @SYMTestCaseDesc Deleting the SWI cert store
+//! @SYMREQ INC059712 
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Deleting the SWI cert store</actionname>
+	<actiontype>delete</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>

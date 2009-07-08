@@ -1,0 +1,89 @@
+// CASE5: Covers the case 'Duplicates in same certstore' (SD) with corrupt certstore (C) of least order.
+
+// TEST-CASE:         SEC-FILECERTSTORE-0005
+// FILES:             cacerts5.dat, corrupt.dat
+// LABELS:            Testing XXX Root, Testing XXX Root 
+// EXPECTED RESULTS:  Testing XXX Root
+// VARIANT:           UDEB, UREL
+
+// TEST-CASE:         SEC-FILECERTAPPSTORE-0005
+// FILES:             certclients5.dat, corrupt.dat
+// UIDS:              270506793, 270506793
+// EXPECTED RESULTS:  270506793  
+// VARIANT:           UDEB, UREL
+
+
+//! @file
+//! @SYMTestCaseID SEC-FILECERTSTORE-0005-UR
+//! @SYMTestCaseDesc Aggregating and opening a filecertstore
+//! @SYMREQ REQ9983, REQ9986, REQ10141  
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Aggregation and opening of filecertstore</actionname>
+	<actiontype>init</actiontype>
+	<actionbody>
+		<mode>write</mode>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Get the list of CA certificates</actionname>
+	<actiontype>listcert</actiontype>
+	<actionbody>
+		<filter>
+		<ownertype>ca</ownertype>
+		</filter>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<CCTCertInfo><label>Testing XXX Root</label></CCTCertInfo>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Delete the writable certificate store manager</actionname>
+	<actiontype>delete</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>  
+
+
+//! @file
+//! @SYMTestCaseID SEC-FILECERTAPPSTORE-0005-UR
+//! @SYMTestCaseDesc Aggregating and opening a filecertappstore
+//! @SYMREQ REQ9983, REQ9989
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Creating a CertificateAppInfoManager</actionname>
+	<actiontype>initappmanager</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Retrieving the clients</actionname>
+	<actiontype>getclients</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<uid>270506793</uid>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Deleting the CertificateAppInfoManager</actionname>
+	<actiontype>deleteappmanager</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>

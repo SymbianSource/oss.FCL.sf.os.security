@@ -1,0 +1,615 @@
+/**
+@page security_glossary Security glossary
+\n
+A glossary of security terms (mostly non-Symbian specific).
+\n\n
+@ref A, @ref B, @ref C, @ref D, @ref E, @ref F, @ref G, @ref H, @ref I, @ref J, @ref K, @ref L, @ref M, @ref N, @ref O, 
+@ref P, @ref Q, @ref R, @ref S, @ref T, @ref U, @ref V, @ref W, @ref X, @ref Y, @ref Z
+\n @anchor A \n
+
+<table>
+
+<tr><td><b>A</b></td><td></td></tr>
+
+<tr><td>@anchor AES AES</td>
+	<td>Advanced Encryption Standard -- The new conventional symmetric @ref block_cipher "block cipher" chosen by NIST as a 
+	replacement for @ref DES. It can process 128-bit data blocks using 
+	cipher keys with lengths of 128, 192, or 256 bits.</td></tr>
+
+<tr><td>@anchor ASN ASN.1</td>
+	<td>Abstract Syntax Notation 1 (See: <A HREF="http://asn1.elibel.tm.fr/en/introduction/index.htm">ASN.1</A>, 
+	ISO/IEC 8824, and ISO/IEC 8825.) -- A data specification meta-language widely used in @ref public_key_cryptography "public key cryptography" 
+	standards. (Also of interest: <A HREF="ftp://ftp.rsasecurity.com/pub/pkcs/doc/layman.doc">A Layman's Guide to 
+	a Subset of ASN.1, BER, and DER</A>.)</td></tr>
+	
+<tr><td>@anchor asymmetric @anchor Asymmetric Asymmetric Cryptography</td>
+	<td>A form of cryptography in which the 'key' is generated as a key pair: if one key is used for @ref encryption only the 
+	other can be used to decrypt, and vice versa. \n\n
+	Using asymmetric cryptography, the problem of key distribution becomes one of @ref authentication; i.e. how to make sure 
+	that a given key really does belong to the entity that claims to own it. See:
+	@li @ref asymmetric_cryptography
+	@li @ref SS_Cryptalg_asymmetric_ciphers.</td></tr>
+
+<tr><td>@anchor attribute_cert Attribute Certificate</td>
+	<td>A digitally signed data structure including at least an identifier for an individual entity and a set of 
+	attributes, whose function is to bind the entity with the attributes, usually for the purpose of authorisation. 
+	</td></tr>
+
+<tr><td>@anchor authentication @anchor Authentication Authentication</td>
+	<td>Usually used to refer to a property of a communication; that the receiver of a message is able to ascertain its 
+	origin, so an attacker cannot successfully impersonate the sender. </td></tr>
+
+
+
+</table>\n @anchor B \n<table>
+
+<tr><td><b>B</b></td><td></td></tr>
+
+<tr><td>@anchor BER BER</td>
+	<td>Basic Encoding Rules for @ref ASN "ASN.1", as defined in X.690. (Also of interest: 
+	<A HREF="ftp://ftp.rsasecurity.com/pub/pkcs/doc/layman.doc">A Layman's Guide to a Subset of ASN.1, BER, and DER</A>.)
+	</td></tr>
+	
+<tr><td>@anchor block_cipher Block Cipher</td>
+	<td>A class of symmetric algorithm in which several bits of the input data are encrypted at once in a fixed-size 
+	block. The cipher and its mode of operation define the block size: the @ref plaintext is split up into appropriately-sized 
+	blocks and each block is fed into the cipher. </td></tr>
+	
+	
+	
+</table>\n @anchor C \n<table>
+	
+<tr><td><b>C</b></td><td></td></tr>
+
+<tr><td>@anchor CA CA</td>
+	<td>Certification Authority -- An organisation that performs the following functions in a hierachical @ref PKI: 
+	@li	providing trusted @ref root_certificate "'root' certificates" to users (@ref EE "End Entities"), by supplying them with the CA's @ref public_key "public key" via 
+		out-of-band means. 
+	@li certifying End Entities (@ref EE "EE"s) by generating and distributing certificates for them. The certified @ref EE is the 
+		subject of the @ref certificate; the CA is the issuer. The CA validates the certificate holder's identity and 'signs' 
+		the @ref certificate so that it cannot be tampered with or forged. The @ref certificate issued by the CA binds a particular 
+		@ref public_key "public key" to the name of the @ref EE the @ref certificate identifies.
+	@li supporting certificate revocation and revocation checking: if an @ref EE suspects that their key has been compromised, 
+		they can contact the CA that issued it, who will then revoke their @ref certificate.
+	 
+	A CA will always have a root certificate-signing key pair that must be authenticated to End Entities via @ref out_of_band "out of band"
+	channels. This key pair is not logically certified by anything, but it is usually distributed inside a self-signed 
+	@ref certificate to afford some degree of tamper evidency. \n\n
+	However, CAs do not have to use their root key pair to issue certificates directly to End Entities. For organizational 
+	reasons and to reduce the exposure of keys, a CA may have a single root signing key pair, which it uses to certify a 
+	set of subordinate key pairs that in turn are used to certify End Entities. Also, CAs may certify the signing keys 
+	of other CAs by issuing cross certificates, which enable interoperation between two distinct @ref PKI "PKI"s.</td></tr>
+
+<tr><td>@anchor CA_certificate CA Certificate 
+	<td>A @ref certificate held by a @ref CA: the key pair associated with it is used for signing certificates issued by that 
+	@ref CA. May or may not be self-signed.</td></tr>
+
+<tr><td>@anchor CBC CBC</td>
+	<td>Cipher Block Chaining -- A cryptographic mode for @ref block_cipher "block ciphers". It is an @ref encryption method that protects 
+	against block replay attacks by making the encryption of a cipher block dependent on all blocks that precede it. 
+	Before it is encrypted, the @ref plaintext is XORed with the previous @ref ciphertext block (which has been stored in a 
+	feedback register). After the encryption, the resulting ciphertext is again stored in the feedback register, to 
+	be XORed with the next plaintext block, and so on until the end of the message.</td></tr>
+
+<tr><td>@anchor certificate @anchor certificates Certificate</td>
+	<td>For our purposes, this is the same thing as a @ref public_key_certificate "public key certificate".</td></tr>
+
+<tr><td>@anchor ciphermode Ciphermode</td>
+	<td> description</td></tr>
+
+<tr><td>@anchor ciphertext Ciphertext</td>
+	<td>The output of an @ref encryption operation, or the input to a @ref decryption operation.</td></tr>
+
+<tr><td>@anchor CLDC CLDC</td>
+	<td><A HREF="http://java.sun.com/products/cldc/">J2ME Connected Limited Device Configuration</A> -- Serves the market consisting of personal, mobile, and 
+	connected information devices. This configuration includes some new classes designed specifically to fit the 
+	needs of small-footprint devices.</td></tr>
+
+<tr><td>@anchor client_authentication Client Authentication</td>
+	<td>In a secure client-server protocol such as @ref TLS, the process in which the client authenticates itself to 
+	the server, so the server knows who it's talking to. \n See @ref WTLS_client_authentication "client authentication in WTLS". </td></tr>
+
+<tr><td>Client/User/End Entity Certificate</td>
+	<td>A @ref certificate issued by a @ref CA to an end entity, @ref EE, who may use it to demonstrate their 
+	ownership of the key pair associated with it.</td></tr>  
+
+<tr><td>@anchor CRL CRL</td>
+	<td>Certificate Revocation List -- A list of (identifiers for) @ref certificates that have been revoked by a 
+	particular @ref CA. The use of CRLs is for maintaining access to servers in a network, in a @ref PKI; in some cases, 
+	@ref OCSP has superseded CRL. See:
+	@li <A HREF="http://www.ietf.org/rfc/rfc2459.txt">RFC2459</A> 
+	-- Internet @ref X509 "X.509" @ref PKI Certificate and CRL Profile 
+	@li <A HREF="http://www.ietf.org/rfc/rfc3279.txt">RFC3279</A> 
+	-- Algorithms and Identifiers for the Internet @ref X509 "X.509" @ref PKI Certificate and Certificate Revocation List 
+	(@ref CRL) Profile
+	@li <A HREF="http://www.ietf.org/rfc/rfc3280.txt">RFC3280</A> 
+	-- Internet @ref X509 "X.509" @ref PKI Certificate and Certificate Revocation List (@ref CRL) Profile. 
+	</td></tr>
+
+<tr><td>@anchor cross_certificate Cross Certificate</td>
+	<td>A @ref certificate issued by a @ref CA which certificates another @ref CA's @ref root_certificate "root certificate". This is way of uniting two distinct 
+	certification hierarchies.</td></tr>  
+
+
+
+</table>\n @anchor D \n<table>
+
+<tr><td><b>D</b></td><td></td></tr>
+
+<tr><td>@anchor decryption Decryption</td>
+	<td>The process of turning encrypted data (called @ref ciphertext) into the original information (called 
+	@ref plaintext) using a cryptographic algorithm parameterised with a key.</td></tr>  
+
+<tr><td>@anchor DER DER</td>
+	<td>Distinguished Encoding Rules -- A set of rules for encoding @ref ASN "ASN.1" data structures as a byte stream, which 
+	has the property that any given @ref ASN "ASN.1" data structure will always encode to the same byte stream. DER is a 
+	subset of @ref BER. (Also of interest: 
+	<A HREF="ftp://ftp.rsasecurity.com/pub/pkcs/doc/layman.doc">A Layman's Guide to a Subset of ASN.1, BER, and DER</A>.)
+	</td></tr>
+	
+<tr><td>@anchor DES DES</td>
+	<td>Data Encryption Standard -- A symmetric @ref block_cipher "block cipher" (that is the U.S. and international standard) used for 
+	@ref encryption and @ref decryption. A 64-bit block cipher with a 56-bit key organized as 16 rounds of operations. </td></tr>
+	
+<tr><td>@anchor digital_signature Digital Signature</td>
+	<td>A structure linking some data and a @ref private_key "private key". A digital signature may be generated by the application of a 
+	private key to some piece of data. The original data may be reconstructed by applying the corresponding @ref public_key "public key", 
+	demonstrating that the signature could only have been generated by someone with access to the private key.\n\n
+	Digital signatures have two primary uses: to demonstrate someone's identity by signing some challenge, as in 
+	@ref client_authentication "client authentication" in @ref TLS, in which the client signs a @ref hash of the messages that have been exchanged; 
+	and more strongly, for someone to demonstrate their acceptance of some human-processable information (e.g. 
+	'Please withdraw £10,000 from my bank account') as in the @ref WMLScript Crypto API SignText function.\n\n
+	See: an introduction to @ref Security_signatures.</td></tr>
+	
+<tr><td>@anchor DN DN</td>
+	<td>Distinguished Name -- An @ref ASN "ASN.1" structure containing various attributes (name-value pairs) that together 
+	uniquely identify the entity for certification purposes. \n\n
+	The name used in @ref X509_certificate "X.509 certificates" is the X.500 Distinguished Name, which describes a path 
+	through an X.500 Directory Information Tree. Conventionally, a DN comprises <i> at least </i> three attributes: a user's 
+	name/ID (e.g., \c cn=Fred \c Bloggs), an organization name (e.g., \c o=Symbian \c UK \c Ltd), and a country designation 
+	(e.g., \c c=GB ).
+	</td></tr>
+	
+<tr><td>@anchor DSA DSA</td>
+	<td>Digital Signature Algorithm -- A NIST-approved @ref asymmetric algorithm. It can only be used for generating 
+	and verifying @ref digital_signature "digital signatures", not for @ref encryption. 
+	See: The <A HREF="http://www.itl.nist.gov/fipspubs/fip186.htm">Digital Signature Standard</A>.
+	</td></tr>
+
+
+
+</table>\n @anchor E \n<table>
+
+<tr><td><b>E</b></td><td></td></tr>
+
+<tr><td>@anchor ECB ECB</td>
+	<td>Electronic Codebook -- A cryptographic mode for @ref block_cipher "block ciphers". It is a mode that encrypts 
+	blocks of @ref plaintext to corresponding blocks of @ref ciphertext. Given use of the same key, a block of plaintext 
+	will always encrypt to the same block of ciphertext.</td></tr>
+
+<tr><td>@anchor ECC ECC</td>
+	<td>Elliptical Curve Cryptography -- An @ref asymmetric @ref encryption technique based on elliptic curve theory that 
+	can be used to create faster, smaller, and more efficient cryptographic keys.</td></tr>
+
+<tr><td>@anchor encryption Encryption</td>
+	<td>The process of turning meaningful data (called @ref plaintext) into meaningless gibberish (called @ref ciphertext)
+	using a cryptographic algorithm parameterised with a key.</td></tr>
+
+<tr><td>@anchor EE EE</td>
+	<td>End Entity -- A leaf node in a certification hierarchy: any entity in a @ref PKI which has a @ref certificate, but is
+	not allowed to issue its own certificates.</td></tr>
+
+
+
+</table>\n @anchor F \n<table>
+
+<tr><td><b>F</b></td><td></td></tr>
+
+
+
+</table>\n @anchor G \n<table>
+
+<tr><td><b>G</b></td><td></td></tr>
+
+
+
+</table>\n @anchor H \n<table>
+
+<tr><td><b>H</b></td><td></td></tr>
+
+<tr><td>@anchor hash Hash</td>
+	<td>Hash algorithms take a variable-length input and produce a fixed length output known as a digest, or hash, of the 
+	input. For cryptographic purposes they need to be one-way functions: it should not be possible to deduce the input 
+	from the digest, or even any part of the input. Also, it should be hard to find collisions: that is, two different 
+	inputs that produce the same output. See: 
+	@li @ref cryptographic_hash
+	@li @ref SS_Cryptalg_hash_algorithms.</td></tr>  
+
+<tr><td>@anchor HMAC HMAC</td>
+	<td>Keyed-Hashing for Message Authentication -- A mechanism for message @ref authentication using cryptographic hashes. It 
+	can be used with any iterative cryptographic @ref hash function, e.g., @ref MD5, @ref SHA "SHA-1", in combination with a secret 
+	shared key. The cryptographic strength of HMAC depends on the properties of the underlying @ref hash function.</td></tr>  
+
+
+
+</table>\n @anchor I \n<table>
+
+<tr><td><b>I</b></td><td></td></tr>
+
+<tr><td>@anchor ICC ICC</td>
+	<td>Integrated Circuit Card -- A removable card with at least data storage and sometimes processing.</td></tr>
+
+<tr><td>@anchor IPSec IPSec</td>
+	<td>IP Security Protocol -- A standard providing @ref secrecy and @ref authentication at the network or 
+	datagram layer of network communication. IPSec is mandatory in IPv6. \n 
+	See: <A HREF="http://www.ietf.org/html.charters/ipsec-charter.html">IPSec Working Group</A>.</td></tr>
+
+
+
+</table>\n @anchor J \n<table>
+
+<tr><td><b>J</b></td><td></td></tr>
+
+
+
+</table>\n @anchor K \n<table>
+
+<tr><td><b>K</b></td><td></td></tr>
+
+
+
+</table>\n @anchor L \n<table>
+
+<tr><td><b>L</b></td><td></td></tr>
+
+
+
+</table>\n @anchor M \n<table>
+
+<tr><td><b>M</b></td><td></td></tr>
+
+<tr><td>@anchor MD2 MD2</td>
+	<td>Legacy @ref hash algorithm. Considered insecure.</td></tr>
+
+<tr><td>@anchor MD5 MD5</td>
+	<td>Legacy @ref hash algorithm. Considered vulnerable.</td></tr>
+
+<tr><td>@anchor message_digest_algorithm Message Digest Algorithm</td>
+	<td>Same as a @ref hash algorithm. </td></tr>
+
+<tr><td>@anchor MIDP MIDP</td>
+	<td><A HREF="http://www.jcp.org/en/jsr/detail?id=118">Mobile Information Device Profile (JSP-118)</A>.
+	-- A set of Java APIs that is generally implemented on the @ref CLDC "Connected Limited Device Configuration" (CLDC). 
+	It provides a basic J2ME application runtime environment targeted at mobile information devices, such as 
+	mobile phones and two-way pagers. The MIDP specification addresses issues such as user interface, persistent storage, 
+	networking, and application model.</td></tr>
+
+
+
+</table>\n @anchor N \n<table>
+
+<tr><td><b>N</b></td><td></td></tr>
+	
+<tr><td>@anchor nonrepudiation Non-repudiation</td>
+	<td>The process by which it is assured that an entity making a declaration cannot subsequently deny having made it: 
+	so I can't claim that I never wrote that cheque. </td></tr>
+
+
+
+</table>\n @anchor O \n<table>
+
+<tr><td><b>O</b></td><td></td></tr>
+
+<tr><td>@anchor OAEP OAEP</td>
+	<td>Optimal Asymmetric Encryption Padding -- OAEP is a method for encoding messages, and addresses a potential 
+	vulnerability in <A HREF="http://www.rsasecurity.com/rsalabs/pkcs/pkcs-1/index.html">PKCS#1</A>. Padding means extra 
+	bits concatenated with a key, password, or @ref plaintext. @ref Padding helps against dictionary attacks.</td></tr>
+
+<tr><td>@anchor OCSP OCSP</td>
+	<td>@ref X509 "X.509" Internet Public Key Infrastructure Online Certificate Status Protocol -- A simple request/response 
+	protocol. To establish whether a given @ref certificate or list of certificates has/have been revoked, a client forms an 
+	OCSP request and sends this to an OCSP server. The server maintains revocation information in the form of, say, 
+	Certificate Revocation Lists (@ref CRL "CRL"s). The server replies to the client with a signed OCSP response, stating for
+	each certificate whether the status is Good, Revoked, or Unknown. This response in turn is checked to ensure that it
+	is valid, and that it is from an entity trusted for performing revocation checking.
+	See: 
+	@li <A HREF="http://www.ietf.org/rfc/rfc2560.txt">RFC2560</A>
+	-- @ref X509 "X.509" Internet @ref PKI Online Certificate Status Protocol - OCSP
+	@li @ref overview_OCSP overview. </td></tr>
+
+<tr><td>@anchor OID OID</td>
+	<td>Object Identifier -- A universal constant uniquely associated with an object type used in @ref ASN "ASN.1".</td></tr>
+
+<tr><td>@anchor OS OS Element</td>
+	<td>A discrete, identifiable entity within a ROM file that implements a set of interfaces. Examples of 
+	OS Elements include independently instantiable classes within DLLs, bitmaps within an MBM file, resource 
+	entries within a resource file. An OS Element identifies a part of a ROM file that could in principle be 
+	factored out or removed if it becomes architecturally advisable.</td></tr>
+
+<tr><td>@anchor out_of_band Out Of Band</td>
+	<td>A channel of communication that is distinct from the channel which we are using cryptography to try to secure, 
+	and which is secure on its own terms; that is, its security is not dependent on the cryptography we are using. 
+    A common example of an out of band channel is a motorcycle courier. 
+ </td></tr>
+
+
+</table>\n @anchor P \n<table>
+
+<tr><td><b>P</b></td><td></td></tr>
+
+<tr><td>@anchor Padding @anchor padding Padding</td>
+	<td>Extending the size of a block of @ref plaintext to, say, a 64-bit block by addition of a regular or random pattern. 
+	For example, for use with @ref ECB. See: 
+	@li @ref rsa_padding
+	@li @ref symmetric_ciphers.</td></tr>
+
+<tr><td>@anchor PKCS PKCS</td>
+	<td><A HREF="http://www.rsasecurity.com/rsalabs/pkcs/index.html">Public-Key Cryptography Standards</A>.</td></tr>
+
+<tr><td><A HREF="http://www.rsasecurity.com/rsalabs/pkcs/pkcs-10/index.html">PKCS#10</A></td>
+	<td>@ref PKI standard that describes how to construct @ref certificate requests.</td></tr>
+
+<tr><td>@anchor PKG PKG file</td>
+	<td>A text file that defines a @ref SIS file. The PKG file is passed to the MAKESIS tool to produce the 
+	@ref SIS file.</td></tr>
+
+<tr><td>@anchor PKI PKI</td>
+	<td>Public Key Infrastructure -- A way of modelling real-world trust relationships that enables users of 
+	@ref public_key_cryptography "public key cryptography" to have confidence in the ownership of the @ref public_key "public keys" they are using. A PKI consists of: 
+	@li a trusted third party (@ref TTP)
+	@li an @ref out_of_band "out of band" means of distributing the @ref TTP's @ref public_key_certificate "public key certificate" to @ref relying_party "relying parties"
+	@li a means of distributing other certificates to @ref relying_party "relying parties"
+	@li arrangements for the @ref revocation and renewal of these certificates 
+	@li certificate management and validation software on the @ref relying_party "relying party's" computer 
+
+	The TTP uses its signing key pair to create certificates for other entities, which relying parties can use to 
+	authenticate these other entities. 
+
+	We can classify PKIs according to whether they are hierachical or flat. In hierachical PKIs, such as the one defined
+	in the PKIX set of standards, there is a distinction between users of the PKI such as End Entities (@ref EE "EE"s) and 
+	@ref relying_party "relying parties", and entities responsible for issuing and distributing certificates such as @ref CA "CA"s and 
+	@ref RA "RA"s. In a flat PKI such as the @ref web_of_trust "web of trust" underpinning @ref PGP, there are no entities whose sole role is
+	to issue certificates; instead users of the PKI certify each other. </td></tr>
+
+<tr><td>@anchor PKIX PKIX</td>
+	<td>Public-Key Infrastructure (X.509) -- A profile of @ref X509 "X.509" for the internet. See: 
+	@li @ref Certman_X509_Certificate_Validation
+	@li <A HREF="http://www.ietf.org/rfc/rfc2459.txt">RFC2459</A> 
+	-- Internet X.509 Public Key Infrastructure Certificate and CRL Profile.)</td></tr>
+
+<tr><td>@anchor plaintext Plaintext</td>
+	<td>The output of an @ref decryption operation, or the input to a @ref encryption operation.</td></tr>
+
+<tr><td>@anchor PGP PGP</td>
+	<td>Pretty Good Privacy -- A very widely-used @ref encryption and digital signing program.</td></tr> 
+
+<tr><td>@anchor private_key Private Key</td>
+	<td>In the context of @ref public_key_cryptography "public key cryptography", the private half of the key pair.</td></tr>
+
+<tr><td>@anchor public_key Public Key</td>
+	<td>In the context of @ref public_key_cryptography "public key cryptography", the public half of the key pair.</td></tr>
+
+<tr><td>@anchor public_key_certificate Public Key Certificate</td>
+	<td>A digitally signed structure including at least an identifier for an individual entity and a @ref public_key "public key", whose 
+	function is to bind the entity with the key. </td></tr>
+
+<tr><td>@anchor public_key_cryptography Public Key Cryptography</td>
+	<td>A common application of @ref asymmetric cryptography in which one half of the key pair is kept secrect 
+	(the @ref private_key "private key") and the other half is published (the @ref public_key "public key"). See:  
+	@li @ref asymmetric_cryptography
+	@li @ref Security_intro_PKC.</td></tr>
+
+
+
+</table>\n @anchor Q \n<table>
+
+<tr><td><b>Q</b></td><td></td></tr>
+
+
+
+</table>\n @anchor R \n<table>
+
+<tr><td><b>R</b></td><td></td></tr>
+
+<tr><td>@anchor RA Registration Authority</td>
+	<td>An organization responsible for registering new @ref certificate users in a @ref PKI, e.g. by gathering and verifying 
+	information which identifies the @ref certificate applicant.</td></tr> 
+
+<tr><td>@anchor revocation Revocation</td>
+	<td>The term used for asserting that a @ref certificate is no longer valid: for example, because the @ref private_key "private key" 
+	associated with it has been compromised.</td></tr>
+
+<tr><td>@anchor relying_party Relying Party</td>
+	<td>An entity who relies on the authenticity of a @ref public_key "public key".</td></tr>
+
+<tr><td>@anchor root_certificate Root Certificate</td>
+	<td>The @ref certificate of a @ref TTP "trusted third party". A certificate directly trusted by a @ref relying_party "relying party" 
+	that is, trust in it is not established by cryptographic means, but trust in it is the prerequisite for establishing 
+	trust in the entity which the relying party is trying to authenticate. Trust in a root certificate must be established
+	through @ref out_of_band "out of band" means. A root certificate may or may not be self signed.\n\n
+	See: @ref certman_certstore_root_cert_management.</td></tr> 
+
+<tr><td>@anchor RSA <A HREF="http://www.rsasecurity.com/rsalabs/rsa_algorithm/index.html">RSA</A></td>
+	<td>A @ref public_key "public key" algorithm used for both @ref encryption and @ref digital_signature "digital signatures", named after its creators: 
+	Rivest, Shamir, and Adleman.</td></tr>
+
+
+</table>\n @anchor S \n<table>
+
+<tr><td><b>S</b></td><td></td></tr>
+
+<tr><td>@anchor secrecy Secrecy</td>
+	<td>This means that access to information is controlled: for example, it means that two entities (e.g. people, 
+	machines, processes) are able to communicate with one another without any other entities being able to access the 
+	information communicated, or that an entity may store some information and be assured that only this entity will be 
+	able to access it.</td></tr>  
+
+<tr><td>@anchor SHA SHA-1</td>
+	<td>Secure Hash Algorithm 1 -- A widely used @ref hash algorithm, producing a 160-bit digest.  </td></tr>
+
+<tr><td>@anchor server_authentication Server Authentication</td>
+	<td>In a secure client-server protocol such as @ref TLS, the process in which the server authenticates itself to the 
+	client, so the client knows to whom it's talking. \n See: @ref WTLS_server_authentication "Server authentication in WTLS".</td></tr>
+
+<tr><td>@anchor SignText SignText</td>
+	<td>A function defined in the @ref WMLScript Crypto API that provides application-level @ref authentication and 
+	@ref nonrepudiation "non-repudiation" for transactions. </td></tr>
+
+
+<tr><td>@anchor SIS SIS file</td>
+	<td>A binary package file containing all the files for an installation, as well as metadata describing which 
+	directory to install them into, dependencies, etc..\n
+	See: @ref overview_SWI overview.</td></tr>
+
+<tr><td>@anchor Stub SIS Stub file</td>
+	<td>A @ref SIS file containing only the metadata, and not the files. After the installation, this file is archived 
+	on the device for uninstallation purposes, etc..</td></tr>
+
+<tr><td>@anchor SMIME S/MIME</td>
+	<td><A HREF="http://www.ietf.org/html.charters/smime-charter.html">Secure/Multipurpose Internet Mail Extensions</A> 
+	-- Provides a consistent way to send and receive secure MIME data. S/MIME provides the following cryptographic 
+	security services for electronic messaging applications: @ref authentication, message integrity and @ref nonrepudiation "non-repudiation" of 
+	origin (using @ref digital_signature "digital signatures") and privacy and data security (using @ref encryption); see 
+	<A HREF="http://www.ietf.org/rfc/rfc2633.txt">RFC2633</A> -- S/MIME Version 3 Message Specification.
+	</td></tr>
+
+<tr><td>@anchor SSL SSL</td>
+	<td>Secure Sockets Layer -- A protocol for securing network	connections that provides @ref authentication, @ref encryption, and 
+	data integrity using @ref PKI "Public Key Infrastructure" (PKI). Precursor to @ref TLS. SSL has been through three versions: 
+	the first two are considered insecure, and the third is almost identical to @ref TLS.</td></tr>
+
+<tr><td>@anchor stream_cipher Stream Cipher</td>
+	<td>A class of symmetric algorithm that is initialised with a key, then outputs a stream of pseudorandom bits. 
+	This 'keystream' is typically XOR-ed with the @ref plaintext to generate the @ref ciphertext. So they encrypt a bit of 
+	plaintext at a time. </td></tr>
+
+<tr><td>@anchor symmetric_cryptography Symmetric Cryptography</td>
+	<td>A form of cryptography in which the same key is used for @ref encryption and @ref decryption.\n\n 
+	Symmetric cryptography is fast, but suffers from the problem of how to distribute the key privately. @ref Asymmetric 
+	cryptography is an attempt to alleviate the key distribution problem, by reducing the requirement for the distributed 
+	key from one of privacy to one of @ref authentication. See:
+	@li @ref symmetric_ciphers
+	@li @ref SS_Cryptalg_symmetric_ciphers.</td></tr>
+
+
+</table>\n @anchor T \n<table>
+
+<tr><td><b>T</b></td><td></td></tr>
+
+<tr><td>@anchor TLS TLS</td>
+	<td>Transport Layer Security -- A protocol that provides communications secrecy, and optionally @ref authentication, 
+	over the Internet TCP/IP. The protocol allows client/server applications to communicate in a way that is designed to 
+	prevent eavesdropping, tampering, or message forgery.
+	
+	In this protocol a client connects to a server; the two then perform a handshake in which they exchange a 
+	symmetric key by using @ref asymmetric cryptography, which is then used to encrypt their communications, 
+	providing the @ref secrecy element. Without the @ref authentication element, @ref secrecy is not very useful; although 
+	only client and server can understand the data exchanged, the client doesn't know who the server is or vice versa. TLS 
+	provides the capability for @ref WTLS_server_authentication "server authentication", in which the client establishes who the server is, and 
+	@ref client_authentication "client authentication" in which the server establishes who the client is. \n\n
+	See: <A HREF="http://www.ietf.org/rfc/rfc2246.txt">RFC2246</A> --
+	The TLS Protocol). TLS is the successor to the @ref SSL "Secure Sockets Layer" (SSL). (Also, see: @ref WTLS.)</td></tr>
+
+<tr><td>@anchor TTP TTP</td>
+	<td>Trusted Third Party -- An entity whose @ref public_key "public key" is known to a @ref relying_party "relying party" due to its having been received 
+	via @ref out_of_band "out of band" means, and which is trusted to issue @ref public_key_certificate "public key certificates" for other entities not directly 
+	known to the relying party. A @ref CA is a type of TTP. </td></tr>
+
+
+</table>\n @anchor U \n<table>
+
+<tr><td><b>U</b></td><td></td></tr>
+
+<tr><td>@anchor URI URI</td>
+	<td>Uniform Resource Identifier -- A way to identify some content on the Internet, typically through the use of an 
+	identifier for the scheme (e.g. HTTP) through which the content may be accessed, and an identifier for the 
+	content that makes sense within that scheme. 
+	The most common form of URI is a Web page address, which is a particular form or subset of URI called a Uniform 
+	Resource Locator (URL).</td></tr>
+
+
+
+</table>\n @anchor V \n<table>
+
+<tr><td><b>V</b></td><td></td></tr>
+
+
+
+</table>\n @anchor W \n<table>
+
+<tr><td><b>W</b></td><td></td></tr>
+
+<tr><td>@anchor WAP WAP</td>
+	<td></td><A HREF="http://www.wapforum.org/index.htm">Wireless Application Protocol</A> -- A secure specification 
+	that enables users to access information instantly using devices such as mobile phones, pagers, two-way radios, 
+	smartphones and communicators. The WAP defines a set of protocols in transport, security, transaction, session, and 
+	application layers to enable the creation of advanced mobile services.</td></tr>
+
+<tr><td>@anchor web_of_trust  Web of Trust</td>
+	<td>The set of social relationships between users of @ref PGP that enables them to sign each others' keys, essentially
+	providing a @ref PKI for this technology.</td></tr>
+
+<tr><td>@anchor WIM WIM</td>
+	<td><A HREF="http://www.wmlclub.com/docs/especwap2.0/WAP-260-WIM-20010712-a.pdf">Wireless Identity Module</A> 
+	-- Used in performing @ref WTLS and application level security functions, and especially, to store and process 
+	information needed for user identification and @ref authentication. Examples of WIM implementations are a Subscriber 
+	Identity Module (SIM) card or an external smart card.</td></tr>
+
+<tr><td>@anchor WMLScript WMLScript Crypto API</td>
+	<td>A @ref WAP Forum standard that defines cryptographic functions in WML, the scripting language used in @ref WAP. 
+	It defines a function for creating signed objects called @ref SignText.</td></tr>
+
+<tr><td>@anchor WTLS WTLS</td>
+	<td><A HREF="http://www.wmlclub.com/docs/especwap2.0/WAP-261-WTLS-20010406-a.pdf">Wireless Transport Layer Security</A>
+	-- The security layer of the @ref WAP, providing privacy, data integrity and @ref authentication for WAP services. 
+	It is a @ref WAP variant of @ref TLS and defines its own lightweight @ref certificate format. \n\n
+	See: @ref overview_WTLS overview. </td></tr>
+
+<tr><td>@anchor WTLS_certificate WTLS certificate</td>
+	<td>@ref WAP variant of @ref X509_certificate "X.509 certificates".\n\n
+	See: @ref overview_WTLS overview.</td></tr>
+
+
+</table>\n @anchor X \n<table>
+
+<tr><td><b>X</b></td><td></td></tr>
+
+<tr><td>@anchor X509 X.509</td>
+	<td>A widely used standard for digital certificates. See: 
+	@li @ref Certman_X509_Certificate_Validation
+	@li <A HREF="http://www.ietf.org/rfc/rfc2459.txt">RFC2459</A> 
+	-- Internet @ref X509 "X.509" @ref PKI Certificate and @ref CRL Profile 
+	@li <A HREF="http://www.ietf.org/rfc/rfc3280.txt">RFC3280</A> 
+	-- Internet @ref X509 "X.509" @ref PKI Certificate and @ref CRL "Certificate Revocation List" Profile. 
+     </td></tr>
+
+<tr><td>@anchor X509_certificate  X.509 certificate</td>
+	<td>A widely used type of @ref public_key_certificate "public key certificate", part of the now largely moribund X.500 series of standards.\n\n
+	An X.509 certificate is a person's/company's @ref public_key "public key" digitally signed by a trusted third party and wrapped with 
+	attribute data such as identifying names. A hierarchy of certificates is often used tracing back to a single root 
+	@ref CA_certificate "CA certificate". If a user trusts the @ref CA, then they can trust that the @ref certificate belongs to the 
+	person/company given within the certificate. Using the public key within the certificate, they can then verify that 
+	other data has originated from the certificate owner via the use of @ref digital_signature "digital signatures" created using the corresponding
+	@ref private_key "private key". @ref X509 "X.509" basically defines the certificate format.</td></tr>
+
+
+
+</table>\n @anchor Y \n<table>
+
+<tr><td><b>Y</b></td><td></td></tr>
+
+
+</table>\n @anchor Z \n<table>
+
+<tr><td><b>Z</b></td><td></td></tr>
+
+<tr><td>@anchor zlib zlib</td>
+	<td>zlib is designed to be a free, general-purpose, legally unencumbered (i.e., not covered by any patents) lossless
+	 data-compression library for use on virtually any computer hardware and operating system. zlib was written by 
+	 Jean-loup Gailly (compression) and Mark Adler (decompression). See: 
+	 @li <A HREF="http://www.ietf.org/rfc/rfc1950.txt">RFC1950, zlib format</A>
+	 @li <A HREF="http://www.ietf.org/rfc/rfc1951.txt">RFC1951, deflate format</A>
+	 @li <A HREF="http://www.ietf.org/rfc/rfc1952.txt">RFC1952, gzip</A>.</td></tr>
+
+</table>
+*/

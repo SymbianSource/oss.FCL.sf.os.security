@@ -1,0 +1,91 @@
+<action>
+	<actionname>None</actionname>
+	<actiontype>startmemfailure</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Opening a writable certificate store manager</actionname>
+	<actiontype>init</actiontype>
+	<actionbody>
+		<mode>write</mode>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>None</actionname>
+	<actiontype>stopmemfailure</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Retrieving number of writable certificate store manager</actionname>
+	<actiontype>CUnifiedCertStore WritableCertStoreCount</actiontype>
+	<actionbody>
+		<storeindex>0</storeindex>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<numberofstores>1</numberofstores>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Retrieving number of read-only certificate store manager</actionname>
+	<actiontype>CUnifiedCertStore ReadOnlyCertStoreCount</actiontype>
+	<actionbody>
+		<storeindex>0</storeindex>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<numberofstores>0</numberofstores>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Retrieving number of certificate store manager</actionname>
+	<actiontype>CUnifiedCertStore CertStoreCount</actiontype>
+	<actionbody>
+		<storeindex>0</storeindex>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<numberofstores>1</numberofstores>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>None</actionname>
+	<actiontype>startmemfailure</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Deleting the writable certificate store manager</actionname>
+	<actiontype>delete</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>None</actionname>
+	<actiontype>stopmemfailure</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>

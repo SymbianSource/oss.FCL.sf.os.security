@@ -1,0 +1,23 @@
+// CASE6: corrupt certstore (C), only this file is present under ROM drive (single)
+
+// TEST-CASE:         SEC-SWICERTSTORE-0006
+// FILES:             corrupt.dat
+// LABELS:            -n.a- 
+// EXPECTED RESULTS:  KErrNone, with successful creation of empty certificate entry list under system drive.
+// VARIANT:           UDEB, UREL
+
+//! @file
+//! @SYMTestCaseID SEC-SWICERTSTORE-0006
+//! @SYMTestCaseDesc Open the SWI cert store
+//! @SYMREQ REQ9981, REQ9983, REQ10141 
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Open the SWI cert store</actionname>
+	<actiontype>initswicertstore</actiontype>
+	<actionbody>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>

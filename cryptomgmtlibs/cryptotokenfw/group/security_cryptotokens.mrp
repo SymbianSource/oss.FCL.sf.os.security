@@ -1,0 +1,13 @@
+component	security_cryptotokens
+source	\sf\os\security\cryptomgmtlibs\cryptotokenfw
+binary	\sf\os\security\cryptomgmtlibs\cryptotokenfw\group	all
+exports	\sf\os\security\cryptomgmtlibs\cryptotokenfw\group
+notes_source	\component_defs\release.src
+
+
+#  == IPR section auto-inserted from distribution.policy files  ==
+ipr E 
+ipr T \sf\os\security\cryptomgmtlibs\cryptotokenfw\tframework
+ipr T \sf\os\security\cryptomgmtlibs\cryptotokenfw\tsecdlg
+
+# == end auto-inserted section ==

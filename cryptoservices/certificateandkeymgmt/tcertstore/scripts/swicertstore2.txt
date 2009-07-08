@@ -1,0 +1,368 @@
+// swicertstore2.txt
+//
+// Test access to SWI cert store through unified cert store
+// This is run in configuration 4, with only the swi cert store present
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore2-1
+//! @SYMTestCaseDesc Open a writable unified cert store
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Open a writable unified cert store</actionname>
+	<actiontype>init</actiontype>
+	<actionbody>
+		<mode>write</mode>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore2-2
+//! @SYMTestCaseDesc Get number of writable cert stores
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Get number of writable cert stores</actionname>
+	<actiontype>CUnifiedCertStore WritableCertStoreCount</actiontype>
+	<actionbody>
+		<storeindex>0</storeindex>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<numberofstores>0</numberofstores>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore2-3
+//! @SYMTestCaseDesc Get number of read-only cert stores
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Get number of read-only cert stores</actionname>
+	<actiontype>CUnifiedCertStore ReadOnlyCertStoreCount</actiontype>
+	<actionbody>
+		<storeindex>0</storeindex>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<numberofstores>1</numberofstores>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore2-4
+//! @SYMTestCaseDesc Get number of cert stores
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Get number of cert stores</actionname>
+	<actiontype>CUnifiedCertStore CertStoreCount</actiontype>
+	<actionbody>
+		<storeindex>0</storeindex>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<numberofstores>1</numberofstores>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore2-3.2.1.6
+//! @SYMTestCaseDesc Retrieving the store informations
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>3.2.1.6,Retrieving the store informations</actionname>
+	<actiontype>CCTTokenTypeInfo Attributes</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore2-6
+//! @SYMTestCaseDesc Get the list of CA certificates
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Get the list of CA certificates</actionname>
+	<actiontype>listcert</actiontype>
+	<actionbody>
+		<filter>
+			<ownertype>ca</ownertype>
+		</filter>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<CCTCertInfo><label>Root5CA</label><readonly>True</readonly></CCTCertInfo>
+		<CCTCertInfo><label>SymbianTestDSACA</label><readonly>True</readonly></CCTCertInfo>
+		<CCTCertInfo><label>SymbianTestRSACA</label><readonly>True</readonly></CCTCertInfo>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore2-6b
+//! @SYMTestCaseDesc Get the list of CA certificates filtered by label 'Root5CA'
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Get the list of CA certificates filtered by label 'Root5CA'</actionname>
+	<actiontype>listcert</actiontype>
+	<actionbody>
+		<filter>
+			<ownertype>ca</ownertype>
+			<label>Root5CA</label>
+		</filter>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<CCTCertInfo><label>Root5CA</label><readonly>True</readonly></CCTCertInfo>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore2-6c
+//! @SYMTestCaseDesc Get the list of CA certificates filtered by label 'SymbianTestDSACA'
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Get the list of CA certificates filtered by label 'SymbianTestDSACA'</actionname>
+	<actiontype>listcert</actiontype>
+	<actionbody>
+		<filter>
+			<ownertype>ca</ownertype>
+			<label>SymbianTestDSACA</label>
+		</filter>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<CCTCertInfo><label>SymbianTestDSACA</label><readonly>True</readonly></CCTCertInfo>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore2-7
+//! @SYMTestCaseDesc Get the list of user certificates
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Get the list of user certificates</actionname>
+	<actiontype>listcert</actiontype>
+	<actionbody>
+		<filter>
+			<ownertype>user</ownertype>
+		</filter>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore2-7b
+//! @SYMTestCaseDesc Get the list of user certificates filtered by label CertLabel
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Get the list of user certificates filtered by label CertLabel</actionname>
+	<actiontype>listcert</actiontype>
+	<actionbody>
+		<filter>
+			<ownertype>user</ownertype>
+			<label>CertLabel</label>
+		</filter>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore2-8
+//! @SYMTestCaseDesc Retrieve Root5CA cert
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Retrieve Root5CA cert</actionname>
+	<actiontype>retrieve</actiontype>
+	<actionbody>
+		<label>Root5CA</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore2-9
+//! @SYMTestCaseDesc Retrieve SymbianTestDSACA cert
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Retrieve SymbianTestDSACA cert</actionname>
+	<actiontype>retrieve</actiontype>
+	<actionbody>
+		<label>SymbianTestDSACA</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore2-10
+//! @SYMTestCaseDesc Retrieve SymbianTestRSACA cert
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Retrieve SymbianTestRSACA cert</actionname>
+	<actiontype>retrieve</actiontype>
+	<actionbody>
+		<label>SymbianTestRSACA</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore2-11
+//! @SYMTestCaseDesc Get applications for Root5CA
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Get applications for Root5CA</actionname>
+	<actiontype>getapplications</actiontype>
+	<actionbody>
+		<label>Root5CA</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<uid>268452523</uid>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore2-12
+//! @SYMTestCaseDesc Get the trust for Root5CA
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Get the trust for Root5CA</actionname>
+	<actiontype>gettrusters</actiontype>
+	<actionbody>
+		<label>Root5CA</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<trust>1</trust>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore2-13
+//! @SYMTestCaseDesc Get applications for SymbianTestDSACA
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Get applications for SymbianTestDSACA</actionname>
+	<actiontype>getapplications</actiontype>
+	<actionbody>
+		<label>SymbianTestDSACA</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<uid>268452523 268478646</uid>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore2-14
+//! @SYMTestCaseDesc Get the trust for SymbianTestDSACA
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Get the trust for SymbianTestDSACA</actionname>
+	<actiontype>gettrusters</actiontype>
+	<actionbody>
+		<label>SymbianTestDSACA</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<trust>1</trust>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore2-15
+//! @SYMTestCaseDesc Get applications for SymbianTestRSACA
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Get applications for SymbianTestRSACA</actionname>
+	<actiontype>getapplications</actiontype>
+	<actionbody>
+		<label>SymbianTestRSACA</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<uid>268452523 268478646</uid>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore2-16
+//! @SYMTestCaseDesc Get the trust for SymbianTestRSACA
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Get the trust for SymbianTestRSACA</actionname>
+	<actiontype>gettrusters</actiontype>
+	<actionbody>
+		<label>SymbianTestRSACA</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<trust>1</trust>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-swicertstore2-17
+//! @SYMTestCaseDesc Deleting the unified cert store
+//! @SYMREQ REQ0000
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Deleting the unified cert store</actionname>
+	<actiontype>delete</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
