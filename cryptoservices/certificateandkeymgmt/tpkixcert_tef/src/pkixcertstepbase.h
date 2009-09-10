@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file 
  @internalTechnology
@@ -26,9 +24,9 @@
 #ifndef PKIXCERTSTEPBASE_H
 #define PKIXCERTSTEPBASE_H
 
-#include <testexecutestepbase.h>
+#include <test/testexecutestepbase.h>
 #include <e32std.h>
-#include <pkixCertChain.h>
+#include <pkixcertchain.h>
 #include <x509cert.h>
 
 

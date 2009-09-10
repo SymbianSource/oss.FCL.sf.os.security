@@ -17,7 +17,7 @@
 
 
 #include <swicertstore.h>
-#include <implementationproxy.h>
+#include <ecom/implementationproxy.h>
 
 const TImplementationProxy ImplementationTable[] =
 	{

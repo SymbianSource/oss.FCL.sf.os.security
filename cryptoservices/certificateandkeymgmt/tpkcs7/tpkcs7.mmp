@@ -18,8 +18,6 @@
 */
 
 
-
-
 /**
  @file
 */
@@ -39,6 +37,7 @@ SOURCE			validate.cpp
 SOURCE			tcmsstep.cpp
 
 USERINCLUDE		.
+USERINCLUDE		../inc
 SYSTEMINCLUDE	/epoc32/include
 SYSTEMINCLUDE	/epoc32/include/test
 
@@ -54,3 +53,5 @@ LIBRARY			cryptography.lib
 LIBRARY			crypto.lib
 LIBRARY			x500.lib
 LIBRARY                 pbe.lib
+
+SMPSAFE

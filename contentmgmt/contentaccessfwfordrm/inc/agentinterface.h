@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2003-2008 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2003-2009 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -16,12 +16,10 @@
 */
 
 
-
-/** 
-@file
-
-@publishedPartner
-@released
+/**
+ @file
+ @publishedPartner
+ @released
 */
 
 #ifndef __AGENTINTERFACE_H__
@@ -71,6 +69,17 @@ namespace ContentAccess
 		 @capability DRM Access to DRM protected content is not permitted for processes without DRM capability. Access to unprotected content is unrestricted
 		 */
 		virtual void DataSizeL(TInt &aSize) = 0;
+		
+#ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+		/**
+		 This is the 64bit version of DataSizeL. Implementing this function should take advantage of 64bit
+		 file system and use RFile::Size64(TInt64 &). If this function is not implemented, fallback to 32bit 
+		 DataSizeL will be provided by CAF automatically.
+		 
+		 @see DataSizeL(TInt &aSize)
+		*/
+		virtual void DataSize64L(TInt64 &aSize);
+#endif //SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
 		
 		/**
 		 Allows a client to verify that the intent is supported by the
@@ -248,6 +257,17 @@ namespace ContentAccess
 		*/
 		virtual TInt Seek(TSeek aMode, TInt& aPos) = 0;
 
+#ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+		/**
+		  This is the 64bit version of Seek. Implementing this function should take advantage of 64bit
+		  file system and use RFile::Seek64(TSeek, TInt64 &). If this function is not implemented, fallback to 32bit 
+		  Seek will be provided by CAF automatically.
+		  
+		  @see Seek(TSeek aMode, TInt& aPos)
+		*/
+		virtual TInt Seek64(TSeek aMode, TInt64& aPos);
+#endif //SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+		
 		/** 
 		Allows an application to request the modification of a property 
 		within the agent handling this content. The agent may or may not
@@ -285,7 +305,8 @@ namespace ContentAccess
 		@return KErrNone if the attributes were retrieved successfully.
 		@return KErrPermissionDenied if the access to the protected content is not permitted by the CAF Agent.
 		@return Otherwise one of the CAF error codes defined in \c caferr.h  or one of the 
-				other system-wide error codes for any other errors.				 
+				other system-wide error codes for any other errors.
+		@capability DRM Access to DRM protected content is not permitted for processes without DRM capability. Access to unprotected content is unrestricted 				
 		*/
 		virtual TInt GetAttributeSet(RAttributeSet& aAttributeSet) = 0;
 
@@ -343,6 +364,18 @@ namespace ContentAccess
 		 @capability DRM Access to DRM protected content is not permitted for processes without DRM capability. Access to unprotected content is unrestricted 
 		*/
 		virtual TInt Read(TInt aPos, TDes8& aDes, TInt aLength, TRequestStatus& aStatus);
+		
+#ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+		/**  
+		 This is the 64bit version of CAgentData::Read(TInt aPos, TDes8& aDes, TInt aLength, TRequestStatus& aStatus)
+		 Implementing this function should take advantage of 64bit file system and use RFile::Seek64(TSeek, TInt64 &) to get to
+		 the position in file specified by aPos. If this function is not implemented, fallback to 32bit 
+		 Read will be provided by CAF automatically. 
+		 
+		 @see Read(TInt aPos, TDes8& aDes, TInt aLength, TRequestStatus& aStatus)
+		*/
+		virtual TInt Read64(TInt64 aPos, TDes8& aDes, TInt aLength, TRequestStatus& aStatus);
+#endif //SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
 		};
 
 	/**	Defines the agent interface allowing clients to browse the objects 
@@ -641,7 +674,6 @@ namespace ContentAccess
 		@return KErrNotReady if the agent was not expecting WriteData() to be called at this point.
 		@return Otherwise one of the other CAF error codes defined in \c caferr.h  or one of the 
 				other system-wide error codes for any other errors.
-		@capability DRM Importing DRM protected content is not permitted for processes without DRM capability. 
 		*/
 		virtual TInt WriteData(const TDesC8& aData)=0;
 
@@ -653,7 +685,6 @@ namespace ContentAccess
 		@return KErrNotReady if the agent was not expecting WriteDataComplete() to be called at this point.
 		@return Otherwise one of the other CAF error codes defined in \c caferr.h  or one of the 
 				other system-wide error codes for any other errors.		
-		@capability DRM Importing DRM protected content is not permitted for processes without DRM capability. 
 		*/
 		virtual TInt WriteDataComplete()=0;
 
@@ -672,7 +703,6 @@ namespace ContentAccess
 						to be called at this point. Otherwise one of the other CAF error codes 
 						defined in \c caferr.h  or one of the other standard system-wide 
 						error codes for any other errors.
-		@capability DRM Importing DRM protected content is not permitted for processes without DRM capability. 
 		*/
 		virtual void WriteData(const TDesC8& aData, TRequestStatus& aStatus)=0;
 
@@ -690,7 +720,6 @@ namespace ContentAccess
 						to be called at this point. Otherwise one of the other CAF error codes 
 						defined in \c caferr.h  or one of the other standard system-wide 
 						error codes for any other errors.
-		@capability DRM Importing DRM protected content is not permitted for processes without DRM capability. 
 		*/
 		virtual void WriteDataComplete(TRequestStatus& aStatus)=0;
 
@@ -714,7 +743,6 @@ namespace ContentAccess
 
 		@param aIndex The zero-based index of the file (must be less than the value returned by OutputFileCountL().
 		@return The CSupplierOutputFile for this object.
-		@capability DRM Importing DRM protected content is not permitted for processes without DRM capability. 
 		*/
 		virtual CSupplierOutputFile& OutputFileL(TInt aIndex) = 0;
 
@@ -726,7 +754,6 @@ namespace ContentAccess
 		The client can then decide whether or not to continue the import.
 		 
 		@return	The state of the import operation.
-		@capability DRM Importing DRM protected content is not permitted for processes without DRM capability. 
 		*/
 		virtual TImportStatus GetImportStatus() const = 0;
 
@@ -1056,6 +1083,22 @@ namespace ContentAccess
 		*/
 		virtual TInt GetAttribute(TInt aAttribute, TInt& aValue, const TVirtualPathPtr& aVirtualPath) = 0;
 
+		/**  Get a content's attribute from a file specified by file handle. Can be used when the source file is in the client's private directory.
+	
+		@param aAttribute The attribute to retrieve, from ContentAccess::TAttribute.
+		@param aValue Used to return the value of the attribute.
+		@param aFile The file handle for the file containing the content object.
+		@param aUniqueId The unique id of the content object.
+		@return Whether the attribute value was updated.
+		@return KErrNone if the attribute value was updated.
+		@return KErrNotFound if the URI or the object with the given UniqueId inside the file was not found.
+		@return KErrCANotSupported if the feature or the requested attribute is not supported for this content object.
+		@return Otherwise one of the other CAF error codes defined in \c caferr.h  or one of the 
+				other system-wide error codes for any other errors.
+		@capability DRM Access to DRM protected content is not permitted for processes without DRM capability. Access to unprotected content is unrestricted. 
+		*/
+		IMPORT_C virtual TInt GetAttribute(TInt aAttribute, TInt& aValue, RFile& aFile, const TDesC& aUniqueId);
+		
 		/** Get a set of attributes from a content object
 
 		@param aAttributeSet The set of attributes to query and update.
@@ -1069,6 +1112,21 @@ namespace ContentAccess
 		*/
 		virtual TInt GetAttributeSet(RAttributeSet& aAttributeSet, const TVirtualPathPtr& aVirtualPath) = 0;
 		
+		/** Get a content's set of attributes from a file specified by file handle. Can be used when the source file is in the client's private directory.
+
+		@param aAttributeSet The set of attributes to query and update.
+		@param aFile The file handle for the file containing the content object.
+		@param aUniqueId The unique id of the content object.
+		@return Whether the attribute set was updated.
+		@return KErrNone if the attribute set was updated successfully.
+		@return KErrNotFound if the content object was not found.
+		@return KErrCANotSupported if the feature not supported.
+		@return Otherwise one of the other CAF error codes defined in \c caferr.h  or one of the 
+				other system-wide error codes for any other errors.
+		@capability DRM Access to DRM protected content is not permitted for processes without DRM capability. Access to unprotected content is unrestricted. 
+		*/
+		IMPORT_C virtual TInt GetAttributeSet(RAttributeSet& aAttributeSet, RFile& aFile, const TDesC& aUniqueId);	
+
 		/**  Get text string attributes or meta-data from the file 
 
 		@param aAttribute The attribute to retrieve, from ContentAccess::TStringAttribute.
@@ -1085,6 +1143,23 @@ namespace ContentAccess
 		*/
 		virtual TInt GetStringAttribute(TInt aAttribute, TDes& aValue, const TVirtualPathPtr& aVirtualPath) = 0;
 
+		/**  Get a content's text string attribute from a file specified by file handle. Can be used when the source file is in the client's private directory.
+	
+		@param aAttribute The attribute to retrieve, from ContentAccess::TAttribute.
+		@param aValue Used to return the value of the attribute.
+		@param aFile The file handle for the file containing the content object.
+		@param aUniqueId The unique id of the content object whose attributes are to be retrieved.
+		@return Whether the attribute value was updated.
+		@return KErrNone if the attribute value was updated.
+		@return KErrNotFound if the content object does not exist.
+		@return KErrCANotSupported if the feature or the requested attribute is not supported for this content object.
+		@return KErrOverflow if the buffer was not large enough to return the result.
+		@return Otherwise one of the other CAF error codes defined in \c caferr.h  or one of the 
+				other system-wide error codes for any other errors.
+		@capability DRM Access to DRM protected content is not permitted for processes without DRM capability. Access to unprotected content is unrestricted. 
+		*/		
+		IMPORT_C virtual TInt GetStringAttribute(TInt aAttribute, TDes& aValue, RFile& aFile, const TDesC& aUniqueId);
+
 		/** Used to obtain a set of string attributes 
 
 		@param aStringAttributeSet The set of attributes to query and update.
@@ -1098,6 +1173,21 @@ namespace ContentAccess
 		*/
 		virtual TInt GetStringAttributeSet(RStringAttributeSet& aStringAttributeSet, const TVirtualPathPtr& aVirtualPath) = 0;
 
+		/** Get a content's set of string attributes from a file specified by file handle. Can be used when the source file is in the client's private directory.
+
+		@param aStringAttributeSet The set of attributes to query and update.
+		@param aFile The file handle for the file containing the content object.
+		@param aUniqueId The unique id of the content object whose attributes are to be retrieved	
+		@return Whether the string attribute set was updated.
+		@return KErrNone if the attribute set was updated successfully.
+		@return KErrNotFound if the object with the given virtual path was not found.
+		@return KErrCANotSupported if the feature not supported.
+		@return Otherwise one of the other CAF error codes defined in \c caferr.h  or one of the 
+				other system-wide error codes for any other errors.
+		@capability DRM Access to DRM protected content is not permitted for processes without DRM capability. Access to unprotected content is unrestricted. 
+		*/
+		IMPORT_C virtual TInt GetStringAttributeSet(RStringAttributeSet& aStringAttributeSet, RFile& aFile, const TDesC& aUniqueId);
+				
 		/** Notify the caller when the status of a DRM protected content object changes.
 		NB: No assumption should be made about the scope of the descriptor 
 		passed to aURI for asynchronous IPC.
@@ -1149,6 +1239,22 @@ namespace ContentAccess
 		*/
 		virtual void DisplayInfoL(TDisplayInfo aInfo, const TVirtualPathPtr& aVirtualPath) = 0;
 
+		/** View information associated with a single content object in a file specified by file handle. Can be used when the source file is in the client's private directory.
+		
+		This call blocks execution and only returns once the display is dismissed 
+		by the user.
+
+		@param aInfo The information to display.
+		@param aFile The file handle for the file containing the content object.
+		@param aUniqueId The unique id of the content object.	
+		@leave KErrCANotSupported if the feature not supported or if agent cannot display the requested information.
+		@leave ...		One of the other CAF error codes defined in \c caferr.h  
+		 				or one of the system-wide error codes 
+						for any other errors.		
+		@capability DRM Access to DRM protected content is not permitted for processes without DRM capability. Access to unprotected content is unrestricted. 
+		*/
+		IMPORT_C virtual void DisplayInfoL(TDisplayInfo aInfo, RFile& aFile, const TDesC& aUniqueId);
+	
 		/** 
 		Identifies whether or not the file at the given URI is to be handled by
 		this agent.
@@ -1361,6 +1467,20 @@ namespace ContentAccess
 		*/
 		virtual void ListRightsL(RStreamablePtrArray<CRightsInfo>& aArray, TVirtualPathPtr& aVirtualPath) const = 0;
 
+		/** List all rights associated with a particular content object in a file specified by file handle. Can be used when the source file is in the client's private directory.
+		
+		@param aArray  		The client supplied array used to store the CRightsInfo objects. The agent will add CRightsInfo objects to the supplied array.
+		@param aFile  		The file handle for the file containing the content object.
+		@param aUniqueId	The unique id of the content object.
+		@leave KErrCANotSupported if the feature not supported.
+		@leave KErrPermissionDenied If the agent does not permit the client to access rights information.
+		@leave ...		One of the CAF error codes defined in \c caferr.h  
+		 				or one of the other system-wide error codes 
+						for any other errors.				
+		@capability DRM Access to DRM rights is not permitted for processes without DRM capability. 
+		*/
+		IMPORT_C virtual void ListRightsL(RStreamablePtrArray<CRightsInfo>& aArray, RFile& aFile, const TDesC& aUniqueId) const;			
+
 		/** List all content associated with a particular rights object
 		@param aArray The client supplied array used to store the list of content objects. The agent will add CVirtualPath objects to the supplied array.
 		@param aRightsInfo The rights object.
@@ -1398,7 +1518,7 @@ namespace ContentAccess
 		@capability DRM Access to DRM rights is not permitted for processes without DRM capability. 
 		*/
 		virtual TInt DeleteRightsObject(const CRightsInfo& aRightsInfo) = 0;
-
+		
 		/** Deletes all rights associated with a particular content object
 
 		The agent may display a dialog asking the user to confirm the delete. Execution
@@ -1415,6 +1535,24 @@ namespace ContentAccess
 		*/
 		virtual TInt DeleteAllRightsObjects(const TVirtualPathPtr& aVirtualPath) = 0;
 
+		/** Deletes all rights associated with a particular content object in a file specified by file handle. Can be used when the source file is in the client's private directory.
+
+		The agent may display a dialog asking the user to confirm the delete. Execution
+		will be blocked until the dialog is complete. Applications can request 
+		to disable the agents user interface using the SetProperty() command.
+
+		@param aFile The file handle for the file containing the content object.
+		@param aUniqueId The unique id of the content object.
+		@return The outcome of the delete operation.
+		@return KErrNone if the rights were deleted.
+		@return KErrNotFound if no rights objects exist for the specified content object.
+		@return KErrCancel if the user cancels an agent supplied confirmation dialog.
+		@return KErrPermissionDenied if the agent does not permit the client to access rights information.
+		@return KErrCANotSupported if the feature not supported.
+		@capability DRM Access to DRM rights is not permitted for processes without DRM capability. 
+		*/
+		IMPORT_C virtual TInt DeleteAllRightsObjects (RFile& aFile, const TDesC& aUniqueId); 
+			
 		/** 
 		Allows an application to request the modification of a property 
 		within the agent. The agent may or may not permit the property to be changed

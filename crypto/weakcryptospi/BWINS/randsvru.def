@@ -1,0 +1,9 @@
+EXPORTS
+	??0CMessageDigest@@IAE@ABV0@@Z @ 1 NONAME ; CMessageDigest::CMessageDigest(class CMessageDigest const &)
+	??0CMessageDigest@@IAE@XZ @ 2 NONAME ; CMessageDigest::CMessageDigest(void)
+	??1CMessageDigest@@UAE@XZ @ 3 NONAME ; CMessageDigest::~CMessageDigest(void)
+	?NewDigestL@CMessageDigestFactory@@SAPAVCMessageDigest@@W4THashId@2@@Z @ 4 NONAME ; class CMessageDigest * CMessageDigestFactory::NewDigestL(enum CMessageDigest::THashId)
+	?NewDigestLC@CMessageDigestFactory@@SAPAVCMessageDigest@@W4THashId@2@@Z @ 5 NONAME ; class CMessageDigest * CMessageDigestFactory::NewDigestLC(enum CMessageDigest::THashId)
+	?NewL@CExtendedCharacteristics@CryptoSpi@@SAPAV12@HH@Z @ 6 NONAME ABSENT ; class CryptoSpi::CExtendedCharacteristics * CryptoSpi::CExtendedCharacteristics::NewL(int, int)
+	?RunRandomServer@@YAHPAX@Z @ 7 NONAME ; int RunRandomServer(void *)
+

@@ -1,0 +1,145 @@
+!IF "$(PLATFORM)" == "GCCXML" || "$(PLATFORM)" == "TOOLS" || "$(PLATFORM)" == "TOOLS2" 
+MAKEDATA :
+	cd
+	echo ----------------
+	echo  Do nothing ...
+	echo ----------------
+!ELSE
+
+!IF "$(PLATFORM)" == "WINSCW"
+$(EPOCROOT)epoc32\release\$(PLATFORM)\$(CFG)\z\tups\integ\packages\tupsinteg_evaluator1.sis : $(EPOCROOT)epoc32\release\$(PLATFORM)\$(CFG)\tups_policyevaluator05.dll $(EPOCROOT)epoc32\data\z\resource\plugins\tups_policyevaluator05.rsc tupsinteg_evaluator1.pkg
+!ELSE
+$(EPOCROOT)epoc32\data\z\tups\integ\packages\tupsinteg_evaluator1.sis : $(EPOCROOT)epoc32\release\$(PLATFORM)\$(CFG)\tups_policyevaluator05.dll $(EPOCROOT)epoc32\data\z\resource\plugins\tups_policyevaluator05.rsc tupsinteg_evaluator1.pkg
+!ENDIF
+	cd
+	echo --------------------------------------------------------------
+	echo Building SIS file to install a policy evaluator via SWI
+	echo --------------------------------------------------------------
+	
+	echo Copy executable and ressources to common location
+	copy /y $(EPOCROOT)epoc32\release\$(PLATFORM)\$(CFG)\tups_policyevaluator05.dll tups_policyevaluator05.dll
+	copy /y $(EPOCROOT)epoc32\data\z\resource\plugins\tups_policyevaluator05.rsc tups_policyevaluator05.rsc
+	
+	echo makesis
+	makesis tupsinteg_evaluator1.pkg tupsinteg_evaluator1_unsigned.sis
+	Rem delete temporary files 
+	del /q  tups_policyevaluator05.dll
+	del /q  tups_policyevaluator05.rsc
+
+ 	
+	echo signsis	
+	signsis tupsinteg_evaluator1_unsigned.sis tupsinteg_evaluator1.sis   %SECURITYSOURCEDIR%\testframework\testcertificates\ups\test\symbiantestallcapabilitiesca\symbiantestallcapabilitiesca.pem   %SECURITYSOURCEDIR%\testframework\testcertificates\ups\test\symbiantestallcapabilitiesca\cakey.pem
+	del /q tupsinteg_evaluator1_unsigned.sis 
+		
+	echo Copy winscw sis to emulator drive or armv5 to data z tree
+	if "$(PLATFORM)" == "WINSCW" copy /y tupsinteg_evaluator1.sis %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\z\tups\integ\packages\tupsinteg_evaluator1.sis 
+	if "$(PLATFORM)" == "ARMV5"  copy /y tupsinteg_evaluator1.sis %EPOCROOT%epoc32\data\z\tups\integ\packages\tupsinteg_evaluator1.sis 
+	
+	Rem Removes temporary files.
+	del /q tupsinteg_evaluator1.sis 
+    
+!IF "$(PLATFORM)" == "WINSCW"
+$(EPOCROOT)epoc32\release\$(PLATFORM)\$(CFG)\z\tups\integ\packages\tupsinteg_dialog1.sis : $(EPOCROOT)epoc32\release\$(PLATFORM)\$(CFG)\tups_dialogcreator07.dll $(EPOCROOT)epoc32\data\z\resource\plugins\tups_dialogcreator07.rsc $(EPOCROOT)epoc32\release\$(PLATFORM)\$(CFG)\Z\private\10283558\policies\t_ups_101f7f1f_0000aaa2_version1.rsc tupsinteg_dialog1.pkg
+!ELSE
+$(EPOCROOT)epoc32\data\z\tups\integ\packages\tupsinteg_dialog1.sis : $(EPOCROOT)epoc32\release\$(PLATFORM)\$(CFG)\tups_dialogcreator07.dll $(EPOCROOT)epoc32\data\z\resource\plugins\tups_dialogcreator07.rsc $(EPOCROOT)epoc32\data\z\private\10283558\policies\t_ups_101f7f1f_0000aaa2_version1.rsc tupsinteg_evaluator1.pkg
+!ENDIF
+	cd
+	echo ---------------------------------------------------------------------------
+	echo Building SIS file to install a policy evaluator and dialog creator via SWI
+	echo ---------------------------------------------------------------------------
+	
+	echo Copy executable and ressources to common location
+	copy /y $(EPOCROOT)epoc32\release\$(PLATFORM)\$(CFG)\tups_dialogcreator07.dll tups_dialogcreator07.dll
+	copy /y $(EPOCROOT)epoc32\data\z\resource\plugins\tups_dialogcreator07.rsc tups_dialogcreator07.rsc
+	if "$(PLATFORM)" == "WINSCW" copy /y %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\Z\private\10283558\policies\t_ups_101f7f1f_0000aaa2_version1.rsc 
+	if "$(PLATFORM)" == "ARMV5"  copy /y %EPOCROOT%epoc32\data\z\private\10283558\policies\t_ups_101f7f1f_0000aaa2_version1.rsc 
+	
+	echo makesis
+	makesis tupsinteg_dialog1.pkg tupsinteg_dialog1_unsigned.sis
+	Rem delete temporary files 
+	del /q  tups_dialogcreator07.dll
+	del /q  tups_dialogcreator07.rsc
+	del /q t_ups_101f7f1f_0000aaa2_version1.rsc
+	
+	echo signsis	
+	signsis tupsinteg_dialog1_unsigned.sis tupsinteg_dialog1.sis   %SECURITYSOURCEDIR%\testframework\testcertificates\ups\test\symbiantestallcapabilitiesca\symbiantestallcapabilitiesca.pem   %SECURITYSOURCEDIR%\testframework\testcertificates\ups\test\symbiantestallcapabilitiesca\cakey.pem
+	del /q tupsinteg_dialog1_unsigned.sis 
+		
+	echo Copy winscw sis to emulator drive or armv5 to data z tree
+	if "$(PLATFORM)" == "WINSCW" copy /y tupsinteg_dialog1.sis %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\z\tups\integ\packages\tupsinteg_dialog1.sis 
+	if "$(PLATFORM)" == "ARMV5"  copy /y tupsinteg_dialog1.sis %EPOCROOT%epoc32\data\z\tups\integ\packages\tupsinteg_dialog1.sis 
+	
+	Rem Removes temporary files.
+	del /q tupsinteg_dialog1.sis 
+	
+!IF "$(PLATFORM)" == "WINSCW"
+$(EPOCROOT)epoc32\release\$(PLATFORM)\$(CFG)\z\tups\integ\packages\tupsinteg_eclipse1.sis : $(EPOCROOT)epoc32\release\$(PLATFORM)\$(CFG)\Z\private\10283558\policies\eclipse_ups_101f7f1f_0000aaa3.rsc $(EPOCROOT)epoc32\release\$(PLATFORM)\$(CFG)\Z\private\10283558\policies\t_ups_101f7f1f_0000aaa4.rsc tupsinteg_eclipse1.pkg
+!ELSE
+$(EPOCROOT)epoc32\data\z\tups\integ\packages\tupsinteg_eclipse1.sis : $(EPOCROOT)epoc32\data\z\private\10283558\policies\eclipse_ups_101f7f1f_0000aaa3.rsc  $(EPOCROOT)epoc32\data\z\private\10283558\policies\t_ups_101f7f1f_0000aaa4.rsc tupsinteg_eclipse1.pkg
+!ENDIF
+	echo -------------------------------------- 
+	echo Building SIS to eclipse policy files.
+	echo --------------------------------------
+	
+	echo RSC file to here
+	if "$(PLATFORM)" == "WINSCW" copy /y %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\Z\private\10283558\policies\eclipse_ups_101f7f1f_0000aaa3.rsc 
+	if "$(PLATFORM)" == "WINSCW" copy /y %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\Z\private\10283558\policies\t_ups_101f7f1f_0000aaa4.rsc
+	if "$(PLATFORM)" == "ARMV5"  copy /y %EPOCROOT%epoc32\data\z\private\10283558\policies\eclipse_ups_101f7f1f_0000aaa3.rsc 
+	if "$(PLATFORM)" == "ARMV5"  copy /y %EPOCROOT%epoc32\data\z\private\10283558\policies\t_ups_101f7f1f_0000aaa4.rsc 
+	
+	echo makesis
+    makesis tupsinteg_eclipse1.pkg tupsinteg_eclipse1_unsigned.sis
+	
+	Rem delete temporary rsc files
+	del /q eclipse_ups_101f7f1f_0000aaa3.rsc
+	del /q t_ups_101f7f1f_0000aaa4.rsc
+
+	
+	echo signsis	
+	signsis tupsinteg_eclipse1_unsigned.sis tupsinteg_eclipse1.sis   %SECURITYSOURCEDIR%\testframework\testcertificates\ups\test\root5ca\ca.pem   %SECURITYSOURCEDIR%\testframework\testcertificates\ups\test\root5ca\ca.key.pem
+	del /q tupsinteg_eclipse1_unsigned.sis
+
+	echo Copy winscw sis to emulator drive or armv5 to data z tree
+	if "$(PLATFORM)" == "WINSCW" copy /y tupsinteg_eclipse1.sis %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\z\tups\integ\packages\tupsinteg_eclipse1.sis 
+	if "$(PLATFORM)" == "ARMV5" copy /y tupsinteg_eclipse1.sis %EPOCROOT%epoc32\data\z\tups\integ\packages\tupsinteg_eclipse1.sis
+	 
+	Rem Removes temporary files.
+	del /q tupsinteg_eclipse1.sis 
+
+!IF "$(PLATFORM)" == "WINSCW"
+MAKEDATA : $(EPOCROOT)epoc32\release\$(PLATFORM)\$(CFG)\z\tups\integ\packages\tupsinteg_evaluator1.sis $(EPOCROOT)epoc32\release\$(PLATFORM)\$(CFG)\z\tups\integ\packages\tupsinteg_dialog1.sis $(EPOCROOT)epoc32\release\$(PLATFORM)\$(CFG)\z\tups\integ\packages\tupsinteg_eclipse1.sis
+!ELSE
+MAKEDATA : $(EPOCROOT)epoc32\data\z\tups\integ\packages\tupsinteg_evaluator1.sis $(EPOCROOT)epoc32\data\z\tups\integ\packages\tupsinteg_dialog1.sis $(EPOCROOT)epoc32\data\z\tups\integ\packages\tupsinteg_eclipse1.sis
+!ENDIF
+	echo
+
+!ENDIF
+
+
+
+DO_NOTHING:
+	rem do nothing
+
+#
+# The targets invoked by abld...
+#
+
+MAKMAKE : DO_NOTHING
+FREEZE : DO_NOTHING
+LIB : DO_NOTHING
+RESOURCE : DO_NOTHING
+CLEANLIB : DO_NOTHING
+FINAL : DO_NOTHING
+RELEASABLES : DO_NOTHING
+
+SAVESPACE : BLD
+
+BLD : MAKEDATA
+
+CLEAN : 
+	if exist %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\z\tups\integ\packages\tupsinteg_evaluator1.sis 	del /q %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\z\tups\integ\packages\tupsinteg_evaluator1.sis 
+	if exist %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\z\tups\integ\packages\tupsinteg_dialog1.sis 	del /q %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\z\tups\integ\packages\tupsinteg_dialog1.sis 
+	
+
+
+

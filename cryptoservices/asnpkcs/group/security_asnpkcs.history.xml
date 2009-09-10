@@ -4,6 +4,13 @@
     ASN encoder/decoder for pkcs type objects.
   </purpose>
 
+  <deliverystep number="" name="PREQ2193 SMP-Safe Crypto Services Components" osproject="Diran" revision="003">
+	  <milestone project="GT0433" number="MS3.7"/>
+	  <preq number="2193" title="SMP-Safe Crypto Services Components">
+		  Add SMPSAFE keyword in SDP mmp files
+	  </preq>
+  </deliverystep>
+
   <deliverystep number="496" name="EC073: Security: Crypto Services Header File Refactoring" osproject="Oghma" revision="002">
 	  <milestone project="GT0313" number="MS3.7"/>
 	  <ec number="73" title="Crypto Services Header File Refactoring (to simplify the SDK creation process)">

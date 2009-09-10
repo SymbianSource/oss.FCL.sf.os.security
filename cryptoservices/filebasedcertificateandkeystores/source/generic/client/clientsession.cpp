@@ -22,6 +22,14 @@
 #include "clientutils.h"
 #include "fstokenservername.h"
 
+#ifdef SYMBIAN_AUTH_SERVER
+
+#ifdef __WINS__
+#include <u32hal.h>
+#endif //__WINS__
+
+#include <e32svr.h>
+#endif // SYMBIAN_AUTH_SERVER
 
 //	\\	//	\\	//	\\	//	\\	//	\\	//	\\	//	\\	//	\\	//	\\	//	\\	
 //	Tokentype session class for file based certificate store
@@ -30,6 +38,11 @@
 //	\\	//	\\	//	\\	//	\\	//	\\	//	\\	//	\\	//	\\	//	\\	//	\\	
 
 _LIT(KFSTokenServerImg,"fstokenserver");
+#ifdef SYMBIAN_AUTH_SERVER
+#ifdef __WINS__
+_LIT(KFSNewTokenServerImg,"fstokenserver_useauth");
+#endif // __WINS__
+#endif // SYMBIAN_AUTH_SERVER
 
 RFileStoreClientSession::RFileStoreClientSession()
 {}
@@ -59,6 +72,15 @@ static TInt StartServer();	//	Forward declaration
 //
 // Connect to the server, attempting to start it if necessary
 //
+
+#ifdef SYMBIAN_AUTH_SERVER
+#ifdef __WINS__
+
+static bool UseAuthServer(void);
+
+#endif // SYMBIAN_AUTH_SERVER
+#endif // __WINS__
+
 TInt RFileStoreClientSession::Connect(ETokenEnum aToken)
 	{
 	// The version is made up of three pieces of information:
@@ -70,16 +92,49 @@ TInt RFileStoreClientSession::Connect(ETokenEnum aToken)
 	TInt retry=2;
 	for (;;)
 		{
-		TInt r=CreateSession(KFSTokenServerName, version, 1);
-		if (r!=KErrNotFound && r!=KErrServerTerminated)
-			return r;
+		TInt err = KErrNone;
+#ifdef SYMBIAN_AUTH_SERVER
+#ifdef __WINS__
+		if(UseAuthServer())
+			{
+			err = CreateSession(KFSNewTokenServerName, version, 1);
+			}
+		else
+#endif // __WINS__
+#endif // SYMBIAN_AUTH_SERVER
+			{
+			err = CreateSession(KFSTokenServerName, version, 1);
+			}
+		
+		if (err!=KErrNotFound && err!=KErrServerTerminated)
+			return err;
 		if (--retry==0)
-			return r;
-		r=StartServer();
-		if (r!=KErrNone && r!=KErrAlreadyExists)
-			return r;
+			return err;
+		err=StartServer();
+		if (err!=KErrNone && err!=KErrAlreadyExists)
+			return err;
 		}
 	}
+
+#ifdef SYMBIAN_AUTH_SERVER
+#ifdef __WINS__
+
+/*static*/ bool UseAuthServer(void)
+	{
+	bool useAuthServer = false;
+	
+	TUint32 useAuth = 0;
+	// For the emulator allow the constant to be patched via epoc.ini
+	UserSvr::HalFunction(EHalGroupEmulator, EEmulatorHalIntProperty,
+	(TAny*)"KKeyStoreUseAuthServer", &useAuth); // read emulator property (if present)
+	if(useAuth)
+		{
+		useAuthServer = true;
+		}
+	return useAuthServer; 
+	}
+#endif // __WINS__
+#endif // SYMBIAN_AUTH_SERVER
 
 TInt StartServer()
 	{
@@ -87,12 +142,25 @@ TInt StartServer()
 	// emulation - we load the library in this instance
 	const TUidType serverUid(KNullUid, KNullUid, KUidFSTokenServer);
 
-	RProcess server;	
-	TInt r = server.Create(KFSTokenServerImg, KNullDesC, serverUid);
+	RProcess server;
+	TInt error = KErrNone;
 	
-	if (r != KErrNone)
+#ifdef SYMBIAN_AUTH_SERVER
+#ifdef __WINS__
+	if(UseAuthServer())
 		{
-		return r;
+		error = server.Create(KFSNewTokenServerImg, KNullDesC, serverUid);
+		}
+	else
+#endif // __WINS__
+#endif // SYMBIAN_AUTH_SERVER
+		{
+		error = server.Create(KFSTokenServerImg, KNullDesC, serverUid);
+		}
+	
+	if (error != KErrNone)
+		{
+		return error;
 		}
 
 	// Synchronise with the process to make sure it hasn't died straight away
@@ -116,7 +184,8 @@ TInt StartServer()
 	// We can't use the 'exit reason' if the server panicked as this
 	// is the panic 'reason' and may be '0' which cannot be distinguished
 	// from KErrNone
-	r = (server.ExitType()==EExitPanic) ? KErrGeneral : stat.Int();
+	error = (server.ExitType()==EExitPanic) ? KErrGeneral : stat.Int();
 	server.Close();
-	return (r);
+	return (error);
 	}
+

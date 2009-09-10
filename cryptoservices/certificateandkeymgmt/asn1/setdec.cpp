@@ -100,10 +100,11 @@ void TASN1DecSet::DecodeContentsL(const TDesC8& aSource, TInt& aPos, CArrayPtrFl
 		{
 		TPtrC8 Ptr=aSource.Right(aSource.Length() - aPos);
 		TASN1DecGeneric* Decoded = new(ELeave) TASN1DecGeneric(Ptr);
-		Decoded->InitL();
 		CleanupStack::PushL(Decoded);
+		Decoded->InitL();
 		aDest.AppendL(Decoded);
 		aPos+=Decoded->LengthDER();
 		CleanupStack::Pop();//i think this should be just 'pop': need to find out
 		}
 	}
+

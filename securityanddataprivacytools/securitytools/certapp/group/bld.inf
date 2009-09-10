@@ -20,7 +20,7 @@ PRJ_PLATFORMS
 TOOLS2
 
 PRJ_EXPORTS
-../api/certapp-api.h /epoc32/include/tools/certapp-api.h
+../api/certapp-api.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(tools/certapp-api.h)
 
 //PRJ_TESTEXPORTS
 ../test/run_tcertapp.pl /epoc32/winscw/c/security_tools/tcertapp/run_tcertapp.pl

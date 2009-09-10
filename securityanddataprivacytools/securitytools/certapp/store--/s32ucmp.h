@@ -18,8 +18,6 @@
 */
 
 
-
-
 #ifndef __S32UCMP_H__
 #define __S32UCMP_H__ 1
 

@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file 
  @internalTechnology
@@ -26,7 +24,7 @@
 #ifndef TCMSSTEP_H
 #define TCMSSTEP_H
 
-#include <testexecutestepbase.h>
+#include <test/testexecutestepbase.h>
 #include "tpkcs7server.h"
 #include <x509cert.h>
 #include <cmssignerinfo.h>

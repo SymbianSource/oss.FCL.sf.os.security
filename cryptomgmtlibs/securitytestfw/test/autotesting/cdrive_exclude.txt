@@ -101,3 +101,19 @@ Ignore logging code
 /common/generic/security/common/source/sectcbutil/systemdrive.cpp
 	return EDriveC;
 Ignore code to resolve system drive
+
+/common/generic/security/swi/test/testexes/runwait/runwaitexe.cpp
+_LIT(KFile1,"c:\\runwait1.txt");
+Ignore Test generated file automatically cleaned up
+
+/common/generic/security/swi/test/testexes/runwait/runwaitexe.cpp
+_LIT(KFile2,"c:\\runwait2.txt"); 
+Ignore Test generated file as it's automatically cleaned up
+
+/common/generic/security/swi/test/testexes/runwait/runwaitexe.cpp
+_LIT(KFileErr9_5,"c:\\fail_if_9_5.txt"); 
+Ignore Test generated file as it's automatically cleaned up
+
+/common/generic/security/swi/test/testexes/runwait/runwaitexe.cpp
+	_LIT(KFileEcom,"c:\\expect_ecom.txt");
+Ignore Test generated file as it's automatically cleaned up

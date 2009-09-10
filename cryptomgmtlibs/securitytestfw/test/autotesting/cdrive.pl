@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+# Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
 # All rights reserved.
 # This component and the accompanying materials are made available
 # under the terms of the License "Eclipse Public License v1.0"
@@ -12,25 +12,21 @@
 # Contributors:
 #
 # Description: 
-#
 # Created by Relja Arandjelovic
 # relja.arandjelovic@symbian.com
 # Used to check for occurrences of "C: , EDriveC and [<index>]='C' and report warnings about it into HTML file
-
 # USAGE:
 # cdrive.pl -exclude=exclude.txt -excludedir=/common/generic/security/caf2/ -log=logfilename.htm path1 path2 ...
-
 # log is created in $ENV{EPOCROOT}epoc32\\winscw\\c\\
 # add -mytest option if the log should be stored in the execution directory
 # (for example, if you are not using the script during overnight builds)
-
 # exclude contains items formated as as follows (new line corresponds to new line in file):
 # filename
 # line content
 # comment about why the warning should be excluded (may be in several lines, but with no line with only whice characters)
 # line with only white characters
-
 # NB: paths in cdrive.pl argumetns and filename in exclude list should be absolute paths
+#
 
 use strict;
 use Getopt::Std;
@@ -126,6 +122,12 @@ sub MakeList(){
 	
 
 	if (lc($File::Find::dir) =~ /^$excludedir/) { return; }
+	if (lc($File::Find::dir) =~ /test/i) { return; }
+	if (lc($File::Find::dir) =~ /examples/i) { return; }
+	if (lc($File::Find::dir) =~ /tpkcs10/i) { return; }
+	if (lc($File::Find::dir) =~ /tocsp/i) { return; }
+	if (lc($File::Find::dir) =~ /referencedrmagent/i) { return; }
+	if (lc($File::Find::dir) =~ /dumpswicertstoretool/i) { return; }
 	if (!(lc($File::Find::name) =~ /\.(cpp|cxx|c\+\+|c|h)$/)){ return; }
 	
 	# include in list of files to be searched only if not test code

@@ -17,7 +17,7 @@
 
 
 #include "CFSCertStoreClient.h"
-#include "cfstokentypeclient.h"
+#include "CFSTokenTypeClient.h"
 #include "CFStokenclient.h"
 #include "clientutils.h"
 

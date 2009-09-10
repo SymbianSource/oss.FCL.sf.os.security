@@ -18,8 +18,6 @@
 */
 
 
-
-
 /**
  @file
  @publishedPartner
@@ -158,19 +156,6 @@ public:
 	IMPORT_C static CPBEncryptParms* NewLC();
 	
 	IMPORT_C void SetCipher(TPBECipher aCipher);
-
-    /**
-     * Replace the current cipher.  This function resizes the
-     * IV and replaces its existing contents.
-     *	
-     * @param aCipher	New cipher.
-     * @leave			System wide error code.
-     */
-  	inline void SetCipherL(TPBECipher aCipher)
-  		{
-  		SetCipher(aCipher);
-  		}
-
 	IMPORT_C void SetKdf(TKdf aKdf);
 	IMPORT_C void ResizeSaltL(TInt aNewLen);
 	IMPORT_C void SetIterations(TInt aIterCount);

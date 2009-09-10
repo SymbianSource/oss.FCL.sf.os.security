@@ -7,6 +7,4 @@ source	\sf\os\security\cryptomgmtlibs\securitytestfw\test
  
 notes_source	\component_defs\release.src
 
-#  == IPR section auto-inserted from distribution.policy files  ==
-ipr export-restricted T 
-# == end auto-inserted section ==
+ipr T

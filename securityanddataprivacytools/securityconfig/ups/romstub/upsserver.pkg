@@ -13,11 +13,6 @@
 ;
 ; Description: 
 ;
-; Package file for User Prompt Service server ROM stub SIS file
-;
-; A ROM stub SIS file is required to allow UPS policy files to be
-; provisioned post-manufacture because policy files are loaded from
-; the policies subdirectory of the UPS server's private directory.
 
 &EN
 

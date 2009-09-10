@@ -22,6 +22,8 @@
 #include "ClientOpenedKeys.h"
 #include "cfskeystoreclient.h"
 #include "hash.h"
+#include <mctkeystoreuids.h>
+
 
 // COpenedKey //////////////////////////////////////////////////////////////////
 	

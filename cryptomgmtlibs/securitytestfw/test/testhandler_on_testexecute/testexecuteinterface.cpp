@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file
 */
@@ -88,3 +86,4 @@ void TMain::SignalClientL()
 	{
 	RProcess::Rendezvous(KErrNone);
 	}
+

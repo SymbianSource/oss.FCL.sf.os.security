@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file
 */
@@ -37,7 +35,7 @@ _LIT(KTestToolListKeyStep, "ListKeyStep");
 _LIT(KTestToolGetPolicyStep, "GetPolicyStep");
 _LIT(KTestToolParseFileStep, "ParseFileStep");
 _LIT(KTestToolGetTrustStep, "GetTrustStep");
-
+_LIT(KTestToolCheckFileStep, "CheckFile");
 
 _LIT(KExpectedLabel, "expectedlabel");
 _LIT(KExpectedUser, "expecteduser");
@@ -51,6 +49,8 @@ _LIT(KExpectedOwner,"owner");
 _LIT(KExpectedListStore,"liststore");
 _LIT(KActualOutput, "actualoutput");
 _LIT(KExpectedTrust, "trust");
+_LIT(KFileName, "file");
+_LIT(KCheckType, "check");
 
 
 class CTestToolListCertStep : public CTestStep
@@ -162,4 +162,17 @@ private:
 	TPtrC iActualOutput;
 	};
 
+class CTestToolCheckFileStep : public CTestStep
+	{
+public:
+	CTestToolCheckFileStep();
+	~CTestToolCheckFileStep();
+	virtual TVerdict doTestStepPreambleL();
+	virtual TVerdict doTestStepPostambleL();
+	virtual TVerdict doTestStepL();
+	
+private:
+	TPtrC iFileName;
+	TPtrC iCheckType;
+	};
 #endif // __TTESTTOOLSTEP_H__

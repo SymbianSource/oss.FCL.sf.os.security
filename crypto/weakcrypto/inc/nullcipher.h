@@ -19,11 +19,10 @@
 */
 
 
-
-
 /**
  @file 
- @internalAll
+ @publishedPartner
+ @released 
 */
  
 #ifndef __NULLCIPHER_H__
@@ -36,8 +35,6 @@
 * data given to it.
 * From CBlockTransformation
 *
-* @publishedPartner
-* @released 
 */
 class CNullCipher : public CStreamCipher
 {

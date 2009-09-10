@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file
 */
@@ -34,10 +32,10 @@ USERINCLUDE		../inc
 
 SOURCEPATH		../source/sectcbutil
 SOURCE			e32dll.cpp
-SOURCE			systemdrive.cpp
 SOURCE			miscutil.cpp
 
-SYSTEMINCLUDE	/epoc32/include
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 LIBRARY			euser.lib 
 LIBRARY 		hal.lib
 LIBRARY			efsrv.lib
+SMPSAFE

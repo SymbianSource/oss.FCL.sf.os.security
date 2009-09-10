@@ -68,3 +68,4 @@ void FSResources::Cleanup()
 /// Returns an array of strings. The strings are identified by
 /// enums in TStrings
 const RCPointerArray<HBufC>& Strings();
+

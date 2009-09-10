@@ -16,15 +16,13 @@
 */
 
 
-
-
 /**
  @file
 */
 
 #include <e32base.h>
-#include <ecom.h>
-#include <implementationproxy.h>
+#include <ecom/ecom.h>
+#include <ecom/implementationproxy.h>
 #include <ct.h>
 #include "MTestInterface.h"
 
@@ -291,3 +289,4 @@ EXPORT_C const TImplementationProxy* ImplementationGroupProxy(TInt& aTableCount)
 
 	return ImplementationTable;
 	}
+

@@ -99,3 +99,4 @@ EXPORT_C const RPointerArray<TDesC8>& CDecPkcs12Attribute::AttributeValue() cons
 	{
 	return iAttributeValue;	
 	}
+

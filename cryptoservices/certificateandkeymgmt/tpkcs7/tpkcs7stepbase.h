@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file 
  @internalTechnology
@@ -25,7 +23,7 @@
 
 #if (!defined __TPKCS7_STEP_BASE_H__)
 #define __TPKCS7_STEP_BASE_H__
-#include <testexecutestepbase.h>
+#include <test/testexecutestepbase.h>
 #include "tpkcs7server.h"
 #include <x509cert.h>
 

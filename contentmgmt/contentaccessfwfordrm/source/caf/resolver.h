@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file
  @internalComponent
@@ -229,3 +227,4 @@ namespace ContentAccess
 
 	} // namespace ContentAccess
 #endif /* __RESOLVER_H__ */
+

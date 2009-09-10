@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file  
  @internalTechnology
@@ -25,7 +23,7 @@
 
 #if (!defined __TPKCS10_SERVER_V2_H__)
 #define __TPKCS10_SERVER_V2_H__
-#include <testexecuteserverbase.h>
+#include <test/testexecuteserverbase.h>
 
 
 class CTPKCS10Server : public CTestServer

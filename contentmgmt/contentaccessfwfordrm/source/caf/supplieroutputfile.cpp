@@ -18,7 +18,7 @@
 
 #include "apgcli.h"
 #include "apmstd.h"
-#include "supplieroutputfile.h"
+#include <caf/supplieroutputfile.h>
 
 #include <caf/caftypes.h>
 #include "resolver.h"
@@ -114,8 +114,14 @@ EXPORT_C TPtrC8 CSupplierOutputFile::MimeTypeL()
 	  	CleanupClosePushL(tempFsSession);
 	  	User::LeaveIfError(tempFsSession.ShareProtected());  
 	  	
-	  	// Open file here and send the handle because AppArc doesn't have Allfiles capability 
-	  	RFile tempFile; 
+	  	// Open file here and send the handle because AppArc doesn't have Allfiles capability
+#ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+	  	// If file size is greater than 2GB than RFile::Open will fail with KErrTooBig.
+	  	// So RFile64.
+	  	RFile64 tempFile; 
+#else
+	  	RFile tempFile;
+#endif //SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
 	  	User::LeaveIfError(tempFile.Open(tempFsSession, *iFileName, EFileRead|EFileShareAny)); 
 	  	CleanupClosePushL(tempFile); 
    

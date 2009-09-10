@@ -1,0 +1,56 @@
+/*
+* Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+targettype		exe
+vendorid		0x70000001
+
+macro __SECURE_API__
+macro __DATA_CAGING__
+
+target          tups_install.exe
+
+capability     TrustedUI ProtServ ReadUserData DRM WriteUserData NetworkServices ReadDeviceData WriteDeviceData
+
+SOURCEPATH		../tups_install
+source			tupsserver.cpp
+source			tupsstep.cpp
+source          	tuiscriptadaptors.cpp
+userinclude		.  
+
+systeminclude   /epoc32/include
+systeminclude   /epoc32/include/test
+
+userinclude ../../inc
+userinclude ../../../../cryptomgmtlibs/securityutils/inc
+userinclude ../../../../cryptomgmtlibs/securitycommonutils/inc
+USERINCLUDE ../../../../cryptomgmtlibs/securitytestfw/test/testutil/client
+
+
+library 		euser.lib efsrv.lib ecom.lib bafl.lib c32.lib xmlframework.lib hash.lib
+library			testexecuteutils.lib
+library			testexecutelogclient.lib
+library         	sishelper.lib
+library     		testutilclient.lib
+library			sisregistryclient.lib
+library			siscontroller.lib
+library 		charconv.lib
+SMPSAFE
+
+
+
+

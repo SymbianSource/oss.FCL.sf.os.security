@@ -235,3 +235,4 @@ const char *EncDecEnum<T>::ValueToName(const T &aValue) const
 
 
 // end of file
+

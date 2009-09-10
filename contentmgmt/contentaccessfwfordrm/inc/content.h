@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2003-2007 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2003-2008 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -926,7 +926,6 @@ namespace ContentAccess
 
 		/** Find out which agent is handling this file
 		@return The agent handling the File
-		@capability DRM Access to DRM agents is not permitted for processes without DRM capability
 		*/
 		IMPORT_C const TAgent& Agent() const;
 		
@@ -992,7 +991,11 @@ namespace ContentAccess
 		TContentShareMode iShareMode;
 
 		/** Reference to the file handle if the content was opened with a file handle */
+#ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+		RFile64 iFile;
+#else
 		RFile iFile;
+#endif //SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
 		};
 
 	} // namespace ContentAccess

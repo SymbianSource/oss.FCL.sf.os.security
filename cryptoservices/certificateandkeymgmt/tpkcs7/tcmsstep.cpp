@@ -18,9 +18,9 @@
 
 
 #include "tcmsstep.h"
-#include <testexecutelog.h>
+#include <test/testexecutelog.h>
 #include <asnpkcs.h>
-#include <pkcs7signedobject.h>
+#include "pkcs7signedobject.h"
 #include <asn1enc.h>
 #include <cmssignedobject.h>
 #include <cmsdefs.h>
@@ -1098,3 +1098,12 @@ void CTCmsContentInfoDecodingStep::doTestL()
 		}
 	CleanupStack::PopAndDestroy(content);		
 	}
+
+
+
+
+
+
+
+
+

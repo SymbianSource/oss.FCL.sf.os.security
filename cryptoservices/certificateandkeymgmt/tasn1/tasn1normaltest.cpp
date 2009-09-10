@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file
 */
@@ -214,3 +212,4 @@ void CASN1NormalTest::PerformCancel()
 void CASN1NormalTest::Reset()
 	{
 	}
+

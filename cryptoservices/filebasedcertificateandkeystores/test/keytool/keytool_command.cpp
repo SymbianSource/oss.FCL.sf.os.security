@@ -26,3 +26,4 @@ CKeyToolCommand::CKeyToolCommand(CController* aController) :CActive(EPriorityNor
 	{
 	iController = aController;
 	}
+

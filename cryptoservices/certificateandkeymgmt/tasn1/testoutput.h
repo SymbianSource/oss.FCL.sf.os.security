@@ -45,3 +45,4 @@ class CTestOutput : public CTestBase
 	};
 
 #endif
+

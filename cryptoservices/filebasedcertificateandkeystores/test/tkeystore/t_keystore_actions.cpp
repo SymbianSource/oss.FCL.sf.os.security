@@ -26,6 +26,12 @@
 #include <x509keys.h>
 #include <securityerr.h>
 
+#ifdef SYMBIAN_AUTH_SERVER
+#include <keystore_errs.h>
+#include <authserver/auth_srv_errs.h>
+#include <authserver/authclient.h>
+#endif // SYMBIAN_AUTH_SERVER
+
 static void TestKeyStorePanic(TKSPanicCode aPanicCode)
 {
 	_LIT(KTestKeyStorePanic, "TKeyStorePanic");
@@ -46,7 +52,7 @@ static void TestKeyStorePanic(TKSPanicCode aPanicCode)
 	}
 }
 
-/*static*/ void CSharedKeyStores::DestroyKeyStoresL()
+/*static*/ void CSharedKeyStores::DestroyKeyStores()
 {
 	if (iTheKeyStores)
 	{	
@@ -75,11 +81,21 @@ CKeyStoreTestAction::~CKeyStoreTestAction()
 	delete iLabel;
 	iExpectedDialogs.ResetAndDestroy();
 	iKeys.Close();
+#ifdef SYMBIAN_AUTH_SERVER	
+	delete iAuthExpression;
+#endif // SYMBIAN_AUTH_SERVER
+
 	}
 
 
 CKeyStoreTestAction::CKeyStoreTestAction(RFs& aFs, CConsoleBase& aConsole, Output& aOut) :
-	CTestAction(aConsole, aOut), iFs(aFs)
+	CTestAction(aConsole, aOut), 
+	iFs(aFs),
+	iDisableCheckDialog(0)
+#ifdef SYMBIAN_AUTH_SERVER
+	,iUseNewApi(EFalse),
+	iFreshness(0)
+#endif // SYMBIAN_AUTH_SERVER
 	{
 	iFilter.iPolicyFilter = TCTKeyAttributeFilter::EAllKeys;
 	}
@@ -87,6 +103,8 @@ CKeyStoreTestAction::CKeyStoreTestAction(RFs& aFs, CConsoleBase& aConsole, Outpu
 void CKeyStoreTestAction::ConstructL(const TTestActionSpec& aTestActionSpec)
 	{
 	CTestAction::ConstructL(aTestActionSpec);
+	
+	
 	iExpectedResult = SetExpectedResultL(Input::ParseElement(aTestActionSpec.iActionResult, KReturnStart));
 	TInt pos = 0;
 	
@@ -103,6 +121,43 @@ void CKeyStoreTestAction::ConstructL(const TTestActionSpec& aTestActionSpec)
 		/* do nothing */;
 
 	iKeystore = Input::ParseIntElement(aTestActionSpec.iActionBody, KKeystoreStart, KKeystoreEnd);
+	
+	iDisableCheckDialog = Input::ParseIntElement(aTestActionSpec.iActionBody, KDisableDialogStart, KDisableDialogEnd, pos);
+
+#ifdef SYMBIAN_AUTH_SERVER
+	TPtrC8 authExpr;
+	TInt authExprPresent = KErrNone;
+	authExpr.Set(Input::ParseElement(aTestActionSpec.iActionBody, KAuthExpressionStart, KAuthExpressionEnd, pos , authExprPresent));
+	if(authExpr.Compare(_L8("null")) != 0)
+		{
+		TInt size = authExpr.Size();
+		if (size != 0)
+			{
+			iAuthExpression = HBufC::NewMaxL(size);
+			TPtr authExp(iAuthExpression->Des());
+			authExp.FillZ();
+			authExp.Copy(authExpr);
+			}
+		}
+	TInt freshnessPresent = KErrNone;
+	TInt negativeFreshness = Input::ParseIntElement(aTestActionSpec.iActionBody, KNegativeFreshnessStart, KNegativeFreshnessEnd);
+	if(negativeFreshness == 1)
+		{
+		iFreshness = -1;
+		}
+	else
+		{
+		iFreshness = Input::ParseIntElement(aTestActionSpec.iActionBody, KFreshnessStart, KFreshnessEnd, pos, freshnessPresent);
+		}
+	if(authExprPresent == KErrNone && freshnessPresent == KErrNone)
+		{
+		iUseNewApi = ETrue;
+		}
+	
+	iDeauthenticate = Input::ParseIntElement(aTestActionSpec.iActionBody, KAuthenticateStart, KAuthenticateEnd);
+		
+#endif // SYMBIAN_AUTH_SERVER
+	
 	}
 
 TBool CKeyStoreTestAction::AddExpectedDialogL(const TDesC8& aData)
@@ -279,6 +334,15 @@ TInt CKeyStoreTestAction::SetExpectedResultL(const TDesC8& aResult)
 		return KErrPrivateKeyNotFound;
 	else if (aResult==KErrPermissionDeniedString)
 		return KErrPermissionDenied;
+	else if (aResult==KErrNoMemoryString)
+			return KErrNoMemory;
+#ifdef SYMBIAN_AUTH_SERVER
+	else if (aResult==KErrAuthFailureString)
+		return KErrAuthenticationFailure;
+	else if (aResult==KErrUnknownAuthStrengthAliasString)
+		return KErrUnknownAuthStrengthAlias;
+#endif // SYMBIAN_AUTH_SERVER
+	
 	else
 		{
 		iOut.writeString(_L("Unknown expected result: "));
@@ -399,7 +463,19 @@ TBool CKeyStoreTestAction::SetKeyAccessType(const TDesC8& aKeyAccessType)
 
 void CKeyStoreTestAction::DoPerformPrerequisite(TRequestStatus& aStatus)
 	{
-	TRAPD(err, WriteExpectedDialogDataL());
+	TInt err = KErrNone;
+	#ifdef SYMBIAN_AUTH_SERVER
+	if(iDeauthenticate == 1)
+		{
+		AuthServer::RAuthClient authClient;
+		authClient.Connect();
+		TRAP(err,authClient.DeauthenticateL());
+		authClient.Close();
+		}
+	#endif // SYMBIAN_AUTH_SERVER
+	
+	TRAP(err, WriteExpectedDialogDataL());
+	
 	iActionState = EAction;
 	TRequestStatus* status = &aStatus;
 	User::RequestComplete(status, err);
@@ -408,26 +484,30 @@ void CKeyStoreTestAction::DoPerformPrerequisite(TRequestStatus& aStatus)
 void CKeyStoreTestAction::DoPerformPostrequisite(TRequestStatus& aStatus)
 	{
 	TInt dialogCount = -1;
-	TRAPD(err, dialogCount = ReadDialogCountL());
-
-	if (err != KErrNone)
+	
+	if(!iDisableCheckDialog)
 		{
-		iOut.writeString(_L("Error reading dialog count: "));
-		iOut.writeNum(err);
-		iOut.writeNewLine();
-		iResult = EFalse;
-		}
-	else 
-		{
-		iOut.writeString(_L("Dialog count: got "));
-		iOut.writeNum(dialogCount);
-		iOut.writeString(_L(", expected "));
-		iOut.writeNum(iExpectedDialogs.Count());
-		iOut.writeNewLine();
-		if (dialogCount != iExpectedDialogs.Count())
+		TRAPD(err, dialogCount = ReadDialogCountL());
+	
+		if (err != KErrNone)
+			{
+			iOut.writeString(_L("Error reading dialog count: "));
+			iOut.writeNum(err);
+			iOut.writeNewLine();
 			iResult = EFalse;
+			}
+		else 
+			{
+			iOut.writeString(_L("Dialog count: got "));
+			iOut.writeNum(dialogCount);
+			iOut.writeString(_L(", expected "));
+			iOut.writeNum(iExpectedDialogs.Count());
+			iOut.writeNewLine();
+			if (dialogCount != iExpectedDialogs.Count())
+				iResult = EFalse;
+			}
 		}
-
+	
 	TRequestStatus* status = &aStatus;
 	User::RequestComplete(status, aStatus.Int());
 	iFinished = ETrue;
@@ -443,7 +523,7 @@ void CKeyStoreTestAction::AfterOOMFailure()
 	TInt r = iFs.Delete(secDlgOutputFile);
 	if (r != KErrNone && r != KErrNotFound)
 		{
-		User::Leave(r); 
+		User::Leave(r); // shouldn't leave!
 		}	
 	}
 
@@ -567,11 +647,11 @@ CTestAction* CInitialiseKeyStore::NewLC(RFs& aFs,
 
 CInitialiseKeyStore::~CInitialiseKeyStore()
 {
-	if (iNewUnifiedKeyStore)
-	{
-		delete iNewUnifiedKeyStore;
-		iNewUnifiedKeyStore = NULL;
-	}
+	delete iNewUnifiedKeyStore;
+	if (iKeyStoreLabel)
+	    {
+	    delete iKeyStoreLabel;
+	    }
 }
 
 CInitialiseKeyStore::CInitialiseKeyStore(RFs& aFs, CConsoleBase& aConsole, Output& aOut) :
@@ -618,9 +698,10 @@ void CInitialiseKeyStore::ConstructL(const TTestActionSpec& aTestActionSpec)
 	if(iEnableKeyStoreLabelCheck)
 		{
 		iKeyStoreIndex = Input::ParseIntElement(aTestActionSpec.iActionBody, KKeyStoreIndexStart, KKeyStoreIndexEnd); 
-		iKeyStoreLabel.Set(Input::ParseElement(aTestActionSpec.iActionBody, KKeyStoreLabelStart, KKeyStoreLabelEnd));
+		TPtrC8 keyLabel = Input::ParseElement(aTestActionSpec.iActionBody, KKeyStoreLabelStart, KKeyStoreLabelEnd);
+		iKeyStoreLabel = HBufC8::NewL(keyLabel.Length());
+		iKeyStoreLabel->Des().Copy(keyLabel);
 		}
-	
 }
 
 void CInitialiseKeyStore::PerformAction(TRequestStatus& aStatus)
@@ -731,14 +812,14 @@ void CInitialiseKeyStore::PerformAction(TRequestStatus& aStatus)
 							MCTKeyStoreManager& mctKeyStoreMngr = iNewUnifiedKeyStore->KeyStoreManager(iKeyStoreIndex);
 							const TDesC16& label = mctKeyStoreMngr.Token().Label();
 							TBuf<50> keyStoreLabel;
-							keyStoreLabel.Copy(iKeyStoreLabel);
+							keyStoreLabel.Copy(iKeyStoreLabel->Des());
 						
 							if(label != keyStoreLabel )
 								{
 								iOut.writeString(_L("KeyStoreLabel = "));
 								iOut.writeString(label);
 								iOut.writeString(_L(", expected = "));
-								iOut.writeString(iKeyStoreLabel);
+								iOut.writeString(iKeyStoreLabel->Des());
 								iOut.writeNewLine();						
 								result = KErrGeneral;
 								}
@@ -761,14 +842,14 @@ void CInitialiseKeyStore::PerformAction(TRequestStatus& aStatus)
 							MCTKeyStore& mctKeyStore = iNewUnifiedKeyStore->KeyStore(iKeyStoreIndex);
 							const TDesC16& label = mctKeyStore.Token().Label();
 							TBuf<50> keyStoreLabel;
-							keyStoreLabel.Copy(iKeyStoreLabel);
+							keyStoreLabel.Copy(iKeyStoreLabel->Des());
 						
 							if(label != keyStoreLabel )
 								{
 								iOut.writeString(_L("KeyStoreLabel = "));
 								iOut.writeString(label);
 								iOut.writeString(_L(", expected = "));
-								iOut.writeString(iKeyStoreLabel);
+								iOut.writeString(iKeyStoreLabel->Des());
 								iOut.writeNewLine();						
 								result = KErrGeneral;
 								}

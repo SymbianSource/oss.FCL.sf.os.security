@@ -16,7 +16,7 @@
 */
 
 
-#include "dirstreamable.h"
+#include <caf/dirstreamable.h>
 
 const TUint KCDirArrayGranularity=0x200;
 

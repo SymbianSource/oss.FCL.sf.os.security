@@ -72,3 +72,4 @@ TBool CTestNull::PerformTestsL(CConsoleBase& aConsole)
 		return(ETrue);
 		}
 	}
+

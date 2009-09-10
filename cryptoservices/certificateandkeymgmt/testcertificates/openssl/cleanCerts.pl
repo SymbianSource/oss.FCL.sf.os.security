@@ -22,3 +22,5 @@ rmtree ("Root5",0,true);
 rmtree ("OCSPSigningRoot",0,true);
 rmtree ("Apache",0,true);
 rmtree ("Certs",0,true);
+
+

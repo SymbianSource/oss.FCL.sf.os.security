@@ -16,7 +16,7 @@
 */
 
 
-#include "agent.h"
+#include <caf/agent.h>
 
 using namespace ContentAccess;
 
@@ -37,3 +37,5 @@ TUid TAgent::ImplementationUid() const
 	// return the agent implementation Uid, only accessible 
 	return iImplementationUid;
 	}
+
+

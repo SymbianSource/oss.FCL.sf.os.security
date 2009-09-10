@@ -17,7 +17,7 @@
 
 
 #include <iostream>
-#include "certapp-api.h"
+#include <tools/certapp-api.h>
 #include "badconfigwriter.h"
 #include "tcertapp_good.h"
 #include "tcertapp_bad.h"
@@ -26,10 +26,15 @@
 #include <sstream>
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
+#include <sys\timeb.h>
 #include "logger.h"
 #include "utils.h"
 
 using namespace std;
+
+// Write a pass or fail result for a test case to the TMS log file
+void writeTMSResult(ofstream &aLogFile, stringstream &aTestCaseType, int aTestCaseIndex, bool aResult, stringstream &aLogging);
 
 //Funtions to generate Good/Valid config files for tcertapp
 void GoodFileCaCertTests(const stringstream &aFilename, int aArray_value);
@@ -37,27 +42,27 @@ void GoodFileCertClientsTests(const stringstream &aFilename);
 void GoodSwiCertTests(const stringstream &aFilename, int aArray_value);
 
 //Functions to generate Good/Valid script files for emulator tests
-void GenerateGoodCaCertsTestScripts(const stringstream &aFilename);
-void GenerateGoodCertClientTestScripts(const stringstream &aFilename);
-void GenerateGoodSwiCertTestScripts(const stringstream &aFilename);
+void GenerateGoodCaCertsTestScripts(const stringstream &aFilename, const stringstream &aTestCaseType, int &aTestIndex);
+void GenerateGoodCertClientTestScripts(const stringstream &aFilename, const stringstream &aTestCaseType, int &aTestIndex);
+void GenerateGoodSwiCertTestScripts(const stringstream &aFilename, const stringstream &aTestCaseType, int &aTestIndex);
 
 //Funtions to generate Bad/illegal config files for tcertapp
-void BadFileCaCertTests(const stringstream &aFilename, int aArray_value);
-void BadFileCertClientsTests(const stringstream &aFilename, int aIndex);
-void BadSwiCertTests(const stringstream &aFilename, int aArray_value);
+void BadFileCaCertTests(const stringstream &aFilename, int aArray_value, stringstream &aTestCaseType, int &aTestIndex);
+void BadFileCertClientsTests(const stringstream &aFilename, int aIndex, stringstream &aTestCaseType, int &aTestIndex);
+void BadSwiCertTests(const stringstream &aFilename, int aArray_value, stringstream &aTestCaseType, int &aTestIndex);
 
 //Function call for RunCertApp api
-void RunCertAppTool(int argc, char **argv, stringstream &aStringval);
-void RunCertAppToolForStoreDump(int aArgc, char **aArgv, stringstream &aStringval); 
-void RunCertAppToolForBadParams(int aArgc, char **aArgv, stringstream &aStringval); 
+void RunCertAppTool(int argc, char **argv, stringstream &aStringval, stringstream &testCaseType, int testCaseIndex);
+void RunCertAppToolForStoreDump(int aArgc, char **aArgv, stringstream &aStringval, stringstream &testCaseType, int testCaseIndex); 
+void RunCertAppToolForBadParams(int aArgc, char **aArgv, stringstream &aStringval, stringstream &testCaseType, int testCaseIndex); 
 
 void TestsWithEmptyConfigFile();
 void CreateFileToAugmentStore();
 void TestsWithEncodedFileFormats();
 void TestToDecodeAndEncodeStore();
 void TestToReviewingAggregateStore();
-void TestBadConfigFiles(const stringstream &aFilename, bool aBool);
-void CertClientBadParamsFuncCall(stringstream &aFileName);
+void TestBadConfigFiles(const stringstream &aFilename, bool aBool, stringstream &aTestCaseType, int aTestCaseIndex);
+void CertClientBadParamsFuncCall(stringstream &aFileName, stringstream &aTestCaseType, int aTestCaseIndex);
 void decodeEncodeCertAppCall(const char *aArray[]);
 int CompareFiles(stringstream &aFileName1, stringstream &aFileName2);
 int Compare(istream &aIstream1, istream &aIstream2);
@@ -147,9 +152,73 @@ const char *fileEncodeType[4]=
 "--hfilecertstore=ucs2-littleendian.txt"
 };
 
+// Write a pass or fail result for a test case to the TMS log file
+void writeTMSResult(ofstream &aLogFile, stringstream &aTestCaseType, int aTestCaseIndex, bool aResult, stringstream &aLogging)
+	{
+	// get the current time
+	time_t rawtime;
+	struct tm * timeinfo;
+	char standardTimeBuffer[10];
+	time(&rawtime);
+	timeinfo = localtime(&rawtime);
+	strftime(standardTimeBuffer, 10, "%H:%M:%S", timeinfo);
+	
+	struct _timeb tstruct;
+	char millisecondTimeBuffer[6];
+	_ftime(&tstruct);
+	sprintf(millisecondTimeBuffer, ":%03u ", tstruct.millitm);
+	
+	stringstream timeBuffer;
+	timeBuffer << standardTimeBuffer << millisecondTimeBuffer;
+	
+	// set result string
+	stringstream resultBuffer;
+	
+	if (aResult)
+		{
+		resultBuffer << "PASS";
+		}
+	else
+		{
+		resultBuffer << "FAIL";
+		}
+	
+	// set test case ID string
+	char testCaseIndexBuffer[6];
+	sprintf(testCaseIndexBuffer, "-%04d", aTestCaseIndex);
+	
+	// write result in the correct format
+	aLogFile << "<html><body><pre>\r\n";
+	aLogFile << timeBuffer.str();
+	aLogFile << "START_TESTCASE ";
+	aLogFile << aTestCaseType.str() << testCaseIndexBuffer;
+	aLogFile << "\r\n";
+	aLogFile << timeBuffer.str();
+	aLogFile << "Line = 1 Command = START_TESTCASE  ";
+	aLogFile << aTestCaseType.str() << testCaseIndexBuffer;
+	aLogFile << "\r\n";
+	
+	if (aLogging.str() != "")
+		{
+		aLogFile << timeBuffer.str();
+		aLogFile << aLogging.str();
+		aLogFile << "\r\n";		
+		}
+	
+	aLogFile << timeBuffer.str();
+	aLogFile << "END_TESTCASE ";
+	aLogFile << aTestCaseType.str() << testCaseIndexBuffer;
+	aLogFile << "\r\n";
+	aLogFile << timeBuffer.str();
+	aLogFile << "Line = 1 Command = END_TESTCASE ";
+	aLogFile << aTestCaseType.str() << testCaseIndexBuffer;
+	aLogFile << " ***TestCaseResult = ";
+	aLogFile << resultBuffer.str();
+	aLogFile << "\r\n</pre></body></html>\r\n";
+	}
 
 //RunCertApp call to create store from text input
-void RunCertAppTool( int argc, char **argv, stringstream &stringval)
+void RunCertAppTool( int argc, char **argv, stringstream &stringval, stringstream &testCaseType, int testCaseIndex)
 {
 	for(int i =0; i<argc; i++)
 		{
@@ -157,51 +226,60 @@ void RunCertAppTool( int argc, char **argv, stringstream &stringval)
 		}
 	int ret = RunCertApp(progress, errors, argc, argv); 
 	cout << "Return Value from CertApp Tool is " << ret << endl;
+	stringstream logging;	
 	if(ret!= 0)
 		{
 		failCount++;
-		file<< "Error in creating store for " << stringval.str() << " and result is " << ret << " Fail" << endl ;
+		logging << "Error in creating store for " << stringval.str() << " and result is " << ret << " Fail" ;
 		}
 	else
 		{
 		passCount++;
-		file << "No Error in creating store for " << stringval.str() << " and result is " << ret << " Pass" <<endl ;
+		logging << "No Error in creating store for " << stringval.str() << " and result is " << ret << " Pass" ;
 		}
+	
+	writeTMSResult(file, testCaseType, testCaseIndex, ret==0, logging);
 }
 
 //RunCertApp call to dump the store to human readable format
-void RunCertAppToolForStoreDump(int argc, char **argv, stringstream &stringval)
+void RunCertAppToolForStoreDump(int argc, char **argv, stringstream &stringval, stringstream &testCaseType, int testCaseIndex)
 {
 	int ret = RunCertApp(progress, errors, argc, argv); 
 	cout << "Return Value from CertApp Tool is " << ret << endl;
+	stringstream logging;	
 	if(ret!= 0)
 		{
 		failCount++;
-		file<< "Error in Dumping the store file for " << stringval.str() << " and result is " << ret << " Fail" << endl ;
+		logging << "Error in Dumping the store file for " << stringval.str() << " and result is " << ret << " Fail";
 		}
 	else
 		{
 		passCount++;
-		file << "No Error in Dumping store for " << stringval.str() << " and result is " << ret << " Pass" <<endl ;
+		logging << "No Error in Dumping store for " << stringval.str() << " and result is " << ret << " Pass";
 		}
+	
+	writeTMSResult(file, testCaseType, testCaseIndex, ret==0, logging);
 }
 
 //RunCertApp call to create store for bad params
-void RunCertAppToolForBadParams(int argc, char **argv, stringstream &stringval)
+void RunCertAppToolForBadParams(int argc, char **argv, stringstream &stringval, stringstream &testCaseType, int testCaseIndex)
 {
 	int ret = RunCertApp(progress, errors, argc, argv); 
+	stringstream logging;	
 	if(ret!= 0)
 		{
 		passCount++;
 		cout << "We have passsed bad paramerters! Expected Return value is -1 And the RunCertApp has returned " << ret << " as Expected"<< endl;
-		file<< "Bad Params! So Cannot create the store for " << stringval.str() << " and result is " << ret << " Pass" << endl ;
+		logging << "Bad Params! So Cannot create the store for " << stringval.str() << " and result is " << ret << " Pass";
 		}
 	else
 		{
 		failCount++;
-		file << "We are using bad parameters! So the tools should fail to create store! " << stringval.str() << " and result is " << ret << " Fail" <<endl ;
+		logging << "We are using bad parameters! So the tools should fail to create store! " << stringval.str() << " and result is " << ret << " Fail";
 		cout << "We have passsed bad paramerters! The Tool has failed- It should return -1, But returned" << ret << endl;
 		}
+	
+	writeTMSResult(file, testCaseType, testCaseIndex, ret==0, logging);	
 }
 
 
@@ -210,6 +288,9 @@ main entry to the program
 */
 int main(int /*argc*/, char ** /*argv*/)
 {
+	stringstream testCaseType;
+	int testCaseIndex = 0;
+
 	dbg.SetStream(&std::cout);
 	prog.SetStream(&std::cout);
 	std::cout << std::dec;
@@ -220,11 +301,16 @@ int main(int /*argc*/, char ** /*argv*/)
 	// File to log the result of all tests
 	if(file)
 		{
-		file.open("tCertapp_Output.txt", ios_base::trunc | ios_base::out);
+		file.open("tCertapp_Output.htm", ios_base::trunc | ios_base::out);
 		}
 
 	//create a file to augment the content to existing store
 	CreateFileToAugmentStore();
+
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-CCDAT_CREATE-0000
+  @SYMTestCaseDesc	Create store
+*/	
 
 	//create certclient config files 
 	//Format used for the files name is SDP-Security_Tools-CertApp-XXX-000X  to match with the TMS test case id
@@ -259,8 +345,14 @@ int main(int /*argc*/, char ** /*argv*/)
 		argv = argument_ptr;
 		}
 	
-	RunCertAppTool(argCount3, argv, certclientfileName); // creating dat file
+	testCaseType.str("SEC-TOOLS-CERTAPP-CCDAT_CREATE");
+	RunCertAppTool(argCount3, argv, certclientfileName, testCaseType, 0); // creating dat file
 	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-CCAUG_AUGMENT-0000
+  @SYMTestCaseDesc	Augment the Store with Extra entries
+*/	
+
 	//Augment the Store with Extra entries
 	augFileName<<"SDP-Security_Tools-CertApp-CCAUG_0000.dat";
 	argv_certclient[0] = "--hcertclients=tCertClient_Augment.txt";
@@ -272,7 +364,14 @@ int main(int /*argc*/, char ** /*argv*/)
 			argument_ptr[x] = const_cast<char*>(argv_certclient[x]);
 			argv1 = argument_ptr;   
 			}
-	RunCertAppTool(argCount4, argv1, augFileName);
+	
+	testCaseType.str("SEC-TOOLS-CERTAPP-CCAUG_AUGMENT");
+	RunCertAppTool(argCount4, argv1, augFileName, testCaseType, 0);
+
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-CCDAT_DUMP-0000
+  @SYMTestCaseDesc	Dump the dat file to human readable text format
+*/	
 
 	//Dump the dat file to human readable text format
 	argv_certclient[0] = argv_certclient[3];
@@ -284,7 +383,9 @@ int main(int /*argc*/, char ** /*argv*/)
 		argument_ptr[k] = const_cast<char*>(argv_certclient[k]);
 		argv1 = argument_ptr;
 		}
-	RunCertAppToolForStoreDump(argCount3, argv1, certclientfileName); 
+
+	testCaseType.str("SEC-TOOLS-CERTAPP-CCDAT_DUMP");
+	RunCertAppToolForStoreDump(argCount3, argv1, certclientfileName, testCaseType, 0); 
 	//End of t_certclients
 	
 	//Creates good config files to augment store and dump store to text format for file certstore - cacerts.dat
@@ -294,6 +395,43 @@ int main(int /*argc*/, char ** /*argv*/)
 		stringstream caCertFileName;
 		caCertFileName << "SDP-Security_Tools-CertApp-FILEDAT_000"<<num_tests<<".txt";
 		GoodFileCaCertTests(caCertFileName,num_tests);
+
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEDAT_CREATE-0000
+  @SYMTestCaseDesc	CREATE CACERTS STORE FROM HUMAN READABLE TEXT INPUT
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEDAT_CREATE-0001
+  @SYMTestCaseDesc	CREATE CACERTS STORE FROM HUMAN READABLE TEXT INPUT
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEDAT_CREATE-0002
+  @SYMTestCaseDesc	CREATE CACERTS STORE FROM HUMAN READABLE TEXT INPUT
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEDAT_CREATE-0003
+  @SYMTestCaseDesc	CREATE CACERTS STORE FROM HUMAN READABLE TEXT INPUT
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEDAT_CREATE-0004
+  @SYMTestCaseDesc	CREATE CACERTS STORE FROM HUMAN READABLE TEXT INPUT
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEDAT_CREATE-0005
+  @SYMTestCaseDesc	CREATE CACERTS STORE FROM HUMAN READABLE TEXT INPUT
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEDAT_CREATE-0006
+  @SYMTestCaseDesc	CREATE CACERTS STORE FROM HUMAN READABLE TEXT INPUT
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEDAT_CREATE-0007
+  @SYMTestCaseDesc	CREATE CACERTS STORE FROM HUMAN READABLE TEXT INPUT
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEDAT_CREATE-0008
+  @SYMTestCaseDesc	CREATE CACERTS STORE FROM HUMAN READABLE TEXT INPUT
+*/	
 
 		// CREATE CACERTS STORE FROM HUMAN READABLE TEXT INPUT
 		//ex:certapp --hcertclients=t_certclients_0.txt --hfilecertstore=t_cacerts_0.txt --out --bfilecertstore=cacerts_x.dat
@@ -325,7 +463,46 @@ int main(int /*argc*/, char ** /*argv*/)
 			argument_ptr[n] = const_cast<char*>(argv_certclient[n]);
 			argv = argument_ptr;  
 			}
-		RunCertAppTool(argCount4, argv, caCertFileName); 
+
+		testCaseType.str("SEC-TOOLS-CERTAPP-FILEDAT_CREATE");
+		RunCertAppTool(argCount4, argv, caCertFileName, testCaseType, num_tests); 
+		
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEAUG_AUGMENT-0000
+  @SYMTestCaseDesc	AUGMENT THE CACERT STORE WITH EXTRA INFORMATION
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEAUG_AUGMENT-0001
+  @SYMTestCaseDesc	AUGMENT THE CACERT STORE WITH EXTRA INFORMATION
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEAUG_AUGMENT-0002
+  @SYMTestCaseDesc	AUGMENT THE CACERT STORE WITH EXTRA INFORMATION
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEAUG_AUGMENT-0003
+  @SYMTestCaseDesc	AUGMENT THE CACERT STORE WITH EXTRA INFORMATION
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEAUG_AUGMENT-0004
+  @SYMTestCaseDesc	AUGMENT THE CACERT STORE WITH EXTRA INFORMATION
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEAUG_AUGMENT-0005
+  @SYMTestCaseDesc	AUGMENT THE CACERT STORE WITH EXTRA INFORMATION
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEAUG_AUGMENT-0006
+  @SYMTestCaseDesc	AUGMENT THE CACERT STORE WITH EXTRA INFORMATION
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEAUG_AUGMENT-0007
+  @SYMTestCaseDesc	AUGMENT THE CACERT STORE WITH EXTRA INFORMATION
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEAUG_AUGMENT-0008
+  @SYMTestCaseDesc	AUGMENT THE CACERT STORE WITH EXTRA INFORMATION
+*/	
 
 		//AUGMENT THE CACERT STORE WITH EXTRA INFORMATION
 		//ex:certapp  --hfilecertstore=tAugment_cacerts_x.txt  --bfilecertstore=cacerts.dat --out --bfilecertstore=new_extra_filecertstore.dat
@@ -343,8 +520,47 @@ int main(int /*argc*/, char ** /*argv*/)
 			argument_ptr[x] = const_cast<char*>(argv_certclient[x]);
 			argv1 = argument_ptr;   
 			}
-		RunCertAppTool(argCount4, argv1, augFileName);
 
+		testCaseType.str("SEC-TOOLS-CERTAPP-FILEAUG_AUGMENT");
+		RunCertAppTool(argCount4, argv1, augFileName, testCaseType, num_tests);
+
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEDUMP_DUMP-0000
+  @SYMTestCaseDesc	DUMP THE STORE TO HUMAN READABLE FORMAT
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEDUMP_DUMP-0001
+  @SYMTestCaseDesc	DUMP THE STORE TO HUMAN READABLE FORMAT
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEDUMP_DUMP-0002
+  @SYMTestCaseDesc	DUMP THE STORE TO HUMAN READABLE FORMAT
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEDUMP_DUMP-0003
+  @SYMTestCaseDesc	DUMP THE STORE TO HUMAN READABLE FORMAT
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEDUMP_DUMP-0004
+  @SYMTestCaseDesc	DUMP THE STORE TO HUMAN READABLE FORMAT
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEDUMP_DUMP-0005
+  @SYMTestCaseDesc	DUMP THE STORE TO HUMAN READABLE FORMAT
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEDUMP_DUMP-0006
+  @SYMTestCaseDesc	DUMP THE STORE TO HUMAN READABLE FORMAT
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEDUMP_DUMP-0007
+  @SYMTestCaseDesc	DUMP THE STORE TO HUMAN READABLE FORMAT
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEDUMP_DUMP-0008
+  @SYMTestCaseDesc	DUMP THE STORE TO HUMAN READABLE FORMAT
+*/	
+		
 		//DUMP THE STORE TO HUMAN READABLE FORMAT
 		//ex:certapp --bfilecertstore=test.dat --out --hfilecertstore=t_cacerts.txt 
 		textDumpFileName <<"SDP-Security_Tools-CertApp-FILEDUMP_000"<< num_tests << ".txt";
@@ -360,7 +576,9 @@ int main(int /*argc*/, char ** /*argv*/)
 			argv2 = argument_ptr;
 			}
 		//Dumps the augmented store
-		RunCertAppToolForStoreDump(argCount3, argv2, textDumpFileName); 
+
+		testCaseType.str("SEC-TOOLS-CERTAPP-FILEDUMP_DUMP");
+		RunCertAppToolForStoreDump(argCount3, argv2, textDumpFileName, testCaseType, num_tests); 
 		}//End of cacerts
 
 
@@ -370,6 +588,47 @@ int main(int /*argc*/, char ** /*argv*/)
 		stringstream swiCertStoreFileName;
 		swiCertStoreFileName << "SDP-Security_Tools-CertApp-SWIDAT_000"<<num_tests<<".txt";
 		GoodSwiCertTests(swiCertStoreFileName,num_tests);
+
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIDAT_CREATE-0000
+  @SYMTestCaseDesc	CREATE THE SWICERTSTORE FROM THE HUMAN READABLE TEXT INPUT
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIDAT_CREATE-0001
+  @SYMTestCaseDesc	CREATE THE SWICERTSTORE FROM THE HUMAN READABLE TEXT INPUT
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIDAT_CREATE-0002
+  @SYMTestCaseDesc	CREATE THE SWICERTSTORE FROM THE HUMAN READABLE TEXT INPUT
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIDAT_CREATE-0003
+  @SYMTestCaseDesc	CREATE THE SWICERTSTORE FROM THE HUMAN READABLE TEXT INPUT
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIDAT_CREATE-0004
+  @SYMTestCaseDesc	CREATE THE SWICERTSTORE FROM THE HUMAN READABLE TEXT INPUT
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIDAT_CREATE-0005
+  @SYMTestCaseDesc	CREATE THE SWICERTSTORE FROM THE HUMAN READABLE TEXT INPUT
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIDAT_CREATE-0006
+  @SYMTestCaseDesc	CREATE THE SWICERTSTORE FROM THE HUMAN READABLE TEXT INPUT
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIDAT_CREATE-0007
+  @SYMTestCaseDesc	CREATE THE SWICERTSTORE FROM THE HUMAN READABLE TEXT INPUT
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIDAT_CREATE-0008
+  @SYMTestCaseDesc	CREATE THE SWICERTSTORE FROM THE HUMAN READABLE TEXT INPUT
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIDAT_CREATE-0009
+  @SYMTestCaseDesc	CREATE THE SWICERTSTORE FROM THE HUMAN READABLE TEXT INPUT
+*/	
 
 		//CREATE THE SWICERTSTORE  FROM THE HUMAN READABLE TEXT INPUT
 		//Ex: certapp --hcertclients=t_certclients_0.txt --hswicertstore=t_swicertstore_0.txt --out --bswicertstore=swicertstore_x.dat
@@ -407,7 +666,50 @@ int main(int /*argc*/, char ** /*argv*/)
 			argument_ptr[n] = const_cast<char*>(argv_certclient[n]);
 			argv = argument_ptr;
 			}
-		RunCertAppTool(argCount4, argv,swiCertStoreFileName); 
+
+		testCaseType.str("SEC-TOOLS-CERTAPP-SWIDAT_CREATE");
+		RunCertAppTool(argCount4, argv,swiCertStoreFileName, testCaseType, num_tests); 
+
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIAUG_AUGMENT-0000
+  @SYMTestCaseDesc	AUGMENT THE CACERT STORE WITH EXTRA INFORMATION
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIAUG_AUGMENT-0001
+  @SYMTestCaseDesc	AUGMENT THE CACERT STORE WITH EXTRA INFORMATION
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIAUG_AUGMENT-0002
+  @SYMTestCaseDesc	AUGMENT THE CACERT STORE WITH EXTRA INFORMATION
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIAUG_AUGMENT-0003
+  @SYMTestCaseDesc	AUGMENT THE CACERT STORE WITH EXTRA INFORMATION
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIAUG_AUGMENT-0004
+  @SYMTestCaseDesc	AUGMENT THE CACERT STORE WITH EXTRA INFORMATION
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIAUG_AUGMENT-0005
+  @SYMTestCaseDesc	AUGMENT THE CACERT STORE WITH EXTRA INFORMATION
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIAUG_AUGMENT-0006
+  @SYMTestCaseDesc	AUGMENT THE CACERT STORE WITH EXTRA INFORMATION
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIAUG_AUGMENT-0007
+  @SYMTestCaseDesc	AUGMENT THE CACERT STORE WITH EXTRA INFORMATION
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIAUG_AUGMENT-0008
+  @SYMTestCaseDesc	AUGMENT THE CACERT STORE WITH EXTRA INFORMATION
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIAUG_AUGMENT-0009
+  @SYMTestCaseDesc	AUGMENT THE CACERT STORE WITH EXTRA INFORMATION
+*/	
 
 		//AUGMENT THE CACERT STORE WITH EXTRA INFORMATION
 		//certapp  --hswicertstore=tAugment_swicertstore_x.txt  --bswicertstore=swicertstore_x.dat --out --bswicertstore=aug_swicertstore_x.dat
@@ -425,8 +727,51 @@ int main(int /*argc*/, char ** /*argv*/)
 			argument_ptr[x] = const_cast<char*>(argv_certclient[x]);
 			argv1 = argument_ptr;   
 			}
-		RunCertAppTool(argCount4, argv1, augFileName);
 
+		testCaseType.str("SEC-TOOLS-CERTAPP-SWIAUG_AUGMENT");
+		RunCertAppTool(argCount4, argv1, augFileName, testCaseType, num_tests);
+
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIDUMP_DUMP-0000
+  @SYMTestCaseDesc	DUMP THE SWI CERTSTORE TO HUMAN READABLE FORMAT
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIDUMP_DUMP-0001
+  @SYMTestCaseDesc	DUMP THE SWI CERTSTORE TO HUMAN READABLE FORMAT
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIDUMP_DUMP-0002
+  @SYMTestCaseDesc	DUMP THE SWI CERTSTORE TO HUMAN READABLE FORMAT
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIDUMP_DUMP-0003
+  @SYMTestCaseDesc	DUMP THE SWI CERTSTORE TO HUMAN READABLE FORMAT
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIDUMP_DUMP-0004
+  @SYMTestCaseDesc	DUMP THE SWI CERTSTORE TO HUMAN READABLE FORMAT
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIDUMP_DUMP-0005
+  @SYMTestCaseDesc	DUMP THE SWI CERTSTORE TO HUMAN READABLE FORMAT
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIDUMP_DUMP-0006
+  @SYMTestCaseDesc	DUMP THE SWI CERTSTORE TO HUMAN READABLE FORMAT
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIDUMP_DUMP-0007
+  @SYMTestCaseDesc	DUMP THE SWI CERTSTORE TO HUMAN READABLE FORMAT
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIDUMP_DUMP-0008
+  @SYMTestCaseDesc	DUMP THE SWI CERTSTORE TO HUMAN READABLE FORMAT
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIDUMP_DUMP-0009
+  @SYMTestCaseDesc	DUMP THE SWI CERTSTORE TO HUMAN READABLE FORMAT
+*/	
+		
 		//DUMP THE SWI CERTSTORE TO HUMAN READABLE FORMAT
 		textDumpFileName << "SDP-Security_Tools-CertApp-SWIDUMP_000" <<num_tests << ".txt";
 		argv_certclient[0] =  argv_certclient[3];  
@@ -442,7 +787,8 @@ int main(int /*argc*/, char ** /*argv*/)
 			argv2 = argument_ptr;
 			}
 
-		RunCertAppToolForStoreDump(argCount3, argv2, textDumpFileName); 
+		testCaseType.str("SEC-TOOLS-CERTAPP-SWIDUMP_DUMP");
+		RunCertAppToolForStoreDump(argCount3, argv2, textDumpFileName, testCaseType, num_tests); 
 		}
 	
 	//Test with unicode filename
@@ -461,53 +807,621 @@ int main(int /*argc*/, char ** /*argv*/)
 	TestToReviewingAggregateStore();
 
 	//Test cases for BAD Params
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-CCBADPARAMS_CREATE-0000
+  @SYMTestCaseDesc	Create bad certclient config files
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-CCBADPARAMS_CREATE-0001
+  @SYMTestCaseDesc	Create bad certclient config files
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-CCBADPARAMS_CREATEE-0002
+  @SYMTestCaseDesc	Create bad certclient config files
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-CCBADPARAMS_CREATE-0003
+  @SYMTestCaseDesc	Create bad certclient config files
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-CCBADPARAMS_CREATE-0004
+  @SYMTestCaseDesc	Create bad certclient config files
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-CCBADPARAMS_CREATE-0005
+  @SYMTestCaseDesc	Create bad certclient config files
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-CCBADPARAMS_CREATE-0006
+  @SYMTestCaseDesc	Create bad certclient config files
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-CCBADPARAMS_CREATE-0007
+  @SYMTestCaseDesc	Create bad certclient config files
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-CCBADPARAMS_CREATE-0008
+  @SYMTestCaseDesc	Create bad certclient config files
+*/	
 	//create certclient config files 
+	testCaseType.str("SEC-TOOLS-CERTAPP-CCBADPARAMS_CREATE");
+	testCaseIndex = 0;
 	for(num_tests =0; num_tests<3; num_tests++) 
 		{
 		stringstream badCertClientsFileName;
 		badCertClientsFileName << "SDP-Security_Tools-CertApp-CCBadParams-000"<<num_tests;
-		BadFileCertClientsTests(badCertClientsFileName,num_tests);
+		BadFileCertClientsTests(badCertClientsFileName,num_tests,testCaseType,testCaseIndex);
 		} //End of bad params for cerclients
 
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEBADPARAMS_CREATE-0000
+  @SYMTestCaseDesc	Create bad config files for file certstore
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEBADPARAMS_CREATE-0001
+  @SYMTestCaseDesc	Create bad config files for file certstore
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEBADPARAMS_CREATE-0002
+  @SYMTestCaseDesc	Create bad config files for file certstore
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEBADPARAMS_CREATE-0003
+  @SYMTestCaseDesc	Create bad config files for file certstore
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEBADPARAMS_CREATE-0004
+  @SYMTestCaseDesc	Create bad config files for file certstore
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEBADPARAMS_CREATE-0005
+  @SYMTestCaseDesc	Create bad config files for file certstore
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEBADPARAMS_CREATE-0006
+  @SYMTestCaseDesc	Create bad config files for file certstore
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEBADPARAMS_CREATE-0007
+  @SYMTestCaseDesc	Create bad config files for file certstore
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEBADPARAMS_CREATE-0008
+  @SYMTestCaseDesc	Create bad config files for file certstore
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEBADPARAMS_CREATE-0009
+  @SYMTestCaseDesc	Create bad config files for file certstore
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEBADPARAMS_CREATE-0010
+  @SYMTestCaseDesc	Create bad config files for file certstore
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEBADPARAMS_CREATE-0011
+  @SYMTestCaseDesc	Create bad config files for file certstore
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEBADPARAMS_CREATE-0012
+  @SYMTestCaseDesc	Create bad config files for file certstore
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEBADPARAMS_CREATE-0013
+  @SYMTestCaseDesc	Create bad config files for file certstore
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEBADPARAMS_CREATE-0014
+  @SYMTestCaseDesc	Create bad config files for file certstore
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEBADPARAMS_CREATE-0015
+  @SYMTestCaseDesc	Create bad config files for file certstore
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEBADPARAMS_CREATE-0016
+  @SYMTestCaseDesc	Create bad config files for file certstore
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEBADPARAMS_CREATE-0017
+  @SYMTestCaseDesc	Create bad config files for file certstore
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEBADPARAMS_CREATE-0018
+  @SYMTestCaseDesc	Create bad config files for file certstore
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEBADPARAMS_CREATE-0019
+  @SYMTestCaseDesc	Create bad config files for file certstore
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEBADPARAMS_CREATE-0020
+  @SYMTestCaseDesc	Create bad config files for file certstore
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEBADPARAMS_CREATE-0021
+  @SYMTestCaseDesc	Create bad config files for file certstore
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEBADPARAMS_CREATE-0022
+  @SYMTestCaseDesc	Create bad config files for file certstore
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEBADPARAMS_CREATE-0023
+  @SYMTestCaseDesc	Create bad config files for file certstore
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEBADPARAMS_CREATE-0024
+  @SYMTestCaseDesc	Create bad config files for file certstore
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEBADPARAMS_CREATE-0025
+  @SYMTestCaseDesc	Create bad config files for file certstore
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEBADPARAMS_CREATE-0026
+  @SYMTestCaseDesc	Create bad config files for file certstore
+*/	
 	//create bad config files for file certstore - cacerts.dat
+	testCaseType.str("SEC-TOOLS-CERTAPP-FILEBADPARAMS_CREATE");
+	testCaseIndex = 0;
 	for(num_tests = 0; num_tests<KFileArrayIndex+1; num_tests++)
 		{
 		stringstream badCaCertsFileName;
 		badCaCertsFileName << "SDP-Security_Tools-CertApp-FileBadParams-000"<<num_tests; 
-		BadFileCaCertTests(badCaCertsFileName,num_tests);
+		BadFileCaCertTests(badCaCertsFileName,num_tests,testCaseType,testCaseIndex);
 		}
 	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIBADPARAMS_CREATE-0000
+  @SYMTestCaseDesc	Create config files with invalid values swi certstore 
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIBADPARAMS_CREATE-0001
+  @SYMTestCaseDesc	Create config files with invalid values swi certstore 
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIBADPARAMS_CREATE-0002
+  @SYMTestCaseDesc	Create config files with invalid values swi certstore 
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIBADPARAMS_CREATE-0003
+  @SYMTestCaseDesc	Create config files with invalid values swi certstore 
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIBADPARAMS_CREATE-0004
+  @SYMTestCaseDesc	Create config files with invalid values swi certstore 
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIBADPARAMS_CREATE-0005
+  @SYMTestCaseDesc	Create config files with invalid values swi certstore 
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIBADPARAMS_CREATE-0006
+  @SYMTestCaseDesc	Create config files with invalid values swi certstore 
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIBADPARAMS_CREATE-0007
+  @SYMTestCaseDesc	Create config files with invalid values swi certstore 
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIBADPARAMS_CREATE-0008
+  @SYMTestCaseDesc	Create config files with invalid values swi certstore 
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIBADPARAMS_CREATE-0009
+  @SYMTestCaseDesc	Create config files with invalid values swi certstore 
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIBADPARAMS_CREATE-0010
+  @SYMTestCaseDesc	Create config files with invalid values swi certstore 
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIBADPARAMS_CREATE-0011
+  @SYMTestCaseDesc	Create config files with invalid values swi certstore 
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIBADPARAMS_CREATE-0012
+  @SYMTestCaseDesc	Create config files with invalid values swi certstore 
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIBADPARAMS_CREATE-0013
+  @SYMTestCaseDesc	Create config files with invalid values swi certstore 
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIBADPARAMS_CREATE-0014
+  @SYMTestCaseDesc	Create config files with invalid values swi certstore 
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIBADPARAMS_CREATE-0015
+  @SYMTestCaseDesc	Create config files with invalid values swi certstore 
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIBADPARAMS_CREATE-0016
+  @SYMTestCaseDesc	Create config files with invalid values swi certstore 
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIBADPARAMS_CREATE-0017
+  @SYMTestCaseDesc	Create config files with invalid values swi certstore 
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIBADPARAMS_CREATE-0018
+  @SYMTestCaseDesc	Create config files with invalid values swi certstore 
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIBADPARAMS_CREATE-0019
+  @SYMTestCaseDesc	Create config files with invalid values swi certstore 
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIBADPARAMS_CREATE-0020
+  @SYMTestCaseDesc	Create config files with invalid values swi certstore 
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIBADPARAMS_CREATE-0021
+  @SYMTestCaseDesc	Create config files with invalid values swi certstore 
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIBADPARAMS_CREATE-0022
+  @SYMTestCaseDesc	Create config files with invalid values swi certstore 
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIBADPARAMS_CREATE-0023
+  @SYMTestCaseDesc	Create config files with invalid values swi certstore 
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIBADPARAMS_CREATE-0024
+  @SYMTestCaseDesc	Create config files with invalid values swi certstore 
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIBADPARAMS_CREATE-0025
+  @SYMTestCaseDesc	Create config files with invalid values swi certstore 
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIBADPARAMS_CREATE-0026
+  @SYMTestCaseDesc	Create config files with invalid values swi certstore 
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIBADPARAMS_CREATE-0027
+  @SYMTestCaseDesc	Create config files with invalid values swi certstore 
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIBADPARAMS_CREATE-0028
+  @SYMTestCaseDesc	Create config files with invalid values swi certstore 
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIBADPARAMS_CREATE-0029
+  @SYMTestCaseDesc	Create config files with invalid values swi certstore 
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-SWIBADPARAMS_CREATE-0030
+  @SYMTestCaseDesc	Create config files with invalid values swi certstore 
+*/	
 	//create config files with invalid values swi certstore 
+	testCaseType.str("SEC-TOOLS-CERTAPP-SWIBADPARAMS_CREATE");
+	testCaseIndex = 0;
 	for(num_tests = 0; num_tests<KSwiBadcertIndex; num_tests++)
 		{
 		stringstream badSwiCertsFileName;
 		badSwiCertsFileName << "SDP-Security_Tools-CertApp-SwiBadParams-000"<<num_tests;
-		BadSwiCertTests(badSwiCertsFileName,num_tests);
+		BadSwiCertTests(badSwiCertsFileName,num_tests,testCaseType,testCaseIndex);
 		}
 
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODCACERT-0001
+  @SYMTestCaseDesc	Initializing a CUnifiedCertStore
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODCACERT-0002
+  @SYMTestCaseDesc	Get the list of certificates
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODCACERT-0003
+  @SYMTestCaseDesc	Get certificate details
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODCACERT-0004
+  @SYMTestCaseDesc	Get Trust certificate
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODCACERT-0005
+  @SYMTestCaseDesc	Get applications
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODCACERT-0006
+  @SYMTestCaseDesc	Retrieve Certificate
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODCACERT-0007
+  @SYMTestCaseDesc	Get certificate details
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODCACERT-0008
+  @SYMTestCaseDesc	Get Trust certificate
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODCACERT-0009
+  @SYMTestCaseDesc	Get applications
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODCACERT-0010
+  @SYMTestCaseDesc	Retrieve Certificate
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODCACERT-0011
+  @SYMTestCaseDesc	Get certificate details
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODCACERT-0012
+  @SYMTestCaseDesc	Get Trust certificate
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODCACERT-0013
+  @SYMTestCaseDesc	Get applications
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODCACERT-0014
+  @SYMTestCaseDesc	Retrieve Certificate
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODCACERT-0015
+  @SYMTestCaseDesc	Get certificate details
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODCACERT-0016
+  @SYMTestCaseDesc	Get Trust certificate
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODCACERT-0017
+  @SYMTestCaseDesc	Get applications
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODCACERT-0018
+  @SYMTestCaseDesc	Retrieve Certificate
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODCACERT-0019
+  @SYMTestCaseDesc	Get certificate details
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODCACERT-0020
+  @SYMTestCaseDesc	Get Trust certificate
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODCACERT-0021
+  @SYMTestCaseDesc	Get applications
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODCACERT-0022
+  @SYMTestCaseDesc	Retrieve Certificate
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODCACERT-0023
+  @SYMTestCaseDesc	Get certificate details
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODCACERT-0024
+  @SYMTestCaseDesc	Get Trust certificate
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODCACERT-0025
+  @SYMTestCaseDesc	Get applications
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODCACERT-0026
+  @SYMTestCaseDesc	Retrieve Certificate
+*/	
 	//Code to create Script files for the file/sw/certclients to run validation tests on emulator
 	//create script file for the symbian test harness-  for cacerts.dat
+	testCaseType.str("SEC-TOOLS-CERTAPP-GOODCACERT");
+	testCaseIndex = 0;
 	for(num_tests = 0; num_tests<1; num_tests++)
 		{
 		stringstream emu_CacertsFileName;
-		emu_CacertsFileName << "SDP-Security_Tools-CertApp-FILEDAT-EMU0"<<num_tests<<".txt";
-		GenerateGoodCaCertsTestScripts(emu_CacertsFileName);
+		emu_CacertsFileName << "SDP-Security_Tools-CertApp-FILEDAT-EMU0"<<num_tests<<".script";
+		GenerateGoodCaCertsTestScripts(emu_CacertsFileName,testCaseType,testCaseIndex);
 		}
 
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODCERT-0001
+  @SYMTestCaseDesc	Initialise a CertClientStore
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODCERT-0002
+  @SYMTestCaseDesc	Get Count of Applications
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODCERT-0003
+  @SYMTestCaseDesc	Getting the application list
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODCERT-0004
+  @SYMTestCaseDesc	Get application with given id
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODCERT-0005
+  @SYMTestCaseDesc	Get application with given id
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODCERT-0006
+  @SYMTestCaseDesc	Get application with given id
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODCERT-0007
+  @SYMTestCaseDesc	Get application with given id
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODCERT-0008
+  @SYMTestCaseDesc	Destroy the manager
+*/	
 	//create script file for certclients.dat
+	testCaseType.str("SEC-TOOLS-CERTAPP-GOODCERT");
+	testCaseIndex = 0;
 	for(num_tests = 0; num_tests<1; num_tests++)
 		{
 		stringstream emu_CertClientsFileName;
-		emu_CertClientsFileName << "SDP-Security_Tools-CertApp-CCDAT-EMU0"<<num_tests<<".txt";
-		GenerateGoodCertClientTestScripts(emu_CertClientsFileName);
+		emu_CertClientsFileName << "SDP-Security_Tools-CertApp-CCDAT-EMU0"<<num_tests<<".script";
+		GenerateGoodCertClientTestScripts(emu_CertClientsFileName,testCaseType,testCaseIndex);
 		}
 
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODSWICERT-0001
+  @SYMTestCaseDesc	Initialise a SWICertStore
+*/
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODSWICERT-0002
+  @SYMTestCaseDesc	Get the list of certificates
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODSWICERT-0003
+  @SYMTestCaseDesc	Get the systemupgrade flag
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODSWICERT-0004
+  @SYMTestCaseDesc	Retrieve Certificate
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODSWICERT-0005
+  @SYMTestCaseDesc	Get applications
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODSWICERT-0006
+  @SYMTestCaseDesc	Get Trust certificate
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODSWICERT-0007
+  @SYMTestCaseDesc	Get the capabilities
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODSWICERT-0008
+  @SYMTestCaseDesc	Get the mandatory flag
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODSWICERT-0009
+  @SYMTestCaseDesc	Get the systemupgrade flag
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODSWICERT-0010
+  @SYMTestCaseDesc	Retrieve Certificate
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODSWICERT-0011
+  @SYMTestCaseDesc	Get applications
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODSWICERT-0012
+  @SYMTestCaseDesc	Get Trust certificate
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODSWICERT-0013
+  @SYMTestCaseDesc	Get the capabilities
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODSWICERT-0014
+  @SYMTestCaseDesc	Get the mandatory flag
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODSWICERT-0015
+  @SYMTestCaseDesc	Get the systemupgrade flag
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODSWICERT-0016
+  @SYMTestCaseDesc	Retrieve Certificate
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODSWICERT-0017
+  @SYMTestCaseDesc	Get applications
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODSWICERT-0018
+  @SYMTestCaseDesc	Get Trust certificate
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODSWICERT-0019
+  @SYMTestCaseDesc	Get the capabilities
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODSWICERT-0020
+  @SYMTestCaseDesc	Get the mandatory flag
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODSWICERT-0021
+  @SYMTestCaseDesc	Get the systemupgrade flag
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODSWICERT-0022
+  @SYMTestCaseDesc	Retrieve Certificate
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODSWICERT-0023
+  @SYMTestCaseDesc	Get applications
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODSWICERT-0024
+  @SYMTestCaseDesc	Get Trust certificate
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODSWICERT-0025
+  @SYMTestCaseDesc	Get the capabilities
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODSWICERT-0026
+  @SYMTestCaseDesc	Get the mandatory flag
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODSWICERT-0027
+  @SYMTestCaseDesc	Get the systemupgrade flag
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODSWICERT-0028
+  @SYMTestCaseDesc	Retrieve Certificate
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODSWICERT-0029
+  @SYMTestCaseDesc	Get applications
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODSWICERT-0030
+  @SYMTestCaseDesc	Get Trust certificate
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODSWICERT-0031
+  @SYMTestCaseDesc	Get the capabilities
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODSWICERT-0032
+  @SYMTestCaseDesc	Get the mandatory flag
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODSWICERT-0033
+  @SYMTestCaseDesc	Get the systemupgrade flag
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODSWICERT-0034
+  @SYMTestCaseDesc	Retrieve Certificate
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODSWICERT-0035
+  @SYMTestCaseDesc	Get applications
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODSWICERT-0036
+  @SYMTestCaseDesc	Get Trust certificate
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODSWICERT-0037
+  @SYMTestCaseDesc	Get the capabilities
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-GOODSWICERT-0038
+  @SYMTestCaseDesc	Get the mandatory flag
+*/	
 	//create script file for the symbian test harness-  for swicerts.dat
+	testCaseType.str("SEC-TOOLS-CERTAPP-GOODSWICERT");
+	testCaseIndex = 0;
 	for(num_tests = 0; num_tests<1; num_tests++)
 		{
 		stringstream emu_SwiCertsFileName;
-		emu_SwiCertsFileName << "SDP-Security_Tools-CertApp-SWIDAT-EMU0"<<num_tests<<".txt";
-		GenerateGoodSwiCertTestScripts(emu_SwiCertsFileName);
+		emu_SwiCertsFileName << "SDP-Security_Tools-CertApp-SWIDAT-EMU0"<<num_tests<<".script";
+		GenerateGoodSwiCertTestScripts(emu_SwiCertsFileName,testCaseType,testCaseIndex);
 		}
 
 	int testCaseCount = failCount+passCount;
@@ -541,6 +1455,10 @@ void CreateFileToAugmentStore()
 }
 
 
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-UNICODEFILE_CREATE-0000
+  @SYMTestCaseDesc	Check the certapp tool for unicode named config file
+*/	
 /**
 Test case to check the certapp tool for unicode named config file
 Testing with only one unicode named config file for now
@@ -600,16 +1518,20 @@ void TestWithUnicodFileName()
 
 	int ret = RunCertApp(progress, errors, argCount, argv); 
 	cout << "Return value from certapp is " << ret <<endl;
+	stringstream logging;
 	if(ret!= 0)
 		{
 		failCount++;
-		file<< "Error in creating store using the unicode file name config file " << filename << " and result is " << ret << " Fail" << endl ;
+		logging << "Error in creating store using the unicode file name config file " << filename << " and result is " << ret << " Fail";
 		}
 	else
 		{
 		passCount++;
-		file << "No Error in creating store using the unicode file named config file " << filename << " and result is " << ret << " Pass" <<endl ;
+		logging << "No Error in creating store using the unicode file named config file " << filename << " and result is " << ret << " Pass";
 		}
+	
+	stringstream testCaseType("SEC-TOOLS-CERTAPP-UNICODEFILE_CREATE");
+	writeTMSResult(file, testCaseType, 0, ret==0, logging);
 }
 
 /**
@@ -848,7 +1770,7 @@ void GoodSwiCertTests(const stringstream &aFilename, int aIndex)
 /**
 Generate config  files with invalid values for the store
 */
-void TestBadConfigFiles(const stringstream &aFilename, bool aBool)
+void TestBadConfigFiles(const stringstream &aFilename, bool aBool, stringstream &aTestCaseType, int aTestCaseIndex)
 {
 	// create command line input for cacerts
 	//Ex:certapp --hcertclients=t_certclients_0.txt --hfilecertstore=t_cacerts_0.txt --out --bfilecertstore=cacerts_x.dat
@@ -894,13 +1816,13 @@ void TestBadConfigFiles(const stringstream &aFilename, bool aBool)
 		argument_ptr[n] = const_cast<char*>(argv_certclient[n]);
 		argv = argument_ptr;   
 		}
-	RunCertAppToolForBadParams(argCount4, argv, configFileName); 
+	RunCertAppToolForBadParams(argCount4, argv, configFileName, aTestCaseType, aTestCaseIndex); 
 }
 
 /**
 Generate bad config files for cacerts
 */
-void BadFileCaCertTests(const stringstream &aFilename ,int aValue)
+void BadFileCaCertTests(const stringstream &aFilename ,int aValue, stringstream &aTestCaseType, int &aTestIndex)
 {
 	const char **caCertPtr; 
 	int count = 0;
@@ -916,7 +1838,7 @@ void BadFileCaCertTests(const stringstream &aFilename ,int aValue)
 			file2 << aFilename.str() <<"_"<<count <<".txt";
 			FileBadCertStoreConfigWriter badcertfileWriter(file2);
 			badcertfileWriter.WriteFileEntry(*caCertPtr);
-			TestBadConfigFiles(file1, 0);
+			TestBadConfigFiles(file1, 0, aTestCaseType, aTestIndex++);
 			count++;
 			}
 		break;
@@ -931,7 +1853,7 @@ void BadFileCaCertTests(const stringstream &aFilename ,int aValue)
 			file2 << aFilename.str() <<"_"<<count <<".txt";
 			FileBadCertStoreConfigWriter badcertfileWriter(file2);
 			badcertfileWriter.WriteFileEntry(0,*caCertPtr);
-			TestBadConfigFiles(file1,0);
+			TestBadConfigFiles(file1,0,aTestCaseType,aTestIndex++);
 			count++;
 			}
 		break;
@@ -946,7 +1868,7 @@ void BadFileCaCertTests(const stringstream &aFilename ,int aValue)
 			file2 << aFilename.str() <<"_"<<count <<".txt";
 			FileBadCertStoreConfigWriter badcertfileWriter(file2);
 			badcertfileWriter.WriteFileEntry(0,0,*caCertPtr);
-			TestBadConfigFiles(file1,0);
+			TestBadConfigFiles(file1,0,aTestCaseType,aTestIndex++);
 			count++;
 			}
 		break;
@@ -961,7 +1883,7 @@ void BadFileCaCertTests(const stringstream &aFilename ,int aValue)
 			file2 << aFilename.str() <<"_"<<count <<".txt";
 			FileBadCertStoreConfigWriter badcertfileWriter(file2);
 			badcertfileWriter.WriteFileEntry(0,0,0,*caCertPtr);
-			TestBadConfigFiles(file1,0);
+			TestBadConfigFiles(file1,0,aTestCaseType,aTestIndex++);
 			count++;
 			}
 		break;
@@ -976,7 +1898,7 @@ void BadFileCaCertTests(const stringstream &aFilename ,int aValue)
 			file2 << aFilename.str() <<"_"<<count <<".txt";
 			FileBadCertStoreConfigWriter badcertfileWriter(file2);
 			badcertfileWriter.WriteFileEntry(0,0,0,0,*caCertPtr);
-			TestBadConfigFiles(file1,0);
+			TestBadConfigFiles(file1,0,aTestCaseType,aTestIndex++);
 			count++;
 			}
 		break;
@@ -991,7 +1913,7 @@ void BadFileCaCertTests(const stringstream &aFilename ,int aValue)
 			file2 << aFilename.str() <<"_"<<count <<".txt";
 			FileBadCertStoreConfigWriter badcertfileWriter(file2);
 			badcertfileWriter.WriteFileEntry(0,0,0,0,0,*caCertPtr);
-			TestBadConfigFiles(file1,0);
+			TestBadConfigFiles(file1,0,aTestCaseType,aTestIndex++);
 			count++;
 			}
 		break;
@@ -1005,7 +1927,7 @@ void BadFileCaCertTests(const stringstream &aFilename ,int aValue)
 		file2 << aFilename.str() <<"_"<<count <<".txt";
 		FileBadCertStoreConfigWriter badcertfileWriter(file2);
 		badcertfileWriter.WriteFileEntry(0,0,0,0,0,0,*caCertPtr);
-		TestBadConfigFiles(file1,0);
+		TestBadConfigFiles(file1,0,aTestCaseType,aTestIndex++);
 		break;
 		}
 	case 7:
@@ -1018,7 +1940,7 @@ void BadFileCaCertTests(const stringstream &aFilename ,int aValue)
 			file2 << aFilename.str() <<"_"<<count <<".txt";
 			FileBadCertStoreConfigWriter badcertfileWriter(file2);
 			badcertfileWriter.WriteFileEntry(0,0,0,0,0,0,0,*caCertPtr);
-			TestBadConfigFiles(file1,0);
+			TestBadConfigFiles(file1,0,aTestCaseType,aTestIndex++);
 			count++;
 			}
 		break;
@@ -1033,7 +1955,7 @@ void BadFileCaCertTests(const stringstream &aFilename ,int aValue)
 			file2 << aFilename.str() <<"_"<<count <<".txt";
 			FileBadCertStoreConfigWriter badcertfileWriter(file2);
 			badcertfileWriter.WriteFileEntry(0,0,0,0,0,0,0,0,*caCertPtr);
-			TestBadConfigFiles(file1,0);
+			TestBadConfigFiles(file1,0,aTestCaseType,aTestIndex++);
 			count++;
 			}
 		break;
@@ -1047,7 +1969,7 @@ void BadFileCaCertTests(const stringstream &aFilename ,int aValue)
 /**
 Generate bad Certclient config files
 */
-void BadFileCertClientsTests(const stringstream &aFilename, int aIndex)
+void BadFileCertClientsTests(const stringstream &aFilename, int aIndex, stringstream &aTestCaseType, int &aTestCaseIndex)
 {
 	FileBadCertClientConfigWriter certfileWriter(aFilename);
 	const char *certfilePtr1, *certfilePtr2; 
@@ -1066,7 +1988,7 @@ void BadFileCertClientsTests(const stringstream &aFilename, int aIndex)
 			certfilePtr2 = badUids[i];
 			certfileWriter.WriteCertClientUid(certfilePtr2); // bad uid entry
 			certfileWriter.WriteCertClientName(certfilePtr1);
-			CertClientBadParamsFuncCall(file2);
+			CertClientBadParamsFuncCall(file2, aTestCaseType, aTestCaseIndex++);
 			}
 		break;
 		}
@@ -1083,7 +2005,7 @@ void BadFileCertClientsTests(const stringstream &aFilename, int aIndex)
 			certfilePtr2 = goodUids[0];
 			certfileWriter.WriteCertClientUid(certfilePtr2);
 			certfileWriter.WriteCertClientName(certfilePtr1);
-			CertClientBadParamsFuncCall(file2);
+			CertClientBadParamsFuncCall(file2, aTestCaseType, aTestCaseIndex++);
 			}
 		break;
 		}
@@ -1101,7 +2023,7 @@ void BadFileCertClientsTests(const stringstream &aFilename, int aIndex)
 			certfileWriter.WriteCertClientName(certfilePtr1);
 			certfileWriter.WriteCertClientUid(certfilePtr2);
 			}
-		CertClientBadParamsFuncCall(file1);
+		CertClientBadParamsFuncCall(file1, aTestCaseType, aTestCaseIndex++);
 		break;
 		}
 	
@@ -1111,7 +2033,7 @@ void BadFileCertClientsTests(const stringstream &aFilename, int aIndex)
 }
 
 
-void CertClientBadParamsFuncCall(stringstream &aFileName)
+void CertClientBadParamsFuncCall(stringstream &aFileName, stringstream &aTestCaseType, int aTestCaseIndex)
 {
 	//Ex:certapp --hcertclients=t_certclients_0.txt --out --bcertclients=t_certclients_0.dat 
 	stringstream strArg1, strArg2, strArg3;
@@ -1138,14 +2060,14 @@ void CertClientBadParamsFuncCall(stringstream &aFileName)
 		argument_ptr[n] = const_cast<char*>(argv_certclient[n]);
 		argv = argument_ptr;   
 		}
-	RunCertAppToolForBadParams(argCount3, argv, aFileName); 
+	RunCertAppToolForBadParams(argCount3, argv, aFileName, aTestCaseType, aTestCaseIndex); 
 }
 
 
 /**
 Generate  config file for swicert
 */
-void BadSwiCertTests(const stringstream &aFileName, int aIndex)
+void BadSwiCertTests(const stringstream &aFileName, int aIndex, stringstream &aTestCaseType, int &aTestIndex)
 {
 	const char **swicertPtr1; 
 	int count = 0 ;
@@ -1161,7 +2083,7 @@ void BadSwiCertTests(const stringstream &aFileName, int aIndex)
 			file2 << aFileName.str() <<"_"<<count <<".txt";
 			SwiBadCertStoreConfigWriter badswiWriter(file2);
 			badswiWriter.WriteSwiEntry(*swicertPtr1);
-			TestBadConfigFiles(file1,1);
+			TestBadConfigFiles(file1,1,aTestCaseType,aTestIndex++);
 			count++;
 			}
 		break;
@@ -1177,7 +2099,7 @@ void BadSwiCertTests(const stringstream &aFileName, int aIndex)
 			file2 << aFileName.str() <<"_"<<count <<".txt";
 			SwiBadCertStoreConfigWriter badswiWriter(file2);
 			badswiWriter.WriteSwiEntry(0,*swicertPtr1);
-			TestBadConfigFiles(file1,1);
+			TestBadConfigFiles(file1,1,aTestCaseType,aTestIndex++);
 			count++;
 			}
 		break;
@@ -1192,7 +2114,7 @@ void BadSwiCertTests(const stringstream &aFileName, int aIndex)
 			file2 << aFileName.str() <<"_"<<count <<".txt";
 			SwiBadCertStoreConfigWriter badswiWriter(file2);
 			badswiWriter.WriteSwiEntry(0,0,*swicertPtr1);
-			TestBadConfigFiles(file1,1);
+			TestBadConfigFiles(file1,1,aTestCaseType,aTestIndex++);
 			count++;
 			}
 		break;
@@ -1207,7 +2129,7 @@ void BadSwiCertTests(const stringstream &aFileName, int aIndex)
 			file2 << aFileName.str() <<"_"<<count <<".txt";
 			SwiBadCertStoreConfigWriter badswiWriter(file2);
 			badswiWriter.WriteSwiEntry(0,0,0,*swicertPtr1);
-			TestBadConfigFiles(file1,1);
+			TestBadConfigFiles(file1,1,aTestCaseType,aTestIndex++);
 			count++;	
 			}
 		break;
@@ -1222,7 +2144,7 @@ void BadSwiCertTests(const stringstream &aFileName, int aIndex)
 			file2 << aFileName.str() <<"_"<<count <<".txt";
 			SwiBadCertStoreConfigWriter badswiWriter(file2);
 			badswiWriter.WriteSwiEntry(0,0,0,0,*swicertPtr1);
-			TestBadConfigFiles(file1,1);
+			TestBadConfigFiles(file1,1,aTestCaseType,aTestIndex++);
 			count++;
 			}
 		break;
@@ -1237,7 +2159,7 @@ void BadSwiCertTests(const stringstream &aFileName, int aIndex)
 			file2 << aFileName.str() <<"_"<<count <<".txt";
 			SwiBadCertStoreConfigWriter badswiWriter(file2);
 			badswiWriter.WriteSwiEntry(0,0,0,0,0,*swicertPtr1);
-			TestBadConfigFiles(file1,1);
+			TestBadConfigFiles(file1,1,aTestCaseType,aTestIndex++);
 			count++;
 			}
 		break;
@@ -1252,7 +2174,7 @@ void BadSwiCertTests(const stringstream &aFileName, int aIndex)
 			file2 << aFileName.str() <<"_"<<count <<".txt";
 			SwiBadCertStoreConfigWriter badswiWriter(file2);
 			badswiWriter.WriteSwiEntry(0,0,0,0,0,0,*swicertPtr1);
-			TestBadConfigFiles(file1,1);
+			TestBadConfigFiles(file1,1,aTestCaseType,aTestIndex++);
 			count++;
 			}
 		break;
@@ -1267,7 +2189,7 @@ void BadSwiCertTests(const stringstream &aFileName, int aIndex)
 			file2 << aFileName.str() <<"_"<<count <<".txt";
 			SwiBadCertStoreConfigWriter badswiWriter(file2);
 			badswiWriter.WriteSwiEntry(0,0,0,0,0,0,0,*swicertPtr1);
-			TestBadConfigFiles(file1,1);
+			TestBadConfigFiles(file1,1,aTestCaseType,aTestIndex++);
 			count++;
 			}
 		break;
@@ -1282,7 +2204,7 @@ void BadSwiCertTests(const stringstream &aFileName, int aIndex)
 			file2 << aFileName.str() <<"_"<<count <<".txt";
 			SwiBadCertStoreConfigWriter badswiWriter(file2);
 			badswiWriter.WriteSwiEntry(0,0,0,0,0,0,0,0,*swicertPtr1);
-			TestBadConfigFiles(file1,1);
+			TestBadConfigFiles(file1,1,aTestCaseType,aTestIndex++);
 			count++;
 			}
 		break;
@@ -1297,7 +2219,7 @@ void BadSwiCertTests(const stringstream &aFileName, int aIndex)
 			file2 << aFileName.str() <<"_"<<count <<".txt";
 			SwiBadCertStoreConfigWriter badswiWriter(file2);
 			badswiWriter.WriteSwiEntry(0,0,0,0,0,0,0,0,0,*swicertPtr1);
-			TestBadConfigFiles(file1,1);
+			TestBadConfigFiles(file1,1,aTestCaseType,aTestIndex++);
 			count++;
 			}
 		break;
@@ -1312,7 +2234,7 @@ void BadSwiCertTests(const stringstream &aFileName, int aIndex)
 			file2 << aFileName.str() <<"_"<<count <<".txt";
 			SwiBadCertStoreConfigWriter badswiWriter(file2);
 			badswiWriter.WriteSwiEntry(0,0,0,0,0,0,0,0,0,0,*swicertPtr1);
-			TestBadConfigFiles(file1,1);
+			TestBadConfigFiles(file1,1,aTestCaseType,aTestIndex++);
 			count++;
 			}
 		break;
@@ -1323,10 +2245,23 @@ void BadSwiCertTests(const stringstream &aFileName, int aIndex)
 }
 
 /**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-EMPTYFILE_CREATE-0000
+  @SYMTestCaseDesc	Test the tool with empty configuration file as input
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-EMPTYFILE_CREATE-0001
+  @SYMTestCaseDesc	Test the tool with empty configuration file as input
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-EMPTYFILE_CREATE-0002
+  @SYMTestCaseDesc	Test the tool with empty configuration file as input
+*/	
+/**
 Test cases to test the tool with empty configuration files as input for all the stores
 */
 void TestsWithEmptyConfigFile()
 {
+	stringstream testCaseType("SEC-TOOLS-CERTAPP-EMPTYFILE_CREATE");
 	for(int i = 0 ; i<3 ; i++)
 		{
 		stringstream emptyConfigFileName, configFileName1, configFileName2;
@@ -1383,15 +2318,34 @@ void TestsWithEmptyConfigFile()
 			cout << "Testing with empty configuration file" << argv[z] <<endl;
 			}
 
-		RunCertAppTool(argcount, argv, emptyConfigFileName);
+		RunCertAppTool(argcount, argv, emptyConfigFileName, testCaseType, i);
 		}
 }
 
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEFORMATS_CREATE-0000
+  @SYMTestCaseDesc	Test the certapp tool for different file encode formats
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEFORMATS_CREATE-0001
+  @SYMTestCaseDesc	Test the certapp tool for different file encode formats
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEFORMATS_CREATE-0002
+  @SYMTestCaseDesc	Test the certapp tool for different file encode formats
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-FILEFORMATS_CREATE-0003
+  @SYMTestCaseDesc	Test the certapp tool for different file encode formats
+*/	
 /**
 Code to test the certapp tool for different file encode formats
 */
 void TestsWithEncodedFileFormats()
 {
+	stringstream testCaseType("SEC-TOOLS-CERTAPP-FILEFORMATS_CREATE");
+	bool hasResult;
+
 	//Provide files with different encoded formats
 	for(int i = 0; i<4; i++)
 		{
@@ -1428,24 +2382,43 @@ void TestsWithEncodedFileFormats()
 		int ret = RunCertApp(progress, errors, KIndex, argv); 
 		cout << "Return value from RunCertApp tool is "  << ret << endl;
 		
+		hasResult = false;
+		stringstream logging;
 		if(ret!= 0 && ((strcmp(unicodeName.str().c_str(),"--hfilecertstore=ucs2-bigendian.txt")==0) || (strcmp(unicodeName.str().c_str(),"--hfilecertstore=ucs2-littleendian.txt")==0)))
 			{
 			passCount++;
-			file<< "Tool doesnt support for UCS encoded file-"<< outputFileName.str() <<" so the result is " << ret << " Pass" << endl ;
+			logging << "Tool doesnt support for UCS encoded file-"<< outputFileName.str() <<" so the result is " << ret << " Pass";
+			hasResult = true;
 			}
 		else if(ret== 0 && ((strcmp(unicodeName.str().c_str(),"--hfilecertstore=utf8.txt") ==0) || (strcmp(unicodeName.str().c_str(),"--hfilecertstore=utf8_without_bom.txt")==0)))
 			{
 			passCount++;
-			file << "No Error in creating store for UTF8 encoded file-"<<outputFileName.str()<< " and result is " << ret << " Pass" <<endl ;
+			logging << "No Error in creating store for UTF8 encoded file-"<<outputFileName.str()<< " and result is " << ret << " Pass";
+			hasResult = true;
+			}
+		
+		if (hasResult)
+			{
+			writeTMSResult(file, testCaseType, i, true, logging);
 			}
 		} //End of encoded file formats testing
 }
 
 /**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-AGGRCERTSTORE_CREATE-0000
+  @SYMTestCaseDesc	Test case for REQ-10314 (Reviewing Aggregate Certificate DataBase)
+*/	
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-AGGRCERTSTORE_CREATE-0001
+  @SYMTestCaseDesc	Test case for REQ-10314 (Reviewing Aggregate Certificate DataBase)
+*/	
+/**
 Test case for REQ-10314 (Reviewing Aggregate Certificate DataBase)
 */
 void TestToReviewingAggregateStore()
 {
+	stringstream testCaseType("SEC-TOOLS-CERTAPP-AGGRCERTSTORE_CREATE");
+
 	for(int index = 0; index<2; index++)
 		{
 		stringstream file1, file2;
@@ -1490,34 +2463,44 @@ void TestToReviewingAggregateStore()
 			}
 		
 		int ret = RunCertApp(progress, errors, KIndex, argv); 
+		stringstream logging;
 		if(!ret)
 			{
 			passCount++;
 			int compareValue  = CompareFiles(file1,file2); // compare with the reference files in perforce
 			if (compareValue)
 				{
-				file << "Failed to successfully create Aggregate Database for " << file1.str() << " is Fail" <<endl;
+				logging << "Failed to successfully create Aggregate Database for " << file1.str() << " is Fail";
+				
 				}
 			else
 				{
-				file << "Successfully created Aggregate Database(text form) for " <<file1.str() << " result is Pass" <<endl;
+				logging << "Successfully created Aggregate Database(text form) for " <<file1.str() << " result is Pass";
 				}
 			}
 		else
 			{
 			failCount++;
-			file << "Failed to dump the stores to single text format for " <<file1.str() <<endl;
+			logging << "Failed to dump the stores to single text format for " <<file1.str();
 			}
+		
+		writeTMSResult(file, testCaseType, index, !ret, logging);		
 		}
 }
 
 
+/**
+  @SYMTestCaseID	SEC-TOOLS-CERTAPP-DECODEENCODE_COMPARE-0000
+  @SYMTestCaseDesc	Encode-decode test for certclient store
+*/	
 /**
 TestCase to test the req of 10313- decode/encode certstore
 Encode-decode test for certclient store
 */
 void TestToDecodeAndEncodeStore()
 {
+	stringstream testCaseType("SEC-TOOLS-CERTAPP-DECODEENCODE_COMPARE");
+
 	stringstream outputFileName, strArg1, strArg2;
 	outputFileName <<"SDP-Security_Tools-CertApp-DecodeEncode-0000";
 	strArg1 << "decodeoutput1.txt";
@@ -1540,17 +2523,20 @@ void TestToDecodeAndEncodeStore()
 	decodeEncodeCertAppCall(argv_certclient);
 
 	int compVal = CompareFiles(strArg1, strArg2);
+	stringstream logging;
 	cout << "Return value of comparision is " << compVal <<endl;
 	if (compVal)
 		{
 		failCount++;
-		file << "Encode-Decode fail for " <<outputFileName.str() << " result is Fail" <<endl;
+		logging << "Encode-Decode fail for " <<outputFileName.str() << " result is Fail";
 		}
 	else
 		{
 		passCount++;
-		file << "Encode-Decode Pass for " <<outputFileName.str() << " result is Pass" <<endl;
+		logging << "Encode-Decode Pass for " <<outputFileName.str() << " result is Pass";
 		}
+	
+	writeTMSResult(file, testCaseType, 0, compVal==0, logging);			
 }
 
 void decodeEncodeCertAppCall(const char *aArray[])
@@ -1618,60 +2604,60 @@ int Compare(istream &aIstream1, istream &aIstream2)
 /**
 Generate script files for the filecertstore emulator tests
 */
-void GenerateGoodCertClientTestScripts(const stringstream &aFilename)
+void GenerateGoodCertClientTestScripts(const stringstream &aFilename, const stringstream &aTestCaseType, int &aTestIndex)
 {
 	CertClientsStoreScriptGeneration cert_clients(aFilename);
 
-	cert_clients.WriteInitialiseCertClient();
-	cert_clients.WriteGetCount(KAppUidIndex);
-	cert_clients.WriteGetApplicationsList();
+	cert_clients.WriteInitialiseCertClient(aTestCaseType, aTestIndex);
+	cert_clients.WriteGetCount(KAppUidIndex, aTestCaseType, aTestIndex);
+	cert_clients.WriteGetApplicationsList(aTestCaseType, aTestIndex);
 	
 	for(int i = 0; i<KAppUidIndex;i++)
 		{
 		const char *goodlabel = goodcertclient_array[i]; 
 		const char *uid = gooddecimalUid_array[i];
-		cert_clients.WriteGetAppWithUid(goodlabel, uid);
+		cert_clients.WriteGetAppWithUid(goodlabel, uid, aTestCaseType, aTestIndex);
 		}
-	cert_clients.WriteDestroyManager();
+	cert_clients.WriteDestroyManager(aTestCaseType, aTestIndex);
 }
 
 /**
 Generates config files for cacerts
 */
-void GenerateGoodCaCertsTestScripts(const stringstream &aFilename)
+void GenerateGoodCaCertsTestScripts(const stringstream &aFilename, const stringstream &aTestCaseType, int &aTestIndex)
 {
 	FileStoreScriptGeneration fileStore(aFilename);
 
 	const char *mode = "write"; 
 	const char *ownertype = goodOwnerType[0]; //CA ownerType
 
-	fileStore.WriteInitialiseCert(mode);
-	fileStore.WriteListcert(ownertype);
+	fileStore.WriteInitialiseCert(mode, aTestCaseType, aTestIndex);
+	fileStore.WriteListcert(ownertype, aTestCaseType, aTestIndex);
 	
 	for(int i = 0; i<6;i++)
 		{
 		const char *trust = goodTrust[0]; // true
 		const char *goodlabel = goodEmuCert_array[i]; // list of label - root5ca , symbiandtestcsa, symbiantestrcsa
 
-		fileStore.WriteGetCertificateDetails(goodlabel);
-		fileStore.WriteGetTrust(goodlabel,trust);
-		fileStore.WriteGetApplications(goodlabel);
-		fileStore.WriteRetrieveCerts(goodlabel);
+		fileStore.WriteGetCertificateDetails(goodlabel, aTestCaseType, aTestIndex);
+		fileStore.WriteGetTrust(goodlabel, trust, aTestCaseType, aTestIndex);
+		fileStore.WriteGetApplications(goodlabel, aTestCaseType, aTestIndex);
+		fileStore.WriteRetrieveCerts(goodlabel, aTestCaseType, aTestIndex);
 		}
 }
 
 /**
 Generate script files for the swicertstore emulator tests
 */
-void GenerateGoodSwiCertTestScripts(const stringstream &aFilename)
+void GenerateGoodSwiCertTestScripts(const stringstream &aFilename, const stringstream &aTestCaseType, int &aTestIndex)
 {
 	SWIStoreScriptGeneration swiStore(aFilename);
 	
 	const char *ownertype = goodOwnerType[0]; //CA ownerType
 	
 	//initilaise the store and get list all the certificate ones
-	swiStore.WriteInitialiseCert();
-	swiStore.WriteListcert(ownertype);
+	swiStore.WriteInitialiseCert(aTestCaseType, aTestIndex);
+	swiStore.WriteListcert(ownertype, aTestCaseType, aTestIndex);
 
 	for(int i = 0; i<6;i++)
 		{
@@ -1680,13 +2666,15 @@ void GenerateGoodSwiCertTestScripts(const stringstream &aFilename)
 		const char *mandatoryVal = mandatory[0];
 		const char *systemupgrade = systemUpgrade[0];
 
-		swiStore.WriteGetSystemUpgrade(goodlabel,systemupgrade);
-		swiStore.WriteRetrieveCerts(goodlabel);
-		swiStore.WriteGetApplications(goodlabel);
-		swiStore.WriteGetTrust(goodlabel,trust);
-		swiStore.WriteGetCapabilities(goodlabel);
-		swiStore.WriteGetMandatoryFlag(goodlabel, mandatoryVal);
+		swiStore.WriteGetSystemUpgrade(goodlabel, systemupgrade, aTestCaseType, aTestIndex);
+		swiStore.WriteRetrieveCerts(goodlabel, aTestCaseType, aTestIndex);
+		swiStore.WriteGetApplications(goodlabel, aTestCaseType, aTestIndex);
+		swiStore.WriteGetTrust(goodlabel, trust, aTestCaseType, aTestIndex);
+		swiStore.WriteGetCapabilities(goodlabel, aTestCaseType, aTestIndex);
+		swiStore.WriteGetMandatoryFlag(goodlabel, mandatoryVal, aTestCaseType, aTestIndex);
 		}
 }
 
 //End of file
+
+

@@ -25,7 +25,7 @@ EXPORT_C CDHParams::~CDHParams()
 	iG.Close();
 	}
 
-EXPORT_C CDHParams::CDHParams(RInteger aN, RInteger aG)
+EXPORT_C CDHParams::CDHParams(const RInteger aN, const RInteger aG)
 	: iN(aN), iG(aG)
 	{
 	}
@@ -54,3 +54,4 @@ EXPORT_C RInteger CDHParams::TakeG()
 	iG = RInteger();
 	return result;
 	}
+

@@ -13,7 +13,6 @@
 @rem
 @rem Description: 
 @rem
-REM PKCS12 Integration Tests-USes TEF
 copy /s z:\tpkcs12intg\ c:\tpkcs12intg\
 testexecute c:\tpkcs12intg\data\tpkcs12lib.script
 move c:\logs\testexecute\tpkcs12lib.htm e:\testresults\tpkcs12lib.htm

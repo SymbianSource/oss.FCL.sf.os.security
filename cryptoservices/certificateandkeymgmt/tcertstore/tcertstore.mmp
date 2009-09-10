@@ -14,6 +14,7 @@
 * Description: 
 *
 */
+
 /**
 @file
 
@@ -60,5 +61,6 @@ SYSTEMINCLUDE /epoc32/include
 SYSTEMINCLUDE /epoc32/include/ecom
 
 LIBRARY	euser.lib estor.lib efsrv.lib x509.lib certstore.lib wtlscert.lib
-LIBRARY ctframework.lib t_testhandler2.lib ecom.lib tfiletokens.lib testutilsdpclient.lib
+LIBRARY ctframework.lib t_testhandler2.lib ecom.lib tfiletokens.lib testutilclient.lib
 LIBRARY ctfinder.lib swicertstore.lib crypto.lib x500.lib
+SMPSAFE

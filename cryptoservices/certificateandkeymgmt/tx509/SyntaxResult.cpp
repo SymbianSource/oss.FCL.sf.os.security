@@ -63,3 +63,4 @@ void CSyntaxResult::SetResult(const TDesC8 &aResult)
 	else 
 		iResult = KErrNone;
 	}
+

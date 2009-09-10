@@ -25,7 +25,7 @@ EXPORT_C TASN1DecBMPString::TASN1DecBMPString(void)
 	{
 	}
 
-TInt TASN1DecBMPString::CheckValid(const TDesC8& /*aString*/)
+EXPORT_C TInt TASN1DecBMPString::CheckValid(const TDesC8& /*aString*/)
 	{
 	return KErrNone;
 	}

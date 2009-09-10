@@ -19,11 +19,10 @@
 */
 
 
-
-
 /**
  @file 
- @internalAll
+ @publishedPartner
+ @released 
 */
  
 #ifndef __RIJNDAEL_H__
@@ -35,8 +34,6 @@
 * Abstract base class for Rijndael, implementing the parts of Rijndael common to both
 * Rijndael encryption and decryption.
 *
-* @publishedPartner
-* @released 
 */
 class CRijndael : public CBlockTransformation
 {
@@ -76,8 +73,6 @@ private:
 /**
 * Concrete class for AES encryption.
 *
-* @publishedPartner
-* @released 
 */
 class CAESEncryptor : public CRijndael
 {
@@ -118,8 +113,6 @@ private:
 /**
 * Concrete class for AES decryption.
 *
-* @publishedPartner
-* @released 
 */
 class CAESDecryptor : public CRijndael
 {

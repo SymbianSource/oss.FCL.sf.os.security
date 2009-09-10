@@ -13,9 +13,6 @@
 @rem
 @rem Description: 
 @rem
-REM Run all TEF (TestExecute Framework) tests.
-REM Automatically copies the .htm result files to the memory card (e: drive).
-REM 
 
 testexecute.exe z:\tcaf\tcaf.script
 copy c:\logs\testexecute\tcaf.htm e:\tcaf.htm

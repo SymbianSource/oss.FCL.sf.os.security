@@ -69,3 +69,4 @@ EXPORT_C void SLogger::Log(const TDesC& aLogFileName, TInt aInt,
 	str.Num(aInt);
 	Log(aLogFileName, str, aSourceFileName, aLineNumber);
 	}
+

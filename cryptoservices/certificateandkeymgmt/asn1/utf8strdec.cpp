@@ -20,8 +20,6 @@
 */
 
 
-
-
 /**
  @file
 */
@@ -220,3 +218,4 @@ TInt ConvertToUnicodeFromUtf8(TDes16& aUnicode, const TDesC8& aUtf8)
 	aUnicode.SetLength((pointerToCurrentUnicodeCharacter-aUnicode.Ptr())+1);
 	return pointerToLastUtf8Byte-pointerToCurrentUtf8Byte;
 	}
+

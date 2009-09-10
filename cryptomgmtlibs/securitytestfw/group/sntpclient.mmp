@@ -34,3 +34,4 @@ LIBRARY euser.lib
 LIBRARY esock.lib insock.lib
 LIBRARY bafl.lib
 LIBRARY centralrepository.lib
+SMPSAFE

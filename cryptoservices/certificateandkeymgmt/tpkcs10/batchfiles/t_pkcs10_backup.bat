@@ -13,7 +13,6 @@
 @rem
 @rem Description: 
 @rem
-REM Remove secdlg do avoid passphrase dialog. tsecdlg will return correct passphrase
 
 del /s/f/q \epoc32\release\winscw\secdlg.dll
 copy \epoc32\WINSCW\C\private\101f72a6\keys.dat		\epoc32\winscw\c\keys.dat

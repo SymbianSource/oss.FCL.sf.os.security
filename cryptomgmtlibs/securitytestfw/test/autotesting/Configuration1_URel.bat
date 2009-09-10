@@ -13,7 +13,6 @@
 @rem
 @rem Description: 
 @rem
-rem Certstore Configuration 1 setup script plus restoring the C Drives for the URel Tests
 cd \
 call %SECURITYSOURCEDIR%\os\security\cryptomgmtlibs\securitytestfw\test\autotesting\useautocfg.bat
 

@@ -23,8 +23,8 @@
 #include <x509cert.h>
 #include <wtlscert.h>
 #include <securityerr.h>
-#include <ecom.h>
-#include "testutilsdpclient.h"
+#include <ecom/ecom.h>
+#include "testutilclient.h"
 #include <swicertstore.h>
 
 // CCertStoreChangeNotifier ////////////////////////////////////////////////////////////// 
@@ -62,7 +62,15 @@
  void CCertStoreChangeNotifier::RunL()
  	{
  	iNotifiedCounter++;
+ 	if (iCompleteStatus)
+	 	{
+	 	 User::RequestComplete(iCompleteStatus, KErrNone);	
+	 	}
  	}
+void CCertStoreChangeNotifier::SetCompleteStatus(TRequestStatus* aStatus)
+	{
+	iCompleteStatus=aStatus;
+	}
 
 // COpenCertStore //////////////////////////////////////////////////////////////
 
@@ -898,17 +906,18 @@ void CSetAppsAndTrust::PerformAction(TRequestStatus& aStatus)
 
  		case ECheckNotification:
  			{
- 			TInt ret=KErrNone;
- 			if (!iNotifierFlag)
- 				{
- 				ret=KErrGeneral;
- 				}
  			iState = EFinished;
- 			TRequestStatus* status = &aStatus;
- 			User::RequestComplete(status, ret);
- 			
+ 			if (iNotifierFlag)
+	 			{
+ 				TRequestStatus* status = &aStatus;
+ 				User::RequestComplete(status, KErrNone);
+	 			}
+			else
+				{
+				iNotifier->SetCompleteStatus(&aStatus);
+				}
+ 			}
  			break;
- 			} 
 		case EFinished:
 			{
 			if (!iNotifierFlag && iNotificationSubscribed)

@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file
 */
@@ -42,9 +40,7 @@ SOURCE		f32agent.cpp
 
 USERINCLUDE		../source/f32agent
 
-SYSTEMINCLUDE	/epoc32/include
-SYSTEMINCLUDE	/epoc32/include/caf
-SYSTEMINCLUDE	/epoc32/include/ecom
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 start resource	101FC2CD.rss
 target			f32agent.rsc
@@ -57,3 +53,4 @@ LIBRARY		apmime.lib
 LIBRARY		caf.lib
 LIBRARY		cafutils.lib
 LIBRARY		f32agentui.lib
+SMPSAFE

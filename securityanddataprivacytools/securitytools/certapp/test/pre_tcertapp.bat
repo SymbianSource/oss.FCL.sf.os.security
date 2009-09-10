@@ -13,9 +13,6 @@
 @rem
 @rem Description: 
 @rem
-REM
-REM Backup and copy in UDEB certclients and filecertstore
-REM
 set TARG=\epoc32\release\winscw\udeb\z\private\101f72a6
 set BACKUP=\epoc32\release\winscw\udeb\z\private\101f72a6.pretcertapp
 md %BACKUP%

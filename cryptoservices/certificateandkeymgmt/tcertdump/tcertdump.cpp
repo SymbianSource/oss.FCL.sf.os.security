@@ -215,3 +215,4 @@ GLDEF_C TInt E32Main()		   // main function called by E32
 	__UHEAP_MARKEND;
 	return 0; 
 	}
+

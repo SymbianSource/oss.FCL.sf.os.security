@@ -33,3 +33,4 @@ LIBRARY     	euser.lib
 LIBRARY		testexecuteutils.lib
 LIBRARY		efsrv.lib
 LIBRARY		testexecutelogclient.lib
+SMPSAFE

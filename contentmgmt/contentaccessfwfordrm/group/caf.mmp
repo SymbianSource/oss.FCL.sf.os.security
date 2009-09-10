@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file
 */
@@ -31,6 +29,12 @@ UID			0x101FC2D0
 VENDORID	0x70000001
 
 UNPAGED
+
+#ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+deffile		caf_v2.def
+#else
+deffile		caf.def
+#endif
 
 SOURCEPATH	../source/caf
 
@@ -52,8 +56,7 @@ SOURCE		patchdata.cpp
 USERINCLUDE		../inc
 USERINCLUDE		../source/caf
 
-SYSTEMINCLUDE	/epoc32/include/caf
-SYSTEMINCLUDE	/epoc32/include
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 
 LIBRARY		euser.lib
@@ -63,3 +66,4 @@ LIBRARY		cafutils.lib
 LIBRARY		apgrfx.lib
 LIBRARY		apmime.lib
 LIBRARY		estor.lib
+SMPSAFE

@@ -39,3 +39,4 @@ class CTestExplicitTag : public CTestBase
 	};
 
 #endif
+

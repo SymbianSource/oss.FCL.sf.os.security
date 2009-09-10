@@ -18,8 +18,6 @@
 */
 
 
-
-
 /**
  @file 
  @internalTechnology
@@ -29,7 +27,7 @@
 #define __TPKCS12LIBTESTSTEP01_H__
 
 // System Include
-#include <testexecutestepbase.h>
+#include <test/testexecutestepbase.h>
 
 //User Include
 #include "tpkcs12common.h"

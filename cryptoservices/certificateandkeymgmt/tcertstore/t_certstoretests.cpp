@@ -38,7 +38,7 @@
 #include "t_certstoretests.h"
 #include "t_testcertfordeletable.h"
 #include "t_filetokens.h"
-#include <ecom.h>
+#include <ecom/ecom.h>
 
 #include "tscriptandhardcoded.h"
 #include "t_swicertstoreactions.h"

@@ -21,6 +21,7 @@
 
 #include "t_testactionspec.h"
 #include "t_input.h"
+#include "t_tefinput.h"
 #include "t_certstoreactionmemfail.h"
 #include "tcancel.h"
 #include "t_sleep.h"
@@ -54,9 +55,10 @@ CScriptSetup::CScriptSetup(CConsoleBase* aConsole) : CTestSetup(aConsole)
 	{
 	}
 
-CScriptSetup::~CScriptSetup()
+EXPORT_C CScriptSetup::~CScriptSetup()
 	{
 	delete iTestInput;
+	delete iScriptPath;
 	}
 
 EXPORT_C void CScriptSetup::SetupTestsL(RFs& aFs,
@@ -66,29 +68,86 @@ EXPORT_C void CScriptSetup::SetupTestsL(RFs& aFs,
 	{
 	TInt pos = 0;
 	TInt err = KErrNone;
+	TBuf8<256> testCaseID;
+	TBuf8<256> prevtestCaseID;
+	TBuf8<512> scriptResult;
+	TBuf8<512> actionType;
+	TBool runtest = EFalse;
+	TBool iniFile = EFalse;
+	TBool startTest = EFalse;
+	TBool endTest = EFalse;
+	
 	for (TInt i = 1 ; ; ++i)
 		{
-		TPtrC8 actionData = Input::ParseElement(*iTestInput, KActionStart, KActionEnd, pos, err);
-		if (err != KErrNone)
-			{
-			break;
-			}
+		TPtrC8 runTestStep;
+		TPtrC8 testDescription;
+		TPtrC8 actionData;
 		
+		if (iTefScript)
+			{
+			
+			if(endTest)
+				{
+				startTest = EFalse;
+				runtest = EFalse;
+				testCaseID.Copy(Tefinput::ParseTestCaseID(*iTestInput, KStartTestStep, prevtestCaseID, pos, err, runtest, startTest));
+				prevtestCaseID.Copy(testCaseID);
+				}
+			if(runtest)
+				{
+				if(endTest && startTest)
+					{
+					startTest = ETrue;
+					}
+				else
+					{
+					startTest = EFalse;
+					}
+				endTest = EFalse;
+				testCaseID.Copy(prevtestCaseID);
+				}
+			else
+				{
+				testCaseID.Copy(Tefinput::ParseTestCaseID(*iTestInput, KStartTestStep, prevtestCaseID, pos, err, runtest, startTest));
+				prevtestCaseID.Copy(testCaseID);
+				}
+			runTestStep.Set(Tefinput::ParseRunTestStep(*iTestInput, KRunTestStep, pos, err));
+			endTest = Tefinput::EndTestCase(*iTestInput, runTestStep, KEndTestStep, pos);
+			}
+		else
+			{
+			actionData.Set(Input::ParseElement(*iTestInput, KActionStart, KActionEnd, pos, err));
+			}
+		if (err != KErrNone)
+		  	{
+			break;
+			} 
+			 
 		TInt relativePos = 0;
 		TInt scriptGroupings= DEFAULTGROUPING;
 		TTestActionSpec actionSpec;
 		//Parse the file to create action name, type , body and result
-		User::LeaveIfError(actionSpec.Init(actionData, relativePos, *iConsole, *iLogFile, scriptGroupings));
-			
+		if (iTefScript)
+			{
+			User::LeaveIfError(actionSpec.TEFInit(aFs, runTestStep, testCaseID, prevtestCaseID, iTefScript, runtest, iniFile, scriptResult, actionType, *iScriptPath, *iConsole, *iLogFile));
+			}
+		else
+			{
+			User::LeaveIfError(actionSpec.Init(actionData, relativePos, *iConsole, *iLogFile, scriptGroupings));
+			}
+		
 		//Start off checking Exhaustive and Smoke flags, then calls groupings
 		if (!CheckAllFlags(aCommandLineSettings, scriptGroupings))
 			//The current test should not be run
 			continue;
 	
+		
 		CTestAction* newAction = 0;
-		TRAP(err, newAction = 
-			 CreateActionL(aFs, actionSpec, theTestTypes));
-				
+		TRAP(err, newAction = CreateActionL(aFs, actionSpec, theTestTypes));
+		
+	
+		
+
 		if (err != KErrNone)
 			{
 			iLogFile->write(_L("CScriptSetup::CreateActionL failed: "));
@@ -122,26 +181,39 @@ EXPORT_C void CScriptSetup::SetupTestsL(RFs& aFs,
 		CleanupStack::PushL(newAction);
 		User::LeaveIfError(aTestSpec.AddNextTest(newAction));
 		CleanupStack::Pop(newAction);
+	
+		if(iniFile)
+			{
+			CleanupStack::PopAndDestroy(1);
+			}
 		}
 	}
 
 EXPORT_C TBool CScriptSetup::InitialiseL(RFs &aFs, const TDesC& aDefaultScript, const TDesC& aDefaultLog, TBool aUseCommandLine)
 	{
 	// gets the script file argument
-	HBufC* scriptFileName = NULL;
+	iScriptPath = NULL;
+	iTefScript = EFalse;
 
 	if (aUseCommandLine)
 		{
-		scriptFileName = GetArgument();
-		CleanupStack::PushL(scriptFileName);
-		if(scriptFileName->Length()==0)
+		iScriptPath = GetArgument();
+		if(iScriptPath->Length()==0)
 			{
-			CleanupStack::PopAndDestroy(scriptFileName);
-			scriptFileName = NULL;
+			delete iScriptPath;  
+			iScriptPath = NULL;
+			}
+		else
+			{
+			TPtr scriptFileNameDes = iScriptPath->Des();
+			if (scriptFileNameDes.Right(7) == _L(".script"))
+				{
+				iTefScript = ETrue;
+				}
 			}
 		}
 
-	if(scriptFileName == NULL)
+	if(iScriptPath == NULL)
 		{
 		if(aDefaultScript.Length() == 0)
 			{
@@ -150,19 +222,20 @@ EXPORT_C TBool CScriptSetup::InitialiseL(RFs &aFs, const TDesC& aDefaultScript, 
 			}
 		else
 			{
-			scriptFileName = aDefaultScript.AllocLC();
+			iScriptPath = aDefaultScript.AllocLC();
 			}
 		};
 
-	PRINTANDLOG1(_L("Script file: %S"), scriptFileName);
+	PRINTANDLOG1(_L("Script file: %S"), iScriptPath);
 
 	// open the script file
 	RFile scriptFile;
-	TInt err = scriptFile.Open(aFs, *scriptFileName, EFileStream | EFileRead | EFileShareReadersOnly);
+	TInt err = scriptFile.Open(aFs, *iScriptPath, EFileStream | EFileRead | EFileShareReadersOnly);
 	if (err != KErrNone)
 		{
 		PRINTANDLOG1(_L("Error opening script file: %d"), err);
-		CleanupStack::PopAndDestroy();// scriptFileName
+		delete iScriptPath;
+		iScriptPath = NULL;
 		return(EFalse);
 		}
 	CleanupClosePushL(scriptFile);
@@ -170,8 +243,10 @@ EXPORT_C TBool CScriptSetup::InitialiseL(RFs &aFs, const TDesC& aDefaultScript, 
 	TRAP(err, OpenLogFileL(aFs, 1, aDefaultLog, aUseCommandLine));	
 	if (err != KErrNone)
 		{
-		PRINTANDLOG1(_L("Error opening log file: %d"), err);		
-		CleanupStack::PopAndDestroy(2);// scripFile, scriptFileName
+		PRINTANDLOG1(_L("Error opening log file: %d"), err);	
+		delete iScriptPath;
+		iScriptPath = NULL;
+		CleanupStack::PopAndDestroy(1);// scripFile
 		return(EFalse);
 		}
 		
@@ -182,15 +257,14 @@ EXPORT_C TBool CScriptSetup::InitialiseL(RFs &aFs, const TDesC& aDefaultScript, 
 		
 	// reads script into iTestInput
 	iTestInput = HBufC8::NewL(size);
-	TPtr8 pInput(iTestInput->Des());
-	pInput.SetLength(size);
+	TPtr8 pInput(iTestInput->Des()); 
+	pInput.SetLength(size); 
 
 	RFileReadStream stream;
-	User::LeaveIfError(stream.Open(aFs, *scriptFileName, EFileStream | EFileRead | EFileShareReadersOnly));
+	User::LeaveIfError(stream.Open(aFs, *iScriptPath, EFileStream | EFileRead | EFileShareReadersOnly));
 	CleanupClosePushL(stream);
 	stream.ReadL(pInput, size);
-
-	CleanupStack::PopAndDestroy(2); // stream, scriptFileName
+	CleanupStack::PopAndDestroy(1); // stream
 	return(ETrue);
 	}
 

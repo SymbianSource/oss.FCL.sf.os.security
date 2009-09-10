@@ -233,3 +233,4 @@ CCertToolAdd::CCertToolAdd(CCertToolController* aController) : CCertToolCommand(
 	{
 	CActiveScheduler::Add(this);	
 	}
+

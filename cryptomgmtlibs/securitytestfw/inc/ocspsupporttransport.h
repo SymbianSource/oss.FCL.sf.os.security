@@ -17,11 +17,11 @@
 
 
 
+
 /**
- @file 
+ @file
  @internalTechnology
 */
-
 
 #ifndef __OCSPSUPPORT_TRANSPORT_H__
 #define __OCSPSUPPORT_TRANSPORT_H__

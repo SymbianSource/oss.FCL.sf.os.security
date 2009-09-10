@@ -13,7 +13,6 @@
 @rem
 @rem Description: 
 @rem
-rem Certstore Configuration multiple certstore 2 setup script
 
 cd \
 

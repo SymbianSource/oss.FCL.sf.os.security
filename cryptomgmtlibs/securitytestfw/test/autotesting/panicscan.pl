@@ -51,11 +51,11 @@ push(@{$expectedPanicsHash{"tjavahelperserver_epocwind.txt"}}, (0,
 #push(@{$expectedPanicsHash{"tauthcliserv_debug_epocwind.txt"}}, (0,
 #	("Thread tauthcliserv.exe::Worker.*Panic AUTHEXPR 64", 3)));
 #push(@{$expectedPanicsHash{"tauthsvr2_epocwind.txt"}}, (0,
-#	("Thread AuthServer.EXE::!AuthServer Panic AuthServer 5", 2)));
+#	("Thread AuthServer.EXE::Main Panic AuthServer 5", 2)));
 
 # crypto - padding related tests expect panics
 push(@{$expectedPanicsHash{"tpaddingudeb_epocwind.txt"}}, (0,
-	("Thread tpaddingServer.exe::Worker.*Panic CRYPTO-LIB 1", 1)));
+	("Thread tpaddingserver.exe::Worker.*Panic CRYPTO-LIB 1", 1)));
 
 # Expected UPS panics
 push(@{$expectedPanicsHash{"tpolicycache_epocwind.txt"}}, (0,

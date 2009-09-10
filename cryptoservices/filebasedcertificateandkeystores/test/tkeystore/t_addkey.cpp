@@ -68,8 +68,8 @@ void CAddKey::ConstructL(const TTestActionSpec& aTestActionSpec)
 	CKeyStoreTestAction::ConstructL(aTestActionSpec);
 
 	SetKeySize(Input::ParseElement(aTestActionSpec.iActionBody, KKeySizeStart));
-	SetStartDate(Input::ParseElement(aTestActionSpec.iActionBody, KKeyStartDateStart));
-	SetEndDate(Input::ParseElement(aTestActionSpec.iActionBody, KKeyEndDateStart));
+	SetStartDateL(Input::ParseElement(aTestActionSpec.iActionBody, KKeyStartDateStart));
+	SetEndDateL(Input::ParseElement(aTestActionSpec.iActionBody, KKeyEndDateStart));
 }
 
 void CAddKey::SetKeySize(const TDesC8& aKeySize)
@@ -85,10 +85,19 @@ void CAddKey::PerformAction(TRequestStatus& aStatus)
 		case EAddKey:
 			{
 			CUnifiedKeyStore* keyStore = CSharedKeyStores::TheUnifiedKeyStores().operator[](iKeystore);
-		
-			keyStore->CreateKey(0, iUsage, iSize, *iLabel, iAlgorithm,
+			#ifdef SYMBIAN_AUTH_SERVER		
+			if(iUseNewApi)
+				{
+				keyStore->CreateKey(0, iUsage, iSize, *iLabel, iAlgorithm,
+												iAccessType, iStartDate, iEndDate, *iAuthExpression, iFreshness, iKeyInfo, aStatus);
+				}
+			else
+			#endif // SYMBIAN_AUTH_SERVER
+				{
+				keyStore->CreateKey(0, iUsage, iSize, *iLabel, iAlgorithm,
 								iAccessType, iStartDate, iEndDate, iKeyInfo, aStatus);
 
+				}			
 			iState = EFinished;
 			}
 			break;
@@ -183,7 +192,7 @@ void CAddKey::DoCheckResult(TInt aError)
 }
 
 
-void CAddKey::SetStartDate(const TDesC8& aData)
+void CAddKey::SetStartDateL(const TDesC8& aData)
 	{
     if (aData.Length() == 0)
 		return;
@@ -195,7 +204,7 @@ void CAddKey::SetStartDate(const TDesC8& aData)
 	CleanupStack::PopAndDestroy(buf);
 	}
 
-void CAddKey::SetEndDate(const TDesC8& aData)
+void CAddKey::SetEndDateL(const TDesC8& aData)
 	{
     if (aData.Length() == 0)
 		return;

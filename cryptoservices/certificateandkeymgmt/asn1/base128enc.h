@@ -23,8 +23,6 @@
 */
 
 
-
-
 /**
  @file 
  @internalComponent 
@@ -46,3 +44,4 @@ private:
 	TUint iInt;
 	TUint iLengthDER;
 	};
+

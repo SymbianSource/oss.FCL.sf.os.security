@@ -18,8 +18,6 @@
 */
 
 
-
-
 /**
  @file
 */
@@ -41,17 +39,18 @@ UID		0x1000008d 0x101F6EC7
 
 DEFFILE fstokencli_v2.def
 
-systeminclude  ../source/generic/common
-systeminclude  ../source/generic/client
-systeminclude  ../source/keystore/Client
-systeminclude  ../source/certstore/client
-systeminclude  ../source/certapps/client
-systeminclude .
-systeminclude /epoc32/include
-systeminclude /epoc32/include/ct
-systeminclude /epoc32/include/ecom
-systeminclude  ../Inc 
-systeminclude  ../../../crypto/weakcrypto/inc
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+userinclude  ../Inc 
+userinclude  ../../../crypto/weakcrypto/inc
+userinclude  ../../../cryptomgmtlibs/cryptotokenfw/inc_interfaces
+userinclude  ../source/generic/common
+userinclude  ../source/generic/client
+userinclude  ../source/keystore/Client
+userinclude  ../source/certstore/client
+userinclude  ../source/certapps/client
+userinclude  ../source/shared
+userinclude	 .
 
 //	generic filetokens client code
 sourcepath ../source/generic/client
@@ -85,3 +84,5 @@ source CFSCertAppsClient.cpp
 
 library euser.lib ctframework.lib cryptography.lib
 library hash.lib fstokenshared.lib
+
+SMPSAFE

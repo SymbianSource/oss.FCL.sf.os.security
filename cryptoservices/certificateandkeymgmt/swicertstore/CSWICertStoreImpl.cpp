@@ -23,9 +23,10 @@
 #include "CSWICertStoreToken.h"
 #include "unifiedcertstore.h"
 #include "log.h"
-#include "certstorepatchdata.h"
+
+#include <certstorepatchdata.h>
 #include <ccertattributefilter.h>
-#include <sectcbutil.h>
+#include <f32file.h>
 #include <u32hal.h> 
 
 _LIT(KSWICertStoreZFilename,"z:\\resource\\swicertstore.dat");
@@ -133,7 +134,9 @@ void CSWICertStoreImpl::SetupWritableCertStoreL()
  		CDir* entryList = NULL;
 
 		TPath writableSwiCertStorePath(KSWIWritableCertStorePath);
-		TChar systemDriveChar = SecTcbUtil::GetSystemDriveChar(SecTcbUtil::GetSystemDrive());
+		
+		TChar systemDriveChar = RFs::GetSystemDriveChar();
+
 		writableSwiCertStorePath[0] = systemDriveChar;
 		
 		if (KErrNone == iFs.GetDir (writableSwiCertStorePath, KEntryAttNormal,
@@ -513,3 +516,5 @@ void CSWICertStoreImpl::FilterCertificateListL(RMPointerArray<CCTCertInfo>& aCer
 		AddIfMatchesFilterL(aCerts, aFilter, entry);
 		}
 	}
+
+

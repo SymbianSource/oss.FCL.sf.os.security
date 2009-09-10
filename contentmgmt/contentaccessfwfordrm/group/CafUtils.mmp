@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file
 */
@@ -55,9 +53,8 @@ SOURCE		mimefieldanddata.cpp
 USERINCLUDE	../inc
 USERINCLUDE	../source/cafutils
 
-SYSTEMINCLUDE	/epoc32/include 
-SYSTEMINCLUDE	/epoc32/include/caf
-SYSTEMINCLUDE	/epoc32/include/libc
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_ESTLIB_SYSTEMINCLUDE
 
 LIBRARY		euser.lib
 LIBRARY		estor.lib
@@ -66,3 +63,4 @@ LIBRARY		efsrv.lib
 LIBRARY		apgrfx.lib
 LIBRARY		ecom.lib
 LIBRARY		apmime.lib
+SMPSAFE

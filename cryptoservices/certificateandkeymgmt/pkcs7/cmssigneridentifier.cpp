@@ -154,3 +154,7 @@ EXPORT_C const TDesC8& CCmsSignerIdentifier::SubjectKeyIdentifier() const
 	{
 	return *iSubjectKeyIdExt;
 	}
+
+
+
+

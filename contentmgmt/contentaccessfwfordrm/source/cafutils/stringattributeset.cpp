@@ -18,8 +18,8 @@
 
 
 #include <s32strm.h>
-#include "stringattributeset.h"
-#include "caferr.h"
+#include <caf/stringattributeset.h>
+#include <caf/caferr.h>
 #include "cafutils.h"
 #include "stringAttribute.h"
 
@@ -184,3 +184,9 @@ void RStringAttributeSet::AddL(TInt aAttribute, const TDesC& aValue, TInt aError
 	User::LeaveIfError(iAttributes.Append(element));
 	CleanupStack::Pop(element);
 	}
+
+
+
+
+
+

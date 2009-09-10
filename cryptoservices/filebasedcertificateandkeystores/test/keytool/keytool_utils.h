@@ -98,7 +98,7 @@ public:
 	 * @param aError The error code we want to print.
 	 * @param aConsole The console where the output goes.
 	 */
-	static void WriteErrorL(TInt aError);
+	static void WriteErrorL(TInt aError); 
 	
 	/**
 	 * Parses the human understandable description of a key usage 
@@ -111,7 +111,7 @@ public:
 	
 	static CCTKeyInfo::EKeyAccess ParseKeyAccess(TPtrC aAccess);
 	
-	static void PrintCertInfoL(CCTCertInfo& aCertInfo, CCertificate& aCertificate, RArray<TUid> aApps, TBool aIsDetailed = EFalse,TBool aPageWise = EFalse);
+	static void PrintCertInfoL(CCTCertInfo& aCertInfo, CCertificate& aCertificate, RArray<TUid> aApps, TBool aTrusted, TBool aIsDetailed = EFalse,TBool aPageWise = EFalse);
 
 	static const TDesC& Uid2Des(TUid aUid);
 

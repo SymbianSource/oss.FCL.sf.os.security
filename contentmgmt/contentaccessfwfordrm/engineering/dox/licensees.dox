@@ -58,8 +58,6 @@
 // This optionality was introduced in Symbian OS v9.3 to allow easy customisation of Symbian OS. See the files RemovableFeatures.iby and feature.iby in <code>\\epoc32\\rom\\include</code>.
 //
 
-
-
 /**
  @page CAFLicensees Considerations for Licensees using CAF
  @section licenseesF32AgentUi F32 Agent User Interface

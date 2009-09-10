@@ -18,8 +18,8 @@
 
 #include <s32strm.h>
 
-#include "rightsinfo.h"
-#include "agent.h"
+#include <caf/rightsinfo.h>
+#include <caf/agent.h>
 #include "cafutils.h"
 
 using namespace ContentAccess;

@@ -16,15 +16,13 @@
 */
 
 
-
-
 /**
  @file 
  @internalTechnology
 */
 #if (!defined __TPKCS7_SERVER_H__)
 #define __TPKCS7_SERVER_H__
-#include <testexecuteserverbase.h>
+#include <test/testexecuteserverbase.h>
 
 class CTPKCS7StepBase;
 

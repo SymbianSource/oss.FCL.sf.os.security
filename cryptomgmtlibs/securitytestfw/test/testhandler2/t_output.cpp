@@ -250,3 +250,4 @@ void COutputTee::DoWriteL(const TDesC& aString)
 		iChildren[i]->writeString(aString);
 		}
 	}
+

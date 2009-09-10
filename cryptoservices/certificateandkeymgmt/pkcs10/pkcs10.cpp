@@ -26,6 +26,7 @@
 #include <hash.h>
 #include <pkcs10attr.h>
 #include "keyhelper.h"
+#include <mctkeystoreuids.h>
 
 void Panic(TInt aError)
 	{
@@ -352,3 +353,4 @@ void CPKCS10Request::CreateFinalEncodingL()
 	*iResult = der;
 	User::RequestComplete(iClientStatus, KErrNone);
 	}
+

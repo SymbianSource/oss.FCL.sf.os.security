@@ -21,7 +21,7 @@
 #include <caf/dirstreamable.h>
 #include "f32agentmanager.h"
 #include "f32defaultattributes.h"
-#include "f32agentui.h"
+#include <caf/f32agentui.h>
 
 using namespace ContentAccess;
 
@@ -205,6 +205,51 @@ TInt CF32AgentManager::GetStringAttributeSet(RStringAttributeSet& aAttributeSet,
 	return TF32DefaultAttributes::GetStringAttributeSet(aAttributeSet, aVirtualPath.URI());
 	}
 
+TInt CF32AgentManager::GetAttribute(TInt aAttribute, TInt& aValue, RFile& aFile, const TDesC& aUniqueId)
+	{
+	// Check that the client hasn't specified some incorrect UniqueId
+	if(TF32DefaultAttributes::CheckUniqueId(aUniqueId) != KErrNone)
+		{
+		return KErrNotFound;
+		}
+		
+	return TF32DefaultAttributes::GetAttribute(aAttribute, aValue, aFile);
+	}
+
+TInt CF32AgentManager::GetAttributeSet(RAttributeSet& aAttributeSet, RFile& aFile, const TDesC& aUniqueId)
+	{
+	// Check that the client hasn't specified some incorrect UniqueId
+	if(TF32DefaultAttributes::CheckUniqueId(aUniqueId) != KErrNone)
+		{
+		return KErrNotFound;
+		}
+		
+	return TF32DefaultAttributes::GetAttributeSet(aAttributeSet, aFile);
+	}
+	
+TInt CF32AgentManager::GetStringAttributeSet(RStringAttributeSet& aStringAttributeSet, RFile& aFile, const TDesC& aUniqueId)
+	{
+	// Check that the client hasn't specified some incorrect UniqueId
+	if(TF32DefaultAttributes::CheckUniqueId(aUniqueId) != KErrNone)
+		{
+		return KErrNotFound;
+		}
+		
+	return TF32DefaultAttributes::GetStringAttributeSet(aStringAttributeSet, aFile);
+	}
+	
+TInt CF32AgentManager::GetStringAttribute(TInt aAttribute, TDes& aValue, RFile& aFile, const TDesC& aUniqueId)
+	{
+	// Check that the client hasn't specified some incorrect UniqueId
+	if(TF32DefaultAttributes::CheckUniqueId(aUniqueId) != KErrNone)
+		{
+		return KErrNotFound;
+		}
+
+	return TF32DefaultAttributes::GetStringAttribute(aAttribute, aValue, aFile);
+	}		
+
+
 void CF32AgentManager::NotifyStatusChange(const TDesC& , TEventMask , TRequestStatus& aStatus) 
 	{
 	TRequestStatus* ptr = &aStatus;
@@ -239,7 +284,11 @@ TInt CF32AgentManager::SetProperty(TAgentProperty aProperty, TInt aValue)
 
 void CF32AgentManager::DisplayInfoL(TDisplayInfo aInfo, const TVirtualPathPtr& aVirtualPath) 
 	{
+#ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+	RFile64 file;
+#else
 	RFile file;
+#endif // SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
 
 	// Check that the client hasn't specified some incorrect UniqueId
 	User::LeaveIfError(TF32DefaultAttributes::CheckUniqueId(aVirtualPath.UniqueId()));
@@ -250,6 +299,16 @@ void CF32AgentManager::DisplayInfoL(TDisplayInfo aInfo, const TVirtualPathPtr& a
 	AgentUiL().DisplayInfoL(aInfo, file);
 	CleanupStack::PopAndDestroy(&file);
 	}
+
+void CF32AgentManager::DisplayInfoL(TDisplayInfo aInfo, RFile& aFile, const TDesC& aUniqueId) 
+	{
+	// Check that the client hasn't specified some incorrect UniqueId
+	User::LeaveIfError(TF32DefaultAttributes::CheckUniqueId(aUniqueId));
+
+	// Open the file as read only
+	AgentUiL().DisplayInfoL(aInfo, aFile);
+	}
+
 
 TInt CF32AgentManager::AgentSpecificCommand(TInt , const TDesC8& , TDes8& )
 	{

@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file 
  @internalTechnology
@@ -26,7 +24,7 @@
 #ifndef TPKIXCERTSERVER_H
 #define TPKIXCERTSERVER_H
 
-#include <TestExecuteServerBase.h>
+#include <test/testexecuteserverbase.h>
 #include <f32file.h>
 
 class CPkixCertTestServer : public CTestServer

@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file
  @internalComponent
@@ -88,7 +86,11 @@ namespace ContentAccess
 		HBufC* iURI;
 		TContentShareMode iShareMode;
 		RFs iFs;
+#ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+		RFile64 iFile;
+#else
 		RFile iFile;
+#endif //SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
 		CF32AgentUi* iAgentUi;
 		};
 } // namespace ContentAccess

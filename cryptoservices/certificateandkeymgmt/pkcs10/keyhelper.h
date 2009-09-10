@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file
  @internalComponent
@@ -30,6 +28,7 @@
 
 #include <mctkeystore.h>
 #include <x509keys.h>
+#include "x509keyencoder.h"
 
 class CASN1EncBase;
 class CASN1EncSequence;

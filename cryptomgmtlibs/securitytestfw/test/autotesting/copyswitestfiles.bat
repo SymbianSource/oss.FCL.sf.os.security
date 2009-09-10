@@ -13,10 +13,10 @@
 @rem
 @rem Description: 
 @rem
-rem Copy the SWI test files into the correct locations for testing.  In the build process some are exported to Z and some to C.
 
 @echo Copying SWI test files from the C to the Z drive...
 xcopy /y/i/e/s/r/q \epoc32\winscw\c\tswi \epoc32\release\winscw\udeb\z\tswi
 xcopy /y/i/e/s/r/q \epoc32\winscw\c\tswi \epoc32\release\winscw\urel\z\tswi
 
 @echo SWI test files on the Z drive.
+

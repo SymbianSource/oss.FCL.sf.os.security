@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -15,8 +15,6 @@
 * TestUtil - server implementation
 *
 */
-
-
 
 
 /**
@@ -446,6 +444,17 @@ void CTestUtilSession::ServiceL(const RMessage2& aMessage)
 			CleanupStack::PopAndDestroy(dirPath);
 			break;
 			}
+		case ESetSecureClock:
+			{
+			TTime currentTime(0);
+			currentTime.UniversalTime();
+			TTimeIntervalSeconds increment(aMessage.Int0());
+			currentTime += increment;
+			User::SetUTCTimeSecure(currentTime);
+			aMessage.Complete(KErrNone);
+
+			}
+			break;
 		default:
 			{
 			PanicClient(aMessage,EPanicIllegalFunction);

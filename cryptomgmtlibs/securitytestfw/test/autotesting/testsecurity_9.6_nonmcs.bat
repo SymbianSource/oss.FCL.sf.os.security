@@ -13,10 +13,6 @@
 @rem
 @rem Description: 
 @rem
-REM Run security tests on hardware
-REM
-REM This should run the same tests as test_spec_cedar, minus OOM and
-REM cancellation testing.
 
 REM Attempt to stop the execution in case it's accidentally started on a PC
 ECHO About to run Security Team Hardware Tests
@@ -48,5 +44,9 @@ REM runtlsclientauth.bat
 
 runupstests.bat
 
+runusiftests.bat
+
 REM Temporary solution for ROM overflow issues (DEF109635)
 runpkcs12tests.bat
+
+runcommonutilstests.bat

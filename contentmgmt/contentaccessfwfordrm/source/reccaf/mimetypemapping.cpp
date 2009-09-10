@@ -94,3 +94,4 @@ TBool CMimeTypeMapping::ContentMimeTypeMatch(const CMimeTypeMapping& aFirst, con
 	{	
 	return *aFirst.iContentMimeType == *aSecond.iContentMimeType;
 	}
+

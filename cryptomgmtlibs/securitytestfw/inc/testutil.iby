@@ -19,7 +19,7 @@
 #ifndef __TESTUTIL_IBY__
 #define __TESTUTIL_IBY__
 
-file=ABI_DIR\BUILD_DIR\testutilsdpclient.dll	sys\bin\testutilsdpclient.dll
-file=ABI_DIR\BUILD_DIR\testutilsdpserver.exe	sys\bin\testutilsdpserver.exe
+file=ABI_DIR\BUILD_DIR\testutilclient.dll	sys\bin\testutilclient.dll
+file=ABI_DIR\BUILD_DIR\testutilserver.exe	sys\bin\testutilserver.exe
 
 #endif

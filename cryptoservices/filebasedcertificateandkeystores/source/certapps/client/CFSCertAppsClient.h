@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file 
  @internalTechnology
@@ -29,6 +27,7 @@
 
 #include <mctcertapps.h>
 #include "CFSClient.h"
+#include "mctcertappinterface.h"
 
 /**
  * Implementation of MCTCertApps interface, with inheritance from CFSClient.

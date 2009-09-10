@@ -14,6 +14,7 @@
 * Description: 
 *
 */
+
 // Temporary iby file which contains crypto dependencies for the tests in the
 // MCS ROM. Without these, a few tests fail (DEF109635)
 
@@ -27,8 +28,9 @@
 	
 // Proof of concept KMS (Key Management Server)
 // Add them to the Core image (core.img) only. As rofs1.img does not support the device, and extension.
+
 ROM_IMAGE[0] {
-extension[VARID]=ABI_DIR\BUILD_DIR\kmskext.dll \sys\bin\kmskext.dll
+extension[VARID]=KERNEL_DIR\BUILD_DIR\kmskext.dll \sys\bin\kmskext.dll
 device[VARID]=ABI_DIR\BUILD_DIR\kmslddk.ldd \sys\bin\kmslddk.ldd
 device[VARID]=ABI_DIR\BUILD_DIR\kmsextrlddk.ldd \sys\bin\kmsextrlddk.ldd
 }

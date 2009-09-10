@@ -13,6 +13,5 @@
 @rem
 @rem Description: 
 @rem
-rem Change the config file of SIM.TSY to simulate a different device
 call rename \epoc32\winscw\c\config.txt configsave.txt
 call rename \epoc32\winscw\c\config2.txt config.txt

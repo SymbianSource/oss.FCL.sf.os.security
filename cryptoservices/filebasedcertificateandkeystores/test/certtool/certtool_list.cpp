@@ -61,7 +61,7 @@ CCertToolList::~CCertToolList()
 		{
 		iCertApps[k].Close();											
 		}
-	
+	iCertTrust.Close();
 	iCertApps.Close();
 	iCertInfos.Close();
 	iParsedCerts.ResetAndDestroy();
@@ -206,11 +206,30 @@ void CCertToolList::RunL()
 				}
 			else
 				{
+				iState = EGetTrust;
+				iIndex = 0;
+				iCertStore->Trusted(*iCertInfos[iIndex], iTrust, iStatus);
+				SetActive();
+				}			
+			}
+			break;
+		case EGetTrust :
+			{	
+			iCertTrust.Append(iTrust);
+
+			iIndex++;
+			if (iIndex <= (iCertInfos.Count()-1 ))
+				{
+				iCertStore->Trusted(*iCertInfos[iIndex], iTrust, iStatus);
+				SetActive();
+				}
+			else
+				{
 				iState = EFinished;
 				TInt certCount = iCertInfos.Count();
 				for (TInt i = 0; i < certCount; i++)
  					{
- 					iController->DisplayCertL(*iCertInfos[i], *iParsedCerts[i], iCertApps[i], iParams->iIsDetailed, iParams->iPageWise);
+ 					iController->DisplayCertL(*iCertInfos[i], *iParsedCerts[i], iCertApps[i], iCertTrust[i], iParams->iIsDetailed, iParams->iPageWise);
  					}
 				CActiveScheduler::Stop();
 				}			

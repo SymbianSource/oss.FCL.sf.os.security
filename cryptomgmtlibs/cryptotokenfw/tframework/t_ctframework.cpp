@@ -859,7 +859,7 @@ GLDEF_C TInt E32Main(void)
 	{
 	CTrapCleanup* cleanup;
 	cleanup=CTrapCleanup::New();
-	test.Start(_L("Starting token framework tests\r\n"));		 
+	test.Start(_L(" @SYMTestCaseID:SEC-CRYPTOTOKENS-CTFRAMEWORK-0001 Starting token framework tests\r\n"));		 
 	CTestConsole* con=NULL;
 	TRAPD(ret,con=CTestConsole::NewL(test.Console()));
 	RFs fs;

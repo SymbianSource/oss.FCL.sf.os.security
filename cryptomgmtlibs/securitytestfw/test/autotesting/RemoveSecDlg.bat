@@ -13,6 +13,5 @@
 @rem
 @rem Description: 
 @rem
-rem Remove real implementation of secdlg so our test version tsecdlg gets called
 
 del /s/f/q \epoc32\release\winscw\secdlg.dll

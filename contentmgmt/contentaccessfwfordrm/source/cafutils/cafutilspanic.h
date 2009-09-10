@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file
  @publishedPartner
@@ -40,3 +38,4 @@ enum TCafUtilsPanics
 GLDEF_C void Panic(TInt aPanic);
 
 #endif
+

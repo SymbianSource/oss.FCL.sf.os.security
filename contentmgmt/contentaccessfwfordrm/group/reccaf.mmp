@@ -18,8 +18,6 @@
 */
 
 
-
-
 /**
  @file
 */
@@ -41,9 +39,8 @@ END
 USERINCLUDE		../source/caf 
 USERINCLUDE		../source/reccaf
 
-SYSTEMINCLUDE	/epoc32/include
-SYSTEMINCLUDE	/epoc32/include/caf
-SYSTEMINCLUDE	/epoc32/include/ecom
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 LIBRARY			euser.lib apmime.lib estor.lib
 LIBRARY			caf.lib efsrv.lib 
+SMPSAFE

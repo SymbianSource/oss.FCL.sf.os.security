@@ -49,23 +49,13 @@ class CKeyToolController : public CController, public KeyToolDefController
 		 */
 		void HandleCommandL(TInt aCommand, CKeyToolParameters* aParam);
 
-/*	public: 
-		void DisplayError(const TDesC& aError, TInt aErrorCode);	
-		void DisplayError(const TDesC& aError);
-		void DisplayKey(CCTKeyInfo& aKey, TBool aIsDetailed);
-		void DisplayKeys(RMPointerArray<CCTKeyInfo> aKeyList, TBool aIsDetailed);
-		void DisplayLocalisedMsg(TInt aResourceId);
-		void DisplayLocalisedMsg(TInt aResourceId, TInt aErrorCode);
-*/
 	protected:
 		void ConstructL();
 		CKeyToolController(MKeyToolView& aView);	
 
 	protected:
-		//MKeyToolView& 	iView;
 		CKeyToolEngine* iEngine;
-		//RFs 			iFsSession;
-		//RResourceFile 	iResourceFile;
 	};
 	
 #endif    //__KEYTOOL_CONTROLLER_H_
+

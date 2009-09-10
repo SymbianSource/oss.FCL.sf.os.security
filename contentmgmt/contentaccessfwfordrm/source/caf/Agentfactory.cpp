@@ -16,10 +16,11 @@
 */
 
 
+
 #include <ecom/ecom.h>
-#include "agentfactory.h"
-#include "agentinterface.h"
-#include "caferr.h"
+#include <caf/agentfactory.h>
+#include <caf/agentinterface.h>
+#include <caf/caferr.h>
 
 using namespace ContentAccess;
 
@@ -64,7 +65,60 @@ EXPORT_C TInt CAgentData::Read(TInt /* aPos */, TDes8& /* aDes */, TInt /* aLeng
 	{
 	return KErrCANotSupported;
 	}
-	
+
+#ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+EXPORT_C TInt CAgentData::Read64(TInt64 /* aPos */, TDes8& /* aDes */, TInt /* aLength */, TRequestStatus& /* aStatus */)
+	{
+	return KErrCANotSupported;
+	}
+
+EXPORT_C void CAgentData::DataSize64L(TInt64& /*aSize*/)
+	{
+	User::Leave(KErrCANotSupported);
+	}
+
+EXPORT_C TInt CAgentData::Seek64(TSeek /*aMode*/, TInt64& /*aPos*/)
+	{
+	return KErrCANotSupported;
+	}
+#endif // SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+
 EXPORT_C void CAgentData::ReadCancel(TRequestStatus&)
 	{	
 	}
+
+EXPORT_C void CAgentRightsManager::ListRightsL(RStreamablePtrArray<CRightsInfo>& /* aArray */, RFile& /* aFile */, const TDesC& /* aUniqueId */) const
+	{
+	User::Leave(KErrCANotSupported);
+	}
+
+EXPORT_C TInt CAgentRightsManager::DeleteAllRightsObjects (RFile& /* aFile */, const TDesC& /* aUniqueId */) 
+	{
+	return KErrCANotSupported;
+	}
+	
+EXPORT_C TInt CAgentManager::GetAttribute(TInt /* aAttribute */, TInt& /* aValue */, RFile& /* aFile */, const TDesC& /* aUniqueId */) 	
+	{
+	return KErrCANotSupported;
+	}
+	
+EXPORT_C TInt CAgentManager::GetAttributeSet(RAttributeSet& /* aAttributeSet */, RFile& /* aFile */, const TDesC& /* aUniqueId */) 
+	{
+	return KErrCANotSupported;
+	}
+	
+EXPORT_C TInt CAgentManager::GetStringAttribute(TInt /* aAttribute */, TDes& /* aValue */, RFile& /* aFile */, const TDesC& /* aUniqueId */) 
+	{
+	return KErrCANotSupported;
+	}	
+
+EXPORT_C TInt CAgentManager::GetStringAttributeSet(RStringAttributeSet& /* aStringAttributeSet */, RFile& /* aFile */, const TDesC& /* aUniqueId */) 
+	{
+	return KErrCANotSupported;
+	}
+
+EXPORT_C void CAgentManager::DisplayInfoL (TDisplayInfo /* aInfo */, RFile& /* aFile */, const TDesC& /* aUniqueId */)
+	{
+	User::Leave(KErrCANotSupported);
+	}
+

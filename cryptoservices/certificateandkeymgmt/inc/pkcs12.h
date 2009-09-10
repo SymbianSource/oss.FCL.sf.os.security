@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file
  @publishedPartner
@@ -34,9 +32,12 @@
 #include <pkcs7contentinfo_v2.h>
 #include <pkcs7digestinfo.h>
 #include <pkcs7encrypteddataobject.h>
-#include <pkcs7signedobject.h>
 #include <pkcs12macdata.h>
 #include <pkcs12safebag.h>
+
+#ifndef SYMBIAN_ENABLE_SPLIT_HEADERS
+#include <pkcs7signedobject.h>
+#endif
 
 namespace PKCS12
 {

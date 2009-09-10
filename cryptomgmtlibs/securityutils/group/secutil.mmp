@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file
 */
@@ -34,15 +32,11 @@ UID    0x1000008d 0x102031E8
 VENDORID 0x70000001
 
 USERINCLUDE ../inc
-SYSTEMINCLUDE	/epoc32/include
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 SOURCEPATH	../source/secutil
 SOURCE  e32dll.cpp
-SOURCE 	ExplicitHTTPSession.cpp
-SOURCE	base64.cpp
 SOURCE	callbacktimer.cpp
 
 LIBRARY euser.lib
-LIBRARY http.lib inetprotutil.lib bafl.lib
-LIBRARY esock.lib commdb.lib
-LIBRARY commsdat.lib
+SMPSAFE

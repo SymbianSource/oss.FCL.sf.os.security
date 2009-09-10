@@ -16,8 +16,6 @@
 */
 
 
-
-
 #include "pkcs7asn1.h"
 #include <asn1dec.h>
 

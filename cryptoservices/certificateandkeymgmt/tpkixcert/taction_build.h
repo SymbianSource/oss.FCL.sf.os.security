@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file 
  @internalTechnology
@@ -26,7 +24,7 @@
 #ifndef __TACTION_BUILD_H__
 #define __TACTION_BUILD_H__
 
-#include <t_testaction.h>
+#include <testhandler2/t_testaction.h>
 #include <unifiedcertstore.h>
 #include "tcertutils.h"
 

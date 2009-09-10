@@ -37,3 +37,5 @@ class CTestBitStr : public CTestBase
 	};
 
 #endif
+
+

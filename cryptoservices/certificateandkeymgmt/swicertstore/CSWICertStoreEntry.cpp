@@ -128,3 +128,5 @@ const TCertMetaInfo& CSWICertStoreEntry::CertMetaInfo() const
 	{
 	return iCertMetaInfo;	
 	}
+
+

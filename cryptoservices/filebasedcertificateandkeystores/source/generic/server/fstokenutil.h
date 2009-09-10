@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file 
  @internalTechnology
@@ -27,7 +25,7 @@
 #define __FSTOKENUTIL_H__
 
 #include "tokentypesenum.h"
-#include <fstokencliserv.h>
+#include "fstokencliserv.h"
 
 /// Panic the client
 void PanicClient(const RMessage2& aMessage, ETokenTypeServerPanic aPanic);

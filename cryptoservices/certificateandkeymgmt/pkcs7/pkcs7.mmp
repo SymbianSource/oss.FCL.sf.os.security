@@ -38,8 +38,6 @@
 // 
 //
 
-
-
 /**
  @file
 */
@@ -85,3 +83,6 @@ LIBRARY hash.lib
 LIBRARY pbe.lib cryptography.lib asnpkcs.lib
 
 DEFFILE pkcs7_v2.def
+
+SMPSAFE
+

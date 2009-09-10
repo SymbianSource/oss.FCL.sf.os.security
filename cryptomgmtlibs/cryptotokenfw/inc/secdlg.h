@@ -16,11 +16,10 @@
 */
 
 
-
-
 /**
  @file
- @internalAll
+ @publishedPartner
+ @released
 */
 
 #ifndef __SECDLG_H__
@@ -72,7 +71,6 @@ typedef TBuf<KMaxUnblockPINLength> TUnblockPINValue;
 
 /**
  * Definition of the security dialog interface
- *
  * @since 7.0
  */
 class MSecurityDialog 

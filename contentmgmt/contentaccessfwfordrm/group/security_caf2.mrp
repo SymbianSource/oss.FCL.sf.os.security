@@ -7,17 +7,15 @@ source			\sf\os\security\contentmgmt\contentaccessfwfordrm\group
 source			\sf\os\security\contentmgmt\contentaccessfwfordrm\inc
 source			\sf\os\security\contentmgmt\cafrecogniserconfig
 source			\sf\os\security\contentmgmt\contentaccessfwfordrm\source
-source			\sf\mw\appsupport\contenthandling\referencedrmagent
+source			\sf\os\security\contentmgmt\referencedrmagent
 
 binary			\sf\os\security\contentmgmt\contentaccessfwfordrm\group all
 exports			\sf\os\security\contentmgmt\contentaccessfwfordrm\group
 notes_source	\component_defs\release.src
 
 
-#  == IPR section auto-inserted from distribution.policy files  ==
 ipr D 
 ipr T \sf\os\security\contentmgmt\contentaccessfwfordrm\engineering
 ipr G \sf\os\security\contentmgmt\cafrecogniserconfig
-ipr T \sf\mw\appsupport\contenthandling\referencedrmagent
+ipr T \os\security\contentmgmt\referencedrmagent
 
-# == end auto-inserted section ==

@@ -15,6 +15,7 @@
 *
 */
 
+
 /**
 @file
 
@@ -31,7 +32,7 @@ VENDORID 0x70000001
 SOURCEPATH	.
 SOURCE x500main.cpp x500dn.cpp x520ava.cpp dstringdec.cpp 
 
-SYSTEMINCLUDE /epoc32/include
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 USERINCLUDE ../../../crypto/weakcrypto/inc
 
@@ -48,3 +49,4 @@ DEFFILE X500.def
 #ifdef ARMV5
 DEFFILE x500.def
 #endif
+SMPSAFE

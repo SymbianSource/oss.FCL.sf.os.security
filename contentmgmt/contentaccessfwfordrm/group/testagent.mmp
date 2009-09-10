@@ -23,7 +23,7 @@ TARGETTYPE 	plugin
 UID			0x10009D8D 0x101FE8F1
 VENDORID	0x70000001
 
-SOURCEPATH		../../../../../mw/appsupport/contenthandling/referencedrmagent/TestAgent
+SOURCEPATH		../../referencedrmagent/TestAgent
 SOURCE			testagentfactory.cpp 
 SOURCE			testagentcontent.cpp
 SOURCE			testagentdata.cpp
@@ -47,6 +47,11 @@ LIBRARY		euser.lib
 LIBRARY		efsrv.lib 
 LIBRARY		caf.lib 
 LIBRARY		cafutils.lib
-LIBRARY		http.lib
 LIBRARY		bafl.lib
 LIBRARY		estor.lib
+
+#ifndef SYMBIAN_DISABLE_UPWARD_DEPENDENCY
+LIBRARY		http.lib
+#endif
+
+SMPSAFE

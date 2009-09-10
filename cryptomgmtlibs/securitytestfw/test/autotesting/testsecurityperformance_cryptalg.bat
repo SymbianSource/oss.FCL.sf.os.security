@@ -13,7 +13,6 @@
 @rem
 @rem Description: 
 @rem
-REM Run security performance tests on hardware (Cryptalg)
 
 REM set debug port for RTest
 debugport 3

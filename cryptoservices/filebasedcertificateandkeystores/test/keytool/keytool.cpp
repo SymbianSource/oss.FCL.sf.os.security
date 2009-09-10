@@ -1,20 +1,24 @@
-// Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).
-// All rights reserved.
-// This component and the accompanying materials are made available
-// under the terms of the License "Symbian Foundation License v1.0"
-// which accompanies this distribution, and is available
-// at the URL "http://www.symbianfoundation.org/legal/sfl-v10.html".
-//
-// Initial Contributors:
-// Nokia Corporation - initial contribution.
-//
-// Contributors:
-//
-// Description:
-//
+/*
+* Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
 
 #include <e32cons.h>
 #include <bacline.h>
+#include <keytool.rsg>
 
 #include "keytool_utils.h"
 #include "keytool_defs.h"
@@ -25,9 +29,9 @@
 
 
 // Boiler plate 
-_LIT(KShortName, "Symbian OS KeyTool");
-_LIT(KName, "Symbian OS KeyStore Manipulation Tool");
-_LIT(KCopyright, "Copyright (c) 2004 - 2007 Symbian Software Ltd.  All rights reserved.");
+_LIT(KShortName, "Nokia KeyTool");
+_LIT(KName, "Nokia KeyStore Manipulation Tool");
+_LIT(KCopyright, "Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).  All rights reserved.");
 
 _LIT(KNewLine, "\n");
 
@@ -76,6 +80,12 @@ _LIT(KDetailsShort, "-d");
 _LIT(KPageWise, "-page");
 _LIT(KPageWiseShort, "-p");
 
+#ifdef KEYTOOL
+_LIT(KMigrateStore, "-migratestore");
+_LIT(KNewFileName, "-new");
+_LIT(KAuthExpression, "-expr");
+_LIT(KFreshness, "-freshness");
+#endif // KEYTOOL
 
 const TInt KMaxArgs = 10;
 
@@ -133,6 +143,14 @@ LOCAL_D TBool VerifyCommand(const TDesC& aCommand, TInt& aCmdNum, TInt& aCmdCoun
 		{
 		aCmdNum = KeyToolDefController::KSetAllUsersCommand;
 		}
+	
+#ifdef KEYTOOL
+	else if	( aCommand.CompareF(KMigrateStore) == 0 )
+		{
+		aCmdNum = KeyToolDefController::KMigrateStore;
+		}
+#endif // KEYTOOL
+	
 	else	
 		{
 		return 0;
@@ -162,18 +180,22 @@ LOCAL_D void DoMainL()
 	// command: keytool inputfile outputfile
 	if (cmdArgsCount == 3)
 		{
-		interactiveMode = EFalse;
-		TInt error = file.Open(fs, cmdArgs->Arg(1), EFileRead|EFileShareAny);
-		file.Close();
-		TInt error1 = file.Replace(fs, cmdArgs->Arg(2), EFileWrite|EFileShareExclusive);
-	    CleanupClosePushL(file);
-	    // If the input file doesn't exist or not able to create outputfile
-		// switch to Interactive mode
-		if (error != KErrNone || error1 != KErrNone)
+		if (KeyToolUtils::DoesFileExistsL(fs,cmdArgs->Arg(1)))
 			{
-			CleanupStack::PopAndDestroy(&file);
-			interactiveMode = ETrue;
-			}	
+			interactiveMode = EFalse;
+			TInt error = file.Open(fs, cmdArgs->Arg(1), EFileRead|EFileShareAny);
+			file.Close();
+			
+			TInt error1 = file.Replace(fs, cmdArgs->Arg(2), EFileWrite|EFileShareExclusive);
+			CleanupClosePushL(file);
+			// If the input file doesn't exist or not able to create outputfile
+			// switch to Interactive mode
+			if (error != KErrNone || error1 != KErrNone)
+				{
+				CleanupStack::PopAndDestroy(&file);
+				interactiveMode = ETrue;
+				}
+			}
 		}
 		
 	CKeytoolConsoleView* view = CKeytoolConsoleView::NewLC(*console);
@@ -288,6 +310,61 @@ LOCAL_D void DoMainL()
 						params->iIsDetailed = ETrue;
 						}
 					}
+				
+#ifdef KEYTOOL
+				if(commd.CompareF(KMigrateStore) == 0 )
+					{
+					int mandatoryParams = 2;
+					if(argsCount-1 >= ++i)
+						{
+						params->iOldKeyFile = args->At(i).AllocL();
+						}
+					else
+						{
+						controller->DisplayLocalisedMsgL(R_KEYTOOL_USAGE_OLDKEY_ABSENT);
+						--mandatoryParams;
+						}
+					if(argsCount-1 >= ++i)
+						{
+						params->iPassphrase = args->At(i).AllocL();
+						}
+					else
+						{
+						controller->DisplayLocalisedMsgL(R_KEYTOOL_USAGE_PASSPHRASE_ABSENT);
+						--mandatoryParams;
+						}
+					
+					if( mandatoryParams != 2 )
+						{
+						command = KeyToolDefController::KUsageCommand;
+						}
+					else
+						{
+						TInt count = args->Count();
+						
+						while(++i < count )
+							{
+							TDesC& commd = args->At(i);
+							if(commd.CompareF(KNewFileName) == 0 &&	argsCount-1 >= ++i)
+								{
+								delete params->iNewKeyFile;
+								params->iNewKeyFile=NULL;
+								params->iNewKeyFile = args->At(i++).AllocL();
+								}
+							else if(commd.CompareF(KAuthExpression) == 0  &&	argsCount-1 >= ++i )
+								{
+								params->iAuthExpression = args->At(i++).AllocL();
+								}
+							else if(commd.CompareF(KFreshness) == 0  &&	argsCount-1 >= ++i )
+								{
+								TLex lex(args->At(i++));		
+								TInt err = lex.Val(params->iFreshness);
+								}
+							} // while
+						} // if(mandatoryParams == 0)
+					} // if
+				
+#endif // KEYTOOL
 				continue;
 				}
 
@@ -385,3 +462,4 @@ GLDEF_C TInt E32Main()         // main function called by E32
 	__UHEAP_MARKEND;
 	return 0; 
    	}
+

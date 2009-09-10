@@ -270,3 +270,4 @@ void CCorruptionTest::DoReportAction()
 void CCorruptionTest::DoCheckResult(TInt /*aError*/)
 	{
 	}
+

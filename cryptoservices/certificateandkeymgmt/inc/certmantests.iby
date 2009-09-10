@@ -14,6 +14,7 @@
 * Description: 
 *
 */
+
 #ifndef __CERTMANTESTS_IBY__
 #define __CERTMANTESTS_IBY__
 
@@ -115,15 +116,31 @@ data = ZDRIVE\system\TOCSP\Certs\newopenssl\ica_cert.der  	System\TOCSP\Certs\ne
 data = ZDRIVE\system\TOCSP\Certs\symbsign\symbsign_int.der  System\TOCSP\Certs\symbsign\symbsign_int.der attrib=r
 data = ZDRIVE\system\TOCSP\Certs\symbsign\symbsign_ee.der  System\TOCSP\Certs\symbsign\symbsign_ee.der attrib=r
 
+
 //PKIX tests
 //programs
+
+// DEF139848 Fix - Different ROMs need the inclusion or exclusion of tcertcommon.dll. So, this is being controlled by
+// a MACRO.
+#define TCERTCOMMON_DLL_INCLUDED
 file = ABI_DIR\BUILD_DIR\tcertcommon.dll	System\Libs\tcertcommon.dll
+
 file = ABI_DIR\BUILD_DIR\tpkixcert.exe		System\Programs\tpkixcert.exe	
 //scripts
 data = ZDRIVE\tpkixcert\scripts\tpkixtest_all.txt	tpkixcert\scripts\tpkixtest_all.txt attrib=r
-data = ZDRIVE\tpkixcert\scripts\tpkixtest_part1.txt		tpkixcert\scripts\tpkixtest_part1.txt attrib=r
-data = ZDRIVE\tpkixcert\scripts\tpkixtest_part2.txt		tpkixcert\scripts\tpkixtest_part2.txt attrib=r
-data = ZDRIVE\tpkixcert\scripts\cancel1.txt		tpkixcert\scripts\cancel1.txt attrib=r
+
+//TMS support scripts
+
+
+data = ZDRIVE\tpkixcert\scripts\tpkixtest_part1.script		tpkixcert\scripts\tpkixtest_part1.script attrib=r
+data = ZDRIVE\tpkixcert\scripts\tpkixtest_part2.script		tpkixcert\scripts\tpkixtest_part2.script attrib=r
+data = ZDRIVE\tpkixcert\scripts\cancel1.script		tpkixcert\scripts\cancel1.script attrib=r
+
+
+data = ZDRIVE\tpkixcert\scripts\tpkixtest_part1.ini		tpkixcert\scripts\tpkixtest_part1.ini attrib=r
+data = ZDRIVE\tpkixcert\scripts\tpkixtest_part2.ini		tpkixcert\scripts\tpkixtest_part2.ini attrib=r
+data = ZDRIVE\tpkixcert\scripts\cancel1.ini		tpkixcert\scripts\cancel1.ini attrib=r
+
 //data
 data = ZDRIVE\pkixtestdata\build\ca1.crt		pkixtestdata\build\ca1.crt attrib=r
 data = ZDRIVE\pkixtestdata\build\ca2.crt		pkixtestdata\build\ca2.crt attrib=r
@@ -378,10 +395,17 @@ ECOM_PLUGIN(tadditionalstores.dll, tadditionalstores.rsc)
 file = ABI_DIR\BUILD_DIR\twtlscert.exe		System\Programs\twtlscert.exe	
 
 //scripts
-data=ZDRIVE\twtlscert\scripts\twtlscert.txt  twtlscert\scripts\twtlscert.txt attrib=r
-data=ZDRIVE\twtlscert\scripts\twtlscert1.txt twtlscert\scripts\twtlscert1.txt attrib=r
-data=ZDRIVE\twtlscert\scripts\twtlscert2.txt twtlscert\scripts\twtlscert2.txt attrib=r
-data=ZDRIVE\twtlscert\scripts\twtlscert3.txt twtlscert\scripts\twtlscert3.txt attrib=r
+//TMS support
+
+data=ZDRIVE\twtlscert\scripts\twtlscert.script  twtlscert\scripts\twtlscert.script attrib=r
+data=ZDRIVE\twtlscert\scripts\twtlscert1.script twtlscert\scripts\twtlscert1.script attrib=r
+data=ZDRIVE\twtlscert\scripts\twtlscert2.script twtlscert\scripts\twtlscert2.script attrib=r
+data=ZDRIVE\twtlscert\scripts\twtlscert3.script twtlscert\scripts\twtlscert3.script attrib=r
+
+data=ZDRIVE\twtlscert\scripts\twtlscert.ini  twtlscert\scripts\twtlscert.ini attrib=r
+data=ZDRIVE\twtlscert\scripts\twtlscert1.ini twtlscert\scripts\twtlscert1.ini attrib=r
+data=ZDRIVE\twtlscert\scripts\twtlscert2.ini twtlscert\scripts\twtlscert2.ini attrib=r
+data=ZDRIVE\twtlscert\scripts\twtlscert3.ini twtlscert\scripts\twtlscert3.ini attrib=r
 
 //data
 data = ZDRIVE\twtlscert\data\Canadian_Hockey_Teams.crt		twtlscert\data\Canadian_Hockey_Teams.crt attrib=r
@@ -418,19 +442,40 @@ data = ZDRIVE\twtlscert\data\wtls-root-badsig.cer			twtlscert\data\wtls-root-bad
 data = ABI_DIR\BUILD_DIR\t_certstore.exe				sys\bin\t_certstore.exe
 
 //scripts
-data = ZDRIVE\tcertstore\scripts\unifiedcertstore1-conf1.txt		tcertstore\scripts\unifiedcertstore1-conf1.txt attrib=r
-data = ZDRIVE\tcertstore\scripts\unifiedcertstore2-conf1.txt		tcertstore\scripts\unifiedcertstore2-conf1.txt attrib=r
-data = ZDRIVE\tcertstore\scripts\unifiedcertstore3-conf1.txt		tcertstore\scripts\unifiedcertstore3-conf1.txt attrib=r
 data = ZDRIVE\tcertstoreconcurrent\scripts\certstoreconcurrent1.txt	tcertstoreconcurrent\scripts\certstoreconcurrent1.txt attrib=r
 data = ZDRIVE\tcertstoreconcurrent\scripts\certstoreconcurrent2.txt	tcertstoreconcurrent\scripts\certstoreconcurrent2.txt attrib=r
 data = ZDRIVE\tcertstoreconcurrent\scripts\certstoreconcurrent3.txt	tcertstoreconcurrent\scripts\certstoreconcurrent3.txt attrib=r
-data = ZDRIVE\tcertstore\scripts\dsa.txt							tcertstore\scripts\dsa.txt attrib=r
-data = ZDRIVE\tcertstore\scripts\reload.txt							tcertstore\scripts\reload.txt attrib=r
-data = ZDRIVE\tcertstore\scripts\swicertstore1.txt					tcertstore\scripts\swicertstore1.txt attrib=r
-data = ZDRIVE\tcertstore\scripts\swicertstore4.txt					tcertstore\scripts\swicertstore4.txt attrib=r
-data = ZDRIVE\tcertstore\scripts\wri-swicertstorehw.txt				tcertstore\scripts\wri-swicertstore1.txt attrib=r
-data = ZDRIVE\tcertstore\scripts\apipolicing.txt					tcertstore\scripts\apipolicing.txt attrib=r
-data = ZDRIVE\tcertstore\scripts\filecertstore_errors.txt			tcertstore\scripts\filecertstore_errors.txt attrib=r
+data = ZDRIVE\tcertstore\scripts\swicertstore1hw.txt				tcertstore\scripts\swicertstore1.txt attrib=r
+
+
+//TMS support
+data = ZDRIVE\tcertstore\scripts\unifiedcertstore1-conf1.script		tcertstore\scripts\unifiedcertstore1-conf1.script attrib=r
+data = ZDRIVE\tcertstore\scripts\unifiedcertstore2-conf1.script		tcertstore\scripts\unifiedcertstore2-conf1.script attrib=r
+data = ZDRIVE\tcertstore\scripts\unifiedcertstore3-conf1.script		tcertstore\scripts\unifiedcertstore3-conf1.script attrib=r
+data = ZDRIVE\tcertstoreconcurrent\scripts\certstoreconcurrent1.script	tcertstoreconcurrent\scripts\certstoreconcurrent1.script attrib=r
+data = ZDRIVE\tcertstoreconcurrent\scripts\certstoreconcurrent2.script	tcertstoreconcurrent\scripts\certstoreconcurrent2.script attrib=r
+data = ZDRIVE\tcertstoreconcurrent\scripts\certstoreconcurrent3.script	tcertstoreconcurrent\scripts\certstoreconcurrent3.script attrib=r
+data = ZDRIVE\tcertstore\scripts\dsa.script							tcertstore\scripts\dsa.script attrib=r
+data = ZDRIVE\tcertstore\scripts\reload.script							tcertstore\scripts\reload.script attrib=r
+
+data = ZDRIVE\tcertstore\scripts\swicertstore4.script					tcertstore\scripts\swicertstore4.script attrib=r
+data = ZDRIVE\tcertstore\scripts\wri-swicertstorehw.script				tcertstore\scripts\wri-swicertstore1.script attrib=r
+data = ZDRIVE\tcertstore\scripts\apipolicing.script					tcertstore\scripts\apipolicing.script attrib=r
+data = ZDRIVE\tcertstore\scripts\filecertstore_errors.script			tcertstore\scripts\filecertstore_errors.script attrib=r
+
+data = ZDRIVE\tcertstore\scripts\unifiedcertstore1-conf1.ini		tcertstore\scripts\unifiedcertstore1-conf1.ini attrib=r
+data = ZDRIVE\tcertstore\scripts\unifiedcertstore2-conf1.ini		tcertstore\scripts\unifiedcertstore2-conf1.ini attrib=r
+data = ZDRIVE\tcertstore\scripts\unifiedcertstore3-conf1.ini		tcertstore\scripts\unifiedcertstore3-conf1.ini attrib=r
+data = ZDRIVE\tcertstoreconcurrent\scripts\certstoreconcurrent1.ini	tcertstoreconcurrent\scripts\certstoreconcurrent1.ini attrib=r
+data = ZDRIVE\tcertstoreconcurrent\scripts\certstoreconcurrent2.ini	tcertstoreconcurrent\scripts\certstoreconcurrent2.ini attrib=r
+data = ZDRIVE\tcertstoreconcurrent\scripts\certstoreconcurrent3.ini	tcertstoreconcurrent\scripts\certstoreconcurrent3.ini attrib=r
+data = ZDRIVE\tcertstore\scripts\dsa.ini							tcertstore\scripts\dsa.ini attrib=r
+data = ZDRIVE\tcertstore\scripts\reload.ini							tcertstore\scripts\reload.ini attrib=r
+
+data = ZDRIVE\tcertstore\scripts\swicertstore4.ini					tcertstore\scripts\swicertstore4.ini attrib=r
+data = ZDRIVE\tcertstore\scripts\wri-swicertstorehw.ini				tcertstore\scripts\wri-swicertstore1.ini attrib=r
+data = ZDRIVE\tcertstore\scripts\apipolicing.ini					tcertstore\scripts\apipolicing.ini attrib=r
+data = ZDRIVE\tcertstore\scripts\filecertstore_errors.ini			tcertstore\scripts\filecertstore_errors.ini attrib=r
 
 data = ZDRIVE\tcertstore\data\wri-swicertstore.dat					tcertstore\data\wri-swicertstore.dat
 data = ZDRIVE\system\data\test1certstore.dat				system\data\test1certstore.dat attrib=r
@@ -504,7 +549,8 @@ data = ZDRIVE\tcertstore\data\cert_dsa1.der			tcertstore\data\cert_dsa1.der attr
 	data = ZDRIVE\tcertstore\multiple_certstore\tdata\certclients2.dat					  private\101f72a6\certclients4.dat attrib=r
 	data = ZDRIVE\tcertstore\multiple_certstore\tdata\corrupt.dat					        private\101f72a6\certclients3.dat attrib=r
 	data = ZDRIVE\tcertstore\multiple_certstore\tdata\certclients1.dat					  private\101f72a6\certclients2.dat attrib=r
-	data = ZDRIVE\tcertstore\multiple_certstore\scripts\tfilecertstore14.txt	    tcertstore\multiple_certstore\scripts\tfilecertstore14.txt attrib=r
+	data = ZDRIVE\tcertstore\multiple_certstore\scripts\tfilecertstore14.script	    tcertstore\multiple_certstore\scripts\tfilecertstore14.script attrib=r
+	data = ZDRIVE\tcertstore\multiple_certstore\scripts\tfilecertstore14.ini	    tcertstore\multiple_certstore\scripts\tfilecertstore14.ini attrib=r
 #endif
 
 // TX509 Tests
@@ -512,15 +558,25 @@ data = ZDRIVE\tcertstore\data\cert_dsa1.der			tcertstore\data\cert_dsa1.der attr
 file = ABI_DIR\BUILD_DIR\tx509.exe				System\Programs\tx509.exe
 
 //scripts
-data = ZDRIVE\tx509\scripts\tx509.txt				tx509\scripts\tx509.txt attrib=r
 data = ZDRIVE\tx509\scripts\tx509-1.txt				tx509\scripts\tx509-1.txt attrib=r
 data = ZDRIVE\tx509\scripts\tx509-2.txt				tx509\scripts\tx509-2.txt attrib=r
 data = ZDRIVE\tx509\scripts\tx509-3.txt				tx509\scripts\tx509-3.txt attrib=r
-data = ZDRIVE\tx509\scripts\tx509-oom1.txt			tx509\scripts\tx509-oom1.txt attrib=r
-data = ZDRIVE\tx509\scripts\tx509-oom2.txt			tx509\scripts\tx509-oom2.txt attrib=r
-data = ZDRIVE\tx509\scripts\tx509_dev_certs.txt			tx509\scripts\tx509_dev_certs.txt attrib=r
-data = ZDRIVE\tx509\scripts\tx509_dev_certs_oom.txt		tx509\scripts\tx509_dev_certs_oom.txt attrib=r
-data = ZDRIVE\tx509\scripts\tx509-dnames.txt			tx509\scripts\tx509-dnames.txt attrib=r
+
+//TMS support
+
+data = ZDRIVE\tx509\scripts\tx509.script				tx509\scripts\tx509.script attrib=r
+data = ZDRIVE\tx509\scripts\tx509-oom1.script			tx509\scripts\tx509-oom1.script attrib=r
+data = ZDRIVE\tx509\scripts\tx509-oom2.script			tx509\scripts\tx509-oom2.script attrib=r
+data = ZDRIVE\tx509\scripts\tx509_dev_certs.script			tx509\scripts\tx509_dev_certs.script attrib=r
+data = ZDRIVE\tx509\scripts\tx509_dev_certs_oom.script		tx509\scripts\tx509_dev_certs_oom.script attrib=r
+data = ZDRIVE\tx509\scripts\tx509-dnames.script			tx509\scripts\tx509-dnames.script attrib=r
+
+data = ZDRIVE\tx509\scripts\tx509.ini				tx509\scripts\tx509.ini attrib=r
+data = ZDRIVE\tx509\scripts\tx509-oom1.ini			tx509\scripts\tx509-oom1.ini attrib=r
+data = ZDRIVE\tx509\scripts\tx509-oom2.ini			tx509\scripts\tx509-oom2.ini attrib=r
+data = ZDRIVE\tx509\scripts\tx509_dev_certs.ini			tx509\scripts\tx509_dev_certs.ini attrib=r
+data = ZDRIVE\tx509\scripts\tx509_dev_certs_oom.ini		tx509\scripts\tx509_dev_certs_oom.ini attrib=r
+data = ZDRIVE\tx509\scripts\tx509-dnames.ini			tx509\scripts\tx509-dnames.ini attrib=r
 
 //data
 data = ZDRIVE\tx509\data\00.CER					tx509\data\00.CER attrib=r
@@ -777,8 +833,12 @@ data = ZDRIVE\tx509\data\dnames\dn_unstructuredname_lc.der			tx509\Data\dn_unstr
 file = ABI_DIR\BUILD_DIR\tasn1.exe 	System\Programs\tasn1.exe
 
 // These scripts are only included for new version of TASN1
-data=\epoc32\winscw\c\tasn1\scripts\tasn1.txt	tasn1\scripts\tasn1.txt attrib=r
 data=\epoc32\winscw\c\tasn1\scripts\tasn1-oom.txt	tasn1\scripts\tasn1-oom.txt attrib=r
+
+//TMS support
+data=\epoc32\winscw\c\tasn1\scripts\tasn1.script	tasn1\scripts\tasn1.script attrib=r
+data=\epoc32\winscw\c\tasn1\scripts\tasn1.ini	tasn1\scripts\tasn1.ini attrib=r
+
 
 // tpkcs10 - Uses TEF
 
@@ -815,14 +875,8 @@ data = ZDRIVE\tpkcs10\v3extensions\keyusage.der			\tpkcs10\v3extensions\keyusage
 data = ZDRIVE\tpkcs10\v3extensions\subjectaltname.der		\tpkcs10\v3extensions\subjectaltname.der
 
 
-// TCERTAPPS
-data = ABI_DIR\BUILD_DIR\t_certapps.exe				sys\bin\t_certapps.exe
-data = ZDRIVE\tcertapps\scripts\script1.txt			tcertapps\scripts\script1.txt attrib=r
-data = ZDRIVE\tcertapps\scripts\apipolicing.txt	tcertapps\scripts\apipolicing.txt attrib=r
 
 file=ABI_DIR\BUILD_DIR\tcertdump.exe 	sys\bin\tcertdump.exe
-
-
 
 //tpkixcert_tef
 

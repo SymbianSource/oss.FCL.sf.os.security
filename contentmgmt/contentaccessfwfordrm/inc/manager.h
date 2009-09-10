@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2003-2006 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2003-2009 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -16,12 +16,10 @@
 */
 
 
-
-/** 
-@file
-
-@publishedPartner
-@released
+/**
+ @file
+ @publishedPartner
+ @released
 */
 
 
@@ -224,6 +222,7 @@ namespace ContentAccess
 		@return Otherwise one of the other CAF error codes defined in \c caferr.h  or one of the 
 				other system-wide error codes for any other errors.
 		@return Otherwise one of the other system-wide error codes for any other errors.
+		@capability DRM Required when attempting to access an agents private directory		
 		*/
 		IMPORT_C TInt RenameDir(const TDesC& aOldName, const TDesC& aNewName) const;
 
@@ -342,6 +341,22 @@ namespace ContentAccess
 		*/
 		IMPORT_C TInt GetAttribute(TInt aAttribute, TInt& aValue, const TVirtualPathPtr& aVirtualPath) const;
 
+		/**  Get a content's attribute from a file specified by file handle. Can be used when the source file is in the client's private directory.
+	
+		@param aAttribute The attribute to retrieve, from ContentAccess::TAttribute.
+		@param aValue Used to return the value of the attribute.
+		@param aFile The file handle for the file containing the content object.
+		@param aUniqueId The unique id of the content object.
+		@return Whether the attribute value was updated.
+		@return KErrNone if the attribute value was updated.
+		@return KErrNotFound if the URI or the object with the given UniqueId inside the file was not found.
+		@return KErrCANotSupported if the feature or the requested attribute is not supported for this content object.
+		@return Otherwise one of the other CAF error codes defined in \c caferr.h  or one of the 
+				other system-wide error codes for any other errors.
+		@capability DRM Access to DRM protected content is not permitted for processes without DRM capability. Access to unprotected content is unrestricted. 
+		*/
+		IMPORT_C TInt GetAttribute(TInt aAttribute, TInt& aValue, RFile& aFile, const TDesC& aUniqueId);
+
 		/** Get a set of attributes from a content object
 
 		@see ContentAccess::TAttribute
@@ -400,6 +415,21 @@ namespace ContentAccess
 		*/
 		IMPORT_C TInt GetAttributeSet(RAttributeSet& aAttributeSet, const TVirtualPathPtr& aVirtualPath) const;
 
+		/** Get a content's set of attributes from a file specified by file handle. Can be used when the source file is in the client's private directory.
+
+		@param aAttributeSet The set of attributes to query and update.
+		@param aFile The file handle for the file containing the content object.
+		@param aUniqueId The unique id of the content object.
+		@return Whether the attribute set was updated.
+		@return KErrNone if the attribute set was updated successfully.
+		@return KErrNotFound if the content object was not found.
+		@return KErrCANotSupported if the feature not supported.
+		@return Otherwise one of the other CAF error codes defined in \c caferr.h  or one of the 
+				other system-wide error codes for any other errors.
+		@capability DRM Access to DRM protected content is not permitted for processes without DRM capability. Access to unprotected content is unrestricted. 
+		*/
+		IMPORT_C TInt GetAttributeSet(RAttributeSet& aAttributeSet, RFile& aFile, const TDesC& aUniqueId);	
+
 		/**  Get text string attributes or meta-data from the file 
 		
 		@see ContentAccess::TStringAttribute
@@ -430,6 +460,23 @@ namespace ContentAccess
 		*/
 		IMPORT_C TInt GetStringAttribute(TInt aAttribute, TDes& aValue, const TVirtualPathPtr& aVirtualPath) const;
 
+		/**  Get a content's text string attribute from a file specified by file handle. Can be used when the source file is in the client's private directory.
+	
+		@param aAttribute The attribute to retrieve, from ContentAccess::TAttribute.
+		@param aValue Used to return the value of the attribute.
+		@param aFile The file handle for the file containing the content object.
+		@param aUniqueId The unique id of the content object whose attributes are to be retrieved.
+		@return Whether the attribute value was updated.
+		@return KErrNone if the attribute value was updated.
+		@return KErrNotFound if the content object does not exist.
+		@return KErrCANotSupported if the feature or the requested attribute is not supported for this content object.
+		@return KErrOverflow if the buffer was not large enough to return the result.
+		@return Otherwise one of the other CAF error codes defined in \c caferr.h  or one of the 
+				other system-wide error codes for any other errors.
+		@capability DRM Access to DRM protected content is not permitted for processes without DRM capability. Access to unprotected content is unrestricted. 
+		*/		
+		IMPORT_C TInt GetStringAttribute(TInt aAttribute, TDes& aValue, RFile& aFile, const TDesC& aUniqueId);
+		
 		/** Used to obtain a set of string attributes 
 
 		@see ContentAccess::TStringAttribute
@@ -470,6 +517,21 @@ namespace ContentAccess
 		@capability DRM Access to DRM protected content is not permitted for processes without DRM capability. Access to unprotected content is unrestricted. 
 		*/
 		IMPORT_C TInt GetStringAttributeSet(RStringAttributeSet& aStringAttributeSet, const TVirtualPathPtr& aVirtualPath) const;
+
+		/** Get a content's set of string attributes from a file specified by file handle. Can be used when the source file is in the client's private directory.
+
+		@param aStringAttributeSet The set of attributes to query and update.
+		@param aFile The file handle for the file containing the content object.
+		@param aUniqueId The unique id of the content object whose attributes are to be retrieved	
+		@return Whether the string attribute set was updated.
+		@return KErrNone if the attribute set was updated successfully.
+		@return KErrNotFound if the object with the given virtual path was not found.
+		@return KErrCANotSupported if the feature not supported.
+		@return Otherwise one of the other CAF error codes defined in \c caferr.h  or one of the 
+				other system-wide error codes for any other errors.
+		@capability DRM Access to DRM protected content is not permitted for processes without DRM capability. Access to unprotected content is unrestricted. 
+		*/
+		IMPORT_C TInt GetStringAttributeSet(RStringAttributeSet& aStringAttributeSet, RFile& aFile, const TDesC& aUniqueId);
 
 		/** Notify the caller when the status of a DRM protected content object changes
 
@@ -526,6 +588,21 @@ namespace ContentAccess
 		*/
 		IMPORT_C void DisplayInfoL(TDisplayInfo aInfo, const TVirtualPathPtr& aVirtualPath);
 		
+		/** View information associated with a single content object in a file specified by file handle. Can be used when the source file is in the client's private directory.
+		
+		This call blocks execution and only returns once the display is dismissed 
+		by the user.
+
+		@param aInfo The information to display.
+		@param aFile The file handle for the file containing the content object.
+		@param aUniqueId The unique id of the content object.	
+		@leave KErrCANotSupported if the feature not supported or if agent cannot display the requested information.
+		@leave ...		One of the other CAF error codes defined in \c caferr.h  
+		 				or one of the system-wide error codes 
+						for any other errors.		
+		@capability DRM Access to DRM protected content is not permitted for processes without DRM capability. Access to unprotected content is unrestricted. 
+		*/
+		IMPORT_C void DisplayInfoL(TDisplayInfo aInfo, RFile& aFile, const TDesC& aUniqueId);
 
 		/** List all the agents installed on the device (except F32Agent) 
 
@@ -635,9 +712,13 @@ namespace ContentAccess
 		void DoGetDirL(const TDesC& aName, TUint aEntryAttMask, TUint anEntrySortKey, CDir*& aEntryList, CDir*& aDirList) const;
 		void DoGetDirL(const TDesC &aName, const TUidType &aEntryUid, TUint aEntrySortKey, CDir *&aFileList) const;
 		void DoGetAttributeL(TInt aAttribute, TInt& aValue, const TVirtualPathPtr& aVirtualPath) const;
+		void DoGetAttributeL(TInt aAttribute, TInt& aValue, RFile& aFile, const TDesC& aUniqueId) const;
 		void DoGetAttributeSetL(RAttributeSet& aAttributeSet, const TVirtualPathPtr& aVirtualPath) const;		
+		void DoGetAttributeSetL(RAttributeSet& aAttributeSet, RFile& aFile, const TDesC& aUniqueId) const;
 		void DoGetStringAttributeL(TInt aAttribute, TDes& aValue, const TVirtualPathPtr& aVirtualPath) const;		
+		void DoGetStringAttributeL(TInt aAttribute, TDes& aValue, RFile& aFile, const TDesC& aUniqueId) const;
 		void DoGetStringAttributeSetL(RStringAttributeSet& aStringAttributeSet, const TVirtualPathPtr& aVirtualPath) const;		
+		void DoGetStringAttributeSetL(RStringAttributeSet& aStringAttributeSet, RFile& aFile, const TDesC& aUniqueId) const;
 		void DoNotifyStatusChangeL(const TDesC& aURI, TEventMask aMask, TRequestStatus& aStatus);		
 		void DoCancelNotifyStatusChangeL(const TDesC& aURI, TRequestStatus& aStatus);
 		void DoSetPropertyL(TAgentProperty aProperty, TInt aValue);		

@@ -13,7 +13,6 @@
 @rem
 @rem Description: 
 @rem
-rem Certstore Configuration 3 setup script
 cd \
 
 perl %SECURITYSOURCEDIR%\os\security\cryptoservices\certificateandkeymgmt\twtlscert\scripts\batchfiles\certstorePlugins disable_all

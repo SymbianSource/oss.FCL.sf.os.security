@@ -14,12 +14,13 @@
 * Description: 
 *
 */
+
 #ifndef __PKCS12_IBY__
 #define __PKCS12_IBY__
 
 // depends upon x509 certificate chains
 #include <certman.iby>
-// DEF137562 fix - Illegal dependency of OCSP on HTTP. Relocation of OCSP component from OS to MW layer.
+// DEF139848 fix - Forward Propogation from Symtb9.1 - Illegal dependency from OCSP to HTTP.
 #include <ocsp.iby>
 
 

@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file 
  @internalTechnology
@@ -31,6 +29,10 @@
 #include "keystorepassphrase.h"
 #include "fsdatatypes.h"
 
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+#include <authserver/authclient.h>
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+
 class CRSAPrivateKey;
 class CRSASignature;
 class CDSAPrivateKey;
@@ -41,6 +43,18 @@ class CFSKeyStoreServer;
 
 class COpenedKey : public CActive
 	{
+	
+protected:
+	enum TState
+		{
+		EIdle,
+		EGetPassphrase,
+		#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+		EDoAuthenticate,
+		EAuthenticate,
+		#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+		};
+	
 public:
 	/** Factory function for creating COpenedKey-derived classes. */
 	static COpenedKey* NewL(const CFileKeyData& aKeyData, TUid aType, const RMessage2& aMessage,
@@ -74,20 +88,19 @@ protected:
 	/// Clean up, called after normal end error completion
 	virtual void Cleanup() = 0;
 
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+protected:
+	void AuthenticateL();
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	
 private:
-	enum TState
-		{
-		EIdle,
-		EGetPassphrase,
-		};
-
 	virtual void RunL();
 	virtual TInt RunError(TInt aError);
 	virtual void DoCancel();
 
 private:
 	void ConstructL(const RMessage2& aMessage);
-	void CheckKeyL(const CKeyInfo& aKeyInfo, const RMessage2& aMessage);
+	void CheckKeyL(const RMessage2& aMessage);
 	void Complete(TInt aError);
 
 private:
@@ -95,11 +108,17 @@ private:
 	CFileKeyDataManager& iKeyDataMan;
 	CPassphraseManager&  iPassMan;
 	HBufC*				 iLabel;
+	
+	CPassphrase*		 iPassphrase;
+	CKeyInfo* 			iKeyInfo;
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	AuthServer::CIdentity* iUserIdentity;
+	AuthServer::RAuthClient iAuthClient;
+	AuthServer::CAuthExpression* iExpression;
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+protected:
 	TState				 iState;
 	TRequestStatus*		 iClientStatus;
-	CPassphrase*		 iPassphrase;
-
-protected:
 	TBool				 iKeyRead;
 	};
 

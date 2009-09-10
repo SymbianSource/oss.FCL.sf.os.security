@@ -13,7 +13,6 @@
 @rem
 @rem Description: 
 @rem
-REM AuthServer tests
 	
 md c:\tauth
 copy /s z:\tauth\* c:\tauth
@@ -36,6 +35,26 @@ move c:\logs\testexecute\tauthplugins.htm e:\testresults\tauthplugins.htm
 testexecute \tauth\tauthsvr\scripts\tauthsvr2.script
 move c:\logs\testexecute\tauthsvr2.htm e:\testresults\tauthsvr2.htm
 
+testexecute \tauth\tauthsvr\scripts\tauthsvrclock.script
+move c:\logs\testexecute\tauthsvrclock.htm e:\testresults\tauthsvrclock.htm
+
+testexecute \tauth\tpinplugin\scripts\tpinplugin.script
+move c:\logs\testexecute\tpinplugin.htm e:\testresults\tpinplugin.htm
+
+testexecute \tauth\tauthsvr\scripts\tpostmarketplugin.script
+move c:\logs\testexecute\tpostmarketplugin.htm e:\testresults\tpostmarketplugin.htm
+
+testexecute \tauth\tauthsvr\scripts\tclientsidsupport.script
+move c:\logs\testexecute\tclientsidsupport.htm e:\testresults\tclientsidsupport.htm
+
+testexecute \tauth\securitytests\scripts\authsecuritytests.script
+move c:\logs\testexecute\authsecuritytests.htm e:\testresults\authsecuritytests.htm
+
+testexecute \tauth\tauthsvr\scripts\tauthsvr_performance.script
+move c:\logs\testexecute\tauthsvr_performance.htm e:\testresults\tauthsvr_performance.htm
+
 attrib c:\tauth\*.* -r
 del c:\tauth\*.*
 rmdir c:\tauth
+del c:\sys\bin\tauthsvr1.exe
+del c:\sys\bin\tauthsvr_new.exe

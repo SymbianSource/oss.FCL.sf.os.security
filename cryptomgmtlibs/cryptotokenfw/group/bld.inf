@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file
 */
@@ -28,41 +26,54 @@ PRJ_PLATFORMS
 DEFAULT
 
 PRJ_EXPORTS
-../inc/ct/MCTTokenTypeFilter.h 							/epoc32/include/ct/mcttokentypefilter.h
-../inc/ct/TCTAllTokenTypes.h 							/epoc32/include/ct/tctalltokentypes.h
-../inc/ct/CCTTokenTypeInfo.h 							/epoc32/include/ct/ccttokentypeinfo.h
-../inc/ct/MCTTokenType.h 								/epoc32/include/ct/mcttokentype.h
-../inc/ct/MCTTokenInterface.h 							/epoc32/include/ct/mcttokeninterface.h
-../inc/ct/mcttokenobject.h 								/epoc32/include/ct/mcttokenobject.h
-../inc/ct/CCTTokenType_v2.h								/epoc32/include/ct/ccttokentype.h
-../inc/ct/MCTToken.h 									/epoc32/include/ct/mcttoken.h
-../inc/ct/tcttokenobjecthandle.h						/epoc32/include/ct/tcttokenobjecthandle.h
-../inc/ct/TCTTokenTypeAttribute.h						/epoc32/include/ct/tcttokentypeattribute.h
-../inc/ct/TCTFindTokenTypesByInterface.h				/epoc32/include/ct/tctfindtokentypesbyinterface.h
-../inc/ct/TCTFindTokenTypesByInterfaceAndAttribute.h	/epoc32/include/ct/tctfindtokentypesbyinterfaceandattribute.h
-../inc/ct/InterfaceUID.hrh 								/epoc32/include/ct/interfaceuid.hrh
-../inc/CryptoTokenRegistryInfo.rh						/epoc32/include/cryptotokenregistryinfo.rh
-../inc/ct/tcttokenhandle.h								/epoc32/include/ct/tcttokenhandle.h
-../inc/ct/RCPointerArray.h								/epoc32/include/ct/rcpointerarray.h
-../inc/ct/RMPointerArray.h								/epoc32/include/ct/rmpointerarray.h
+../inc/ct/MCTTokenTypeFilter.h 							SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(ct/mcttokentypefilter.h)
+../inc/ct/TCTAllTokenTypes.h 							SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(ct/tctalltokentypes.h)
+../inc/ct/CCTTokenTypeInfo.h 							SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(ct/ccttokentypeinfo.h)
+../inc/ct/MCTTokenType.h 								SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(ct/mcttokentype.h)
+../inc/ct/MCTTokenInterface.h 							SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(ct/mcttokeninterface.h)
+../inc/ct/mcttokenobject.h 								SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(ct/mcttokenobject.h)
+../inc/ct/CCTTokenType_v2.h								SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(ct/ccttokentype.h)
+../inc/ct/MCTToken.h 									SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(ct/mcttoken.h)
+../inc/ct/tcttokenobjecthandle.h						SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(ct/tcttokenobjecthandle.h)
+../inc/ct/TCTTokenTypeAttribute.h						SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(ct/tcttokentypeattribute.h)
+../inc/ct/TCTFindTokenTypesByInterface.h				SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(ct/tctfindtokentypesbyinterface.h)
+../inc/ct/TCTFindTokenTypesByInterfaceAndAttribute.h	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(ct/tctfindtokentypesbyinterfaceandattribute.h)
+../inc/ct/InterfaceUID.hrh 								SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(ct/interfaceuid.hrh)
+../inc/CryptoTokenRegistryInfo.rh						SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cryptotokenregistryinfo.rh)
+../inc/ct/tcttokenhandle.h								SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(ct/tcttokenhandle.h)
+../inc/ct/RCPointerArray.h								SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(ct/rcpointerarray.h)
+../inc/ct/RMPointerArray.h								SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(ct/rmpointerarray.h)
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
 ../inc/ct/logger.h										/epoc32/include/ct/logger.h
-../inc/ct.h
-../inc_interfaces/MCTAuthObject.h						/epoc32/include/mctauthobject.h
-../inc_interfaces/mcertstore.h 							/epoc32/include/mcertstore.h
-../inc_interfaces/mctcertstore.h 						/epoc32/include/mctcertstore.h
-../inc_interfaces/mctwritablecertstore_v2.h				/epoc32/include/mctwritablecertstore.h
-../inc_interfaces/MCTWritableCertStore.inl				/epoc32/include/mctwritablecertstore.inl
-../inc_interfaces/CCTCertInfo_v2.h 						/epoc32/include/cctcertinfo.h
-../inc_interfaces/MCTCertApps.h							/epoc32/include/mctcertapps.h
-../inc/securitydefs.h
-../inc/securitydefs.inl
-../inc/secdlg.h
-../inc/secdlgImplDefs.h /epoc32/include/secdlgimpldefs.h
-../inc_interfaces/mkeystore_v2.h						/epoc32/include/mkeystore.h
-../inc_interfaces/MCTKeyStore_v2.h						/epoc32/include/mctkeystore.h
-../inc_interfaces/MCTKeyStore_v2.inl					/epoc32/include/mctkeystore.inl
-../inc_interfaces/MCTKeyStoreManager_v2.h				/epoc32/include/mctkeystoremanager.h
-../inc_interfaces/CCertAttributeFilter.h /epoc32/include/ccertattributefilter.h
+#endif
+../inc/ct.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(ct.h)
+../inc_interfaces/MCTAuthObject.h						SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(mctauthobject.h)
+../inc_interfaces/mcertstore.h 							SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(mcertstore.h)
+../inc_interfaces/mctcertstore.h 						SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(mctcertstore.h)
+../inc_interfaces/mctwritablecertstore_v2.h				SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(mctwritablecertstore.h)
+../inc_interfaces/MCTWritableCertStore.inl				SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(mctwritablecertstore.inl)
+../inc_interfaces/CCTCertInfo_v2.h 						SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(cctcertinfo.h)
+../inc_interfaces/MCTCertApps.h							SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(mctcertapps.h)
+../inc/securitydefs.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(securitydefs.h)
+../inc/securitydefs.inl SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(securitydefs.inl)
+../inc/secdlg.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(secdlg.h)
+../inc/secdlgImplDefs.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(secdlgimpldefs.h)
+../inc_interfaces/mkeystore_v2.h						SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(mkeystore.h)
+../inc_interfaces/MCTKeyStore_v2.h						SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(mctkeystore.h)
+../inc_interfaces/MCTKeyStore_v2.inl					SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(mctkeystore.inl)
+../inc_interfaces/MCTKeyStoreManager_v2.h				SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(mctkeystoremanager.h)
+../inc_interfaces/CCertAttributeFilter.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(ccertattributefilter.h)
+../inc/securitydefsconst.h						SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(securitydefsconst.h)
+../inc_interfaces/MCTKeyStoreUIDs.h					SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(mctkeystoreuids.h)
+
+#ifndef SYMBIAN_ENABLE_SPLIT_HEADERS
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+../inc_interfaces/mctcertappinterface.h					/epoc32/include/mctcertappinterface.h
+#endif
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+../inc/ct/cttokentypedeletehandler.h 			/epoc32/include/cttokentypedeletehandler.h
+#endif
+#endif
 
 PRJ_TESTEXPORTS
 

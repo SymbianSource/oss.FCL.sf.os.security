@@ -15,6 +15,7 @@
 *
 */
 
+
 /**
 @file
 
@@ -43,9 +44,10 @@ SOURCE        removedExports.cpp
 
 
 USERINCLUDE .
-SYSTEMINCLUDE /epoc32/include
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 USERINCLUDE ../../../crypto/weakcrypto/inc
+USERINCLUDE ../inc
 
 LIBRARY       euser.lib
 LIBRARY		  asn1.lib 
@@ -62,3 +64,4 @@ DEFFILE X509_v2.def
 #else
 DEFFILE x509_v2.def
 #endif
+SMPSAFE

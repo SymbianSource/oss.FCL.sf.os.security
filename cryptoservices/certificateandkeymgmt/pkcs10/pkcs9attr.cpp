@@ -131,3 +131,4 @@ void CPKCS9ExtensionRequestAttr::ConstructL(const CX509CertExtension& aExtension
 	CASN1EncSequence *extension = aExtension.EncodeASN1DERLC();
 	iExtSeq->AddAndPopChildL(extension);
 	}
+

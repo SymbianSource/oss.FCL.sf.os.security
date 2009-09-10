@@ -13,7 +13,6 @@
 @rem
 @rem Description: 
 @rem
-REM Run security performance tests on hardware Crypto
 
 REM set debug port for RTest
 debugport 3
@@ -26,9 +25,15 @@ REM crypto, symmetric
 tsymmetric z:\tsymmetric\tsymmetricperformancetests.txt c:\testresults\tsymmetricperformancetests.log
 move c:\testresults\tsymmetricperformancetests.log e:\testresults\
 
+tsymmetric z:\tsymmetric\tsymmetricperformancetests.script c:\testresults\tsymmetricperformancetests.htm
+move c:\testresults\tsymmetricperformancetests.htm e:\testresults\
+
 REM crypto, asymmetric
 tasymmetric z:\tasymmetric\asymmetricperformance.txt c:\testresults\tasymmetricperformance.log
 move c:\testresults\tasymmetricperformance.log e:\testresults\
+
+tasymmetric z:\tasymmetric\asymmetricperformance.script c:\testresults\tasymmetricperformance.htm
+move c:\testresults\tasymmetricperformance.htm e:\testresults\
 
 REM crypto, bigint
 tbigint z:\tbigint\tperformancetests.txt c:\testresults\tperformancetests.log

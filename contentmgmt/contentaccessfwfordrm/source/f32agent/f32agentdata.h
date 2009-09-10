@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file
  @internalComponent
@@ -58,7 +56,13 @@ namespace ContentAccess
 		virtual void Read(TDes8& aDes, TInt aLength, TRequestStatus& aStatus);
 		virtual void ReadCancel(TRequestStatus& aStatus);
 		virtual void DataSizeL(TInt& aSize);
+#ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+		virtual void DataSize64L(TInt64& aSize);
+#endif // SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
 		virtual TInt Seek(TSeek aMode,TInt& aPos);
+#ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+		virtual TInt Seek64(TSeek aMode,TInt64& aPos);
+#endif // SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
 		virtual TInt SetProperty(TAgentProperty aProperty, TInt aValue);
 		virtual TInt EvaluateIntent(TIntent aIntent);
 		virtual TInt ExecuteIntent(TIntent aIntent);
@@ -67,6 +71,10 @@ namespace ContentAccess
 		virtual TInt GetStringAttribute(TInt aAttribute, TDes& aValue);
 		virtual TInt GetStringAttributeSet(RStringAttributeSet& aStringAttributeSet);
 		virtual TInt Read(TInt aPos, TDes8& aDes, TInt aLength, TRequestStatus& aStatus);
+#ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API		
+		virtual TInt Read64(TInt64 aPos, TDes8& aDes, TInt aLength, TRequestStatus& aStatus);
+#endif // SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+
 	private:
 		CF32AgentData();
 		void ConstructL(const TVirtualPathPtr& aVirtualPath, TContentShareMode aShareMode);
@@ -78,7 +86,11 @@ namespace ContentAccess
 		RFs iFs;
 		
 		/** RFile object */
-		RFile iFile;
+#ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+		RFile64 iFile;
+#else
+		RFile   iFile;
+#endif //SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API 
 
 		CVirtualPath* iVirtualPath;
 		CF32AgentUi* iAgentUi;

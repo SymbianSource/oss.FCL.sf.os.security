@@ -26,6 +26,14 @@
 #include <asymmetric.h>
 #include <pbedata.h>
 #include <mctkeystoremanager.h>
+#include "cfskeystoreserver.h"
+#include <mctkeystoreuids.h>
+
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+#include <authserver/identity.h>
+#include <e32debug.h>
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+
 
 // CKeyStoreConduit ////////////////////////////////////////////////////////////
 
@@ -58,6 +66,7 @@ void CKeyStoreConduit::ConstructL()
 
 void CKeyStoreConduit::ServiceRequestL(const RMessage2& aMessage, CKeyStoreSession& aSession)
 	{
+	
 	TFSTokenMessages request = static_cast<TFSTokenMessages>(aMessage.Function());
 
 	if (iCurrentRequest.OutstandingRequest()!=EIdle)
@@ -168,7 +177,26 @@ void CKeyStoreConduit::ServiceRequestL(const RMessage2& aMessage, CKeyStoreSessi
 		break;
    	case ECancelDH:
 		CancelDH(aMessage, aSession);
-		break;			   
+		break;	
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+
+	case ECreateUserKey:
+		CreateUserKeyL(aMessage);
+		break;
+	
+	case EImportUserKey:
+	case EImportEncryptedUserKey:
+		ImportUserKeyL(aMessage);
+		break;
+		
+	case ESetAuthenticationPolicy:
+		SetAuthenticationPolicyL(aMessage);
+		break;
+	
+	case EGetAuthenticationPolicy:
+		GetAuthenticationPolicyL(aMessage);
+		break;
+#else
 	case EChangePassphrase:
 		ChangePassphrase(aMessage);
 		break;
@@ -195,7 +223,15 @@ void CKeyStoreConduit::ServiceRequestL(const RMessage2& aMessage, CKeyStoreSessi
 		break;
 	case ERelock:
 		Relock(aMessage);
-		break;
+		break;	
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	
+#ifdef SYMBIAN_AUTH_SERVER
+	case EUseNewKeyServer:
+			IsKeyServerNewL(aMessage);
+			break;
+#endif // SYMBIAN_AUTH_SERVER
+			
 	default:	//	Should not reach here
 		PanicClient(aMessage,EPanicIllegalFunction);
 		break;
@@ -214,7 +250,9 @@ void CKeyStoreConduit::ListL(const RMessage2& aMessage)
 	iServer.ListL(filter(), keyInfos);
 
 	TInt bufSize = User::LeaveIfError(aMessage.GetDesMaxLength(2)); 
+	iServer.CheckRangeL(bufSize);
 	TInt reqdSize = TokenDataMarshaller::Size(keyInfos);
+	
 	if (bufSize >= reqdSize)
 		{
 		HBufC8* buffer = HBufC8::NewMaxLC(reqdSize);
@@ -229,7 +267,6 @@ void CKeyStoreConduit::ListL(const RMessage2& aMessage)
 		aMessage.WriteL(2, sizePckg);
 		User::Leave(KErrOverflow);
 		}
-
 	CleanupStack::PopAndDestroy(&keyInfos); // keyInfos
 	aMessage.Complete(KErrNone);
 	}
@@ -243,6 +280,7 @@ void CKeyStoreConduit::GetKeyInfoL(const RMessage2& aMessage)
 	info->CleanupPushL();
 
 	TInt bufferSize = User::LeaveIfError(aMessage.GetDesMaxLength(2));
+	iServer.CheckRangeL(bufferSize);
 	TInt requiredSize = TokenDataMarshaller::Size(*info);
 
 	if (bufferSize >= requiredSize)
@@ -286,6 +324,7 @@ void CKeyStoreConduit::CreateKeyL(const RMessage2& aMessage)
 	//	enough, to cope with requests for keys with very long labels.
 
 	TInt bufLength = User::LeaveIfError(aMessage.GetDesLength(1));
+	iServer.CheckRangeL(bufLength);
 	HBufC8* keyInfoBuf = HBufC8::NewMaxLC(bufLength);
 
 	//	p[1] has the CKeyInfo structure required to create a key
@@ -303,6 +342,152 @@ void CKeyStoreConduit::CreateKeyL(const RMessage2& aMessage)
 	iServer.CreateKey(*iKeyInfo, iStatus);
 	}
 
+#ifdef SYMBIAN_AUTH_SERVER
+void CKeyStoreConduit::IsKeyServerNewL(const RMessage2& aMessage)
+	{
+	TBool newKeyServer = EFalse;
+	#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	newKeyServer = ETrue;
+	#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+
+	TPckg<TBool> idNewKeyServer(newKeyServer);
+	aMessage.WriteL(1,idNewKeyServer);
+	aMessage.Complete(KErrNone);
+	}
+#endif // SYMBIAN_AUTH_SERVER
+
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+
+void CKeyStoreConduit::CreateUserKeyL(const RMessage2& aMessage)
+	{
+	ASSERT(!iKeyInfo);
+		
+	//	p[0] has the length of the buffer. Check our buffer is big
+	//	enough, to cope with requests for keys with very long labels.
+
+	TInt bufLength = User::LeaveIfError(aMessage.GetDesLength(1));
+	iServer.CheckRangeL(bufLength);
+	
+	TInt authExprLength = User::LeaveIfError(aMessage.GetDesLength(2));
+	iServer.CheckRangeL(authExprLength);
+	HBufC* authExprBuf = HBufC::NewMaxLC(authExprLength);
+
+	//	p[2] has the authentication expression
+	TPtr authExprPtr(authExprBuf->Des());
+	authExprPtr.FillZ();
+	
+	aMessage.ReadL(2, authExprPtr);
+	
+	TInt freshness = aMessage.Int3();
+	
+	// the iKeyInfo buffer should be read at the last as in 
+	// case of OOM this memory would not get freed.
+	HBufC8* keyInfoBuf = HBufC8::NewMaxLC(bufLength);
+
+	//	p[1] has the CKeyInfo structure required to create a key
+	//	Read it and convert from descriptor back to a CKeyInfo
+	TPtr8 thePtr(keyInfoBuf->Des());
+	thePtr.FillZ();
+
+	aMessage.ReadL(1, thePtr);
+	TokenDataMarshaller::ReadL(*keyInfoBuf, iKeyInfo);
+	CleanupStack::PopAndDestroy(keyInfoBuf);
+			
+	iCurrentRequest.Set(ECreateUserKey, aMessage);
+	
+	SetActive();
+	iServer.CreateUserKey(*iKeyInfo, *authExprBuf, freshness, iStatus);
+	CleanupStack::PopAndDestroy(authExprBuf);
+	}
+
+void CKeyStoreConduit::ImportUserKeyL(const RMessage2& aMessage)
+	{
+	ASSERT(!iImportKey);
+	ASSERT(!iKeyInfo);
+	
+	// p[0] has the descriptor containing the PKCS8 object (may or may not be encrypted)
+	TInt keyLen = User::LeaveIfError(aMessage.GetDesLength(0));
+	iServer.CheckRangeL(keyLen);
+	
+	HBufC8* importBuf = HBufC8::NewMaxLC(keyLen);
+	TPtr8 theKeyData(importBuf->Des());
+	theKeyData.FillZ();
+	aMessage.ReadL(0, theKeyData);
+
+		
+	TInt bufLen = User::LeaveIfError(aMessage.GetDesLength(1));
+	iServer.CheckRangeL(bufLen);
+	
+	// retrieve the authentication expression
+	TInt authExprLength = User::LeaveIfError(aMessage.GetDesLength(2));
+	iServer.CheckRangeL(authExprLength);
+	HBufC* authExprBuf = HBufC::NewMaxLC(authExprLength);
+
+	//	p[2] has the authentication expression
+	TPtr authExprPtr(authExprBuf->Des());
+	authExprPtr.FillZ();
+	
+	aMessage.ReadL(2, authExprPtr);
+	
+	// retrieve the freshness value
+	TInt freshness = aMessage.Int3();
+	
+	HBufC8* keyInfoBuf = HBufC8::NewMaxLC(bufLen);
+
+	// p[1] has the CKeyInfo structure required to create a key
+	// Read it and convert from descriptor back to a CKeyInfo
+	TPtr8 thePtr(keyInfoBuf->Des());
+	thePtr.FillZ();
+	aMessage.ReadL(1, thePtr);
+
+	TokenDataMarshaller::ReadL(*keyInfoBuf, iKeyInfo);
+	CleanupStack::PopAndDestroy(keyInfoBuf);
+
+	iImportKey = importBuf;
+	iCurrentRequest.Set(static_cast<TFSTokenMessages>(aMessage.Function()), aMessage);
+	
+	TBool isEncrypted = (aMessage.Function() == EImportEncryptedUserKey);
+	SetActive();
+	iServer.ImportUserKey(*iImportKey, *iKeyInfo, isEncrypted, *authExprBuf, freshness, iStatus);
+	CleanupStack::PopAndDestroy(authExprBuf);
+	CleanupStack::Pop(importBuf);
+}
+
+void CKeyStoreConduit::SetAuthenticationPolicyL(const RMessage2& aMessage)
+	{
+	TInt objectId = aMessage.Int0();
+	
+	TInt authExprLen = User::LeaveIfError(aMessage.GetDesLength(1));
+	iServer.CheckRangeL(authExprLen);
+	HBufC* authExpr = HBufC::NewMaxLC(authExprLen);
+	TPtr authExprPtr(authExpr->Des());
+	authExprPtr.FillZ();
+	aMessage.ReadL(1, authExprPtr);
+
+	TInt freshness = aMessage.Int2();
+	iCurrentRequest.Set(ESetAuthenticationPolicy, aMessage);
+		
+	SetActive();
+	// ownership of authExpr is with the caller
+	iServer.SetAuthenticationPolicy(objectId, authExpr, freshness, iStatus);
+	CleanupStack::Pop(authExpr);
+	}
+
+void CKeyStoreConduit::GetAuthenticationPolicyL(const RMessage2& aMessage)
+	{
+	TInt objectId = aMessage.Int0();
+	HBufC* authExpression = iServer.AuthExpressionL(objectId);
+	CleanupStack::PushL(authExpression);
+	TInt freshness = iServer.FreshnessL(objectId);
+	TPckg<TInt> pckgFreshness(freshness); 
+	aMessage.WriteL(1, *authExpression);
+	aMessage.WriteL(2, pckgFreshness);
+	CleanupStack::PopAndDestroy(authExpression);
+	aMessage.Complete(KErrNone);
+	}
+
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+
 void CKeyStoreConduit::CancelCreateKey(const RMessage2& aMessage)
 	{
 	if (iCurrentRequest.OutstandingRequest() == ECreateKey)
@@ -319,13 +504,15 @@ void CKeyStoreConduit::ImportKeyL(const RMessage2& aMessage)
 	
 	// p[0] has the descriptor containing the PKCS8 object (may or may not be encrypted)
 	TInt keyLen = User::LeaveIfError(aMessage.GetDesLength(0));
-
+	iServer.CheckRangeL(keyLen);
+	
 	HBufC8* importBuf = HBufC8::NewMaxLC(keyLen);
 	TPtr8 theKeyData(importBuf->Des());
 	theKeyData.FillZ();
 	aMessage.ReadL(0, theKeyData);
 
 	TInt bufLen = User::LeaveIfError(aMessage.GetDesLength(1));
+	iServer.CheckRangeL(bufLen);
 	HBufC8* keyInfoBuf = HBufC8::NewMaxLC(bufLen);
 
 	// p[1] has the CKeyInfo structure required to create a key
@@ -390,7 +577,8 @@ void CKeyStoreConduit::ExportKeyL(const RMessage2& aMessage)
 	
 	TInt objectId = aMessage.Int0();
 	TInt bufLen = User::LeaveIfError(aMessage.GetDesMaxLength(1));  // #1 IPC argument is the request Ptr
-
+	iServer.CheckRangeL(bufLen);
+	
 	HBufC8* exportBuf =  HBufC8::NewMaxLC(bufLen);
 	TPtr8 temp(exportBuf->Des());
  	temp.FillZ();
@@ -430,7 +618,8 @@ void CKeyStoreConduit::ExportPublicL(const RMessage2& aMessage)
 	{
 	TInt objectId = aMessage.Int0();
 	TInt bufLen = User::LeaveIfError(aMessage.GetDesMaxLength(1));
-
+	iServer.CheckRangeL(bufLen);
+	
 	HBufC8* exportBuf = HBufC8::NewMaxLC(bufLen);
 	TPtr8 ptr(exportBuf->Des());
 	ptr.FillZ();
@@ -618,8 +807,9 @@ void CKeyStoreConduit::DoDHPublicKeyL(const RMessage2& aMessage, CKeyStoreSessio
 		iOpenedKey = NULL;
 		User::Leave(KErrAccessDenied);
 		}
-
-	HBufC8* clientBuf = HBufC8::NewMaxLC(User::LeaveIfError(aMessage.GetDesLength(1)));
+	TInt bufLen = User::LeaveIfError(aMessage.GetDesLength(1));
+	iServer.CheckRangeL(bufLen);
+	HBufC8* clientBuf = HBufC8::NewMaxLC(bufLen);
 	TPtr8 clientPtr = clientBuf->Des();
 	aMessage.ReadL(1, clientPtr);
 	TokenDataMarshaller::ReadL(*clientBuf, iDHParams);
@@ -665,6 +855,7 @@ void CKeyStoreConduit::DHAgreeL(const RMessage2& aMessage, CKeyStoreSession& aSe
 
 void CKeyStoreConduit::DoDHAgreeL(const RMessage2& aMessage, CKeyStoreSession& aSession)
 	{
+	
 	COpenedKey* iOpenedKey = aSession.OpenedKey(aMessage.Int0());
 	if (!iOpenedKey)
 		{
@@ -678,7 +869,9 @@ void CKeyStoreConduit::DoDHAgreeL(const RMessage2& aMessage, CKeyStoreSession& a
 		User::Leave(KErrAccessDenied);
 		}
 	
-	HBufC8* clientBuf = HBufC8::NewMaxLC(User::LeaveIfError(aMessage.GetDesLength(1)));
+	TInt bufLen = User::LeaveIfError(aMessage.GetDesLength(1)); 
+	iServer.CheckRangeL(bufLen);
+	HBufC8* clientBuf = HBufC8::NewMaxLC(bufLen);
 	TPtr8 clientPtr = clientBuf->Des();
 	aMessage.ReadL(1, clientPtr);
 	TokenDataMarshaller::ReadL(*clientBuf, iDHPublicKey);
@@ -716,6 +909,8 @@ void CKeyStoreConduit::CloseObjectL(const RMessage2& aMessage, CKeyStoreSession&
 	aSession.RemoveOpenedKeyL(aMessage.Int0());
 	aMessage.Complete(KErrNone);
 	}
+
+#ifndef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 
 void CKeyStoreConduit::ChangePassphrase(const RMessage2& aMessage)
 	{
@@ -778,12 +973,7 @@ void CKeyStoreConduit::SetTimeout(const RMessage2& aMessage)
 
 void CKeyStoreConduit::GetTimeout(const RMessage2& aMessage)
 	{
-	TInt result = 0;
-	TRAPD(err, result = iServer.GetTimeoutL());
-	if (err != KErrNone)
-		{
-		result = err;
-		}
+	TInt result = iServer.GetTimeout();
 	aMessage.Complete(result);
 	}
 
@@ -792,6 +982,8 @@ void CKeyStoreConduit::Relock(const RMessage2& aMessage)
 	iServer.Relock();
 	aMessage.Complete(KErrNone);
 	}
+
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 
 //
 //	CActive functions
@@ -827,7 +1019,15 @@ void CKeyStoreConduit::DoCancel()
 		case EExportEncryptedKey:
 			iServer.CancelExportEncryptedKey();
 			break;
-
+			
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+		case ECreateUserKey:
+			iServer.CancelCreateKey();
+			break;
+		case EImportUserKey:
+		case EImportEncryptedUserKey:
+			iServer.CancelImportKey();
+#else
 		case EChangePassphrase:
 			iServer.CancelChangePassphrase();
 			break;
@@ -836,6 +1036,9 @@ void CKeyStoreConduit::DoCancel()
 			iServer.CancelAuthOpen();
 			break;
 
+			
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+			
 		default:
 			// Nothing to do
 			break;
@@ -857,6 +1060,13 @@ void CKeyStoreConduit::RunL()
 
 	switch (iCurrentRequest.OutstandingRequest())
 		{
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+		case ESetAuthenticationPolicy:
+			break;
+		case ECreateUserKey:
+		case EImportUserKey:
+		case EImportEncryptedUserKey:
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER	
 		case ECreateKey:
 		case EImportKey:
 		case EImportEncryptedKey:
@@ -934,10 +1144,13 @@ void CKeyStoreConduit::RunL()
 		case EDHAgree:
 			FinishDHAgreeL();
 			break;
+#ifndef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 		case EChangePassphrase:
 		case EAuthOpen:
 			// Nothing to do
 			break;
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+			
 		default:
 			__ASSERT_DEBUG(EFalse, PanicServer(EPanicInvalidRequest));
 			User::Leave(KErrNotSupported);
@@ -1011,3 +1224,5 @@ void CKeyStoreConduit::TAsyncRequest::Cancel()
 	iMessage.Complete(KErrCancel);
 	iRequest = EIdle;
 	}
+
+

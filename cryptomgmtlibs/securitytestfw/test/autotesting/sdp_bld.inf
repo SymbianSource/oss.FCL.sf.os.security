@@ -13,7 +13,7 @@
 *
 * Description: 
 * BLD.INF
-* Builds the security subsystem 
+* Builds for the sdp subsystem 
 * This is the bld.inf file for building the secuirity subsystem.  It works for
 * both beech and cedar, using the appropriate macros (if defined) to determine
 * what gets built.
@@ -21,23 +21,32 @@
 */
 
 
-
-
 /**
  @file
 */
 
 #ifndef TOOLS2
-// Disable everything except sistools and security_tools for TOOLS2 target
+// Disable everything except security_tools for TOOLS2 target
 
 #include "os/security/cryptomgmtlibs/securityutils/group/bld.inf"
-#include "os/security/crypto/weakcrypto/group/bld.inf"
-#include "os/security/crypto/weakcrypto/strong/bld.inf"
+#include "os/security/cryptomgmtlibs/securitycommonutils/group/bld.inf"
+#ifdef SYMBIAN_CRYPTOSPI
+	#include "os/security/crypto/weakcryptospi/group/bld.inf"
+	#include "os/security/crypto/weakcryptospi/strong/bld.inf"	
+	#include "os/security/cryptoplugins/cryptospiplugins/group/bld.inf"	
+#else
+	#ifndef __SECURITY_COVERAGE_BUILD__
+		#include "os/security/crypto/weakcrypto/group/bld.inf"
+		#include "os/security/crypto/weakcrypto/strong/bld.inf"	
+	#endif
+
+#endif
+
 #include "os/security/cryptomgmtlibs/cryptotokenfw/group/bld.inf"
 #include "os/security/cryptoservices/asnpkcs/group/bld.inf"
 #include "os/security/cryptoservices/certificateandkeymgmt/group/bld.inf"
 
-// DEF137562 fix - Removing illegal dependency from OS to MW layer. Relocation of OCSP component from OS to MW layer.
+// DEF139848 fix - Forward Propogation from Symtb9.1 - Illegal dependency from OCSP to HTTP.
 #include "mw/securitysrv/pkiutilities/ocsp/group/bld.inf"
 
 #include "os/security/cryptoservices/filebasedcertificateandkeystores/group/bld.inf"
@@ -45,10 +54,21 @@
 #include "os/security/cryptomgmtlibs/securitytestfw/group/bld.inf"
 #include "os/security/contentmgmt/cafrecogniserconfig/bld.inf"
 #include "os/security/contentmgmt/contentaccessfwfordrm/group/bld.inf"
-#include "mw/appsupport/contenthandling/referencedrmagent/RefTestAgent/group/bld.inf"
+#include "os/security/contentmgmt/cafstreamingsupport/group/bld.inf"
+#include "os/security/contentmgmt/referencedrmagent/RefTestAgent/group/bld.inf"
 
+#include "os/security/authorisation/userpromptservice/group/bld.inf"
+#include "os/security/authorisation/userpromptutils/group/bld.inf"
+#include "app/techview/securityapps/securityupstechview/group/bld.inf"
+
+
+#ifdef SYMBIAN_AUTH_SERVER
+#include "os/security/authenticationservices/authenticationserver/group/bld.inf"
 #endif
 
+#endif //TOOLS2
 
-// Only the SISTOOLS (makesis/signsis) and certapp build with TOOLS2
+// Only the certapp build with TOOLS2
 #include "os/security/securityanddataprivacytools/securitytools/group/bld.inf"
+
+

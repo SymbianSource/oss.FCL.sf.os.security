@@ -16,11 +16,16 @@
 */
 
 
-#include <fstokencliserv.h>
-#include <tokentypesenum.h>
+#include "fstokencliserv.h"
+#include "tokentypesenum.h"
 #include <mctkeystore.h>
 #include <mctcertstore.h>
 #include <mctcertapps.h>
+
+#ifdef SYMBIAN_ENABLE_SPLIT_HEADERS
+/** The UID of certificate application token type */
+const TInt KTokenTypeCertApps = 0x101f7a37;
+#endif
 
 RSupportedTokensArray::RSupportedTokensArray()
 	{

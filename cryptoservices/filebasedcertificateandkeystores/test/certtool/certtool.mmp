@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file
 */
@@ -75,3 +73,5 @@ LIBRARY certstore.lib crypto.lib
 LIBRARY ctframework.lib
 LIBRARY bafl.lib charconv.lib
 LIBRARY estor.lib 
+SMPSAFE
+

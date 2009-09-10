@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file
  @internalTechnology 
@@ -49,3 +47,4 @@ private: // from CApaDataRecognizerType
 	};
 
 #endif
+

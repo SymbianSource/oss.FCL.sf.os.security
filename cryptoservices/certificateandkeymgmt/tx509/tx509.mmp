@@ -14,6 +14,7 @@
 * Description: 
 *
 */
+
 /**
 @file
 
@@ -42,3 +43,4 @@ LIBRARY random.lib tcertcommon.lib
 LIBRARY t_testhandler2.lib estor.lib
 
 LIBRARY cryptography.lib
+SMPSAFE

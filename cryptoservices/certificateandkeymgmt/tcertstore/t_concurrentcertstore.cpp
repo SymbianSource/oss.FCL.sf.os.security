@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file
 */
@@ -134,3 +132,4 @@ void CConcurrentTester::SanitizeTestResult(Output& aOut, TBool& aResult)
 		aResult = ETrue;
 	}
 }
+

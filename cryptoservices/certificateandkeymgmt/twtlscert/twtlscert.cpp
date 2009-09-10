@@ -23,7 +23,7 @@
 #include "ValidateTest.h"
 #include "SyntaxTest.h"
 #include "CorruptionTest.h"
-#include <ecom.h>
+#include <ecom/ecom.h>
 
 LOCAL_C void callSetupAndRunL() // initialize and call example code under cleanup stack
     {

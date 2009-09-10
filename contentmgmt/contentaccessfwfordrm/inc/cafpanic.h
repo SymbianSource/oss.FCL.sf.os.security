@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file 
  @publishedPartner
@@ -47,3 +45,4 @@ enum TCafPanics
 _LIT(KCafPanicString,"CAF");
 
 #endif // __CAFPANIC_H__
+

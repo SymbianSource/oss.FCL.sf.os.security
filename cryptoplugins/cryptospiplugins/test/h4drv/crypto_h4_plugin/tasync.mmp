@@ -1,0 +1,31 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+TARGET 		tasync.exe
+TARGETTYPE	EXE
+CAPABILITY 	none
+UID 		0x2000A3D6 0x2000A3D6
+VENDORID	0x70000001
+
+SYSTEMINCLUDE /epoc32/include
+
+SOURCE		tasync.cpp
+
+LIBRARY		euser.lib cryptography.lib
+
+epocstacksize 80000

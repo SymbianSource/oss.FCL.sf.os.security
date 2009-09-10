@@ -14,6 +14,7 @@
 * Description: 
 *
 */
+
 /**
  * @file
  * @SYMPurpose swicertstoreplugin.dll Crypto tokens plugin for SWI cert store implementation
@@ -26,15 +27,18 @@ targettype plugin
 UID 0x10009d8d 0x1020430C
 VENDORID 0x70000001
 
-SYSTEMINCLUDE /epoc32/include
-SYSTEMINCLUDE /epoc32/include/ecom
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 SOURCEPATH	.
 
 SOURCE swicertstoreplugin.cpp
 
+#ifdef X86GCC
+LIBRARY euser.lib
+#endif // X86GCC
 LIBRARY swicertstore.lib 
 
 start resource 1020430C.rss
 target swicertstoreplugin.rsc
 end
+SMPSAFE

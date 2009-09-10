@@ -13,7 +13,6 @@
 @rem
 @rem Description: 
 @rem
-REM Require certstore with trusted certificate for https test
 copy \epoc32\wins\c\tJarDownloader\data\cacerts.dat \epoc32\wins\c\system\data\cacerts.dat
 copy \epoc32\wins\c\tJarDownloader\data\certclients.dat \epoc32\wins\c\system\data\certclients.dat
 copy \epoc32\winscw\c\tJarDownloader\data\cacerts.dat \epoc32\winscw\c\system\data\cacerts.dat

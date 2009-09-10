@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2005-2006, 2008 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -16,11 +16,12 @@
 */
 
 
+
+
 /**
- @file 
+ @file
  @internalTechnology
 */
-
 
 #ifndef __OCSPSUPPORT_H__
 #define __OCSPSUPPORT_H__

@@ -35,9 +35,9 @@ public:
 	 * @param aAction This is a reference to a pointer which will be initialized
 	 * by the function so that it points to the next test to run. The action is owned
 	 * by the MTestSpec and must not be deleted by the CTestHandler object.
-	 * @retval ETrue if there is another test to run. In this case aAction points to the 
+	 * @return ETrue if there is another test to run. In this case aAction points to the 
 	 * test to run.
-	 * @retval EFalse if there is no more test to run. In this case aAction is meaningless.
+	 * @return EFalse if there is no more test to run. In this case aAction is meaningless.
 	 */
 	virtual TBool GetNextTest(CTestAction*& aAction) = 0;
 	};

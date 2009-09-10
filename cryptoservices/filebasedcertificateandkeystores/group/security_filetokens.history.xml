@@ -4,26 +4,49 @@
     Framework providing application support for cryptographic functionality implemented on a variety of secure hardware tokens e.g. smart cards and software emulations.
   </purpose>
 
-  <defect number="INC124418" title="Inappropriate handling of DriveName in filetokens" revision="018">
+  <defect number="DEF129395" title="[Coverity]-SYMBIAN.CLEANUP_STACK-security/tlsprovider" revision="023">
+	coverity issues fixed
+  </defect>
+
+  <defect number="DEF127711" title="[Coverity]-SYMBIAN.CLEANUP_STACK-security/tlsprovider" revision="022">
+	coverity issues fixed
+  </defect>
+
+  <deliverystep number="" name="PREQ2193 SMP-Safe Crypto Services Components" osproject="Diran" revision="021">
+	  <milestone project="GT0433" number="MS3.7"/>
+	  <preq number="2193" title="SMP-Safe Crypto Services Components">
+		  Add SMPSAFE keyword in SDP mmp files
+	  </preq>
+  </deliverystep>
+ 
+ <defect number="DEF129271" title="security subsystem has two identical files called certstorepatchdata.h" revision="020">
+     certstorepatchdata.h removed from swicertstore. This file has been already exported to epoc32/include by filetokens. All references to this header file have been updated. 
+  </defect>
+
+  <defect number="DEF125306" title="SMP: fstokenserver doesn't build on x86gcc platform" revision="019">
+	fstokenserver.mmp fixed to build for x86gcc platform
+  </defect>
+
+  <defect number="PDEF124970" title="Inappropriate handling of DriveName in filetokens " revision="018">
 	Drive Name will return as character not byte.
   </defect>
 
-  <defect number="PDEF124265" title="Certtool is still broken" revision="017">
-	Label argument has been handled and the value assigned to it for the cases when the command is given with label or without label.
-  </defect>
-
-  <deliverystep number="1179" name="CR1500: Crypto Services: Multiple Certificate Stores Support" osproject="Naiad" revision="016">
-	  <milestone project="GT0379" number="MS3.37"/>
-	  <cr number="1500" title="Support for aggregation of several certificate databases in different rofs layers">
+  <deliverystep number="1091" name="CR1393: Crypto Services: Multiple Certificate Stores Support" osproject="Sphinx" revision="017">
+	  <milestone project="GT0379" number="MS3.31"/>
+	  <cr number="1393" title="Support for aggregation of several certificate databases in different rofs layers">
 		Support for aggregation of several certificate databases in different rofs layers	  
 	  </cr>
   </deliverystep>
-  
-  <defect number="PDEF121024" title="CACert.dat is not updated when removing certificate" revision="015">
-	update the file certstore when certificate is removed
+
+  <defect number="DEF118391" title="Certtool is still broken" revision="016">
+	Label argument has been handled and the value assigned to it for the cases when the command is given with label or without label.
   </defect>
 
-  <defect number="INC118634" title="Symbain - symbian keystore server panics while creating 2 RSA keys in sequence." revision="014">
+  <defect number="PDEF121025" title="CACert.dat is not updated when removing certificate" revision="015">
+	Cacerts.dat file is updated now.
+  </defect>
+
+  <defect number="PDEF120726" title="Symbain - symbian keystore server panics while creating 2 RSA keys in sequence." revision="014">
 	2 RSA keys can be added in sequence.
   </defect>
   

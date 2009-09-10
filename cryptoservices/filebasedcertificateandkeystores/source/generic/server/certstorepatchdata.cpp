@@ -23,6 +23,6 @@
 // in which they are referred, lest the compiler inline's it. If inlined, the 
 // data cannot be patched. Hence, the definition of data must be put in a 
 // separate source file and they must be declared in other source files by 
-// #including "certstorepatchdata.h".
+// #including <certstorepatchdata.h>.
 
 EXPORT_C extern const TUint8 KAggregateCertStore = 0x00;

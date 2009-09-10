@@ -15,6 +15,7 @@
 *
 */
 
+
 /**
 @file
 
@@ -33,7 +34,7 @@ SOURCE        Signed.cpp cryptomain.cpp
 
 USERINCLUDE ../inc
 USERINCLUDE ../../../crypto/weakcrypto/inc
-SYSTEMINCLUDE /epoc32/include
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 LIBRARY	euser.lib estor.lib 
 LIBRARY cryptography.lib hash.lib
@@ -49,3 +50,4 @@ DEFFILE CRYPTO.def
 #ifdef ARMV5
 DEFFILE crypto.def
 #endif
+SMPSAFE

@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file 
  @internalTechnology
@@ -60,3 +58,4 @@ class CCTTokenTypeInfoAttributes : public CCertStoreTestAction
 	};
 
 #endif
+

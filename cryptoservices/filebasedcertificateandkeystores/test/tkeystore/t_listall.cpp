@@ -244,10 +244,22 @@ void CListAllKeys::DoCheckResult(TInt aError)
 		}
 		else
 		{
+		if (aError!=iExpectedResult)
+			{
 			_LIT(KFailed, "!!!Key listing failure!!!\n");
 			iConsole.Write(KFailed);
 			iOut.writeString(KFailed);
 			iOut.writeNewLine();
+			}
+		else
+			{
+			iResult = ETrue;
+			_LIT(KFailed, "Operation failed, but expected\n");
+			iConsole.Write(KFailed);
+			iOut.writeString(KFailed);
+			}
 		}
 	}
 }
+
+

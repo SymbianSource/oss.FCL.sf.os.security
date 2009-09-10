@@ -45,3 +45,4 @@ EXPORT_C void CSyncAction::FailTestNow(TRequestStatus& /*aStatus*/)
 	{
 	iConsole.Printf(_L("\ntest attempted to call synchronous FailTestNow\n"));
 	}
+

@@ -17,11 +17,10 @@
 */
 
 
-
-
 /**
  @file 
- @internalTechnology
+ @publishedPartner
+ @released
 */
  
 #ifndef __RANDSVR_H__
@@ -30,71 +29,10 @@
 #include <e32base.h>
 #include <hash.h>
 
+#ifndef SYMBIAN_ENABLE_SPLIT_HEADERS
+#include "randsvrimpl.h"
+#endif
 
-/** 
-@publishedPartner
-@released
-*/
 IMPORT_C TInt RunRandomServer(TAny* /*someParameters*/);
 
-const TInt KRandomBlockSize=1024;
-const TInt KRandomPoolSize=2048;
-
-/**
- *
- * @internalTechnology
- */
-class CRandomScheduler:public CActiveScheduler
-	{
-public:
-	static TBool New(void);
-	void Error(TInt aError) const;
-	};
-
-class CRandomSession;
-
-/**
- *
- * @internalTechnology
- */
-class CRandomServer : public CServer2
-	{
-public:
-	static TInt New(void);
-	~CRandomServer(void);
-	CSession2* NewSessionL(const TVersion& aVersion, const RMessage2& aMessage) const;
-	friend class CRandomSession;
-private:
-	CRandomServer(void);
-	void ConstructL(void);
-	void Stir(void);
-	TPtrC8 GetRandom(void); 
-	CMessageDigest* Hash(void) const;
-	static TInt Tick(TAny* aPointer);
-	TUint8* iPool;
-	TInt iPoolIn;
-	TInt iPoolOut;
-	TInt iQuality;
-	TBool iFast;
-	CMessageDigest* iHash;
-	CPeriodic* iTicker;
-	};
-
-/**
- *
- * @internalTechnology
- */
-class CRandomSession : public CSession2 
-	{
-public:
-	enum { KRandomRequest };
-	static CRandomSession* NewL(CRandomServer* aServer);
-	~CRandomSession(void);
-	void ServiceL(const RMessage2& aMessage);
-private:
-	TInt FillBuffer(const RMessage2& aMessage);
-	CRandomServer* iServer;
-	CRandomSession(CRandomServer* aServer);
-	};
-
-#endif
+#endif // __RANDSVR_H__

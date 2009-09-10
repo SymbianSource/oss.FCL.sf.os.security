@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file 
  @internalTechnology
@@ -30,7 +28,7 @@
 #include "fsmarshaller.h"
 #include "fsdatatypes.h"
 #include <mctwritablecertstore.h>
-#include <CFSClient.h>
+#include "CFSClient.h"
 
 /**
  * The filetokens certstore client interface.

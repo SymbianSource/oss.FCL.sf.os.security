@@ -23,6 +23,14 @@
 
 #include "asnpkcs.h"
 
+#ifdef SYMBIAN_ENABLE_SPLIT_HEADERS
+
+/** OpenSSL PKCS8 Effective Key Length Compatibility.*/
+const TUint KPkcs8CompatibilityBits = 128;
+
+#endif
+
+
 _LIT(Kpkcs5PBES2, "1.2.840.113549.1.5.13");
 _LIT(Kpkcs5PBKDF2, "1.2.840.113549.1.5.12");
 _LIT(KDESCBC, "1.3.14.3.2.7");

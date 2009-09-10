@@ -70,8 +70,6 @@
 // 
 //
 
-
-
 /**
  @page CAFManageFiles Managing files with the Content Access Framework
  - @ref CAFPrivateDirectories

@@ -24,12 +24,22 @@
 #include <mctkeystore.h>
 #include <unifiedkeystore.h>
 #include <badesca.h>
-//#include <e32cmn.h>
 
+#ifdef KEYTOOL
+#include <authserver/authtypes.h>
+#include <authserver/identity.h>
+#include <authserver/authclient.h>
+#endif // KEYTOOL
 
 class CController;
 class CKeyToolController;
-
+#ifdef KEYTOOL
+class CKeyInfo;
+class CFileKeyData;
+class CPermanentFileStore;
+class CKeyStoreCenrep;
+class CPassphrase;
+#endif // KEYTOOL
 
 /** 
  * This class wraps up the command line parameters
@@ -41,6 +51,12 @@ class CKeyToolParameters : public CBase
 	public:
 		static CKeyToolParameters* NewLC();
 		~CKeyToolParameters();
+#ifdef KEYTOOL
+		enum TErrors
+			{
+			EMandatoryArgumentMissing=1,
+			};
+#endif // KEYTOOL
 	enum TSetPolicy
 		{
 		ENone =0,
@@ -70,6 +86,13 @@ class CKeyToolParameters : public CBase
 		TBool 						iPageWise;
 		TBool						iRemoveKey;
 		TSetPolicy					iPolicy;
+#ifdef KEYTOOL
+		HBufC*						iOldKeyFile;
+		HBufC*						iNewKeyFile;
+		HBufC* 						iAuthExpression;
+		TInt						iFreshness;
+		HBufC*						iPassphrase;
+#endif // KEYTOOL
 	};
 
 
@@ -264,4 +287,66 @@ private:
 	};
 
 
+#ifdef KEYTOOL
+
+/**
+ * Implements the migration of old keystore to the new keystore format 
+ * which uses the authentication server. 
+ */
+class CKeytoolMigrateStore : public CActive
+	{
+	
+private:
+	enum TMigrateStoreState
+		{
+		EAfterAuthentication,
+		
+		};
+public:
+	static CKeytoolMigrateStore* NewLC(CKeyToolParameters* aParams);
+	static CKeytoolMigrateStore* NewL(CKeyToolParameters* aParams);
+	~CKeytoolMigrateStore();
+	void ConstructL(CKeyToolParameters* aParams);
+
+public: // From CKeyToolCommand
+	void DoCommandL();
+
+public: // From CActive
+	void RunL();
+	void DoCancel();
+	TInt RunError(TInt aError);	
+	
+private:
+	CKeytoolMigrateStore();
+	void WriteKeyL(	const CKeyInfo& aKeyInfo, 
+					RStoreWriteStream& aWriteInfoStream );
+
+	void WriteAuthDetailsL( RStoreWriteStream& aWriteInfoStream );
+	void RevertStore(TAny* aStore);
+	void InitializeDefaultParams();
+	void WriteKeyInformationL();
+	template <class T> inline void EncryptAndStoreL(const T& aKey, RStoreWriteStream& aStream );
+	void StoreKeyL(const TDesC8& aKeyData, RStoreWriteStream& aStream);
+	template <class T> void RetrieveAndStorePublicKeyL( CFileKeyData* aKeyData, T* aPublicKey );
+	template <class T> void RetrieveAndStorePrivateKeyL( CFileKeyData* aKeyData, T* aPrivateKey );
+	static void CleanKeyInfo(TAny* aKeyInfo);
+	
+private:
+	AuthServer::TIdentityId iIdentityId;
+	AuthServer::RAuthClient iAuthClient; 
+	CPermanentFileStore* iWriteFileStore;
+	CPermanentFileStore* iReadFileStore;
+	TStreamId iWriteLookupStreamId;
+	CKeyToolParameters* iParams;
+	RFs iFs;
+	CKeyStoreCenrep* iKeyStoreCenrep;
+	CPassphrase* iPassphrase;
+	AuthServer::CIdentity* iUserIdentity;
+	TMigrateStoreState iState;
+	
+	RPointerArray<CFileKeyData> iKeyList;
+	};
+
+#endif // KEYTOOL
 #endif
+

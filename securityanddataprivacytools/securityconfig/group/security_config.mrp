@@ -5,7 +5,5 @@ exports		\sf\os\security\securityanddataprivacytools\securityconfig\group
 notes_source	\component_defs\release.src
 
 
-#  == IPR section auto-inserted from distribution.policy files  ==
 ipr E 
 
-# == end auto-inserted section ==

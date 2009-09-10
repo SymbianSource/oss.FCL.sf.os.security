@@ -13,14 +13,13 @@
 @rem
 @rem Description: 
 @rem
-REM tasnpkcs (relies on tkeystore test data)
 md c:\tkeystore
 md c:\tkeystore\data
 copy /s z:\tkeystore\data\ c:\tkeystore\data\
-copy z:\tasnpkcstests.txt c:\tasnpkcstests.txt
-tasnpkcs c:\tasnpkcstests.txt c:\testresults\tasnpkcstests.log
-move c:\testresults\tasnpkcstests.log e:\testresults\tasnpkcstests.log
-del c:\tasnpkcstests.txt
+copy z:\tasnpkcstests.script c:\tasnpkcstests.script
+tasnpkcs c:\tasnpkcstests.script c:\logs\testexecute\tasnpkcstests.htm
+move c:\logs\testexecute\tasnpkcstests.htm e:\testresults\tasnpkcstests.htm
+del c:\tasnpkcstests.script
 del /s c:\tkeystore\data\
 attrib c:\*.* -r
 del c:\*.*

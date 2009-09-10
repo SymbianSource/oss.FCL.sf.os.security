@@ -13,7 +13,6 @@
 @rem
 @rem Description: 
 @rem
-REM This script shall be executed after the running the t_pkcs10 tests
 del /s /f /q \epoc32\winscw\c\password.txt
 del /s /f /q \epoc32\winscw\c\tpkcs10\output
 

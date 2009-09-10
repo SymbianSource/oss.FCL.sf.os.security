@@ -15,6 +15,7 @@
 *
 */
 
+
 /**
 @file
 
@@ -35,7 +36,7 @@ SOURCE	      wtlscertchainao.cpp
 
 USERINCLUDE ../inc
 USERINCLUDE ../../../crypto/weakcrypto/inc
-SYSTEMINCLUDE /epoc32/include
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 LIBRARY       euser.lib estor.lib
 LIBRARY cryptography.lib crypto.lib hash.lib
@@ -46,3 +47,4 @@ START WINS
 END
 
 DEFFILE wtlscert.def
+SMPSAFE

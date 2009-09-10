@@ -13,7 +13,6 @@
 @rem
 @rem Description: 
 @rem
-rem Set up tests using the automatic connection commdb configuration
 
 call \epoc32\release\wins\udeb\ced -dtextshell -- -i c:\autosimtsy.cfg
 call \epoc32\release\winscw\udeb\ced -dtextshell -- -i c:\autosimtsy.cfg

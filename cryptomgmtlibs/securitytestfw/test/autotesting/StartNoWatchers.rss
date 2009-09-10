@@ -17,7 +17,7 @@
 */
 
 
-#include <eikon.rh>
+#include <techview/eikon.rh>
 #include "start.hrh"
 
 STRUCT STUBPARAMS

@@ -14,6 +14,7 @@
 * Description: 
 *
 */
+
 /**
 @file
 
@@ -38,3 +39,4 @@ LIBRARY	euser.lib efsrv.lib ecom.lib cryptography.lib
 LIBRARY certstore.lib asn1.lib crypto.lib hash.lib
 LIBRARY t_testhandler2.lib ctframework.lib x509.lib 
 LIBRARY asnpkcs.lib estor.lib random.lib pbe.lib
+SMPSAFE

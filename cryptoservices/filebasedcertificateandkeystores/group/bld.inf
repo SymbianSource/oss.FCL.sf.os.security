@@ -18,8 +18,6 @@
 */
 
 
-
-
 /**
  @file
 */
@@ -28,27 +26,98 @@ PRJ_PLATFORMS
 DEFAULT
 
 PRJ_EXPORTS
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
 ../Inc/CFSTokenTypeClient.h   /epoc32/include/cfstokentypeclient.h
-../Inc/certstorepatchdata.h  /epoc32/include/certstorepatchdata.h
+#endif
+../Inc/certstorepatchdata.h  SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(certstorepatchdata.h)
+../Inc/keystore_errs.h  SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(keystore_errs.h)
 
 // ROMKIT includes
 ../Inc/filetokens.iby /epoc32/rom/include/filetokens.iby
 
+#ifdef SYMBIAN_AUTH_SERVER
+// file tokens cenrep file for storing the default authentication policy.
+../source/keystore/Server/200218e6.txt			z:/private/10202be9/200218e6.txt
+#endif // SYMBIAN_AUTH_SERVER
+
 PRJ_TESTEXPORTS
 //	keystore
 
-../test/tkeystore/scripts/tkeystore.txt		/epoc32/winscw/c/tkeystore/scripts/tkeystore.txt
-../test/tkeystore/scripts/oom.txt		/epoc32/winscw/c/tkeystore/scripts/oom.txt
-../test/tkeystore/scripts/servoom.txt		/epoc32/winscw/c/tkeystore/scripts/servoom.txt
-../test/tkeystore/scripts/authobjects_v2.txt	/epoc32/winscw/c/tkeystore/scripts/authobjects.txt
-../test/tkeystore/scripts/exportscript.txt	/epoc32/winscw/c/tkeystore/scripts/exportscript.txt
-../test/tkeystore/scripts/reload.txt		/epoc32/winscw/c/tkeystore/scripts/reload.txt
-../test/tkeystore/scripts/cancel.txt		/epoc32/winscw/c/tkeystore/scripts/cancel.txt
+../test/tkeystore/scripts/tkeystore.script		/epoc32/winscw/c/tkeystore/scripts/tkeystore.script
+../test/tkeystore/scripts/tkeystore.ini		/epoc32/winscw/c/tkeystore/scripts/tkeystore.ini
+../test/tkeystore/scripts/tkeystore2.ini		/epoc32/winscw/c/tkeystore/scripts/tkeystore2.ini
+
+../test/tkeystore/scripts/oom.script		/epoc32/winscw/c/tkeystore/scripts/oom.script
+../test/tkeystore/scripts/oom.ini		/epoc32/winscw/c/tkeystore/scripts/oom.ini
+
+../test/tkeystore/scripts/servoom.script		/epoc32/winscw/c/tkeystore/scripts/servoom.script
+../test/tkeystore/scripts/servoom.ini		/epoc32/winscw/c/tkeystore/scripts/servoom.ini
+
+../test/tkeystore/scripts/authobjects_v2.script	/epoc32/winscw/c/tkeystore/scripts/authobjects.script
+../test/tkeystore/scripts/authobjects_v2.ini	/epoc32/winscw/c/tkeystore/scripts/authobjects.ini
+
+../test/tkeystore/scripts/exportscript.script	/epoc32/winscw/c/tkeystore/scripts/exportscript.script
+../test/tkeystore/scripts/exportscript.ini	/epoc32/winscw/c/tkeystore/scripts/exportscript.ini
+
+../test/tkeystore/scripts/reload.script		/epoc32/winscw/c/tkeystore/scripts/reload.script
+../test/tkeystore/scripts/reload.ini		/epoc32/winscw/c/tkeystore/scripts/reload.ini
+
+../test/tkeystore/scripts/cancel.script		/epoc32/winscw/c/tkeystore/scripts/cancel.script
+../test/tkeystore/scripts/cancel.ini		/epoc32/winscw/c/tkeystore/scripts/cancel.ini
+
 ../test/tkeystore/scripts/buildromstore.txt	/epoc32/winscw/c/tkeystore/scripts/buildromstore.txt
 ../test/tkeystore/scripts/batchfiles/tkeystore_post.bat	/epoc32/winscw/c/tkeystore/scripts/batchfiles/tkeystore_post.bat
 ../test/tkeystore/scripts/batchfiles/tkeystore_oom_post.bat	/epoc32/winscw/c/tkeystore/scripts/batchfiles/tkeystore_oom_post.bat	
 ../test/tkeystore/scripts/batchfiles/tkeystore_authobject_post.bat	/epoc32/winscw/c/tkeystore/scripts/batchfiles/tkeystore_authobject_post.bat	
 ../test/tkeystore/scripts/batchfiles/tkeystore_export_post.bat	/epoc32/winscw/c/tkeystore/scripts/batchfiles/tkeystore_export_post.bat	
+
+#ifdef SYMBIAN_AUTH_SERVER
+../test/tkeystore/scripts/authobjects_v2_useauth.txt	/epoc32/winscw/c/tkeystore/scripts/authobjects_useauth.txt
+
+../test/tkeystore/scripts/createoldkeystore.txt			/epoc32/winscw/c/tkeystore/scripts/createoldkeystore.txt
+../test/tkeystore/scripts/testnewkeystore.txt			/epoc32/winscw/c/tkeystore/scripts/testnewkeystore.txt
+
+../test/tkeystore/scripts/oldserver_newfeature.script		/epoc32/winscw/c/tkeystore/scripts/oldserver_newfeature.script
+../test/tkeystore/scripts/tkeystore_useauth.script			/epoc32/winscw/c/tkeystore/scripts/tkeystore_useauth.script
+../test/tkeystore/scripts/oom_useauth.script				/epoc32/winscw/c/tkeystore/scripts/oom_useauth.script
+../test/tkeystore/scripts/servoom_useauth.script			/epoc32/winscw/c/tkeystore/scripts/servoom_useauth.script
+../test/tkeystore/scripts/exportscript_useauth.script		/epoc32/winscw/c/tkeystore/scripts/exportscript_useauth.script
+../test/tkeystore/scripts/reload_useauth.script			/epoc32/winscw/c/tkeystore/scripts/reload_useauth.script
+../test/tkeystore/scripts/cancel_useauth.script			/epoc32/winscw/c/tkeystore/scripts/cancel_useauth.script
+../test/tkeystore/scripts/tkeystore_authentication1.script	/epoc32/winscw/c/tkeystore/scripts/tkeystore_authentication1.script
+../test/tkeystore/scripts/tkeystore_authentication2.script	/epoc32/winscw/c/tkeystore/scripts/tkeystore_authentication2.script
+../test/tkeystore/scripts/tkeystore_nouserregistered.script /epoc32/winscw/c/tkeystore/scripts/tkeystore_nouserregistered.script
+../test/tkeystore/scripts/capability_useauth.script	/epoc32/winscw/c/tkeystore/scripts/capability_useauth.script
+../test/tkeystore/scripts/authenticate_useauth.script	/epoc32/winscw/c/tkeystore/scripts/authenticate_useauth.script
+
+../test/tkeystore/scripts/oldserver_newfeature.ini		/epoc32/winscw/c/tkeystore/scripts/oldserver_newfeature.ini
+../test/tkeystore/scripts/tkeystore_useauth.ini			/epoc32/winscw/c/tkeystore/scripts/tkeystore_useauth.ini
+../test/tkeystore/scripts/oom_useauth.ini				/epoc32/winscw/c/tkeystore/scripts/oom_useauth.ini
+../test/tkeystore/scripts/servoom_useauth.ini			/epoc32/winscw/c/tkeystore/scripts/servoom_useauth.ini
+../test/tkeystore/scripts/exportscript_useauth.ini		/epoc32/winscw/c/tkeystore/scripts/exportscript_useauth.ini
+../test/tkeystore/scripts/reload_useauth.ini			/epoc32/winscw/c/tkeystore/scripts/reload_useauth.ini
+../test/tkeystore/scripts/cancel_useauth.ini			/epoc32/winscw/c/tkeystore/scripts/cancel_useauth.ini
+../test/tkeystore/scripts/tkeystore_authentication1.ini	/epoc32/winscw/c/tkeystore/scripts/tkeystore_authentication1.ini
+../test/tkeystore/scripts/tkeystore_authentication2.ini	/epoc32/winscw/c/tkeystore/scripts/tkeystore_authentication2.ini
+../test/tkeystore/scripts/tkeystore_nouserregistered.ini /epoc32/winscw/c/tkeystore/scripts/tkeystore_nouserregistered.ini
+../test/tkeystore/scripts/capability_useauth.ini	/epoc32/winscw/c/tkeystore/scripts/capability_useauth.ini
+../test/tkeystore/scripts/authenticate_useauth.ini	/epoc32/winscw/c/tkeystore/scripts/authenticate_useauth.ini
+
+../test/tkeystore/scripts/registration.ini				/epoc32/winscw/c/tkeystore/scripts/registration.ini
+../test/tkeystore/scripts/reg_first_identity.script		/epoc32/winscw/c/tkeystore/scripts/reg_first_identity.script
+../test/tkeystore/scripts/reg_second_identity.script	/epoc32/winscw/c/tkeystore/scripts/reg_second_identity.script
+../test/tkeystore/scripts/initialize.script				/epoc32/winscw/c/tkeystore/scripts/initialize.script
+
+../test/tkeystore/scripts/batchfiles/epoc_keystoreusesauthserver.ini	/epoc32/winscw/c/tkeystore/scripts/batchfiles/epoc_keystoreusesauthserver.ini
+../test/tkeystore/scripts/batchfiles/replace_epoc_ini.bat				/epoc32/winscw/c/tkeystore/scripts/batchfiles/replace_epoc_ini.bat
+../test/tkeystore/scripts/batchfiles/restore_epoc_ini.bat				/epoc32/winscw/c/tkeystore/scripts/batchfiles/restore_epoc_ini.bat
+../test/tkeystore/scripts/batchfiles/tkeystore_useauthserver_post.bat	/epoc32/winscw/c/tkeystore/scripts/batchfiles/tkeystore_useauthserver_post.bat
+../test/tkeystore/scripts/batchfiles/tkeystore_useauthserver_pre.bat	/epoc32/winscw/c/tkeystore/scripts/batchfiles/tkeystore_useauthserver_pre.bat
+../test/tkeystore/scripts/batchfiles/tkeystore_migrate_pre.bat			/epoc32/winscw/c/tkeystore/scripts/batchfiles/tkeystore_migrate_pre.bat
+../test/tkeystore/scripts/batchfiles/tkeystore_migrate_post.bat			/epoc32/winscw/c/tkeystore/scripts/batchfiles/tkeystore_migrate_post.bat
+../test/tkeystore/scripts/batchfiles/tkeystore_migrate_copykeys.bat		/epoc32/winscw/c/tkeystore/scripts/batchfiles/tkeystore_migrate_copykeys.bat
+
+#endif // SYMBIAN_AUTH_SERVER
 
 // ttesttools data
 
@@ -138,6 +207,15 @@ PRJ_TESTEXPORTS
 ../test/ttesttools/scripts/sec-filetokens-tools.script	/epoc32/winscw/c/ttesttools/scripts/sec-filetokens-tools.script
 ../test/ttesttools/scripts/sec-filetokens-tools.ini	/epoc32/winscw/c/ttesttools/scripts/sec-filetokens-tools.ini
 
+#ifdef SYMBIAN_AUTH_SERVER
+../test/ttesttools/data/key_migrate.txt	/epoc32/winscw/c/ttesttools/data/key_migrate.txt
+../test/ttesttools/data/key_migrated_param_missing1.txt	/epoc32/winscw/c/ttesttools/data/key_migrated_param_missing1.txt
+../test/ttesttools/data/key_migrated_param_missing2.txt	/epoc32/winscw/c/ttesttools/data/key_migrated_param_missing2.txt
+../test/ttesttools/data/key_migrate_default.txt			/epoc32/winscw/c/ttesttools/data/key_migrate_default.txt
+../test/ttesttools/data/key_migrated_help.txt			/epoc32/winscw/c/ttesttools/data/key_migrated_help.txt
+../test/ttesttools/scripts/keytool_migrate.script		/epoc32/winscw/c/ttesttools/scripts/keytool_migrate.script
+../test/ttesttools/scripts/keytool_migrate.ini			/epoc32/winscw/c/ttesttools/scripts/keytool_migrate.ini
+#endif // SYMBIAN_AUTH_SERVER
 
 
 //	keystore data
@@ -236,20 +314,19 @@ PRJ_TESTEXPORTS
 ../test/tkeystore/data/keys/dsapub4.txt				/epoc32/winscw/c/tkeystore/data/dsapub4.txt
 
 
-// Test keystore. Contains two keys, a DSA key (label gm0) and a RSA key (label gm1)
-// the passphrase timeout is set to 30
-// Export to z: drive for emulator test, tkeystore\data for rom file include
-
 
 ../test/tkeystore/data/keys_v2.dat				/epoc32/data/z/private/101f72a6/keys.dat
 ../test/tkeystore/data/keys_v2.dat				/epoc32/release/winscw/udeb/z/private/101f72a6/keys.dat
 ../test/tkeystore/data/keys_v2.dat				/epoc32/release/winscw/urel/z/private/101f72a6/keys.dat
 ../test/tkeystore/data/keys_v2.dat				/epoc32/winscw/c/tkeystore/data/keys.dat
 
-
 //	certificate apps
-../test/tcertapps/scripts/script1.txt		/epoc32/winscw/c/tcertapps/scripts/script1.txt
-../test/tcertapps/scripts/apipolicing.txt		/epoc32/winscw/c/tcertapps/scripts/apipolicing.txt
+../test/tcertapps/scripts/script1.script		/epoc32/winscw/c/tcertapps/scripts/script1.script
+../test/tcertapps/scripts/script1.ini		/epoc32/winscw/c/tcertapps/scripts/script1.ini
+
+../test/tcertapps/scripts/apipolicing.script		/epoc32/winscw/c/tcertapps/scripts/apipolicing.script
+../test/tcertapps/scripts/apipolicing.ini		/epoc32/winscw/c/tcertapps/scripts/apipolicing.ini
+
 ../test/tcertapps/scripts/batchfiles/tcertapps_apipolicing_post.bat	/epoc32/winscw/c/tcertapps/scripts/batchfiles/tcertapps_apipolicing_post.bat
 
 
@@ -263,6 +340,11 @@ PRJ_MMPFILES
 fstokenshared.mmp
 fstokencli.mmp
 fstokenserver.mmp
+
+#ifdef SYMBIAN_AUTH_SERVER
+fstokenserver_useauth.mmp
+#endif
+
 filekeystoreplugin.mmp
 filecertstoreplugin.mmp
 #endif // TOOLS2

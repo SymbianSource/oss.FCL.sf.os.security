@@ -220,3 +220,4 @@ EXPORT_C HBufC8* CPKCS7EncryptedDataObject::DecryptDataL(const TDesC& aPassword)
 
 	CleanupStack::PopAndDestroy(2, EncryptedDataContents); //EncryptedDataContents, EncryptedContentInfo    	
 	}
+

@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file 
  @internalTechnology
@@ -25,7 +23,7 @@
 
 #ifndef __TPKCS12LIBTESTSERVER_H
 #define __TPKCS12LIBTESTSERVER_H
-#include <testexecuteserverbase.h>
+#include <test/testexecuteserverbase.h>
 
 class CPKCS12LibTestServer : public CTestServer
 	{
@@ -34,3 +32,4 @@ public:
 	virtual CTestStep* CreateTestStep(const TDesC& aStepName);
 	};
 #endif
+

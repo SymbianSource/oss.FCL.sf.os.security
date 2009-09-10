@@ -14,6 +14,7 @@
 * Description: 
 *
 */
+
 /**
 @file
 
@@ -43,3 +44,4 @@ LIBRARY ctframework.lib t_testhandler2.lib
 LIBRARY cryptography.lib asn1.lib
 
 DEFFILE tcertcommon.def
+SMPSAFE

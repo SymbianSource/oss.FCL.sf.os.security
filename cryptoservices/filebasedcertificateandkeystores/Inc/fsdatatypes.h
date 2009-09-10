@@ -33,6 +33,11 @@
 #include <cctcertinfo.h>
 #include <bigint.h>
 
+#ifdef SYMBIAN_AUTH_SERVER
+#include "authserver/authtypes.h"
+#endif // SYMBIAN_AUTH_SERVER
+
+
 /**
  * Server-side key info.
  * 
@@ -48,13 +53,6 @@ public:
 
 	/** Make destructor public again. */
 	inline ~CKeyInfo();
-
-	/**
-	 * Make operator delete public again - these will be needed when
-	 * CBase::operator delete() is introduced.
-	 */
-	//inline void operator delete(TAny* aPtr) { CKeyInfoBase::operator delete(aPtr); }
-	//inline void operator delete(TAny* aPtr, TLeave) { CKeyInfoBase::operator delete(aPtr, ELeave); }
 
 	/**
 	 * Push object onto the cleanup stack (pointer won't convert to CBase* due
@@ -78,10 +76,31 @@ public:
 
 	/** Sets the set of DER encoded PKCS8 attributes. */
 	IMPORT_C void SetPKCS8AttributeSet(HBufC8* aPKCS8AttributeSet);
-
- private:
 	
-	inline CKeyInfo();		
+#ifdef SYMBIAN_AUTH_SERVER
+	inline AuthServer::TIdentityId Identity() const;
+	inline const TDesC& AuthExpression() const;
+	inline TInt Freshness() const;
+	inline void SetIdentity(AuthServer::TIdentityId aIdentityId);
+	// Will set the authexpresssion aasociated with this key. The
+	// ownership is not transferred to this object.
+	inline void SetAuthExpressionL(const TDesC& aAuthExpression);
+	inline void SetFreshness(TInt aFreshness);
+	inline void ResetAuthExpression();
+#endif // SYMBIAN_AUTH_SERVER
+	
+private:
+	
+	inline CKeyInfo();
+
+#ifdef SYMBIAN_AUTH_SERVER
+private:
+	AuthServer::TIdentityId iIdentityId;
+	HBufC* iAuthExpression;
+	TInt iFreshness;
+#endif // SYMBIAN_AUTH_SERVER
+
+	
 	};
 
 /**
@@ -97,7 +116,7 @@ public:
 	IMPORT_C RInteger TakeN();			///< Return N and release ownership
 	IMPORT_C RInteger TakeG();			///< Return G and release ownership
 private:
-	IMPORT_C CDHParams(RInteger aN, RInteger aG);
+	IMPORT_C CDHParams(const RInteger aN, const RInteger aG);
 	RInteger iN;
 	RInteger iG;
 	};

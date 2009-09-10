@@ -20,6 +20,7 @@
 #include <s32strm.h>
 #include <x509certext.h>
 #include <asn1dec.h>
+#include "x509bitstring.h"
 
 void CX509ExtensionBase::ConstructL(const TDesC8& aBinaryData, TInt& aPos)
 	{

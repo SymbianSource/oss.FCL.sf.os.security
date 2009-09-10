@@ -18,11 +18,10 @@
 */
 
 
-
-
 /**
  @file 
- @internalAll
+ @publishedPartner
+ @released
 */
  
 #ifndef __BUFFEREDTRANSFORMATION_H__
@@ -48,8 +47,6 @@ class CPadding;
  * See the Cryptography api-guide documentation for the rules that this class
  * and derived classes must follow.
  *
- * @publishedPartner
- * @released
  */
 class CBufferedTransformation : public CSymmetricCipher
 {
@@ -104,8 +101,6 @@ protected:
  * Objects of this class are intialised with, and subsequently own, an encryptor
  * derived from CBlockTransformation and a subclass of CPadding.
  *
- * @publishedPartner
- * @released
  */
 class CBufferedEncryptor : public CBufferedTransformation
 {
@@ -157,8 +152,6 @@ protected:
  * Objects of this class are intialised with, and subsequently own, a decryptor
  * derived from CBlockTransformation and a subclass of CPadding.
  *
- * @publishedPartner
- * @released
  */
 class CBufferedDecryptor : public CBufferedTransformation
 {

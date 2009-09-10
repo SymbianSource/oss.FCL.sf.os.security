@@ -14,6 +14,7 @@
 * Description: 
 *
 */
+
 /**
 @file
 
@@ -35,3 +36,4 @@ USERINCLUDE ../../../crypto/weakcrypto/inc
 USERINCLUDE ../../../cryptomgmtlibs/securitytestfw/test/testhandler2
 
 LIBRARY	euser.lib efsrv.lib t_testhandler2.lib asnpkcs.lib asn1.lib
+SMPSAFE

@@ -13,10 +13,6 @@
 @rem
 @rem Description: 
 @rem
-REM Run security tests on hardware
-REM
-REM This should run the same tests as test_spec_cedar, minus OOM and
-REM cancellation testing.
 
 REM Attempt to stop the execution in case it's accidentally started on a PC
 ECHO About to run Security Team Hardware Tests
@@ -44,6 +40,7 @@ runcertman.bat
 runfiletokens.bat
 
 runcryptotokens.bat
+
 
 runswiromtests.bat
 

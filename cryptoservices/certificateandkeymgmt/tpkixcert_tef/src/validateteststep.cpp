@@ -400,3 +400,4 @@ TInt CValidateCertChainHelper::RunError(TInt aError)
 	CActiveScheduler::Stop();
 	return KErrNone;	
 	}
+

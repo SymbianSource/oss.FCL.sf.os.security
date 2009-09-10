@@ -40,7 +40,7 @@ class CController : public CBase
 
 		void DisplayKeyL(CCTKeyInfo& aKey, TBool aIsDetailed, TBool aPageWise);
 
-		void DisplayCertL(CCTCertInfo& aCert, CCertificate& aCertificate, RUidArray aApps, TBool aIsDetailed, TBool aPageWise);
+		void DisplayCertL(CCTCertInfo& aCert, CCertificate& aCertificate, RUidArray aApps, TBool aTrusted, TBool aIsDetailed, TBool aPageWise);
 		
 		~CController();
 		MKeyToolView& GetView();

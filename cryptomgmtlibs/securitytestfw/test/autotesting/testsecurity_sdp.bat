@@ -13,10 +13,6 @@
 @rem
 @rem Description: 
 @rem
-REM Run security tests on hardware
-REM
-REM This should run the same tests as test_spec_cedar, minus OOM and
-REM cancellation testing.
 
 REM Attempt to stop the execution in case it's accidentally started on a PC
 ECHO About to run Security Team Hardware Tests
@@ -39,23 +35,25 @@ ced -i c:\auto.cfg
 
 sntpclient -savings cbtime01.symbian.intra bantime01.symbian.intra
 
+runcaftests.bat
+
 runcrypto.bat
 
-runcaftests.bat
+REM Run recognizer tests
+md c:\trecog
+copy /s z:\trecog\* c:\trecog
+
+testexecute z:\trecog\trecogcert.script
+move c:\logs\testexecute\trecogcert.htm e:\testresults\trecogcert.htm
+
+testexecute z:\trecog\trecogpkcs12.script
+move c:\logs\testexecute\trecogpkcs12.htm e:\testresults\trecogpkcs12.htm
 
 REM Enable the following test when DEF076875(or relevant CR) is done.
 REM runtlsclientauth.bat
 
-REM Temporary solution for ROM overflow issues (DEF109635)
-runpkcs12tests.bat
-
-runcertman.bat
-
-runasnpkcs.bat
+// run if authserver is included
+runauthtests.bat
 
 runfiletokens.bat
 
-runcryptotokens.bat
-
-REM run only if available
-//runupstests.bat

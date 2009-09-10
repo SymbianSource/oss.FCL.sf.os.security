@@ -154,3 +154,4 @@ TBool CTestInt::PerformTestsL(CConsoleBase& aConsole)
 	iASN1Action.ReportProgressL(KErrNone, totalTests, totalTests);
 	return(ETrue);
 	}
+

@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file
  @internalComponent
@@ -29,7 +27,7 @@
 
 #include <apmrec.h>
 
-#include "caf.h"
+#include <caf/caf.h>
 
 const TUid KUidCafApaRecognizer = {0x101ff761};
 
@@ -85,3 +83,4 @@ private:
 	};
 
 #endif
+

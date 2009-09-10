@@ -214,3 +214,4 @@ EXPORT_C const RPointerArray<CDecPkcs12Attribute>& CDecPkcs12SafeBag::BagAttribu
 	{
 	return iBagAttributes;
 	}
+

@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file 
  @internalTechnology
@@ -25,7 +23,7 @@
 
 #if (!defined __TPKCS10_STEP_BASE__)
 #define __TPKCS10_STEP_BASE__
-#include <testexecutestepbase.h>
+#include <test/testexecutestepbase.h>
 
 class CTPKCS10StepBase : public CTestStep
 	{

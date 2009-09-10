@@ -129,7 +129,9 @@ protected:
 	CCertificate* iCertificate;
 
 	RUidArray iApps;
+	TBool iTrust;
 	RArray<RUidArray> iCertApps;
+	RArray<TBool> iCertTrust;
 	RPointerArray<CCertificate> iParsedCerts;
 	RMPointerArray<CCTCertInfo> iCertInfos;	
 	CCertAttributeFilter* iFilter;
@@ -141,7 +143,8 @@ protected:
 		EGetApps,
 		ESetTrust,
 		EFinished,
-		EIntermediate
+		EIntermediate,
+		EGetTrust,
 		} iState;			
 	};
 	
@@ -292,3 +295,4 @@ private:
 	};
 
 #endif
+

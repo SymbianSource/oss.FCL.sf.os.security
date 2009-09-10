@@ -38,7 +38,7 @@ public:  // From MKeyToolView
 	 void DisplayKeyInfoL(CCTKeyInfo& aKey, TBool aIsDetailed, TBool aPageWise);
 	 void DisplayErrorL(const TDesC& aError, TBool aPageWise);
 	 void DisplayErrorL(const TDesC& aError, TInt aErrorCode, TBool aPageWise);
-	 void DisplayCertL(CCTCertInfo& aCert, CCertificate& aCertificate, RUidArray aApps, TBool aIsDetailed, TBool aPageWise);
+	 void DisplayCertL(CCTCertInfo& aCert, CCertificate& aCertificate, RUidArray aApps, TBool aTrusted, TBool aIsDetailed, TBool aPageWise);
 	 	
 protected:
 
@@ -51,3 +51,4 @@ private:
 	};
 
 #endif
+

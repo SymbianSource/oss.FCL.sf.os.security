@@ -41,3 +41,5 @@ LIBRARY 		c32.lib
 LIBRARY			estor.lib 
 LIBRARY			testexecuteutils.lib
 LIBRARY		    certstore.lib ctframework.lib
+
+SMPSAFE

@@ -113,3 +113,5 @@ TBool CTestBitStr::PerformTestsL(CConsoleBase& aConsole)
 		
 	return pass;
 	}
+
+

@@ -13,7 +13,6 @@
 @rem
 @rem Description: 
 @rem
-rem Initial backup data for udeb
 cd \
 call %SECURITYSOURCEDIR%\os\security\cryptomgmtlibs\securitytestfw\test\autotesting\useautocfg.bat
 

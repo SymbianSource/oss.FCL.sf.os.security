@@ -18,6 +18,7 @@
 
 #include <asn1dec.h>
 #include <x509constraintext.h>
+#include "x509bitstring.h"
 
 // Integer list methods
 EXPORT_C CX509IntListExt* CX509IntListExt::NewL(const TDesC8& aBinaryData)

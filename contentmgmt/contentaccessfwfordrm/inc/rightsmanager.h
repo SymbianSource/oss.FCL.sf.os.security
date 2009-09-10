@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2003-2006 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2003-2009 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -16,12 +16,10 @@
 */
 
 
-
-/** 
-@file
-
-@publishedPartner
-@released
+/**
+ @file
+ @publishedPartner
+ @released
 */
 
 
@@ -31,6 +29,7 @@
 #include <e32std.h>
 #include <caf/caftypes.h>
 #include <caf/streamableptrarray.h>
+#include <f32file.h>
 
 namespace ContentAccess
 	{
@@ -87,6 +86,20 @@ namespace ContentAccess
 		*/
 		IMPORT_C void ListRightsL(RStreamablePtrArray<CRightsInfo>& aArray, TVirtualPathPtr& aVirtualPath) const;
 
+		/** List all rights associated with a particular content object in a file specified by file handle. Can be used when the source file is in the client's private directory.
+		
+		@param aArray  		The client supplied array used to store the CRightsInfo objects. The agent will add CRightsInfo objects to the supplied array.
+		@param aFile  		The file handle for the file containing the content object.
+		@param aUniqueId	The unique id of the content object.
+		@leave KErrCANotSupported if the feature not supported.
+		@leave KErrPermissionDenied If the agent does not permit the client to access rights information.
+		@leave ...		One of the CAF error codes defined in \c caferr.h  
+		 				or one of the other system-wide error codes 
+						for any other errors.				
+		@capability DRM Access to DRM rights is not permitted for processes without DRM capability. 
+		*/
+		IMPORT_C void ListRightsL(RStreamablePtrArray<CRightsInfo>& aArray, RFile& aFile, const TDesC& aUniqueId) const;			
+		
 		/** List all content associated with a particular rights object.
 		@param aArray The client supplied array used to store the list of content objects. The agent will add CVirtualPath objects to the supplied array.
 		@param aRightsInfo The rights object.
@@ -140,6 +153,23 @@ namespace ContentAccess
 		*/
 		IMPORT_C TInt DeleteAllRightsObjects(const TVirtualPathPtr& aVirtualPathPtr);
 		
+		/** Deletes all rights associated with a particular content object in a file specified by file handle. Can be used when the source file is in the client's private directory.
+
+		The agent may display a dialog asking the user to confirm the delete. Execution
+		will be blocked until the dialog is complete. Applications can request 
+		to disable the agents user interface using the SetProperty() command.
+
+		@param aFile The file handle for the file containing the content object.
+		@param aUniqueId The unique id of the content object.
+		@return The outcome of the delete operation.
+		@return KErrNone if the rights were deleted.
+		@return KErrNotFound if no rights objects exist for the specified content object.
+		@return KErrCancel if the user cancels an agent supplied confirmation dialog.
+		@return KErrPermissionDenied if the agent does not permit the client to access rights information.
+		@return KErrCANotSupported if the feature not supported.
+		@capability DRM Access to DRM rights is not permitted for processes without DRM capability. 
+		*/
+		IMPORT_C TInt DeleteAllRightsObjects (RFile& aFile, const TDesC& aUniqueId); 
 		
 		/** Request the agent to set a property value. If the property is set
 		it is only set for this CRightsManager session and does not impact other CAF users.

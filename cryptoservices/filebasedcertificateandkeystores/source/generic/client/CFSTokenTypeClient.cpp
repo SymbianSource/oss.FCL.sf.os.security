@@ -16,7 +16,7 @@
 */
 
 
-#include "cfstokentypeclient.h"
+#include "CFSTokenTypeClient.h"
 #include "clientutils.h"
 #include "CFSTokenTypeSession.h"
 #include <ct.h>

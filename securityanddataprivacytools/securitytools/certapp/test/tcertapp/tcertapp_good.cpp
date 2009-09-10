@@ -211,7 +211,7 @@ const char *goodActionType[]=
 
 const char *goodOwnerType[]=
 {
-	"CA",
+	"ca",
 	"User",
 	"Peer",
 	"0",

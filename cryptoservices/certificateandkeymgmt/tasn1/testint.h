@@ -37,3 +37,4 @@ class CTestInt : public CTestBase
 	};
 
 #endif
+

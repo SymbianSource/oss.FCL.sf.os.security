@@ -19,11 +19,10 @@
 */
 
 
-
-
 /**
  @file 
- @internalTechnology
+ @publishedPartner
+ @released 
 */
  
 #ifndef __RC2_H__
@@ -31,26 +30,28 @@
 
 #include "blocktransformation.h"
 
+#ifndef SYMBIAN_ENABLE_SPLIT_HEADERS
+
+/** OpenSSL PKCS8 Effective Key Length Compatibility.*/
+const TUint KPkcs8CompatibilityBits = 128;
+
+/** PKCS12 PBE Effective Key Length Compatibility.*/
+const TUint KPkcs12CompatibilityBits = 40;
+
+#endif
+
 /** The expanded key length of an RC2 key.*/
 const TUint KRC2ExpandedKeyLen = 64;
 
 /** SSL Effective Key Length Compatibility.*/
 const TUint KSSLCompatibilityBits = 1024;
 
-/** OpenSSL PKCS8 Effective Key Length Compatibility.*/
-const TUint KPkcs8CompatibilityBits = 128;
-
 /** The maximum size in bytes for a RC2 key.*/
 const TUint KRC2MaxKeySizeBytes = 128;	//	Max key size in this implementation = 128 bytes
-
-/** PKCS12 PBE Effective Key Length Compatibility.*/
-const TUint KPkcs12CompatibilityBits = 40;
 
 /**
 * Abstract base class for RC2 encipherment.
 *
-* @publishedPartner
-* @released 
 */
 class CRC2 : public CBlockTransformation
 {
@@ -82,8 +83,6 @@ protected:
 /**
 * Concrete class for RC2 encryption.
 *
-* @publishedPartner
-* @released 
 */
 class CRC2Encryptor : public CRC2
 {
@@ -125,8 +124,6 @@ protected:
 /**
 * Concrete class for RC2 decryption.
 *
-* @publishedPartner
-* @released 
 */
 class CRC2Decryptor : public CRC2
 {

@@ -13,7 +13,6 @@
 @rem
 @rem Description: 
 @rem
-REM This script shall be executed after the running the tx509 tests
 call \epoc32\winscw\c\twtlscert\scripts\batchfiles\tcert_password_cleanup.bat
 
 del /s /f /q \epoc32\winscw\c\private\10001011\WTLSCERTCorruptLog.txt

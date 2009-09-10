@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file
  @publishedPartner
@@ -62,3 +60,4 @@ class MCTTokenTypeFilter
 	};
 
 #endif // __MCTTOKENTYPEFILTER_H__
+

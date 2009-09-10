@@ -6,22 +6,26 @@ exports	\sf\os\security\cryptoservices\certificateandkeymgmt\group
 
 notes_source	\component_defs\release.src
 
-#  == IPR section auto-inserted from distribution.policy files  ==
-ipr E 
-ipr T \sf\os\security\cryptoservices\certificateandkeymgmt\tadditionalstores
-ipr T \sf\os\security\cryptoservices\certificateandkeymgmt\tasn1
-ipr T \sf\os\security\cryptoservices\certificateandkeymgmt\tcertcommon
-ipr T \sf\os\security\cryptoservices\certificateandkeymgmt\tcertdump
-ipr T \sf\os\security\cryptoservices\certificateandkeymgmt\tcertstore
-ipr T \sf\os\security\cryptoservices\certificateandkeymgmt\tder
-ipr T \sf\os\security\cryptoservices\certificateandkeymgmt\testcertificates
-ipr T \sf\os\security\cryptoservices\certificateandkeymgmt\testdata
-ipr T \sf\os\security\cryptoservices\certificateandkeymgmt\testhwerrstore
-ipr T \sf\os\security\cryptoservices\certificateandkeymgmt\tpkcs10
-ipr T \sf\os\security\cryptoservices\certificateandkeymgmt\tpkcs12intgrtn
-ipr T \sf\os\security\cryptoservices\certificateandkeymgmt\tpkcs7
-ipr T \sf\os\security\cryptoservices\certificateandkeymgmt\tpkixcert
-ipr T \sf\os\security\cryptoservices\certificateandkeymgmt\twtlscert
-ipr T \sf\os\security\cryptoservices\certificateandkeymgmt\tx509
-
-# == end auto-inserted section ==
+ipr T
+ipr E \sf\os\security\cryptoservices\certificateandkeymgmt\asn1
+ipr E \sf\os\security\cryptoservices\certificateandkeymgmt\bwins
+ipr E \sf\os\security\cryptoservices\certificateandkeymgmt\certstore
+ipr E \sf\os\security\cryptoservices\certificateandkeymgmt\crypto
+ipr E \sf\os\security\cryptoservices\certificateandkeymgmt\docs
+ipr E \sf\os\security\cryptoservices\certificateandkeymgmt\documentation
+ipr E \sf\os\security\cryptoservices\certificateandkeymgmt\eabi
+ipr E \sf\os\security\cryptoservices\certificateandkeymgmt\group
+ipr E \sf\os\security\cryptoservices\certificateandkeymgmt\inc
+ipr E \sf\os\security\cryptoservices\certificateandkeymgmt\pkcs10
+ipr E \sf\os\security\cryptoservices\certificateandkeymgmt\pkcs12
+ipr E \sf\os\security\cryptoservices\certificateandkeymgmt\pkcs12recog
+ipr E \sf\os\security\cryptoservices\certificateandkeymgmt\pkcs7
+ipr E \sf\os\security\cryptoservices\certificateandkeymgmt\pkcs8recog
+ipr E \sf\os\security\cryptoservices\certificateandkeymgmt\pkixCert
+ipr E \sf\os\security\cryptoservices\certificateandkeymgmt\pkixcertbase
+ipr E \sf\os\security\cryptoservices\certificateandkeymgmt\recog
+ipr E \sf\os\security\cryptoservices\certificateandkeymgmt\swicertstore
+ipr E \sf\os\security\cryptoservices\certificateandkeymgmt\swicertstoreplugin
+ipr E \sf\os\security\cryptoservices\certificateandkeymgmt\wtlscert
+ipr E \sf\os\security\cryptoservices\certificateandkeymgmt\x500
+ipr E \sf\os\security\cryptoservices\certificateandkeymgmt\x509

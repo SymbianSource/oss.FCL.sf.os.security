@@ -170,3 +170,17 @@ EXPORT_C CCmsCertificateChoice::TCertificateType CCmsCertificateChoice::Certific
 	{
 	return iCertificateType;
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

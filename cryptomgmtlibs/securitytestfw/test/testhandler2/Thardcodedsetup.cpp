@@ -97,3 +97,6 @@ EXPORT_C TBool CHardcodedSetup::InitialiseL(RFs &aFs, const TDesC& aDefaultLog)
 	
 	return(ETrue);
 	}
+
+
+

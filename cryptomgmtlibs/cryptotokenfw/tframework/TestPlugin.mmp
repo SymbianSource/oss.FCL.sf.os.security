@@ -14,6 +14,7 @@
 * Description: 
 *
 */
+
 /**
 @file
 
@@ -38,3 +39,4 @@ TARGET testplugin.rsc
 END
 LIBRARY euser.lib
 LIBRARY ctframework.lib
+SMPSAFE

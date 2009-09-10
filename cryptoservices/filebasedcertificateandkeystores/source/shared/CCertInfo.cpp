@@ -29,13 +29,12 @@ EXPORT_C CCertInfo* CCertInfo::NewL(const CCertInfo& aOther)
 	{
 	return new (ELeave) CCertInfo(aOther);
 	}
-
 CCertInfo::CCertInfo(const CCertInfo& aOther) :
 	MCertInfo(aOther)
 	{
 	}
 
-EXPORT_C CCertInfo* CCertInfo::NewL(const TDesC& aLabel,
+EXPORT_C CCertInfo* CCertInfo::NewLC(const TDesC& aLabel,
 						   TCertificateFormat aFormat,
 						   TCertificateOwnerType aCertificateOwnerType,
 						   TInt aSize,
@@ -46,11 +45,12 @@ EXPORT_C CCertInfo* CCertInfo::NewL(const TDesC& aLabel,
 	CCertInfo* self = new(ELeave) CCertInfo(aLabel,
 		aFormat, aCertificateOwnerType, aSize, aSubjectKeyId, aIssuerKeyId,
 		aCertificateId);
+	CleanupStack::PushL(self);
 	self->ConstructL(NULL);
 	return self;
 	}
 
-EXPORT_C CCertInfo* CCertInfo::NewL(const TDesC& aLabel,
+EXPORT_C CCertInfo* CCertInfo::NewLC(const TDesC& aLabel,
 						   TCertificateFormat aFormat,
 						   TCertificateOwnerType aCertificateOwnerType,
 						   TInt aSize,
@@ -62,11 +62,12 @@ EXPORT_C CCertInfo* CCertInfo::NewL(const TDesC& aLabel,
 	CCertInfo* self = new(ELeave) CCertInfo(aLabel,
 		aFormat, aCertificateOwnerType, aSize, aSubjectKeyId, aIssuerKeyId,
 		aCertificateId, aDeletable);
+	CleanupStack::PushL(self);
 	self->ConstructL(NULL);
 	return self;
 	}
 
-EXPORT_C CCertInfo* CCertInfo::NewLC(const TDesC& aLabel,
+EXPORT_C CCertInfo* CCertInfo::NewL(const TDesC& aLabel,
 							TCertificateFormat aFormat,
 							TCertificateOwnerType aCertificateOwnerType,
 							TInt aSize,
@@ -74,14 +75,14 @@ EXPORT_C CCertInfo* CCertInfo::NewLC(const TDesC& aLabel,
 							const TKeyIdentifier* aIssuerKeyId,
 							TInt aCertificateId)
 	{
-	CCertInfo* self = CCertInfo::NewL(aLabel,
+	CCertInfo* self = CCertInfo::NewLC(aLabel,
 		aFormat, aCertificateOwnerType, aSize, aSubjectKeyId, aIssuerKeyId,
 		aCertificateId);
-	CleanupStack::PushL(self);
+	CleanupStack::Pop(self);
 	return self;
 	}
 
-EXPORT_C CCertInfo* CCertInfo::NewLC(const TDesC& aLabel,
+EXPORT_C CCertInfo* CCertInfo::NewL(const TDesC& aLabel,
 							TCertificateFormat aFormat,
 							TCertificateOwnerType aCertificateOwnerType,
 							TInt aSize,
@@ -90,10 +91,10 @@ EXPORT_C CCertInfo* CCertInfo::NewLC(const TDesC& aLabel,
 							TInt aCertificateId,
 						    const TBool aDeletable)
 	{
-	CCertInfo* self = CCertInfo::NewL(aLabel,
+	CCertInfo* self = CCertInfo::NewLC(aLabel,
 		aFormat, aCertificateOwnerType, aSize, aSubjectKeyId, aIssuerKeyId,
 		aCertificateId, aDeletable);
-	CleanupStack::PushL(self);
+	CleanupStack::Pop(self);
 	return self;
 	}
 

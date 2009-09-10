@@ -165,49 +165,6 @@ sub MakeSISFile {
 }
 
 #
-# PREQ2344
-# Run MAKESIS with prepared pkg file,expected result and expected log ,it verify logs generated and expected lags  
-#
-sub MakeSISFilePREQ2344 {
-
-	my ($pkgfile) = @_[0];
-	my ($expectedResult) = @_[1];
-	my ($expectedLog) = @_[2];
-	my ($pkgOption) = @_[3];
-	$pkgfile =~ s/\.pkg//;
-
-	if($pkgfile ne "testinterpretflag") {
-		@retval = system("$makesisExeLocation -v $pkgOption $pkgfile.pkg $pkgfile-tmp.sis > $pkgfile.log");
-	}
-	else {
-		@retval = system("$makesisExeLocation -v -c $pkgOption $pkgfile.pkg $pkgfile-tmp.sis > $pkgfile.log");
-	}
-
-	$logMsg = sprintf "Expected code:%5d   result Code:%5d\n", $expectedResult, $?;
-	WriteLog( $logMsg);
-	$NumberOfTests++;
-
-	if( $? == $expectedResult ) {
-		if(CheckLog($pkgfile, $expectedLog)) {
-			$NumberOfPassed++;
-			WriteLog("Passed\n\n");
-		}
-		else {
-			$NumberOfFailed++;
-			WriteLog("Failed : Unexpected Error Log\n\n");
-		}
-	}
-	else {
-		$NumberOfFailed++;
-		WriteLog("Failed : Unexpected Error Code\n\n");
-	}
-
-	unlink("$pkgfile-tmp.sis");
-	unlink("$pkgfile.log");
-	unlink("$pkgfile.pkg");
-}
-
-#
 # Additional test to check that stub files don't change every time 
 # they are built.
 #
@@ -818,8 +775,11 @@ sub TestInvalidVersion1 {
 	# Create PKG file
 	CreateFile($pkgName, $invalidVersion1);
 	
+	my $trailingData = "Created  $sisName.";
+	my $OutputData = "Processing $pkgName...\n$DEF112718ExpectedOutput$trailingData";
+	
 	# Create expected log file
- 	CreateFile($ExpectedLogFile ,$DEF112718ExpectedOutput);
+	CreateFile($ExpectedLogFile ,$OutputData);
 
 	# Create a sis file
 	my $result = system("$makesisExeLocation $pkgName $sisName > $LogFile");
@@ -914,8 +874,10 @@ sub TestPreInstalledWithoutSourceFiles {
 	# Create PKG file
 	CreateFile($pkgName, $PreinstalledPkgWithoutSourcefiles);
 
+	my $OutputData = "Processing $pkgName...\n$DEF113569ExpectedOutput";
+	
 	# Create expected log file
- 	CreateFile($ExpectedLogFile ,$DEF113569ExpectedOutput);
+	CreateFile($ExpectedLogFile ,$OutputData);
 
 	# Do MAKESIS test
 	@retval = system("$makesisExeLocation $pkgName $sisName > $logName");
@@ -1551,13 +1513,16 @@ sub TestDEF111264 {
 	
 	# Create PKG file
 	CreateFile($pkgFile, $PkgFile);	
-	
+
 	# Create expected log file
-	CreateFile($ExpectedLogFile ,$DEF111264ExpectedOutput);
-			
+	my $trailingData = "Created  $sisFile.";
+	my $OutputData = "Processing $pkgFile...\n$DEF111264ExpectedOutput$trailingData";
+	
+	CreateFile($ExpectedLogFile ,$OutputData);
+
 	# Create a sis file
 	my $result = system("/epoc32/tools/makesis -s $pkgFile  $sisFile > $LogFile");
-	
+
 	use File::Compare;
 	my $result1;
 	
@@ -1624,10 +1589,11 @@ sub TestDEF113349 {
 	# Create SIS file for the embedding package of type = SA.
 	my $result1 = system("/epoc32/tools/makesis $pkgFile $sisFile > $LogFile");
 	
-	# Create expected log file
-	CreateFile($ExpectedLogFile ,$DEF113349ExpectedOutput);
-			
+	my $OutputData = "Processing $pkgFile...\n$DEF113349ExpectedOutput";
 	
+	# Create expected log file
+	CreateFile($ExpectedLogFile ,$OutputData);
+
 	use File::Compare;
 	my $result2;
 	
@@ -1682,8 +1648,7 @@ sub TestDEF113116 {
 
 	# Create PKG file
 	CreateFile($pkgFile , $PkgFile);	
-	
-		
+
 	# Create sis file using MakeSIS
 	my $result = system("$makesisExeLocation $pkgFile $sisFile > $LogFile");
 
@@ -1714,6 +1679,78 @@ sub TestDEF113116 {
 	
 }
 
+#
+# Test code for Makesis -c option.
+# This test verifies that errors are reported where the SIS file being generated will not be installable by InterpretSIS.
+# 
+
+sub TestInterpretsisReport {
+
+	$pkgEmbeddedFile = "Emdedded.pkg";
+	$sisEmbeddedFile = "Embedded.sis";
+	$pkgFile = "Interpretsis.pkg";
+	$sisFile = "Interpretsis.sis";
+	$LogFile = "Interpretsis.log";
+	$ExpectedLogFile = "InterpretsisExpected.log";
+
+	WriteLog("Makesis -c\n");
+
+	# Generate test PKG file contents for the embedded pkg file.
+	$PkgFile = sprintf( $PkgFileTempl, "-1,-1,-1"); 
+	
+	# Create PKG file
+	CreateFile($pkgEmbeddedFile, $PkgFile);	
+
+	# Create SIS file for the embedded package.
+	my $result = system("/epoc32/tools/makesis $pkgEmbeddedFile $sisEmbeddedFile > $LogFile");
+
+	# Generate test PKG file contents for embedding pkg file.
+	$PkgFile = sprintf( $PkgFileInterpretsisVersionTemplate, "-1,-1,-1"); 
+	
+	# Create PKG file
+	CreateFile($pkgFile , $PkgFile);	
+	
+	# Create SIS file for the embedding package of type = SA.
+	my $result1 = system("/epoc32/tools/makesis -c $pkgFile $sisFile > $LogFile");
+	
+	# Create expected log file
+	my $trailingData = "Created  $sisFile.";
+	my $OutputData = "Processing $pkgFile...\n$InterpretsisExpectedOutput$trailingData";
+	
+	CreateFile($ExpectedLogFile ,$OutputData);
+	
+	use File::Compare;
+	my $result2;
+	
+	if(compare($LogFile ,$ExpectedLogFile)== 0)
+		{ 
+		$result2 = 0;			
+		}
+	else
+		{
+		$result2 = 1;
+		}
+
+	$NumberOfTests++;
+	
+	if ($result == 0 && $result1 == 256 && $result2 == 0) 
+		{
+		$NumberOfPassed++;
+		WriteLog("Passed\n\n");
+		}
+	else 
+		{
+		$NumberOfFailed++;
+		WriteLog("Failed\n\n");
+		}
+	
+	unlink $pkgEmbeddedFile;
+	unlink $sisEmbeddedFile;
+	unlink $pkgFile; 
+	unlink $sisFile;
+	unlink $LogFile;
+	unlink $ExpectedLogFile;
+}
 
 #
 # Main
@@ -2448,7 +2485,7 @@ Warning: Executables should be included explicitly (without wildcards),to enable
 # Template string to generate Expected output file for Preinstalled APP package having no source files specified.
 #
 $DEF113569ExpectedOutput= " Error : Source file is missing for PreInstalled APP : 
-(14) : error: file I/O fault.
+(14) : error: file I/O fault, Source file is missing for PreInstalled APP 
 ";
 
 
@@ -2520,65 +2557,23 @@ ENDIF
 ;
 ";
 
-# PREQ2344 - Added SUPPORTED_LANGUAGE token to .pkg File format for supporting device supported language installation
-# Array of test PKG data and expected results for each test case and associated itterations
 #
-#              	File name,	Supported language, Package header , Vendor name , Default vendor name ,Language block , Supported language block , Option list , Test case ID ,	Expected error code	,	Log message
-#               ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
-@TestItems3 = (	 ["test01.pkg",	"EN , FR "		,	" \"Supported Language EN\" , \"Supported Language FR\" "								,	"\"Symbian Software Ltd. EN \" , \"Symbian Software Ltd. FR\""									,	" "							 ,	" "																																																					,	"IF SUPPORTED_LANGUAGE = 01 \n\n\"SupportedLanguageEN.txt\"-\"!:\\sys\\bin\\SupportedLanguageEN.txt\" \n\nENDIF  \n\nIF SUPPORTED_LANGUAGE = 02 \n\n\"SupportedLanguageFR.txt\"-\"!:\\sys\\bin\\SupportedLanguageFR.txt\" \n\nENDIF "																																																											,	" "																																																											,	"API-Inst-PREQ2344-MakeSIS-01",	0	,	"Generating SIS installation file..."					],
-				 ["test02.pkg",	"EN , FR , GE "	,	" \"Supported Language EN\" , \"Supported Language FR\" , \"Supported Language GE\" "	,	"\"Symbian Software Ltd. EN \" , \"Symbian Software Ltd. FR\" , \"Symbian Software Ltd. GE\""	,	": \"Symbian Software Ltd.\"",	" "																																																					,	"IF SUPPORTED_LANGUAGE = 01 \n\n\"SupportedLanguageEN.txt\"-\"!:\\sys\\bin\\SupportedLanguageEN.txt\" \n\nENDIF  \n\nIF SUPPORTED_LANGUAGE = 02 \n\n\"SupportedLanguageFR.txt\"-\"!:\\sys\\bin\\SupportedLanguageFR.txt\" \n\nENDIF "																																																											,	" "																																																											,	"API-Inst-PREQ2344-MakeSIS-02",	0	,	"Generating SIS installation file..."					],
-				 ["test03.pkg",	"EN , FR , GE "	,	" \"Supported Language EN\" , \"Supported Language FR\" , \"Supported Language GE\" "	,	"\"Symbian Software Ltd. EN \" , \"Symbian Software Ltd. FR\" , \"Symbian Software Ltd. GE\""	,	": \"Symbian Software Ltd.\"",	" "																																																					,	"IF SUPPORTED_LANGUAGE = 01 \n\n\"SupportedLanguageEN.txt\"-\"!:\\sys\\bin\\SupportedLanguageEN.txt\" \n\nENDIF  \n\nIF SUPPORTED_LANGUAGE = 02 \n\n\"SupportedLanguageFR.txt\"-\"!:\\sys\\bin\\SupportedLanguageFR.txt\" \n\nENDIF \n\nIF SUPPORTED_LANGUAGE = 03 \n\n\"SupportedLanguageGE.txt\"-\"!:\\sys\\bin\\SupportedLanguageGE.txt\" \n\nENDIF  \n\nIF SUPPORTED_LANGUAGE = 157 \n\n\"SupportedLanguageYW.txt\"-\"!:\\sys\\bin\\SupportedLanguageYW.txt\" \n\nENDIF"	,	" "																																																											,	"API-Inst-PREQ2344-MakeSIS-03",	0	, 	"Generating SIS installation file..."					],
-				 ["test04.pkg",	"EN , FR"		,	" \"Supported Language EN\" , \"Supported Language FR\" "								,	"\"Symbian Software Ltd. EN \" , \"Symbian Software Ltd. FR\""									,	": \"Symbian Software Ltd.\"",	"IF (LANGUAGE=01) \n\n\"SupportedLanguageEN.txt\"-\"!:\\sys\\bin\\SupportedLanguageEN.txt\"  \n\nELSEIF (LANGUAGE=02) \n\n\"SupportedLanguageFR.txt\"-\"!:\\sys\\bin\\SupportedLanguageFR.txt\" \n\nENDIF "			,	"IF SUPPORTED_LANGUAGE = ((01) \n\n\"SupportedLanguageEN.txt\"-\"!:\\sys\\bin\\SupportedLanguageEN.txt\" \n\nENDIF  \n\nIF SUPPORTED_LANGUAGE = 02 \n\n\"SupportedLanguageFR.txt\"-\"!:\\sys\\bin\\SupportedLanguageFR.txt\" \n\nENDIF"																																																											,	"!({\"Option1 EN\",\"Option2 EN\" },{\"Option1 FR\" , \"Option2 FR\"})  \n\nif option1 = 1 \n\n\"Option1.txt\"-\"!:\\sys\\bin\\Option1.txt\"; \n\nendif \n\nif option2 = 1 \n\n\"Option1.txt\"-\"!:\\sys\\bin\\Option1.txt\"; \n\nendif \n ",	"API-Inst-PREQ2344-MakeSIS-04",	256	,	"error: parenthesis are not balanced"					],
-				 ["test05.pkg",	"EN , FR"		,	" \"Supported Language EN\" , \"Supported Language FR\" "								,	"\"Symbian Software Ltd. EN \" , \"Symbian Software Ltd. FR\""									,	": \"Symbian Software Ltd.\"",	"IF (LANGUAGE=01) \n\n\"SupportedLanguageEN.txt\"-\"!:\\sys\\bin\\SupportedLanguageEN.txt\"  \n\nELSEIF (LANGUAGE=02) \n\n\"SupportedLanguageFR.txt\"-\"!:\\sys\\bin\\SupportedLanguageFR.txt\" \n\nENDIF "			,	"IF SUPPORTED_LANGUAGE = -9874 \n\n\"SupportedLanguageEN.txt\"-\"!:\\sys\\bin\\SupportedLanguageEN.txt\" \n\nENDIF  \n\nIF SUPPORTED_LANGUAGE = 8754 \n\n\"SupportedLanguageFR.txt\"-\"!:\\sys\\bin\\SupportedLanguageFR.txt\" \n\nENDIF"																																																										,	"!({\"Option1 EN\",\"Option2 EN\" },{\"Option1 FR\" , \"Option2 FR\"})  \n\nif option1 = 1 \n\n\"Option1.txt\"-\"!:\\sys\\bin\\Option1.txt\"; \n\nendif \n\nif option2 = 1 \n\n\"Option2.txt\"-\"!:\\sys\\bin\\Option2.txt\"; \n\nendif \n ",	"API-Inst-PREQ2344-MakeSIS-05",	0	,	"Generating SIS installation file..."					],
-				 ["test06.pkg",	"EN , FR"		,	" \"Supported Language EN\" , \"Supported Language FR\" "								,	"\"Symbian Software Ltd. EN \" , \"Symbian Software Ltd. FR\""									,	": \"Symbian Software Ltd.\"",	"IF (LANGUAGE=01) \n\n\"SupportedLanguageEN.txt\"-\"!:\\sys\\bin\\SupportedLanguageEN.txt\"  \n\nELSEIF (LANGUAGE=02) \n\n\"SupportedLanguageFR.txt\"-\"!:\\sys\\bin\\SupportedLanguageFR.txt\" \n\nENDIF "			,	"IF SUPPORTED_LANGUAGE = 08 \n\n	IF SUPPORTED_LANGUAGE = 01 \n\n		\"SupportedLanguageEN.txt\"-\"!:\\sys\\bin\\SupportedLanguageEN.txt\" \n\n	ENDIF \n\nENDIF \n\nIF SUPPORTED_LANGUAGE = 09 \n\n	IF SUPPORTED_LANGUAGE = 08	\n\n		IF SUPPORTED_LANGUAGE = 02 \n\n			\"SupportedLanguageFR.txt\"-\"!:\\sys\\bin\\SupportedLanguageFR.txt\" \n\n		ENDIF \n\n	ENDIF \n\nENDIF"																			,	"!({\"Option1 EN\",\"Option2 EN\" },{\"Option1 FR\" , \"Option2 FR\"})  \n\nif option1 = 1 \n\n\"Option1.txt\"-\"!:\\sys\\bin\\Option1.txt\"; \n\nendif \n\nif option2 = 1 \n\n\"Option2.txt\"-\"!:\\sys\\bin\\Option2.txt\"; \n\nendif \n ",	"API-Inst-PREQ2344-MakeSIS-06",	0	,	"Generating SIS installation file..."					],
-				 ["test07.pkg",	"EN , FR"		,	" \"Supported Language EN\" , \"Supported Language FR\" "								,	"\"Symbian Software Ltd. EN \" , \"Symbian Software Ltd. FR\""									,	": \"Symbian Software Ltd.\"",	"IF (LANGUAGE=01) \n\n\"SupportedLanguageEN.txt\"-\"!:\\sys\\bin\\SupportedLanguageEN.txt\"  \n\nELSEIF (LANGUAGE=02) \n\n\"SupportedLanguageFR.txt\"-\"!:\\sys\\bin\\SupportedLanguageFR.txt\" \n\nENDIF "			,	"IF SUPPORTED_LANGUAGE = 10 \n\n\"SupportedLanguageEN.txt\"-\"!:\\sys\\bin\\SupportedLanguageEN.txt\" \n\nELSEIF SUPPORTED_LANGUAGE = 01 \n\n\"SupportedLanguageEN.txt\"-\"!:\\sys\\bin\\SupportedLanguageEN.txt\" \n\nELSEIF  SUPPORTED_LANGUAGE = 02 \n\n\"SupportedLanguageFR.txt\"-\"!:\\sys\\bin\\SupportedLanguageFR.txt\" \n\nENDIF"																																		,	"!({\"Option1 EN\",\"Option2 EN\" },{\"Option1 FR\" , \"Option2 FR\"})  \n\nif option1 = 1 \n\n\"Option1.txt\"-\"!:\\sys\\bin\\Option1.txt\"; \n\nendif \n\nif option2 = 1 \n\n\"Option2.txt\"-\"!:\\sys\\bin\\Option2.txt\"; \n\nendif \n ",	"API-Inst-PREQ2344-MakeSIS-07",	0	,	"Generating SIS installation file..."					],
-				 ["test08.pkg",	"EN , FR"		,	" \"Supported Language EN\" , \"Supported Language FR\" "								,	"\"Symbian Software Ltd. EN \" , \"Symbian Software Ltd. FR\""									,	": \"Symbian Software Ltd.\"",	"IF (LANGUAGE=01) \n\n\"SupportedLanguageEN.txt\"-\"!:\\sys\\bin\\SupportedLanguageEN.txt\"  \n\nELSEIF (LANGUAGE=02) \n\n\"SupportedLanguageFR.txt\"-\"!:\\sys\\bin\\SupportedLanguageFR.txt\" \n\nENDIF "			,	"IF SUPPORTED_LANGUAGE = (01) and (02) OR (98) \n\n\"SupportedLanguageEN.txt\"-\"!:\\sys\\bin\\SupportedLanguageEN.txt\" \n\nENDIF  \n\nIF SUPPORTED_LANGUAGE = 02 \n\n\"SupportedLanguageFR.txt\"-\"!:\\sys\\bin\\SupportedLanguageFR.txt\" \n\nENDIF"																																																							,	"!({\"Option1 EN\",\"Option2 EN\" },{\"Option1 FR\" , \"Option2 FR\"})  \n\nif option1 = 1 \n\n\"Option1.txt\"-\"!:\\sys\\bin\\Option1.txt\"; \n\nendif \n\nif option2 = 1 \n\n\"Option2.txt\"-\"!:\\sys\\bin\\Option2.txt\"; \n\nendif \n ",	"API-Inst-PREQ2344-MakeSIS-08",	0	,	"Generating SIS installation file..."					],
-				 ["test09.pkg",	"EN , FR"		,	" \"Supported Language EN\" , \"Supported Language FR\" "								,	"\"Symbian Software Ltd. EN \" , \"Symbian Software Ltd. FR\""									,	": \"Symbian Software Ltd.\"",	"IF (LANGUAGE=01) \n\n\"SupportedLanguageEN.txt\"-\"!:\\sys\\bin\\SupportedLanguageEN.txt\"  \n\nENDIF  \n\nIF (LANGUAGE=02) \n\n\"SupportedLanguageFR.txt\"-\"!:\\sys\\bin\\SupportedLanguageFR.txt\" \n\nENDIF "	,	"IF SUPPORTED_LANGUAGE = 01 \n\n\"SupportedLanguageEN.txt\"-\"!:\\sys\\bin\\SupportedLanguageEN.txt\" \n\nENDIF  \n\nIF SUPPORTED_LANGUAGE = 02 \n\n\"SupportedLanguageFR.txt\"-\"!:\\sys\\bin\\SupportedLanguageFR.txt\" \n\nENDIF"																																																											,	"!({\"Option1 EN\",\"Option2 EN\" },{\"Option1 FR\" , \"Option2 FR\"})  \n\nif option1 = 1 \n\n\"Option1.txt\"-\"!:\\sys\\bin\\Option1.txt\"; \n\nendif \n\nif option2 = 1 \n\n\"Option2.txt\"-\"!:\\sys\\bin\\Option2.txt\"; \n\nendif \n ",	"API-Inst-PREQ2344-MakeSIS-09",	0	,	"Generating SIS installation file..."					],
-				 ["test10.pkg",	"EN , FR"		,	" \"Supported Language EN\" , \"Supported Language FR\" "								,	"\"Symbian Software Ltd. EN \" , \"Symbian Software Ltd. FR\""									,	": \"Symbian Software Ltd.\"",	"IF (LANGUAGE=01) \n\n\"SupportedLanguageEN.txt\"-\"!:\\sys\\bin\\SupportedLanguageEN.txt\"  \n\nELSEIF (LANGUAGE=02) \n\n\"SupportedLanguageFR.txt\"-\"!:\\sys\\bin\\SupportedLanguageFR.txt\" \n\nENDIF "			,	"IF SUppORTed_LanGUAGE = 01 \n\n\"SupportedLanguageEN.txt\"-\"!:\\sys\\bin\\SupportedLanguageEN.txt\" \n\nENDIF  \n\nIF supported_language = 02 \n\n\"SupportedLanguageFR.txt\"-\"!:\\sys\\bin\\SupportedLanguageFR.txt\" \n\nENDIF"																																																											,	"!({\"Option1 EN\",\"Option2 EN\" },{\"Option1 FR\" , \"Option2 FR\"})  \n\nif option1 = 1 \n\n\"Option1.txt\"-\"!:\\sys\\bin\\Option1.txt\"; \n\nendif \n\nif option2 = 1 \n\n\"Option2.txt\"-\"!:\\sys\\bin\\Option2.txt\"; \n\nendif \n ",	"API-Inst-PREQ2344-MakeSIS-10",	0	,	"Generating SIS installation file..."					],
-				 ["test11.pkg",	"EN , FR"		,	" \"Supported Language EN\" , \"Supported Language FR\" "								,	"\"Symbian Software Ltd. EN \" , \"Symbian Software Ltd. FR\""									,	": \"Symbian Software Ltd.\"",	"IF (LANGUAGE=01) \n\n\"SupportedLanguageEN.txt\"-\"!:\\sys\\bin\\SupportedLanguageEN.txt\"  \n\nELSEIF (LANGUAGE=02) \n\n\"SupportedLanguageFR.txt\"-\"!:\\sys\\bin\\SupportedLanguageFR.txt\" \n\nENDIF "			,	"IF SUPPORTED_LANGUAGE = 01 \n\n\"SupportedLanguageEN.txt\"-\"!:\\sys\\bin\\SupportedLanguageEN.txt\" \n\nENDIF  \n\nIF SUPPORTED_LANGUAGE = 02 \n\n\"SupportedLanguageFR.txt\"-\"!:\\sys\\bin\\SupportedLanguageFR.txt\" \n\nENDIF"																																																											,	"!({\"Option1 EN\",\"Option2 EN\" },{\"Option1 FR\" , \"Option2 FR\"})  \n\nif option1 = 1 \n\n\"Option1.txt\"-\"!:\\sys\\bin\\Option1.txt\"; \n\nendif \n\nif option2 = 1 \n\n\"Option2.txt\"-\"!:\\sys\\bin\\Option2.txt\"; \n\nendif \n ",	"API-Inst-PREQ2344-MakeSIS-11",	0	,	"Generating SIS stub file..."							],
-				 ["test12.pkg",	"EN , FR"		,	" \"Supported Language EN\" , \"Supported Language FR\" "								,	"\"Symbian Software Ltd. EN \" , \"Symbian Software Ltd. FR\""									,	": \"Symbian Software Ltd.\"",	"IF (LANGUAGE=01) \n\n\"SupportedLanguageEN.txt\"-\"!:\\sys\\bin\\SupportedLanguageEN.txt\"  \n\nELSEIF (LANGUAGE=02) \n\n\"SupportedLanguageFR.txt\"-\"!:\\sys\\bin\\SupportedLanguageFR.txt\" \n\nENDIF "			,	"IF SUPPORTED_LANGUAGE = EN \n\n\"SupportedLanguageEN.txt\"-\"!:\\sys\\bin\\SupportedLanguageEN.txt\" \n\nENDIF  \n\nIF SUPPORTED_LANGUAGE = FR \n\n\"SupportedLanguageFR.txt\"-\"!:\\sys\\bin\\SupportedLanguageFR.txt\" \n\nENDIF"																																																											,	"!({\"Option1 EN\",\"Option2 EN\" },{\"Option1 FR\" , \"Option2 FR\"})  \n\nif option1 = 1 \n\n\"Option1.txt\"-\"!:\\sys\\bin\\Option1.txt\"; \n\nendif \n\nif option2 = 1 \n\n\"Option2.txt\"-\"!:\\sys\\bin\\Option2.txt\"; \n\nendif \n ",	"API-Inst-PREQ2344-MakeSIS-12",	256	,	"error: Expected numeric value read alphanumeric value"	],
-				 ["test13.pkg",	"EN , FR"		,	" \"Supported Language EN\" , \"Supported Language FR\" "								,	"\"Symbian Software Ltd. EN \" , \"Symbian Software Ltd. FR\""									,	": \"Symbian Software Ltd.\"",	"IF (LANGUAGE=01) \n\n\"SupportedLanguageEN.txt\"-\"!:\\sys\\bin\\SupportedLanguageEN.txt\"  \n\nELSEIF (LANGUAGE=02) \n\n\"SupportedLanguageFR.txt\"-\"!:\\sys\\bin\\SupportedLanguageFR.txt\" \n\nENDIF "			,	"IF SUPPORTED_LANGUAGE = 01 \n\n\"SupportedLanguageEN.r01\"-\"!:\\sys\\bin\\SupportedLanguageEN.r01\" \n\nENDIF  \n\nIF SUPPORTED_LANGUAGE = 02 \n\n\"SupportedLanguageFR.txt\"-\"!:\\sys\\bin\\SupportedLanguageFR.txt\" \n\nENDIF"																																																											,	"!({\"Option1 EN\",\"Option2 EN\" },{\"Option1 FR\" , \"Option2 FR\"})  \n\nif option1 = 1 \n\n\"Option1.txt\"-\"!:\\sys\\bin\\Option1.txt\"; \n\nendif \n\nif option2 = 1 \n\n\"Option2.txt\"-\"!:\\sys\\bin\\Option2.txt\"; \n\nendif \n ",	"API-Inst-PREQ2344-MakeSIS-13",	0	,	"Generating SIS installation file..."					],
-				 ["test14.pkg",	"EN , FR"		,	" \"Supported Language EN\" , \"Supported Language FR\" "								,	"\"Symbian Software Ltd. EN \" , \"Symbian Software Ltd. FR\""									,	": \"Symbian Software Ltd.\"",	" "																																																					,	"IF SUPPORTED_LANGUAGE = 01 OR  SUPPORTED_LANGUAGE = 08 AND  SUPPORTED_LANGUAGE = 04  \n\n\"SupportedLanguageEN.txt\"-\"!:\\sys\\bin\\SupportedLanguageEN.txt\" \n\nENDIF  \n\nIF SUPPORTED_LANGUAGE = 02  AND   SUPPORTED_LANGUAGE = 03 AND  SUPPORTED_LANGUAGE = 06  \n\n\"SupportedLanguageFR.txt\"-\"!:\\sys\\bin\\SupportedLanguageFR.txt\" \n\nENDIF"																														,	"!({\"Option1 EN\",\"Option2 EN\" },{\"Option1 FR\" , \"Option2 FR\"})  \n\nif option1 = 1 \n\n\"Option1.txt\"-\"!:\\sys\\bin\\Option1.txt\"; \n\nendif \n\nif option2 = 1 \n\n\"Option2.txt\"-\"!:\\sys\\bin\\Option2.txt\"; \n\nendif \n ",	"API-Inst-PREQ2344-MakeSIS-14",	0	,	"Generating SIS installation file..."					],
-				 ["test15.pkg",	"EN , FR"		,	" \"Supported Language EN\" , \"Supported Language FR\" "								,	"\"Symbian Software Ltd. EN \" , \"Symbian Software Ltd. FR\""									,	": \"Symbian Software Ltd.\"",	" "																																																					,	"IF SUPPORTED_LANGUAGE(01)  \n\n	IF LANGUAGE(01)  \n\n\"SupportedLanguageEN.txt\"-\"!:\\sys\\bin\\SupportedLanguageEN.txt\" \n\n	ENDIF	\n\nENDIF  \n\nIF SUPPORTED_LANGUAGE = 02 \n\n\"SupportedLanguageFR.txt\"-\"!:\\sys\\bin\\SupportedLanguageFR.txt\" \n\nENDIF"																																																		,	"!({\"Option1 EN\",\"Option2 EN\" },{\"Option1 FR\" , \"Option2 FR\"})  \n\nif option1 = 1 \n\n\"Option1.txt\"-\"!:\\sys\\bin\\Option1.txt\"; \n\nendif \n\nif option2 = 1 \n\n\"Option2.txt\"-\"!:\\sys\\bin\\Option2.txt\"; \n\nendif \n ",	"API-Inst-PREQ2344-MakeSIS-15",	256	,	"error: Expected = read ("								],
-);
-	
+# Package template string to generate a PKG with features not installable by InterpretSIS
 #
-# PREQ2344 SUPPORTED_LANGUAGE  Package template string to generate PKG files
-#
-$PkgFilePREQ2344SupportedLanguageTemplate = "
+$PkgFileInterpretsisVersionTemplate = "
 ;
-; Auto Generated Template PKG File
-; Supported Language token testing
+; Autogenerated test install file
 ;
-;Language
-
-&%s
-
+&EN
 ;
-;Package Header
-
-\#{ %s }, (0xEA001000), 1, 0, 2, TYPE=SA
-
-;Vendor name 
-
-\%{ %s}
-
-;Default vendor name 
-
-%s
-
+#{\"Test Makesis -c\"}, (0x01011243), 1, 0, 1, TYPE=PP
 ;
-; Language  Conditional Block
-
-%s
+%{\"Symbian Software Ltd\"}
+:\"Symbian Software Ltd\"
 ;
-; Supported Language  Conditional Block
-
-%s
+!({\"Add-on 1 (20KB)\"},{\"Add-on 2 (75KB)\"},{\"Add-on 3 (80KB)\"}) 
 ;
-; Option List 
-
-%s
+\@\"Embedded.sis\" , (0x101f74aa)
 ;
 ";
 
@@ -2587,7 +2582,16 @@ $PkgFilePREQ2344SupportedLanguageTemplate = "
 #
 $DEF113349ExpectedOutput= "embeddedPA.sis is a stub.	 
 WARNING : Embedded Preinstalled Stub (PA/PP type) SIS file is not supported.
-(16) : error: SISfile error.
+(16) : error: SISfile error, Stub File
+";
+
+#
+# 
+#
+$InterpretsisExpectedOutput= "*** SIS installation file INVALID for InterpretSis ***
+(8) : Invalid Application Type. Package type PP not supported
+(12) : User options are not supported
+(14) : Embedded SIS file will not be installed by InterpretSis
 ";
 
 #
@@ -2678,50 +2682,6 @@ for my $Test2 ( @TestItems2 )  {
 	MakeSISFile($Test2->[0], $Test2->[2], $Test2->[3]);
 }
 
-#
-# Generate files used in .pkg  for  PREQ2344 test 
-#
-$contents = "This is a dummy file for testing.";
-CreateFile('SupportedLanguageEN.r01', $contents);
-CreateFile('SupportedLanguageEN.txt', $contents);
-CreateFile('SupportedLanguageFR.txt', $contents);
-CreateFile('SupportedLanguageGE.txt', $contents);
-CreateFile('SupportedLanguageYW.txt', $contents);
-CreateFile('Option1.txt', $contents);
-CreateFile('Option2.txt', $contents);
-
-#
-# Run PREQ2344 MakeSIS Tests (TestItems2 array)
-#
-$Count = 1;  # Taken counter variable to pass various Makesis option based on test case no
-for my $Test3 ( @TestItems3 ) {
-	# Generating PKG file contents
-	$PkgFile = sprintf( $PkgFilePREQ2344SupportedLanguageTemplate , $Test3->[1],$Test3->[2],$Test3->[3],$Test3->[4],$Test3->[5],$Test3->[6],,$Test3->[7]);
-	
-	# Create PKG file
-	CreateFile($Test3->[0], $PkgFile);
-
-	# Do MAKESIS test
-	$logMsg1 = sprintf "Test Case ID %s\n", $Test3->[8];
-	WriteLog($logMsg1);
-
-	if( $Count == 11 )	{
-		MakeSISFilePREQ2344($Test3->[0], $Test3->[9], $Test3->[10], " -s ");
-		$Count ++  ;
-	}
-	else	{
-		MakeSISFilePREQ2344($Test3->[0], $Test3->[9], $Test3->[10], " ");
-		$Count ++  ;
-	}
-}
-
-unlink("SupportedLanguageEN.r01");
-unlink("SupportedLanguageEN.txt");
-unlink("SupportedLanguageFR.txt");
-unlink("SupportedLanguageGE.txt");
-unlink("SupportedLanguageYW.txt");
-unlink("Option1.txt");
-unlink("Option2.txt");
 
 #
 # Additional test to check that stub files don't change every time 
@@ -2812,6 +2772,11 @@ TestDEF113349();
 TestPreInstalledWithoutSourceFiles();
 
 #
+# Test for Makesis -c option. Added as part of the fix for DEF126467.
+#
+TestInterpretsisReport();
+
+#
 # These tests are very specific to windows OS only
 #
 #
@@ -2896,3 +2861,4 @@ WriteLog("\n\nTests completed OK\n");
 WriteLog(sprintf "Run: %d\n", $NumberOfTests );
 WriteLog(sprintf "Passed: %d\n", $NumberOfPassed );
 WriteLog(sprintf "%d tests failed out of %d\n", $NumberOfFailed, $NumberOfTests ); 
+

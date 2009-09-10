@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file
 */
@@ -89,7 +87,7 @@ void CExportKey::ConstructL(const TTestActionSpec& aTestActionSpec)
 
 	TInt err = KErrNone;
 	TInt pos = 0;
-	SetKeyDataFileL(Input::ParseElement(aTestActionSpec.iActionBody, KExportDataFile, KExportDataFileEnd, pos, err));
+	SetKeyDataFile(Input::ParseElement(aTestActionSpec.iActionBody, KExportDataFile, KExportDataFileEnd, pos, err));
 	SetKeyEncrypted(Input::ParseElement(aTestActionSpec.iActionBody, KExportEncrypted, KExportEncryptedEnd, pos, err));
 
 	// PBE parameters
@@ -97,7 +95,7 @@ void CExportKey::ConstructL(const TTestActionSpec& aTestActionSpec)
 
 	if (cipher != _L8("")) 
 		{
-		SetPBEParameters(cipher, KNullDesC8, KNullDesC8, -1);		
+		SetPBEParametersL(cipher, KNullDesC8, KNullDesC8, -1);		
 		}
 	else 
 		{
@@ -132,7 +130,7 @@ void CExportKey::SetKeyEncrypted(const TDesC8& aDes)
 		iEncrypted = EFalse;
 }
 
-void 	CExportKey::SetPBEParameters(const TDesC8& aCipher, const TDesC8& aSalt, const TDesC8& aIV, const TInt aIteration)
+void 	CExportKey::SetPBEParametersL(const TDesC8& aCipher, const TDesC8& aSalt, const TDesC8& aIV, const TInt aIteration)
 	{
 	TPBECipher myCipher = ECipherDES_CBC;  // Default to DES
 	TInt iterations = KDefaultIterations;
@@ -208,7 +206,7 @@ void 	CExportKey::SetPBEParameters(const TDesC8& aCipher, const TDesC8& aSalt, c
 	CleanupStack::PopAndDestroy(2, salt); //salt, iv
 	}
 
-void CExportKey::SetKeyDataFileL(const TDesC8& aDes)
+void CExportKey::SetKeyDataFile(const TDesC8& aDes)
 {
 //	First the private data path for this test	
 	_LIT(KRamDrive, "\\tkeystore\\data\\");

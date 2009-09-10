@@ -20,7 +20,7 @@
 #include "tcertutils.h"
 #include <wtlscert.h>
 #include <certificateapps.h>
-#include <t_input.h>
+#include <testhandler2/t_input.h>
 #include <ccertattributefilter.h>
 #include <cctcertinfo.h>
 #include <mctwritablecertstore.h>
@@ -767,3 +767,4 @@ void CCertUtils::HandleERemoveCertsFinished()
 	{
 	User::RequestComplete(iOriginalRequestStatus, KErrNone);
 	}
+

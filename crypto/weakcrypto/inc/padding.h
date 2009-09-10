@@ -12,18 +12,16 @@
 * Contributors:
 *
 * Description: 
-* ** IMPORTANT ** PublishedPartner API's in this file are published to 3rd party developers via the 
+* ** IMPORTANT **  API's in this file are published to 3rd party developers via the 
 * Symbian website. Changes to these API's should be treated as PublishedAll API changes and the Security TA should be consulted.
 * Padding codes
 *
 */
 
 
-
-
 /**
  @file 
- @publishedPartner
+ @publishedAll
  @released
 */
  
@@ -36,8 +34,6 @@
 *
 * It is designed to be used by both symmetric and asymmetric ciphers.
 *
-* @publishedPartner
-* @released
 */
 class CPadding : public CBase
 	{
@@ -148,8 +144,6 @@ private:
 *
 * aOutput will be a copy of aInput after any call to PadL() or UnPadL().
 *
-* @publishedPartner
-* @released
 */
 class CPaddingNone:public CPadding
 	{
@@ -191,8 +185,6 @@ private:
 *
 * It is intended for use with RSA signing/verifying.
 *
-* @publishedPartner
-* @released
 */
 class CPaddingPKCS1Signature : public CPadding
 	{
@@ -234,8 +226,6 @@ private:
 * This concrete subclass of CPadding implements PKCS#1 v1.5 encryption padding.
 * It is intended for use with RSA encryption/decryption.
 *
-* @publishedPartner
-* @released
 */
 class CPaddingPKCS1Encryption : public CPadding
 	{
@@ -283,8 +273,6 @@ private:
 * not check the padding byes when unpadding, so as to be interoperable with SSL
 * 3.0.
 * 
-* @publishedPartner
-* @released
 */
 class CPaddingSSLv3 : public CPadding
 	{
@@ -326,8 +314,6 @@ private:
 * This concrete subclass of CPadding implements padding according to 
 * the PKCS#7/TLS standard.
 *
-* @publishedPartner
-* @released
 */
 class CPaddingPKCS7 : public CPadding
 	{

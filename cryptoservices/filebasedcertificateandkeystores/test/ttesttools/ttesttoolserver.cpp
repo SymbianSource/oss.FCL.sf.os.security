@@ -137,6 +137,8 @@ CTestStep* CTestToolServer::CreateTestStep(const TDesC& aStepName)
 		testStep = new CTestToolGetPolicyStep();
 	else if (aStepName == KTestToolParseFileStep)	
 		testStep = new CTestToolParseFileStep();
+	else if (aStepName == KTestToolCheckFileStep)
+		testStep = new CTestToolCheckFileStep();
 
 	return testStep;
 

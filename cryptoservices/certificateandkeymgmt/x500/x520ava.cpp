@@ -21,6 +21,56 @@
 #include <asn1enc.h>
 #include <asn1dec.h>
 
+#ifdef SYMBIAN_ENABLE_SPLIT_HEADERS
+//these are the only attribute types we handle at present
+_LIT(KX520PostalCode,"2.5.4.17");
+_LIT(KRFC2247DomainComponent, "0.9.2342.19200300.100.1.25");
+_LIT(KRFC2256Street,"2.5.4.9");
+_LIT(KPKCS9UnstructuredName, "1.2.840.113549.1.9.2");
+
+//email address is deprecated but we support it anyway...
+_LIT(KPKCS9EmailAddress, "1.2.840.113549.1.9.1");
+
+/** The maximum length allowed for a country name. */
+const TInt KX520MaxCLength = 2;
+/** The maximum length allowed for an organization name. */
+const TInt KX520MaxOLength = 64;
+/** The maximum length allowed for an organizational unit name. */
+const TInt KX520MaxOULength = 64;
+/** The maximum length allowed for a locality name. */
+const TInt KX520MaxLLength = 128;
+/** The maximum length allowed for a state or province name. */
+const TInt KX520MaxSOPLength = 128;
+/** The maximum length allowed for an title. */
+const TInt KX520MaxTLength = 64;
+/** The maximum length allowed for a common name. */
+const TInt KX520MaxCNLength = 256;
+/** The maximum length allowed for a given name. */
+const TInt KX520MaxGNLength = 16;
+/** The maximum length allowed for a surname. */
+const TInt KX520MaxSLength = 40;
+/** The maximum length allowed for initials. */
+const TInt KX520MaxILength = 5;
+/** The maximum length allowed for a generation qualifier. */
+const TInt KX520MaxGQLength = 3;
+/** The maximum length allowed for a serial number. */
+const TInt KX520MaxSNLength = 64;
+/** The maximum length allowed for a postal code. */
+const TInt KX520MaxPostalCodeLength = 40;
+/** The maximum length allowed for an email address. */
+const TInt KPKCS9MaxEmailAddressLength = 256;
+/** The maximum length allowed for an unstructured name. */
+const TInt KPKCS9MaxUnstructuredNameLength = 256;
+// No maximum was specified in the standard - 128 should be sufficient
+/** The maximum length allowed for an RFC 2247 domain component. 
+* 
+* Each component of the domain name is a short string. */
+const TInt KRFC2247MaxDomainComponentLength = 128;
+/** The maximum length allowed a for street. */
+const TInt KRFC2256StreetLength = 128;
+
+#endif
+
 EXPORT_C CX520AttributeTypeAndValue* CX520AttributeTypeAndValue::NewL(const CX520AttributeTypeAndValue& aPair)
 	{
 	CX520AttributeTypeAndValue* self = CX520AttributeTypeAndValue::NewLC(aPair);
@@ -400,14 +450,13 @@ EXPORT_C HBufC* CX520AttributeTypeAndValue::ValueL() const
 		{
 		User::Leave(KErrNotSupported);
 		}
-
 	TASN1DecX500DirectoryString encDString;
 	TInt pos = 0;
 	HBufC* res = encDString.DecodeDERL(iValue->Des(), pos, maxLength);
 	return res;
 	}
 
-TBool CX520AttributeTypeAndValue::IsCaseInSensitive(const TDesC8& aSource) const
+TBool CX520AttributeTypeAndValue::IsCaseInSensitiveL(const TDesC8& aSource) const
 	{
 	TPtr attribute = iType->Des();
 	TBool caseInsensitiveAttr = (attribute == KPKCS9EmailAddress || attribute == KPKCS9UnstructuredName);
@@ -415,6 +464,7 @@ TBool CX520AttributeTypeAndValue::IsCaseInSensitive(const TDesC8& aSource) const
 	gen.InitL();
 	return ((gen.Tag() == EASN1PrintableString) || caseInsensitiveAttr);
 	}
+
 
 EXPORT_C CASN1EncSequence* CX520AttributeTypeAndValue::EncodeASN1LC() const
 	{
@@ -470,20 +520,22 @@ EXPORT_C TBool CX520AttributeTypeAndValue::ExactMatchL(const CX520AttributeTypeA
 	plhs.TrimAll();
 	prhs.TrimAll();
 
-	// PDEF125098: Certificate name matching done in accordance to RFC3280
+
+	// DEF124902: Certificate name matching done in accordance to RFC3280
 	// RFC3280: Printable String and Email address(of value type 'IA5String') will 
-	// be compared case-insensitively.  
-	if (IsCaseInSensitive(iValue->Des()))
-		{
-		//case insensitive comparison for Printable String and IA5String (EmailAdress only).
-		res = (plhs.CompareF(prhs) == 0);
-		}
-	else
-		{
-		// case-sensitive comparison for strings other than printable string 
-		// Exception: This may include IA5Stings other than 'EmailAddress' attiribute types.
-		res = (plhs.Compare(prhs) == 0);
-		}
+ 	// be compared case-insensitively.  
+ 	
+    if (IsCaseInSensitiveL(iValue->Des()))
+ 	    {
+ 	     //case insensitive comparison for Printable String and IA5String (EmailAdress only).
+ 	     res = (plhs.CompareF(prhs) == 0);
+ 	    }
+    else
+	    {
+	     // case-sensitive comparison for strings other than printable string 
+	     // Exception: This may include IA5Stings other than 'EmailAddress' attiribute types.
+ 	     res = (plhs.Compare(prhs) == 0);
+	    }
 	CleanupStack::PopAndDestroy();
 	delete rhs;
 	return res; 

@@ -20,12 +20,6 @@ testexecute c:\tcaf\tcaf.script
 move c:\logs\testexecute\tcaf.htm e:\testresults\tcaf.htm
 del c:\tcaf\*.*
 
-md c:\tcaf
-copy /s z:\tcaf\* c:\tcaf
-testexecute c:\tcaf\drmfileperformance_armv5.script
-move c:\logs\testexecute\drmfileperformance_armv5.htm e:\testresults\drmfileperformance_armv5.htm
-del c:\tcaf\*.*
- 
 md c:\rta
 copy /s z:\rta\* c:\rta
 testexecute c:\rta\rta.script

@@ -13,8 +13,6 @@
 @rem
 @rem Description: 
 @rem
-REM Warning - The Silent Install test, cleanupinfrastructure test and tpropagation test will format the E: MMC drive
-REM Save existing results
 md c:\savedresults
 copy /s e:\testresults\* c:\savedresults
 
@@ -38,6 +36,8 @@ testexecute z:\tswi\tuiscriptadaptors\scripts\tcleanupinfrastructure.script
 
 testexecute z:\tswi\tuiscriptadaptors\scripts\tpropagation_arm.script
 
+testexecute z:\tswi\tuiscriptadaptors\scripts\test_pa_sapropagated_notdelete.script
+
 REM Restore results
 md e:\testresults
 copy /s c:\savedresults e:\testresults\*
@@ -50,9 +50,11 @@ del /s c:\USBLoader\*
 
 # Save Silent Install, cleanupinfrastructure and tpropagation test results
 move c:\logs\testexecute\tsilent_h2.htm e:\testresults\tsilent_h2.htm
+move c:\logs\testexecute\tswidaemonstub_h2.htm e:\testresults\tswidaemonstub_h2.htm
 move c:\logs\testexecute\inc098114_h2.htm e:\testresults\inc098114_h2.htm
 move c:\logs\testexecute\tcleanupinfrastructure.htm e:\testresults\tcleanupinfrastructure.htm
-copy c:\logs\testexecute\tpropagation_arm.htm e:\testresults\tpropagation_arm.htm
+move c:\logs\testexecute\tpropagation_arm.htm e:\testresults\tpropagation_arm.htm
+move c:\logs\testexecute\test_pa_sapropagated_notdelete.htm e:\testresults\test_pa_sapropagated_notdelete.htm
 
 REM Run recognizer tests
 md c:\trecog
@@ -73,9 +75,6 @@ move c:\logs\testexecute\tsis.htm e:\testresults\tsis.htm
 testexecute z:\tswi\tsis\scripts\tsis_signed.script
 move c:\logs\testexecute\tsis_signed.htm e:\testresults\tsis_signed.htm
 
-testexecute z:\tswi\tintegrityservices\scripts\tintegrityservices.script
-move c:\logs\testexecute\tintegrityservices.htm e:\testresults\tintegrityservices.htm
-
 testexecute z:\tswi\tuiscriptadaptors\scripts\testuninstallation_arm_only.script
 move c:\logs\testexecute\testuninstallation_arm_only.htm e:\testresults\testuninstallation_arm_only.htm
 
@@ -84,6 +83,10 @@ move c:\logs\testexecute\tsishelper.htm e:\testresults\tsishelper.htm
 
 testexecute z:\tswi\tuiscriptadaptors\scripts\testwritableswicertstore.script
 move c:\logs\testexecute\testwritableswicertstore.htm e:\testresults\testwritableswicertstore.htm
+
+testexecute z:\tswi\tuiscriptadaptors\scripts\testrucert.script
+move c:\logs\testexecute\testrucert.htm e:\testresults\testrucert.htm
+
 
 REM NQP Tests for DataProvider
 testexecute z:\tswi\tdataprovider\scripts\tdataprovider.script
@@ -145,9 +148,6 @@ move c:\logs\testexecute\testlocations.htm e:\testresults\testlocations.htm
 
 testexecute z:\tswi\tuiscriptadaptors\scripts\testcancel.script
 move c:\logs\testexecute\testcancel.htm e:\testresults\testcancel.htm
-
-testexecute z:\tswi\tuiscriptadaptors\scripts\testasynccancel.script
-move c:\logs\testexecute\testasynccancel.htm e:\testresults\testasynccancel.htm
 
 testexecute z:\tswi\tuiscriptadaptors\scripts\testrun.script
 move c:\logs\testexecute\testrun.htm e:\testresults\testrun.htm
@@ -221,6 +221,9 @@ del c:\config.txt
 REM restore standard automated commdb for the rest of the tests
 ced -i z:\auto.cfg
 
+testexecute z:\tswi\tuiscriptadaptors\scripts\tswiregcompfields.script
+move c:\logs\testexecute\tswiregcompfields.htm e:\testresults\tswiregcompfields.htm
+
 testexecute z:\tswi\tdevcerts\scripts\devcerts_ocsp.script
 move c:\logs\testexecute\devcerts_ocsp.htm e:\testresults\devcerts_ocsp.htm
 
@@ -243,12 +246,16 @@ testexecute z:\tswi\tuiscriptadaptors\scripts\switermination.script
 move c:\logs\testexecute\switermination.htm e:\testresults\switermination.htm
 
 REM Test non removable flag
-testexecute z:\tswi\tuiscriptadaptors\scripts\testnonremovable_armv5.script
-move c:\logs\testexecute\testnonremovable_armv5.htm e:\testresults\testnonremovable_armv5.htm
+testexecute z:\tswi\tuiscriptadaptors\scripts\testnonremovable.script
+move c:\logs\testexecute\testnonremovable.htm e:\testresults\testnonremovable.htm
 
 md c:\tswi\tbackuprestore
 testexecute z:\tswi\tuiscriptadaptors\scripts\tresetdevice.script
 move c:\logs\testexecute\tresetdevice.htm e:\testresults\tresetdevice.htm
+
+REM Demandpaging  tests
+testexecute z:\tswi\tuiscriptadaptors\scripts\tdempaging_armv5.script
+move c:\logs\testexecute\tdempaging_armv5.htm e:\testresults\tdempaging_armv5.htm
 
 REM DevInfoSupport test
 tdevinfosupport
@@ -267,6 +274,10 @@ move c:\logs\testexecute\tswiconsole.htm e:\testresults\tswiconsole.htm
 REM DEF083628: Orphaned files in protected dirs can be overwritten by untrusted packages
 testexecute z:\tswi\tuiscriptadaptors\scripts\overwriteprivate_positive.script
 move c:\logs\testexecute\overwriteprivate_positive.htm e:\testresults\overwriteprivate_positive.script.htm
+
+REM SWI Observer Tests
+testexecute z:\tswi\tswiobserver\scripts\testswiobserver.script
+copy c:\logs\testexecute\testswiobserver.htm e:\testresults\testswiobserver.htm
 
 testexecute z:\tswi\tautosigning\scripts\tautosigning.script
 copy c:\logs\testexeute\tautosigning.htm e:\testresults\tautosigning.htm
@@ -288,9 +299,12 @@ move c:\logs\testexecute\testsystemcaps.htm e:\testresults\testsystemcaps.htm
 
 testexecute z:\tswi\tuiscriptadaptors\scripts\testusercaps.script
 move c:\logs\testexecute\testusercaps.htm e:\testresults\testusercaps.htm
-REM Demandpaging  tests
-testexecute z:\tswi\tuiscriptadaptors\scripts\tdempaging_armv5.script
-move c:\logs\testexecute\tdempaging_armv5.htm e:\testresults\tdempaging_armv5.htm
+
+testexecute z:\tswi\tuiscriptadaptors\scripts\testusercaps_nousergrantcaps_hw.script
+move c:\logs\testexecute\testusercaps_nousergrantcaps_hw.htm e:\testresults\testusercaps_nousergrantcaps_hw.htm
+
+testexecute z:\tswi\tuiscriptadaptors\scripts\testasynccancel.script
+move c:\logs\testexecute\testasynccancel.htm e:\testresults\testasynccancel.htm
 
 REM CR0914Tests
 testexecute z:\tswi\tsisregistrytest\scripts\integritychecktest.script
@@ -300,9 +314,17 @@ REM NQP Tests for DataProvider
 testexecute z:\tswi\tdataprovider\scripts\tdataprovider.script
 move c:\logs\testexecute\tdataprovider.htm e:\testresults\tdataprovider.htm
 
-REM SWI Observer Tests
-testexecute z:\tswi\tswiobserver\scripts\testswiobserver.script
-copy c:\logs\testexecute\testswiobserver.htm e:\testresults\testswiobserver.htm
+REM SWI Adorned filename handling tests
+testexecute.exe z:\tswi\tuiscriptadaptors\scripts\adornedfilenames.script
+copy c:\logs\testexecute\adornedfilenames.htm e:\testresults\adornedfilenames.htm
+
+REM Tests for Post manufacture installation of a Layered Execution Environment
+testexecute z:\tswi\tuiscriptadaptors\scripts\tswtype.script
+move c:\logs\testexecute\tswtype.htm e:\testresults\tswtype.htm
+
+REM SISREgistry performance tests are run last as they modify the registry directly and can impact later tests
+testexecute z:\tswi\tsisregistrytest\scripts\tsisregistry_performance.script
+move c:\logs\testexecute\tsisregistry_performance.htm e:\testresults\tsisregistry_performance.htm
 
 del c:\temp\*.*
 attrib c:\tswi\*.* -r

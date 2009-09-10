@@ -17,6 +17,7 @@
 
 
 #include "pkcs12.h"
+#include "pkcs7signedobject.h"
 
 using namespace PKCS12;
 
@@ -235,3 +236,20 @@ EXPORT_C const CDecPkcs12MacData* CDecPkcs12::MacData() const
 	{
 	return iMacData;
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

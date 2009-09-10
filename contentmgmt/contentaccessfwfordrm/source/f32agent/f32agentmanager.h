@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file
  @internalComponent
@@ -73,10 +71,15 @@ namespace ContentAccess
 		virtual TInt GetAttributeSet(RAttributeSet& aAttributeSet, const TVirtualPathPtr& aVirtualPath);
 		virtual TInt GetStringAttributeSet(RStringAttributeSet& aAttributeSet, const TVirtualPathPtr& aVirtualPath);
 		virtual TInt GetStringAttribute(TInt aAttribute, TDes& aValue, const TVirtualPathPtr& aVirtualPath);
+		virtual TInt GetAttribute(TInt aAttribute, TInt& aValue, RFile& aFile, const TDesC& aUniqueId);
+		virtual TInt GetAttributeSet(RAttributeSet& aAttributeSet, RFile& aFile, const TDesC& aUniqueId);	
+		virtual TInt GetStringAttributeSet(RStringAttributeSet& aStringAttributeSet, RFile& aFile, const TDesC& aUniqueId);
+		virtual TInt GetStringAttribute(TInt aAttribute, TDes& aValue, RFile& aFile, const TDesC& aUniqueId);
 		virtual void NotifyStatusChange(const TDesC& aURI, TEventMask aMask, TRequestStatus& aStatus);
 		virtual TInt CancelNotifyStatusChange(const TDesC& aURI, TRequestStatus& aStatus);
 		virtual TInt SetProperty(TAgentProperty aProperty, TInt aValue);	
 		virtual void DisplayInfoL(TDisplayInfo aInfo, const TVirtualPathPtr& aVirtualPath);
+		virtual void DisplayInfoL(TDisplayInfo aInfo, RFile& aFile, const TDesC& aUniqueId);
 		virtual TBool IsRecognizedL(const TDesC& aURI, TContentShareMode aShareMode) const;
 		virtual TBool IsRecognizedL(RFile& aFile) const;
 		virtual TBool RecognizeFileL(const TDesC& aFileName, const TDesC8& aBuffer, TDes8& aFileMimeType, TDes8& aContentMimeType) const;

@@ -73,6 +73,9 @@ void CKeytoolUsage::DoCommandL(CUnifiedKeyStore& /*aKeyStore*/, CKeyToolParamete
 		// Display general usage!
         iController->DisplayLocalisedMsgL(R_KEYTOOL_USAGE);
         iController->DisplayLocalisedMsgL(R_KEYTOOL_USAGE2);
+#ifdef SYMBIAN_AUTH_SERVER
+        iController->DisplayLocalisedMsgL(R_KEYTOOL_USAGE5);
+#endif // SYMBIAN_AUTH_SERVER
         iController->DisplayLocalisedMsgL(R_KEYTOOL_USAGE3);		        
         iController->DisplayLocalisedMsgL(R_KEYTOOL_USAGE4);
         return;
@@ -151,6 +154,22 @@ void CKeytoolUsage::DoCommandL(CUnifiedKeyStore& /*aKeyStore*/, CKeyToolParamete
         iController->DisplayLocalisedMsgL(R_KEYTOOL_USAGE_KEYACCESS);
         iController->DisplayLocalisedMsgL(R_KEYTOOL_USAGE_KEYACCESSES);	        
 		}
+	
+#ifdef KEYTOOL
+	else if( !aParam->iDefault->Compare(_L("migratestore")) )
+		{
+		iController->DisplayLocalisedMsgL(R_KEYTOOL_USAGE_MIGRATE);
+		iController->DisplayLocalisedMsgL(R_KEYTOOL_USAGE_MIGRATE1);
+		iController->DisplayLocalisedMsgL(R_KEYTOOL_USAGE_MIGRATE2);
+		iController->DisplayLocalisedMsgL(R_KEYTOOL_USAGE_MIGRATE3);
+		iController->DisplayLocalisedMsgL(R_KEYTOOL_USAGE_MIGRATE4);
+		iController->DisplayLocalisedMsgL(R_KEYTOOL_USAGE_MIGRATE5);
+		iController->DisplayLocalisedMsgL(R_KEYTOOL_USAGE_MIGRATE6);
+		iController->DisplayLocalisedMsgL(R_KEYTOOL_USAGE_MIGRATE7);
+		iController->DisplayLocalisedMsgL(R_KEYTOOL_USAGE_MIGRATE8);
+		iController->DisplayLocalisedMsgL(R_KEYTOOL_USAGE_MIGRATE9);
+		}
+#endif // KEYTOOL
 	else
 		{
         iController->DisplayLocalisedMsgL(R_KEYTOOL_USAGE);

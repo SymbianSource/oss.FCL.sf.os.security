@@ -76,3 +76,4 @@ EXPORT_C HBufC8* InputExtra::ReadFilesLC(CDesCArray& aFilenames, const TDesC& aP
 		}
 	return res;
 	}
+

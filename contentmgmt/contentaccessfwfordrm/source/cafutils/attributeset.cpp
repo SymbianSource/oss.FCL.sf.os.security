@@ -17,8 +17,8 @@
 
 
 #include <s32strm.h>
-#include "attributeset.h"
-#include "caferr.h"
+#include <caf/attributeset.h>
+#include <caf/caferr.h>
 
 using namespace ContentAccess;
 

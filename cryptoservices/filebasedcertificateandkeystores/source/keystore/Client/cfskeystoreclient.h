@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file 
  @internalTechnology
@@ -27,9 +25,9 @@
 #ifndef __CFSKEYSTORECLIENT_H__
 #define __CFSKEYSTORECLIENT_H__
 
-#include <CFSClient.h>
+#include "CFSClient.h"
 #include <mctkeystoremanager.h>
-#include <rmpointerarray.h>
+#include <ct/rmpointerarray.h>
 #include "CKeyStoreAuthObject.h"
 
 /** Maximum allowed size of digest to RSA sign (implied by max 2048 bit key length). */
@@ -114,8 +112,38 @@ public:
 	virtual void SetPassphraseTimeout(TInt aTimeout, TRequestStatus& aStatus);
 	virtual void CancelSetPassphraseTimeout();	
 	virtual void Relock(TRequestStatus& aStatus);
-	virtual void CancelRelock();	
+	virtual void CancelRelock();
 
+#ifdef SYMBIAN_AUTH_SERVER
+
+	virtual void CreateKey(	const TDesC& aAuthenticationString, 
+							TInt aFreshness,
+							CCTKeyInfo*& aReturnedKey,
+							TRequestStatus& aStatus );
+
+	virtual void ImportKey( const TDesC8& aKey, 
+							const TDesC& aAuthenticationString, 
+							TInt aFreshness, CCTKeyInfo*& aReturnedKey, 
+							TRequestStatus& aStatus );
+			
+
+	virtual void ImportEncryptedKey(const TDesC8& aKey, 
+									const TDesC& aAuthenticationString, 
+									TInt aFreshness, CCTKeyInfo*& aReturnedKey, 
+									TRequestStatus& aStatus );
+	
+	virtual void SetAuthenticationPolicy(	const TCTTokenObjectHandle aHandle,
+											const TDesC& aAuthenticationString,
+											TInt aFreshness,
+											TRequestStatus& aStatus);
+
+	virtual void GetAuthenticationPolicy(	const TCTTokenObjectHandle aHandle,
+											HBufC*& aAuthenticationString,
+											TInt& aFreshness,
+											TRequestStatus& aStatus);
+
+#endif // SYMBIAN_AUTH_SERVER
+	
 	void ReleaseObject(const TCTTokenObjectHandle& aObject);
 public:	
 //	*********************************************************************************
@@ -166,6 +194,12 @@ private:
 	void DoGetKeyInfoL(TCTTokenObjectHandle aHandle, CCTKeyInfo*& aInfo);
 	TInt DoOpenKey(TFSTokenMessages aMessage, const TCTTokenObjectHandle& aHandle, COpenedKey* aOpenedKey);
 	void DoImportKey(TFSTokenMessages aMessage, const TDesC8& aKey, CCTKeyInfo*& aReturnedKey, TRequestStatus& aStatus);
+	void DoImportUserKey(	TFSTokenMessages aMessage, 
+							const TDesC8& aKey, 
+							CCTKeyInfo*& aReturnedKey,
+							const TDesC& aAuthExpression,
+							TInt aFreshness,
+							TRequestStatus& aStatus);
 	void DoExportPublicL(const TCTTokenObjectHandle& aHandle, HBufC8*& aPublicKey);
 	TInt MarshalKeyInfo(CCTKeyInfo& aKey);
 	void Process(const TCTTokenObjectHandle& aHandle,const TDesC8& aText,TFSTokenMessages aMessage,TRequestStatus& aStatus,TInt aBufSize);
@@ -205,6 +239,13 @@ private:
 	CKeyStoreAuthObject* iAuthObject;   ///< The single auth object that serves as protector for all keys
 	CDHParams* iDHParams;				///< DH params for DH public key
 	HBufC8* iPbeParamsBuf;				///< Buffer holding PBE parameters for encrypted key export
+
+#ifdef SYMBIAN_AUTH_SERVER
+	TBool iUseNewKeyServer;
+	HBufC* iAuthExpression;
+	TInt iFreshness;
+#endif // SYMBIAN_AUTH_SERVER
+	
 };
 
 #endif	//	__CFSKEYSTORECLIENT_H__

@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file
  @internalComponent
@@ -171,3 +169,4 @@ public:
 	};
 
 #endif // CMSUTILS_H
+

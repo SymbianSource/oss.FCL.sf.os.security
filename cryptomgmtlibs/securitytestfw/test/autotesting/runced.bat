@@ -13,6 +13,5 @@
 @rem
 @rem Description: 
 @rem
-rem Import the specified commdb file
 
 call \epoc32\release\winscw\udeb\ced -dtextshell -- -i %1

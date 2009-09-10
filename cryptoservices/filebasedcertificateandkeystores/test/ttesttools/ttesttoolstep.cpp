@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file
 */
@@ -177,7 +175,7 @@ TVerdict CTestToolListCertStep::doTestStepL()
 
 	if (iVerdict == EFail)
 		{
-		INFO_PRINTF1(_L("Exptected Certificate is not Exist"));
+		INFO_PRINTF1(_L("Expected Certificate does not Exist"));
 		}
 	SetTestStepResult(iVerdict);
 
@@ -419,7 +417,7 @@ TVerdict CTestToolListKeyStep::doTestStepL()
 
 	if (iVerdict == EFail)
 		{
-		INFO_PRINTF1(_L("Exptected Keys are not Exist"));
+		INFO_PRINTF1(_L("Expected Keys do not Exist"));
 		}
 	SetTestStepResult(iVerdict);
 	
@@ -927,6 +925,58 @@ TVerdict CTestToolGetTrustStep::doTestStepPostambleL()
 	return TestStepResult();
 	}
 
-;
+CTestToolCheckFileStep::CTestToolCheckFileStep()
+	{}
 
+CTestToolCheckFileStep::~CTestToolCheckFileStep()
+	{}
+
+TVerdict CTestToolCheckFileStep::doTestStepPreambleL()
+	{
+	if (!GetStringFromConfig(ConfigSection(), KFileName,iFileName))
+		{
+		INFO_PRINTF1(_L("file name is missing"));
+		SetTestStepResult(EFail);
+		}
+	if (!GetStringFromConfig(ConfigSection(), KCheckType,iCheckType))
+		{
+		INFO_PRINTF1(_L("chek type for file is missing"));
+		SetTestStepResult(EFail);
+		}
+	return TestStepResult();
+	}
+
+TVerdict CTestToolCheckFileStep::doTestStepPostambleL()
+	{
+	return TestStepResult();
+	}
+
+TVerdict CTestToolCheckFileStep::doTestStepL()
+	{
+	if (TestStepResult() != EPass)
+		{
+		return TestStepResult();
+		}
+	
+	RFs fs;
+	User::LeaveIfError(fs.Connect());
+	CleanupClosePushL(fs);
+	RFile file;
+	CleanupClosePushL(file);
+	
+	TInt error = file.Open(fs,iFileName,EFileRead);
+	if( ( iCheckType.Compare(_L("present")) == 0 && error == KErrNone ) || 	
+		( iCheckType.Compare(_L("absent")) == 0 && error == KErrNotFound )
+		)
+		{
+		SetTestStepResult(EPass);
+		}
+	else
+		{
+		SetTestStepResult(EFail);
+		}
+	
+	CleanupStack::PopAndDestroy(2,&fs); // file
+	return TestStepResult();
+	}
 // End of file

@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file
  @internalComponent - Internal Symbian test code 

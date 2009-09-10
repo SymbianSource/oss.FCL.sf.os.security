@@ -16,10 +16,8 @@
 */
 
 
-
-
 /**
- @file step.cpp
+ @file
 */
 #include "step.h"
 #include "testexecuteinterface.h"
@@ -86,3 +84,4 @@ void CStepConsole::Write(const TDesC& aDes)
 	{
 	iStep->Write(aDes);
 	}
+

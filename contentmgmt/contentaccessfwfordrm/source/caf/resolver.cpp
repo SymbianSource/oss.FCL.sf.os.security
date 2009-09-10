@@ -20,13 +20,13 @@
 #include <ecom/ecom.h>
 
 #include "resolver.h"
-#include "agentfactory.h"
-#include "agentinterface.h"
+#include <caf/agentfactory.h>
+#include <caf/agentinterface.h>
 #include "agentinfo.h"
-#include "agent.h"
-#include "cafpanic.h"
-#include "caferr.h"
-#include "patchdata.h"
+#include <caf/agent.h>
+#include <caf/cafpanic.h>
+#include <caf/caferr.h>
+#include <caf/patchdata.h>
 
 
 using namespace ContentAccess;

@@ -166,6 +166,17 @@ void CKeyToolController::HandleCommandL(TInt aCommand, CKeyToolParameters* aPara
 			CActiveScheduler::Start();
 			}
 			break;		
+			
+#ifdef KEYTOOL
+		case KMigrateStore:
+			{
+			iEngine->MigrateStoreL(aParam);
+			CActiveScheduler::Start();
+			break;
+			}
+			
+#endif // KEYTOOL
+			
 		default:
 			{
 			DisplayLocalisedMsgL(R_KEYTOOL_ERR_COMMAND);

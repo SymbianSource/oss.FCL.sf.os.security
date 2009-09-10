@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file 
  @internalTechnology
@@ -53,3 +51,4 @@ _LIT16(KStreet,"Street");
 const TDesC16& GetType(const TDesC16& aType);
 
 #endif
+

@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file 
  @internalTechnology
@@ -27,7 +25,7 @@
 #ifndef __CSWICERTSTORETOKEN_H__
 #define __CSWICERTSTORETOKEN_H__
 
-#include <mcttoken.h>
+#include <ct/mcttoken.h>
 
 class CSWICertStore;
 class CCTTokenType;

@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file
  @publishedPartner
@@ -150,3 +148,4 @@ namespace ContentAccess
 #endif // REMOVE_CAF1
 
 #endif // __ATTRIBUTE_H__
+

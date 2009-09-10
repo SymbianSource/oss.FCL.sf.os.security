@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file 
  @internalTechnology
@@ -27,7 +25,7 @@
 #define VALIDATETESTSTEP_H
 
 #include "pkixcertstepbase.h"
-#include <pkixCertChain.h>
+#include <pkixcertchain.h>
 #include <securitydefs.h>
 #include <x509certchain.h>
 #include <e32std.h>

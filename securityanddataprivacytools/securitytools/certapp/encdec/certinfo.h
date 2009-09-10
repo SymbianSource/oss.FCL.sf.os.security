@@ -1,6 +1,5 @@
 #ifndef __CERTINFO_H__
-#define __CERTINFO_H__
-/*
+#define __CERTINFO_H__/*
 * Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available

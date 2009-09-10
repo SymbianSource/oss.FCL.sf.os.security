@@ -17,7 +17,7 @@
 
 
 #include <s32strm.h>
-#include "EmbeddedObject.h"
+#include <caf/embeddedobject.h>
 #include "cafutils.h"
 
 using namespace ContentAccess;
@@ -132,3 +132,4 @@ void CEmbeddedObject::InternalizeL(RReadStream& aStream)
 		iName=NULL;
 		}
 	}
+

@@ -13,8 +13,6 @@
 @rem
 @rem Description: 
 @rem
-rem Compilations needed in order to compile filetokens test code
-rem =========================================================
  
 call cd %SECURITYSOURCEDIR%\os\security\cryptomgmtlibs\securitytestfw\group
 call bldmake bldfiles 

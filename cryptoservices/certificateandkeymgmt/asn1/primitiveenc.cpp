@@ -19,7 +19,7 @@
 
 #include <asn1enc.h>
 
-CASN1EncPrimitive::CASN1EncPrimitive(const TTagType aType)
+EXPORT_C CASN1EncPrimitive::CASN1EncPrimitive(const TTagType aType)
 : CASN1EncBase(aType, EUniversal)
 	{
 	}

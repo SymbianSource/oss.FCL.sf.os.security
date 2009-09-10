@@ -34,3 +34,4 @@ See Symbian OS Developer Library documentation on how to patch DLL data exports.
 @released
 */
 IMPORT_C extern const TUint8 KCafLoadPostProductionAgents;
+

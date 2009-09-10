@@ -16,15 +16,13 @@
 */
 
 
-
-
 /**
  @file 
 */
 
 #ifndef SECURITYFRAMEWORKTESTSERVER_H
 #define SECURITYFRAMEWORKTESTSERVER_H
-#include <testexecuteserverbase.h>
+#include <test/testexecuteserverbase.h>
 
 class CSecurityFrameworkTestServer : public CTestServer
 	{

@@ -321,3 +321,4 @@ void SwiBadCertStoreConfigWriter::WriteSwiEntry(const char *aBadLabel,
 }
 
 // End of file
+

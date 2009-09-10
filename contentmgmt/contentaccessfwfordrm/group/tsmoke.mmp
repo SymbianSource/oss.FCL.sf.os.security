@@ -20,7 +20,7 @@ TARGET		t_smoke.exe
 TARGETTYPE		EXE
 
 MACRO		NEW_CRYPTO_API
-SOURCEPATH	../../../../../mw/appsupport/contenthandling/referencedrmagent/tsmoke
+SOURCEPATH	../../referencedrmagent/tsmoke
 
 SOURCE		smoke.cpp
 
@@ -33,3 +33,4 @@ SYSTEMINCLUDE	/epoc32/include/ecom
 LIBRARY			euser.lib efsrv.lib ecom.lib caf.lib
 
 VENDORID 0x70000001
+SMPSAFE

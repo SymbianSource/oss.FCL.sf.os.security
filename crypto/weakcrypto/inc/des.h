@@ -19,23 +19,22 @@
 */
 
 
-
-
 /**
  @file 
- @internalAll
+ @publishedPartner
+ @released 
 */
  
 #ifndef __DATAENCRYPTIONSTANDARD_H__
 #define __DATAENCRYPTIONSTANDARD_H__
 
 #include "blocktransformation.h"
+#ifndef SYMBIAN_ENABLE_SPLIT_HEADERS
 #include <securityerr.h>
+#endif
 
 /** The size of the key schedule array (in 32-bit words).
 * 
-* @publishedPartner
-* @released 
 */
 const TUint KDESScheduleSizeInWords = 32;
 
@@ -43,8 +42,6 @@ const TUint KDESScheduleSizeInWords = 32;
 * Abstract base class for DES, implementing features common between DES encryption and
 * decryption. From CBlockTransformation
 * 
-* @publishedPartner
-* @released 
 */
 class CDES : public CBlockTransformation
 {
@@ -90,8 +87,6 @@ protected:
 /**
 * Concrete class for DES encryption.
 * 
-* @publishedPartner
-* @released 
 */
 class CDESEncryptor : public CDES
 {
@@ -136,8 +131,6 @@ private:
 /**
 * Concrete class for DES decryption.
 *
-* @publishedPartner
-* @released 
 */
 class CDESDecryptor : public CDES
 {

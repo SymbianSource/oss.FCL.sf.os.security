@@ -20,7 +20,7 @@
 */
 
 
-#include "registryinfo.rh"
+#include <ecom/registryinfo.rh>
 RESOURCE REGISTRY_INFO r_registry
 {
 	dll_uid = 0x000047EB;

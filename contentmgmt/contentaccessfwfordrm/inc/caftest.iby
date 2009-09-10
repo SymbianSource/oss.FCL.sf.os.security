@@ -15,7 +15,6 @@
 *
 */
 
-
 #ifndef __CAFTEST_IBY__
 #define __CAFTEST_IBY__
 
@@ -27,6 +26,9 @@ file=ABI_DIR\BUILD_DIR\contentiterator.dll	System\Libs\contentiterator.dll
 ECOM_PLUGIN(testagent.dll,101fe8f1.rsc)
 
 data = DATAZ_\tcaf\tcaf.script					tcaf\tcaf.script
+data = DATAZ_\tcaf\tcafnodrmcap.script			tcaf\tcafnodrmcap.script
+data = DATAZ_\tcaf\nodrmcapsteps.ini			tcaf\nodrmcapsteps.ini
+data = DATAZ_\tcaf\nodrmcapsteps.script			tcaf\nodrmcapsteps.script
 data = DATAZ_\tcaf\performance.script			tcaf\performance.script
 data = DATAZ_\tcaf\performance.ini				tcaf\performance.ini
 data = DATAZ_\tcaf\managerstep.script			tcaf\managerstep.script
@@ -34,6 +36,9 @@ data = DATAZ_\tcaf\managerstep.ini				tcaf\managerstep.ini
 data = DATAZ_\tcaf\rightsmanagerstep.script		tcaf\rightsmanagerstep.script
 data = DATAZ_\tcaf\rightsmanagerstep.ini		tcaf\rightsmanagerstep.ini
 data = DATAZ_\tcaf\consumerstep.script			tcaf\consumerstep.script
+#ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+data = DATAZ_\tcaf\consumerstep_64bit.script			tcaf\consumerstep_64bit.script
+#endif // SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
 data = DATAZ_\tcaf\drmfileperformance_armv5.script			tcaf\drmfileperformance_armv5.script
 data = DATAZ_\tcaf\consumerstep.ini				tcaf\consumerstep.ini
 data = DATAZ_\tcaf\recognize.script				tcaf\recognize.script
@@ -63,8 +68,8 @@ data = DATAZ_\tcaf\testdata\Insttest.jad		tcaf\testdata\Insttest.jad
 data = DATAZ_\tcaf\testdata\good.gif			tcaf\testdata\good.gif
 data = DATAZ_\tcaf\testdata\error.gif			tcaf\testdata\error.gif
 data = DATAZ_\tcaf\testdata\picture.jpg			tcaf\testdata\picture.jpg
-data = DATAZ_\tcaf\testdata\Audio.content		tcaf\testdata\Audio.content
-data = DATAZ_\tcaf\testdata\Audiomulti.content	tcaf\testdata\Audiomulti.content
+data = DATAZ_\tcaf\testdata\audio.content		tcaf\testdata\audio.content
+data = DATAZ_\tcaf\testdata\audiomulti.content	tcaf\testdata\audiomulti.content
 data = DATAZ_\tcaf\testdata\notes1.txt			tcaf\testdata\notes1.txt
 
 #endif

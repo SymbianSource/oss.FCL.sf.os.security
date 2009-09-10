@@ -615,3 +615,4 @@ EXPORT_C HBufC8* CServerAuthenticationFailureInput::PackBufferL() const
 	
 	return packedBuffer;
 	}
+

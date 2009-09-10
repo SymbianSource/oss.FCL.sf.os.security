@@ -145,3 +145,4 @@ EXPORT_C TASN1Class TASN1DecGeneric::Class() const
 	{
 	return iClass;
 	}
+

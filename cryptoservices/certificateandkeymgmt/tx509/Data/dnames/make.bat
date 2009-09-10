@@ -13,7 +13,6 @@
 @rem
 @rem Description: 
 @rem
-rem Generates a set of X.509 certificates where the issuer names are in different cases and in different string encodings utf8, printablestring etc
 
 del *.pem *.cer *.der /q
 for %%i in (*.cnf) do d:\openssl\bin\openssl req -x509 -newkey rsa:1024 -keyout %%~ni_key.pem -passout pass:pass -outform der -out %%~ni.der -set_serial 1 -config .\%%i

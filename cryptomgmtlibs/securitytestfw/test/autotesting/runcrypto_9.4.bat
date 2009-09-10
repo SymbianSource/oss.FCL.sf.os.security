@@ -13,7 +13,6 @@
 @rem
 @rem Description: 
 @rem
-REM hash
 copy /s z:\thash\ c:\thash\
 thash
 move c:\hashlog.txt c:\testresults\

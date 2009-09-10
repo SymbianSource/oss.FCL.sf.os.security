@@ -13,8 +13,6 @@
 @rem
 @rem Description: 
 @rem
-rem Create a backup of the original JavaHelper.rsc
-rem We can't backup to the C drive because this is backed up and restored separately in a conflicting manner.
 if not exist \epoc32\release\winscw\udeb\z\Resource\JavaHelper\JavaHelper.rsc.original copy \epoc32\release\winscw\udeb\z\Resource\JavaHelper\JavaHelper.rsc \epoc32\release\winscw\udeb\z\Resource\JavaHelper\JavaHelper.rsc.original
 if not exist \epoc32\release\winscw\urel\z\Resource\JavaHelper\JavaHelper.rsc.original copy \epoc32\release\winscw\urel\z\Resource\JavaHelper\JavaHelper.rsc \epoc32\release\winscw\urel\z\Resource\JavaHelper\JavaHelper.rsc.original
 

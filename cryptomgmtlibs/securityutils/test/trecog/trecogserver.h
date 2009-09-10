@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file
  @internalComponent - Internal Symbian test code 
@@ -27,9 +25,9 @@
 #ifndef __TRECOGSERVER_H__
 #define __TRECOGSERVER_H__
 
-#include <testexecutestepbase.h>
-#include <testexecuteserverbase.h>
-#include <testexecutelog.h>
+#include <test/testexecutestepbase.h>
+#include <test/testexecuteserverbase.h>
+#include <test/testexecutelog.h>
 
 class CRecogServer : public CTestServer
 	{
@@ -43,3 +41,5 @@ private:
 
 	};
 #endif
+
+

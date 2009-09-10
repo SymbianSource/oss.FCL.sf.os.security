@@ -79,3 +79,4 @@ CAgentRightsManager* CF32AgentFactory::CreateRightsManagerL()
 	User::Panic(KCafPanicString, ECafPanicF32AgentRightManagerNotSupported);
 	return NULL;
 	}
+

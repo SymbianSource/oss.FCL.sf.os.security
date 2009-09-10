@@ -267,3 +267,4 @@ TBool CTestBase::CountTests(TInt &totalTests)
 	// checks if tests correct number of parameters for type
 	return((totalParameters %  iParameters->Count()) == 0);
 	};
+

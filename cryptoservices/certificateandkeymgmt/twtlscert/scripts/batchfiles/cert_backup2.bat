@@ -16,7 +16,7 @@
 
 call \epoc32\winscw\c\twtlscert\scripts\batchfiles\cert_backup1.bat
 
-rem runring \tcertstore\scripts\unifiedcertstore3-conf2.txt 
+rem runring \tcertstore\scripts\unifiedcertstore3-conf2.script 
 cd \
 cd epoc32\release\winscw\udeb
-t_certstore -Dtextshell -- \tcertstore\scripts\unifiedcertstore3-conf2.txt \tcertstore_conf2a.3.txt
+t_certstore -Dtextshell -- \tcertstore\scripts\unifiedcertstore3-conf2.script \logs\testexecute\tcertstore_conf2a.3.htm

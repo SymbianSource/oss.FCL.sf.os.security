@@ -14,6 +14,7 @@
 * Description: 
 *
 */
+
 /**
 @file
 
@@ -51,3 +52,4 @@ LIBRARY	euser.lib estor.lib efsrv.lib x509.lib
 LIBRARY wtlscert.lib
 LIBRARY ctframework.lib
 LIBRARY certstore.lib
+SMPSAFE

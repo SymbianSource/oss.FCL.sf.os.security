@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file 
  @internalTechnology
@@ -42,4 +40,4 @@
 
 #include "padding.h"
 
-#endif 	// __SYMMETRIC_H__
+#endif // __SYMMETRIC_H__

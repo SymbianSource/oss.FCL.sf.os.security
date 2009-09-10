@@ -22,6 +22,10 @@
 #include "CFSCertStoreClient.h"
 #include "CFSCertAppsClient.h"
 
+#include <mctkeystoreuids.h>
+
+
+
 /*static*/ MCTTokenInterface* CClientInterfaceFactory::ClientInterfaceL(TInt32 aUid, MCTToken& aToken, RFileStoreClientSession& aClient)
 {
 	MCTTokenInterface* tokenInterface = NULL;	

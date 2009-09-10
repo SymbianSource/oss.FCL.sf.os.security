@@ -415,3 +415,27 @@ HBufC8* CmsUtils::CreateDEREncodingLC(const CASN1EncBase& aEncoding)
 	aEncoding.WriteDERL(bufptr, pos);
 	return buf;
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

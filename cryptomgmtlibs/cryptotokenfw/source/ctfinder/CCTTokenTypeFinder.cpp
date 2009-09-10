@@ -17,10 +17,11 @@
 
 
 #include <e32base.h>
-#include <ecom.h>
+#include <ecom/ecom.h>
 #include "ct/ccttokentype.h"
 #include "ct/ccttokentypeinfo.h"
 #include "ct/interfaceuid.hrh"
+#include "cttokentypedeletehandler.h"
 
 const TUid KInterfaceUID = {CT_INTERFACE_UID};
 

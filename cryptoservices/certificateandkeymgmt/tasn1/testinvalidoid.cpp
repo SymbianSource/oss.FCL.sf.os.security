@@ -152,3 +152,4 @@ TBool CTestInvalidOID::PerformTestsL(CConsoleBase& aConsole)
 	
 	return(ETrue);
 	}
+

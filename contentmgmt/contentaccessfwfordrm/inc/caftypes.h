@@ -18,8 +18,6 @@
 */
 
 
-
-
 /**
  @file
  @publishedPartner
@@ -256,3 +254,4 @@ namespace ContentAccess
 	}
 
 #endif // __CAF_H__
+

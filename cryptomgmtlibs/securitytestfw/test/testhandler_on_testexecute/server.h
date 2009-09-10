@@ -18,15 +18,13 @@
 
 
 
-
-
 /**
- @file server.h
+ @file
 */
 #ifndef __SERVER_H__
 #define __SERVER_H__
 
-#include <testexecuteserverbase.h>
+#include <test/testexecuteserverbase.h>
 
 struct TScriptTests;
 

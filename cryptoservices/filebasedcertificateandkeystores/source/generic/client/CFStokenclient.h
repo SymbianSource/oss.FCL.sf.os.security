@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file 
  @internalTechnology
@@ -28,7 +26,7 @@
 #define	__CFSTOKENCLIENT_H__
 
 #include "clientsession.h"
-#include <tokentypesenum.h>
+#include "tokentypesenum.h"
 #include <ct.h>
 
 //!	Filetokens client side representation of MCTToken, provides client-side reference counting

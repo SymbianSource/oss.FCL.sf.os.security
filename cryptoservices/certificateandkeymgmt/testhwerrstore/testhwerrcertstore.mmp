@@ -14,6 +14,7 @@
 * Description: 
 *
 */
+
 /**
 @file
 
@@ -42,4 +43,5 @@ end
 
 LIBRARY	euser.lib
 LIBRARY ctframework.lib
+SMPSAFE
 

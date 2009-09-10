@@ -17,15 +17,13 @@
 */
 
 
-
-
 /**
  @file 
  @internalTechnology
 */
  
 // System Include
-#include <testexecutelog.h>
+#include <test/testexecutelog.h>
 
 //User Include 
 #include "tpkcs12libteststep.h"
@@ -1427,3 +1425,5 @@ TBool CPKCS12LibTestStep::ChkEncodedBagValL(TDesC &aSecName,CSafeBagData &aBagDa
 	CleanupStack::PopAndDestroy(&file);
 	return flagReturn;
 	}
+
+

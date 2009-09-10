@@ -96,6 +96,19 @@ public:
 	 * After the test, this will be ETrue if the test succeeded or EFalse otherwise.
 	 */
 	TBool iResult;
+	
+
+	/**
+	 * Inidicates if it s .script file
+	 */
+	TBool iTefScript;
+	
+	/**
+	 * Denote a failure of any RUNTESTSTEP within a single TESTCASE
+	 * */
+	TBool iRunningResult;
+	
+	
 	/**
 	*	Indicates whether the test will fail because of known deferred defects etc
 	*/

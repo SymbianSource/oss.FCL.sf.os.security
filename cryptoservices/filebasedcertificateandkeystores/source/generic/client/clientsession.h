@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file 
  @internalTechnology
@@ -27,7 +25,7 @@
 #ifndef __TOKENTYPECLIENTSESSION_H__
 #define __TOKENTYPECLIENTSESSION_H__
 
-#include <fstokencliserv.h>
+#include "fstokencliserv.h"
 #include <e32base.h>
 
 //	THIS FILE IS NOT TO BE EDITED FOR TEST CODE PURPOSES!!!

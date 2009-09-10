@@ -25,3 +25,4 @@ GLDEF_C void Panic(TInt aPanic)
 	{
 	User::Panic(_L("ASN1"), aPanic);
 	}
+

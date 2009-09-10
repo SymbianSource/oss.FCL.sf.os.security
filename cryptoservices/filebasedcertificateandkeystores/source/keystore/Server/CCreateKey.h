@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file 
  @internalTechnology
@@ -49,7 +47,7 @@ public:
 	CKeyCreator();
 	~CKeyCreator();
 public:	//	Spin a thread to create an appropriate key, if successful, left on CleanupStack
-	void DoCreateKeyAsyncL(CKeyInfo::EKeyAlgorithm aAlgorithm, TInt aSize, TRequestStatus& aStatus);
+	void DoCreateKeyAsync(CKeyInfo::EKeyAlgorithm aAlgorithm, TInt aSize, TRequestStatus& aStatus);
 public:
 //	JCS this needs improvement when new crypto api is reviewed
 	CRSAKeyPair* GetCreatedRSAKey();

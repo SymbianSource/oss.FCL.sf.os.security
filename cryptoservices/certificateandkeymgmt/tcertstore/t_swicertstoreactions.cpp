@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file
 */
@@ -31,7 +29,7 @@
 #include "t_certstoreout.h"
 #include "t_input.h"
 #include <swicertstore.h>
-#include "testutilsdpclient.h"
+#include "testutilclient.h"
 
 TBool operator==(const TCapabilitySet& a, const TCapabilitySet& b)
 	{

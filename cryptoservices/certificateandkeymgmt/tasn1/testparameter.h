@@ -19,8 +19,6 @@
 
 
 
-
-
 /**
  @file
 */
@@ -124,3 +122,4 @@ private:
 };
 
 #endif // !defined(AFX_TESTPARAMETER_H__95894347_8529_11D6_AB96_00080214A261__INCLUDED_)
+

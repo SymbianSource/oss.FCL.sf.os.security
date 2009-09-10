@@ -16,11 +16,9 @@
 */
 
 
-
-
 /**
  @file
- @publishedAll
+ @publishedPartner
  @released
 */
 
@@ -36,8 +34,6 @@ class MCTToken;
  * framework. (Interfaces themselves are not reference counted, but the token 
  * must remain open while it has open interfaces.) 
  *
- * @publishedPartner
- * @released
  * @since v7.0 
  */
 class MCTTokenInterface

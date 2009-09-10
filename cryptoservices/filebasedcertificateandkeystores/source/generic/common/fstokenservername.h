@@ -18,8 +18,6 @@
 */
 
 
-
-
 /**
  @file 
  @internalTechnology
@@ -32,5 +30,8 @@
 
 // Define the server name
 _LIT(KFSTokenServerName, "!FSTokenServer");
+#ifdef SYMBIAN_AUTH_SERVER
+_LIT(KFSNewTokenServerName, "!FSTokenServer_useauth");
+#endif // SYMBIAN_AUTH_SERVER
 
 #endif

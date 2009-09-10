@@ -13,7 +13,6 @@
 @rem
 @rem Description: 
 @rem
-REM Test the keytool 
 
 \epoc32\release\winscw\udeb\keytool
 

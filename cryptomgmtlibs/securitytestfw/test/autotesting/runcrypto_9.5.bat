@@ -13,7 +13,6 @@
 @rem
 @rem Description: 
 @rem
-REM Embedded keys
 temb
 move c:\temblog.txt c:\testresults\
 move c:\testresults\temblog.txt e:\testresults\temblog.txt
@@ -44,77 +43,102 @@ del /s c:\testdata\tcryptospi\
 
 REM crypto, asymmetric
 
-tasymmetric z:\tasymmetric\tasymmetrictests.txt c:\testresults\tasymmetrictests.log
 REM tasymmetric z:\tasymmetric\asymmetricPerformance.txt c:\testresults\asymmetricPerformance.log
 
-move c:\testresults\tasymmetrictests.log e:\testresults\tasymmetrictests.log
+tasymmetric z:\tasymmetric\tasymmetrictests.script c:\logs\testexecute\tasymmetrictests.htm
+move c:\logs\testexecute\tasymmetrictests.htm e:\testresults\tasymmetrictests.htm
 
 REM crypto, symmetric
 
-tsymmetric z:\tsymmetric\tsymmetrictests.txt c:\testresults\tsymmetrictests.log
-tsymmetric z:\tsymmetric\AESECBVectorsScript.txt c:\testresults\AESECBVectorsScript.log
-tsymmetric z:\tsymmetric\AESECB_KAT_VT.txt c:\testresults\AESECB_KAT_VT.log
-tsymmetric z:\tsymmetric\AESECB_KAT_VK.txt c:\testresults\AESECB_KAT_VK.log
-tsymmetric z:\tsymmetric\AESMonteCarloEncryptECB128.txt c:\testresults\AESMonteCarloEncryptECB128.log
-tsymmetric z:\tsymmetric\AESMonteCarloEncryptECB192.txt c:\testresults\AESMonteCarloEncryptECB192.log
-tsymmetric z:\tsymmetric\AESMonteCarloEncryptECB256.txt c:\testresults\AESMonteCarloEncryptECB256.log
-tsymmetric z:\tsymmetric\AESMonteCarloDecryptECB128.txt c:\testresults\AESMonteCarloDecryptECB128.log
-tsymmetric z:\tsymmetric\AESMonteCarloDecryptECB192.txt c:\testresults\AESMonteCarloDecryptECB192.log
-tsymmetric z:\tsymmetric\AESMonteCarloDecryptECB256.txt c:\testresults\AESMonteCarloDecryptECB256.log
-tsymmetric z:\tsymmetric\AESMonteCarloEncryptCBC128.txt c:\testresults\AESMonteCarloEncryptCBC128.log
-tsymmetric z:\tsymmetric\AESMonteCarloEncryptCBC192.txt c:\testresults\AESMonteCarloEncryptCBC192.log
-tsymmetric z:\tsymmetric\AESMonteCarloEncryptCBC256.txt c:\testresults\AESMonteCarloEncryptCBC256.log
-tsymmetric z:\tsymmetric\AESMonteCarloDecryptCBC128.txt c:\testresults\AESMonteCarloDecryptCBC128.log
-tsymmetric z:\tsymmetric\AESMonteCarloDecryptCBC192.txt c:\testresults\AESMonteCarloDecryptCBC192.log
-tsymmetric z:\tsymmetric\AESMonteCarloDecryptCBC256.txt c:\testresults\AESMonteCarloDecryptCBC256.log
+tsymmetric z:\tsymmetric\tsymmetrictests.script c:\logs\testexecute\tsymmetrictests.htm
+move c:\logs\testexecute\tsymmetrictests.htm e:\testresults\tsymmetrictests.htm
+
+tsymmetric z:\tsymmetric\AESECBVectorsScript.script c:\logs\testexecute\AESECBVectorsScript.htm
+move c:\logs\testexecute\AESECBVectorsScript.htm e:\testresults\AESECBVectorsScript.htm
+
+tsymmetric z:\tsymmetric\AESECB_KAT_VT.script c:\logs\testexecute\AESECB_KAT_VT.htm
+move c:\logs\testexecute\AESECB_KAT_VT.htm e:\testresults\AESECB_KAT_VT.htm
+
+tsymmetric z:\tsymmetric\AESECB_KAT_VK.script c:\logs\testexecute\AESECB_KAT_VK.htm
+move c:\logs\testexecute\AESECB_KAT_VK.htm e:\testresults\AESECB_KAT_VK.htm
+
+tsymmetric z:\tsymmetric\AESMonteCarloEncryptECB128.script c:\logs\testexecute\AESMonteCarloEncryptECB128.htm
+move c:\logs\testexecute\AESMonteCarloEncryptECB128.htm e:\testresults\AESMonteCarloEncryptECB128.htm
+
+tsymmetric z:\tsymmetric\AESMonteCarloEncryptECB192.script c:\logs\testexecute\AESMonteCarloEncryptECB192.htm
+move c:\logs\testexecute\AESMonteCarloEncryptECB192.htm e:\testresults\AESMonteCarloEncryptECB192.htm
+
+tsymmetric z:\tsymmetric\AESMonteCarloEncryptECB256.script c:\logs\testexecute\AESMonteCarloEncryptECB256.htm
+move c:\logs\testexecute\AESMonteCarloEncryptECB256.htm e:\testresults\AESMonteCarloEncryptECB256.htm
+
+tsymmetric z:\tsymmetric\AESMonteCarloDecryptECB128.script c:\logs\testexecute\AESMonteCarloDecryptECB128.htm
+move c:\logs\testexecute\AESMonteCarloDecryptECB128.htm e:\testresults\AESMonteCarloDecryptECB128.htm
+
+tsymmetric z:\tsymmetric\AESMonteCarloDecryptECB192.script c:\logs\testexecute\AESMonteCarloDecryptECB192.htm
+move c:\logs\testexecute\AESMonteCarloDecryptECB192.htm e:\testresults\AESMonteCarloDecryptECB192.htm
+
+tsymmetric z:\tsymmetric\AESMonteCarloDecryptECB256.script c:\logs\testexecute\AESMonteCarloDecryptECB256.htm
+move c:\logs\testexecute\AESMonteCarloDecryptECB256.htm e:\testresults\AESMonteCarloDecryptECB256.htm
+
+tsymmetric z:\tsymmetric\AESMonteCarloEncryptCBC128.script c:\logs\testexecute\AESMonteCarloEncryptCBC128.htm
+move c:\logs\testexecute\AESMonteCarloEncryptCBC128.htm e:\testresults\AESMonteCarloEncryptCBC128.htm
+
+tsymmetric z:\tsymmetric\AESMonteCarloEncryptCBC192A.script c:\logs\testexecute\AESMonteCarloEncryptCBC192A.htm
+move c:\logs\testexecute\AESMonteCarloEncryptCBC192A.htm e:\testresults\AESMonteCarloEncryptCBC192A.htm
+
+tsymmetric z:\tsymmetric\AESMonteCarloEncryptCBC192B.script c:\logs\testexecute\AESMonteCarloEncryptCBC192B.htm
+move c:\logs\testexecute\AESMonteCarloEncryptCBC192B.htm e:\testresults\AESMonteCarloEncryptCBC192B.htm
+
+tsymmetric z:\tsymmetric\AESMonteCarloEncryptCBC256.script c:\logs\testexecute\AESMonteCarloEncryptCBC256.htm
+move c:\logs\testexecute\AESMonteCarloEncryptCBC256.htm e:\testresults\AESMonteCarloEncryptCBC256.htm
+
+tsymmetric z:\tsymmetric\AESMonteCarloDecryptCBC128.script c:\logs\testexecute\AESMonteCarloDecryptCBC128.htm
+move c:\logs\testexecute\AESMonteCarloDecryptCBC128.htm e:\testresults\AESMonteCarloDecryptCBC128.htm
+
+tsymmetric z:\tsymmetric\AESMonteCarloDecryptCBC192.script c:\logs\testexecute\AESMonteCarloDecryptCBC192.htm
+move c:\logs\testexecute\AESMonteCarloDecryptCBC192.htm e:\testresults\AESMonteCarloDecryptCBC192.htm
+
+tsymmetric z:\tsymmetric\AESMonteCarloDecryptCBC256.script c:\logs\testexecute\AESMonteCarloDecryptCBC256.htm
+move c:\logs\testexecute\AESMonteCarloDecryptCBC256.htm e:\testresults\AESMonteCarloDecryptCBC256.htm
 
 
-rem copy logs to mmc card
-move c:\testresults\tsymmetrictests.log e:\testresults\tsymmetrictests.log
-move c:\testresults\AESECBVectorsScript.log e:\testresults\AESECBVectorsScript.log
-move c:\testresults\AESECB_KAT_VT.log e:\testresults\AESECB_KAT_VT.log
-move c:\testresults\AESECB_KAT_VK.log e:\testresults\AESECB_KAT_VK.log
-move c:\testresults\AESMonteCarloEncryptECB128.log e:\testresults\AESMonteCarloEncryptECB128.log
-move c:\testresults\AESMonteCarloEncryptECB192.log e:\testresults\AESMonteCarloEncryptECB192.log
-move c:\testresults\AESMonteCarloEncryptECB256.log e:\testresults\AESMonteCarloEncryptECB256.log
-move c:\testresults\AESMonteCarloDecryptECB128.log e:\testresults\AESMonteCarloDecryptECB128.log
-move c:\testresults\AESMonteCarloDecryptECB192.log e:\testresults\AESMonteCarloDecryptECB192.log
-move c:\testresults\AESMonteCarloDecryptECB256.log e:\testresults\AESMonteCarloDecryptECB256.log
-move c:\testresults\AESMonteCarloEncryptCBC128.log e:\testresults\AESMonteCarloEncryptCBC128.log
-move c:\testresults\AESMonteCarloEncryptCBC192.log e:\testresults\AESMonteCarloEncryptCBC192.log
-move c:\testresults\AESMonteCarloEncryptCBC256.log e:\testresults\AESMonteCarloEncryptCBC256.log
-move c:\testresults\AESMonteCarloDecryptCBC128.log e:\testresults\AESMonteCarloDecryptCBC128.log
-move c:\testresults\AESMonteCarloDecryptCBC192.log e:\testresults\AESMonteCarloDecryptCBC192.log
-move c:\testresults\AESMonteCarloDecryptCBC256.log e:\testresults\AESMonteCarloDecryptCBC256.log
 
 REM crypto, bigint
 
-tbigint z:\tbigint\tconstructiontests.txt c:\testresults\tconstruction.log
-tbigint z:\tbigint\tbasicmathstests.txt c:\testresults\tbasicmaths.log
-tbigint z:\tbigint\tmontgomerytests.txt c:\testresults\tmontgomery.log
-REM tbigint z:\tbigint\tperformancetests.txt c:\testresults\tperformance.log
-tbigint z:\tbigint\tprimetests.txt c:\testresults\tprime.log
-REM tbigint z:\tbigint\tprimetests2.txt c:\testresults\tprime2.log
-tbigint z:\tbigint\tprimefailuretests.txt  c:\testresults\tprimefailure.log
-tbigint z:\tbigint\tprimegen.txt c:\testresults\tprimegen.log
+tbigint z:\tbigint\tconstructiontests.script c:\logs\testexecute\tconstruction.htm
+move c:\logs\testexecute\tconstruction.htm e:\testresults\tconstruction.htm
 
-rem copy logs to mmc card
-move c:\testresults\tconstruction.log e:\testresults\tconstruction.log
-move c:\testresults\tbasicmaths.log e:\testresults\tbasicmaths.log
-move c:\testresults\tmontgomery.log e:\testresults\tmontgomery.log
-REM move c:\testresults\tperformance.log e:\testresults\tperformance.log
-move c:\testresults\tprime.log e:\testresults\tprime.log
-REM move c:\testresults\tprime2.log e:\testresults\tprime2.log
-move c:\testresults\tprimefailure.log e:\testresults\tprimefailure.log
-move c:\testresults\tprimegen.log e:\testresults\tprimegen.log
+tbigint z:\tbigint\tbasicmathstests.script c:\logs\testexecute\tbasicmaths.htm
+move c:\logs\testexecute\tbasicmaths.htm e:\testresults\tbasicmaths.htm
+
+tbigint z:\tbigint\tmontgomerytests.script c:\logs\testexecute\tmontgomery.htm
+move c:\logs\testexecute\tmontgomery.htm e:\testresults\tmontgomery.htm
+
+REM tbigint z:\tbigint\tperformancetests.script c:\logs\testexecute\tperformance.htm
+REM move c:\logs\testexecute\tperformance.htm e:\testresults\tperformance.htm
+
+tbigint z:\tbigint\tprimetests.script c:\logs\testexecute\tprime.htm
+move c:\logs\testexecute\tprime.htm e:\testresults\tprime.htm
+
+REM tbigint z:\tbigint\tprimetests2.script c:\logs\testexecute\tprime2.htm
+REM move c:\logs\testexecute\tprime2.htm e:\testresults\tprime2.htm
+
+tbigint z:\tbigint\tprimefailuretests.script  c:\logs\testexecute\tprimefailure.htm
+move c:\logs\testexecute\tprimefailure.htm e:\testresults\tprimefailure.htm
+
+tbigint z:\tbigint\tprimegen.script c:\logs\testexecute\tprimegen.htm
+move c:\logs\testexecute\tprimegen.htm e:\testresults\tprimegen.htm
+
+
 
 REM crypto, tpkcs5kdf
 md c:\tpkcs5kdf
 
-copy z:\tpkcs12kdftests.txt c:\tpkcs5kdf\tpkcs12kdftests.txt
-tpkcs5kdf c:\tpkcs5kdf\tpkcs12kdftests.txt c:\tpkcs5kdf\tpkcs12kdftests.log
-move c:\tpkcs5kdf\tpkcs12kdftests.log e:\testresults\tpkcs12kdftests.log
+copy z:\tpkcs12kdftests.script c:\tpkcs5kdf\tpkcs12kdftests.script
+tpkcs5kdf c:\tpkcs5kdf\tpkcs12kdftests.script c:\tpkcs5kdf\tpkcs12kdftests.htm
+move c:\tpkcs5kdf\tpkcs12kdftests.htm e:\testresults\tpkcs12kdftests.htm
 del /s c:\tpkcs5kdf\
+
 
 REM crypto, pbe
 
@@ -122,6 +146,7 @@ md c:\tpbe
 copy z:\tpbe\*.dat c:\tpbe
 attrib c:\tpbe\strong.dat -r
 attrib c:\tpbe\weak.dat -r
-tpbe z:\tpbe\tpbetests_v2.txt c:\testresults\tpbetestsv2.log
-move c:\testresults\tpbetestsv2.log e:\testresults\tpbetestsv2.log
+tpbe z:\tpbe\tpbetests_v2.script c:\logs\testexecute\tpbetestsv2.htm
+move c:\logs\testexecute\tpbetestsv2.htm e:\testresults\tpbetestsv2.htm
+
 del /s c:\tpbe\

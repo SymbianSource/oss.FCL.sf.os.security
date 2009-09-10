@@ -37,7 +37,7 @@ SOURCE pkcs12.cpp
 
 USERINCLUDE 	.
 USERINCLUDE		../inc
-SYSTEMINCLUDE	/epoc32/include
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 LIBRARY euser.lib asn1.lib 
 LIBRARY	pkcs7.lib
@@ -48,3 +48,7 @@ LIBRARY estor.lib
 
 
 DEFFILE pkcs12.def
+SMPSAFE
+
+
+

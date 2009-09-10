@@ -192,3 +192,4 @@ void CSyntaxTest::DoReportAction()
 void CSyntaxTest::DoCheckResult(TInt /*aError*/)
 	{
 	}
+

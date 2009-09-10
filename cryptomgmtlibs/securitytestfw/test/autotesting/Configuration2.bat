@@ -13,7 +13,6 @@
 @rem
 @rem Description: 
 @rem
-rem Certstore Configuration 2 setup script
 cd \
 perl %SECURITYSOURCEDIR%\os\security\cryptoservices\certificateandkeymgmt\twtlscert\scripts\batchfiles\certstorePlugins disable_all
 perl %SECURITYSOURCEDIR%\os\security\cryptoservices\certificateandkeymgmt\twtlscert\scripts\batchfiles\certstorePlugins enable tadditionalstores.dll

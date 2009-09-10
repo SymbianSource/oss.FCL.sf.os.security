@@ -14,6 +14,7 @@
 * Description: 
 *
 */
+
 /**
 @file
 
@@ -36,4 +37,5 @@ SOURCE t_inputextra.cpp
 
 LIBRARY euser.lib efsrv.lib t_testhandler2.lib
 
+SMPSAFE
 

@@ -18,6 +18,9 @@
 
 #include "keytool_commands.h"
 
+#ifdef KEYTOOL
+_LIT(KDefaultKeyFile,"c:\\newkeys.dat");
+#endif // KEYTOOL
 CKeyToolParameters::CKeyToolParameters()
 	{	
 	}
@@ -37,6 +40,12 @@ CKeyToolParameters::~CKeyToolParameters()
 	delete iPrivate;
 	delete iOwnerType;
 	iUIDs.Close();
+#ifdef KEYTOOL
+	delete iOldKeyFile;
+	delete iNewKeyFile;
+	delete iAuthExpression;
+	delete iPassphrase;	
+#endif // KEYTOOL
 	}
 	
 void CKeyToolParameters::ConstructL()
@@ -48,4 +57,9 @@ void CKeyToolParameters::ConstructL()
 	iPageWise = EFalse;
 	iRemoveKey = EFalse;
 	iPolicy = ENone;
+#ifdef KEYTOOL
+	iFreshness = -1;
+	iNewKeyFile = KDefaultKeyFile().AllocL();
+#endif // KEYTOOL
 	}
+

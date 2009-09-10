@@ -18,8 +18,6 @@
 */
 
 
-
-
 #ifdef _UNICODE
 
 #include <s32ucmp.h>

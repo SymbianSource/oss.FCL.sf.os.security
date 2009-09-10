@@ -19,7 +19,7 @@
 
 #include "ValidateTest.h"
 #include "t_input.h"
-#include <ecom.h>
+#include <ecom/ecom.h>
 
 _LIT(KPath, "");
 _LIT(KChainStart, "<chain>");
@@ -587,3 +587,4 @@ void CValidateTest::DoReportAction()
 void CValidateTest::DoCheckResult(TInt /*aError*/)
 	{
 	}
+

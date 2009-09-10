@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file
 */
@@ -29,12 +27,12 @@
 #include "t_testhandler.h"
 #include "tscriptandhardcoded.h"
 #include "t_keystore_defs.h"
-#include <ecom.h>
+#include <ecom/ecom.h>
 #include "t_keystore_actions.h"
 #include "testexecuteinterface.h"
 #include "t_filetokens.h"
 
-LOCAL_D void DoTests()
+LOCAL_D void DoTestsL()
 	{
 	START_SCRIPT_LIST
 	SCRIPT_ITEM(CInitialiseKeyStore, KInitStore),			
@@ -74,6 +72,9 @@ LOCAL_D void DoTests()
 	SCRIPT_ITEM(CCheckServerHeapError, KCheckServerHeapError),
 	SCRIPT_ITEM(CServerOOMTestStart, KServerOOMTestStart),
 	SCRIPT_ITEM(CServerOOMTestStop, KServerOOMTestStop)
+#ifdef SYMBIAN_AUTH_SERVER
+	,SCRIPT_ITEM(CAuthenticationPolicy, KAuthenticationPolicy)
+#endif // SYMBIAN_AUTH_SERVER
 	END_SCRIPT_LIST
 
 	// this bit is because of heap checking problems with techview
@@ -98,7 +99,7 @@ LOCAL_D void DoTests()
  	
   	CScriptSetup::CreateAndRunTestsL(theTestTypes, scriptFile, logFile, ETrue, console);	
 	
-	CSharedKeyStores::DestroyKeyStoresL();
+	CSharedKeyStores::DestroyKeyStores();
 	
 	TTime end;
 	end.HomeTime();
@@ -120,7 +121,7 @@ GLDEF_C TInt E32Main() // main function called by E32
 	__UHEAP_MARK;
 	CTrapCleanup* cleanup=CTrapCleanup::New(); // get clean-up stack
 
-	TRAPD(err, DoTests());
+	TRAPD(err, DoTestsL());
 	if(err != KErrNone)
 		{
 		User::Panic(_L("t_keystore.cpp,Main"),err);
@@ -130,3 +131,4 @@ GLDEF_C TInt E32Main() // main function called by E32
 	__UHEAP_MARKEND;
 	return 0; // and return
     }
+

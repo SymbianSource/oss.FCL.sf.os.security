@@ -22,7 +22,7 @@
 #include <x509cert.h>
 #include <wtlscert.h>
 #include <x509keys.h>
-#include <implementationproxy.h>
+#include <ecom/implementationproxy.h>
 
 
 _LIT(KName1, "Test store 1");
@@ -934,3 +934,8 @@ EXPORT_C const TImplementationProxy* ImplementationGroupProxy(TInt& aTableCount)
 
 	return ImplementationTable;
 	}
+
+
+
+
+

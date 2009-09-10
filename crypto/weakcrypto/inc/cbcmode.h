@@ -19,11 +19,10 @@
 */
 
 
-
-
 /**
  @file 
- @internalAll
+ @publishedPartner
+ @released 
 */
  
 #ifndef __CBCMODE_H__
@@ -35,8 +34,6 @@
 * Concrete subclass of CBlockChainingMode implementing CBC mode block chaining
 * for encryption.
 *
-* @publishedPartner
-* @released 
 */
 class CModeCBCEncryptor : public CBlockChainingMode
 {
@@ -78,8 +75,6 @@ private:
 * Concrete subclass of CBlockChainingMode implementing CBC mode block chaining
 * for decryption.
 *
-* @publishedPartner
-* @released 
 */
 class CModeCBCDecryptor : public CBlockChainingMode
 {

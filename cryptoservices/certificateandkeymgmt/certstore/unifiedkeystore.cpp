@@ -17,10 +17,12 @@
 
 
 #include "unifiedkeystore.h"
-#include <ecom.h>
+#include <ecom/ecom.h>
 #include <random.h>
 #include <pbedata.h>
 #include <asnpkcs.h>
+#include "mctcertappinterface.h"
+#include <mctkeystoreuids.h>
 
 _LIT(KUnifiedKeyStore, "UnifiedKeyStore");
 
@@ -591,6 +593,113 @@ EXPORT_C MCTKeyStoreManager& CUnifiedKeyStore::KeyStoreManager(TInt aIndex)
 	return *result;
 	}
 
+#ifdef SYMBIAN_AUTH_SERVER
+	
+EXPORT_C void CUnifiedKeyStore::CreateKey(	TInt aKeyStoreIndex, TKeyUsagePKCS15 aUsage,TUint aSize, 
+								const TDesC& aLabel, CCTKeyInfo::EKeyAlgorithm aAlgorithm, 
+								TInt aAccessType, TTime aStartDate, TTime aEndDate, 
+								const TDesC& aAuthenticationString, TInt aFreshness,
+								CCTKeyInfo*& aKeyInfoOut, TRequestStatus& aStatus)
+		{
+		
+		StartAsyncOperation(ECreateKey, aStatus);
+		TRAPD(err, PrepareToCreateKeyL(aKeyStoreIndex, aUsage, aSize, aLabel, aAlgorithm, aAccessType,
+									   aStartDate, aEndDate, aStatus));
+		if (KErrNone != err)
+			{
+			Complete(err);
+			return;
+			}
+		
+		iKeyInfoOut = &aKeyInfoOut;
+		aKeyInfoOut = NULL;
+		iKeyStoreManager->CreateKey(aAuthenticationString, aFreshness, iKeyInfo, iStatus);
+		SetActive();
+		
+		}
+
+
+EXPORT_C void CUnifiedKeyStore::ImportKey(	TInt aKeyStoreIndex, const TDesC8& aKeyData,
+								TKeyUsagePKCS15 aUsage, const TDesC& aLabel, 
+								TInt aAccessType, TTime aStartDate, TTime aEndDate, 
+								const TDesC& aAuthenticationString, TInt aFreshness,
+								CCTKeyInfo*& aKeyInfoOut, TRequestStatus& aStatus)
+		{
+		TBool isEncrypted = TASN1DecPKCS8::IsEncryptedPKCS8Data(aKeyData);
+		StartAsyncOperation(isEncrypted ? EImportKeyEncrypted : EImportKey, aStatus);
+
+		ASSERT(!iKeyData);
+		iKeyData = aKeyData.Alloc();
+		if (!iKeyData)	//	OOM or some other catastrophe
+			{
+			Complete(KErrNoMemory);
+			return;
+			}
+		
+		TRAPD(err, PrepareToCreateKeyL(aKeyStoreIndex, aUsage, 0, aLabel, CCTKeyInfo::EInvalidAlgorithm, aAccessType,
+									   aStartDate, aEndDate, aStatus));
+		if (KErrNone != err)
+			{
+			Complete(err);
+			return;
+			}
+
+		iKeyInfoOut = &aKeyInfoOut;
+		aKeyInfoOut = NULL;
+
+		if (isEncrypted)
+			{
+			iKeyStoreManager->ImportEncryptedKey(*iKeyData, aAuthenticationString, aFreshness, iKeyInfo, iStatus);
+			}
+		else
+			{
+			iKeyStoreManager->ImportKey(*iKeyData, aAuthenticationString, aFreshness, iKeyInfo, iStatus);
+			}
+		SetActive();
+		}
+
+EXPORT_C void CUnifiedKeyStore::SetAuthenticationPolicy(	const TCTTokenObjectHandle aHandle, 
+															const TDesC& aAuthenticationString,
+															TInt aFreshness,					
+															TRequestStatus& aStatus)
+	{
+	StartAsyncOperation(ESetAuthenticationPolicy, aStatus);
+		
+	ASSERT(!iKeyStoreManager);	
+	iKeyStoreManager = FindKeyStoreManager(aHandle);
+	if (!iKeyStoreManager)
+		{
+		Complete(KErrNotFound);
+		return;
+		} 
+		
+	iKeyStoreManager->SetAuthenticationPolicy(aHandle, aAuthenticationString, aFreshness, iStatus);
+	SetActive();
+		
+	}
+
+EXPORT_C void CUnifiedKeyStore::GetAuthenticationPolicy(	const TCTTokenObjectHandle aHandle, 
+															HBufC*& aAuthenticationString,
+															TInt& aFreshness,					
+															TRequestStatus& aStatus)
+	{
+	StartAsyncOperation(EGetAuthenticationPolicy, aStatus);
+		
+	ASSERT(!iKeyStoreManager);	
+	iKeyStoreManager = FindKeyStoreManager(aHandle);
+	if (!iKeyStoreManager)
+		{
+		Complete(KErrNotFound);
+		return;
+		} 
+		
+	iKeyStoreManager->GetAuthenticationPolicy(aHandle, aAuthenticationString, aFreshness, iStatus);
+	SetActive();
+		
+	}
+
+#endif // SYMBIAN_AUTH_SERVER
+
 CUnifiedKeyStore::CUnifiedKeyStore(RFs& aFs)
 	:	CActive(EPriorityNormal), iFs(aFs), iState(EIdle)
 {//	Currently defaults to always try for key store manager interface
@@ -898,6 +1007,8 @@ void CUnifiedKeyStore::RunL()
 	    case EDeleteKey:
 	    case ESetUsePolicy:
 	    case ESetManagementPolicy:
+	    case EGetAuthenticationPolicy:
+	    case ESetAuthenticationPolicy:
 			Complete(KErrNone);
 			break;
 		default:
@@ -1119,3 +1230,4 @@ CUnifiedKeyStore::CKeyStoreIF::~CKeyStoreIF()
 		iKeyStore = NULL;
 	}
 }
+

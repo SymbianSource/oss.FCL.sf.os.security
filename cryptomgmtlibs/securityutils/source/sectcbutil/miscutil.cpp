@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file
 */
@@ -79,6 +77,26 @@ EXPORT_C TBool ReadNonEmptyLineL(const TDesC8& aBuffer, TInt& aPos, TPtrC8& aLin
 
 	aPos = endPos;
 	return lineIdentified;
+	}
+
+/*
+ * Recursively deletes all folders in the path (as long as they are empty)
+ *
+ * @param aFs		Connected  filesystem session
+ * @param aPath		Fully qualified path to start the recursive delete
+ */
+EXPORT_C void DeletePathIfEmpty(RFs& aFs, const TDesC& aPath)
+	{
+	HBufC* pathBuf = aPath.AllocLC();
+	TPtr pathPtr(pathBuf->Des());
+	TParsePtr path(pathPtr);
+
+	if (path.PathPresent())
+		{
+		while ((aFs.RmDir(path.DriveAndPath()) == KErrNone) && (path.PopDir() == KErrNone))
+			;
+		}
+	CleanupStack::PopAndDestroy(pathBuf);
 	}
 
 }	// namespace MiscUtil

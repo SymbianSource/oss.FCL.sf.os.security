@@ -87,66 +87,71 @@ private:
 	};
 
 
+// to generate script and ini files to run tests on emulator
+
+class ScriptAndIniGeneration : public GoodConfigWriter
+	{
+public:
+	ScriptAndIniGeneration(const std::stringstream &aFileName);
+	~ScriptAndIniGeneration();
+	
+	void WriteTestCaseToScript(const std::stringstream &aTestCaseType, int &aTestIndex, const char *aTestActionName, const char *aTestActionType, bool aHasActionBody = true);
+
+protected:
+	std::ofstream iIniFile;
+	std::string   iIniFileName;
+	};
+
 
 // to generate script files for the file certstore to run tests on emulator
 
-class FileStoreScriptGeneration : public GoodConfigWriter
+class FileStoreScriptGeneration : public ScriptAndIniGeneration
 	{
 public:
 	FileStoreScriptGeneration(const std::stringstream &aFileName);
 	~FileStoreScriptGeneration();
 	
-	void WriteInitialiseCert(const char *aMode);
-	void WriteListcert(const char *aGoodOwnerType);
-	void WriteGetCertificateDetails(const char *label);
-	void WriteGetTrust(const char *label, const char *trust);
-	void WriteGetApplications(const char *label);
-	void WriteRetrieveCerts(const char *label);
-	void WriteDetailsToArray(const char *array[]);
-
-private:
-	int iCount;
+	void WriteInitialiseCert(const char *aMode, const std::stringstream &aTestCaseType, int &aTestIndex);
+	void WriteListcert(const char *aGoodOwnerType, const std::stringstream &aTestCaseType, int &aTestIndex);
+	void WriteGetCertificateDetails(const char *label, const std::stringstream &aTestCaseType, int &aTestIndex);
+	void WriteGetTrust(const char *label, const char *trust, const std::stringstream &aTestCaseType, int &aTestIndex);
+	void WriteGetApplications(const char *label, const std::stringstream &aTestCaseType, int &aTestIndex);
+	void WriteRetrieveCerts(const char *label, const std::stringstream &aTestCaseType, int &aTestIndex);
 	};
 
 
 // to generate script files for the cert cleint store to run tests on emulator
 
-class CertClientsStoreScriptGeneration : public GoodConfigWriter
+class CertClientsStoreScriptGeneration : public ScriptAndIniGeneration
 	{
 public:
 	CertClientsStoreScriptGeneration(const std::stringstream &aFileName);
 	~CertClientsStoreScriptGeneration();
 	
-	void WriteInitialiseCertClient();
-	void WriteGetCount(const int index);
-	void WriteGetApplicationsList();
-	void WriteGetAppWithUid(const char *label, const char *uid);
-	void WriteDestroyManager();
-	
-private:
-	int iCount;
+	void WriteInitialiseCertClient(const std::stringstream &aTestCaseType, int &aTestIndex);
+	void WriteGetCount(const int index, const std::stringstream &aTestCaseType, int &aTestIndex);
+	void WriteGetApplicationsList(const std::stringstream &aTestCaseType, int &aTestIndex);
+	void WriteGetAppWithUid(const char *label, const char *uid, const std::stringstream &aTestCaseType, int &aTestIndex);
+	void WriteDestroyManager(const std::stringstream &aTestCaseType, int &aTestIndex);
 	};
 
 
 // to generate script files for the swicertstore to run tests on emulator
 
-class SWIStoreScriptGeneration : public GoodConfigWriter
+class SWIStoreScriptGeneration : public ScriptAndIniGeneration
 	{
 public:
 	SWIStoreScriptGeneration(const std::stringstream &aFileName);
 	~SWIStoreScriptGeneration();
 	
-	void WriteInitialiseCert();
-	void WriteListcert(const char *aGoodOwnerType);
-	void WriteGetSystemUpgrade(const char *label , const char *aSystemUpgrade);
-	void WriteGetCapabilities(const char *label);
-	void WriteGetMandatoryFlag(const char *label, const char *aMandatory);
-	void WriteGetTrust(const char *label, const char *trust);
-	void WriteGetApplications(const char *label);
-	void WriteRetrieveCerts(const char *label);
-	void WriteDetailsToArray(const char *array[]);
-private:
-	int iCount;
+	void WriteInitialiseCert(const std::stringstream &aTestCaseType, int &aTestIndex);
+	void WriteListcert(const char *aGoodOwnerType, const std::stringstream &aTestCaseType, int &aTestIndex);
+	void WriteGetSystemUpgrade(const char *label , const char *aSystemUpgrade, const std::stringstream &aTestCaseType, int &aTestIndex);
+	void WriteGetCapabilities(const char *label, const std::stringstream &aTestCaseType, int &aTestIndex);
+	void WriteGetMandatoryFlag(const char *label, const char *aMandatory, const std::stringstream &aTestCaseType, int &aTestIndex);
+	void WriteGetTrust(const char *label, const char *trust, const std::stringstream &aTestCaseType, int &aTestIndex);
+	void WriteGetApplications(const char *label, const std::stringstream &aTestCaseType, int &aTestIndex);
+	void WriteRetrieveCerts(const char *label, const std::stringstream &aTestCaseType, int &aTestIndex);
 	};
 
 class EmptyFileConfigWriter : public GoodConfigWriter

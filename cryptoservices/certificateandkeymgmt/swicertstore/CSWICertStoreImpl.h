@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file 
  @internalTechnology
@@ -30,7 +28,7 @@
 #include <e32std.h>
 #include <e32base.h>
 #include <s32file.h>
-#include <rmpointerarray.h>
+#include <ct/rmpointerarray.h>
 #include <e32property.h>
 
 class MCTToken;

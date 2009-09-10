@@ -18,7 +18,7 @@
 
 #include <e32base.h>
 #include <caf/caferr.h>
-#include "f32agentui.h"
+#include <caf/f32agentui.h>
 
 using namespace ContentAccess;
 
@@ -30,3 +30,4 @@ EXPORT_C CF32AgentUi* TF32AgentUiFactory::CreateF32AgentUiL()
 
 
 // DLL entry point - only for EKA1
+

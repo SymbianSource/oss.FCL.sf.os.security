@@ -16,11 +16,9 @@
 */
 
 
-
-
 /**
  @file
- @publishedPartner
+ @internalTechnology
  @released
 */
 

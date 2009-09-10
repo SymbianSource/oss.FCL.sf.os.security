@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+# Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
 # All rights reserved.
 # This component and the accompanying materials are made available
 # under the terms of the License "Eclipse Public License v1.0"
@@ -12,8 +12,6 @@
 # Contributors:
 #
 # Description: 
-#
-#
 # This scripts scans all header files under .\security folder to see if they are classifed properly.
 # DEF098862: Categorisation tags need to be checked for all of security sub-system  
 #
@@ -174,6 +172,7 @@ sub SearchFolder
         	next if lc(substr($_,0,4)) eq "utf8";			#Ignore utf8.h sntpclient
         	next if lc(substr($_,0,10)) eq "sntpclient";	#Ignore sntpclient
         	next if lc(substr($_,0,17)) eq "referencedrmagent"; 			#Ignore test referencedrmagent files
+			next if lc(substr($_,0,14)) eq "securitytestfw"; 			#Ignore test test files
 			
             $name = "$dir/$_";
 			SearchEngine("$name");

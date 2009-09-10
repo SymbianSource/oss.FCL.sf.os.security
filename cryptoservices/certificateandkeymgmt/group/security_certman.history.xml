@@ -1,69 +1,100 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <relnotes name="Certificate and Key Management">
   <purpose>
     Certificate management supporting public key cryptography including storage and retrieval, assignment of trust status, certificate chain construction, validation and revocation.
   </purpose>
 
-  <defect numer="DEF137562" title="Illegal dependency from OCSP to HTTP" revision="044">
-                 OCSP is being relocated to MW layer.
+  <defect numer="DEF139848" title="Forward Propogation from Symtb9.1 - Illegal dependency from OCSP to HTTP" revision="051">
+                 OCSP is relocated to MW layer.
   </defect>
 
-  <defect number="PDEF130288" title="OCSP tries to make to OCSP check to empty URI if default URI is not defined" revision="043">
+  <defect number="DEF130792" title="[Coverity]-SYMBIAN.CLEANUP_STACK -security/certman" revision="050">
+	The object was pushed onto the cleanup stack before calling the leaving function
+  </defect>
+
+  <defect number="DEF129395" title="[Coverity]-SYMBIAN.CLEANUP_STACK-security/tlsprovider" revision="049">
+	coverity issues fixed
+  </defect>
+
+  <defect number="DEF127711" title="[Coverity]-SYMBIAN.CLEANUP_STACK-security/tlsprovider" revision="048">
+	coverity issues fixed
+  </defect>
+
+  <deliverystep number="" name="PREQ2193 SMP-Safe Crypto Services Components" osproject="Diran" revision="047">
+	  <milestone project="GT0433" number="MS3.7"/>
+	  <preq number="2193" title="SMP-Safe Crypto Services Components">
+		  Add SMPSAFE keyword in SDP mmp files
+	  </preq>
+  </deliverystep>
+
+  <defect number="PDEF130289" title="OCSP tries to make to OCSP check to empty URI if default URI is not defined" revision="046">
      Instead of NULL verification KNullDesC8 is used 	
   </defect>
 
-  <defect number="INC123526" title="Symbian, CX500DistinguishedName::ExactMatchL fails if DNs contain unsupported at" revision="042">
-     Add support for the PKCS9 unstructuredName attribute
-  </defect>
+  <defect number="DEF129271" title="security subsystem has two identical files called certstorepatchdata.h" revision="045">
+     certstorepatchdata.h removed from swicertstore. This file has been already exported to epoc32/include by filetokens. All references to this header file have been updated. 
+  </defect> 
 
-  <defect number="DEF125877" title="Provide Test Cases for PDEF125098" revision="041">
-     New test cases added for comparing the distinguished names. (tx509-dnames.txt)  
-  </defect>
+  <deliverystep number="1116" name="PREQ1269: Crypto Services: Core Delivery" osproject="Diran" revision="044">
+    <milestone project="GT0433" number="MS3.1"/>
+    <preq number="1269" title="Universal Software Install Framework">
+      Delivers the main set of features for the Diran Early Phase. Includes the new components (SCR, SIF and STS), migration of the native installer to use       the new components and most reference code. Excludes non-mandatory features and post-production plugin management.
+    </preq>
+  </deliverystep>
+
+  <defect number="DEF126976" title="Change the reference in security to use new IWS RExplicitHttpSession" revision="043">
+     Reference in security changed to use new IWS RExplicitHttpSession
+  </defect> 
+
+  <defect number="PDEF126983" title="Symbian, CX500DistinguishedName::ExactMatchL fails if DNs contain unsupported at" revision="042">
+     Add support for the PKCS#9 unstructuredName attribute
+  </defect>  
+
+  <defect number="PDEF126470" title="Provide Test Cases for PDEF125098" revision="041">
+     Added test cases for case sensitive / case-insensitive comaprison of distinguished names in different encodings.
+  </defect>  
   
-  <defect number="PDEF125098" title="Certificate name matching does not conform to RFC3280" revision="040">
-    Making the certificate name comparisons according to RFC3280
+  <defect number="DEF126187" title="Extra member qualifactions" revision="040">
+    Removed class name qualifier from declaration of CX509Certificate::DecodeCertsL
   </defect>
 
-  <deliverystep number="1179" name="CR1500: Crypto Services: Multiple Certificate Stores Support" osproject="Naiad" revision="039">
-	  <milestone project="GT0379" number="MS3.37"/>
-	  <cr number="1500" title="Support for aggregation of several certificate databases in different rofs layers">
+  <defect number="DEF124902" title="Certificate name matching does not conform to RFC3280" revision="039">
+    Case IN-Sensitive comparisons for 'PrintableString' and 'IA5String' has been added as per RFC 3280 standard. 
+  </defect>
+
+  <deliverystep number="1091" name="CR1393: Crypto Services: Multiple Certificate Stores Support" osproject="Sphinx" revision="038">
+	  <milestone project="GT0379" number="MS3.31"/>
+	  <cr number="1393" title="Support for aggregation of several certificate databases in different rofs layers">
 		Support for aggregation of several certificate databases in different rofs layers	  
 	  </cr>
   </deliverystep>
 
-  <defect number="PDEF123373" title="GTCK_TCT_CAS: OCSP validation through a proxy server is not possible." revision="038">
-    Added OCSP validation through a proxy server.
+  <defect number="PDEF123374" title="GTCK_TCT_CAS: OCSP validation through a proxy server is not possible." revision="037">
+    Added OCSP validation through a proxy server. 
   </defect>
- 
-  <deliverystep number="958" name="CR1313: OCSP Changes for Cingular/AT&T" osproject="Sphinx" revision="037">
-	  <milestone project="GT0379" number="MS3.18"/>
+
+  <defect number="PDEF120168" title="Cannot install University of Helsinki root certificate to the phone" revision="036">
+    Increase the buffer size read in from file for certificate recognizer in order to handle non-conforming CA certificate
+  </defect>
+  
+  <deliverystep number="959" name="CR1313: OCSP Changes for Cingular/AT&T" osproject="Sphinx" revision="035">
+	  <milestone project="GT0379" number="MS3.19"/>
 	  <cr number="1313" title="OCSP Changes for Cingular/AT&T">
 		OCSP Changes for Cingular/AT&T	  
 	  </cr>
   </deliverystep>
- 
-  <cr number="1443" title="Add Crypto CRs 1240 and 1399 to Naiad" revision="036">
-    The PKIX certificate chain validator has been updated to accept a set of zero or more critical extension OIDs defined by the caller.  Added a new API to allow validity date checking failures to be reported as warnings instead of errors.
+  
+  <cr number="1399" title="X.509 Critical Extension for MIDP IMEI Binding" revision="034">
+    The PKIX certificate chain validator has been updated to accept a set of zero or more critical extension OIDs defined by the caller.
   </cr>
-
-  <defect number="PDEF118845" title="Certificate validation incorrectly handles the Key Usage and SAN extensions" revision="035">
+  
+  <cr number="1240" title="Allow Certificate Validity Dates to be Ignored when Verifying SIS Controllers" revision="033">
+    Added a new Sis Registry API to check the integrity of installed applications without requiring that the signing certificate chain be valid for the current date and time.
+  </cr>  
+  
+  <defect number="PDEF118846" title="Certificate validation incorrectly handles the Key Usage and SAN extensions" revision="032">
     Removed the SAN extension once it has been processed and added support for the Inhibit Any-Policy critical extension.
   </defect>
-
-  <defect number="PDEF119389" title="Eapol authentication fails in WLAN network of University of Helsinki" revision="034">
-    New interface added to allow certificate filter to support arbitrary length subject key id and issuer key id
-  </defect> 
-  
-  <defect number="INC119256" title="Cannot install University of Helsinki root certificate to the phone" revision="033">
-    Increased buffer size of cert recognizer to cope with non-conforming CA certificate with long serial number
-  </defect> 
-  
-  <deliverystep number="1061" name="CR1371: Crypto Services: Add PREQ1912 to Naiad" osproject="Sphinx" revision="032">
-	<milestone project="GT0379" number="3.23"/>
-	<cr number="1371" title="Add PREQ1912 to Naiad">
- 		  Update ROM Files Without SIS Stubs
-	</cr>
-  </deliverystep>
   
   <defect number="DEF115915" title="ASN.1 GeneralizedTime does not completely conform to standard" revision="031">
     gentimedec.cpp now fully supports decoding for any form of ASN.1 generalizedTime
@@ -114,7 +145,7 @@
     </preq>
   </deliverystep>
 
-  <defect number="DEF108963" title="TBAS (T3648_Symbian_OS_v9.5) DP tests hang at tasn1_log.txt" revision="021">
+  <defect number="DEF108963" title="TBAS (T3648_Symbian_OS_v9.5) DP tests hang at tasn1_log.txt" revision="?21">
     Fixed the test hang (in tasn1.txt) by adding a CSystemRandom to test threat (tasn1.exe) to avoid construct/destruct (hw initialisation) delay.
   </defect>
 
@@ -139,7 +170,7 @@
   </defect>
 
   <defect number="DEF106933" title="Remove/Ratify \TO\DO comments from security's tcertdump and unifiedcertstore" revision="015">
-    change in tcertdump and unifiedcertstore. Add doxygen comments. Update copyright. remove meaningless comments. add function to dump issuer’s altname.
+    change in tcertdump and unifiedcertstore. Add doxygen comments. Update copyright. remove meaningless comments. add function to dump issuer�s altname.
   </defect>
 
   <defect number="DEF106797" title="Remove/Ratify \TO\DO comments from security's test component - tcertcommon" revision="014">
@@ -198,4 +229,3 @@
     Fixed OID decoding defect . Values which caused an overflow were incorrectly truncated. TASN1DecObjectIdentifier now leaves with KErrOverflow.
   </defect>
 </relnotes>
-

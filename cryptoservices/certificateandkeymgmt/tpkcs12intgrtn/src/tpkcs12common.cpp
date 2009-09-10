@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file 
  @internalTechnology
@@ -572,3 +570,4 @@ void CPkcs12Parser::ParseSafeContentBagL(CDecPkcs12SafeContentsBag& aSafeContntB
 			}//end while
 		}
 	}
+

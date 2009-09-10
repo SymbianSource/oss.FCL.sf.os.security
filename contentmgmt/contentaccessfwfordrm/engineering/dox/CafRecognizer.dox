@@ -88,8 +88,6 @@
 // 
 //
 
-
-
 /**
  @page CAFRecognizer How to write an Apparc recognizer for the Content Access Framework
  - @ref RecognizerOverview

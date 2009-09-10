@@ -17,9 +17,9 @@
 
 
 
-#include "virtualpathptr.h"
+#include <caf/virtualpathptr.h>
 
-#include "caftypes.h"
+#include <caf/caftypes.h>
 
 using namespace ContentAccess;
 

@@ -17,7 +17,7 @@
 */
 
 
-#include "cryptotokenregistryinfo.rh"
+#include <cryptotokenregistryinfo.rh>
 RESOURCE REGISTRY_INFO theInfo
 	{
 	dll_uid = 0x1020430C; // DLL uid

@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file 
  @internalTechnology
@@ -28,6 +26,9 @@
 #define __KEYSTREAMUTILS_H__
 
 #include <s32strm.h>
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+#include <s32std.h>
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 #include "fsmarshaller.h"
 
 class CRSAPublicKey;
@@ -51,4 +52,7 @@ void CreateL(RReadStream& aStream, CRSAPrivateKey*& aOut);
 void CreateL(RReadStream& aStream, CDSAPublicKey*& aOut);
 void CreateL(RReadStream& aStream, CDSAPrivateKey*& aOut);
 
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+HBufC8* DecryptFromStreamL( RReadStream& aInStream, TPtrC8& aKey );
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 #endif

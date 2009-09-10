@@ -17,11 +17,10 @@
 */
 
 
-
-
 /**
  @file 
- @internalAll
+ @publishedAll
+ @released
 */
  
 #ifndef __X509CERT_H__
@@ -59,8 +58,6 @@ class CDSAParameters;
 class CPKCS1SignatureResult : public CRSASignatureResult
 /** The signature result in PKCS#1 format.
 * 
-* @publishedAll
-* @released
 * @since v6.0 */
 	{
 public:
@@ -93,8 +90,6 @@ class TX509KeyFactory : public TKeyFactory
 /** Constructs the public key objects used for signature verification, from their 
 * encoded binary form, for X.509 certificates.
 * 
-* @publishedAll
-* @released
 * @since v6.0 */
 	{
 public:
@@ -143,8 +138,6 @@ public:
 class CX509ValidityPeriod : public CValidityPeriod
 /** The period for which an X.509 certificate is valid.
 * 
-* @publishedAll
-* @released
 * @since v6.0 */
 	{
 public:
@@ -194,8 +187,6 @@ private:
 class CX509AlgorithmIdentifier : public CAlgorithmIdentifier
 /** Algorithm identifier for an X.509 certificate.
 *
-* @publishedAll
-* @released
 * @since v6.0 */
 	{
 public:
@@ -266,8 +257,6 @@ private:
 class CX509SigningAlgorithmIdentifier : public CSigningAlgorithmIdentifier
 /** Encapsulates the IDs of the algorithms used for signing an X.509 certificate.
 *
-* @publishedAll
-* @released
 * @since v6.0 */
 	{
 public:
@@ -322,8 +311,6 @@ private:
 class CX509SubjectPublicKeyInfo : public CSubjectPublicKeyInfo
 /** X.509 subject public key information.
 * 
-* @publishedAll
-* @released
 * @since v6.0 */
 	{
 public:
@@ -372,8 +359,6 @@ class CX509CertExtension : public CBase
 * Consists of an any-defined-by structure along with a boolean flag saying whether 
 * the extension is critical or not.
 * 
-* @publishedAll
-* @released
 * @since v6.0 */
 	{
 public:
@@ -493,8 +478,6 @@ private:
 class CX509Certificate : public CCertificate
 /** An X.509 certificate.
 * 
-* @publishedAll
-* @released
 * @since v6.0 */
 	{
 public:

@@ -32,7 +32,7 @@
 // // Test CAA Implementation:	0x101FE8F2
 //
 
-// #include "RegistryInfo.rh"
+// #include <ecom/registryinfo.rh>
 // RESOURCE REGISTRY_INFO theInfo
 // dll_uid = 0x101FE8F1;
 // interfaces =
@@ -49,8 +49,6 @@
 // When writing a new CA Agent, all other UIDs used in the above examples should 
 // be replaced by new UIDs from the Symbian UID generator. 
 //
-
-
 
 /**
  @page CAA_Configuration Content Access Agent ECOM Resource File

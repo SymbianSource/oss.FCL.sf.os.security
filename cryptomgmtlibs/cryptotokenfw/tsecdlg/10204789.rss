@@ -17,8 +17,12 @@
 */
 
 
-#include <registryinfo.rh>
+#include <ecom/registryinfo.rh>
 #include <uikon.hrh>
+
+#ifdef SYMBIAN_ENABLE_SPLIT_HEADERS
+#include <uiklaf/private/pluginuid.hrh>
+#endif
 
 RESOURCE REGISTRY_INFO r_registry
 	{

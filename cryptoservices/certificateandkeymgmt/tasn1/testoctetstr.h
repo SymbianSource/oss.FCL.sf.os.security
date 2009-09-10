@@ -46,3 +46,4 @@ class CTestOctetString : public CTestBase
 	};
 
 #endif
+

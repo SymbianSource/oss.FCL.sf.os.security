@@ -21,6 +21,7 @@
 #include "ct/ccttokentypeinfo.h"
 #include "ct/interfaceuid.hrh"
 #include "ct/logger.h"
+#include "cttokentypedeletehandler.h"
 
 EXPORT_C CCTTokenTypeDeleteHandler::~CCTTokenTypeDeleteHandler()
 	{

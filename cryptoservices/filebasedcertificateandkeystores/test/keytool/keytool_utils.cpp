@@ -711,7 +711,7 @@ RFile* KeyToolUtils::iFile = NULL;
   		}
 	}
 
-/*static*/ void KeyToolUtils::PrintCertInfoL(CCTCertInfo& aCertInfo, CCertificate& aCertificate,RArray<TUid> aApps, TBool aIsDetailed,TBool aPageWise)
+/*static*/ void KeyToolUtils::PrintCertInfoL(CCTCertInfo& aCertInfo, CCertificate& aCertificate,RArray<TUid> aApps, TBool aTrusted, TBool aIsDetailed,TBool aPageWise)
 	{
 	TFileName certFormat,ownerType;
 
@@ -834,6 +834,9 @@ RFile* KeyToolUtils::iFile = NULL;
 		PrintInfoL(_L("  "));
 		}
 	PrintInfoL(newline, aPageWise);
+	PrintInfoL(_L("\tMarked as trusted: "));
+	PrintInfoL( aTrusted ? _L("Yes"): _L("No"));
+	PrintInfoL(newline, aPageWise);
 	}
 	
 void KeyToolUtils::SetConsole(CConsoleBase *aConsole )
@@ -883,3 +886,4 @@ TBool KeyToolUtils::DoesFileExistsL(const RFs& aFs, const TDesC& aFileName)
 		}
 	}
 	
+

@@ -16,10 +16,8 @@
 */
 
 
-
-
 /**
- @file server.cpp
+ @file
 */
 #include "testexecuteinterface.h"
 #include "server.h"
@@ -35,3 +33,4 @@ CTestStep* TestExecuteInterface::CServer::CreateTestStep(const TDesC& /*aStepNam
 	// Ignore the stepname; we'll always return our step
 	return new CStep(iTestTypes);
 	}
+

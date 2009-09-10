@@ -13,8 +13,6 @@
 @rem
 @rem Description: 
 @rem
-REM @ECHO Off
-
 
 REM enable the file certstore
 cd \

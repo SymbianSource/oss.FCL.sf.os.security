@@ -532,3 +532,4 @@ HBufC8& CWTLSCertChainAO::GeneratePublicKeyHashL(const CWTLSCertificate& aCert) 
 	CleanupStack::PopAndDestroy(3); //sha1, modulusBuffer, key
 	return *permHash;
 	}
+

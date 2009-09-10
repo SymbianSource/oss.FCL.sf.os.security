@@ -1,0 +1,94 @@
+/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Security Common Server Base
+*
+*/
+
+
+#include "../test/group/bld.inf"
+
+PRJ_EXPORTS
+
+//SCS Exports
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+../inc/scsclient.h		/epoc32/include/scs/scsclient.h
+#endif
+../inc/scsserver.h   	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(scs/scsserver.h)
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+../inc/scscommon.h   	/epoc32/include/scs/scscommon.h
+#endif
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+../inc/scscommon.inl 	/epoc32/include/scs/scscommon.inl
+#endif
+
+#ifndef SYMBIAN_ENABLE_SPLIT_HEADERS
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+../inc/scsserverconstants.h     /epoc32/include/scsserverconstants.h
+#endif
+#endif
+
+//IPCStream Exports
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+../inc/nullstream.h			/epoc32/include/scs/nullstream.h
+#endif
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+../inc/nullbuf.h			/epoc32/include/scs/nullbuf.h
+#endif
+../inc/ipcstream.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(scs/ipcstream.h)
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+../inc/ipcstream.inl			/epoc32/include/scs/ipcstream.inl
+#endif
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+../inc/ipcbuf.h				/epoc32/include/scs/ipcbuf.h
+#endif
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+../inc/streamingarray.h		/epoc32/include/scs/streamingarray.h
+#endif
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+../inc/streamingarray.inl	/epoc32/include/scs/streamingarray.inl
+#endif
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+../inc/cleanuputils.h		/epoc32/include/scs/cleanuputils.h
+#endif
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+../inc/cleanuputils.inl		/epoc32/include/scs/cleanuputils.inl
+#endif
+
+../inc/scs.iby				/epoc32/rom/include/scs.iby
+../inc/securitycommonutils.iby				/epoc32/rom/include/securitycommonutils.iby
+
+// Security Utils
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+../inc/securityutils.h 		/epoc32/include/scs/securityutils.h	
+#endif
+
+// Common Log file
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+../inc/securitylog.h		/epoc32/include/scs/securitylog.h
+#endif
+
+PRJ_MMPFILES
+
+#ifndef TOOLS
+#ifndef TOOLS2
+
+ipcstream.mmp
+scsclient.mmp
+scsserver.mmp
+securityutils.mmp
+
+#endif
+#endif
+

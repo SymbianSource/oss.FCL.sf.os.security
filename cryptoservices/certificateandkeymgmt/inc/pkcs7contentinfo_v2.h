@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file
  @publishedPartner
@@ -159,3 +157,5 @@ private:
 	};
 
 #endif // __PKCS7_CONTENT_INFO_V2_H__
+
+

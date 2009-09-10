@@ -196,3 +196,5 @@ void CWTLSCertChain::DoConstructL(const TPtrC8& aEncodedCerts)
 	//typical cert chain unlikely to be more than 5
 	AppendCertsL(aEncodedCerts);
 	}
+
+

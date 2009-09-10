@@ -23,7 +23,7 @@
 // Information strings returned by MCTToken::Information()
 _LIT(KVersion, "1.00");
 _LIT(KSerialNo, "0");
-_LIT(KManufacturer, "Symbian Ltd.");
+_LIT(KManufacturer, "Nokia Corporation and/or its subsidiary(-ies).");
 
 MCTToken* CFSTokenClient::NewL(ETokenEnum aTokenTypeVal, MCTTokenType* aTokenType, RFileStoreClientSession& aClient)
 {

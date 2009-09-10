@@ -20,6 +20,7 @@
 #include <asn1dec.h>
 #include <asn1enc.h>
 #include <x509cert.h>
+#include "x509keyencoder.h"
 
 CX509RSAPublicKey::CX509RSAPublicKey()
 {}

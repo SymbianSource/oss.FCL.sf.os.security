@@ -4,36 +4,61 @@
     Framework support for Digital Rights Management (DRM), enables policy based management of loading and access to restricted content by applications and Multimedia plugins.
   </purpose>
 
-  <defect number="PDEF126231" title="Make Security Test Suites Run Standalone" revision="031">
-      Make Security Test Suites Run Standalone
+  <defect number="DEF131117" title="F32 agent and RTA agent do not fully support 64bit file server" revision="035">
+	F32agent and RTA agent changed to support 64 bit file server
+  </defect>
+  
+  <defect number="DEF130856" title="API and Documentation Inconsistency" revision="034">
+	CAgentData::GetAttributeSet() - capability documentation added
   </defect>
 
-  <defect number="DEF124908" title="CAF: Resolving should handle leaves in CAgentManager construction " revision="030">
-      The leave from AgentManagerL is trapped and ignored.
+  <deliverystep number="" name="PREQ2193 SMP-Safe Crypto Services Components" osproject="Diran" revision="033">
+	  <milestone project="GT0433" number="MS3.7"/>
+	  <preq number="2193" title="SMP-Safe Crypto Services Components">
+		  Add SMPSAFE keyword in SDP mmp files
+	  </preq>
+  </deliverystep>
+
+  <deliverystep number="1301" name="PREQ1725 64 Bit File Server" osproject="Diran" revision="032">
+    <milestone project="GT0433" number="MS3.10"/>
+    <preq number="1725" title="PREQ1725 64 Bit File Server">
+      64 Bit File Server
+    </preq>
+  </deliverystep>
+
+  <defect number="DEF126609" title="Category G ipr in security code needs to be confirmed or changed" revision="031">
+	Category G ipr in security code confirmed only for reccafconfig and other code changed to category T
   </defect>
 
-  <defect number="PDEF124679" title="Improve RTA performance by disabling flogger calls in release build " revision="029">
-      Disabled flogger calls in release builds to improve RTA performance.
+  <defect number="PDEF126524" title="CAF: Resolving should handle leaves in CAgentManager construction" revision="030">
+	The leave from AgentManagerL is trapped and ignored.
   </defect>
 
-  <defect number="DEF123059" title="The cafu.def should contains the same number of ordinals as the MCL ones" revision="028">
-      cafu.def file updates to ordinals for EABI and BWINS to maintain BC
-  </defect>
-
-  <deliverystep number="1127" name="CR1440: Crypto Services: Additional CAF support for retrieval of Cover Art for OMA DRM files" osproject="Naiad" revision="027">
-    <milestone project="GT0379" number="MS3.34"/>
+  <deliverystep number="1127" name="CR1440: Crypto Services: Additional CAF support for retrieval of Cover Art for OMA DRM files" osproject="Sphinx" revision="029">
+    <milestone project="GT0379" number="MS3.36"/>
     <cr number="1440" title="Additional CAF support for retrieval of Cover Art for OMA DRM files">
       Additional CAF support for retrieval of Cover Art for OMA DRM files
     </cr>
   </deliverystep>
-
-  <defect number="PDEF120732" title="Add agent specific base enum to TEventMask in caftypes.h in caf2 component." revision="026">
-      added an enum to TEventMask.
-  </defect>    
+ 
+  <defect number="PDEF120733" title="Add agent specific base enum to TEventMask in caftypes.h in caf2 component" revision="028">
+	added an enum to TEventMask.
+  </defect>
   
-  <defect number="INC118611" title="CAF2 ConstructL does not check for success of allocation." revision="025">
-      CAF2 ConstructL does check for success of allocation.
-  </defect>  
+  <defect number="DEF119317" title="Improve RTA performance by disabling flogger calls in release build" revision="027">
+	Disabled flogger calls in release builds to improve RTA performance. 
+  </defect>
+  
+  <deliverystep number="702" name="CR1042: Crypto Services: Add a function to check usage rights from files in private directories for DRM purposes" osproject="Sphinx" revision="026">
+    <milestone project="GT0379" number="MS3.12"/>
+    <cr number="1042" title="Add a function to check usage rights from files in private directories for DRM purposes">
+      Adding APIS and SPIS in CAF to enable agents to provide meta-data for data in private directories of user aplication for DRM purposes.
+    </cr>
+  </deliverystep>  
+  
+  <defect number="PDEF118683" title="CAF2 ConstructL does not check for success of allocation" revision="025">
+	CAF2 ConstructL does check for success of allocation.
+  </defect>
   
   <defect number="DEF116208" title="Filename Policy non-conformance generates build warnings" revision="024">
      changed the case in the caf2 streaming component.

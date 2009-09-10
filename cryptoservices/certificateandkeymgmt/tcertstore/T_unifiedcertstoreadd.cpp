@@ -85,15 +85,16 @@ void CAddCertificate::PerformAction(TRequestStatus& aStatus)
 			break;
  		case ECheckNotification:
  			{
- 			TInt ret=KErrNone;
- 			if (!iNotifierFlag)
- 				{
- 				ret=KErrGeneral;
- 				}
- 			iState = EFinished;
- 			TRequestStatus* status = &aStatus;
- 			User::RequestComplete(status, ret);
- 			
+  			iState = EFinished;
+ 			if (iNotifierFlag)
+	 			{
+ 				TRequestStatus* status = &aStatus;
+ 				User::RequestComplete(status, KErrNone);
+	 			}
+			else
+				{
+				iNotifier->SetCompleteStatus(&aStatus);
+				} 			
  			break;
  			}
 		case EFinished:
@@ -805,3 +806,4 @@ void CImportKey::DoCheckResult(TInt aError)
 		}
 	}
 }
+

@@ -17,7 +17,7 @@
 
 
 #include <e32std.h>
-#include <implementationproxy.h>
+#include <ecom/implementationproxy.h>
 #include "CFSTokenTypeClient.h"
 #include <mctcertstore.h>
 
@@ -42,3 +42,6 @@ EXPORT_C const TImplementationProxy* ImplementationGroupProxy(TInt& aTableCount)
 	aTableCount = sizeof(ImplementationTable) / sizeof(TImplementationProxy);
 	return (ImplementationTable);
 	}
+
+
+

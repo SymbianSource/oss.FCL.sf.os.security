@@ -35,3 +35,4 @@ LIBRARY	euser.lib efsrv.lib
 LIBRARY t_testhandler2.lib
 LIBRARY ctframework.lib
 LIBRARY certstore.lib
+SMPSAFE

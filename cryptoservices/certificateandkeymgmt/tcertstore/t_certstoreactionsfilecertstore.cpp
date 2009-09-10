@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file
 */
@@ -162,3 +160,5 @@ void CCreateFileCertStore::CreateStoreL(const TDesC& aFileName, RFs& aFs)
 	store->CommitL();							
 	CleanupStack::PopAndDestroy();//store
 	}
+
+

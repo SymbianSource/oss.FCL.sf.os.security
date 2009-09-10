@@ -13,7 +13,6 @@
 @rem
 @rem Description: 
 @rem
-REM @ECHO Off
 
 if "%1"=="ini" goto ini;
 if "%1"=="cert" goto certstore; 

@@ -20,6 +20,8 @@
 #include <certificateapps.h>
 #include <ct/mcttoken.h>
 #include <mctcertapps.h>
+#include "mctcertappinterface.h"
+
 
 ////////////////////////////////////////////////////////////////
 //	CCertificateAppInfoManager

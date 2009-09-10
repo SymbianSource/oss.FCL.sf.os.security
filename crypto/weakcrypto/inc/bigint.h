@@ -18,11 +18,9 @@
 */
 
 
-
-
 /**
  @file
- @publishedPartner
+ @publishedAll
  @released
 */
 
@@ -32,12 +30,10 @@
 #include <random.h>
 #include <e32base.h>
 
-/** @internalComponent */
 const TUint KSignMask = 0x1L;
-/** @internalComponent */
 const TUint KHeapBasedMask = 0x2L;
-/** @internalComponent */
 const TUint KPtrMask = 0xFFFFFFFCL;
+
 
 class RInteger;
 
@@ -60,7 +56,6 @@ class TInteger
 public:
 	/** @internalComponent */
 	enum TRandomAttribute {EAllBitsRandom=0, ETopBitSet=1, ETop2BitsSet=2};
-
 	IMPORT_C HBufC8* BufferLC() const;
 	IMPORT_C TUint WordCount(void) const;
 	IMPORT_C TUint ByteCount(void) const;
@@ -309,8 +304,6 @@ inline TBool TInteger::operator > (TInt aInteger) const
  * A TInteger derived class allowing the construction of variable length big integers.
  * See the Cryptography API guide for further information.
  *
- * @publishedPartner
- * @released
  *
  * @see TInteger
  */

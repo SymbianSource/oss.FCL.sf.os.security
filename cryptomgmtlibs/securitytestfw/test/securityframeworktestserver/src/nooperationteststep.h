@@ -16,14 +16,12 @@
 */
 
 
-
-
 /**
  @file 
 */
 #ifndef NOOPERATIONTESTSTEP_H
 #define NOOPERATIONTESTSTEP_H
-#include <testexecutestepbase.h>
+#include <test/testexecutestepbase.h>
 
 _LIT(KNoOperationTestStep,"NoOperationTestStep");
 

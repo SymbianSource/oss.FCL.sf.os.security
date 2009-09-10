@@ -24,3 +24,4 @@ VENDORID 0x70000001
 
 LIBRARY	x509.lib\
 		ctframework.lib
+SMPSAFE

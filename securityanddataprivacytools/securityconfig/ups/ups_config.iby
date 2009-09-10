@@ -19,9 +19,10 @@
 
 #ifndef __UPS_CONFIG_IBY__
 #define __UPS_CONFIG_IBY__
-define ZDRIVE \epoc32\data\Z
+define ZDRIVE EPOCROOT##epoc32\data\Z
 
 data=ZDRIVE\system\install\upsserver.sis 		system\install\upsserver.sis
 data=ZDRIVE\Private\10283558\backup_registration.xml	private\10283558\backup_registration.xml
 
 #endif
+

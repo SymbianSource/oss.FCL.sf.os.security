@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file
 */
@@ -26,15 +24,10 @@
 PRJ_PLATFORMS
 DEFAULT
 
-#ifdef SYMBIAN_USER_PROMPT_SERVICE
 #include "../ups/romstub/bld.inf"
-#endif
 
 PRJ_EXPORTS
 ../filetokens/filetokensconfig.iby /epoc32/rom/include/filetokensconfig.iby
-
-../tlsprovider/tlsproviderpolicy.ini z:/resource/tlsproviderpolicy.ini
-../tlsprovider/tlsproviderconfig.iby /epoc32/rom/include/tlsproviderconfig.iby
 
 ../ocsp/ocsppolicy.ini /epoc32/release/winscw/udeb/z/system/data/ocsppolicy.ini
 ../ocsp/ocsppolicy.ini /epoc32/release/winscw/urel/z/system/data/ocsppolicy.ini
@@ -44,10 +37,17 @@ PRJ_EXPORTS
 // Optional Replaceable files for UPS
 ../ups/backup/backup_registration.xml		z:/private/10283558/backup_registration.xml
 
+#ifdef SYMBIAN_AUTH_SERVER
+// AuthServer cenrep file.
+// NOTE: this is required for emulator and target hardware testing only. It is not used in production.
+../authserver/2001ea7f.txt					z:/private/10202be9/2001ea7f.txt
+
+#endif // SYMBIAN_AUTH_SERVER
+// ConfML Files
+../conf/securityconfig.confml            OS_LAYER_EXPORTS_CONFML(securityconfig.confml)
+../conf/securityconfig_2001ea7f.crml	 OS_LAYER_EXPORTS_CRML(securityconfig_2001ea7f.crml)
 
 PRJ_TESTEXPORTS
-../tlsprovider/tlsproviderpolicy.ini /epoc32/winscw/c/ttlsprovider/policy/tlsproviderpolicy.ini
-
 
 PRJ_MMPFILES
 #ifndef TOOLS

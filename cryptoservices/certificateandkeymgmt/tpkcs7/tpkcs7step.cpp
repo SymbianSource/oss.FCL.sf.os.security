@@ -17,8 +17,8 @@
 
 
 #include "tpkcs7step.h"
-#include <testexecutelog.h>
-#include <pkcs7signedobject.h>
+#include <test/testexecutelog.h>
+#include "pkcs7signedobject.h"
 #include <pkcs7contentinfo_v2.h>
 #include <pkcs7digestinfo.h>
 #include <pkcs7encrypteddataobject.h>
@@ -967,3 +967,4 @@ TVerdict CTPKCS7DigestInfoCorruptTest::doTestStepL()
 	__UHEAP_MARKEND;
 	return TestStepResult();
 	}
+

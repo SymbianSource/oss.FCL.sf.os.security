@@ -222,7 +222,7 @@ EXPORTS
 	?NewLC@CX509AuthInfoAccessExt@@SAPAV1@ABVTDesC8@@@Z @ 221 NONAME ; public: static class CX509AuthInfoAccessExt * __cdecl CX509AuthInfoAccessExt::NewLC(class TDesC8 const &)
 	?NewLC@CX509AuthInfoAccessExt@@SAPAV1@ABVTDesC8@@AAH@Z @ 222 NONAME ; public: static class CX509AuthInfoAccessExt * __cdecl CX509AuthInfoAccessExt::NewLC(class TDesC8 const &,int &)
 	??0TX509DSAKeyEncoder@@QAE@ABVCDSAPublicKey@@W4TAlgorithmId@@@Z @ 223 NONAME ; public: __thiscall TX509DSAKeyEncoder::TX509DSAKeyEncoder(class CDSAPublicKey const &,enum TAlgorithmId)
-	??0TX509KeyEncoder@@QAE@W4TAlgorithmId@@@Z @ 224 NONAME ; public: __thiscall TX509KeyEncoder::TX509KeyEncoder(enum TAlgorithmId)
+	??0TX509KeyEncoder@@QAE@W4TAlgorithmId@@@Z @ 224 NONAME ABSENT ; public: __thiscall TX509KeyEncoder::TX509KeyEncoder(enum TAlgorithmId)
 	??0TX509RSAKeyEncoder@@QAE@ABVCRSAPublicKey@@W4TAlgorithmId@@@Z @ 225 NONAME ; public: __thiscall TX509RSAKeyEncoder::TX509RSAKeyEncoder(class CRSAPublicKey const &,enum TAlgorithmId)
 	?RemovedExport1@@YAXXZ @ 226 NONAME ; Export has been removed - see comments in removedExports.cpp
 	??1CX509DHKeyPair@@UAE@XZ @ 227 NONAME ; public: virtual __thiscall CX509DHKeyPair::~CX509DHKeyPair(void)

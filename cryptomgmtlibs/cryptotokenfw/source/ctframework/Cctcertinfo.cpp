@@ -18,6 +18,18 @@
 
 #include "cctcertinfo.h"
 
+#ifdef SYMBIAN_ENABLE_SPLIT_HEADERS
+
+/** Mask constants used for serializing iDeletable and iFormat attributes 
+*/
+const TUint KReadOnlyFlagMask = 128;
+const TUint KFormatMask = 127;
+
+/** The UID of a CertInfo MCTTokenObject. */
+const TInt KCTObjectCertInfo = 0x101F50E6;
+
+#endif
+
 // MCertInfo ///////////////////////////////////////////////////////////////////
 
 EXPORT_C MCertInfo::MCertInfo() :

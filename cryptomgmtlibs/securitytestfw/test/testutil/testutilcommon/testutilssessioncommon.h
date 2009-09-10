@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -12,11 +12,9 @@
 * Contributors:
 *
 * Description: 
-* Common class for the testutil 
+* Common class for the testutil and testutilswi
 *
 */
-
-
 
 
 /**
@@ -46,6 +44,8 @@ private:
 	void Send(const TDesC& aMessage);
 	inline TBool ReceivePending() const;
 	
+	friend class CTestUtilSessionSwi;
+	friend class CTestUtilServerSwi;
 	friend class CTestUtilSession;
 	friend class CTestUtilServer;
 	friend class CTestFileDetector;
@@ -56,3 +56,4 @@ private:
 // CTestUtilSession inlines
 inline TBool CTestUtilSessionCommon::ReceivePending() const
 	{return !iReceiveMsg.IsNull();}
+

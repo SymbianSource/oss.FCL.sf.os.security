@@ -17,7 +17,7 @@
 */
 
 
-#include "registryinfo.rh"
+#include <ecom/registryinfo.rh>
 #include "ct/interfaceuid.hrh"
 RESOURCE REGISTRY_INFO theInfo
 	{

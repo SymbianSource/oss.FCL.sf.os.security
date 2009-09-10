@@ -18,8 +18,6 @@
 
 
 
-
-
 /**
  @file
 */
@@ -54,7 +52,7 @@ class CSharedKeyStores : public CBase
 {
 public:
 	static void InitialiseKeyStoresL();
-	static void DestroyKeyStoresL();
+	static void DestroyKeyStores();
 	static RUnifiedKeyStoreArray& TheUnifiedKeyStores();
 private:
 	CSharedKeyStores(){};
@@ -100,6 +98,16 @@ protected:
 	// The following are here because they are used by most derived test actions
 	TCTKeyAttributeFilter iFilter;
 	RMPointerArray<CCTKeyInfo> iKeys;
+	TInt iDisableCheckDialog;
+
+#ifdef SYMBIAN_AUTH_SERVER
+	// this variable would be used to retrieve the rom build variant 
+	// for key store.
+	TBool iUseNewApi;
+	HBufC* iAuthExpression;
+	TInt iFreshness;
+	TInt iDeauthenticate;
+#endif // SYMBIAN_AUTH_SERVER
 };
 
 class CInitialiseKeyStore : public CKeyStoreTestAction
@@ -137,7 +145,7 @@ private:
 	TInt iKeyStoreCount;
 	TBool iEnableKeyStoreLabelCheck;
 	TInt iKeyStoreIndex;
-	TPtrC8 iKeyStoreLabel;
+	HBufC8* iKeyStoreLabel;
 	
 private:
 	CUnifiedKeyStore* iNewUnifiedKeyStore;
@@ -211,8 +219,8 @@ public:
 	virtual void Reset();
 private:
 	void SetKeySize(const TDesC8& aKeySize);
-	void SetStartDate(const TDesC8& aData);
-	void SetEndDate(const TDesC8& aData);
+	void SetStartDateL(const TDesC8& aData);
+	void SetEndDateL(const TDesC8& aData);
 private:
 	CAddKey(RFs& aFs, CConsoleBase& aConsole, Output& aOut);
 	void ConstructL(const TTestActionSpec& aTestActionSpec);
@@ -395,8 +403,8 @@ protected:
 	void DoCheckResult(TInt aError);
 	//void DoPerformPrerequisite(TRequestStatus& aStatus);
 protected:
-	void SetKeyDataFileL(const TDesC8& aDes);
-	void SetPBEParameters(const TDesC8& aCipher, const TDesC8& aSalt, const TDesC8& aIV, const TInt aIteration);
+	void SetKeyDataFile(const TDesC8& aDes);
+	void SetPBEParametersL(const TDesC8& aCipher, const TDesC8& aSalt, const TDesC8& aIV, const TInt aIteration);
 	void ConstructL(const TTestActionSpec& aTestActionSpec);
 	void SetKeyEncrypted(const TDesC8& aDes);
 protected:
@@ -507,9 +515,9 @@ private:
 private:
 	TBool SetKeyUsage(const TDesC8& aKeyUsage);
 	void SetKeySize(const TDesC8& aKeySize);
-	void SetNative(const TDesC8& aData);
-	void SetStartDate(const TDesC8& aData);
-	void SetEndDate(const TDesC8& aData);
+	void SetNativeL(const TDesC8& aData);
+	void SetStartDateL(const TDesC8& aData);
+	void SetEndDateL(const TDesC8& aData);
 private:	
 	enum TState
 		{
@@ -1131,6 +1139,41 @@ private:
 	TBool iTestUsePolicy;
 	TSecurityPolicy iNewPolicy;
 	TState iState;
+};
+
+class CAuthenticationPolicy : public CKeyStoreTestAction
+{
+public:
+	static CTestAction* NewL(RFs& aFs, CConsoleBase& aConsole, Output& aOut, const TTestActionSpec& aTestActionSpec);
+	static CTestAction* NewLC(RFs& aFs, CConsoleBase& aConsole, Output& aOut, const TTestActionSpec& aTestActionSpec);
+	~CAuthenticationPolicy();
+	virtual void PerformAction(TRequestStatus& aStatus);
+	virtual void PerformCancel();
+	virtual void Reset();
+private:
+	void SetAuthExpression(TPtrC8& aAuthExpression);
+	void SetFreshness(TUint aFreshness);
+	void SetMode(const TDesC8& aMode);
+private:
+	CAuthenticationPolicy(RFs& aFs, CConsoleBase& aConsole, Output& aOut);
+	void ConstructL(const TTestActionSpec& aTestActionSpec);
+private:
+	void DoReportAction();
+	void DoCheckResult(TInt aError);
+private:
+	enum TState
+		{
+		EInit,
+		EListing,
+		EGetAuthenticationPolicy,
+		EFinished
+		};
+private:
+	TState iState;
+private:
+	TBuf8<256> iMode;
+	TBuf8<256> iExpectedExpression;
+	TInt iExpectedFreshness;
 };
 
 #endif	//	__T_KEYSTORE_ACTIONS_H__

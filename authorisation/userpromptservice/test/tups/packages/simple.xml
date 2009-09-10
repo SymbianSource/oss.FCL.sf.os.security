@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!-- simple.sis: Installation of a simple text file -->
+<Script>
+	<!-- Accept installation prompt -->
+	<dialog name="DisplayInstall">
+		<return type="TBool">true</return>
+	</dialog>
+	<!-- Choose the first language by its index -->
+	<dialog name="DisplayLanguage">
+		<return type="TInt">0</return>
+	</dialog>
+	<!-- Choose drive C which is the first in the list -->
+	<dialog name="DisplayDrive">
+		<return type="TInt"> c</return>
+	</dialog>
+	<!-- Display text file, ask user to confirm or abort -->
+	<dialog name="DisplayText">
+		<return type="TBool">true</return> 
+	</dialog>
+	<dialog name="DisplayUpgrade">
+		<return type="TBool">true</return> 
+	</dialog>
+	<!-- Display security warning, continue if possible -->
+	<dialog name="DisplaySecurityWarning">
+		<return type="TBool">true</return>
+	</dialog>
+	<!-- Display Grant Capabilities dialog -->
+	<dialog name="DisplayGrantCapabilities">
+		<return type="TBool">true</return>
+	</dialog>
+</Script>

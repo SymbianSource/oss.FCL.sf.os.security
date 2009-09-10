@@ -13,5 +13,4 @@
 @rem
 @rem Description: 
 @rem
-REM This script shall be executed after the running the tasn1 tests
 del /s /f /q \epoc32\winscw\c\tasn1\TASN1_test_output

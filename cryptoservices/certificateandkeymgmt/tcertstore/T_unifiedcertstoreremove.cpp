@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file
 */
@@ -94,17 +92,20 @@ void CDeleteCertificate::PerformAction(TRequestStatus& aStatus)
 
  		case ECheckNotification:
  			{
- 			TInt ret=KErrNone;
- 			if (!iNotifierFlag)
- 				{
- 				ret=KErrGeneral;
- 				}
  			iState = EFinished;
- 			TRequestStatus* status = &aStatus;
- 			User::RequestComplete(status, ret);
+ 			if (iNotifierFlag)
+	 			{
+ 				TRequestStatus* status = &aStatus;
+ 				User::RequestComplete(status, KErrNone);
+	 			}
+			else
+				{
+				iNotifier->SetCompleteStatus(&aStatus);
+				}			
  			}
+
  			break;
-			
+
 		case EFinished:
 			{
 			if (aStatus == iExpectedResult)

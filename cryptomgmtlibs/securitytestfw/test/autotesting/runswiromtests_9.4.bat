@@ -13,8 +13,6 @@
 @rem
 @rem Description: 
 @rem
-REM Warning - The Silent Install test, cleanupinfrastructure test and tpropagation test will format the E: MMC drive
-REM Save existing results
 md c:\savedresults
 copy /s e:\testresults\* c:\savedresults
 
@@ -89,9 +87,6 @@ move c:\logs\testexecute\tsishelper.htm e:\testresults\tsishelper.htm
 
 testexecute z:\tswi\tuiscriptadaptors\scripts\testwritableswicertstore.script
 move c:\logs\testexecute\testwritableswicertstore.htm e:\testresults\testwritableswicertstore.htm
-
-testexecute z:\tswi\tuiscriptadaptors\scripts\testrucert.script
-move c:\logs\testexecute\testrucert.htm e:\testresults\testrucert.htm
 
 REM NQP Tests for DataProvider
 testexecute z:\tswi\tdataprovider\scripts\tdataprovider.script
@@ -196,9 +191,6 @@ move c:\logs\testexecute\testmulti.htm e:\testresults\testmulti.htm
 testexecute z:\tswi\tuiscriptadaptors\scripts\testextension.script
 move c:\logs\testexecute\testextension.htm e:\testresults\testextension.htm
 
-testexecute z:\tswi\tuiscriptadaptors\scripts\testdevicelanguages.script
-copy c:\logs\testexecute\testdevicelanguages.htm e:\testresults\testdevicelanguages.htm
-
 REM install automated commdb using sim.tsy for tdev
 ced -i z:\autosimtsy.cfg
 
@@ -299,10 +291,6 @@ move c:\logs\testexecute\testsystemcaps.htm e:\testresults\testsystemcaps.htm
 
 testexecute z:\tswi\tuiscriptadaptors\scripts\testusercaps.script
 move c:\logs\testexecute\testusercaps.htm e:\testresults\testusercaps.htm
-
-testexecute z:\tswi\tuiscriptadaptors\scripts\testusercaps_nousergrantcaps_hw.script
-move c:\logs\testexecute\testusercaps_nousergrantcaps_hw.htm e:\testresults\testusercaps_nousergrantcaps_hw.htm
-
 REM Demandpaging  tests
 testexecute z:\tswi\tuiscriptadaptors\scripts\tdempaging_armv5.script
 move c:\logs\testexecute\tdempaging_armv5.htm e:\testresults\tdempaging_armv5.htm

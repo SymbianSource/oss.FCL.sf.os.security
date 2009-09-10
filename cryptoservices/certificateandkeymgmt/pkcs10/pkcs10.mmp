@@ -14,6 +14,7 @@
 * Description: 
 *
 */
+
 /**
 @file
 
@@ -35,7 +36,7 @@ SOURCE 		  pkcs10attr.cpp
 SOURCE		  keyhelper.cpp
 SOURCE		  pkcs9attr.cpp
 
-SYSTEMINCLUDE /epoc32/include
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 USERINCLUDE ../../../crypto/weakcrypto/inc
 
 LIBRARY euser.lib asn1.lib x500.lib x509.lib ctframework.lib hash.lib
@@ -51,3 +52,4 @@ DEFFILE PKCS10.DEF
 #else
 DEFFILE pkcs10.def
 #endif
+SMPSAFE

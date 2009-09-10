@@ -14,6 +14,7 @@
 * Description: 
 *
 */
+
 //	ECOM plugin for filecertstore
 
 target filecertstore.dll
@@ -29,7 +30,7 @@ SOURCE filecertstore.cpp
 
 USERINCLUDE  ../Inc 
 
-SYSTEMINCLUDE 	/epoc32/include /epoc32/include/ecom /epoc32/include/ct
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 
 start resource 101f5015.rss
@@ -38,3 +39,4 @@ end
 
 LIBRARY	euser.lib 
 LIBRARY fstokencli.lib
+SMPSAFE

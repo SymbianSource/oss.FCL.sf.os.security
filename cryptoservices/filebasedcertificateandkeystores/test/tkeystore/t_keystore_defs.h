@@ -32,6 +32,7 @@ _LIT8(KInitStore, "init");
 _LIT8(KOnlyCreateStore, "onlycreate");
 _LIT8(KDeleteStore, "delete");
 _LIT8(KAddKey, "addkey");
+_LIT8(KAddUserKey, "adduserkey");
 _LIT8(KListKeys, "listkeys");
 _LIT8(KListAllKeys, "listallkeys");
 _LIT8(KDeleteKeys, "deletekeys");
@@ -66,7 +67,9 @@ _LIT8(KSetUsePolicy, "setusepolicy");
 _LIT8(KGetManagementPolicy, "getmanagementpolicy");
 _LIT8(KSetManagementPolicy, "setmanagementpolicy");
 _LIT8(KKeyStoreLabel, "getkeystorelabel");
-
+#ifdef SYMBIAN_AUTH_SERVER
+_LIT8(KAuthenticationPolicy, "authenticationpolicy");
+#endif // SYMBIAN_AUTH_SERVER
 // Action types for the key store
 _LIT8(KUnifiedKeyStoreInit, "UnifiedKeyStore Init");
 _LIT8(KUnifiedKeyStoreDelete, "UnifiedKeyStore Delete");
@@ -256,6 +259,10 @@ _LIT8(KErrKeySizeString, "KErrKeySize");
 _LIT8(KErrKeyAccessString, "KErrKeyAccess");
 _LIT8(KErrPrivateKeyNotFoundString, "KErrPrivateKeyNotFound");
 _LIT8(KErrPermissionDeniedString, "KErrPermissionDenied");
+_LIT8(KErrAuthFailureString, "KErrAuthenticationFailure");
+_LIT8(KErrUnknownAuthStrengthAliasString, "KErrUnknownAuthStrengthAlias"); 
+_LIT8(KErrNoMemoryString, "KErrNoMemory");
+
 
 // tags for auth object testing
 _LIT8(KTimeoutStart, "<timeout>");
@@ -298,5 +305,38 @@ _LIT8(KKeyStoreIndexEnd, "</keystoreindex>");
 // tags for retrieving key store label
 _LIT8(KKeyStoreLabelStart, "<keystorelabel>");
 _LIT8(KKeyStoreLabelEnd, "</keystorelabel>");
+
+// tags for disabling dialog check
+_LIT8(KDisableDialogStart, "<disabledialogcheck>");
+_LIT8(KDisableDialogEnd, "</disabledialogcheck>");
+
+#ifdef SYMBIAN_AUTH_SERVER
+// tags for authentication expression
+_LIT8(KAuthExpressionStart, "<authexpression>");
+_LIT8(KAuthExpressionEnd, "</authexpression>");
+
+// tags for freshness
+_LIT8(KFreshnessStart, "<freshness>");
+_LIT8(KFreshnessEnd, "</freshness>");
+
+// tags for freshness
+_LIT8(KNegativeFreshnessStart, "<negativefreshness>");
+_LIT8(KNegativeFreshnessEnd, "</negativefreshness>");
+
+// tags for authentication expression
+_LIT8(KExpectedExpressionStart, "<expectedexpression>");
+_LIT8(KExpectedExpressionEnd, "</expectedexpression>");
+
+// tags for freshness
+_LIT8(KExpectedFreshnessStart, "<expectedfreshness>");
+_LIT8(KExpectedFreshnessEnd, "</expectedfreshness>");
+
+_LIT8(KAuthModeStart, "<authmode>");
+_LIT8(KAuthModeEnd, "</authmode>");
+
+_LIT8(KAuthenticateStart, "<authenticate>");
+_LIT8(KAuthenticateEnd, "</authenticate>");
+
+#endif // SYMBIAN_AUTH_SERVER
 
 #endif	//	__T_TCERTSTOREDEFS_H__

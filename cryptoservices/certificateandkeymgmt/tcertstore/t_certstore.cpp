@@ -19,7 +19,7 @@
 #include "t_certstoretests.h"
 #include "t_certstoreactions.h"
 #include <e32std.h>
-#include <ecom.h>
+#include <ecom/ecom.h>
 
 GLDEF_C TInt E32Main() // main function called by E32
     {

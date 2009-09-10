@@ -71,9 +71,9 @@ void CController::DisplayKeyL(CCTKeyInfo& aKey, TBool aIsDetailed, TBool aPageWi
 	}
 	
 
-void CController::DisplayCertL(CCTCertInfo& aCert, CCertificate& aCertificate, RUidArray aApps, TBool aIsDetailed, TBool aPageWise)
+void CController::DisplayCertL(CCTCertInfo& aCert, CCertificate& aCertificate, RUidArray aApps, TBool aTrusted, TBool aIsDetailed, TBool aPageWise)
 	{
-	iView.DisplayCertL(aCert, aCertificate, aApps, aIsDetailed, aPageWise);
+	iView.DisplayCertL(aCert, aCertificate, aApps, aTrusted, aIsDetailed, aPageWise);
 	}
 	
 CController::~CController()
@@ -81,3 +81,5 @@ CController::~CController()
 	iResourceFile.Close();
 	iFsSession.Close();
 	}
+
+

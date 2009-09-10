@@ -17,11 +17,10 @@
 */
 
 
-
-
 /**
  @file 
- @internalTechnology
+ @publishedPartner
+ @released
 */
  
 #ifndef __MKEYSTORE_H__
@@ -46,8 +45,6 @@ struct TCTKeyAttributeFilter;
  * signature class for RSA signatures and with a CDSASignature* as the Signature
  * for DSA.
  * 
- * @publishedPartner
- * @released
  */
 template <class Signature> class MCTSigner : public MCTTokenObject
 	{
@@ -100,16 +97,12 @@ template <class Signature> class MCTSigner : public MCTTokenObject
 /**
  * An RSA signer object.
  * 
- * @publishedPartner
- * @released
  */
 typedef MCTSigner<CRSASignature*> MRSASigner;
 
 /**
  * A DSA signer object.
  * 
- * @publishedPartner
- * @released
  */
 typedef MCTSigner<CDSASignature*> MDSASigner; 
 
@@ -117,8 +110,6 @@ typedef MCTSigner<CDSASignature*> MDSASigner;
  * A Decryptor. To do a private decrypt, you need to get one of these
  * objects.
  * 
- * @publishedPartner
- * @released
  */
 class MCTDecryptor : public MCTTokenObject
 	{
@@ -148,8 +139,6 @@ class MCTDecryptor : public MCTTokenObject
 /**
  * A Diffie-Hellman key agreement object.
  * 
- * @publishedPartner
- * @released
  */
 class MCTDH : public MCTTokenObject
 	{
@@ -204,8 +193,6 @@ class MCTDH : public MCTTokenObject
  * This documentation describes the security policy that must be enforced by
  * implementations of the interface.
  * 
- * @publishedPartner
- * @released
  */
 class MKeyStore
 	{

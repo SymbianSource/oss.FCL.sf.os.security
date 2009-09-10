@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file
 */
@@ -30,7 +28,7 @@ TARGETTYPE	DLL
 UID			0x10204B5D
 VENDORID	0x70000001
 
-SOURCEPATH	../../../../../mw/appsupport/contenthandling/referencedrmagent/contentiterator
+SOURCEPATH	../../referencedrmagent/contentiterator
 SOURCE		contentiterator.cpp
 SOURCE		contentiteratordata.cpp
 SOURCE		FileContentIterator.cpp
@@ -38,7 +36,7 @@ SOURCE		FileContentIteratorbase.cpp
 SOURCE		embeddedcontentiterator.cpp
 SOURCE		embeddedcontentiteratorbase.cpp
 
-USERINCLUDE		../../../../../mw/appsupport/contenthandling/referencedrmagent/contentiterator
+USERINCLUDE		../../referencedrmagent/contentiterator
 
 SYSTEMINCLUDE	/epoc32/include
 SYSTEMINCLUDE	/epoc32/include/caf
@@ -51,3 +49,4 @@ LIBRARY		apmime.lib
 LIBRARY		estor.lib
 LIBRARY		caf.lib 
 LIBRARY		cafutils.lib
+SMPSAFE

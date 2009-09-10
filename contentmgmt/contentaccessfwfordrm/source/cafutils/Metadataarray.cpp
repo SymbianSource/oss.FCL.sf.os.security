@@ -225,3 +225,5 @@ void CMetaDataArray::InternalizeL(RReadStream& aStream)
 		CleanupStack::Pop(metaData);
 		}
 	}
+
+

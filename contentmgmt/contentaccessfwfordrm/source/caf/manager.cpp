@@ -16,18 +16,18 @@
 */
 
 
-#include "manager.h"
-#include "agentinterface.h"
-#include "agent.h"
+#include <caf/manager.h>
+#include <caf/agentinterface.h>
+#include <caf/agent.h>
 #include "agentinfo.h"
-#include "agentfactory.h"
-#include "attributeset.h"
-#include "caftypes.h"
-#include "caferr.h"
-#include "virtualpath.h"
-#include "dirstreamable.h"
-#include "rightsmanager.h"
-#include "cafpanic.h"
+#include <caf/agentfactory.h>
+#include <caf/attributeset.h>
+#include <caf/caftypes.h>
+#include <caf/caferr.h>
+#include <caf/virtualpath.h>
+#include <caf/dirstreamable.h>
+#include <caf/rightsmanager.h>
+#include <caf/cafpanic.h>
 #include "resolver.h"
 
 using namespace ContentAccess;
@@ -385,13 +385,27 @@ void CManager::DoGetAttributeL(TInt aAttribute, TInt& aValue, const TVirtualPath
 	User::LeaveIfError(agentInfo.AgentManagerL().GetAttribute(aAttribute, aValue, TVirtualPathPtr(uri, aVirtualPath.UniqueId())));
 	CleanupStack::PopAndDestroy(uriBuffer);
 	}
+	
+EXPORT_C TInt CManager::GetAttribute(TInt aAttribute, TInt& aValue, RFile& aFile, const TDesC& aUniqueId) 
+	{
+	TRAPD(err, DoGetAttributeL(aAttribute, aValue, aFile, aUniqueId));
+	return err;
+	}
+
+void CManager::DoGetAttributeL(TInt aAttribute, TInt& aValue, RFile& aFile, const TDesC& aUniqueId) const
+	{
+	// Find the agent who handles the file 
+	CAgentInfo& agentInfo = iResolver->ResolveFileL(aFile);
+	User::LeaveIfError(agentInfo.AgentManagerL().GetAttribute(aAttribute, aValue, aFile, aUniqueId));
+	}
+	
 
 EXPORT_C TInt CManager::GetStringAttribute(TInt aAttribute, TDes& aValue, const TVirtualPathPtr& aVirtualPath) const
 	{
 	TRAPD(err, DoGetStringAttributeL(aAttribute, aValue, aVirtualPath));
 	return err;
 	}
-
+	
 void CManager::DoGetStringAttributeL(TInt aAttribute, TDes& aValue, const TVirtualPathPtr& aVirtualPath) const
 	{
 	HBufC* uriBuffer = HBufC::NewLC(aVirtualPath.URI().Length() + KMaxSIDLength);
@@ -405,13 +419,27 @@ void CManager::DoGetStringAttributeL(TInt aAttribute, TDes& aValue, const TVirtu
 	User::LeaveIfError(agentInfo.AgentManagerL().GetStringAttribute(aAttribute, aValue, TVirtualPathPtr(uri,aVirtualPath.UniqueId())));
 	CleanupStack::PopAndDestroy(uriBuffer);
 	}
+	
+EXPORT_C TInt CManager::GetStringAttribute (TInt aAttribute, TDes& aValue, RFile& aFile, const TDesC& aUniqueId)	
+	{
+	TRAPD(err, DoGetStringAttributeL(aAttribute, aValue, aFile, aUniqueId));
+	return err;
+	}
+	
+void CManager::DoGetStringAttributeL(TInt aAttribute, TDes& aValue, RFile& aFile, const TDesC& aUniqueId) const
+	{
+	// Find the agent who handles the file 
+	CAgentInfo& agentInfo = iResolver->ResolveFileL(aFile);	
+	// find out the attribute
+	User::LeaveIfError(agentInfo.AgentManagerL().GetStringAttribute(aAttribute, aValue, aFile, aUniqueId));
+	}
 
 EXPORT_C TInt CManager::GetAttributeSet(RAttributeSet& aAttributeSet, const TVirtualPathPtr& aVirtualPath) const
 	{
 	TRAPD(err, DoGetAttributeSetL(aAttributeSet, aVirtualPath));
 	return err;
 	}
-	
+
 void CManager::DoGetAttributeSetL(RAttributeSet& aAttributeSet, const TVirtualPathPtr& aVirtualPath) const	
 	{
 	HBufC* uriBuffer = HBufC::NewLC(aVirtualPath.URI().Length() + KMaxSIDLength);
@@ -424,12 +452,24 @@ void CManager::DoGetAttributeSetL(RAttributeSet& aAttributeSet, const TVirtualPa
 	CleanupStack::PopAndDestroy(uriBuffer);
 	}
 
+EXPORT_C TInt CManager::GetAttributeSet (RAttributeSet& aAttributeSet, RFile& aFile, const TDesC& aUniqueId)
+	{
+	TRAPD(err, DoGetAttributeSetL(aAttributeSet, aFile, aUniqueId));
+	return err;
+	}
+
+void CManager::DoGetAttributeSetL(RAttributeSet& aAttributeSet, RFile& aFile, const TDesC& aUniqueId) const	
+	{
+	// Find the agent who handles the file 
+	CAgentInfo& agentInfo = iResolver->ResolveFileL(aFile);
+	User::LeaveIfError(agentInfo.AgentManagerL().GetAttributeSet(aAttributeSet, aFile, aUniqueId));
+	}	
+
 EXPORT_C TInt CManager::GetStringAttributeSet(RStringAttributeSet& aStringAttributeSet, const TVirtualPathPtr& aVirtualPath) const
 	{
 	TRAPD(err, DoGetStringAttributeSetL(aStringAttributeSet, aVirtualPath));
 	return err;
 	}
-
 
 void CManager::DoGetStringAttributeSetL(RStringAttributeSet& aStringAttributeSet, const TVirtualPathPtr& aVirtualPath) const
 	{
@@ -444,6 +484,20 @@ void CManager::DoGetStringAttributeSetL(RStringAttributeSet& aStringAttributeSet
 	CleanupStack::PopAndDestroy(uriBuffer);
 	}
 
+EXPORT_C TInt CManager::GetStringAttributeSet(RStringAttributeSet& aStringAttributeSet, RFile& aFile, const TDesC& aUniqueId)
+	{
+	TRAPD(err, DoGetStringAttributeSetL(aStringAttributeSet, aFile, aUniqueId));
+	return err;
+	}
+
+void CManager::DoGetStringAttributeSetL(RStringAttributeSet& aStringAttributeSet, RFile& aFile, const TDesC& aUniqueId) const
+	{
+	// Find the agent who handles the file 
+	CAgentInfo& agentInfo = iResolver->ResolveFileL(aFile);
+	// find out the array of attributes
+	User::LeaveIfError(agentInfo.AgentManagerL().GetStringAttributeSet(aStringAttributeSet, aFile, aUniqueId));
+	}
+
 EXPORT_C void CManager::NotifyStatusChange(const TDesC &aURI, TEventMask aMask, TRequestStatus &aStatus) 
 	{
 	TRAPD(err, DoNotifyStatusChangeL(aURI, aMask, aStatus));
@@ -453,7 +507,6 @@ EXPORT_C void CManager::NotifyStatusChange(const TDesC &aURI, TEventMask aMask, 
 		TRequestStatus* status = &aStatus;
 		User::RequestComplete(status, err);
 		}
-
 	}
 
 void CManager::DoNotifyStatusChangeL(const TDesC &aURI, TEventMask aMask, TRequestStatus &aStatus) 
@@ -545,6 +598,13 @@ EXPORT_C void CManager::DisplayInfoL(TDisplayInfo aInfo, const TVirtualPathPtr& 
 	CleanupStack::PopAndDestroy(uriBuffer);
 	}
 
+EXPORT_C void CManager::DisplayInfoL(TDisplayInfo aInfo, RFile& aFile, const TDesC& aUniqueId) 
+	{
+	// Find the agent who handles the file 
+	CAgentInfo& agentInfo = iResolver->ResolveFileL(aFile);
+	// find out the attribute
+	agentInfo.AgentManagerL().DisplayInfoL(aInfo, aFile, aUniqueId);
+	}
 
 EXPORT_C void CManager::ListAgentsL (RArray <TAgent>& aAgents) 
 	{
@@ -642,3 +702,4 @@ EXPORT_C void CManager::DeleteFileL(const TDesC &aFileName)
 	CleanupStack::PopAndDestroy(m);
 	}
 #endif // REMOVE_CAF1
+

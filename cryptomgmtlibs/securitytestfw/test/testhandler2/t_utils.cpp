@@ -103,3 +103,4 @@ EXPORT_C TBool Utils::CompareFileL(const TDesC& aFileName1, const TDesC& aFileNa
 	CleanupStack::PopAndDestroy(5); // fs, file1, file2, fileBuf1, fileBuf2
 	return(success);
 	};
+

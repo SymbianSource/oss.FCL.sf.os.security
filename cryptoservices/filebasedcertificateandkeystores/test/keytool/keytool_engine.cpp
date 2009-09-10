@@ -56,6 +56,9 @@ CKeyToolEngine::~CKeyToolEngine()
 		delete iScheduler;
 		}	
 	iInitialized = EFalse;
+#ifdef KEYTOOL
+	delete iMigrateStoreHandler;
+#endif // KEYTOOL
 	}
 	
 void CKeyToolEngine::ConstructL()
@@ -230,3 +233,14 @@ void CKeyToolEngine::SetPolicyL(CKeyToolParameters* aParam)
 	iHandler = CKeytoolSetPolicy::NewL(iController);	
 	InitializeL();
 	}
+
+#ifdef KEYTOOL
+
+void CKeyToolEngine::MigrateStoreL(CKeyToolParameters* aParams)
+	{
+	iParam = aParams;
+	iMigrateStoreHandler = CKeytoolMigrateStore::NewL(aParams);	
+	iMigrateStoreHandler->DoCommandL();
+	}
+
+#endif // KEYTOOL

@@ -18,3 +18,4 @@ copy \epoc32\winscw\c\tswi\teclipsing\data\2000stub.sis \epoc32\release\winscw\u
 copy \epoc32\winscw\c\tswi\teclipsing\data\2000stub.sis \epoc32\release\winscw\urel\z\system\install\2000stub.sis
 rem
 del /s /Q \epoc32\winscw\c\sys\install\sisregistry
+del /Q /F \epoc32\winscw\c\sys\install\scr\scr.db

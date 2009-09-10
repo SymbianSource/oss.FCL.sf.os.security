@@ -33,6 +33,7 @@ TTestSummary::TTestSummary() :
 void TTestSummary::PrintL(Output& aOut)
 	{
 	aOut.write(_L("%d tests failed out of %d\n"), iTestsFailed, iTestsRun);
+	aOut.write(_L("\r\n</pre></body></html>\r\n"));
 	}
 
 TBool TTestSummary::AllTestsPassed()
@@ -103,22 +104,116 @@ TTestSummary CTestHandler::Summary()
 	}
 
 EXPORT_C void CTestHandler::RunTestsL()
-	{
+ {
+	
+	TBuf8<32>timeBuf;
+	TTime time;
+	time.UniversalTime();
+	TDateTime dateTime = time.DateTime();
+	_LIT8(KDateFormat,"%02d:%02d:%02d:%03d "); 
+	timeBuf.AppendFormat(KDateFormat,dateTime.Hour(),dateTime.Minute(),dateTime.Second(),(dateTime.MicroSecond()/1000));
+
 	iActionNumber = 0;
     CTestAction* action;
+    HBufC8* currentID=NULL;
+    HBufC8* previousID=NULL;
+    TBool testCaseResult=ETrue;
+    TBool isTefScript = EFalse;
     while(iTestSpec.GetNextTest(action))
         {
         iActionCount++;
         iActionNumber++;
+        isTefScript = action->iTefScript;
+//        action->iTefScript = EFalse;
+        delete previousID;
+        previousID = currentID;
+        currentID = action->iNameInfo->AllocLC();
         
+        if ( (previousID == NULL) || (*currentID != *previousID) )
+        	{
+        	if (previousID != NULL)
+        		{  
+        				
+        		
+        		if(action->iTefScript)
+        			{
+        			iOut->writeString(timeBuf);
+        			iOut->writeString(_L("Command = END_TESTCASE "));
+        			}
+	    		iOut->writeString(*previousID);
+	    		if(action->iTefScript)
+	    			{
+	    			iOut->writeString(_L(" ***TestCaseResult = "));
+	    			}
+
+	    		if (testCaseResult)
+	    			{
+	    			iOut->writeString(_L("PASS"));
+	    			}
+	    		else
+	    			{
+	    			iOut->writeString(_L("FAIL"));
+	    			}
+		    	iOut->writeString(_L("\r\n"));
+		    	iOut->writeString(_L("\r\n"));
+        		}
+        	
+        	
+        	if(action->iTefScript)
+        		{
+        		iOut->writeString(timeBuf);
+    	        iOut->writeString(_L("Command = START_TESTCASE  "));
+        		}
+	    	iOut->writeString(*(currentID));
+	    	iOut->writeString(_L("\r\n"));
+	    	testCaseResult = ETrue;
+        	}
+       
         TRAPD(err, RunTestL(action));
+        if (!action->iResult)
+        	{
+        	testCaseResult = EFalse;
+        	}
         if (err != KErrNone)
             {
             FailTestL(action, EFailInTestHandler, err);
             }
-        }
-	DisplaySummary();
-	}
+        CleanupStack::Pop(currentID);
+	    }
+   
+    if (currentID != NULL)
+    	{    	
+    	    	
+		
+		if(isTefScript)
+			{
+			iOut->writeString(timeBuf);
+			iOut->writeString(_L("Command = END_TESTCASE "));
+			}
+		iOut->writeString(*currentID);
+		if(isTefScript)
+			{
+			iOut->writeString(_L(" ***TestCaseResult = "));
+			}
+		
+		if (testCaseResult)
+			{
+			iOut->writeString(_L("PASS"));
+			}
+		else
+			{
+			iOut->writeString(_L("FAIL"));
+			}
+		iOut->writeString(_L("\r\n"));
+		iOut->writeString(_L("\r\n"));
+		}	
+	delete previousID;
+	delete currentID;
+    
+    DisplaySummary();
+ }
+
+
 
 void CTestHandler::RunTestL(CTestAction* aAction)
     {
@@ -133,8 +228,8 @@ void CTestHandler::RunTestL(CTestAction* aAction)
     iOut->writeString(_L("Test "));
     iOut->writeNum(iActionNumber);
     iOut->writeNewLine();
-
-	if (iActionNumber > 1)
+    
+    if (iActionNumber > 1)
 		{
 		iConsole->Printf(_L(", "));
 		}

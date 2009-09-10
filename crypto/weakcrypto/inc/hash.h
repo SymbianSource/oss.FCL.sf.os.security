@@ -19,8 +19,6 @@
 */
 
 
-
-
 /**
  @file 
  @publishedAll
@@ -263,7 +261,6 @@ class CMessageDigest:public CBase
 /** 
  * The MD2 block size (in bytes) 
  * 
- * @internalTechnology 
  */
 const TInt MD2_BLOCK=16;
 
@@ -320,7 +317,6 @@ class CMD2:public CMessageDigest
 /** 
  * The MD5 block size (in bytes)
  * 
- * @internalTechnology 
  */
 const TUint MD5_LBLOCK=16;
 
@@ -389,7 +385,6 @@ class CMD5:public CMessageDigest
 /** 
  * The SHA-1 block size (in bytes) 
  * 
- * @internalTechnology 
  */
 const TUint SHA1_LBLOCK=16;
 
@@ -589,7 +584,6 @@ class CSHA:public CMessageDigest
 	
 /** 
  * The MD4 block size 
- * @internalTechnology 
  */
  const TUint MD4_LBLOCK=16;
 

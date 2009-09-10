@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file
 */
@@ -149,8 +147,18 @@ void CImportKey::PerformAction(TRequestStatus& aStatus)
 				}
                     
 			CUnifiedKeyStore* keyStore = CSharedKeyStores::TheUnifiedKeyStores().operator[](iKeystore);
-			keyStore->ImportKey(0, iKeyData->Des(), iUsage, *iLabel, iAccessType,
-								TTime(0), TTime(0), iKeyInfo, aStatus);			
+			#ifdef SYMBIAN_AUTH_SERVER
+			if(iUseNewApi)
+				{
+				keyStore->ImportKey(0, iKeyData->Des(), iUsage, *iLabel, iAccessType,
+									TTime(0), TTime(0), *iAuthExpression, iFreshness, iKeyInfo, aStatus);
+				}
+			else
+			#endif // SYMBIAN_AUTH_SERVER
+				{
+				keyStore->ImportKey(0, iKeyData->Des(), iUsage, *iLabel, iAccessType,
+									TTime(0), TTime(0), iKeyInfo, aStatus);
+				}
 			iState = EFinished;
 			}		
 			break;
@@ -237,3 +245,4 @@ void CImportKey::DoCheckResult(TInt aError)
 		}
 	}
 }
+

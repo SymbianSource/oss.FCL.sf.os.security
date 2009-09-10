@@ -20,12 +20,12 @@
 
 #include <e32std.h>
 #include <caf/caftypes.h>
-#include "attribute.h"
-#include "agentinterface.h"
-#include "agentfactory.h"
+#include <caf/attribute.h>
+#include <caf/agentinterface.h>
+#include <caf/agentfactory.h>
 #include "agentinfo.h"
-#include "bitset.h"
-#include "attributeset.h"
+#include <caf/bitset.h>
+#include <caf/attributeset.h>
 
 using namespace ContentAccess;
 

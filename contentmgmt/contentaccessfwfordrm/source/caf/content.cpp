@@ -16,20 +16,20 @@
 */
 
 
-#include "content.h"
+#include <caf/content.h>
 #include "resolver.h"
-#include "data.h"
-#include "agentfactory.h"
+#include <caf/data.h>
+#include <caf/agentfactory.h>
 #include "agentinfo.h"
-#include "agentinterface.h"
-#include "attributeset.h"
-#include "agent.h"
-#include "virtualpath.h"
-#include "agentfactory.h"
+#include <caf/agentinterface.h>
+#include <caf/attributeset.h>
+#include <caf/agent.h>
+#include <caf/virtualpath.h>
+#include <caf/agentfactory.h>
 
 #ifndef REMOVE_CAF1
-#include "attribute.h"
-#include "bitset.h"
+#include <caf/attribute.h>
+#include <caf/bitset.h>
 #endif
 
 using namespace ContentAccess;
@@ -103,7 +103,12 @@ void CContent::ConstructL(RFile &aFile)
 	User::LeaveIfError(iFile.Duplicate(aFile));
 	
 	// Rewind the file pointer
+#ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+	TInt64 pos = 0;
+#else
 	TInt pos = 0;
+#endif //SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+
 	iFile.Seek(ESeekStart, pos);
 	
 	// For case where CAF is built with an RFile
@@ -387,3 +392,7 @@ EXPORT_C CAttribute* CContent::NewAttributeL(TBool aPreloaded, TContentShareMode
 
 
 // DLL entry point - only for EKA1
+
+
+
+

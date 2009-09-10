@@ -74,9 +74,11 @@ void CKeytoolConsoleView::DisplayKeyInfoL(CCTKeyInfo& aKey, TBool aIsDetailed, T
 	KeyToolUtils::PrintInfoL(aError);
 	}
 	
- void CKeytoolConsoleView::DisplayCertL(CCTCertInfo& aCert, CCertificate& aCertificate, RUidArray aApps, TBool aIsDetailed, TBool aPageWise)
+ void CKeytoolConsoleView::DisplayCertL(CCTCertInfo& aCert, CCertificate& aCertificate, RUidArray aApps, TBool aTrusted, TBool aIsDetailed, TBool aPageWise)
  	{
 	// Display the cert infos
  	KeyToolUtils::PrintInfoL(_L("\n"), aPageWise);
-	KeyToolUtils::PrintCertInfoL(aCert, aCertificate, aApps, aIsDetailed, aPageWise);
+	KeyToolUtils::PrintCertInfoL(aCert, aCertificate, aApps, aTrusted, aIsDetailed, aPageWise);
  	}
+
+

@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file 
  @internalTechnology
@@ -51,6 +49,7 @@ class CCertStoreChangeNotifier : public CActive
   	virtual ~CCertStoreChangeNotifier();
   	void StartNotification();
   	TInt& iNotifiedCounter;
+  	void SetCompleteStatus(TRequestStatus* aStatus);
   private:
   	CCertStoreChangeNotifier(TInt& aNotificationFlag);
   	void ConstructL();
@@ -58,6 +57,7 @@ class CCertStoreChangeNotifier : public CActive
   	void RunL();
   private:	
   	RProperty iCertStoreChangeProperty;	
+  	TRequestStatus* iCompleteStatus;
   	};
 
 /**

@@ -19,11 +19,10 @@
 */
 
 
-
-
 /**
  @file 
- @internalAll
+ @publishedPartner
+ @released 
 */
  
 #ifndef __ARC4_H__
@@ -44,8 +43,6 @@ const TUint KDefaultDiscardBytes = 768;
 * Implements an RC4-compatible stream cipher that outputs a pseudorandom stream
 * of bits, having been initialised with a key. 
 *
-* @publishedPartner
-* @released 
 */
 class CARC4 : public CStreamCipher
 {

@@ -22,7 +22,7 @@
 #include <s32strm.h>
 #include <stdarg.h>
 #include <caf/caftypes.h>
-#include "bitset.h"
+#include <caf/bitset.h>
 
 using namespace ContentAccess;
 

@@ -14,6 +14,7 @@
 * Description: 
 *
 */
+
 #ifndef __ASNPKCSTESTS_IBY__
 #define __ASNPKCSTESTS_IBY__
 
@@ -28,6 +29,7 @@ define ZDRIVE \epoc32\winscw\c
 // TASNPKCS
 
 file = ABI_DIR\BUILD_DIR\tasnpkcs.exe 	System\Programs\tasnpkcs.exe
-data = ZDRIVE\tasnpkcstests.txt			tasnpkcstests.txt
+data = ZDRIVE\tasnpkcstests.script			tasnpkcstests.script
+data = ZDRIVE\tasnpkcstests.ini			tasnpkcstests.ini
 
 #endif

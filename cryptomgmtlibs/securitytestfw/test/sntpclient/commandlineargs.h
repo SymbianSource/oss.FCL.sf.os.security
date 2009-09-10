@@ -1,5 +1,6 @@
-/*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+#ifndef __COMMANDLINEARGS_H__
+#define __COMMANDLINEARGS_H__/*
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -14,8 +15,7 @@
 * Description: 
 *
 */
-#ifndef __COMMANDLINEARGS_H__
-#define __COMMANDLINEARGS_H__
+
 
 #include <e32base.h>
 #include <in_sock.h>

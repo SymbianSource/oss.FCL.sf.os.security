@@ -130,8 +130,17 @@ void CTokenServer::ConstructL()
 	{
 	FSResources::InitialiseL();
 	FSDialog::InitialiseL();
-	StartL(KFSTokenServerName);
-
+	
+	TPtrC serverName(KFSTokenServerName());
+		// Naming the server thread after the server helps to debug panics
+#ifdef __WINS__
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	serverName.Set(KFSNewTokenServerName());
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+#endif // __WINS__
+		
+	StartL(serverName);
+	
 	// Ensure that the server still exits even if the 1st client fails to connect
 	iShutdown.ConstructL();
 	iShutdown.Start();
@@ -254,8 +263,15 @@ void CShutdown::RunL()
  */
 static void RunServerL()
 	{
+	TPtrC serverName(KFSTokenServerName());
 	// Naming the server thread after the server helps to debug panics
-	User::LeaveIfError(User::RenameThread(KFSTokenServerName));
+#ifdef __WINS__
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	serverName.Set(KFSNewTokenServerName());
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+#endif // __WINS__
+	
+	User::LeaveIfError(User::RenameThread(serverName));
 	
 	// Create and install the active scheduler we need
 	CActiveScheduler* s=new(ELeave) CActiveScheduler;

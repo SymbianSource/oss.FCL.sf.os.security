@@ -17,9 +17,10 @@
 
 
 #include <e32std.h>
-#include <implementationproxy.h>
+#include <ecom/implementationproxy.h>
 #include "CFSTokenTypeClient.h"
 #include <mctkeystore.h>
+
 
 //	Create a client session on the tokentype server
 class CCTTokenType;

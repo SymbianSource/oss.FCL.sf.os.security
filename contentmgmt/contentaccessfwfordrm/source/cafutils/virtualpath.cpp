@@ -17,7 +17,7 @@
 
 
 #include <s32strm.h>
-#include "virtualpath.h"
+#include <caf/virtualpath.h>
 #include "cafutils.h"
 
 using namespace ContentAccess;

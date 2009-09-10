@@ -167,7 +167,7 @@ void CListKeys::DoReportAction()
 }
 
 // Truncate labels after this many characters
-//  also declared in t_keystore_actions.cpp - create PrintKeyLabel method
+// also declared in t_keystore_actions.cpp - create PrintKeyLabel method
 static const TInt KMaxLabel = 32;
 _LIT(KEllipsis, "...");
 
@@ -204,7 +204,13 @@ void CListKeys::DoCheckResult(TInt aError)
 				iOut.writeString(buf);
 				iOut.writeNewLine();
 
-				PrintKeyInfoL(*iKeys[i]); 
+				TRAPD(err,PrintKeyInfoL(*iKeys[i])); 
+				_LIT(KFailed, "!!!Key listing failure!!!\n");
+				iConsole.Write(KFailed);
+				iOut.writeString(KFailed);
+				iOut.writeNum(err);
+				iOut.writeNewLine();
+				return;			
 				}
 			
 			TInt j;
@@ -416,7 +422,12 @@ void CGetKeyInfo::DoCheckResult(TInt)
 	{
     if (iFinished && iKey)
 		{
-		PrintKeyInfoL(*iKey); 
+		TRAPD(err,PrintKeyInfoL(*iKey)); 
+		_LIT(KFailed, "!!!Key listing failure!!!\n");
+		iConsole.Write(KFailed);
+		iOut.writeString(KFailed);
+		iOut.writeNum(err);
+		iOut.writeNewLine();
 		}
 	}
  
@@ -431,9 +442,9 @@ void CGetKeyInfo::ConstructL(const TTestActionSpec& aTestActionSpec)
 	CKeyStoreTestAction::ConstructL(aTestActionSpec);
 	
 	SetKeySize(Input::ParseElement(aTestActionSpec.iActionBody, KKeySizeStart));
-	SetNative(Input::ParseElement(aTestActionSpec.iActionBody, KKeyNativeStart));
-	SetStartDate(Input::ParseElement(aTestActionSpec.iActionBody, KKeyStartDateStart));
-	SetEndDate(Input::ParseElement(aTestActionSpec.iActionBody, KKeyEndDateStart));
+	SetNativeL(Input::ParseElement(aTestActionSpec.iActionBody, KKeyNativeStart));
+	SetStartDateL(Input::ParseElement(aTestActionSpec.iActionBody, KKeyStartDateStart));
+	SetEndDateL(Input::ParseElement(aTestActionSpec.iActionBody, KKeyEndDateStart));
 	
 	iState = EListKeysPreGet;
 }
@@ -444,7 +455,7 @@ void CGetKeyInfo::SetKeySize(const TDesC8& aKeySize)
 	lex.Val(iSize);
 }
 
-void CGetKeyInfo::SetNative(const TDesC8& aData)
+void CGetKeyInfo::SetNativeL(const TDesC8& aData)
 {
     if (aData.Length() == 0)
 		return;
@@ -461,7 +472,7 @@ void CGetKeyInfo::SetNative(const TDesC8& aData)
 		User::Leave(KErrCorrupt);
 }
 
-void CGetKeyInfo::SetStartDate(const TDesC8& aData)
+void CGetKeyInfo::SetStartDateL(const TDesC8& aData)
 	{
     if (aData.Length() == 0)
 		return;
@@ -479,7 +490,7 @@ void CGetKeyInfo::SetStartDate(const TDesC8& aData)
 	CleanupStack::PopAndDestroy(buf);
 	}
 
-void CGetKeyInfo::SetEndDate(const TDesC8& aData)
+void CGetKeyInfo::SetEndDateL(const TDesC8& aData)
 	{
     if (aData.Length() == 0)
 		return;

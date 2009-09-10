@@ -165,3 +165,5 @@ inline TBool operator==(const TCompiledSecurityPolicy& aLeft, const TCompiledSec
 	}
 
 #endif //__TTESTTOOLENGINE_H_
+
+

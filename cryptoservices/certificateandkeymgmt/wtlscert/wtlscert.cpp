@@ -581,3 +581,4 @@ void CWTLSCertificate::InitEncodedDataElementsL()
 	aPos+=+subjectEncodedLength;
 	*pElement++ = new(ELeave) TPtrC8(signedData.Right(signedData.Length() - aPos));
 	}
+

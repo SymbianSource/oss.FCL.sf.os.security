@@ -108,7 +108,7 @@ EXPORT_C void CTestSetup::CreateAndRunTestsL(TScriptTests theTestTypes[],
 		TInt initProcessHandleCount;
 		RThread().HandleCount(initProcessHandleCount, initThreadHandleCount);
 		
-
+		testSetup->LogFile().write(_L("<html><body><pre>\r\n"));
 		testSetup->LogFile().write(_L("State of the system before the tests:\n"));
 		testSetup->LogFile().write(_L("\tRFs resource count: %d\n"), initRFsCount);
 		testSetup->LogFile().write(_L("\tProcess handle count: %d\n"), initProcessHandleCount);
@@ -392,7 +392,7 @@ TBool CTestSetup::CheckOOMandCancel(const CTestHandlerSettings& aCommandLineSett
 	}
 
 
-CTestSetup::~CTestSetup()
+EXPORT_C CTestSetup::~CTestSetup()
 	{
 	delete iLogFile;
 	delete iTestConsole;

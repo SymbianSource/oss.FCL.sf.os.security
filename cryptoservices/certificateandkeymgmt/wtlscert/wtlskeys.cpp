@@ -60,3 +60,4 @@ void CWTLSRSAPublicKey::ConstructL(const TDesC8& aBinaryData, TInt& aPos)
 
 CWTLSRSAPublicKey::CWTLSRSAPublicKey()
 {}
+

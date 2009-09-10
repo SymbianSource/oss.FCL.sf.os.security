@@ -16,8 +16,6 @@
 */
 
 
-
-
 #include <pkcs7issuerserial.h> 
 #include <x500dn.h>
 #include <asn1dec.h>
@@ -108,3 +106,7 @@ CASN1EncSequence* CPKCS7IssuerAndSerialNumber::EncodeASN1DERLC() const
 	CleanupStack::PopAndDestroy(&snBInt);
 	return root;
 	}
+
+
+
+

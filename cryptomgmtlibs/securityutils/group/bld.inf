@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file
 */
@@ -27,17 +25,19 @@ PRJ_PLATFORMS
 DEFAULT
 
 PRJ_EXPORTS
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
 ../inc/euserext.h
-../inc/securityerr.h
-../inc/sectcbutil.h
-../inc/base64.h
-../inc/miscutil.h
-../inc/callbacktimer.h
-../inc/explicit_http_session.h
+#endif
+../inc/miscutil.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(miscutil.h)
+../inc/callbacktimer.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(callbacktimer.h)
 
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+../inc/securityerr.h			/epoc32/include/securityerr.h
+#endif
 // ROMKIT includes
 ../inc/secutil.iby 		/epoc32/rom/include/secutil.iby
 ../inc/sectcbutil.iby	/epoc32/rom/include/sectcbutil.iby
+
 
 PRJ_TESTEXPORTS
 
@@ -45,11 +45,8 @@ PRJ_TESTEXPORTS
 ../test/trecog/scripts/trecogcert.ini		/epoc32/winscw/c/trecog/trecogcert.ini
 ../test/trecog/scripts/trecogcert.script		/epoc32/winscw/c/trecog/trecogcert.script
 
+
 // trecog java exports
-../test/trecog/scripts/trecogjava.ini		/epoc32/winscw/c/trecog/trecogjava.ini
-../test/trecog/scripts/trecogjava.script	/epoc32/winscw/c/trecog/trecogjava.script
-../test/trecog/data/smalljad.jad			/epoc32/winscw/c/trecog/smalljad.jad
-../test/trecog/data/largejad.jad			/epoc32/winscw/c/trecog/largejad.jad
 
 ../test/trecog/scripts/trecogpkcs12.ini			/epoc32/winscw/c/trecog/trecogpkcs12.ini
 ../test/trecog/scripts/trecogpkcs12.script		/epoc32/winscw/c/trecog/trecogpkcs12.script
@@ -74,3 +71,5 @@ sectcbutil.mmp
 
 PRJ_TESTMMPFILES
 ../test/trecog/trecog.mmp
+
+

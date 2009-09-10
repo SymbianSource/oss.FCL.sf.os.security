@@ -23,7 +23,7 @@
 
 #include <e32std.h>
 #include <f32file.h>
-#include <ECom.h>
+#include <ecom/ecom.h>
 
 
 ///////////////

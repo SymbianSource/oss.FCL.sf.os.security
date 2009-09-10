@@ -19,7 +19,7 @@
 #include "CSWICertStoreTokenType.h"
 #include "CSWICertStoreToken.h"
 #include <swicertstore.h>
-#include <tcttokenhandle.h>
+#include <ct/tcttokenhandle.h>
 
 // KSWICertStoreName is used for both the token type label and the token name
 _LIT(KSWICertStoreName, "SWI cert store"); 

@@ -35,6 +35,11 @@ class KeyToolDefController
 	    KSetAllUsersCommand,		
 	    KRemoveUserCommand,	
 	    KListStoresCommand,
+	    
+#ifdef KEYTOOL
+	    KMigrateStore,
+#endif // KEYTOOL
+	    
 	  };	
 	};
 	

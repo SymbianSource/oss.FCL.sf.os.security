@@ -14,7 +14,6 @@
 @rem Description: 
 @rem
 
-
 call md \epoc32\winscw\c\tswi
 call md \epoc32\winscw\c\tswi\policies
 call copy /Y  %SECURITYSOURCEDIR%\os\security\cryptoservices\certificateandkeymgmt\tcertstore\scripts\swipolicy_ocsp_http_filter.ini \epoc32\winscw\c\tswi\policies\swipolicy_ocsp_http_filter.ini

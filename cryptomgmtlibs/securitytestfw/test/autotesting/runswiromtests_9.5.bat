@@ -13,8 +13,6 @@
 @rem
 @rem Description: 
 @rem
-REM Warning - The Silent Install test, cleanupinfrastructure test and tpropagation test will format the E: MMC drive
-REM Save existing results
 md c:\savedresults
 copy /s e:\testresults\* c:\savedresults
 
@@ -33,10 +31,13 @@ REM Run test
 testexecute z:\tswi\tuiscriptadaptors\scripts\inc098114_h2.script
 
 md c:\tswi
+md c:\tswi\tbackuprestore
 
 testexecute z:\tswi\tuiscriptadaptors\scripts\tcleanupinfrastructure.script
 
 testexecute z:\tswi\tuiscriptadaptors\scripts\tpropagation_arm.script
+
+testexecute z:\tswi\tuiscriptadaptors\scripts\test_pa_sapropagated_notdelete.script
 
 REM Restore results
 md e:\testresults
@@ -52,7 +53,8 @@ del /s c:\USBLoader\*
 move c:\logs\testexecute\tsilent_h2.htm e:\testresults\tsilent_h2.htm
 move c:\logs\testexecute\inc098114_h2.htm e:\testresults\inc098114_h2.htm
 move c:\logs\testexecute\tcleanupinfrastructure.htm e:\testresults\tcleanupinfrastructure.htm
-copy c:\logs\testexecute\tpropagation_arm.htm e:\testresults\tpropagation_arm.htm
+move c:\logs\testexecute\tpropagation_arm.htm e:\testresults\tpropagation_arm.htm
+move c:\logs\testexecute\test_pa_sapropagated_notdelete.htm e:\testresults\test_pa_sapropagated_notdelete.htm
 
 REM Run recognizer tests
 md c:\trecog
@@ -128,15 +130,6 @@ move c:\logs\testexecute\testdrives.htm e:\testresults\testdrives.htm
 
 copy z:\auto.cfg c:\auto.cfg
 attrib c:\auto.cfg -r
-md c:\tswi\tbackuprestore
-testexecute z:\tswi\tbackuprestore\scripts\tbackuprestore.script
-move c:\logs\testexecute\tbackuprestore.htm e:\testresults\tbackuprestore.htm
-
-testexecute z:\tswi\tbackuprestore\scripts\tbackuprestoredrive_armv5.script
-move c:\logs\testexecute\tbackuprestoredrive_armv5.htm e:\testresults\tbackuprestoredrive_armv5.htm
-
-testexecute z:\tswi\tbackuprestore\scripts\tbackuptrestore_exploratory.script
-move c:\logs\testexecute\tbackuptrestore_exploratory.htm e:\testresults\tbackuptrestore_exploratory.htm
 
 testexecute z:\tswi\trevocation\scripts\trevocation.script
 move c:\logs\testexecute\trevocation.htm e:\testresults\trevocation.htm
@@ -208,6 +201,7 @@ move c:\logs\testexecute\devcerts_aggregate.htm e:\testresults\devcerts_aggregat
 testexecute z:\tswi\tdevcerts\scripts\devcerts_corrupt.script
 move c:\logs\testexecute\devcerts_corrupt.htm e:\testresults\devcerts_corrupt.htm
 
+md c:\tswi\tbackuprestore
 testexecute z:\tswi\tdevcerts\scripts\devcerts_backuprestore.script
 move c:\logs\testexecute\devcerts_backuprestore.htm e:\testresults\devcerts_backuprestore.htm
 
@@ -247,8 +241,8 @@ testexecute z:\tswi\tuiscriptadaptors\scripts\switermination.script
 move c:\logs\testexecute\switermination.htm e:\testresults\switermination.htm
 
 REM Test non removable flag
-testexecute z:\tswi\tuiscriptadaptors\scripts\testnonremovable_armv5.script
-move c:\logs\testexecute\testnonremovable_armv5.htm e:\testresults\testnonremovable_armv5.htm
+testexecute z:\tswi\tuiscriptadaptors\scripts\testnonremovable.script
+move c:\logs\testexecute\testnonremovable.htm e:\testresults\testnonremovable.htm
 
 md c:\tswi\tbackuprestore
 testexecute z:\tswi\tuiscriptadaptors\scripts\tresetdevice.script
@@ -273,7 +267,7 @@ testexecute z:\tswi\tuiscriptadaptors\scripts\overwriteprivate_positive.script
 move c:\logs\testexecute\overwriteprivate_positive.htm e:\testresults\overwriteprivate_positive.script.htm
 
 testexecute z:\tswi\tautosigning\scripts\tautosigning.script
-copy c:\logs\testexeute\tautosigning.htm e:\testresults\tautosigning.htm
+move c:\logs\testexecute\tautosigning.htm e:\testresults\tautosigning.htm
 
 testexecute z:\tswi\tuiscriptadaptors\scripts\testasynccaps.script
 move c:\logs\testexecute\testasynccaps.htm e:\testresults\testasynccaps.htm
@@ -292,6 +286,10 @@ move c:\logs\testexecute\testsystemcaps.htm e:\testresults\testsystemcaps.htm
 
 testexecute z:\tswi\tuiscriptadaptors\scripts\testusercaps.script
 move c:\logs\testexecute\testusercaps.htm e:\testresults\testusercaps.htm
+
+testexecute z:\tswi\tuiscriptadaptors\scripts\testusercaps_nousergrantcaps_hw.script
+move c:\logs\testexecute\testusercaps_nousergrantcaps_hw.htm e:\testresults\testusercaps_nousergrantcaps_hw.htm
+
 REM Demandpaging  tests
 testexecute z:\tswi\tuiscriptadaptors\scripts\tdempaging_armv5.script
 move c:\logs\testexecute\tdempaging_armv5.htm e:\testresults\tdempaging_armv5.htm
@@ -311,6 +309,18 @@ copy c:\logs\testexecute\testswiobserver.htm e:\testresults\testswiobserver.htm
 REM SWI Adorned filename handling tests
 testexecute.exe z:\tswi\tuiscriptadaptors\scripts\adornedfilenames.script
 copy c:\logs\testexecute\adornedfilenames.htm e:\testresults\adornedfilenames.htm
+
+REM Backup/restore tests
+md c:\tswi\tbackuprestore
+
+testexecute z:\tswi\tbackuprestore\scripts\tbackuptrestore_exploratory.script
+move c:\logs\testexecute\tbackuptrestore_exploratory.htm e:\testresults\tbackuptrestore_exploratory.htm
+
+testexecute z:\tswi\tbackuprestore\scripts\tbackuprestore.script
+move c:\logs\testexecute\tbackuprestore.htm e:\testresults\tbackuprestore.htm
+
+testexecute z:\tswi\tbackuprestore\scripts\tbackuprestoredrive_armv5.script
+move c:\logs\testexecute\tbackuprestoredrive_armv5.htm e:\testresults\tbackuprestoredrive_armv5.htm
 
 del c:\temp\*.*
 attrib c:\tswi\*.* -r

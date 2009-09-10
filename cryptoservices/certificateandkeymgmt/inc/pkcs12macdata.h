@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file
  @publishedPartner
@@ -143,3 +141,4 @@ private:
 	};
 } // namespace PKCS12
 #endif // __PKCS12_MACDATA_H__
+

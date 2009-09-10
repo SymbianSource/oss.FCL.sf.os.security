@@ -18,16 +18,14 @@
 
 
 
-
-
 /**
- @file step.h
+ @file
 */
 #ifndef __STEP_H__
 #define __STEP_H__
 
 #include <e32cons.h>
-#include <testexecutestepbase.h>
+#include <test/testexecutestepbase.h>
 
 struct TScriptTests;
 

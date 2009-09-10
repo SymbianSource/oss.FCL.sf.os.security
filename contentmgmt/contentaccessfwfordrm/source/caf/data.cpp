@@ -18,14 +18,15 @@
 
 #include <apmstd.h>
 
-#include "data.h"
-#include "agentinterface.h"
+#include <caf/data.h>
+#include <caf/agentinterface.h>
 #include "agentinfo.h"
-#include "agentfactory.h"
-#include "attributeset.h"
-#include "virtualpath.h"
+#include <caf/agentfactory.h>
+#include <caf/attributeset.h>
+#include <caf/virtualpath.h>
 #include "resolver.h"
 #include "agentinfo.h"
+#include <e32def.h>
 
 using namespace ContentAccess;
 
@@ -256,6 +257,23 @@ EXPORT_C void CData::DataSizeL(TInt& aSize)
 	iAgentData->DataSizeL(aSize);
 	}
 
+#ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+EXPORT_C void CData::DataSize64L(TInt64& aSize)
+	{
+	// ask the agent for the data size of the current content object
+	TRAPD(err, iAgentData->DataSize64L(aSize));
+	if(err == KErrCANotSupported)
+		{
+		//fallback to 32bit API
+		TInt size32;
+		iAgentData->DataSizeL(size32);
+		aSize = size32;
+		}
+	else
+		User::LeaveIfError(err);
+	}
+#endif // SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+
 EXPORT_C TInt CData::EvaluateIntent(TIntent aIntent)
 	{
 	// ask the agent to re-evaluate the intent on the current content object
@@ -299,9 +317,26 @@ EXPORT_C void CData::ReadCancel(TRequestStatus &aStatus) const
 	{
 	iAgentData->ReadCancel(aStatus);
 	}
-EXPORT_C TInt CData::Read(TInt aPos, TDes8& aDes,
+
+#ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+	EXPORT_C TInt CData::Read_Unused(TInt aPos, TDes8& aDes, 
+								TInt aLength, TRequestStatus& aStatus) const
+#else
+	EXPORT_C TInt CData::Read(TInt aPos, TDes8& aDes, 
+								TInt aLength, TRequestStatus& aStatus) const
+#endif
+	{
+	// ask the agent to read plaintext from the content object 
+	if(aPos<0)
+		return KErrArgument;
+	return iAgentData->Read(aPos, aDes, aLength, aStatus);
+	}
+
+#ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+EXPORT_C TInt CData::Read(TInt64 aPos, TDes8& aDes,
 						  TInt aLength, TRequestStatus& aStatus) const
 	{
+	// If agent does not support 64bit Read, a fallback to 32bit Read is provided automatically
 	// The above API method signature allows error codes to be returned
 	// via two different routes (return code & aStatus). Should the async request 
 	// dispatch fail then an error code is returned immediately via the 
@@ -310,20 +345,36 @@ EXPORT_C TInt CData::Read(TInt aPos, TDes8& aDes,
 	// NOTE: it is not generally not recommended for functions to be able to return
 	// error codes in two different ways as this places a bigger error-checking
 	// burden on clients.
-	
-	
-	// ask the agent to read plaintext from the content object 
 	if(aPos<0)
 		return KErrArgument;
-	return iAgentData->Read(aPos, aDes, aLength, aStatus);
+	
+	TInt rval = iAgentData->Read64(aPos, aDes, aLength, aStatus);
+	return (rval == KErrCANotSupported? iAgentData->Read((TInt)aPos, aDes, aLength, aStatus) : rval );
 	}
-
+#endif // SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
 
 EXPORT_C TInt CData::Seek(TSeek aMode,TInt& aPos) const
 	{
 	// ask the agent to seek witin the plaintext 
 	return iAgentData->Seek(aMode, aPos);
 	}
+
+#ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+EXPORT_C TInt CData::Seek64(TSeek aMode,TInt64& aPos) const
+	{
+	// ask the agent to seek witin the plaintext 
+	TInt rval64 = iAgentData->Seek64(aMode, aPos);
+	if(rval64 == KErrCANotSupported)
+		{
+		//fallback to 32bit API
+		TInt pos32 = I64INT(aPos);
+		TInt rval32 = iAgentData->Seek(aMode, pos32);
+		aPos = pos32;
+		return rval32;
+		}
+	return rval64;
+	}
+#endif // SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
 
 EXPORT_C TInt CData::SetProperty(TAgentProperty aProperty, TInt aValue)
 	{

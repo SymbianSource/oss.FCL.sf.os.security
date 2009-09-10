@@ -37,3 +37,4 @@ class CTestInvalidOID : public CTestBase
 	};
 
 #endif
+

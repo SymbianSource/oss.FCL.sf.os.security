@@ -18,9 +18,9 @@
 
 #include <ecom/ecom.h>
 #include "agentinfo.h"
-#include "agent.h"
-#include "agentfactory.h"
-#include "agentinterface.h"
+#include <caf/agent.h>
+#include <caf/agentfactory.h>
+#include <caf/agentinterface.h>
 
 using namespace ContentAccess;
 

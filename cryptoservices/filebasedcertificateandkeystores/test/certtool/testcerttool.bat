@@ -13,7 +13,6 @@
 @rem
 @rem Description: 
 @rem
-REM Test the certtool 
 
 \epoc32\release\winscw\udeb\certtool
 

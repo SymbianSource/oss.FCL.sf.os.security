@@ -13,7 +13,6 @@
 @rem
 @rem Description: 
 @rem
-REM PKCS7 tests - uses testexecute framework
 copy /s z:\tpkcs7\ c:\tpkcs7\
 testexecute c:\tpkcs7\tpkcs7_v2.script
 move c:\logs\testexecute\tpkcs7_v2.htm e:\testresults\tpkcs7_v2.htm
@@ -73,13 +72,6 @@ move c:\testresults\wri-swicertstore.txt e:\testresults\wri-swicertstore.txt
 
 del c:\system\data\cacerts.dat
 
-REM Composite Certstore Configuration CR1393
-del c:\private\101f72a6\cacerts.dat
-del c:\private\101f72a6\certclients.dat
-t_certstore c:\tcertstore\multiple_certstore\scripts\tfilecertstore14.txt c:\testresults\tfilecertstore14.txt
-move c:\testresults\tfilecertstore14.txt e:\testresults\tfilecertstore14.txt
-del c:\private\101f72a6\cacerts.dat
-del c:\private\101f72a6\certclients.dat
 
 rem deleting data on c: to save room and leave slots in root folder
 del /s c:\unifiedcertstore2\
@@ -127,6 +119,10 @@ del /s c:\system\tocsp\
 attrib c:\*.* -r
 del c:\*.*
 
+REM Test the JMI CenRep's production version initialization file
+tjmicenrep
+move c:\jmicenreptest.log e:\testresults\jmicenreptest.log
+
 rem TX509
 rem copy tx509 test data
 copy /s z:\tx509\ c:\tx509\
@@ -135,10 +131,6 @@ rem run tx509 tests
 tx509 \TX509\SCRIPTS\TX509.TXT c:\testresults\tx509.log
 rem copy results to mmc card 
 move c:\testresults\tx509.log e:\testresults\tx509.log
-rem run tx509 distinguished name tests
-tx509 \tx509\scripts\tx509-dnames.txt c:\testresults\tx509_dnames.log
-rem copy results to mmc card
-move c:\testresults\tx509_dnames.log e:\testresults\tx509_dnames.log
 rem run tx509 dev certs tests
 tx509 \TX509\SCRIPTS\TX509_DEV_CERTS.TXT c:\testresults\tx509_dev_certs.log
 rem copy results to mmc card
@@ -200,14 +192,6 @@ copy /s z:\tpkcs10\ c:\tpkcs10\
 testexecute c:\tpkcs10\scripts\tpkcs10_v2.script
 move c:\logs\testexecute\tpkcs10_v2.htm e:\testresults\tpkcs10_v2.htm
 del /s c:\tpkcs10
-
-REM tpkixcert_tef
-copy /s z:\tpkixcert_tef\ c:\tpkixcert_tef\
-testexecute c:\tpkixcert_tef\scripts\tpkixcert_tef.script
-move c:\logs\testexecute\tpkixcert_tef.htm e:\testresults\tpkixcert_tef.htm
-del /s c:\tpkixcert_tef
-
-
 attrib c:\*.* -r
 del c:\*.*
 

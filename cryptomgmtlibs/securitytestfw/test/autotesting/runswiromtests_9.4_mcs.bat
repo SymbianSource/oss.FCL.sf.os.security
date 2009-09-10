@@ -13,7 +13,6 @@
 @rem
 @rem Description: 
 @rem
-REM SWI tests
 	
 md c:\tswi\
 

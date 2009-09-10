@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file
 */
@@ -38,3 +36,4 @@ LIBRARY       euser.lib efsrv.lib x509.lib charconv.lib bafl.lib estor.lib x500.
 VENDORID 0x70000001
 
 UID    0x1000008d 0x10282B23
+SMPSAFE

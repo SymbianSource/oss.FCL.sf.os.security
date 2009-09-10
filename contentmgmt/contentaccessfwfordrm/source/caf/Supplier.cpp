@@ -17,15 +17,15 @@
 
 
 #include <caf/caftypes.h>
-#include "metadataarray.h"
-#include "supplier.h"
+#include <caf/metadataarray.h>
+#include <caf/supplier.h>
 #include "resolver.h"
-#include "importfile.h"
+#include <caf/importfile.h>
 #include "agentinfo.h"
-#include "agentinterface.h"
+#include <caf/agentinterface.h>
 
 #ifndef REMOVE_CAF1
-#include "cafmimeheader.h"
+#include <caf/cafmimeheader.h>
 #include <apmstd.h> 
 #endif // REMOVE_CAF1
 
@@ -205,3 +205,5 @@ EXPORT_C CImportFile *  CSupplier::ImportFileL (CCafMimeHeader &aMimeHeader, con
 	}
 
 #endif // REMOVE_CAF1
+
+

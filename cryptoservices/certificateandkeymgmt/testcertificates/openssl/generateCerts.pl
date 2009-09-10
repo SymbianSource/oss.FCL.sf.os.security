@@ -275,3 +275,4 @@ system("openssl x509 -in $cert_path\\openssl\\OCSPSigningRoot\\Certs\\ca.pem -ou
 system("openssl req -config openssl.config -newkey rsa:1024 -keyout $cert_path\\openssl\\OCSPSigningRoot\\private\\Signer-OCSPR.key.pem -out $cert_path\\openssl\\OCSPSigningRoot\\Signer-OCSPR.req.pem -subj \"/O=Symbian Software Ltd/CN=Signer-OCSPR\" -days 3650 -nodes");
 system("openssl ca  -config openssl.config -name OCSPSigningRoot -in $cert_path\\openssl\\OCSPSigningRoot\\Signer-OCSPR.req.pem -batch -days 3650");
 system("openssl x509 -in $cert_path\\openssl\\OCSPSigningRoot\\Certs\\01.pem -outform DER -out $cert_path\\openssl\\Certs\\Signer-OCSPR.der");
+

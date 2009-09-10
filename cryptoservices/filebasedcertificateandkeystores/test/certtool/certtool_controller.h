@@ -60,3 +60,4 @@ class CCertToolController : public CController, public CertToolDefController
 	};
 	
 #endif    //__CERTTOOL_CONTROLLER_H_
+

@@ -476,3 +476,4 @@ TVerdict CPKCS10NegPKCS10Request::doTestStepL()
 
 	return TestStepResult();
 	}
+

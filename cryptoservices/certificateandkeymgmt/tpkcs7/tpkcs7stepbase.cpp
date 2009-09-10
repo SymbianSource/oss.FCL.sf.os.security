@@ -17,7 +17,7 @@
 
 
 #include "tpkcs7stepbase.h"
-#include <testexecutelog.h>
+#include <test/testexecutelog.h>
 
 CTPKCS7StepBase::~CTPKCS7StepBase()
 	{
@@ -119,3 +119,4 @@ TVerdict CTPKCS7StepBase::doTestStepPreambleL()
    
 	return TestStepResult();
 	}
+

@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+# Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies).
 # All rights reserved.
 # This component and the accompanying materials are made available
 # under the terms of the License "Eclipse Public License v1.0"
@@ -12,19 +12,17 @@
 # Contributors:
 #
 # Description: 
-#
 # This script was written as part the solution for DEF116697: Remove Security Test Certificates from CBR 
 # The purpose of the defect was to stop the export of all test certificates that may not be Symbian owned.
 # To accomplish this the certificates were all moved to a new location which does not get put in the CBR.
 # This script is run in the ONB so that no new certificates are added to any directory that appears in the CBR.
 # (Note that the certificates in rootcerts are Symbian owned and so can be exported.)
-
-
 # This script takes 2 arguments
 # - directory to search for certificates (defaults to \common\generic\security)
 # - output file for result of test (defaults to $ENV{EPOCROOT}epoc32\\winscw\\c\\CheckLocationOfCertificatesLog.txt)
 # The script searches through the specified directory for any certificate files (files ending in .cer, .der and .crt).
 # It will print out the names of any files found. 
+#
  
 
 use File::Find;
@@ -36,7 +34,7 @@ use File::Find;
 sub FindCerts
 {
 	# Check for certificates which are not in valid locations 
-	if (($File::Find::dir !~ m/\/testframework\/testcertificates/) && ($File::Find::dir !~ m/\/os\/security\/cryptoservices\/rootcertificates/))
+	if (($File::Find::dir !~ m/\/testframework\/testcertificates/) && ($File::Find::dir !~ m/\/os\/security\/cryptoservices\/rootcertificates/) && ($File::Find::dir !~ m/\/os\/security\/cryptomgmtlibs\/securitytestfw\/testcertificates/))
 	{	
 		if ($File::Find::name =~ m/\.cer$/i)
 		{

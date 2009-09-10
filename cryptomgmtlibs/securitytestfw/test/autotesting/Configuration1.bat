@@ -13,7 +13,6 @@
 @rem
 @rem Description: 
 @rem
-rem Certstore Configuration 1 setup script
 cd \
 call %SECURITYSOURCEDIR%\os\security\cryptomgmtlibs\securitytestfw\test\autotesting\useautocfg.bat
 

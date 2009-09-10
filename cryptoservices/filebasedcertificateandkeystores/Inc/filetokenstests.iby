@@ -14,6 +14,7 @@
 * Description: 
 *
 */
+
 #ifndef __FILETOKENSTESTS_IBY__
 #define __FILETOKENSTESTS_IBY__
 
@@ -31,7 +32,7 @@ data=ABI_DIR\BUILD_DIR\ttesttools.exe	sys\bin\ttesttools.exe
 
 data=MULTI_LINGUIFY(RSC EPOCROOT##epoc32\data\Z\resource\Apps\keytool  resource\Apps\keytool)
 
-file=ABI_DIR\BUILD_DIR\tfiletokens.exe	System\Libs\tfiletokens.exe
+file=ABI_DIR\BUILD_DIR\tfiletokens.exe	sys\bin\tfiletokens.exe
 
 // tsecdlg is required to run tests without a passphrase dialog popping up.
 // SecDlg will also need to be removed
@@ -45,13 +46,62 @@ ECOM_PLUGIN(101faaa3.dll, 101faaa3.rsc)
 ECOM_PLUGIN(101faaa5.dll, 101faaa5.rsc)
 
 //scripts
-data = ZDRIVE\tkeystore\scripts\tkeystore.txt		tkeystore\scripts\tkeystore.txt
-data = ZDRIVE\tkeystore\scripts\cancel.txt		tkeystore\scripts\cancel.txt
-data = ZDRIVE\tkeystore\scripts\oom.txt			tkeystore\scripts\oom.txt
-data = ZDRIVE\tkeystore\scripts\servoom.txt		tkeystore\scripts\servoom.txt
-data = ZDRIVE\tkeystore\scripts\exportscript.txt	tkeystore\scripts\exportscript.txt
-data = ZDRIVE\tkeystore\scripts\authobjects.txt		tkeystore\scripts\authobjects.txt
-data = ZDRIVE\tkeystore\scripts\reload.txt		tkeystore\scripts\reload.txt
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+data = ZDRIVE\tkeystore\scripts\registration.ini		tkeystore\scripts\registration.ini
+data = ZDRIVE\tkeystore\scripts\initialize.script	tkeystore\scripts\initialize.script
+data = ZDRIVE\tkeystore\scripts\reg_first_identity.script	tkeystore\scripts\reg_first_identity.script
+data = ZDRIVE\tkeystore\scripts\reg_second_identity.script	tkeystore\scripts\reg_second_identity.script
+data = ZDRIVE\tkeystore\scripts\authobjects_useauth.txt	tkeystore\scripts\authobjects_useauth.txt
+
+//TMS support
+data = ZDRIVE\tkeystore\scripts\cancel_useauth.script		tkeystore\scripts\cancel_useauth.script
+data = ZDRIVE\tkeystore\scripts\exportscript_useauth.script	tkeystore\scripts\exportscript_useauth.script
+data = ZDRIVE\tkeystore\scripts\oom_useauth.script			tkeystore\scripts\oom_useauth.script
+data = ZDRIVE\tkeystore\scripts\reload_useauth.script		tkeystore\scripts\reload_useauth.script
+data = ZDRIVE\tkeystore\scripts\servoom_useauth.script		tkeystore\scripts\servoom_useauth.script
+data = ZDRIVE\tkeystore\scripts\tkeystore_authentication1.script	tkeystore\scripts\tkeystore_authentication1.script
+data = ZDRIVE\tkeystore\scripts\tkeystore_authentication2.script	tkeystore\scripts\tkeystore_authentication2.script
+data = ZDRIVE\tkeystore\scripts\tkeystore_nouserregistered.script	tkeystore\scripts\tkeystore_nouserregistered.script
+data = ZDRIVE\tkeystore\scripts\tkeystore_useauth.script		tkeystore\scripts\tkeystore_useauth.script
+data = ZDRIVE\tkeystore\scripts\capability_useauth.script		tkeystore\scripts\capability_useauth.script
+data = ZDRIVE\tkeystore\scripts\authenticate_useauth.script		tkeystore\scripts\authenticate_useauth.script
+data = ZDRIVE\tkeystore\scripts\cancel_useauth.ini		tkeystore\scripts\cancel_useauth.ini
+data = ZDRIVE\tkeystore\scripts\exportscript_useauth.ini	tkeystore\scripts\exportscript_useauth.ini
+data = ZDRIVE\tkeystore\scripts\oom_useauth.ini			tkeystore\scripts\oom_useauth.ini
+data = ZDRIVE\tkeystore\scripts\reload_useauth.ini		tkeystore\scripts\reload_useauth.ini
+data = ZDRIVE\tkeystore\scripts\servoom_useauth.ini		tkeystore\scripts\servoom_useauth.ini
+data = ZDRIVE\tkeystore\scripts\tkeystore_authentication1.ini	tkeystore\scripts\tkeystore_authentication1.ini
+data = ZDRIVE\tkeystore\scripts\tkeystore_authentication2.ini	tkeystore\scripts\tkeystore_authentication2.ini
+data = ZDRIVE\tkeystore\scripts\tkeystore_nouserregistered.ini	tkeystore\scripts\tkeystore_nouserregistered.ini
+data = ZDRIVE\tkeystore\scripts\tkeystore_useauth.ini		tkeystore\scripts\tkeystore_useauth.ini
+data = ZDRIVE\tkeystore\scripts\capability_useauth.ini		tkeystore\scripts\capability_useauth.ini
+data = ZDRIVE\tkeystore\scripts\authenticate_useauth.ini		tkeystore\scripts\authenticate_useauth.ini
+
+#else
+//TMS support
+data = ZDRIVE\tkeystore\scripts\tkeystore.script		tkeystore\scripts\tkeystore.script
+data = ZDRIVE\tkeystore\scripts\cancel.script		tkeystore\scripts\cancel.script
+data = ZDRIVE\tkeystore\scripts\oom.script			tkeystore\scripts\oom.script
+data = ZDRIVE\tkeystore\scripts\servoom.script		tkeystore\scripts\servoom.script
+data = ZDRIVE\tkeystore\scripts\exportscript.script	tkeystore\scripts\exportscript.script
+data = ZDRIVE\tkeystore\scripts\authobjects.script		tkeystore\scripts\authobjects.script
+data = ZDRIVE\tkeystore\scripts\reload.script		tkeystore\scripts\reload.script
+
+
+data = ZDRIVE\tkeystore\scripts\tkeystore.ini		tkeystore\scripts\tkeystore.ini
+data = ZDRIVE\tkeystore\scripts\tkeystore2.ini		tkeystore\scripts\tkeystore2.ini
+data = ZDRIVE\tkeystore\scripts\cancel.ini		tkeystore\scripts\cancel.ini
+data = ZDRIVE\tkeystore\scripts\oom.ini			tkeystore\scripts\oom.ini
+data = ZDRIVE\tkeystore\scripts\servoom.ini		tkeystore\scripts\servoom.ini
+data = ZDRIVE\tkeystore\scripts\exportscript.ini	tkeystore\scripts\exportscript.ini
+data = ZDRIVE\tkeystore\scripts\authobjects.ini		tkeystore\scripts\authobjects.ini
+data = ZDRIVE\tkeystore\scripts\reload.ini		tkeystore\scripts\reload.ini
+
+#ifdef SYMBIAN_AUTH_SERVER
+data = ZDRIVE\tkeystore\scripts\oldserver_newfeature.script		tkeystore\scripts\oldserver_newfeature.script
+data = ZDRIVE\tkeystore\scripts\oldserver_newfeature.ini		tkeystore\scripts\oldserver_newfeature.ini
+#endif // SYMBIAN_AUTH_SERVER
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 
 //	test data
 data = ZDRIVE\tkeystore\data\pkcs8dh.001			tkeystore\data\pkcs8dh.001
@@ -202,10 +252,33 @@ data = ZDRIVE\ttesttools\data\certclients.dat		ttesttools\data\certclients.dat
 
 data = ZDRIVE\ttesttools\scripts\sec-filetokens-tools.script	ttesttools\scripts\sec-filetokens-tools.script
 data = ZDRIVE\ttesttools\scripts\sec-filetokens-tools.ini	ttesttools\scripts\sec-filetokens-tools.ini
+// TCERTAPPS
+data = ABI_DIR\BUILD_DIR\t_certapps.exe				sys\bin\t_certapps.exe
 
+//TMS support
+data = ZDRIVE\tcertapps\scripts\script1.script			tcertapps\scripts\script1.script attrib=r
+data = ZDRIVE\tcertapps\scripts\apipolicing.script	tcertapps\scripts\apipolicing.script attrib=r
+data = ZDRIVE\tcertapps\scripts\script1.ini			tcertapps\scripts\script1.ini attrib=r
+data = ZDRIVE\tcertapps\scripts\apipolicing.ini	tcertapps\scripts\apipolicing.ini attrib=r
+
+#if defined SYMBIAN_KEYSTORE_USE_AUTH_SERVER || defined SDP_ROM1
+//Nothing is included
+#else
+// additional certstore needed in normal rom for sec-filetokens tests which uses certstore1 ,2,...
+ECOM_PLUGIN(tadditionalstores.dll, tadditionalstores.rsc)
+// The below 4 test data needed for sec-filetokens-tools.script which will run only in normal image(testsecurity_sdp.bat)
+data = ZDRIVE\tcertstore\ent-wtls.cer					\tcertstore\ent-wtls.cer attrib=r
+data = ZDRIVE\tcertstore\ent-wtls1.cer					\tcertstore\ent-wtls1.cer attrib=r
+data = ZDRIVE\tcertstore\ent-wtls2.cer					\tcertstore\ent-wtls2.cer attrib=r
+// DSA private key and certificate for certstore tests
+data = ZDRIVE\tcertstore\data\pkcs8dsa1.001			tcertstore\data\pkcs8dsa1.001 attrib=r
+data = ZDRIVE\tcertstore\data\cert_dsa1.der			tcertstore\data\cert_dsa1.der attrib=r
+data = ZDRIVE\system\data\test1certstore.dat			system\data\test1certstore.dat attrib=r
+data = ZDRIVE\system\data\test2certstore.dat			system\data\test2certstore.dat attrib=r
 
 // Test keystore. Contains two keys, a DSA key (label gm0) and a RSA key (label gm1)
 // The passphrase timeout is set to 30
 data = ZPRIVATE\101F72A6\keys.dat          	private\101F72A6\keys.dat
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 
 #endif

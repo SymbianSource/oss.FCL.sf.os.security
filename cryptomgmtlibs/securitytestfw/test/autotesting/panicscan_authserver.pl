@@ -36,6 +36,10 @@ use File::Copy;     # for future portability
 
 my %expectedPanicsHash = ();
 
+# TCAF test expects CafUtils 0 panics
+push(@{$expectedPanicsHash{"TCAF_epocwind.txt"}}, (0,
+	("Thread tcaf.exe::Worker.*Panic CafUtils 0",6)));
+
 # tjavahelperserver test expects 4 kern-exec 0 panics
 push(@{$expectedPanicsHash{"tjavahelperserver_epocwind.txt"}}, (0,
 	("Thread tjavahelperserver.exe::Worker.*Panic KERN-EXEC 0", 5)));
@@ -47,11 +51,26 @@ push(@{$expectedPanicsHash{"tauthexpr_epocwind.txt"}}, (0,
 push(@{$expectedPanicsHash{"tauthcliserv_debug_epocwind.txt"}}, (0,
 	("Thread tauthcliserv.exe::Worker.*Panic AUTHEXPR 64", 3)));
 push(@{$expectedPanicsHash{"tauthsvr2_epocwind.txt"}}, (0,
-	("Thread AuthServer.EXE::!AuthServer Panic AuthServer 5", 2)));
-
+	("Thread AuthServer.EXE::Main Panic AuthServer 5", 3)));
+push(@{$expectedPanicsHash{"tpinplugin_epocwind.txt"}}, (0,
+	("Thread tpinplugin.exe::Worker.*Panic PINPLUGIN 1", 2)));
+	
 # crypto - padding related tests expect panics
 push(@{$expectedPanicsHash{"tpaddingudeb_epocwind.txt"}}, (0,
-	("Thread tpaddingServer.exe::Worker.*Panic CRYPTO-LIB 1", 1)));
+	("Thread tpaddingserver.exe::Worker.*Panic CRYPTO-LIB 1", 1)));
+
+# Expected UPS panics
+push(@{$expectedPanicsHash{"tpolicycache_epocwind.txt"}}, (0,
+	("Thread tupspolicies.exe::Worker.*Panic UPS-Policies 0", 2)));
+push(@{$expectedPanicsHash{"tserviceconfig_epocwind.txt"}}, (0,
+	("Thread tupspolicies.exe::Worker.*Panic UPS-Policies 0", 1)));
+push(@{$expectedPanicsHash{"scstest_epocwind.txt"}}, 
+    (0,
+	   ("Thread scstestserver.exe::Main Panic SCS-Server 0", 1),
+       ("Thread scstest.exe::ScsTestPanic Panic SCS-Client 0", 1),
+       ("Thread scstest.exe::ScsTestPanic Panic SCS-Client 1", 1),
+       ("Thread scstest.exe::ScsTestPanic Panic SCS-Client 2", 1)
+    ));
 
 die "EPOCROOT not defined, must specify directory" if !defined ($ENV{EPOCROOT});
 
@@ -102,7 +121,7 @@ foreach my $file (@fileList)
 			}
 		}
 
-	my @panicLines = grep(/panic/i, ReadListFromFile("$emulatorLogDirectory/$file"));
+	my @panicLines = grep(/Thread\s+.+\s+panic/i, ReadListFromFile("$emulatorLogDirectory/$file"));
 	my $failed = 0;
 
 	if (@panicLines)

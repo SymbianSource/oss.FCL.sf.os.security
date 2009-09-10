@@ -191,3 +191,4 @@ void CValidateTest::DoReportAction()
 void CValidateTest::DoCheckResult(TInt /*aError*/)
 	{
 	}
+

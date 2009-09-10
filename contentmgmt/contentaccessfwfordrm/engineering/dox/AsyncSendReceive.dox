@@ -63,8 +63,6 @@
 // 
 //
 
-
-
 /**
  @page CAFAsyncSendReceive Making an asynchronous SendReceive() call in an agent plugin
  - @ref StoreLocalCopy

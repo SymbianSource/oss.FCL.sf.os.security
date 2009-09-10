@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file 
  @internalTechnology
@@ -28,7 +26,7 @@
 #define __CKEYSTOREAUTHOBJECT_H__
 
 #include <mctauthobject.h>
-#include <mcttokenobject.h>
+#include <ct/mcttokenobject.h>
 
 class CFSKeyStoreClient;
 

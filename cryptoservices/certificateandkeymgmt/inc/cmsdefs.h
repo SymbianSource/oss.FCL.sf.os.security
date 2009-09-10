@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file
  @publishedPartner
@@ -108,3 +106,4 @@ enum TCmsVersion
 	
 
 #endif // CMSDEFS_H
+

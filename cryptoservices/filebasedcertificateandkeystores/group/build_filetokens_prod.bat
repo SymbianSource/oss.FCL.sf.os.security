@@ -13,8 +13,6 @@
 @rem
 @rem Description: 
 @rem
-rem Compilations needed in order to compile filetokens production code
-rem ==================================================================
 
 call cd %SECURITYSOURCEDIR%\filetokens\group
 call bldmake bldfiles 

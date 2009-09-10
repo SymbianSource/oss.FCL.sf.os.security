@@ -16,11 +16,9 @@
 */
 
 
-
-
 /**
  @file
- @publishedPartner
+ @internalTechnology
  @released
 */
 
@@ -30,14 +28,14 @@
 #include <signed.h>
 #include <e32base.h>
 
+const TInt KPKCS7MaxDataElements = 6;
+
 class CPKCS7ContentInfo;
 class CPKCS7ExtendedCertificateOrCertificate;
 class CPKCS7SignerInfo;
 class TASN1DecGeneric;
 class CX509AlgorithmIdentifier;
 class CX509Certificate;
-
-const TInt KPKCS7MaxDataElements = 6;
 
 /**
  A representation of a PKCS7 (signed data) entity

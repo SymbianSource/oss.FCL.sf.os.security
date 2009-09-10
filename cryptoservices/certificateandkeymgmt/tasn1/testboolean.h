@@ -37,3 +37,4 @@ class CTestBoolean : public CTestBase
 	};
 
 #endif
+

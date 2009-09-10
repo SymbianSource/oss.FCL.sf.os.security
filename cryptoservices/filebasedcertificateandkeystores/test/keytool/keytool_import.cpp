@@ -177,3 +177,4 @@ void CKeytoolImport::DoCancel()
 CKeytoolImport::CKeytoolImport(CController* aController) : CKeyToolCommand(aController)
 	{	
 	}
+

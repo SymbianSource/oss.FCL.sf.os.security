@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file
  @internalTechnology
@@ -38,7 +36,7 @@
 
 #if (!defined __CERTIFICATEREQUEST_STEP_H__)
 #define __CERTIFICATEREQUEST_STEP_H__
-#include <testexecutestepbase.h>
+#include <test/testexecutestepbase.h>
 #include "tpkcs10stepbasev2.h"
 
 _LIT(KCertificateRequestStep,"PKCS10CertRequest");

@@ -23,7 +23,7 @@
 #include <x509cert.h>
 #include <wtlscert.h>
 #include <hash.h>
-#include <ecom.h>
+#include <ecom/ecom.h>
 
 _LIT(KUCSPanic, "CUnifiedCertStore"); 
 #define assert(x) __ASSERT_ALWAYS((x), User::Panic(KUCSPanic, 1));
@@ -1466,3 +1466,4 @@ void CUnifiedCertStore::ApplyOrderingL(RCPointerArray<CCTTokenTypeInfo>& aTokenT
 	
 	CleanupStack::PopAndDestroy(2);	// tempReadOnlyTokenTypes, tempWritableTokenTypes, 
 	}
+

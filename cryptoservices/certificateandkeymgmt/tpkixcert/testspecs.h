@@ -215,3 +215,5 @@ public:
 	CTestChainValidate*  TestValidateSpec34();
 	CTestChainValidate*  TestValidateSpec35();
 	};
+
+

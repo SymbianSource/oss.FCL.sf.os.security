@@ -13,7 +13,6 @@
 @rem
 @rem Description: 
 @rem
-rem Certstore Configuration5.bat setup script
 cd \
 
 rem Test WRI-SWI cert store

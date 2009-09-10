@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file 
  @internalTechnology
@@ -26,7 +24,7 @@
 #ifndef __TACTIONVALIDATE_H__
 #define __TACTIONVALIDATE_H__
 
-#include <t_testaction.h>
+#include <testhandler2/t_testaction.h>
 #include "tpkixcertval.h"
 #include <unifiedcertstore.h>
 #include "tcertutils.h"
@@ -131,3 +129,4 @@ private:
 	};
 
 #endif
+

@@ -18,79 +18,14 @@
 */
 
 
-
-
 /**
  @file
 */
 
 target fstokenserver.exe
+
 CAPABILITY TrustedUI ProtServ
 
-VENDORID 0x70000001
+#include "fstokenserver.mmh"
 
-#if defined(WINS)
-targettype EXE
-#elif defined(MARM)
-targettype EXEXP
-#endif
-
-systeminclude  ../Inc 
-systeminclude  ../source/generic/common
-systeminclude  ../source/generic/server
-systeminclude  ../source/keystore/Server
-systeminclude  ../source/certstore/server
-systeminclude  ../source/certapps/server
-systeminclude .
-systeminclude /epoc32/include
-systeminclude /epoc32/include/ct
-systeminclude  ../../../crypto/weakcrypto/inc
-
-UID 0x101F72A6 0x101F72A6 
-
-//	generic server code
-sourcepath ../source/generic/server
-source fsserver.cpp
-source fstokenutil.cpp
-source FSResources.cpp
-source FSDialog.cpp
-source tokenserverdebug.cpp
-source FSRunPackage.cpp
-source certstorepatchdata.cpp
-
-//	generic common client/server code
-sourcepath ../source/generic/common
-source dllentry.cpp
-
-//	keystore specific server code
-sourcepath ../source/keystore/Server
-source Ckeystoreconduit.cpp
-source CKeyStoreSession.cpp
-source Cfskeystoreserver.cpp
-source CKeyDataManager.cpp
-source CCreateKey.cpp
-source OpenedKeys.cpp
-source keystorepassphrase.cpp
-source keystreamutils.cpp
-
-//	certstore specific server code
-sourcepath ../source/certstore/server
-source CCertStoreEntry.cpp 
-source CCertStoreEntryList.cpp 
-source CCertStoreSession.cpp
-source CCertStoreConduit.cpp
-source filecertstore.cpp
-
-// certapps server code
-sourcepath ../source/certapps/server
-source CCertAppsConduit.cpp
-source CCertAppsSession.cpp
-source CFSCertAppsServer.cpp
-
-
-library euser.lib efsrv.lib estor.lib bafl.lib 
-library ctframework.lib cryptography.lib
-library asnpkcs.lib x509.lib asn1.lib
-library pbe.lib fstokenshared.lib
-library charconv.lib
-library sectcbutil.lib
+SMPSAFE

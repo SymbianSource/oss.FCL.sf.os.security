@@ -1,17 +1,20 @@
-// Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).
-// All rights reserved.
-// This component and the accompanying materials are made available
-// under the terms of the License "Symbian Foundation License v1.0"
-// which accompanies this distribution, and is available
-// at the URL "http://www.symbianfoundation.org/legal/sfl-v10.html".
-//
-// Initial Contributors:
-// Nokia Corporation - initial contribution.
-//
-// Contributors:
-//
-// Description:
-//
+/*
+* Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
 
 #include <e32cons.h>
 #include <bacline.h>
@@ -26,7 +29,7 @@
 // Boiler plate 
 _LIT(KShortName, "Symbian OS CertTool");
 _LIT(KName, "Symbian OS CertStore Manipulation Tool");
-_LIT(KCopyright, "Copyright (c) 2004-2007 Symbian Software Ltd.  All rights reserved.");
+_LIT(KCopyright, "Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).  All rights reserved.");
 
 _LIT(KNewLine, "\n");
 
@@ -85,7 +88,7 @@ _LIT(KUids, "-uids");
 const TInt KMaxArgs = 10;
 
 /**
- * Displays tool name and copyright informations.
+ * Displays tool name and copy-right informations.
  */
 LOCAL_D void BoilerPlateL(CConsoleBase* console) 
 	{
@@ -425,3 +428,4 @@ GLDEF_C TInt E32Main()         // main function called by E32
 	__UHEAP_MARKEND;
 	return 0; 
    	}
+

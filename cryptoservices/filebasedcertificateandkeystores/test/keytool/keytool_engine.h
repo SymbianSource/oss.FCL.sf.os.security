@@ -41,6 +41,9 @@ public: // Actual commands
 	void DisplayUsageL(CKeyToolParameters* aParam);
 	void ListStoresL(CKeyToolParameters* aParam);	
 	void SetPolicyL(CKeyToolParameters* aParam);
+#ifdef KEYTOOL
+	void MigrateStoreL(CKeyToolParameters* aParam);
+#endif // KEYTOOL
 	
 public: // From CActive
 	void RunL();
@@ -66,7 +69,10 @@ private:
 		EList,
 		EImport,
 		ERemove,
-		ESetPolicy
+		ESetPolicy,
+#ifdef KEYTOOL
+		EMigrateStore,
+#endif // KEYTOOL
 		} iCurrentAction;
 		
 	TBool iInitialized;
@@ -78,6 +84,10 @@ private:
 	RFs iFs;
 	CUnifiedKeyStore* iKeyStore;
 	CActiveScheduler* iScheduler;	
+#ifdef KEYTOOL
+	CKeytoolMigrateStore* iMigrateStoreHandler;
+#endif // KEYTOOL
 	};
 	
 #endif 
+

@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file
 */
@@ -30,8 +28,7 @@ TARGETTYPE DLL
 UID 0x1000008d 0x1020428B
 VENDORID 0x70000001
 
-SYSTEMINCLUDE /epoc32/include
-SYSTEMINCLUDE /epoc32/include/ct
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 USERINCLUDE   ../swicertstore
 
 SOURCEPATH	.
@@ -47,3 +44,4 @@ SOURCE certstorepatchdata.cpp
 LIBRARY euser.lib efsrv.lib estor.lib 
 LIBRARY ctframework.lib 
 LIBRARY sectcbutil.lib
+SMPSAFE

@@ -27,7 +27,6 @@ call perl \epoc32\winscw\c\configchangebats.pl --config ethernetNoCommDB --kerne
 )
 GOTO CONFIG_DONE
 
-
 :SKIP_WINPCAP
 
 IF NOT EXIST "\usewintap.txt" GOTO SKIP_WINTAP
@@ -42,6 +41,6 @@ GOTO CONFIG_DONE
 
 :CONFIG_DONE
 rem Set up tests using the automatic connection commdb configuration
-call \epoc32\release\winscw\udeb\ced -dtextshell -- -i c:\auto.cfg
-call \epoc32\release\wins\udeb\ced -dtextshell -- -i c:\auto.cfg
 
+call \epoc32\release\winscw\udeb\ced -dtextshell -- -i c:\auto.cfg
+call \epoc32\release\wins\udeb\ced  -dtextshell --  -i c:\auto.cfg

@@ -32,7 +32,6 @@
 // Component  : PKCS#12 library
 // The scope of this work package to verify the functionality of the Pkcs#12 library. 
 // The test data should be in the folder 'c:\data' and the ini files should be in the 'c:\tpkcs12intg\script\ini //		folder'
-// 
 //
 
 LOAD_SUITE tpkcs12libtest
@@ -51,11 +50,11 @@ LOAD_SUITE tpkcs12libtest
 //!@SYMTestExpectedResults		Integrity verification returns success
 //!@SYMTestType				CIT
 //////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE SEC-CERTMAN-PKCS12-IM-0001
+START_TESTCASE 				SEC-CERTMAN-PKCS12-IM-0001
 
 RUN_TEST_STEP 100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\im001.ini
 
-END_TESTCASE SEC-CERTMAN-PKCS12-IM-0001
+END_TESTCASE 				SEC-CERTMAN-PKCS12-IM-0001
 
 //////////////////////////////////////////////////////////////////////////////////////////////
 //!@SYMTestCaseID			SEC-CERTMAN-PKCS12-IM-0002
@@ -71,12 +70,12 @@ END_TESTCASE SEC-CERTMAN-PKCS12-IM-0001
 //!@SYMTestExpectedResults		Integrity verification returns success
 //!@SYMTestType				CIT
 //////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE SEC-CERTMAN-PKCS12-IM-0002
+START_TESTCASE 				SEC-CERTMAN-PKCS12-IM-0002
 
 RUN_TEST_STEP 100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\im002.ini
 
-END_TESTCASE SEC-CERTMAN-PKCS12-IM-0002
-
+END_TESTCASE 				SEC-CERTMAN-PKCS12-IM-0002
+		
 //////////////////////////////////////////////////////////////////////////////////////////////
 //!@SYMTestCaseID			SEC-CERTMAN-PKCS12-PM-0001
 //!@SYMTestCaseDependencies		TestData(PKCS12_PM001.p12),ini file(PM001.ini) containing the data 
@@ -95,9 +94,9 @@ END_TESTCASE SEC-CERTMAN-PKCS12-IM-0002
 //!@SYMTestType				CIT
 //////////////////////////////////////////////////////////////////////////////////////////////
 
-START_TESTCASE SEC-CERTMAN-PKCS12-PM-0001
+START_TESTCASE 				SEC-CERTMAN-PKCS12-PM-0001
 RUN_TEST_STEP 100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\pm001.ini
-END_TESTCASE SEC-CERTMAN-PKCS12-PM-0001
+END_TESTCASE 				SEC-CERTMAN-PKCS12-PM-0001
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //!@SYMTestCaseID			SEC-CERTMAN-PKCS12-PM-0002
@@ -116,9 +115,9 @@ END_TESTCASE SEC-CERTMAN-PKCS12-PM-0001
 //!@SYMTestExpectedResults		The data retrieved should match with the data in the ini file
 //!@SYMTestType				CIT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE SEC-CERTMAN-PKCS12-PM-0002
+START_TESTCASE 				SEC-CERTMAN-PKCS12-PM-0002
 RUN_TEST_STEP 100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\pm002.ini
-END_TESTCASE SEC-CERTMAN-PKCS12-PM-0002
+END_TESTCASE 				SEC-CERTMAN-PKCS12-PM-0002
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //!@SYMTestCaseID			SEC-CERTMAN-PKCS12-PM-0003
@@ -137,9 +136,9 @@ END_TESTCASE SEC-CERTMAN-PKCS12-PM-0002
 //!@SYMTestExpectedResults		The data retrieved should match with the data in the ini file
 //!@SYMTestType				CIT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE SEC-CERTMAN-PKCS12-PM-0003
+START_TESTCASE 				SEC-CERTMAN-PKCS12-PM-0003
 RUN_TEST_STEP 100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\pm003.ini
-END_TESTCASE SEC-CERTMAN-PKCS12-PM-0003
+END_TESTCASE 				SEC-CERTMAN-PKCS12-PM-0003
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //!@SYMTestCaseID			SEC-CERTMAN-PKCS12-PM-0004
@@ -158,9 +157,9 @@ END_TESTCASE SEC-CERTMAN-PKCS12-PM-0003
 //!@SYMTestExpectedResults		The data retrieved should match with the data in the ini file
 //!@SYMTestType				CIT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE SEC-CERTMAN-PKCS12-PM-0004
+START_TESTCASE 				SEC-CERTMAN-PKCS12-PM-0004
 RUN_TEST_STEP 100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\pm004.ini
-END_TESTCASE SEC-CERTMAN-PKCS12-PM-0004
+END_TESTCASE 				SEC-CERTMAN-PKCS12-PM-0004
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -180,9 +179,9 @@ END_TESTCASE SEC-CERTMAN-PKCS12-PM-0004
 //!@SYMTestExpectedResults		The data retrieved should match with the data in the ini file
 //!@SYMTestType				CIT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE SEC-CERTMAN-PKCS12-PM-0005
+START_TESTCASE 				SEC-CERTMAN-PKCS12-PM-0005
 RUN_TEST_STEP 100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\pm005.ini
-END_TESTCASE SEC-CERTMAN-PKCS12-PM-0005
+END_TESTCASE 				SEC-CERTMAN-PKCS12-PM-0005
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //!@SYMTestCaseID			SEC-CERTMAN-PKCS12-PM-0006
@@ -201,9 +200,9 @@ END_TESTCASE SEC-CERTMAN-PKCS12-PM-0005
 //!@SYMTestExpectedResults		The data retrieved should match with the data in the ini file
 //!@SYMTestType				CIT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE SEC-CERTMAN-PKCS12-PM-0006
+START_TESTCASE 				SEC-CERTMAN-PKCS12-PM-0006
 RUN_TEST_STEP 100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\pm006.ini
-END_TESTCASE SEC-CERTMAN-PKCS12-PM-0006
+END_TESTCASE 				SEC-CERTMAN-PKCS12-PM-0006
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //!@SYMTestCaseID			SEC-CERTMAN-PKCS12-PM-0007
@@ -222,9 +221,9 @@ END_TESTCASE SEC-CERTMAN-PKCS12-PM-0006
 //!@SYMTestExpectedResults		The data retrieved should match with the data in the ini file
 //!@SYMTestType				CIT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE SEC-CERTMAN-PKCS12-PM-0007
+START_TESTCASE 				SEC-CERTMAN-PKCS12-PM-0007
 RUN_TEST_STEP 100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\pm007.ini
-END_TESTCASE SEC-CERTMAN-PKCS12-PM-0007
+END_TESTCASE 				SEC-CERTMAN-PKCS12-PM-0007
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //!@SYMTestCaseID			SEC-CERTMAN-PKCS12-PM-0008
@@ -243,9 +242,9 @@ END_TESTCASE SEC-CERTMAN-PKCS12-PM-0007
 //!@SYMTestExpectedResults		The data retrieved should match with the data in the ini file
 //!@SYMTestType				CIT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE SEC-CERTMAN-PKCS12-PM-0008
+START_TESTCASE 				SEC-CERTMAN-PKCS12-PM-0008
 RUN_TEST_STEP 100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\pm008.ini
-END_TESTCASE SEC-CERTMAN-PKCS12-PM-0008
+END_TESTCASE 				SEC-CERTMAN-PKCS12-PM-0008
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //!@SYMTestCaseID			SEC-CERTMAN-PKCS12-PM-0009
@@ -264,9 +263,9 @@ END_TESTCASE SEC-CERTMAN-PKCS12-PM-0008
 //!@SYMTestExpectedResults		The data retrieved should match with the data in the ini file
 //!@SYMTestType				CIT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE SEC-CERTMAN-PKCS12-PM-0009
+START_TESTCASE 				SEC-CERTMAN-PKCS12-PM-0009
 RUN_TEST_STEP 100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\pm009.ini
-END_TESTCASE SEC-CERTMAN-PKCS12-PM-0009
+END_TESTCASE 				SEC-CERTMAN-PKCS12-PM-0009
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //!@SYMTestCaseID			SEC-CERTMAN-PKCS12-PM-0010
@@ -286,12 +285,12 @@ END_TESTCASE SEC-CERTMAN-PKCS12-PM-0009
 //!@SYMTestType				CIT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-START_TESTCASE SEC-CERTMAN-PKCS12-PM-0010
+START_TESTCASE 				SEC-CERTMAN-PKCS12-PM-0010
 RUN_TEST_STEP 100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\pm010.ini
-END_TESTCASE SEC-CERTMAN-PKCS12-PM-0010
+END_TESTCASE 				SEC-CERTMAN-PKCS12-PM-0010
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-CI-0001
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-CI-0015
 //!@SYMTestCaseDependencies		TestData(PKCS12_CI001.p12),ini file(CI001.ini) containing the data 
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data from 
 //					an encoded PKCS12 data with Contentinfo as plain text.
@@ -307,12 +306,12 @@ END_TESTCASE SEC-CERTMAN-PKCS12-PM-0010
 //!@SYMTestType				CIT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-START_TESTCASE SEC-CERTMAN-PKCS12-CI-0001
+START_TESTCASE 				SEC-CERTMAN-PKCS12-CI-0015
 RUN_TEST_STEP 100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\ci001.ini
-END_TESTCASE SEC-CERTMAN-PKCS12-CI-0001
+END_TESTCASE 				SEC-CERTMAN-PKCS12-CI-0015
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-CI-0002
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-CI-0016
 //!@SYMTestCaseDependencies		TestData(PKCS12_CI002.p12),ini file(CI002.ini) containing the data 
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data from an encoded PKCS12 data with 
 //					Contentinfo as enveloped. This need not be supported in this version.
@@ -326,9 +325,9 @@ END_TESTCASE SEC-CERTMAN-PKCS12-CI-0001
 //!@SYMTestExpectedResults		The data retrieved should match with the data in the ini file
 //!@SYMTestType				CIT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE SEC-CERTMAN-PKCS12-CI-0002
+START_TESTCASE 				SEC-CERTMAN-PKCS12-CI-0016
 RUN_TEST_STEP 100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\ci002.ini
-END_TESTCASE SEC-CERTMAN-PKCS12-CI-0002
+END_TESTCASE 				SEC-CERTMAN-PKCS12-CI-0016
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //!@SYMTestCaseID			SEC-CERTMAN-PKCS12-SB-0001
@@ -347,9 +346,9 @@ END_TESTCASE SEC-CERTMAN-PKCS12-CI-0002
 //!@SYMTestType				CIT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-START_TESTCASE SEC-CERTMAN-PKCS12-SB-0001
+START_TESTCASE 				SEC-CERTMAN-PKCS12-SB-0001
 RUN_TEST_STEP 100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\sb001.ini
-END_TESTCASE SEC-CERTMAN-PKCS12-SB-0001
+END_TESTCASE 				SEC-CERTMAN-PKCS12-SB-0001
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //!@SYMTestCaseID			SEC-CERTMAN-PKCS12-SB-0002
@@ -367,9 +366,9 @@ END_TESTCASE SEC-CERTMAN-PKCS12-SB-0001
 //!@SYMTestExpectedResults		The data retrieved should match with the data in the ini file
 //!@SYMTestType				CIT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE SEC-CERTMAN-PKCS12-SB-0002
+START_TESTCASE 				SEC-CERTMAN-PKCS12-SB-0002
 RUN_TEST_STEP 100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\sb002.ini
-END_TESTCASE SEC-CERTMAN-PKCS12-SB-0002
+END_TESTCASE 				SEC-CERTMAN-PKCS12-SB-0002
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //!@SYMTestCaseID			SEC-CERTMAN-PKCS12-SB-0003
@@ -388,9 +387,9 @@ END_TESTCASE SEC-CERTMAN-PKCS12-SB-0002
 //!@SYMTestExpectedResults		The data retrieved should match with the data in the ini file
 //!@SYMTestType				CIT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE SEC-CERTMAN-PKCS12-SB-0003
+START_TESTCASE 				SEC-CERTMAN-PKCS12-SB-0003
 RUN_TEST_STEP 100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\sb003.ini
-END_TESTCASE SEC-CERTMAN-PKCS12-SB-0003
+END_TESTCASE 				SEC-CERTMAN-PKCS12-SB-0003
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////
 //!@SYMTestCaseID			SEC-CERTMAN-PKCS12-CT-0001
@@ -409,9 +408,9 @@ END_TESTCASE SEC-CERTMAN-PKCS12-SB-0003
 //!@SYMTestExpectedResults		The data retrieved should match with the data in the ini file
 //!@SYMTestType				CIT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE SEC-CERTMAN-PKCS12-CT-0001
+START_TESTCASE 				SEC-CERTMAN-PKCS12-CT-0001
 RUN_TEST_STEP 100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\ct001.ini
-END_TESTCASE SEC-CERTMAN-PKCS12-CT-0001
+END_TESTCASE 				SEC-CERTMAN-PKCS12-CT-0001
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -432,9 +431,9 @@ END_TESTCASE SEC-CERTMAN-PKCS12-CT-0001
 //!@SYMTestExpectedResults		The data retrieved should match with the data in the ini file
 //!@SYMTestType				CIT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE SEC-CERTMAN-PKCS12-CB-0001
+START_TESTCASE 				SEC-CERTMAN-PKCS12-CB-0001
 RUN_TEST_STEP 100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\cb001.ini
-END_TESTCASE SEC-CERTMAN-PKCS12-CB-0001
+END_TESTCASE 				SEC-CERTMAN-PKCS12-CB-0001
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //!@SYMTestCaseID			SEC-CERTMAN-PKCS12-CB-0002
@@ -456,9 +455,9 @@ END_TESTCASE SEC-CERTMAN-PKCS12-CB-0001
 //!@SYMTestExpectedResults		The data retrieved should match with the data in the ini file
 //!@SYMTestType				CIT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE SEC-CERTMAN-PKCS12-CB-0002
+START_TESTCASE 				SEC-CERTMAN-PKCS12-CB-0002
 RUN_TEST_STEP 100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\cb002.ini
-END_TESTCASE SEC-CERTMAN-PKCS12-CB-0002
+END_TESTCASE 				SEC-CERTMAN-PKCS12-CB-0002
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //!@SYMTestCaseID			SEC-CERTMAN-PKCS12-CB-0003
@@ -479,9 +478,9 @@ END_TESTCASE SEC-CERTMAN-PKCS12-CB-0002
 //!@SYMTestExpectedResults		The data retrieved should match with the data in the ini file
 //!@SYMTestType				CIT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE SEC-CERTMAN-PKCS12-CB-0003
+START_TESTCASE 				SEC-CERTMAN-PKCS12-CB-0003
 RUN_TEST_STEP 100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\cb003.ini
-END_TESTCASE SEC-CERTMAN-PKCS12-CB-0003
+END_TESTCASE 				SEC-CERTMAN-PKCS12-CB-0003
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //!@SYMTestCaseID			SEC-CERTMAN-PKCS12-CB-0004
@@ -504,9 +503,9 @@ END_TESTCASE SEC-CERTMAN-PKCS12-CB-0003
 //!@SYMTestExpectedResults		The data retrieved should match with the data in the ini file
 //!@SYMTestType				CIT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE SEC-CERTMAN-PKCS12-CB-0004
+START_TESTCASE 				SEC-CERTMAN-PKCS12-CB-0004
 RUN_TEST_STEP 100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\cb004.ini
-END_TESTCASE SEC-CERTMAN-PKCS12-CB-0004
+END_TESTCASE 				SEC-CERTMAN-PKCS12-CB-0004
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //!@SYMTestCaseID			SEC-CERTMAN-PKCS12-CB-0005
@@ -528,9 +527,9 @@ END_TESTCASE SEC-CERTMAN-PKCS12-CB-0004
 //!@SYMTestExpectedResults		The data retrieved should match with the data in the ini file
 //!@SYMTestType				CIT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE SEC-CERTMAN-PKCS12-CB-0005
+START_TESTCASE 				SEC-CERTMAN-PKCS12-CB-0005
 RUN_TEST_STEP 100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\cb005.ini
-END_TESTCASE SEC-CERTMAN-PKCS12-CB-0005
+END_TESTCASE 				SEC-CERTMAN-PKCS12-CB-0005
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 //!@SYMTestCaseID			SEC-CERTMAN-PKCS12-CB-0006
@@ -550,12 +549,12 @@ END_TESTCASE SEC-CERTMAN-PKCS12-CB-0005
 //!@SYMTestExpectedResults		The data retrieved should match with the data in the ini file
 //!@SYMTestType				CIT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE SEC-CERTMAN-PKCS12-CB-0006
+START_TESTCASE 				SEC-CERTMAN-PKCS12-CB-0006
 RUN_TEST_STEP 100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\cb006.ini
-END_TESTCASE SEC-CERTMAN-PKCS12-CB-0006
+END_TESTCASE 				SEC-CERTMAN-PKCS12-CB-0006
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-IV-001
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-IV-0001
 //!@SYMTestCaseDependencies		TestData(PKCS12_junk.p12),ini file(IV001.ini) containing the data 
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data from an 
 //					invalid encoded PKCS12 data.
@@ -569,14 +568,14 @@ END_TESTCASE SEC-CERTMAN-PKCS12-CB-0006
 //!@SYMTestExpectedResults		Negative Test case
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE  SEC-CERTMAN-PKCS12-IV-0001
+START_TESTCASE 				SEC-CERTMAN-PKCS12-IV-0001
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\iv001.ini
 
-END_TESTCASE    SEC-CERTMAN-PKCS12-IV-0001
+END_TESTCASE    			SEC-CERTMAN-PKCS12-IV-0001
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-AU-001
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-AU-0001
 //!@SYMTestCaseDependencies		TestData(pkcs12_unsupportedbag.p12),ini file(corruptedalgid.ini) 
 //					containing the data.
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data in which authsafe contains 
@@ -590,14 +589,14 @@ END_TESTCASE    SEC-CERTMAN-PKCS12-IV-0001
 //!@SYMTestExpectedResults		The authsafe should contain data or signedData.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE  SEC-CERTMAN-PKCS12-AU-001
+START_TESTCASE 				SEC-CERTMAN-PKCS12-AU-0001
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\corruptedalgid.ini
 
-END_TESTCASE    SEC-CERTMAN-PKCS12-AU-001
+END_TESTCASE    			SEC-CERTMAN-PKCS12-AU-0001
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-AU-002
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-AU-0002
 //!@SYMTestCaseDependencies		TestData(pkcs12_changetag.p12),ini file(changetag.ini) containing the data. 
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data in which authsafe contentdata 
 //					tag is otherthan OCTETSTRING.
@@ -610,14 +609,14 @@ END_TESTCASE    SEC-CERTMAN-PKCS12-AU-001
 //!@SYMTestExpectedResults		The authsafe contentdata tag should be OCTETSTRING.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-AU-002
+START_TESTCASE				SEC-CERTMAN-PKCS12-AU-0002
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\changetag.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-AU-002
+END_TESTCASE				SEC-CERTMAN-PKCS12-AU-0002
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-AU-003
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-AU-0003
 //!@SYMTestCaseDependencies		TestData(pkcs12_authsafe_notasequence.p12),ini file(authsafe_notasequence.ini) 
 //					containing the data. 
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data in which authsafe structure tag 
@@ -631,14 +630,14 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-AU-002
 //!@SYMTestExpectedResults		The authsafe contentdata tag should be OCTETSTRING.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-AU-003
+START_TESTCASE				SEC-CERTMAN-PKCS12-AU-0003
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\authsafe_notasequence.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-AU-003
+END_TESTCASE				SEC-CERTMAN-PKCS12-AU-0003
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-AU-004
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-AU-0004
 //!@SYMTestCaseDependencies		TestData(pkcs12_authsafe_oidnotoctetstring.p12),ini file
 //					(authsafe_oidnotoctetstring.ini) containing the data. 
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data in which PFX structure 
@@ -652,14 +651,14 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-AU-003
 //!@SYMTestExpectedResults		The authsafe contentType tag should be Object ID.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-AU-004
+START_TESTCASE				SEC-CERTMAN-PKCS12-AU-0004
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\authsafe_oidnotoctetstring.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-AU-004
+END_TESTCASE				SEC-CERTMAN-PKCS12-AU-0004
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-AU-005
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-AU-0005
 //!@SYMTestCaseDependencies		TestData(pkcs12_authsafe_contentnotoctetstring.p12),ini file
 //					(authsafe_contentnotoctetstring.ini) containing the data. 
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data in which PFX structure 
@@ -673,15 +672,15 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-AU-004
 //!@SYMTestExpectedResults		The authsafe contentType tag should be Object ID.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-AU-005
+START_TESTCASE				SEC-CERTMAN-PKCS12-AU-0005
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\authsafe_contentnotoctetstring.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-AU-005
+END_TESTCASE				SEC-CERTMAN-PKCS12-AU-0005
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-AU-006
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-AU-0006
 //!@SYMTestCaseDependencies		TestData(pkcs12_authsafe_contentnotsequence.p12),ini file
 //					(authsafe_contentnotsequence.ini) containing the data. 
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data in which PFX structure 
@@ -695,14 +694,14 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-AU-005
 //!@SYMTestExpectedResults		The authsafe contentinfo tag should be Sequence.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-AU-006
+START_TESTCASE				SEC-CERTMAN-PKCS12-AU-0006
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\authsafe_contentnotsequence.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-AU-006
+END_TESTCASE				SEC-CERTMAN-PKCS12-AU-0006
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-AU-007
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-AU-0007
 //!@SYMTestCaseDependencies		TestData(pkcs12_unsupported_contenttype.p12),ini file
 //					(unsupported_contenttype.ini) containing the data.
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data from an 
@@ -718,14 +717,14 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-AU-006
 //!@SYMTestExpectedResults		The content type must be plain data or signed data.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-AU-007
+START_TESTCASE				SEC-CERTMAN-PKCS12-AU-0007
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\unsupported_contenttype.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-AU-007
+END_TESTCASE				SEC-CERTMAN-PKCS12-AU-0007
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-MA-001
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-MA-0001
 //!@SYMTestCaseDependencies		TestData(pkcs12_digestalg1.p12),ini file(corruptdigestalg_case1.ini) 
 //					containing the data.
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data which contains algorithm OID 
@@ -742,14 +741,14 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-AU-007
 //					integrity only SHA1 is supported.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-MA-001
+START_TESTCASE				SEC-CERTMAN-PKCS12-MA-0001
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\corruptdigestalg_case1.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-MA-001
+END_TESTCASE				SEC-CERTMAN-PKCS12-MA-0001
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-MA-002
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-MA-0002
 //!@SYMTestCaseDependencies		TestData(pkcs12_digestalg2.p12),ini file(corruptdigestalg_case2.ini) 
 //					containing the data.
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data which contains the digest
@@ -765,14 +764,14 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-MA-001
 //!@SYMTestExpectedResults		The macData structure should contain digest algorithm SHA1.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-MA-002
+START_TESTCASE				SEC-CERTMAN-PKCS12-MA-0002
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\corruptdigestalg_case2.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-MA-002
+END_TESTCASE				SEC-CERTMAN-PKCS12-MA-0002
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-MA-003
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-MA-0003
 //!@SYMTestCaseDependencies		TestData(pkcs12_emptydigest.p12),ini file(emptydigest.ini) containing the 
 //					data.
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data in which digest is not present.
@@ -786,14 +785,14 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-MA-002
 //!@SYMTestExpectedResults		The DigestInfo struture should contain the digest.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-MA-003
+START_TESTCASE				SEC-CERTMAN-PKCS12-MA-0003
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\emptydigest.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-MA-003
+END_TESTCASE				SEC-CERTMAN-PKCS12-MA-0003
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-MA-004
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-MA-0004
 //!@SYMTestCaseDependencies		TestData(pkcs12_digestcorrupted.p12),ini file
 //					(digestcorrupted.ini) containing the data.
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data from an invalid 
@@ -812,14 +811,14 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-MA-003
 //					the PKCS12 file.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-MA-004
+START_TESTCASE				SEC-CERTMAN-PKCS12-MA-0004
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\digestcorrupted.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-MA-004
+END_TESTCASE				SEC-CERTMAN-PKCS12-MA-0004
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-MA-005
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-MA-0005
 //!@SYMTestCaseDependencies		TestData(pkcs12_macdatanotasequence.p12),ini file
 //					(macdatanotasequence.ini) containing the data.
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data from an 
@@ -834,14 +833,14 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-MA-004
 //!@SYMTestExpectedResults		The MacData struture must be a sequence.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-MA-005
+START_TESTCASE				SEC-CERTMAN-PKCS12-MA-0005
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\macdatanotasequence.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-MA-005
+END_TESTCASE				SEC-CERTMAN-PKCS12-MA-0005
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-MA-006
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-MA-0006
 //!@SYMTestCaseDependencies		TestData(pkcs12_macsaltnotoctetstring.p12),ini file
 //					(macsaltnotasequence.ini) containing the data.
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data from an 
@@ -856,14 +855,14 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-MA-005
 //!@SYMTestExpectedResults		The MacSalt present in the MacData struture must be a sequence.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-MA-006
+START_TESTCASE				SEC-CERTMAN-PKCS12-MA-0006
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\macsaltnotasequence.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-MA-006
+END_TESTCASE				SEC-CERTMAN-PKCS12-MA-0006
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-MA-007
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-MA-0007
 //!@SYMTestCaseDependencies		TestData(pkcs12_digestalgorithmnotasequence.p12),ini file
 //					(digestalgorithmnotasequence.ini) containing the data.
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data from an 
@@ -879,14 +878,14 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-MA-006
 //!@SYMTestExpectedResults		The digest algorithm present in the digestInfo structure must be a Sequence.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-MA-007
+START_TESTCASE				SEC-CERTMAN-PKCS12-MA-0007
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\digestalgorithmnotasequence.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-MA-007
+END_TESTCASE				SEC-CERTMAN-PKCS12-MA-0007
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-MA-008
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-MA-0008
 //!@SYMTestCaseDependencies		TestData(pkcs12_digestinfonotasequence.p12),ini file
 //					(digestinfonotasequence.ini) containing the data.
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data from an 
@@ -902,14 +901,14 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-MA-007
 //!@SYMTestExpectedResults		The digestinfo structure present in the macData must be a sequence.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-MA-008
+START_TESTCASE				SEC-CERTMAN-PKCS12-MA-0008
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\digestinfonotasequence.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-MA-008
-
+END_TESTCASE				SEC-CERTMAN-PKCS12-MA-0008
+	
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-MA-009
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-MA-0009
 //!@SYMTestCaseDependencies		TestData(pkcs12_macdata_nosalt_noiteration.p12),ini file
 //					(macdata_nosalt_noiteration.ini) containing the data.
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data from an 
@@ -927,14 +926,14 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-MA-008
 //					the integrity of the PKCS12 file.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-MA-009
+START_TESTCASE				SEC-CERTMAN-PKCS12-MA-0009
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\macdata_nosalt_noiteration.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-MA-009
+END_TESTCASE				SEC-CERTMAN-PKCS12-MA-0009
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-MA-010
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-MA-0010
 //!@SYMTestCaseDependencies		TestData(pkcs12_digestalgnotsha1.p12),ini file
 //					(macdataverifyintegritydigestalgnotsha1.ini) containing the data.
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data from an 
@@ -950,14 +949,14 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-MA-009
 //!@SYMTestExpectedResults		The digestInfo structure must contain SHA1 digest algorithm.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-MA-010
+START_TESTCASE				SEC-CERTMAN-PKCS12-MA-0010
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\macdataverifyintegritydigestalgnotsha1.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-MA-010
+END_TESTCASE				SEC-CERTMAN-PKCS12-MA-0010
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-MA-011
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-MA-0011
 //!@SYMTestCaseDependencies		TestData(pkcs12_macdata_iterationnotinteger.p12),ini file
 //					(macdata_iterationnotinteger.ini) containing the data.
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data from an 
@@ -973,14 +972,14 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-MA-010
 //!@SYMTestExpectedResults		The MacData struture iteration count tag type should be Integer.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-MA-011
+START_TESTCASE				SEC-CERTMAN-PKCS12-MA-0011
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\macdata_iterationnotinteger.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-MA-011
+END_TESTCASE				SEC-CERTMAN-PKCS12-MA-0011
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-MA-012
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-MA-0012
 //!@SYMTestCaseDependencies		TestData(pkcs12_macdata_negiteration.p12),ini file
 //					(macdata_negiteration.ini) containing the data.
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data from an 
@@ -995,14 +994,14 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-MA-011
 //!@SYMTestExpectedResults		The MacData struture iteration count should be greater than 0.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-MA-012
+START_TESTCASE				SEC-CERTMAN-PKCS12-MA-0012
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\macdata_negiteration.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-MA-012
+END_TESTCASE				SEC-CERTMAN-PKCS12-MA-0012
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-PFX-001
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-PFX-0001
 //!@SYMTestCaseDependencies		TestData(pkcs12_corruptedversion.p12),ini file(corruptedversion.ini) 
 //					containing the data.
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data which contains wrong PFX version
@@ -1017,14 +1016,14 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-MA-012
 //!@SYMTestExpectedResults		The PFX structure version number must be equal to 3.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-PFX-001
+START_TESTCASE				SEC-CERTMAN-PKCS12-PFX-0001
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\corruptedversion.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-PFX-001
+END_TESTCASE				SEC-CERTMAN-PKCS12-PFX-0001
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-PFX-002
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-PFX-0002
 //!@SYMTestCaseDependencies		TestData(pkcs12_pfx_notasequence.p12),ini file
 //					(pfx_notasequence.ini) containing the data.
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data in which the PFX structure 
@@ -1038,14 +1037,14 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-PFX-001
 //!@SYMTestExpectedResults		The PFX structure must be a sequence.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-PFX-002
+START_TESTCASE				SEC-CERTMAN-PKCS12-PFX-0002
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\pfx_notasequence.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-PFX-002
+END_TESTCASE				SEC-CERTMAN-PKCS12-PFX-0002
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-PFX-003
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-PFX-0003
 //!@SYMTestCaseDependencies		TestData(pkcs12_version_notinteger.p12),ini file
 //					(version_notinteger.ini) containing the data.
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data in which the PFX structure 
@@ -1060,14 +1059,14 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-PFX-002
 //!@SYMTestExpectedResults		The PFX structure version number must be equal to 3.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-PFX-003
+START_TESTCASE				SEC-CERTMAN-PKCS12-PFX-0003
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\version_notinteger.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-PFX-003
+END_TESTCASE				SEC-CERTMAN-PKCS12-PFX-0003
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-PFX-004
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-PFX-0004
 //!@SYMTestCaseDependencies		TestData(pkcs12_pfx_missingcontents1.p12),ini file
 //					(pfx_missingcontents1.ini) containing the data.
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data which contains only PFX version
@@ -1083,15 +1082,15 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-PFX-003
 //!@SYMTestExpectedResults		The PFX structure must contain version number, authsafe and macdata structure.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-PFX-004
+START_TESTCASE				SEC-CERTMAN-PKCS12-PFX-0004
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\pfx_missingcontents1.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-PFX-004
+END_TESTCASE				SEC-CERTMAN-PKCS12-PFX-0004
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-ED-001
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-ED-0001
 //!@SYMTestCaseDependencies		TestData(pkcs12_encryptedcontentiteration1.p12),ini file 				
 //					(corruptedencryptedconiteration_case1.ini) containing the data.
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data from an invalid encoded 
@@ -1109,14 +1108,14 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-PFX-004
 //					structure must be greater than 0.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-ED-001
+START_TESTCASE				SEC-CERTMAN-PKCS12-ED-0001
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\corruptedencryptedconiteration_case1.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-ED-001
+END_TESTCASE				SEC-CERTMAN-PKCS12-ED-0001
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-ED-002
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-ED-0002
 //!@SYMTestCaseDependencies		TestData(pkcs12_encryptedcontentiteration2.p12),ini file 				
 //					(corruptedencryptedconiteration_case2.ini) containing the data.
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data from an invalid encoded 
@@ -1134,14 +1133,14 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-ED-001
 //					structure must be greater than 0.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-ED-002
+START_TESTCASE				SEC-CERTMAN-PKCS12-ED-0002
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\corruptedencryptedconiteration_case2.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-ED-002
+END_TESTCASE				SEC-CERTMAN-PKCS12-ED-0002
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-ED-003
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-ED-0003
 //!@SYMTestCaseDependencies		TestData(pkcs12_encryptedcontentversion.p12),ini file 				
 //					(corruptedencryptedconversion.ini) containing the data.
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data from an 
@@ -1159,14 +1158,14 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-ED-002
 //					structure must be equal to 0.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-ED-003
+START_TESTCASE				SEC-CERTMAN-PKCS12-ED-0003
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\corruptedencryptedconversion.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-ED-003
+END_TESTCASE				SEC-CERTMAN-PKCS12-ED-0003
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-ED-004
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-ED-0004
 //!@SYMTestCaseDependencies		TestData(pkcs12_encryptedusingdifferentAlg.p12),ini file 				
 //					(encryptedusingdifferentalg.ini) containing the data. 
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data from an 
@@ -1182,14 +1181,14 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-ED-003
 //!@SYMTestExpectedResults		The algorithm used for encryption must be supported PKCS12 ides.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-ED-004
+START_TESTCASE				SEC-CERTMAN-PKCS12-ED-0004
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\encryptedusingdifferentalg.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-ED-004
+END_TESTCASE				SEC-CERTMAN-PKCS12-ED-0004
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-ED-005
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-ED-0005
 //!@SYMTestCaseDependencies		TestData(pkcs12_encrypteddataabsent.p12),ini file(encrypteddataabsent.ini) 	
 //					containing the data.
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data from an invalid encoded PKCS12 
@@ -1203,14 +1202,14 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-ED-004
 //!@SYMTestExpectedResults		The encrypted data must be present.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-ED-005
+START_TESTCASE				SEC-CERTMAN-PKCS12-ED-0005
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\encrypteddataabsent.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-ED-005
+END_TESTCASE				SEC-CERTMAN-PKCS12-ED-0005
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-ED-006
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-ED-0006
 //!@SYMTestCaseDependencies		TestData(pkcs12_corruptedSalt.p12),ini file(encrypteddatasaltcorrupted.ini) 	
 //					containing the data.
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data from an 
@@ -1225,14 +1224,14 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-ED-005
 //					in order to decrypt the data.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-ED-006
+START_TESTCASE				SEC-CERTMAN-PKCS12-ED-0006
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\encrypteddatasaltcorrupted.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-ED-006
+END_TESTCASE				SEC-CERTMAN-PKCS12-ED-0006
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-ED-007
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-ED-0007
 //!@SYMTestCaseDependencies		TestData(pkcs12_encryptedcontentabsent.p12),ini file
 //					(encryptedcontentabsent.ini) containing the data.
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data from an 
@@ -1248,14 +1247,14 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-ED-006
 //!@SYMTestExpectedResults		The encrypted content data is optional, Check for NULL.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-ED-007
+START_TESTCASE				SEC-CERTMAN-PKCS12-ED-0007
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\encryptedcontentabsent.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-ED-007
+END_TESTCASE				SEC-CERTMAN-PKCS12-ED-0007
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-ED-008
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-ED-0008
 //!@SYMTestCaseDependencies		TestData(pkcs12_corruptedencryptedcontent.p12),ini file
 //					(corruptedencryptedcontent.ini) containing the data.
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data from an 
@@ -1271,14 +1270,14 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-ED-007
 //!@SYMTestExpectedResults		The Encrypted Content Data must be correct to decrypt the data.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-ED-008
+START_TESTCASE				SEC-CERTMAN-PKCS12-ED-0008
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\corruptedencryptedcontent.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-ED-008
+END_TESTCASE				SEC-CERTMAN-PKCS12-ED-0008
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-CI-001
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-CI-0001
 //!@SYMTestCaseDependencies		TestData(pkcs12_unsupportedContentInfo.p12),ini file 				
 //					(contentinfotypeunsupported.ini) containing the data.
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data from an 
@@ -1295,14 +1294,14 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-ED-008
 //					or SignedData.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-CI-001
+START_TESTCASE				SEC-CERTMAN-PKCS12-CI-0001
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\contentinfotypeunsupported.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-CI-001
+END_TESTCASE				SEC-CERTMAN-PKCS12-CI-0001
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-CI-002
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-CI-0002
 //!@SYMTestCaseDependencies		TestData(pkcs12_emptycontentinfo.p12),ini file(emptycontentinfo.ini) 
 //					containing the data.
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data from an 
@@ -1318,15 +1317,15 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-CI-001
 //!@SYMTestExpectedResults		The ContentData must be present in the PKCS7 ContentInfo structure.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-CI-002
+START_TESTCASE				SEC-CERTMAN-PKCS12-CI-0002
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\emptycontentinfo.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-CI-002
+END_TESTCASE				SEC-CERTMAN-PKCS12-CI-0002
 
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-CI-003
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-CI-0003
 //!@SYMTestCaseDependencies		TestData(pkcs12_unsupportedbag.p12),ini file
 //					(corruptbagalgid.ini) containing the data.
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data from an 
@@ -1343,14 +1342,14 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-CI-002
 //					Secret,SafeBag,KeyBag,ShroudedKeyBag or SafeContentsBag.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-CI-003
+START_TESTCASE				SEC-CERTMAN-PKCS12-CI-0003
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\corruptbagalgid.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-CI-003
+END_TESTCASE				SEC-CERTMAN-PKCS12-CI-0003
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-CI-004
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-CI-0004
 //!@SYMTestCaseDependencies		TestData(pkcs12_corruptedshroudediteration1.p12),ini file
 //					(corruptedshroudediteration_case1.ini) containing the data.
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data from an 
@@ -1366,14 +1365,14 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-CI-003
 //!@SYMTestExpectedResults		The iteration count present in shroudedBag should be greater than 0.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-CI-004
+START_TESTCASE				SEC-CERTMAN-PKCS12-CI-0004
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\corruptedshroudediteration_case1.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-CI-004
+END_TESTCASE				SEC-CERTMAN-PKCS12-CI-0004
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-CI-005
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-CI-0005
 //!@SYMTestCaseDependencies		TestData(pkcs12_corruptedshroudediteration2.p12),ini file
 //					(corruptedshroudediteration_case2.ini) containing the data.
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data from an 
@@ -1389,14 +1388,14 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-CI-004
 //!@SYMTestExpectedResults		The iteration count present in shroudedBag should be greater than 0.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-CI-005
+START_TESTCASE				SEC-CERTMAN-PKCS12-CI-0005
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\corruptedshroudediteration_case2.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-CI-005
+END_TESTCASE				SEC-CERTMAN-PKCS12-CI-0005
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-CI-006
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-CI-0006
 //!@SYMTestCaseDependencies		TestData(pkcs12_corruptedshroudedval.p12),ini file
 //					(corruptedshroudedval.ini) containing the data.
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data from an 
@@ -1411,14 +1410,14 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-CI-005
 //!@SYMTestExpectedResults		The Shroudedkey BagValue must be correct to decrypt the data.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-CI-006
+START_TESTCASE				SEC-CERTMAN-PKCS12-CI-0006
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\corruptedshroudedval.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-CI-006
+END_TESTCASE				SEC-CERTMAN-PKCS12-CI-0006
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-CI-007
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-CI-0007
 //!@SYMTestCaseDependencies		TestData(pkcs12_certbag_notasequence.p12),ini file
 //					(certbag_notasequence.ini) containing the data.
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data from an 
@@ -1435,14 +1434,14 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-CI-006
 //					Sequence.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-CI-007
+START_TESTCASE				SEC-CERTMAN-PKCS12-CI-0007
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\certbag_notasequence.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-CI-007
+END_TESTCASE				SEC-CERTMAN-PKCS12-CI-0007
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-CI-008
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-CI-0008
 //!@SYMTestCaseDependencies		TestData(pkcs12_certbag_oidnotoctetstring.p12),ini file
 //					(certbag_oidnotoctetstring.ini) containing the data.
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data from an 
@@ -1458,14 +1457,14 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-CI-007
 //					OCTETSTRING.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-CI-008
+START_TESTCASE				SEC-CERTMAN-PKCS12-CI-0008
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\certbag_oidnotoctetstring.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-CI-008
+END_TESTCASE				SEC-CERTMAN-PKCS12-CI-0008
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-CI-009
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-CI-0009
 //!@SYMTestCaseDependencies		TestData(pkcs12_certbag_explicittagchanged.p12),ini file
 //					(certbag_explicittagchanged.ini) containing the data.
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data from an 
@@ -1482,14 +1481,14 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-CI-008
 //					be a sequence
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-CI-009
+START_TESTCASE				SEC-CERTMAN-PKCS12-CI-0009
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\certbag_explicittagchanged.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-CI-009
+END_TESTCASE				SEC-CERTMAN-PKCS12-CI-0009
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-CI-010
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-CI-0010
 //!@SYMTestCaseDependencies		TestData(pkcs12_certbag_notoctetstring.p12),ini file
 //					(certbag_notoctetstring.ini) containing the data.
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data from an 
@@ -1506,15 +1505,15 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-CI-009
 //					be a OCTETSTRING.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-CI-010
+START_TESTCASE				SEC-CERTMAN-PKCS12-CI-0010
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\certbag_notoctetstring.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-CI-010
-
+END_TESTCASE				SEC-CERTMAN-PKCS12-CI-0010
+	
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-CI-011
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-CI-0011
 //!@SYMTestCaseDependencies		TestData(pkcs12_corruptedattrval.p12),ini file
 //					(attributevaluechanged.ini) containing the data.
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data from an 
@@ -1530,14 +1529,14 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-CI-010
 //!@SYMTestExpectedResults		The Comparsion fails if the attribute value is modified.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-CI-011
+START_TESTCASE				SEC-CERTMAN-PKCS12-CI-0011
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\attributevaluechanged.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-CI-011
+END_TESTCASE				SEC-CERTMAN-PKCS12-CI-0011
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-CI-012
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-CI-0012
 //!@SYMTestCaseDependencies		TestData(pkcs12_bagattributenotaseq.p12),ini file
 //					(bagattributenotaseq.ini) containing the data.
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data from an 
@@ -1552,14 +1551,14 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-CI-011
 //!@SYMTestExpectedResults		The Attribute set tag present in the bag must be a Sequence.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-CI-012
+START_TESTCASE				SEC-CERTMAN-PKCS12-CI-0012
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\bagattributenotaseq.ini
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-CI-012
+END_TESTCASE				SEC-CERTMAN-PKCS12-CI-0012
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-CI-013
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-CI-0013
 //!@SYMTestCaseDependencies		TestData(pkcs12_bagattributeoid_notoctet.p12),ini file
 //					(bagattributeoid_notoctet.ini) containing the data.
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data from an 
@@ -1577,14 +1576,14 @@ END_TESTCASE	SEC-CERTMAN-PKCS12-CI-012
 //					OCTETSTRING.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-CI-013
+START_TESTCASE				SEC-CERTMAN-PKCS12-CI-0013
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\bagattributeoid_notoctet.ini
 
-START_TESTCASE	SEC-CERTMAN-PKCS12-CI-013
+END_TESTCASE				SEC-CERTMAN-PKCS12-CI-0013
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-CI-014
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-CI-0014
 //!@SYMTestCaseDependencies		TestData(pkcs12_bagattributeval_notset.p12),ini file
 //					(bagattributeval_notset.ini) containing the data.
 //!@SYMTestCaseDesc			This test case is for decoding the PKCS12 data from an 
@@ -1602,14 +1601,14 @@ START_TESTCASE	SEC-CERTMAN-PKCS12-CI-013
 //					ASN SET.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-CI-014
+START_TESTCASE				SEC-CERTMAN-PKCS12-CI-0014
 
 RUN_TEST_STEP   100 tpkcs12libtest PKCS12LibTestStep c:\tpkcs12intg\data\ini\bagattributeval_notset.ini
 
-START_TESTCASE	SEC-CERTMAN-PKCS12-CI-014
+END_TESTCASE				SEC-CERTMAN-PKCS12-CI-0014
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-OOM-001
+//!@SYMTestCaseID			SEC-CERTMAN-PKCS12-OOM-0001
 //!@SYMTestCaseDependencies		INI file (oomtest.ini) containing the test data path for 
 //					the OOM tests.
 //!@SYMTestCaseDesc			Below test cases perform out of memory tests for the pkcs12 library.
@@ -1622,7 +1621,7 @@ START_TESTCASE	SEC-CERTMAN-PKCS12-CI-014
 //!@SYMTestExpectedResults		The KErrNoMemory must be returned.
 //!@SYMTestType				UT
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-START_TESTCASE	SEC-CERTMAN-PKCS12-OOM-001
+START_TESTCASE				SEC-CERTMAN-PKCS12-OOM-0001
 
 RUN_TEST_STEP !OOM 100 tpkcs12libtest PKCS12OOMTestStep	c:\tpkcs12intg\data\ini\oomtest.ini OOMPKCS12Test
 RUN_TEST_STEP !OOM 100 tpkcs12libtest PKCS12OOMTestStep	c:\tpkcs12intg\data\ini\oomtest.ini OOMPKCS12READSTREAMTEST
@@ -1638,4 +1637,5 @@ RUN_TEST_STEP !OOM 100 tpkcs12libtest PKCS12OOMTestStep	c:\tpkcs12intg\data\ini\
 RUN_TEST_STEP !OOM 100 tpkcs12libtest PKCS12OOMTestStep	c:\tpkcs12intg\data\ini\oomtest.ini OOMSAFECONTENTDATATEST
 RUN_TEST_STEP !OOM 100 tpkcs12libtest PKCS12OOMTestStep	c:\tpkcs12intg\data\ini\oomtest.ini OOMSAFECONTENTENCRYPTEDDATATEST
 
-END_TESTCASE	SEC-CERTMAN-PKCS12-OOM-001
+END_TESTCASE				SEC-CERTMAN-PKCS12-OOM-0001
+

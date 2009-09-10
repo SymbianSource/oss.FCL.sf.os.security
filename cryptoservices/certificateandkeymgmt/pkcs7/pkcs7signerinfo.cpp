@@ -16,8 +16,6 @@
 */
 
 
-
-
 #include "pkcs7signerinfo.h"
 #include "pkcs7issuerserial.h"
 #include "pkcs7asn1.h"

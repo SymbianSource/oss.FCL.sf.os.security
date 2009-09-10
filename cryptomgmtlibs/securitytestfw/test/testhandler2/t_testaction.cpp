@@ -102,6 +102,8 @@ EXPORT_C void CTestAction::ConstructL(const TTestActionSpec& aTestActionSpec)
 {
 	iNameInfo = aTestActionSpec.iActionName.AllocL();
 	
+	iTefScript = aTestActionSpec.iTefScript;
+	
 	TRAPD(err, iExpectedResult = Input::ParseElementBoolL(
 		aTestActionSpec.iActionResult, _L8("<result>")) );
 	if(err == KErrArgument)

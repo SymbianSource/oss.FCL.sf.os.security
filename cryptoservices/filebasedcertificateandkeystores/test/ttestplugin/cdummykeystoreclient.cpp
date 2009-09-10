@@ -300,3 +300,8 @@ void CDummyKeyStoreClient::CancelRelock()
 	{
 	// No point cancelling, not asynchronous
 	}
+
+
+
+
+

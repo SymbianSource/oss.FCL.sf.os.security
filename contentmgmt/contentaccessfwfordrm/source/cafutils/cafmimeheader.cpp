@@ -20,7 +20,7 @@
 
 #include <caf/caftypes.h>
 #include <s32strm.h>
-#include "cafmimeheader.h"
+#include <caf/cafmimeheader.h>
 #include "mimefieldanddata.h"
 
 using namespace ContentAccess;

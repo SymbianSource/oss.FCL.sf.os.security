@@ -26,7 +26,7 @@
 #include "keystorepassphrase.h"
 #include "fsdatatypes.h"
 #include "keystreamutils.h"
-#include <fstokenutil.h>
+#include "fstokenutil.h"
 #include <asnpkcs.h>
 #include <pbedata.h>
 #include <securityerr.h>
@@ -37,6 +37,27 @@
 #include <keyidentifierutil.h>
 #include <mctauthobject.h>
 #include <utf.h>
+#include <e32math.h>
+#include "x509keyencoder.h"
+
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+#include <s32mem.h>
+#include <e32std.h>
+#include <authserver/authclient.h>
+#include <authserver/authexpression.h>
+#include <authserver/auth_srv_errs.h>
+#include <authserver/aspubsubdefs.h>
+#include <authserver/authtypes.h>
+
+#include <asymmetrickeys.h>
+#include "keystorecenrepconfig.h"
+#include "keystore_errs.h"
+#include "cfskeystoreserver.inl"
+
+// Length set to retrieve the authentication expression
+// from the central repository.
+const TInt KAuthStringLength = 255;
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 
 // We don't currently allow any keys larger than 2048 bits.  It may be necessary to
 // increase this limit in the future. 
@@ -44,9 +65,11 @@ const TUint KTheMinKeySize = 512;
 const TUint KTheMaxKeySize = 2048;
 
 // Security policies
+#ifndef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 _LIT_SECURITY_POLICY_C1(KSetTimeoutSecurityPolicy, ECapabilityWriteDeviceData);
-_LIT_SECURITY_POLICY_C1(KCreateSecurityPolicy, ECapabilityWriteUserData);
-_LIT_SECURITY_POLICY_C1(KListSecurityPolicy, ECapabilityReadUserData);
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+_LIT_SECURITY_POLICY_C1(KWriteUserDataPolicy, ECapabilityWriteUserData);
+_LIT_SECURITY_POLICY_C1(KReadUserDataPolicy, ECapabilityReadUserData);
 
 CFSKeyStoreServer* CFSKeyStoreServer::NewL()
 	{
@@ -66,8 +89,16 @@ CFSKeyStoreServer::CFSKeyStoreServer() :
 
 void CFSKeyStoreServer::ConstructL()
 	{
-	iKeyDataManager = CFileKeyDataManager::NewL();
+
 	iConduit = CKeyStoreConduit::NewL(*this);
+	
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	User::LeaveIfError(iAuthClient.Connect());		
+	iKeyStoreCenrep = CKeyStoreCenrep::NewL();	
+#endif	// SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	
+	iKeyDataManager = CFileKeyDataManager::NewL();
+	
 	CActiveScheduler::Add(this);
 	}
 
@@ -79,6 +110,14 @@ CFSKeyStoreServer::~CFSKeyStoreServer()
 	delete iConduit;
 	delete iKeyCreator;
 	iSessions.Close();
+
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	iAuthClient.Close();	
+	delete iUserIdentity;
+	delete iKeyStoreCenrep;
+	delete iAuthString;	
+#endif //SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+
 	}
 
 CKeyStoreSession* CFSKeyStoreServer::CreateSessionL()
@@ -126,10 +165,26 @@ void CFSKeyStoreServer::ListL(const TCTKeyAttributeFilter& aFilter,
 	ASSERT(iMessage);
 	
 	// Check the calling process has ReadUserData capability
-	if (!KListSecurityPolicy.CheckPolicy(*iMessage))
+	if (!KReadUserDataPolicy.CheckPolicy(*iMessage))
 		{
 		User::Leave(KErrPermissionDenied);
 		}
+		
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	iIdentityId = iKeyDataManager->CachedIdentity(); 
+	if(iIdentityId == AuthServer::KUnknownIdentity)
+		{
+		HBufC* authExpression = HBufC::NewLC(KAuthStringLength);
+		TPtr ptr = authExpression->Des();
+		iKeyStoreCenrep->AuthExpressionL(ptr);
+		TInt freshness = iKeyStoreCenrep->FreshnessL();
+		CheckRangeL(freshness);
+		
+		AuthServer::CIdentity* identity = SyncAuthenticateLC(*authExpression,freshness);
+		iIdentityId = identity->Id();
+		CleanupStack::PopAndDestroy(2, authExpression); // identity
+		}
+#endif //SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	
 	TInt count = iKeyDataManager->Count();
 
@@ -139,13 +194,25 @@ void CFSKeyStoreServer::ListL(const TCTKeyAttributeFilter& aFilter,
 		CKeyInfo* info = iKeyDataManager->ReadKeyInfoLC(*data);
 		if (KeyMatchesFilterL(*info, aFilter))
 			{
-			User::LeaveIfError(aKeys.Append(info));
-			CleanupStack::Pop(info);
+			#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+			if(info->Identity() == iIdentityId)
+				{
+				// this is required as the client side object does
+				// not contain authentication details.
+				info->ResetAuthExpression();
+			#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+				
+				User::LeaveIfError(aKeys.Append(info));
+				CleanupStack::Pop(info);
+				
+			#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+				}
+			#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 			}
-		else
+		else	
 			{
 			CleanupStack::PopAndDestroy(info);
-			}
+			}		
 		}
 	}
 
@@ -213,16 +280,52 @@ void CFSKeyStoreServer::GetKeyInfoL(TInt aObjectId, CKeyInfo*& aInfo)
 		{
 		User::Leave(KErrNotFound);
 		}
-
-	CKeyInfo* result = iKeyDataManager->ReadKeyInfoLC(*keyData);
-	if (!result->UsePolicy().CheckPolicy(*iMessage))
+	
+	CKeyInfo* keyInfo = iKeyDataManager->ReadKeyInfoLC(*keyData);
+	
+	if (!keyInfo->UsePolicy().CheckPolicy(*iMessage))
 		{
 		User::Leave(KErrPermissionDenied);
 		}
 
-	aInfo = result;
-	CleanupStack::Pop(aInfo);
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	iIdentityId = iKeyDataManager->CachedIdentity(); 
+	if(iIdentityId == AuthServer::KUnknownIdentity)
+		{
+		AuthServer::CIdentity* userIdentity = SyncAuthenticateLC(keyInfo->AuthExpression(), keyInfo->Freshness());
+		iIdentityId = userIdentity->Id();
+		CleanupStack::PopAndDestroy(userIdentity);
+		}
+	if(iIdentityId != keyInfo->Identity())
+		{
+		User::Leave(KErrNotFound);
+		}
+#endif //SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	
+	aInfo = keyInfo;
+	CleanupStack::Pop(keyInfo);
 	}
+
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+
+AuthServer::CIdentity* CFSKeyStoreServer::SyncAuthenticateLC(const TDesC& aAuthExpression, TInt aFreshness)
+	{
+	AuthServer::CAuthExpression* expression = iAuthClient.CreateAuthExpressionL(aAuthExpression);
+	CleanupStack::PushL(expression);
+	TUid uid = TUid::Uid(0);
+	AuthServer::CIdentity* userIdentity = iAuthClient.AuthenticateL(*expression,aFreshness, EFalse, uid, EFalse, KNullDesC);
+	CleanupStack::PushL(userIdentity);
+	if(userIdentity->Id() == AuthServer::KUnknownIdentity)
+		{
+		User::Leave(KErrAuthenticationFailure);
+		}
+	CleanupStack::Pop(userIdentity);
+	CleanupStack::PopAndDestroy(expression);
+	CleanupStack::PushL(userIdentity);
+	return userIdentity;
+	}
+
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 
 TInt CFSKeyStoreServer::GetKeyLengthL(TInt aObjectId)
 	{
@@ -249,7 +352,7 @@ COpenedKey* CFSKeyStoreServer::OpenKeyL(TInt aHandle, TUid aOpenedKeyType)
 		{
 		User::Leave(KErrNotFound);
 		}
-
+	
 	return COpenedKey::NewL(*keyData, aOpenedKeyType, *iMessage,
 							*iKeyDataManager, iSession->PassphraseManager());
 	}
@@ -264,6 +367,15 @@ void CFSKeyStoreServer::ExportPublicL(TInt aObjectId,
 		}
 
 	CKeyInfo* keyInfo = iKeyDataManager->ReadKeyInfoLC(*keyData);
+
+	#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	AuthServer::CIdentity* identity = SyncAuthenticateLC(keyInfo->AuthExpression(), keyInfo->Freshness());
+	if(identity->Id() != keyInfo->Identity())
+		{
+		User::Leave(KErrNotFound);
+		}
+	CleanupStack::PopAndDestroy(identity);
+	#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 
 	RStoreReadStream stream;
 	iKeyDataManager->OpenPublicDataStreamLC(*keyData, stream);
@@ -405,52 +517,150 @@ TInt CFSKeyStoreServer::CheckKeyAlgorithmAndSize(CKeyInfo& aKey)
 	return KErrNone;
 	}
 
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+/**
+ * This method uses the default authentication policy to 
+ * authenticated a user and encrypt the key using the protection
+ * key and store it against the authenticated user .
+ */
+#else
+/**
+ * This method stores the keys in the keystore and encrypts the 
+ * entire keystore with a passphrase.
+ */
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+
 void CFSKeyStoreServer::CreateKey(CKeyInfo& aReturnedKey, TRequestStatus& aStatus)
 	{
-	ASSERT(iSession);
-	ASSERT(iMessage);
-
-	TInt err = KErrNone;
+	
+	iKeyInfo = &aReturnedKey;
+	aStatus = KRequestPending;
+	iCallerRequest = &aStatus;
+		
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	// the next state would ask for the user to be authenticated.
+	// we do not use the cached identity directly through the
+	// published value as the protection key of the user would 
+	// be required to store the key in encrypted form. 
+	iAction = ESetAuthPolicy;
+#else
+	iAction = EGetPassphrase;
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	
 	// Check the calling process has WriteUserData capability
-	if (!KCreateSecurityPolicy.CheckPolicy(*iMessage))
+	if (!KWriteUserDataPolicy.CheckPolicy(*iMessage))
 		{
-		err = KErrPermissionDenied;
-		}
-	
-	// Check the incoming information has been initialised correctly
-	if (err == KErrNone)
-		{
-		err = CheckKeyAttributes(aReturnedKey, ENewKeyCreate);
-		}
-	
-	if (err == KErrNone)
-		{
-		err = CheckKeyAlgorithmAndSize(aReturnedKey);
-		}
-	
-	if (err != KErrNone)
-		{
-		TRequestStatus* status = &aStatus;
-		User::RequestComplete(status, err);
-		return;
-		}
-
-	// DEF042306: Make it local only if it's created in the keystore
-	aReturnedKey.SetAccessType(aReturnedKey.AccessType() | CKeyInfo::ELocal);
-
-	if (iKeyDataManager->IsKeyAlreadyInStore(aReturnedKey.Label()))
-		{
-		TRequestStatus* status = &aStatus;
-		User::RequestComplete(status, KErrAlreadyExists);
+		CompleteClientRequest(KErrPermissionDenied);
 		return;
 		}
 	
-	iCallerRequest = &aStatus;
-	iKeyInfo = &aReturnedKey;
-
-	GetKeystorePassphrase(ECreateKeyCreate);	
+	SetActive();
+	TRequestStatus* status = &iStatus;
+	User::RequestComplete(status, KErrNone);
+			
 	}
+
+void CFSKeyStoreServer::CheckRangeL(TInt aFreshness)
+	{
+	if( aFreshness < 0 || aFreshness > KMaxTInt)
+		{
+		User::Leave(KErrOverflow);
+		}
+	}
+
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+
+void CFSKeyStoreServer::AsyncAuthenticateL(	const TDesC& aAuthString,
+											TInt aFreshness)
+	{
+	TUid uid = TUid::Uid(0);
+	AuthServer::CAuthExpression* expression = iAuthClient.CreateAuthExpressionL(aAuthString);
+	CleanupStack::PushL(expression);
+	iAuthClient.AuthenticateL(*expression,aFreshness, EFalse, uid, EFalse, KNullDesC, iUserIdentity, iStatus);
+	SetActive();
+	CleanupStack::PopAndDestroy(expression);
+	}
+
+/**
+ * This method uses the authentication policy as supplied in the 
+ * call to authenticate an user and encrypt the key using its 
+ * protection key and store it against the authenticated user .
+ */
+void CFSKeyStoreServer::CreateUserKey(	CKeyInfo& aReturnedKey,
+										const TDesC& aAuthString,
+										TInt aFreshness,
+										TRequestStatus& aStatus)
+	{
+	iAction = EAuthenticate;
+	iNextAction = ECreateUserKey;
+		
+	iKeyInfo = &aReturnedKey;
+	aStatus = KRequestPending;
+	iCallerRequest = &aStatus;
+		
+	// Check the calling process has WriteUserData capability
+	if (!KWriteUserDataPolicy.CheckPolicy(*iMessage))
+		{
+		CompleteClientRequest(KErrPermissionDenied);
+		return;
+		}
+		
+	TRAPD(err,iKeyInfo->SetAuthExpressionL(aAuthString));
+	if(err != KErrNone)
+		{
+		CompleteClientRequest(err);
+		return;
+		}
+	
+	iKeyInfo->SetFreshness(aFreshness);
+	
+	SetActive();
+	TRequestStatus* status = &iStatus;
+	User::RequestComplete(status, KErrNone);
+	}
+
+
+void CFSKeyStoreServer::ImportUserKey(	const TDesC8& aKey, 
+										CKeyInfo& aReturnedKey, 
+										TBool aIsEncrypted,
+										const TDesC& aAuthString,
+										TInt aFreshness,
+										TRequestStatus& aStatus)
+	{
+	ASSERT(iMessage);
+ 
+	iPKCS8Data.Set(aKey);
+	iImportingEncryptedKey = aIsEncrypted;
+	iKeyInfo = &aReturnedKey;
+	aStatus = KRequestPending;
+	iCallerRequest = &aStatus;
+	
+	// Check the calling process has WriteUserData capability
+	if (!KWriteUserDataPolicy.CheckPolicy(*iMessage))
+		{
+		CompleteClientRequest(KErrPermissionDenied);
+		return;
+		}
+		
+	TRAPD(err,iKeyInfo->SetAuthExpressionL(aAuthString));
+	if(err != KErrNone)
+		{
+		CompleteClientRequest(err);
+		return;
+		}
+		
+	iKeyInfo->SetFreshness(aFreshness);
+	
+	iAction = EAuthenticate;
+	iNextAction = EImportUserKey;
+	
+	SetActive();
+	TRequestStatus* status = &iStatus;
+	User::RequestComplete(status, KErrNone);
+		
+	}
+
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 
 void CFSKeyStoreServer::CancelCreateKey()
 	{
@@ -459,33 +669,164 @@ void CFSKeyStoreServer::CancelCreateKey()
 		{
 		Cancel();
 		}
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	if (iAction == ECreateUserKey || 
+		iAction == ECreateKeyFinal)
+		{
+		Cancel();
+		}
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	}
 
 void CFSKeyStoreServer::DoCreateKeyL()
 {
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	__ASSERT_DEBUG(iAction==ECreateUserKey, PanicServer(EPanicECreateKeyNotReady));
+#else
 	__ASSERT_DEBUG(iAction==ECreateKeyCreate, PanicServer(EPanicECreateKeyNotReady));
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	
 	__ASSERT_DEBUG(iKeyInfo, PanicServer(EPanicNoClientData));
 	
-	if (iKeyCreator)
-	{
-		delete iKeyCreator;
-		iKeyCreator = NULL;
+	delete iKeyCreator;
+	iKeyCreator = NULL;
+	
+	iKeyCreator = new(ELeave) CKeyCreator();
+	SetActive();
+	iKeyCreator->DoCreateKeyAsync(iKeyInfo->Algorithm(), iKeyInfo->Size(), iStatus);
 	}
 
-	iKeyCreator = new (ELeave) CKeyCreator();
-	iStatus = KRequestPending;
-	iAction = EKeyCreated;
-	iKeyCreator->DoCreateKeyAsyncL(iKeyInfo->Algorithm(), iKeyInfo->Size(), iStatus);
-	SetActive(); 
-}
-												  
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+
+void CFSKeyStoreServer::SetAuthenticationPolicy(	
+							TInt aObjectId, 
+							HBufC* aAuthString,
+							TInt aFreshness, 
+							TRequestStatus& aStatus)
+	{
+	aStatus = KRequestPending;
+	iCallerRequest = &aStatus;
+	iObjectId = aObjectId;
+	iAuthString = aAuthString;
+	iFreshness = aFreshness;
+	
+	// Check the calling process has WriteUserData capability
+	if (!KWriteUserDataPolicy.CheckPolicy(*iMessage))
+		{
+		CompleteClientRequest(KErrPermissionDenied);
+		return;
+		}
+		
+	iAction = EDoSetAuthenticationPolicy;
+	SetActive();
+	TRequestStatus* status = &iStatus;
+	User::RequestComplete(status, KErrNone);
+			
+	}
+
+HBufC* CFSKeyStoreServer::AuthExpressionL( TInt aObjectId)
+	{
+	// Check the calling process has ReadUserData capability
+	if (!KReadUserDataPolicy.CheckPolicy(*iMessage))
+		{
+		User::Leave(KErrPermissionDenied);
+		}
+	
+	CKeyInfo* keyInfo = KeyDetailsLC(aObjectId);
+	HBufC* authExpression = keyInfo->AuthExpression().AllocL();
+	CleanupStack::PopAndDestroy(keyInfo);
+	
+	return authExpression;
+	}
+
+TInt CFSKeyStoreServer::FreshnessL(TInt aObjectId)
+	{
+	// Check the calling process has ReadUserData capability
+	if (!KReadUserDataPolicy.CheckPolicy(*iMessage))
+		{
+		User::Leave(KErrPermissionDenied);
+		}
+		
+	CKeyInfo* keyInfo = KeyDetailsLC(aObjectId);
+	TInt freshness = keyInfo->Freshness();
+	CleanupStack::PopAndDestroy(keyInfo);
+			
+	return freshness;
+	}
+
+CKeyInfo* CFSKeyStoreServer::KeyDetailsLC(TInt aObjectId)
+	{
+	const CFileKeyData* keyData = iKeyDataManager->Lookup(aObjectId);
+	if (!keyData)
+		{
+		User::Leave(KErrNotFound);
+		}
+	
+	CKeyInfo* keyInfo = iKeyDataManager->ReadKeyInfoLC(*keyData);
+	AuthServer::TIdentityId identityId = iKeyDataManager->CachedIdentity(); 
+		
+	if( identityId == AuthServer::KUnknownIdentity)
+		{
+		AuthServer::CIdentity* userIdentity = SyncAuthenticateLC(keyInfo->AuthExpression(), keyInfo->Freshness());
+		identityId = userIdentity->Id();
+		CleanupStack::PopAndDestroy(userIdentity);		
+		}
+	if(identityId == AuthServer::KUnknownIdentity)
+		{
+		User::Leave(KErrAuthenticationFailure);
+		}
+	if(identityId != keyInfo->Identity())
+		{
+		User::Leave(KErrNotFound);
+		}
+	
+	return keyInfo;
+	}
+
+/*
+ * This method is used to set the default authentication policy for a key which is being
+ * created using the old methods.
+ */
+
+void CFSKeyStoreServer::SetDefaultAuthPolicyL()
+	{
+	ASSERT(iKeyInfo);
+	
+	HBufC* authExpression = HBufC::NewLC(KAuthStringLength);
+	TPtr ptr = authExpression->Des();
+	iKeyStoreCenrep->AuthExpressionL(ptr);
+	TInt freshness = iKeyStoreCenrep->FreshnessL();
+	CheckRangeL(freshness);
+	
+	iKeyInfo->SetAuthExpressionL(*authExpression);
+	iKeyInfo->SetFreshness(freshness);
+	CleanupStack::PopAndDestroy(authExpression);			
+	}
+
+void CFSKeyStoreServer::WriteAuthenticationPolicyL()
+	{
+	ASSERT(iKeyInfo);
+	
+	if(iIdentityId != iKeyInfo->Identity())
+		{
+		User::Leave(KErrNotFound);
+		}
+	
+	iKeyInfo->SetAuthExpressionL(*iAuthString);
+	delete iAuthString;
+	iAuthString = NULL;
+	iKeyInfo->SetFreshness(iFreshness);
+	iKeyDataManager->SafeWriteKeyInfoL(*iKeyData, *iKeyInfo);
+	}	
+
+#else
 /**
  * Get the default passphrase for the store, or create one if it hasn't been set
  * yet.  This is used for key creation, import and export.
  *
  * Calls SetActive(), and sets the next state.
  */
-void CFSKeyStoreServer::GetKeystorePassphrase(ECurrentAction aNextState)
+void CFSKeyStoreServer::GetKeystorePassphrase(TCurrentAction aNextState)
 	{
 	ASSERT(iSession);
 	TStreamId passphraseId = iKeyDataManager->DefaultPassphraseId();
@@ -501,6 +842,8 @@ void CFSKeyStoreServer::GetKeystorePassphrase(ECurrentAction aNextState)
 	iAction = aNextState;
 	SetActive();
 	}
+
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 
 /**
  * Store a key.
@@ -525,12 +868,21 @@ void CFSKeyStoreServer::DoStoreKeyL()
 	__ASSERT_DEBUG(iAction==ECreateKeyFinal, PanicServer(EPanicECreateKeyNotReady));
 	__ASSERT_DEBUG(iKeyInfo, PanicServer(EPanicNoClientData));
 	__ASSERT_DEBUG(iKeyCreator, PanicServer(ENoCreatedKeyData));
+#ifndef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	ASSERT(iPassphrase);
-
-	const CFileKeyData* keyData = iKeyDataManager->CreateKeyDataLC(iKeyInfo->Label(), iPassphrase->StreamId());	   
-
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	
+	const CFileKeyData* keyData = NULL;
 	RStoreWriteStream privateStream;
+	
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	keyData = iKeyDataManager->CreateKeyDataLC(iKeyInfo->Label(), iKeyInfo->Identity());
+	iKeyDataManager->OpenPrivateDataStreamLC(*keyData, privateStream);
+#else
+	keyData = iKeyDataManager->CreateKeyDataLC(iKeyInfo->Label(), iPassphrase->StreamId());
 	iKeyDataManager->OpenPrivateDataStreamLC(*keyData, *iPassphrase, privateStream);
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	
 	
 	CKeyInfo::EKeyAlgorithm keyAlgorithm = iKeyInfo->Algorithm();
 
@@ -542,7 +894,11 @@ void CFSKeyStoreServer::DoStoreKeyL()
 			{
 			CRSAKeyPair* newKey = iKeyCreator->GetCreatedRSAKey();
 			KeyIdentifierUtil::RSAKeyIdentifierL(newKey->PublicKey(), theKeyId);			
-			privateStream << newKey->PrivateKey();
+			#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+				EncryptAndStoreL(newKey->PrivateKey(), privateStream);
+			#else
+				privateStream << newKey->PrivateKey();
+			#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 			break;
 			}
 			
@@ -550,7 +906,11 @@ void CFSKeyStoreServer::DoStoreKeyL()
 			{
 			CDSAKeyPair* newKey = iKeyCreator->GetCreatedDSAKey();			
 			KeyIdentifierUtil::DSAKeyIdentifierL(newKey->PublicKey(), theKeyId);
-			privateStream << newKey->PrivateKey();
+			#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+				EncryptAndStoreL(newKey->PrivateKey(), privateStream);
+			#else
+				privateStream << newKey->PrivateKey();
+			#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER	
 			break;
 			}
 
@@ -563,18 +923,21 @@ void CFSKeyStoreServer::DoStoreKeyL()
 			if (newKey.IsZero())
 				User::Leave(KErrArgument);
 
-			privateStream << newKey;
-			privateStream.CommitL();
+			#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER	
+				EncryptAndStoreL(newKey, privateStream);
+			#else
+				privateStream << newKey;
+			#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 			break;
 			}
 		
 		default:
-			__ASSERT_DEBUG(EFalse, PanicServer(EPanicInvalidKeyCreateReq));
+			__ASSERT_DEBUG(EFalse, PanicClient(*iMessage,EPanicInvalidKeyCreateReq));
 			break;
 		}
 
 	privateStream.CommitL();
-	CleanupStack::PopAndDestroy(); // privateStream
+	CleanupStack::PopAndDestroy(&privateStream); 
 	
 //	Fill in the CCTKeyInfo data currently missing (TKeyIdentifier and handle)
 	iKeyInfo->SetHandle(keyData->Handle());
@@ -600,68 +963,95 @@ void CFSKeyStoreServer::DoStoreKeyL()
 			break;
 		
 		default:
-			__ASSERT_DEBUG(EFalse, PanicServer(EPanicInvalidKeyCreateReq));
+			__ASSERT_DEBUG(EFalse, PanicClient(*iMessage,EPanicInvalidKeyCreateReq));
 			break;
 		}
 	
 	publicStream.CommitL();
-	CleanupStack::PopAndDestroy(); // publicStream
+	CleanupStack::PopAndDestroy(&publicStream);  
 
 //	Finished with the key creator
-	if (iKeyCreator)
-	{
-		delete iKeyCreator;
-		iKeyCreator = NULL;
-	}
-
+	delete iKeyCreator;
+	iKeyCreator = NULL;
+	
 //	Externalize the CKeyInfo data associated with the key,
 	iKeyDataManager->WriteKeyInfoL(*keyData, *iKeyInfo);
 
 //	Now add the new key to the data manager (which adds it to the store)
 	iKeyDataManager->AddL(keyData);
-	CleanupStack::Pop(); // keydata
+	CleanupStack::Pop(); // keyData 
+	
 }
+
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+void CFSKeyStoreServer::StoreKeyL(const TDesC8& aKeyData, RStoreWriteStream& aStream)
+	{
+	// retrieve the protection key of the current authenticated user for encrypting the 
+	// user's private key.
+	TPtrC8 key = iUserIdentity->Key().KeyData();
+	// used for pbe, the class can be used for encryption/decryption based on the 
+	// password supplied.
+	CPBEncryptElement* pbeEncrypt = CPBEncryptElement::NewL(key);
+	CleanupStack::PushL(pbeEncrypt);
+	// create an object for ecryption
+	CPBEncryptor* encryptor = pbeEncrypt->NewEncryptLC();
+	// cerate the buffer size required for storing the encrypted data.
+	HBufC8* ciphertext = HBufC8::NewLC(encryptor->MaxFinalOutputLength(aKeyData.Length()));
+	TPtr8 ciphertextTemp = ciphertext->Des();
+	// data gets encrypted and stored in the buffer
+	encryptor->ProcessFinalL(aKeyData, ciphertextTemp);
+	// externalixe the encryption parameters, this information is required later
+	// for decrypting the text later.
+	pbeEncrypt->EncryptionData().ExternalizeL(aStream);
+	// write out the cipher data length
+	aStream.WriteInt32L(ciphertext->Length());
+	// write the cipher data to the stream.
+	aStream.WriteL(*ciphertext);
+	// once the key has been store, delete the user identity
+	delete iUserIdentity;
+	iUserIdentity = NULL;
+	CleanupStack::PopAndDestroy(3, pbeEncrypt); // ciphertext,encryptor
+	}
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 
 void CFSKeyStoreServer::ImportKey(const TDesC8& aKey, CKeyInfo& aReturnedKey, TBool aIsEncrypted, TRequestStatus& aStatus)
 	{
 	ASSERT(iMessage);
  
-	TInt err = KErrNone;
-
+	aStatus = KRequestPending;
+	iCallerRequest = &aStatus;
+		
 	// Check the calling process has WriteUserData capability
-	if (!KCreateSecurityPolicy.CheckPolicy(*iMessage))
+	if (!KWriteUserDataPolicy.CheckPolicy(*iMessage))
 		{
-		err = KErrPermissionDenied;
+		CompleteClientRequest(KErrPermissionDenied);
+		return;
 		}
-
-	if (err == KErrNone)
+		
+	iPKCS8Data.Set(aKey);
+	iImportingEncryptedKey = aIsEncrypted;
+	
+	iKeyInfo = &aReturnedKey;
+	
+	SetActive();
+	
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	iAction = EDoImportKey;
+	
+	TRequestStatus* status = &iStatus;
+	User::RequestComplete(status, KErrNone);
+#else
+	TInt err = CheckImportKeyPolicy(iImportingEncryptedKey ? ENewKeyImportEncrypted : ENewKeyImportPlaintext);
+	if(err != KErrNone)
 		{
-		err = CheckKeyAttributes(aReturnedKey,
-								 aIsEncrypted ? ENewKeyImportEncrypted : ENewKeyImportPlaintext);
-		}
-
-	if (err == KErrNone && iKeyDataManager->IsKeyAlreadyInStore(aReturnedKey.Label()))
-		{
-		err = KErrAlreadyExists;
-		}
-
-	if (err != KErrNone)
-		{
-		TRequestStatus* status = &aStatus;
+		TRequestStatus* status = &iStatus;
 		User::RequestComplete(status, err);
 		return;
 		}
-
-	iPKCS8Data.Set(aKey);
 	
-	iImportingEncryptedKey = aIsEncrypted;
-	iCallerRequest = &aStatus;
-	iKeyInfo = &aReturnedKey;
-
 	iAction = EImportOpenPrivateStream;
-	SetActive();
-
-	if (aIsEncrypted)
+	
+	if (iImportingEncryptedKey)
 		{
 		TPasswordManager::ImportPassword(iPassword, iStatus);
 		}
@@ -670,6 +1060,106 @@ void CFSKeyStoreServer::ImportKey(const TDesC8& aKey, CKeyInfo& aReturnedKey, TB
 		TRequestStatus* status = &iStatus;
 		User::RequestComplete(status, KErrNone);
 		}
+
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	}
+
+void CFSKeyStoreServer::CheckExportKeyPolicyL()
+	{
+	ASSERT(iMessage);
+	ASSERT(!iKeyData);
+	
+	if(iKeyInfo)
+		{
+		delete iKeyInfo;
+		iKeyInfo = NULL;
+		}
+	
+	const CFileKeyData* keyData = iKeyDataManager->Lookup(iObjectId);
+	if (!keyData)
+		{
+		User::Leave(KErrNotFound);
+		}
+
+	CKeyInfo* keyInfo = iKeyDataManager->ReadKeyInfoLC(*keyData);
+		
+	// Check the caller is allowed by the management policy
+	if (!keyInfo->ManagementPolicy().CheckPolicy(*iMessage))
+		{
+		User::Leave(KErrPermissionDenied);
+		}
+		
+	// Check access flags allow key to be exported
+	if (!(keyInfo->AccessType() & CCTKeyInfo::EExtractable) ||
+		((keyInfo->AccessType() & CCTKeyInfo::ESensitive) && !iExportingKeyEncrypted))
+		{
+		User::Leave(KErrKeyAccess);
+		}
+
+	// Check this isn't a DH key
+	if (keyInfo->Algorithm() != CKeyInfo::ERSA &&
+		keyInfo->Algorithm() != CKeyInfo::EDSA)
+		{
+		User::Leave(KErrNotSupported);
+		}
+
+	iKeyData = keyData;
+	iKeyInfo = keyInfo;
+	CleanupStack::Pop(keyInfo);		
+	
+	}
+
+/*
+ * During the import of a key, attributes should be checked and check whether
+ * the key does not exist in the specified store. 
+ */
+
+TInt CFSKeyStoreServer::CheckImportKeyPolicy(TNewKeyOperation aKeyOperation)
+	{
+	ASSERT(iMessage);
+ 
+	TInt err = CheckKeyAttributes(*iKeyInfo, aKeyOperation);		
+	
+	
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	if (err == KErrNone && iKeyDataManager->IsKeyAlreadyInStore(iKeyInfo->Label(), iKeyInfo->Identity()))
+		{
+		err = KErrAlreadyExists;
+		}
+#else
+	if (err == KErrNone && iKeyDataManager->IsKeyAlreadyInStore(iKeyInfo->Label()))
+		{
+		err = KErrAlreadyExists;
+		}
+
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	
+	return err;
+	}
+
+/*
+ * During the creation of a key in addition to the basic policy check the 
+ * access type should be set to local for a key created in this store.
+ */
+
+TInt CFSKeyStoreServer::CheckCreateKeyPolicy()
+	{
+	ASSERT(iSession);
+
+	TInt err = CheckImportKeyPolicy(ENewKeyCreate);
+	if (err == KErrNone)
+		{
+		err = CheckKeyAlgorithmAndSize(*iKeyInfo);
+		}
+	if (err != KErrNone)
+		{
+		return err;
+		}
+
+	// DEF042306: Make it local only if it's created in the keystore
+	iKeyInfo->SetAccessType(iKeyInfo->AccessType() | CKeyInfo::ELocal);
+
+	return err;
 	}
 
 void CFSKeyStoreServer::CancelImportKey()
@@ -679,6 +1169,12 @@ void CFSKeyStoreServer::CancelImportKey()
 		{
 		Cancel();
 		}
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	if (iAction == EImportUserKey)
+		{
+		Cancel();
+		}
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	}
 
 void CFSKeyStoreServer::DoImportKeyL()
@@ -711,7 +1207,9 @@ void CFSKeyStoreServer::DoImportKeyL()
 
 void CFSKeyStoreServer::PKCS8ToKeyL(CDecPKCS8Data* aPKCS8Data)
 { 
+#ifndef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	ASSERT(iPassphrase);
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	ASSERT(aPKCS8Data);
 	
 	MPKCS8DecodedKeyPairData* keyPairData = aPKCS8Data->KeyPairData();
@@ -733,10 +1231,21 @@ void CFSKeyStoreServer::PKCS8ToKeyL(CDecPKCS8Data* aPKCS8Data)
 		iKeyInfo->SetPKCS8AttributeSet(theAttributes.AllocL());
 		}
 		
-	const CFileKeyData* keyData = iKeyDataManager->CreateKeyDataLC(iKeyInfo->Label(), iPassphrase->StreamId());
+	const CFileKeyData* keyData = NULL;
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	keyData = iKeyDataManager->CreateKeyDataLC(iKeyInfo->Label(),iKeyInfo->Identity());
+#else
+	keyData = iKeyDataManager->CreateKeyDataLC(iKeyInfo->Label(), iPassphrase->StreamId());
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	
 	RStoreWriteStream privateStream;
+	
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	iKeyDataManager->OpenPrivateDataStreamLC(*keyData, privateStream);
+#else
 	iKeyDataManager->OpenPrivateDataStreamLC(*keyData, *iPassphrase, privateStream);
-
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	
 	// Generate the key identifier
 	TKeyIdentifier theKeyId;
 	keyPairData->GetKeyIdentifierL(theKeyId);
@@ -746,20 +1255,32 @@ void CFSKeyStoreServer::PKCS8ToKeyL(CDecPKCS8Data* aPKCS8Data)
 	iKeyInfo->SetIdentifier(theKeyId);	
 
 	CKeyInfo::EKeyAlgorithm keyAlgorithm = iKeyInfo->Algorithm();
-
+	
 	// Externalize private key data
 	switch (keyAlgorithm)
 		{
 		case (CKeyInfo::ERSA):
+			{
+			#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+			EncryptAndStoreL(static_cast<CPKCS8KeyPairRSA*>(keyPairData)->PrivateKey(), privateStream);
+			#else
 			privateStream << static_cast<CPKCS8KeyPairRSA*>(keyPairData)->PrivateKey();
-			break;
+			#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 			
+			break;
+			}
 		case (CKeyInfo::EDSA):
-			privateStream << static_cast<CPKCS8KeyPairDSA*>(keyPairData)->PrivateKey();
-			break;
+			{
+			#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+			EncryptAndStoreL(static_cast<CPKCS8KeyPairDSA*>(keyPairData)->PrivateKey(), privateStream);
+			#else
+				privateStream << static_cast<CPKCS8KeyPairDSA*>(keyPairData)->PrivateKey();
+			#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 			
+			break;
+			}	
 		default:
-			__ASSERT_DEBUG(EFalse, PanicServer(EPanicInvalidKeyCreateReq));
+			__ASSERT_DEBUG(EFalse, PanicClient(*iMessage,EPanicInvalidKeyCreateReq));
 			break;
 		}
 
@@ -781,7 +1302,7 @@ void CFSKeyStoreServer::PKCS8ToKeyL(CDecPKCS8Data* aPKCS8Data)
 			break;
 			
 		default:
-			__ASSERT_DEBUG(EFalse, PanicServer(EPanicInvalidKeyCreateReq));
+			__ASSERT_DEBUG(EFalse, PanicClient(*iMessage,EPanicInvalidKeyCreateReq));
 			break;
 		}
 
@@ -793,18 +1314,22 @@ void CFSKeyStoreServer::PKCS8ToKeyL(CDecPKCS8Data* aPKCS8Data)
 
 	// Now add the new key to the data manager (which adds it to the store)
 	iKeyDataManager->AddL(keyData);
-	CleanupStack::Pop(const_cast<CFileKeyData*>(keyData));
+	CleanupStack::Pop(); // keyData
 }
 
 void CFSKeyStoreServer::ExportKey(TInt aObjectId, const TPtr8& aKey, TRequestStatus& aStatus)
 	{
-	iExportingKeyEncrypted = EFalse;				
-	TRAPD(err, DoExportKeyL(aObjectId, aKey, aStatus));
-	if (err != KErrNone)
-		{
-		TRequestStatus* status = &aStatus;
-		User::RequestComplete(status, err);
-		}
+	aStatus = KRequestPending;
+	iCallerRequest = &aStatus;
+	iExportBuf.Set(aKey);
+	iObjectId = aObjectId;
+	iExportingKeyEncrypted = EFalse;
+	iAction = EDoExportKey;
+	SetActive();
+	
+	TRequestStatus* status = &iStatus;
+	User::RequestComplete(status, KErrNone);
+	
 	}
 
 void CFSKeyStoreServer::CancelExportKey()
@@ -819,14 +1344,17 @@ void CFSKeyStoreServer::CancelExportKey()
 
 void CFSKeyStoreServer::ExportEncryptedKey(TInt aObjectId, const TPtr8& aKey, CPBEncryptParms& aParams, TRequestStatus& aStatus)
 	{
+	aStatus = KRequestPending;
+	iCallerRequest = &aStatus;
+	iExportBuf.Set(aKey);
+	iObjectId = aObjectId;
 	iExportingKeyEncrypted	= ETrue;	
 	iPbeParams = &aParams;		
-	TRAPD(err, DoExportKeyL(aObjectId, aKey, aStatus));
-	if (err != KErrNone)
-		{
-		TRequestStatus* status = &aStatus;
-		User::RequestComplete(status, err);
-		}
+	iAction = EDoExportKey;
+	SetActive();
+		
+	TRequestStatus* status = &iStatus;
+	User::RequestComplete(status, KErrNone);
 	}
 
 
@@ -839,69 +1367,23 @@ void CFSKeyStoreServer::CancelExportEncryptedKey()
 		}
 	}	
 
-void CFSKeyStoreServer::DoExportKeyL(TInt aObjectId, const TPtr8& aKey, TRequestStatus& aStatus)
-	{
-	ASSERT(iMessage);
-	ASSERT(!iKeyData);
-	ASSERT(!iKeyInfo);
-	
-	const CFileKeyData* keyData = iKeyDataManager->Lookup(aObjectId);
-	if (!keyData)
-		{
-		User::Leave(KErrNotFound);
-		}
 
-	CKeyInfo* keyInfo = iKeyDataManager->ReadKeyInfoLC(*keyData);
-
-	// Check access flags allow key to be exported
-	if (!(keyInfo->AccessType() & CCTKeyInfo::EExtractable) ||
-		((keyInfo->AccessType() & CCTKeyInfo::ESensitive) && !iExportingKeyEncrypted))
-		{
-		User::Leave(KErrKeyAccess);
-		}
-
-	// Check this isn't a DH key
-	if (keyInfo->Algorithm() != CKeyInfo::ERSA &&
-		keyInfo->Algorithm() != CKeyInfo::EDSA)
-		{
-		User::Leave(KErrNotSupported);
-		}
-
-	// Check the caller is allowed by the management policy
-	if (!keyInfo->ManagementPolicy().CheckPolicy(*iMessage))
-		{
-		User::Leave(KErrPermissionDenied);
-		}
-
-	iKeyData = keyData;
-	iKeyInfo = keyInfo;
-	CleanupStack::Pop(keyInfo);
-	iExportBuf.Set(aKey);		
-	iCallerRequest = &aStatus;
-		
-	if (iExportingKeyEncrypted)
-		{
-		iAction = EExportEncryptedKeyGetPassphrase;			
-		}
-	else
-		{
-		iAction = EExportKeyGetPassphrase;
-		}
-	SetActive();				
-	TRequestStatus* status = &iStatus;
-	User::RequestComplete(status, KErrNone);		
-	}
-	
 void CFSKeyStoreServer::CompleteKeyExportL(TBool encrypted /*=EFalse*/)
 	{
+#ifndef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	ASSERT(iPassphrase);
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	ASSERT(iKeyData);
 	ASSERT(iExportBuf.Ptr());
 	
 	CKeyInfo::EKeyAlgorithm keyAlgorithm = iKeyInfo->Algorithm();
-	RStoreReadStream privStream;		
+	RStoreReadStream privStream;
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	iKeyDataManager->OpenPrivateDataStreamLC(*iKeyData, privStream);
+#else
 	iKeyDataManager->OpenPrivateDataStreamLC(*iKeyData, *iPassphrase, privStream);
-
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	
 	CASN1EncSequence* encoded = NULL;
 			
 	switch(keyAlgorithm)
@@ -916,7 +1398,21 @@ void CFSKeyStoreServer::CompleteKeyExportL(TBool encrypted /*=EFalse*/)
 			CleanupStack::PushL(publicKey);
 					
 			CRSAPrivateKey* privateKey = NULL;
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+			
+			TPtrC8 key = iUserIdentity->Key().KeyData();
+			HBufC8* plaintext = DecryptFromStreamL(privStream, key);
+			CleanupStack::PushL(plaintext);
+			TAny* ptr = const_cast<TAny*>(static_cast<const TAny*>(plaintext->Des().Ptr()));
+			RMemReadStream decryptedStream(ptr, plaintext->Length());
+			CleanupClosePushL(decryptedStream);
+			CreateL(decryptedStream, privateKey);
+			CleanupStack::PopAndDestroy(2,plaintext);
+
+#else
 			CreateL(privStream, privateKey);
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+			
 			ASSERT(privateKey);
 			CleanupStack::PushL(privateKey);			
 
@@ -942,7 +1438,19 @@ void CFSKeyStoreServer::CompleteKeyExportL(TBool encrypted /*=EFalse*/)
 			{
 			CDSAPrivateKey* privateKey = NULL;
 
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+			TPtrC8 key = iUserIdentity->Key().KeyData();
+			HBufC8* plaintext = DecryptFromStreamL(privStream, key);
+			CleanupStack::PushL(plaintext);
+			TAny* ptr = const_cast<TAny*>(static_cast<const TAny*>(plaintext->Des().Ptr()));
+			RMemReadStream decryptedStream(ptr, plaintext->Length());
+			CleanupClosePushL(decryptedStream);
+			CreateL(decryptedStream, privateKey);
+			CleanupStack::PopAndDestroy(2,plaintext);
+#else
 			CreateL(privStream, privateKey);
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+
 			ASSERT(privateKey);
 			CleanupStack::PushL(privateKey);
 
@@ -985,13 +1493,13 @@ void CFSKeyStoreServer::CompleteKeyExportL(TBool encrypted /*=EFalse*/)
 			
 	CleanupStack::PopAndDestroy(encoded); 
 	CleanupStack::PopAndDestroy(&privStream); 
-	RunError(KErrNone);
+	CompleteClientRequest(KErrNone);
 	}
 
 void CFSKeyStoreServer::DeleteKeyL(TInt aObjectId)
 	{
 	ASSERT(iMessage);
-	
+
 	const CFileKeyData* keyData = iKeyDataManager->Lookup(aObjectId);
 	if (!keyData)
 		{
@@ -1006,6 +1514,20 @@ void CFSKeyStoreServer::DeleteKeyL(TInt aObjectId)
 		User::Leave(KErrPermissionDenied);
 		}
 
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	AuthServer::TIdentityId identity = iKeyDataManager->CachedIdentity();
+	if(identity == AuthServer::KUnknownIdentity)
+		{
+		AuthServer::CIdentity* userIdentity = SyncAuthenticateLC(keyInfo->AuthExpression(), keyInfo->Freshness());
+		identity = userIdentity->Id();
+		CleanupStack::PopAndDestroy(userIdentity);
+		}
+	if(identity != keyInfo->Identity())
+		{
+		User::Leave(KErrNotFound);
+		}
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	
 	CleanupStack::PopAndDestroy(keyInfo);
 
 	// Check if any session has this key open
@@ -1039,7 +1561,21 @@ void CFSKeyStoreServer::SetUsePolicyL(TInt aObjectId, const TSecurityPolicy& aPo
 		User::Leave(KErrPermissionDenied);
 		}
 
-	// should revert change if write fails
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	AuthServer::TIdentityId identity = iKeyDataManager->CachedIdentity();
+	if(identity == AuthServer::KUnknownIdentity)
+		{
+		AuthServer::CIdentity* userIdentity = SyncAuthenticateLC(keyInfo->AuthExpression(), keyInfo->Freshness());
+		identity = userIdentity->Id();
+		CleanupStack::PopAndDestroy(userIdentity);
+		}
+	if(identity != keyInfo->Identity())
+		{
+		User::Leave(KErrNotFound);
+		}
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	
+	//should revert change if write fails
 	keyInfo->SetUsePolicy(aPolicy); 
 	iKeyDataManager->SafeWriteKeyInfoL(*keyData, *keyInfo);	
 
@@ -1070,13 +1606,28 @@ void CFSKeyStoreServer::SetManagementPolicyL(TInt aObjectId, const TSecurityPoli
 		User::Leave(KErrArgument);
 		}
 
-	// should revert change if write fails
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	AuthServer::TIdentityId identity = iKeyDataManager->CachedIdentity();
+	if(identity == AuthServer::KUnknownIdentity)
+		{
+		AuthServer::CIdentity* userIdentity = SyncAuthenticateLC(keyInfo->AuthExpression(), keyInfo->Freshness());
+		identity = userIdentity->Id();
+		CleanupStack::PopAndDestroy(userIdentity);
+		}
+	if(identity != keyInfo->Identity())
+		{
+		User::Leave(KErrNotFound);
+		}
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	
+	//should revert change if write fails
 	keyInfo->SetManagementPolicy(aPolicy);
 	iKeyDataManager->SafeWriteKeyInfoL(*keyData, *keyInfo);	
 
 	CleanupStack::PopAndDestroy(keyInfo);
 	}
 
+#ifndef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 // For MCTAuthenticationObject
 
 void CFSKeyStoreServer::ChangePassphrase(TRequestStatus& aStatus)
@@ -1158,7 +1709,7 @@ void CFSKeyStoreServer::SetTimeoutL(TInt aTimeout)
 	RemoveCachedPassphrases(KNullStreamId);
 	}
 
-TInt CFSKeyStoreServer::GetTimeoutL()
+TInt CFSKeyStoreServer::GetTimeout()
 	{
 	return iKeyDataManager->GetPassphraseTimeout();
 	}
@@ -1177,23 +1728,65 @@ void CFSKeyStoreServer::RemoveCachedPassphrases(TStreamId aStreamId)
 		}			
 	}
 
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+
 //	*********************************************************************************
 //	From CActive
 //	*********************************************************************************
 TInt CFSKeyStoreServer::RunError(TInt aError)
 	{ 
+	CompleteClientRequest(aError);
+	return (KErrNone);		//	Handled
+	}
+
+void CFSKeyStoreServer::CompleteClientRequest(TInt aCompletionCode)
+	{
+	Cleanup();
+		
+	if (iCallerRequest)
+		User::RequestComplete(iCallerRequest, aCompletionCode);
+
+	iAction = EIdle;		//	Reset action
+
+	}
+
+void CFSKeyStoreServer::Cleanup()
+	{
 	// Delete anything we might have created
 	delete iKeyCreator; iKeyCreator = NULL;
 
 	if (iAction == EExportKeyGetPassphrase ||
 		iAction == EExportEncryptedKeyGetPassphrase ||
 		iAction == EExportKey ||
-		iAction == EExportEncryptedKey)
+		iAction == EExportEncryptedKey
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+		|| iAction == ESetAuthenticationPolicy 
+		|| iAction == EDoSetAuthenticationPolicy
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+		)
 		{
 		// we only own iKeyInfo for export operations
 		delete iKeyInfo;
 		iKeyInfo = NULL;
 		}
+	
+	#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	delete iUserIdentity;
+	iUserIdentity = NULL;
+	delete iAuthString;
+	iAuthString = NULL;
+	
+	// this is a design restriction, the ckeyinfo object 
+	// contains the authexpression, but while sending 
+	// the key info back to the client, the authentication
+	// data needs to be deleted.
+	if(	iAction == EImportKey || iAction == EAuthenticate ||
+		iAction == EImportUserKey || iAction == EDoImportKey ||
+		iAction == ECreateKeyFinal )
+		{
+		iKeyInfo->ResetAuthExpression();
+		}
+	#endif //SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	
 	// Zero pointers to things we don't own
 	iPassphrase = NULL;
@@ -1204,11 +1797,6 @@ TInt CFSKeyStoreServer::RunError(TInt aError)
 	iSession = NULL;
 	iMessage = NULL;
 
-	if (iCallerRequest)
-		User::RequestComplete(iCallerRequest, aError);
-
-	iAction = EIdle;		//	Reset action
-	return (KErrNone);		//	Handled
 	}
 
 void CFSKeyStoreServer::DoCancel()
@@ -1234,7 +1822,7 @@ void CFSKeyStoreServer::DoCancel()
 			break;
 		}
 	
-	RunError(KErrCancel);
+	CompleteClientRequest(KErrCancel);
 	}
 
 void CFSKeyStoreServer::RunL()
@@ -1243,20 +1831,6 @@ void CFSKeyStoreServer::RunL()
 
 	switch (iAction)
 		{
-		case EImportOpenPrivateStream:
-			ASSERT(iKeyInfo);
-			GetKeystorePassphrase(EImportKey);
-			break;
-		case ECreateKeyCreate:
-			DoCreateKeyL();	
-			iAction = ECreateKeyFinal;
-			break;
-		case ECreateKeyFinal:
-			DoStoreKeyL();			 
-			//	Check iKeyInfo was initialised for the caller
-			ASSERT(iKeyInfo->HandleID() != 0);						
-			RunError(KErrNone);
-			break;
 		case EImportKey:
 			{
 			TRAPD(err, DoImportKeyL());
@@ -1267,17 +1841,18 @@ void CFSKeyStoreServer::RunL()
 				err = KErrArgument;
 				}
 			User::LeaveIfError(err);
-			RunError(KErrNone);
-			break;
+			CompleteClientRequest(KErrNone);
 			}
-		case EExportKeyGetPassphrase:
-			GetKeystorePassphrase(EExportKey);
-			break;
-		case EExportEncryptedKeyGetPassphrase:
-			GetKeystorePassphrase(EExportEncryptedKey);
-			break;
+		break;
 		case EExportEncryptedKey:
 			{
+		#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+			if(iUserIdentity->Id() == 0)
+				{
+				User::Leave(KErrAuthenticationFailure);
+				}
+		#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+			
 			TPasswordManager::ExportPassword(iPassword, iStatus); 
 			iAction = EExportKey;
 			SetActive();
@@ -1285,20 +1860,189 @@ void CFSKeyStoreServer::RunL()
 			break;
 		case EExportKey:
 			{
+		#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+			if( iUserIdentity->Id() == AuthServer::KUnknownIdentity )
+				{
+				User::Leave(KErrAuthenticationFailure);
+				}
+			if(iUserIdentity->Id() != iKeyInfo->Identity())
+				{
+				User::Leave(KErrNotFound);
+				}
+		#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+			
 			CompleteKeyExportL(iExportingKeyEncrypted);
 			}
 			break;				
+		
+		case EDoExportKey:
+			{
+			CheckExportKeyPolicyL();
+			
+			#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+				if (iExportingKeyEncrypted)
+					{
+					iAction = EExportEncryptedKey;		
+					}
+				else
+					{
+					iAction = EExportKey;
+					}
+				
+				AsyncAuthenticateL(iKeyInfo->AuthExpression(), iKeyInfo->Freshness());
+				
+			#else
+				
+				if (iExportingKeyEncrypted)
+					{
+					iAction = EExportEncryptedKeyGetPassphrase;
+					}
+				else
+					{
+					iAction = EExportKeyGetPassphrase;
+					}
+				SetActive();
+				TRequestStatus* status = &iStatus;
+				User::RequestComplete(status, KErrNone);		
+			#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+			}
+			break;
+				
+		case ECreateKeyFinal:
+			DoStoreKeyL();			 
+			//	Check iKeyInfo was initialised for the caller
+			ASSERT(iKeyInfo->HandleID() != 0);						
+			CompleteClientRequest(KErrNone);
+			break;
+		
+		#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+		
+		case ECreateUserKey:
+			iIdentityId = iUserIdentity->Id();
+			if(iIdentityId == AuthServer::KUnknownIdentity)
+				{
+				User::Leave(KErrAuthenticationFailure);
+				}
+			iKeyInfo->SetIdentity(iIdentityId);
+			User::LeaveIfError(CheckCreateKeyPolicy()); 
+			DoCreateKeyL();
+			iAction = ECreateKeyFinal;
+			
+			break;
+					
+		case EImportUserKey:
+			iIdentityId = iUserIdentity->Id();
+			if( iIdentityId == AuthServer::KUnknownIdentity )
+				{
+				User::Leave(KErrAuthenticationFailure);
+				}
+			iKeyInfo->SetIdentity(iIdentityId);
+			User::LeaveIfError(CheckImportKeyPolicy(iImportingEncryptedKey ? ENewKeyImportEncrypted : ENewKeyImportPlaintext));
+			
+			iAction = EImportKey;
+			SetActive();
+			if (iImportingEncryptedKey)
+				{
+				TPasswordManager::ImportPassword(iPassword, iStatus);
+				}
+			else
+				{
+				TRequestStatus* status = &iStatus;
+				User::RequestComplete(status, KErrNone);
+				}			
+			break;
+		
+		case EDoSetAuthenticationPolicy:
+			{
+			CheckRangeL(iFreshness);
+			iKeyData = iKeyDataManager->Lookup(iObjectId);
+			if (!iKeyData)
+				{
+				User::Leave(KErrNotFound);
+				}
+				
+			iKeyInfo = iKeyDataManager->ReadKeyInfoLC(*iKeyData);
+			CleanupStack::Pop(iKeyInfo);
+			
+			// retrieve the authentication expression stored 
+			// against this identity and authenticate
+			// the user for changing the policy
+			iAction = EAuthenticate;
+			iNextAction = ESetAuthenticationPolicy;
+			SetActive();
+			TRequestStatus* status = &iStatus;
+			User::RequestComplete(status, KErrNone);
+			}
+			break;
+						
+		case ESetAuthenticationPolicy:
+			{
+			iIdentityId = iUserIdentity->Id();
+			WriteAuthenticationPolicyL();
+			CompleteClientRequest(KErrNone);
+			}
+			break;
+		
+		case ESetAuthPolicy:
+			{
+			//sets the default authentication policy to iKeyInfo
+			SetDefaultAuthPolicyL();
+			AsyncAuthenticateL(iKeyInfo->AuthExpression(), iKeyInfo->Freshness());
+			iAction = ECreateUserKey;
+			}
+			break;
+			
+		case EDoImportKey:
+			{
+			SetDefaultAuthPolicyL();
+			AsyncAuthenticateL(iKeyInfo->AuthExpression(), iKeyInfo->Freshness());
+			iAction = EImportUserKey;
+			}
+			break;
+
+		case EAuthenticate:
+			{
+			ASSERT(iKeyInfo);
+			CheckRangeL(iKeyInfo->Freshness());
+			AsyncAuthenticateL(iKeyInfo->AuthExpression(), iKeyInfo->Freshness());
+			iAction = iNextAction;
+			iNextAction = EIdle;
+			}
+			break;
+		#else
+
+		case EImportOpenPrivateStream:
+			ASSERT(iKeyInfo);
+			GetKeystorePassphrase(EImportKey);
+			break;
+		
 		case EChangePassphrase:
 			DoChangePassphrase();
 			break;
 		case EChangePassphraseClearCached:
 			// Make sure the passphrase we just changed is not cached anywhere
 			RemoveCachedPassphrases(iKeyDataManager->DefaultPassphraseId());
-			RunError(KErrNone);
+			CompleteClientRequest(KErrNone);
 			break;
 		case EAuthOpen:
-			RunError(KErrNone);
+			CompleteClientRequest(KErrNone);
 			break;
+		case EExportKeyGetPassphrase:
+			GetKeystorePassphrase(EExportKey);
+			break;
+		case EExportEncryptedKeyGetPassphrase:
+			GetKeystorePassphrase(EExportEncryptedKey);
+			break;
+		case ECreateKeyCreate:
+			DoCreateKeyL();	
+			iAction = ECreateKeyFinal;
+			break;
+		case EGetPassphrase:
+			User::LeaveIfError(CheckCreateKeyPolicy()); 
+			GetKeystorePassphrase(ECreateKeyCreate);
+			break;
+		#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+			
 		default:
 			ASSERT(EFalse);
 		}

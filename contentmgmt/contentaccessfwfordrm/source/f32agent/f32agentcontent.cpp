@@ -20,7 +20,7 @@
 #include <apmstd.h>
 #include "f32agentcontent.h"
 #include "f32defaultattributes.h"
-#include "f32agentui.h"
+#include <caf/f32agentui.h>
 
 using namespace ContentAccess;
 
@@ -280,7 +280,11 @@ void CF32AgentContent::DisplayInfoL(TDisplayInfo aInfo, const TDesC& aUniqueId)
 		{
 		// Open the file handle in order to pass it to the Agent UI
 		RFs fs;
+#ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+		RFile64 file;
+#else
 		RFile file;
+#endif //SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
 		
 		// default share mode of EFileShareReadersOnly
 		TUint mode = EFileShareReadersOnly | EFileStream | EFileRead;

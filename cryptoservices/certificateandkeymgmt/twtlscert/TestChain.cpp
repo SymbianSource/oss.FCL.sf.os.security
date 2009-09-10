@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file
 */
@@ -200,3 +198,5 @@ TBool CTestChainValidate::AddRootL(const TDesC& aBuf)
 		}
 	return EFalse;
 	}
+
+

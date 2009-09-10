@@ -21,7 +21,7 @@
 #include <string.h>
 #include <errno.h>
 
-#include "certapp-api.h"
+#include <tools/certapp-api.h>
 
 #define CERTAPP "certapp"
 typedef const char *ArgPtr;

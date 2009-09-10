@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2003-2007 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2003-2008 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -375,17 +375,19 @@ namespace ContentAccess
 		*/
 		IMPORT_C void ReadCancel(TRequestStatus &aStatus) const;		
 
+#ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
 		/**
 		 Reads content asynchronously. The data is read from a specified offset 
 		 up to a specified number of bytes or until the end of the content object 
 		 is reached. The data is read into the descriptor buffer supplied.
 		 NB: It is important that the descriptor passed to 
-		 aDes remains in scope until the request has completed.			
-		 
+		 aDes remains in scope until the request has completed.
+		 If agent does not support 64bit, fallback to 32bit Read is provided automatically by CAF			
+				 
 		 @see Read(TDes8& aDes)
-		 
+				 
 		 @param aPos		Position of first byte to be read. 
-		 					This is an offset from the start of the file. 
+							This is an offset from the start of the file. 
 		 @param aDes 		Descriptor into which binary data is read. Any
 		  					existing contents are overwritten. On return,
 		 					its length is set to the number of bytes read. 
@@ -401,9 +403,37 @@ namespace ContentAccess
 		 @return KErrArgument if a negative offset is supplied.
 		 @return KErrCANotSupported if the agent does not support this operation.
 		 @capability DRM Access to DRM protected content is not permitted for processes without DRM capability. Access to unprotected content is unrestricted 
-		 */
+		*/
+		IMPORT_C TInt Read(TInt64 aPos, TDes8& aDes, TInt aLength, TRequestStatus& aStatus) const;
+#else
+			/**
+		 Reads content asynchronously. The data is read from a specified offset 
+		 up to a specified number of bytes or until the end of the content object 
+		 is reached. The data is read into the descriptor buffer supplied.
+				 
+		 @see Read(TDes8& aDes)
+				 
+		 @param aPos		Position of first byte to be read. 
+							This is an offset from the start of the file. 
+		 @param aDes 		Descriptor into which binary data is read. Any
+		  					existing contents are overwritten. On return,
+		 					its length is set to the number of bytes read. 
+		 @param aLength		The number of bytes to read from the file,
+		 					or to the end of the file, whichever is encountered first. 
+		 					The length of the buffer is set to the number of bytes actually read.
+		 @param aStatus		Asynchronous request status. On completion this will contain one 
+		 					of the following error codes: KErrNone if the data was 
+							successfully read. Otherwise one of the CAF error codes defined in 
+							\c caferr.h  or one of the other standard system-wide
+							error codes for any other errors.
+		 @return KErrNone if the async read request was successfully submitted.
+		 @return KErrArgument if a negative offset is supplied.
+		 @return KErrCANotSupported if the agent does not support this operation.
+		 @capability DRM Access to DRM protected content is not permitted for processes without DRM capability. Access to unprotected content is unrestricted 
+		*/
 		IMPORT_C TInt Read(TInt aPos, TDes8& aDes, TInt aLength, TRequestStatus& aStatus) const;
-		
+#endif //SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+
 		/**
 		 Gets the data size in bytes.
 		 
@@ -415,6 +445,17 @@ namespace ContentAccess
 		 */
 		IMPORT_C void DataSizeL(TInt& aSize);
 
+#ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+		/**
+		 This is the 64bit version of CData::DataSizeL
+		 Client can call this function instead of CData::DataSizeL. If it's not implemented by the agent,
+		 fallback to 32bit counterpart will be provided automatically
+		 
+		 @see DataSizeL(TInt& aSize)
+		*/
+		IMPORT_C void DataSize64L(TInt64& aSize);
+#endif //SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+				
 		/**
 		 Changes or retrieves the location of the file pointer within 
 		 the content object.
@@ -452,6 +493,16 @@ namespace ContentAccess
 		*/
 		IMPORT_C TInt Seek(TSeek aMode,TInt& aPos) const;
 		
+#ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+		/**
+		 This is the 64bit version of CData::Seek
+		 Client can call this function instead of CData::Seek. If it's not implemented by the agent,
+		 fallback to 32bit counterpart will be provided automatically
+		 
+		 @see Seek(TSeek aMode,TInt& aPos)
+		*/
+		IMPORT_C TInt Seek64(TSeek aMode,TInt64& aPos) const;
+#endif //SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
 
 		/** Request the agent handling this content to set a property value. If the property is set
 		it is only set for this CData session and does not impact other CAF	users.
@@ -678,7 +729,8 @@ namespace ContentAccess
 		@capability DRM Access to DRM protected content is not permitted for processes without DRM capability. Access to unprotected content is unrestricted 
 		*/
 		IMPORT_C TInt GetStringAttributeSet(RStringAttributeSet& aStringAttributeSet) const;
-
+				
+				
 #ifndef REMOVE_CAF1
 		/** Set Qos attribute
 		@param aQosAttr The Qos attribute to set.
@@ -708,6 +760,15 @@ namespace ContentAccess
 		void ConstructL(TUid aAgentUid, RFile& aFile, const TDesC& aUniqueId);
 		void ConstructL(TUid aAgentUid, const TVirtualPathPtr& aVirtualPath, TContentShareMode aShareMode); 
 
+#ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+		/*
+		 * This is the obselete 32bit Read and replaced by its 64bit counterpart
+		 * TInt Read(TInt64 aPos, TDes8& aDes, TInt aLength, TRequestStatus& aStatus) const
+		 * However, this function still exits at its original ordinal to avoid BC break. 
+		 * Upgrade to 64bit Read is done automatically upon recompling the client code which uses CAF interfaces 
+		*/
+		IMPORT_C TInt Read_Unused(TInt aPos, TDes8& aDes, TInt aLength, TRequestStatus& aStatus) const;
+#endif //SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
 
 	private:
 		// The agent handling this content

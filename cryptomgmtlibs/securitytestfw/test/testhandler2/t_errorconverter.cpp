@@ -17,8 +17,6 @@
 */
 
 
-
-
 #include <s32file.h>
 #include "t_errorconverter.h"
 #include <securityerr.h>
@@ -194,3 +192,5 @@ EXPORT_C TBool CErrorConverter::GetExpectedResultL(const TInt &aError /* in */, 
 
 	return(result);
 	}
+
+

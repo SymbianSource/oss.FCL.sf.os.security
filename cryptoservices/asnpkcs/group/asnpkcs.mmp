@@ -14,6 +14,7 @@
 * Description: 
 *
 */
+
 /**
 @file
 
@@ -44,10 +45,11 @@ SOURCEPATH	../../filebasedcertificateandkeystores/source/generic/common
 SOURCE dllentry.cpp
 
 USERINCLUDE		../inc 
-SYSTEMINCLUDE	/epoc32/include 
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 USERINCLUDE  ../../../crypto/weakcrypto/inc
 
 LIBRARY	euser.lib asn1.lib crypto.lib
 LIBRARY x509.lib  
 LIBRARY pbe.lib cryptography.lib
+SMPSAFE

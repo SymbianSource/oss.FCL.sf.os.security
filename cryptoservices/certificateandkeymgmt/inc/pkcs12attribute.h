@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file
  @publishedPartner
@@ -109,3 +107,5 @@ private:
 	};
 } // namespace PKCS12
 #endif // __PKCS12ATTRIBUTE_H__
+
+

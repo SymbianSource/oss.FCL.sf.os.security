@@ -37,6 +37,9 @@ _LIT8(KActionGroupingStart, "<actiongrouping>");
 _LIT8(KActionGroupingEnd, "</actiongrouping>");
 _LIT8(KKnownDefectStart, "<knowndefect>");
 _LIT8(KKnownDefectEnd, "</knowndefect>");
+_LIT8(KRunTestStep, "RUN_TEST_STEP");
+_LIT8(KStartTestStep, "START_TESTCASE");
+_LIT8(KEndTestStep, "END_TESTCASE");
 
 class CTestAction;
 class TTestActionSpec;
@@ -58,12 +61,15 @@ public:
 	IMPORT_C ~CScriptSetup();
 
 	IMPORT_C TBool InitialiseL(RFs &aFs, const TDesC& aDefaultScript = KNullDesC, const TDesC& aDefaultLog = KNullDesC, TBool aUseCommandLine = ETrue);
-
+	HBufC* iScriptPath;
 protected:
 	CScriptSetup(CConsoleBase* aConsole);
 
 protected:
 	HBufC8* iTestInput;
+	HBufC8* scriptResult;
+
+	TBool	iTefScript;
 
 protected:
 	IMPORT_C virtual CTestAction* CreateActionL(RFs& aFs, const TTestActionSpec& aTestActionSpec, 

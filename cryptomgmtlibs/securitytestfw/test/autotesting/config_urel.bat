@@ -13,7 +13,6 @@
 @rem
 @rem Description: 
 @rem
-rem Initial restore for urel test cases
 cd \
 call %SECURITYSOURCEDIR%\os\security\cryptomgmtlibs\securitytestfw\test\autotesting\useautocfg.bat
 

@@ -1,0 +1,99 @@
+!IF "$(PLATFORM)" == "GCCXML" || "$(PLATFORM)" == "TOOLS" || "$(PLATFORM)" == "TOOLS2" 
+MAKEDATA :
+	cd
+	echo ----------------
+	echo  Do nothing ...
+	echo ----------------
+!ELSE
+
+!IF "$(PLATFORM)" == "WINSCW"
+$(EPOCROOT)epoc32\release\$(PLATFORM)\$(CFG)\z\tups\integ\packages\tupsinteg_policies1_negative.sis : $(EPOCROOT)epoc32\release\$(PLATFORM)\$(CFG)\Z\private\10283558\policies\t_ups_101f7f1f_ff000001_version1.rsc tupsinteg_policies1.pkg
+!ELSE
+$(EPOCROOT)epoc32\data\z\tups\integ\packages\tupsinteg_policies1_negative.sis : $(EPOCROOT)epoc32\data\z\private\10283558\policies\t_ups_101f7f1f_ff000001_version1.rsc tupsinteg_policies1.pkg
+!ENDIF
+	echo --------------------------------------------------------------------------
+	echo Building SIS to (attempt to) install policy files (incorrect cert used)
+	echo --------------------------------------------------------------------------
+	
+	echo RSC file to here
+	if "$(PLATFORM)" == "WINSCW" copy /y %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\Z\private\10283558\policies\t_ups_101f7f1f_ff000001_version1.rsc 
+	if "$(PLATFORM)" == "ARMV5"  copy /y %EPOCROOT%epoc32\data\z\private\10283558\policies\t_ups_101f7f1f_ff000001_version1.rsc 
+	
+	echo makesis
+	makesis tupsinteg_policies1.pkg tupsinteg_policies1_negative_unsigned.sis
+	del /q t_ups_101f7f1f_ff000001_version1.rsc
+	
+	echo signsis	
+	signsis tupsinteg_policies1_negative_unsigned.sis tupsinteg_policies1_negative.sis   %SECURITYSOURCEDIR%\testframework\testcertificates\ups\test\symbiantestrootcadsa\ca.pem   %SECURITYSOURCEDIR%\testframework\testcertificates\ups\test\symbiantestrootcadsa\ca.key.pem
+	del /q tupsinteg_policies1_negative_unsigned.sis
+	
+	echo Copy winscw sis to emulator drive or armv5 to data z tree
+	if "$(PLATFORM)" == "WINSCW" copy /y tupsinteg_policies1_negative.sis %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\z\tups\integ\packages\tupsinteg_policies1_negative.sis 
+	if "$(PLATFORM)" == "ARMV5" copy /y tupsinteg_policies1_negative.sis %EPOCROOT%epoc32\data\z\tups\integ\packages\tupsinteg_policies1_negative.sis
+	 
+	Rem Removes temporary files.
+	del /q tupsinteg_policies1_negative.sis 
+
+
+!IF "$(PLATFORM)" == "WINSCW"
+$(EPOCROOT)epoc32\release\$(PLATFORM)\$(CFG)\z\tups\integ\packages\tupsinteg_ca_not_instore.sis : $(EPOCROOT)epoc32\release\$(PLATFORM)\$(CFG)\Z\private\10283558\policies\t_ups_101f7f1f_ff000001_version2.rsc tupsinteg_ca_not_instore.pkg
+!ELSE
+$(EPOCROOT)epoc32\data\z\tups\integ\packages\tupsinteg_ca_not_instore.sis : $(EPOCROOT)epoc32\data\z\private\10283558\policies\t_ups_101f7f1f_ff000001_version2.rsc tupsinteg_ca_not_instore.pkg
+!ENDIF
+	echo -----------------------------------------------------------------------
+	echo Building SIS to install policy files signed with CA cert not in store
+	echo -----------------------------------------------------------------------
+	
+	echo RSC file to here
+	if "$(PLATFORM)" == "WINSCW" copy /y %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\Z\private\10283558\policies\t_ups_101f7f1f_ff000001_version2.rsc 
+	if "$(PLATFORM)" == "ARMV5"  copy /y %EPOCROOT%epoc32\data\z\private\10283558\policies\t_ups_101f7f1f_ff000001_version2.rsc 
+	
+	echo makesis
+    makesis tupsinteg_ca_not_instore.pkg tupsinteg_ca_not_instore_unsigned.sis
+	del /q t_ups_101f7f1f_ff000001_version2.rsc
+
+	echo signsis	
+	signsis tupsinteg_ca_not_instore_unsigned.sis tupsinteg_ca_not_instore.sis   %SECURITYSOURCEDIR%\testframework\testcertificates\ups\test\certificatesnotinstore\selfsigned_cert.pem   %SECURITYSOURCEDIR%\testframework\testcertificates\ups\test\certificatesnotinstore\selfsigned_key.pem
+	del /q tupsinteg_ca_not_instore_unsigned.sis
+
+	echo Copy winscw sis to emulator drive or armv5 to data z tree
+	if "$(PLATFORM)" == "WINSCW" copy /y tupsinteg_ca_not_instore.sis %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\z\tups\integ\packages\tupsinteg_ca_not_instore.sis 
+	if "$(PLATFORM)" == "ARMV5" copy /y tupsinteg_ca_not_instore.sis %EPOCROOT%epoc32\data\z\tups\integ\packages\tupsinteg_ca_not_instore.sis
+	 
+	Rem Removes temporary files.
+	del /q tupsinteg_ca_not_instore.sis 
+
+
+!IF "$(PLATFORM)" == "WINSCW"
+MAKEDATA : $(EPOCROOT)epoc32\release\$(PLATFORM)\$(CFG)\z\tups\integ\packages\tupsinteg_policies1_negative.sis  $(EPOCROOT)epoc32\release\$(PLATFORM)\$(CFG)\z\tups\integ\packages\tupsinteg_ca_not_instore.sis
+!ELSE
+MAKEDATA : $(EPOCROOT)epoc32\data\z\tups\integ\packages\tupsinteg_policies1_negative.sis  $(EPOCROOT)epoc32\data\z\tups\integ\packages\tupsinteg_ca_not_instore.sis
+!ENDIF
+	echo
+
+!ENDIF
+
+
+DO_NOTHING:
+	rem do nothing
+
+#
+# The targets invoked by abld...
+#
+
+MAKMAKE : DO_NOTHING
+FREEZE : DO_NOTHING
+LIB : DO_NOTHING
+RESOURCE : DO_NOTHING
+CLEANLIB : DO_NOTHING
+FINAL : DO_NOTHING
+RELEASABLES : DO_NOTHING
+
+SAVESPACE : BLD
+
+BLD : MAKEDATA
+
+CLEAN : 
+	if exist %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\z\tups\integ\packages\tupsinteg_policies1_negative.sis 	del /q %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\z\tups\integ\packages\tupsinteg_policies1_negative.sis 
+	
+

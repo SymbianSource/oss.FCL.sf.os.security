@@ -5,8 +5,6 @@ exports	\sf\os\security\cryptoservices\filebasedcertificateandkeystores\group
 notes_source	\component_defs\release.src
 
 
-#  == IPR section auto-inserted from distribution.policy files  ==
 ipr E 
 ipr T \sf\os\security\cryptoservices\filebasedcertificateandkeystores\test
 
-# == end auto-inserted section ==

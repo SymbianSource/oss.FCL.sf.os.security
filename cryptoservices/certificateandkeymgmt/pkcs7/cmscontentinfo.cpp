@@ -277,3 +277,18 @@ EXPORT_C TCmsContentInfoType CEncapsulatedContentInfo::ContentType() const
 	{
 	return iContentType;	
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

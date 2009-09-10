@@ -39,3 +39,4 @@ LIBRARY		testexecutelogclient.lib
 LIBRARY		pkixcert.lib
 LIBRARY		x509.lib
 LIBRARY		estor.lib
+SMPSAFE

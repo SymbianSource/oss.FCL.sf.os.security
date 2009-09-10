@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file
  @publishedPartner
@@ -255,3 +253,4 @@ private:
 	};
 
 #endif // CMSCONTENTINFO_H
+

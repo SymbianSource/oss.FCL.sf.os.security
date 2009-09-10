@@ -13,7 +13,6 @@
 @rem
 @rem Description: 
 @rem
-REM Auto Hardware Tests Wrapper
 z:
 testsecurity.bat
 RUNTESTS c:\dummytest.txt -p

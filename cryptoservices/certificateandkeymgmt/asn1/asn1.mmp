@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file
 */
@@ -49,7 +47,7 @@ SOURCE        explicittagenc.cpp base128enc.cpp sequenceenc.cpp
 SOURCE        nullenc.cpp intenc.cpp bigintenc.cpp octetstrenc.cpp bitstrenc.cpp printstrenc.cpp
 SOURCE        booleanenc.cpp oidenc.cpp gentimeenc.cpp encenc.cpp
 
-SYSTEMINCLUDE /epoc32/include
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 USERINCLUDE ../../../crypto/weakcrypto/inc
 
@@ -68,3 +66,5 @@ DEFFILE ASN1.def
 #ifdef ARMV5
 DEFFILE asn1.def
 #endif
+SMPSAFE
+

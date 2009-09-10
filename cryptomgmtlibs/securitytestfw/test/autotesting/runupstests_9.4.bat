@@ -13,7 +13,6 @@
 @rem
 @rem Description: 
 @rem
-REM User Prompt Service tests
 
 md e:\testresults\
 testexecute z:\tups\tupsdb\scripts\tupsdb.script 

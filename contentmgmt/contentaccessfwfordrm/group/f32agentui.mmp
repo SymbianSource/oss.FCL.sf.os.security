@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file
 */
@@ -37,7 +35,7 @@ SOURCE		f32agentui.cpp
 
 USERINCLUDE		../inc
 
-SYSTEMINCLUDE	/epoc32/include
-SYSTEMINCLUDE	/epoc32/include/caf
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 LIBRARY			euser.lib
+SMPSAFE

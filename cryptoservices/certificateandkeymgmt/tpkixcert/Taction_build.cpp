@@ -392,3 +392,5 @@ TBool CTestActionBuild::CompareCertL(const CX509Certificate& aCert, const TDesC&
 	CleanupStack::PopAndDestroy();
 	return res;
 	}
+
+

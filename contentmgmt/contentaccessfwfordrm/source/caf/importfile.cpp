@@ -17,11 +17,11 @@
 
 
 #include "apmstd.h"
-#include "importfile.h"
+#include <caf/importfile.h>
 #include "agentinfo.h"
-#include "agentinterface.h"
-#include "agentfactory.h"
-#include "caferr.h"
+#include <caf/agentinterface.h>
+#include <caf/agentfactory.h>
+#include <caf/caferr.h>
 
 using namespace ContentAccess;
 
@@ -140,3 +140,4 @@ EXPORT_C TBool CImportFile::ContentMimeTypeL(TDes8& aContentMime)
 	{
 	return iAgentImportFile->ContentMimeTypeL(aContentMime);
 	}
+

@@ -18,7 +18,7 @@
 
 
 #include <e32base.h>
-#include <ecom.h>
+#include <ecom/ecom.h>
 #include "ct/ccttokentypeinfo.h"
 #include "ct/interfaceuid.hrh"
 
@@ -177,3 +177,6 @@ EXPORT_C TUid CCTTokenTypeInfo::Type() const
 	{
 	return iEcomImplementationInfo->ImplementationUid();
 	}
+
+
+

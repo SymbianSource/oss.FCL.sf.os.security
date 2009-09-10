@@ -20,8 +20,8 @@
 #include "clientutils.h"
 #include "CFStokenclient.h"
 #include <ct.h>
-#include <fstokencliserv.h>
-#include <tokentypesenum.h>
+#include "fstokencliserv.h"
+#include "tokentypesenum.h"
 
 CFSTokenTypeSession* CFSTokenTypeSession::NewL(TUid aUid)
 	{

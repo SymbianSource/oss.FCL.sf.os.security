@@ -79,10 +79,10 @@ void CKeytoolFileView::DisplayErrorL(const TDesC& aError, TInt aErrorCode, TBool
 	KeyToolUtils::PrintInfoL(_L("\n"));
 	}
 	
- void CKeytoolFileView::DisplayCertL(CCTCertInfo& aCert, CCertificate& aCertificate, RUidArray aApps, TBool aIsDetailed, TBool/* aPageWise*/)
+ void CKeytoolFileView::DisplayCertL(CCTCertInfo& aCert, CCertificate& aCertificate, RUidArray aApps, TBool aTrusted, TBool aIsDetailed, TBool/* aPageWise*/)
  	{
 	// Display the key infos
-	KeyToolUtils::PrintCertInfoL(aCert, aCertificate, aApps, aIsDetailed);
+	KeyToolUtils::PrintCertInfoL(aCert, aCertificate, aApps, aTrusted, aIsDetailed);
  	KeyToolUtils::PrintInfoL(_L("\n")); 	
  	}
 

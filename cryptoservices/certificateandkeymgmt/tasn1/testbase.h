@@ -64,3 +64,4 @@ class CTestBase : public CBase
 	};
 
 #endif
+

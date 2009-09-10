@@ -49,3 +49,4 @@ HBufC* TASN1DecGraphicString::DecodeContentsL(const TDesC8& aSource)
 	pRes.Copy(aSource);
 	return res;
 	}
+

@@ -17,11 +17,10 @@
 */
 
 
-
-
 /**
  @file 
- @internalTechnology
+ @publishedPartner
+ @released
 */
  
 #ifndef __MCTKEYSTORE_H__
@@ -31,22 +30,23 @@
 #include <mkeystore.h>
 #include <s32file.h>
 
-class MCTAuthenticationObject;
+#ifndef SYMBIAN_ENABLE_SPLIT_HEADERS
+#include <mctkeystoreuids.h>
+#endif
 
 /** The UID of the filekey store */
 const TInt KTokenTypeFileKeystore = 0x101F7333;
 
-/** The UID of a key store interface */
-const TInt KInterfaceKeyStore = 0x101F7334;
+#ifndef SYMBIAN_ENABLE_SPLIT_HEADERS
 
 /** The type ID of CCTKeyInfo objects */
 const TUid KKeyInfoUID = {0x101F5152};
-const TUid KRSARepudiableSignerUID = {0x101F7A3C};
-const TUid KDSARepudiableSignerUID = {0x101F7A3D};
-const TUid KPrivateDecryptorUID = {0x101F7A3E};
-const TUid KKeyAgreementUID = {0x101F7A3F};
 const TUid KNonRepudiationSignerUID = {0x101F7A40};
 const TUid KKeyStoreAuthObjectUID = {0x101FE681};
+
+#endif
+
+class MCTAuthenticationObject;
 
 /**
  * Defines the interface for a read-only key store token.
@@ -56,8 +56,6 @@ const TUid KKeyStoreAuthObjectUID = {0x101FE681};
  * 
  * The class adds no extra member functions or data. 
  * 
- * @publishedPartner
- * @released
  */
 class MCTKeyStore : public MCTTokenInterface, public MKeyStore
 	{
@@ -66,8 +64,6 @@ class MCTKeyStore : public MCTTokenInterface, public MKeyStore
 /**
  * Base class for CCTKeyInfo.
  *
- * @publishedPartner
- * @released
  */
 class CKeyInfoBase : protected CBase
 	{
@@ -226,15 +222,12 @@ protected:
 /**
  * Information about a key, as returned by MCTKeyStore::List.
  *
- * @publishedPartner
- * @released
  */
 class CCTKeyInfo : public CKeyInfoBase, public MCTTokenObject
 	{
 public:
 
 	/**
-	 * @internalTechnology
 	 * 
 	 * Creates a CCTKeyInfo from constituents.  This is called by the unified
 	 * key store, and should not be called directly.
@@ -364,8 +357,6 @@ private:
  * A filter to specify which keys should be returned from the store by
  * MCTKeyStore::List.
  *
- * @publishedPartner
- * @released
  */
 struct TCTKeyAttributeFilter
 	{

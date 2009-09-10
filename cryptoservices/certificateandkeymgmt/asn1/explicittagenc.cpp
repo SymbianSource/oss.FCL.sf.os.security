@@ -70,3 +70,4 @@ const CASN1EncBase& CASN1EncExplicitTag::Child(const TUint aIndex) const
 
 	return *iEncoder;
 	}
+

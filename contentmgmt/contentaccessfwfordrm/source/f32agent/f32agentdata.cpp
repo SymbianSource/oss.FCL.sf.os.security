@@ -19,8 +19,9 @@
 #include <caf/caf.h>
 #include "f32agentdata.h"
 #include "f32defaultattributes.h"
-#include "virtualpath.h"
-#include "f32agentui.h"
+#include <caf/virtualpath.h>
+#include <caf/f32agentui.h>
+#include <e32def.h>
 
 using namespace ContentAccess;
 
@@ -76,7 +77,11 @@ void CF32AgentData::ConstructL(const TVirtualPathPtr& aVirtualPath, TContentShar
 
 void CF32AgentData::ConstructL(RFile& aFile, const TDesC& aUniqueId)
 	{
+#ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API		
+	TInt64 pos = 0;
+#else
 	TInt pos = 0;
+#endif // SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
 
 	// Check that the client hasn't specified some incorrect UniqueId
 	User::LeaveIfError(TF32DefaultAttributes::CheckUniqueId(aUniqueId));	
@@ -89,8 +94,21 @@ void CF32AgentData::ConstructL(RFile& aFile, const TDesC& aUniqueId)
 
 void CF32AgentData::DataSizeL(TInt &aSize)
 	{
+#ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+	TInt64 size;
+	User::LeaveIfError(iFile.Size(size));
+	aSize=size;
+#else
+	User::LeaveIfError(iFile.Size(aSize));
+#endif //SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+	}
+
+#ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+void CF32AgentData::DataSize64L(TInt64 &aSize)
+	{
 	User::LeaveIfError(iFile.Size(aSize));
 	}
+#endif //SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
 
 TInt CF32AgentData::EvaluateIntent(TIntent /*aIntent*/)
 	{
@@ -131,16 +149,41 @@ TInt CF32AgentData::Read(TInt aPos, TDes8& aDes,
 	iFile.Read(aPos, aDes, aLength, aStatus);
 	return KErrNone;
 	}
+
+#ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+TInt CF32AgentData::Read64(TInt64 aPos, TDes8& aDes,
+							 TInt aLength, 
+							 TRequestStatus& aStatus) 
+	{
+	iFile.Read(aPos, aDes, aLength, aStatus);
+	return KErrNone;
+	}
+#endif // SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
 	
 void CF32AgentData::ReadCancel(TRequestStatus& aStatus)
-{
+	{
 	iFile.ReadCancel(aStatus);
-}
+	}
 
 TInt CF32AgentData::Seek(TSeek aMode, TInt& aPos) 
 	{
+#ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+	TInt64 pos = aPos;
+	TInt offset = iFile.Seek(aMode, pos);
+	aPos = I64INT(pos);
+#else
+	TInt offset = iFile.Seek(aMode, aPos);
+#endif // SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+	return offset;
+	}
+
+#ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+TInt CF32AgentData::Seek64(TSeek aMode, TInt64& aPos) 
+	{
 	return iFile.Seek(aMode, aPos);
 	}
+#endif // SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+
 
 TInt CF32AgentData::SetProperty(TAgentProperty aProperty, TInt aValue)
 	{
@@ -222,3 +265,4 @@ CF32AgentUi& CF32AgentData::AgentUiL()
 		}
 	return *iAgentUi;
 	}
+

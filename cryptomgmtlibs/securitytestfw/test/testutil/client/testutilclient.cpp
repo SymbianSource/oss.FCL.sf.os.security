@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -17,15 +17,13 @@
 */
 
 
-
-
 /**
  @file 
  @test
  @internalComponent
 */
  
-#include "testutilsdpclient.h"
+#include "testutilclient.h"
 #include "testutilclientserver.h"
 
 static TInt StartTestUtilServer()
@@ -172,6 +170,11 @@ EXPORT_C TInt RTestUtilSession::GetNumFilesL(const TDesC& aDirName)
 	User::LeaveIfError(SendReceive(EGetNumFiles, TIpcArgs(&aDirName, &getNum)));
 	
 	return numFiles;
+	}
+
+EXPORT_C TInt RTestUtilSession::SetSecureClock(TInt aTimeOffset)
+	{
+	return SendReceive(ESetSecureClock,TIpcArgs(aTimeOffset));
 	}
 
 // End of file

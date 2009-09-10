@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file 
  @internalTechnology
@@ -29,8 +27,8 @@
 #define FILECERTSTORE_SERVER
 
 #include <e32base.h>
-#include <fstokencliserv.h>
-#include <tokentypesenum.h>
+#include "fstokencliserv.h"
+#include "tokentypesenum.h"
 
 class CFSKeyStoreServer;
 class CFSCertStoreServer;

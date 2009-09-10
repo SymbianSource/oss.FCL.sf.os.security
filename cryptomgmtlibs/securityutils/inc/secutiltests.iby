@@ -23,7 +23,6 @@
 #ifndef __SECUTILTESTS_IBY__
 #define __SECUTILTESTS_IBY__
 
-#ifdef __SECURITY_NORMAL_SWICERTSTORE__
 file=ABI_DIR\BUILD_DIR\trecogserver.exe	sys\bin\trecogserver.exe
 
 // trecog cert exports
@@ -52,6 +51,5 @@ data = \epoc32\winscw\c\trecog\pkcs12simple.xyz		\trecog\pkcs12simple.xyz
 data = \epoc32\winscw\c\trecog\root5ca_key.pk8		\trecog\root5ca_key.pk8
 data = \epoc32\winscw\c\trecog\small.txt			\trecog\small.txt
 
-#endif
 
 #endif

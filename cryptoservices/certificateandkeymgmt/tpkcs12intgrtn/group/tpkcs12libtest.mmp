@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file 
  @internalTechnology
@@ -55,3 +53,6 @@ LIBRARY		x509.lib
 LIBRARY		pbe.lib
 LIBRARY		estor.lib
 LIBRARY		asn1.lib  asnpkcs.lib
+SMPSAFE
+
+

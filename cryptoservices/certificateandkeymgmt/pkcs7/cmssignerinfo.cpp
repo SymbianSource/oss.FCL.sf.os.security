@@ -300,3 +300,8 @@ EXPORT_C const CCmsSignerIdentifier& CCmsSignerInfo::SignerIdentifier() const
 	
 	
 	
+
+
+
+
+

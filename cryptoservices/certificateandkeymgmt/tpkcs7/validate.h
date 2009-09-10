@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file 
  @internalTechnology
@@ -26,7 +24,7 @@
 #if (!defined __TPKCS7_VALIDATE_H__)
 #define __TPKCS7_VALIDATE_H__
 #include <e32base.h>
-#include <pkcs7signedobject.h>
+#include "pkcs7signedobject.h"
 #include <pkcs7contentinfo_v2.h>
 #include <pkixcertchain.h>
 

@@ -13,5 +13,4 @@
 @rem
 @rem Description: 
 @rem
-REM This script shall be executed after the running the tx509 tests
 del /s /f /q \epoc32\winscw\c\private\10001011

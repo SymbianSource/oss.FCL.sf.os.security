@@ -16,8 +16,6 @@
 */
 
 
-
-
 #include <pkcs7excert.h>
 #include "pkcs7asn1.h"
 #include <asn1dec.h>
@@ -69,3 +67,8 @@ EXPORT_C const CX509Certificate& CPKCS7ExtendedCertificateOrCertificate::Certifi
 	{
 	return *iCertificate;
 	}
+
+
+
+
+

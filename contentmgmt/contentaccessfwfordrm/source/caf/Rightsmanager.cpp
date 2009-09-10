@@ -16,10 +16,10 @@
 */
 
 
-#include "rightsmanager.h"
-#include "agentfactory.h"
+#include <caf/rightsmanager.h>
+#include <caf/agentfactory.h>
 #include "agentinfo.h"
-#include "agentinterface.h"
+#include <caf/agentinterface.h>
 
 using namespace ContentAccess;
 
@@ -68,6 +68,11 @@ EXPORT_C void CRightsManager::ListRightsL(RStreamablePtrArray<CRightsInfo>& aArr
 	iAgentRightsManager->ListRightsL(aArray, aVirtualPath);
 	}
 
+EXPORT_C void CRightsManager::ListRightsL(RStreamablePtrArray<CRightsInfo>& aArray, RFile& aFile, const TDesC& aUniqueId) const	
+	{
+	iAgentRightsManager->ListRightsL(aArray, aFile, aUniqueId);
+	}
+
 EXPORT_C void CRightsManager::ListContentL(RStreamablePtrArray<CVirtualPath>& aArray, CRightsInfo& aRightsInfo) const
 	{
 	iAgentRightsManager->ListContentL(aArray, aRightsInfo);
@@ -88,7 +93,13 @@ EXPORT_C TInt CRightsManager::DeleteAllRightsObjects(const TVirtualPathPtr& aVir
 	return iAgentRightsManager->DeleteAllRightsObjects(aVirtualPathPtr);
 	}
 
+EXPORT_C TInt CRightsManager::DeleteAllRightsObjects (RFile& aFile, const TDesC& aUniqueId) 
+	{
+	return iAgentRightsManager->DeleteAllRightsObjects(aFile, aUniqueId);
+	}
+
 EXPORT_C TInt CRightsManager::SetProperty(TAgentProperty aProperty, TInt aValue)
 	{
 	return iAgentRightsManager->SetProperty(aProperty, aValue);
 	}
+

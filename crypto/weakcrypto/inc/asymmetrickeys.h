@@ -12,18 +12,17 @@
 * Contributors:
 *
 * Description: 
-* ** IMPORTANT ** PublishedPartner API's in this file are published to 3rd party developers via the 
+* ** IMPORTANT **  API's in this file are published to 3rd party developers via the 
 * Symbian website. Changes to these API's should be treated as PublishedAll API changes and the Security TA should be consulted.
 * Asymmetric keys implementation
 *
 */
 
 
-
-
 /**
  @file 
- @internalAll
+ @publishedAll
+ @released 
 */
  
 #ifndef __ASYMMETRICKEYS_H__
@@ -36,8 +35,6 @@
 /** 
 * Defines the various ways of representing supported RSA private keys.
 * 
-* @publishedPartner
-* @released 
 */
 enum TRSAPrivateKeyType 
 	{
@@ -68,8 +65,6 @@ enum TRSAPrivateKeyType
 * 
 * See ANSI X9.31 and RSA PKCS#1
 *
-* @publishedPartner
-* @released 
 */
 class CRSAParameters : public CBase
 	{
@@ -107,8 +102,6 @@ private:
 * An RSA public key is identified by its modulus (n) and its encryption exponent
 * (e).
 * 
-* @publishedPartner
-* @released 
 */
 class CRSAPublicKey : public CRSAParameters
 	{
@@ -177,8 +170,6 @@ private:
 * To instantiate a representation of an RSA private key, find a
 * subclass of this appropriate to your key type.  
 *
-* @publishedPartner
-* @released 
 */
 class CRSAPrivateKey : public CRSAParameters
 	{
@@ -211,8 +202,6 @@ private:
 * 
 * Such a private key is composed of a modulus (n) and a decryption exponent (d).
 *   
-* @publishedPartner
-* @released 
 */
 class CRSAPrivateKeyStandard : public CRSAPrivateKey
 	{
@@ -280,8 +269,6 @@ private:
 * coefficient (qInv).  See PKCS#1 at http://www.rsasecurity.com/rsalabs/pkcs/
 * for more information.
 *
-* @publishedPartner
-* @released 
 */
 class CRSAPrivateKeyCRT : public CRSAPrivateKey
 	{
@@ -396,8 +383,6 @@ private:
 *
 * By default, it generates 2 prime (standard) CRT private keys.
 *
-* @publishedPartner
-* @released 
 */
 class CRSAKeyPair : public CBase
 	{
@@ -468,8 +453,6 @@ private:
 * 
 * @see CDSAParameters::ValidatePrimesL() 
 * 
-* @publishedPartner
-* @released 
 */
 class CDSAPrimeCertificate : public CBase
 	{
@@ -542,8 +525,6 @@ private:
 *
 * See FIPS 186-2, Digital Signature Standard
 * 
-* @publishedPartner
-* @released 
 */
 class CDSAParameters : public CBase
 	{
@@ -651,8 +632,6 @@ private:
 /**
 * Representation of a DSA public key.  
 *
-* @publishedPartner
-* @released 
 */
 class CDSAPublicKey : public CDSAParameters
 	{
@@ -723,8 +702,6 @@ private:
 /** 
 * Representation of a DSA private key.  
 * 
-* @publishedPartner
-* @released 
 */
 class CDSAPrivateKey : public CDSAParameters
 	{
@@ -795,8 +772,6 @@ private:
 /** 
 * This class is capable of generating a DSA public/private key pair.
 * 
-* @publishedPartner
-* @released 
 */
 class CDSAKeyPair : public CBase
 	{
@@ -862,8 +837,6 @@ private:
 * Concrete class representing the parameters common to both 
 * a Diffie-Hellman (DH) public and private key.  
 * 
-* @publishedPartner
-* @released 
 */
 class CDHParameters : public CBase
 	{
@@ -916,8 +889,6 @@ private:
 /** 
 * Representation of a Diffie-Hellman (DH) public key.  
 * 
-* @publishedPartner
-* @released 
 */
 class CDHPublicKey : public CDHParameters
 	{
@@ -984,8 +955,6 @@ private:
 /** 
 * Representation of a Diffie-Hellman (DH) private key.  
 * 
-* @publishedPartner
-* @released 
 */
 class CDHPrivateKey : public CDHParameters
 	{
@@ -1052,8 +1021,6 @@ private:
 /** 
 * This class is capable of generating a Diffie-Hellman (DH) public/private key pair.
 * 
-* @publishedPartner
-* @released 
 */
 class CDHKeyPair : public CBase
 	{

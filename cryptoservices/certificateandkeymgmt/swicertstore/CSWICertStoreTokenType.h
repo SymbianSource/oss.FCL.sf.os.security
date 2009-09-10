@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file 
  @internalTechnology
@@ -27,7 +25,7 @@
 #ifndef __CSWICERTSTORETOKENTYPE_H__
 #define __CSWICERTSTORETOKENTYPE_H__
 
-#include <ccttokentype.h>
+#include <ct/ccttokentype.h>
 
 /**
  * SWI Cert store token type.

@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file
  @internalTechnology
@@ -35,7 +33,7 @@
 
 #if (!defined __PKCS10MINORTESTS_STEP_H__)
 #define __PKCS10MINORTESTS_STEP_H__
-#include <testexecutestepbase.h>
+#include <test/testexecutestepbase.h>
 #include "tpkcs10stepbasev2.h"
 #include "tcertrequeststep.h"
 
@@ -87,3 +85,4 @@ class CPKCS10CancelRequestAStep: public CCertificateRequestStep
 };
 
 #endif
+

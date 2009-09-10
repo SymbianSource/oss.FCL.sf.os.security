@@ -19,20 +19,21 @@
 */
 
 
-
-
 /**
  @file 
- @internalAll
+ @publishedPartner
+ @released 
 */
  
-#ifndef	__BLOCKTRANSFORMATION_H__
-#define	__BLOCKTRANSFORMATION_H__
+#ifndef	BLOCKTRANSFORMATION_H__
+#define	BLOCKTRANSFORMATION_H__
 
 #include <e32base.h>
 
+#ifndef SYMBIAN_ENABLE_SPLIT_HEADERS
 /** The maximum block size supported (in bytes) */
 const TUint KMaxBlockSizeSupported = 32;
+#endif
 
 /**
 * Abstract base class defining the interface to block transformation schemes.
@@ -40,8 +41,6 @@ const TUint KMaxBlockSizeSupported = 32;
 * Block transformation schemes process a fixed-size block of input to return a
 * block of output the same size.  
 *
-* @publishedPartner
-* @released
 */
 class CBlockTransformation : public CBase
 {
@@ -75,4 +74,4 @@ public:
 	virtual TInt KeySize() const = 0;
 };
 
-#endif	//	__BLOCKTRANSFORMATION_H__
+#endif	//	BLOCKTRANSFORMATION_H__

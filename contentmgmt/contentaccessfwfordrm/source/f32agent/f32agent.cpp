@@ -16,16 +16,14 @@
 */
 
 
-
-
 /**
  @file
  @internalComponent
  @released
 */
 
-#include <ecom.h>
-#include <implementationproxy.h>
+#include <ecom/ecom.h>
+#include <ecom/implementationproxy.h>
 #include "f32agentfactory.h"
 
 /** Implementation table is required by ECom. Allows alternative
@@ -46,3 +44,4 @@ EXPORT_C const TImplementationProxy* ImplementationGroupProxy(TInt& aTableCount)
 	aTableCount = sizeof(ImplementationTable) / sizeof(TImplementationProxy);
 	return ImplementationTable;
 	}
+

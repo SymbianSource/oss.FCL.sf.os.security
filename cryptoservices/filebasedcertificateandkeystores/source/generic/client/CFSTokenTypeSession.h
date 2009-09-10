@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file 
  @internalTechnology
@@ -28,7 +26,7 @@
 #define __CFSTOKENTYPESESSION_H__
 
 #include "clientsession.h"
-#include <ccttokentype.h>
+#include <ct/ccttokentype.h>
 
 /**
  * Token type session.

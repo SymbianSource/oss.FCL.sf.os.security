@@ -13,7 +13,6 @@
 @rem
 @rem Description: 
 @rem
-rem TCTFRAMEWORK
 t_ctframework
 copy c:\T_CTFrameworkLog.txt e:\testresults\T_CTFrameworkLog.txt
 move T_CTFrameworkLog.txt c:\testresults\

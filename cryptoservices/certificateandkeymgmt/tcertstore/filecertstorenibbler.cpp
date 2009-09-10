@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file
 */
@@ -123,3 +121,4 @@ TInt CFileCertstoreNibbler::RunError(TInt /*anError*/)
 //	User::Panic(KNibblerError, anError);
 	return (KErrNone);
 }
+

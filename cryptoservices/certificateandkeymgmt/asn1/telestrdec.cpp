@@ -65,3 +65,7 @@ HBufC* TASN1DecTeletexString::DecodeContentsL(const TDesC8& aSource)
 	pRes.Copy(aSource);
 	return res;
 	}
+
+
+
+

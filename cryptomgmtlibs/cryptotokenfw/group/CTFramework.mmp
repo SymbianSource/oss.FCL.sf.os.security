@@ -14,6 +14,7 @@
 * Description: 
 *
 */
+
 // ctframework.mmp
 
 /**
@@ -34,8 +35,8 @@ VENDORID 0x70000001
 
 
 DEFFILE			CTFRAMEWORK_V2.def
-
-SYSTEMINCLUDE	/epoc32/include
+USERINCLUDE 	../inc/ct
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 SOURCEPATH		../source/ctframework
 SOURCE			MCTToken.cpp
@@ -57,3 +58,4 @@ LIBRARY	euser.lib estor.lib
 DEBUGLIBRARY EFSRV.LIB
 #endif
 
+SMPSAFE

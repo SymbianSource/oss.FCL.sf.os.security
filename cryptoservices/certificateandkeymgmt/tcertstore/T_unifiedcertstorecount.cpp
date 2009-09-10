@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file
 */
@@ -82,3 +80,4 @@ void CUnifiedCertStoreCount::DoCheckResult(TInt /*aError*/)
 	iConsole.Printf(_L(" %D\n"),iCount);
 	iOut.writeNewLine();
 	}
+

@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file
 */
@@ -53,3 +51,4 @@ void CCallbackTimer::RunL()
 		iCallBackIf.TimerRun(status);
 		}
 	}
+

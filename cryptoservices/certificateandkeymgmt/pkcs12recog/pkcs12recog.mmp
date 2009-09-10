@@ -17,8 +17,6 @@
 */
 
 
-
-
 /**
  @file
 */
@@ -33,8 +31,7 @@ VENDORID		0x70000001
 
 SOURCEPATH		.
 
-SYSTEMINCLUDE	/epoc32/include
-SYSTEMINCLUDE	/epoc32/include/ecom
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 SOURCE			pkcs12recog.cpp
 START RESOURCE	2000151F.rss
@@ -43,3 +40,6 @@ END
 
 LIBRARY			euser.lib apmime.lib 
 LIBRARY			efsrv.lib 
+SMPSAFE
+
+

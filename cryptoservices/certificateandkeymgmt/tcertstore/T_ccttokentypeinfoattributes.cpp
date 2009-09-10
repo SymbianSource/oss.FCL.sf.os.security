@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file
 */
@@ -155,3 +153,4 @@ void CCTTokenTypeInfoAttributes::DoCheckResult(TInt /*aError*/)
 		i++;
 		}
 	}
+

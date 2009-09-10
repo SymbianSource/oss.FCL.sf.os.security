@@ -16,8 +16,6 @@
 */
 
 
-
-
 /**
  @file 
  @internalTechnology
@@ -27,7 +25,7 @@
 #define __CLIENTUTILS_H__
 
 #include <e32std.h>
-#include <tokentypesenum.h>
+#include "tokentypesenum.h"
 
 _LIT(KTokenTypeClientPanic, "TOKENTYPECLIENT");
 

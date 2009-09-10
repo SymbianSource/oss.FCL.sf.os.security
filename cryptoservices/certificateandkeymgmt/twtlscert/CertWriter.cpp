@@ -404,3 +404,4 @@ const TPtrC8* WTLSCertWriter::Encoding(const CWTLSCertificate& aCertificate, con
 		}
 	return NULL;
 	}
+

@@ -404,3 +404,4 @@ EXPORT_C const TDesC8* CDecPkcs12SafeContents::DecryptedData() const
 	{
 	return iDecryptedData;	
 	}
+

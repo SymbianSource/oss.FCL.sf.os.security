@@ -19,11 +19,10 @@
 */
 
 
-
-
 /**
  @file 
- @internalAll
+ @publishedPartner
+ @released 
 */
  
 #ifndef __3DES_H__
@@ -36,8 +35,6 @@
 *
 * Implements features common to triple-DES encryption and decryption.
 *
-* @publishedPartner
-* @released 
 */
 class C3DES : public CDES
 {
@@ -68,8 +65,6 @@ protected:
 /**
 * Concrete class for triple-DES encryption.
 *
-* @publishedPartner
-* @released 
 */
 class C3DESEncryptor : public C3DES
 {
@@ -106,8 +101,6 @@ protected:
 /**
 * Concrete class for triple-DES decryption.
 *
-* @publishedPartner
-* @released 
 */
 class C3DESDecryptor : public C3DES
 {

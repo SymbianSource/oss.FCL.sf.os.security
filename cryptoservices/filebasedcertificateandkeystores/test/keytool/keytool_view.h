@@ -33,7 +33,7 @@ public:
 	virtual void DisplayKeyInfoL(CCTKeyInfo& aKeyInfo, TBool aIsDetailed, TBool aPageWise) = 0;
 	virtual void DisplayErrorL(const TDesC& aError, TBool aPageWise) = 0;	
 	virtual void DisplayErrorL(const TDesC& aError, TInt aErrorCode, TBool aPageWise) = 0;
-	virtual void DisplayCertL(CCTCertInfo& aCert, CCertificate& aCertificate, RUidArray aApps, TBool aIsDetailed, TBool aPageWise) = 0;
+	virtual void DisplayCertL(CCTCertInfo& aCert, CCertificate& aCertificate, RUidArray aApps, TBool aTrusted, TBool aIsDetailed, TBool aPageWise) = 0;
 	};
 
 #endif

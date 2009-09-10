@@ -183,3 +183,5 @@ EXPORT_C const TCertMetaInfo& CSWICertStore::CertMetaInfoL(const CCTCertInfo& aC
 	{
 	return iImpl->CertMetaInfoL(aCertInfo.Handle());
 	}
+
+

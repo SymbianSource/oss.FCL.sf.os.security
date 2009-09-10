@@ -18,8 +18,6 @@
 */
 
 
-
-
 /**
  @file
 */
@@ -43,3 +41,4 @@ LIBRARY    	euser.lib
 LIBRARY		testexecuteutils.lib
 LIBRARY		testexecutelogclient.lib
 LIBRARY		t_testhandler2.lib
+SMPSAFE

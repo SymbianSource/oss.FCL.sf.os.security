@@ -17,6 +17,11 @@
 
 
 #include "displaytype.h"
+#ifdef SYMBIAN_ENABLE_SPLIT_HEADERS
+_LIT(KX520PostalCode,"2.5.4.17");
+_LIT(KRFC2247DomainComponent, "0.9.2342.19200300.100.1.25");
+_LIT(KRFC2256Street,"2.5.4.9");
+#endif
 
 const TDesC16& GetType(const TDesC16& aType)
 	{
@@ -87,3 +92,4 @@ const TDesC16& GetType(const TDesC16& aType)
 		}
 	
 	}
+

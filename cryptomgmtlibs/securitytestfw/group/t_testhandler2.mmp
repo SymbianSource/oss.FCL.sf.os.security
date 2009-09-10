@@ -14,6 +14,7 @@
 * Description: 
 *
 */
+
 /**
 @file
 
@@ -32,12 +33,17 @@ DEFFILE t_testhandler2_sss.def
 USERINCLUDE ../test/testhandler2 ../inc
 SYSTEMINCLUDE /epoc32/include
 
+#ifdef SYMBIAN_AUTH_SERVER
+SYSTEMINCLUDE /epoc32/include/authserver
+#endif
+
 SOURCEPATH	../test/testhandler2
 
 SOURCE t_testhandler.cpp
 SOURCE Ttesthandlersettings.cpp
 SOURCE t_errorconverter.cpp
 SOURCE T_input.cpp
+SOURCE T_tefinput.cpp
 SOURCE t_output.cpp
 SOURCE t_utils.cpp
 SOURCE t_testaction.cpp
@@ -57,3 +63,4 @@ SOURCE t_capabilities.cpp
 SOURCE t_policy.cpp
 
 LIBRARY euser.lib efsrv.lib estor.lib flogger.lib charconv.lib
+SMPSAFE

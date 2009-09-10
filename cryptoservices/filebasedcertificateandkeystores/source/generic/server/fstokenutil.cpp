@@ -19,7 +19,6 @@
 #include "fstokenutil.h"
 #include <f32file.h>
 #include <s32file.h>
-#include <sectcbutil.h>
 
 // RMessage::Panic() also completes the message. This is:
 // (a) important for efficient cleanup within the kernel
@@ -83,7 +82,8 @@ void FileUtils::CopyL(RFs& aFs, const TDesC& aSouce, const TDesC& aDest)
 void FileUtils::MakePrivateFilenameL(RFs& aFs, const TDesC& aLeafName, TDes& aNameOut)
 	{
 	aNameOut.SetLength(0);	
-	aNameOut.Append(SecTcbUtil::GetSystemDriveChar(SecTcbUtil::GetSystemDrive()));
+	aNameOut.Append(RFs::GetSystemDriveChar());
+
 	aNameOut.Append(':');
 
 	// Get private path

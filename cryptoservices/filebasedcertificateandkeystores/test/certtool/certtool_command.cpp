@@ -23,3 +23,4 @@ CCertToolCommand::CCertToolCommand(CCertToolController* aController) :CActive(EP
 	{
 	iController = aController;
 	}
+

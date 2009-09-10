@@ -17,7 +17,7 @@
 
 
 #include <e32std.h>
-#include <implementationproxy.h>
+#include <ecom/implementationproxy.h>
 #include "cdummytokentypeclient.h"
 
 #ifdef MANAGER_INTERFACE_ONE

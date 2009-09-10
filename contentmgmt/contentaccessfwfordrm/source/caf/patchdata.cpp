@@ -23,6 +23,7 @@
 // in which they are referred, lest the compiler inline's it. If inlined, the 
 // data cannot be patched. Hence, the definition of data must be put in a 
 // separate source file and they must be declared in other source files by 
-// #including "patchdata.h".
+// #including <caf/patchdata.h>.
 
 EXPORT_C extern const TUint8 KCafLoadPostProductionAgents = 0x00;
+

@@ -14,6 +14,7 @@
 * Description: 
 *
 */
+
 #ifndef __SECURITYTESTS_IBY__
 #define __SECURITYTESTS_IBY__
 
@@ -38,76 +39,136 @@ PlatSecEnforceSysBin ON
 PlatSecProcessIsolation ON
 }
 #include "setcap.iby"
-
+#include "testutil.iby"
 #include "testexecute.iby"
 #include "t_testhandler.iby"
 #include "xml.iby" // Needed for security tests
 
 #include "securityframeworktestserver.iby"
+// Common utils libraries
+#include "securitycommonutils.iby"
+// Common utils libraries test
+#include "installtestframework.iby"
+#include "securitytestframework.iby"		
+
+#include "streamingcaf.iby"
+#ifdef SYMBIAN_UNIVERSAL_INSTALL_FRAMEWORK
+	//Universal Software Install Framework production
+	#include "scr.iby" // Software Component Registry
+	#include "sif.iby"  // Software Install Framework
+	#include "sts.iby"  // Software Transaction Services
+	#include "sifrefinstaller.iby"  // Sif Reference Installer
+#endif //SYMBIAN_UNIVERSAL_INSTALL_FRAMEWORK
 
 #ifdef __SECURITY_NORMAL_SWICERTSTORE__
-	#include "tsistestdata.iby" 
+	
+	#ifdef __SECURITY_ONLYJAVA__
+		
+		#ifndef SYMBIAN_JAVA_NOT_INCLUDED
+			#include "sisinstallertest.iby"
+			#include "JavaMIDletInstallerTest.iby"
+			#include "rtatest.iby"
+			#include "recjar.iby"
+		#endif
+	#elif __SECURITY_NORMAL__
 
-	ECOM_PLUGIN(tsecdlg.dll, 10204789.rsc)
+		#ifndef SYMBIAN_JAVA_NOT_INCLUDED
+  			#include "sisinstallertest.iby"
+		#endif
 
-#ifdef SYMBIAN_USER_PROMPT_SERVICE
-	#include "ups.iby"
-	#include "tups.iby"
-#endif
-	// iby files for caf
-	#include "caf.iby"
-	#include "caftest.iby"
-	#include "reccafconfig.iby"
-	#include "rta.iby"
-	#include "rtatest.iby"
-	#include "tpkcs12integrationserver.iby"
-	// Dependency
-	file=ABI_DIR\BUILD_DIR\pkcs7.dll	System\Libs\pkcs7.dll
+		#include "tsistestdata.iby" 
 
-#ifdef SYMBIAN_CAF_STREAMING
-	#include "streamingcaf.iby"
-	#include "tscaf.iby"
-#endif	
+		ECOM_PLUGIN(tsecdlg.dll, 10204789.rsc)
+		
+		#include "tups.iby"
+		#include "ups.iby"
+		// iby files for caf
+		#include "caf.iby"
+		#include "caftest.iby"
+		#include "reccafconfig.iby"
+		#include "rta.iby"
+		#include "rtatest.iby"
+		#include "tpkcs12integrationserver.iby"
+ 		// Dependency
+		file=ABI_DIR\BUILD_DIR\pkcs7.dll	System\Libs\pkcs7.dll
 
-	// Extra test data
-	#include "tswi.iby"
-	#include "tswiconsole.iby"
-	#include "tsissignedtestdata.iby"
-	#include "secutiltests.iby"
+		#include "tscaf.iby"
+ 
+
+		#ifdef SYMBIAN_UNIVERSAL_INSTALL_FRAMEWORK
+			//Universal Software Install Framework tests
+			#include "tscr.iby"
+			#include "tsif.iby"
+			#include "tsts.iby"
+			#include "tsifrefinstaller.iby"
+		#endif //SYMBIAN_UNIVERSAL_INSTALL_FRAMEWORK
+
+		
+	
+		
+		
+		
+		// Extra test data
+		#include "tswi.iby"
+		#include "tswiconsole.iby"
+		#include "tsissignedtestdata.iby"
+		#include "secutiltests.iby"
+
+	#endif
+
+
+
+	#ifndef SYMBIAN_JAVA_NOT_INCLUDED
+  		// Jar/Jad recogniser needed for CAF tests
+  		#include "recjar.iby"
+	#endif
 
 #elif __SECURITY_MANDATORY_SWICERTSTORE__
 	// Temp
-	#include "cryptodeps.iby"
-           	
-             #include "randomtests.iby"
- 	#include "hashtests.iby"
-	#include "certmantests.iby"
-
-	#include "ctframeworktests.iby"
-	#include "tpkcs7server.iby"
-	#include "filetokenstests.iby"
-	#include "asnpkcstests.iby"
-	#include "tsiscorrupttestdata.iby" 
-	// uncomment authserver tests when authserver gets released
-	// #include "tAuthSvr.iby"
-
-	// Extra test data
-	#include "tswi.iby"
-	#include "tswiconsole.iby"
-	#include "tsissignedtestdata.iby"
-	#include "secutiltests.iby"
+ 	#include "cryptodeps.iby"
+             
+      #include "randomtests.iby"
+   	#include "hashtests.iby"
+  	#include "certmantests.iby"
+  	#include "ctframeworktests.iby"
+  	#include "tpkcs7server.iby"
+  	#include "filetokenstests.iby"
+  	#include "asnpkcstests.iby"
+  	#include "tsiscorrupttestdata.iby" 
+  	// uncomment authserver tests when authserver gets released
+	#ifdef SYMBIAN_AUTH_SERVER
+  		#include "tAuthSvr.iby"
+	#endif // SYMBIAN_AUTH_SERVER
+	#ifndef SYMBIAN_JAVA_NOT_INCLUDED
+		// Jar Download Reference Filter - sets user agent
+		ECOM_PLUGIN(midletuaheaderfilter.dll,10200a88.rsc)
+	#endif
+  
+  	// Extra test data
+  	#include "tswi.iby"
+  	#include "tswiconsole.iby"
+  	#include "tsissignedtestdata.iby"
+  	#include "secutiltests.iby"
 #elif __SECURITY_JAVA__
-
+	#ifndef SYMBIAN_JAVA_NOT_INCLUDED
+  		#include "JavaMIDletInstallerTest.iby"
+	#endif
+	
 	#include "cryptotests.iby"
 	#include "randomtests.iby"
-	#include "hashtests.iby"
-	#include "rtatest.iby"	
+  	#include "hashtests.iby"
+	#include "rtatest.iby"
+	#include "rta.iby"
 #endif
+
 
 //***********
 // REMOVE ME WHEN AUTHSERVER IS ADDED TO MAIN BUILD
 //***********
-//#include "authserver.iby"
+#ifdef SYMBIAN_AUTH_SERVER
+	#include "authserver.iby"
+	#include "pinplugin.iby"
+#endif // SYMBIAN_AUTH_SERVER
 
 // This is the bat file to run the security tests automatically
 // comms configuration (and configuration using sim.tsy)
@@ -119,50 +180,84 @@ data = ZDRIVE\prompt.cfg					\prompt.cfg
 // This the file which used to redirect the request from cam-ocsptest01 to ban-ocsptest01
 data = ZDRIVE\autohardware\hosts		     \hosts
 
+
+
 #ifdef __AUTO_HARDWARE_TESTS__
 	data = ZDRIVE\autohardware\autoexec.bat		\autoexec.bat
 #endif
 
 #ifdef __SECURITY_NORMAL_SWICERTSTORE__
 
-#ifdef SYMBIAN_JAVA_NOT_INCLUDED
-	data = ZDRIVE\autohardware\testsecurity_9.6_nonmcs.bat	\testsecurity.bat
-	data = ZDRIVE\autohardware\runswiromtests_9.6.bat	\runswiromtests.bat
-#elif defined(SYMBIAN_USER_PROMPT_SERVICE)
-	data = ZDRIVE\autohardware\testsecurity_9.5_nonmcs.bat	\testsecurity.bat
-	data = ZDRIVE\autohardware\runswiromtests_9.5.bat	\runswiromtests.bat
+	#ifdef __SECURITY_ONLYJAVA__
+
+		#ifndef SYMBIAN_JAVA_NOT_INCLUDED
+			data = ZDRIVE\autohardware\runjavamidletinstaller_9.4.bat      	\runjavamidletinstaller.bat
+			data = ZDRIVE\autohardware\runsisinstaller_9.4.bat		\runsisinstaller.bat
+			data = ZDRIVE\autohardware\testsecurityonlyjava.bat	\testsecurity.bat
+		#endif
+	#elif __SECURITY_NORMAL__
+		#ifdef SYMBIAN_UNIVERSAL_INSTALL_FRAMEWORK
+			data = ZDRIVE\autohardware\testsecurity_9.6_nonmcs.bat	\testsecurity.bat
+			data = ZDRIVE\autohardware\runswiromtests_9.6.bat	\runswiromtests.bat
+			data = ZDRIVE\autohardware\runusiftests.bat		\runusiftests.bat
+			data = ZDRIVE\autohardware\runcommonutilstests.bat	\runcommonutilstests.bat
+		#else
+			data = ZDRIVE\autohardware\testsecurity_9.5_nonmcs.bat	\testsecurity.bat
+			data = ZDRIVE\autohardware\runswiromtests_9.5.bat	\runswiromtests.bat
+		#endif
+
+		#ifndef SYMBIAN_JAVA_NOT_INCLUDED
+			data = ZDRIVE\autohardware\runsisinstaller_9.4.bat		\runsisinstaller.bat
+		#endif
+
+		
+
+		data = ZDRIVE\autohardware\runupstests_9.4.bat		\runupstests.bat
+		data = ZDRIVE\autohardware\runpkcs12tests_9.4.bat		\runpkcs12tests.bat
+
+#ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+		data = ZDRIVE\autohardware\runcaftests_9.6.bat		\runcaftests.bat
 #else
-	data = ZDRIVE\autohardware\testsecurity_9.4_nonmcs.bat	\testsecurity.bat
-	data = ZDRIVE\autohardware\runswiromtests_9.4.bat	\runswiromtests.bat
+		data = ZDRIVE\autohardware\runcaftests_9.5.bat		\runcaftests.bat
 #endif
+		
 
-	data = ZDRIVE\autohardware\runtlsclientauth_9.4.bat		\runtlsclientauth.bat
-	data = ZDRIVE\autohardware\runupstests_9.4.bat		\runupstests.bat
-	data = ZDRIVE\autohardware\runpkcs12tests_9.4.bat		\runpkcs12tests.bat
-
-#ifdef SYMBIAN_CAF_STREAMING
-	data = ZDRIVE\autohardware\runcaftests_9.6.bat		\runcaftests.bat
-#else	
-	data = ZDRIVE\autohardware\runcaftests_9.4.bat		\runcaftests.bat
-#endif
+	#endif
 
 #elif __SECURITY_MANDATORY_SWICERTSTORE__
-#ifdef SYMBIAN_USER_PROMPT_SERVICE
-	data = ZDRIVE\autohardware\testsecurity_9.5_mcs.bat			\testsecurity.bat
-#else
-	data = ZDRIVE\autohardware\testsecurity_9.4_mcs.bat			\testsecurity.bat
-#endif
-	data = ZDRIVE\autohardware\runcertman_9.4.bat		\runcertman.bat
+	
+	#ifdef SYMBIAN_AUTH_SERVER
+		#ifdef SYMBIAN_ENABLE_POST_MARKET_AUTHENTICATION_PLUGINS
+			data = ZDRIVE\autohardware\runauthtests_macroenabled.bat		\runauthtests.bat
+			data = ZDRIVE\autohardware\testsecurity_9.6_mcs.bat			\testsecurity.bat
+		#else
+			data = ZDRIVE\autohardware\testsecurity_9.6_mcs.bat			\testsecurity.bat
+			data = ZDRIVE\autohardware\runauthtests.bat				\runauthtests.bat
+		#endif	//SYMBIAN_ENABLE_POST_MARKET_AUTHENTICATION_PLUGINS
+		#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+			data = ZDRIVE\autohardware\runfiletokens_useauth.bat		\runfiletokens.bat
+		#elif SYMBIAN_AUTH_SERVER
+			data = ZDRIVE\autohardware\runfiletokens_disableauth.bat		\runfiletokens.bat
+		#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	#else
+		data = ZDRIVE\autohardware\runfiletokens_9.4.bat		\runfiletokens.bat
+		data = ZDRIVE\autohardware\testsecurity_9.5_mcs.bat			\testsecurity.bat
+	#endif // SYMBIAN_AUTH_SERVER
+
+	data = ZDRIVE\autohardware\runcertman_9.5.bat		\runcertman.bat
 	data = ZDRIVE\autohardware\runasnpkcs_9.4.bat		\runasnpkcs.bat
-	data = ZDRIVE\autohardware\runfiletokens_9.4.bat		\runfiletokens.bat
 	data = ZDRIVE\autohardware\runcryptotokens_9.4.bat	\runcryptotokens.bat
 	data = ZDRIVE\autohardware\runswiromtests_9.4_mcs.bat	\runswiromtests.bat
-	// PREQ218 is still vFuture, run it just in 9.4 not any lower build
-//	data = ZDRIVE\autohardware\runauthtests.bat		\runauthtests.bat
+	
 #elif __SECURITY_JAVA__
 
+#ifndef SYMBIAN_JAVA_NOT_INCLUDED
+	
+	data = ZDRIVE\autohardware\runjavamidletinstaller_9.4.bat      	\runjavamidletinstaller.bat
+	data = ZDRIVE\autohardware\testsecurity_9.4_java.bat	\testsecurity.bat
+#else
 	data = ZDRIVE\autohardware\testsecurity_9.6_crypto.bat	\testsecurity.bat
-
+#endif
 
 #ifdef SYMBIAN_CRYPTOSPI
 	data = ZDRIVE\autohardware\runcrypto_9.5.bat	               	\runcrypto.bat
@@ -177,7 +272,11 @@ data = ZDRIVE\autohardware\testsecurityperformance_crypto.bat	\testsecurityperfo
 //estor.dll is put in ROFS by deafult but we need to put it into CORE as well
 //core version will be used; see DEF113303 for details
 #ifdef __SECURITY_TEST_ROM__
-#ifdef _NAND2
+#ifdef _INTERNAL_MMC
+ROM_IMAGE[0]{
+file = \epoc32\release\armv5\urel\estor.dll \sys\bin\estor.dll
+}
+#elif _NAND2
 ROM_IMAGE[0] {
 file = \epoc32\release\armv5\urel\estor.dll \sys\bin\estor.dll
 }
@@ -198,8 +297,23 @@ file=ABI_DIR\BUILD_DIR\RUNTESTS.EXE                 System\Programs\RUNTESTS.EXE
 #include "thindump.iby"
 #include "sntpclient.iby"
 
-// DEF137562 fix - Removing illegal dependency from OS to MW layer. Relocation of OCSP component from OS to MW layer.
+
+// *** Additional includes and configuration for SSM Requirements ***
+#ifdef _SSMSTARTUPMODE
+data=MULTI_LINGUIFY(RSC EPOCROOT##epoc32\data\z\private\2000d75b\startup\0\eshell  private\2000d75b\startup\0\eshell)
+
+// Addition IBY's required
+#include "aplp.iby"
+#include "amastart.iby"
+#include "shma.iby"
+#include "ssrefplugins.iby" 
+#endif
+
+
+// DEF139848 fix - Forward Propogation from Symtb9.1 - Illegal dependency from OCSP to HTTP.
 #include "ocsp.iby" 
 #include "ocsptests.iby"
 
 #endif
+
+
