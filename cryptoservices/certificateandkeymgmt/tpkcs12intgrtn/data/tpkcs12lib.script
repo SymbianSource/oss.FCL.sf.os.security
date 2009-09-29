@@ -12,27 +12,13 @@
 // Contributors:
 //
 // Description: 
-//
-// All rights reserved.
-// This component and the accompanying materials are made available
-// under the terms of the License "Symbian Foundation License v1.0"
-// which accompanies this distribution, and is available
-// at the URL "http://www.symbianfoundation.org/legal/sfl-v10.html".
-//
-// Initial Contributors:
-// Nokia Corporation - initial contribution.
-//
-// Contributors:
-//
-// Description:
 // Creation Date 1/March/2006
 // PKCS12 Integration Test Script
 // Integration And Unit Test
 // Tests      : Pradeep, Bindu
 // Component  : PKCS#12 library
 // The scope of this work package to verify the functionality of the Pkcs#12 library. 
-// The test data should be in the folder 'c:\data' and the ini files should be in the 'c:\tpkcs12intg\script\ini //		folder'
-// 
+// The test data should be in the folder 'c:\data' and the ini files should be in the folder 'c:\tpkcs12intg\script\ini'
 //
 
 LOAD_SUITE tpkcs12libtest
