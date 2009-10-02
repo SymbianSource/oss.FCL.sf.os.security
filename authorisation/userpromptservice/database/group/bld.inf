@@ -19,10 +19,7 @@
 PRJ_EXPORTS
 
 ../inc/upsdb.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(ups/upsdb.h)
-
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-../inc/upsdbw.h			/epoc32/include/ups/upsdbw.h
-#endif
+../inc/upsdbw.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(ups/upsdbw.h)
 
 
 PRJ_MMPFILES

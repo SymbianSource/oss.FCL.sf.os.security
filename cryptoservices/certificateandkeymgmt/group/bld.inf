@@ -29,7 +29,7 @@ PRJ_EXPORTS
 // specify the source file followed by its destination here
 // copy will be used to copy the source file to its destination
 // If there's no destination then the source file will be copied
-// to the same name in \epoc32\include
+// to the same name in /epoc32/include
 
 ../group/makecertstore.ipr	/epoc32/engdoc/tools/makecertstore.ipr
 
@@ -51,13 +51,9 @@ PRJ_EXPORTS
 ../inc/pkixCertChain_v2.h			SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(pkixcertchain.h)
 ../inc/pkixvalidationresult_v2.h	SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(pkixvalidationresult.h)
 ../inc/x509CertExt_v2.h				SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(x509certext.h)
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-../inc/x509constraintext.h			/epoc32/include/x509constraintext.h
-#endif
+../inc/x509constraintext.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(x509constraintext.h)
 
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-../inc/x509keyencoder.h				/epoc32/include/x509keyencoder.h
-#endif
+../inc/x509keyencoder.h				SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(x509keyencoder.h)
 #ifndef SYMBIAN_ENABLE_SPLIT_HEADERS
 #ifdef SYMBIAN_OLD_EXPORT_LOCATION
 ../inc/x509bitstring.h				/epoc32/include/x509bitstring.h
@@ -67,9 +63,7 @@ PRJ_EXPORTS
 #endif
 #endif
 
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-../inc/swicertstore.h
-#endif
+../inc/swicertstore.h           SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(swicertstore.h)
 
 
 
@@ -80,9 +74,7 @@ PRJ_EXPORTS
 ../inc/wtlsnames.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(wtlsnames.h)
 ../inc/wtlskeys.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(wtlskeys.h)
 ../inc/wtlscertchain.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(wtlscertchain.h)
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-../inc/pkcs7excert.h
-#endif
+../inc/pkcs7excert.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(pkcs7excert.h)
 ../inc/pkcs7issuerserial.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(pkcs7issuerserial.h)
 #ifdef SYMBIAN_OLD_EXPORT_LOCATION
 ../inc/pkcs7signerinfo.h
@@ -114,7 +106,7 @@ PRJ_EXPORTS
 ../certstore/certclients.dat		/epoc32/release/winscw/urel/z/private/101f72a6/certclients.dat
 ../certstore/certclients.dat		/epoc32/data/z/private/101f72a6/certclients.dat
 
-//..\makecertstore\makecertstore.bat \epoc32\tools\makecertstore.bat
+//../makecertstore/makecertstore.bat /epoc32/tools/makecertstore.bat
 
 // ROMKIT includes
 ../inc/CERTMAN.IBY					/epoc32/rom/include/certman.iby

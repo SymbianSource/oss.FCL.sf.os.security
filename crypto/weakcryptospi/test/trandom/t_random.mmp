@@ -26,8 +26,8 @@ TARGETTYPE    EXE
 SOURCEPATH	.
 SOURCE        t_random.cpp
 
-USERINCLUDE ..\inc ..\random
-SYSTEMINCLUDE \epoc32\include
+USERINCLUDE ../inc ../random
+SYSTEMINCLUDE /epoc32/include
 LIBRARY       euser.lib 
 LIBRARY       efsrv.lib random.lib
 

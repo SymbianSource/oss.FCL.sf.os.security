@@ -71,9 +71,6 @@ PRJ_TESTEXPORTS
 ../test/autotesting/searchtags.pl /epoc32/winscw/c/tswi/searchtags.pl
 
 ../test/autotesting/testexecute.ini  /epoc32/winscw/c/system/data/testexecute.ini
-../test/autotesting/SFUpdateLicenceHeader.pl /epoc32/winscw/c/sfupdatelicenceheader.pl
-../test/autotesting/check_for_cpr_lic_issues.pl      /epoc32/winscw/c/check_for_cpr_lic_issues.pl
-../test/autotesting/check_for_cpr_lic_issues.bat     /epoc32/winscw/c/check_for_cpr_lic_issues.bat
 
 // batch files for automated hardware testing
 

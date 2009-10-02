@@ -52,8 +52,6 @@ push(@{$expectedPanicsHash{"tauthcliserv_debug_epocwind.txt"}}, (0,
 	("Thread tauthcliserv.exe::Worker.*Panic AUTHEXPR 64", 3)));
 push(@{$expectedPanicsHash{"tauthsvr2_epocwind.txt"}}, (0,
 	("Thread AuthServer.EXE::Main Panic AuthServer 5", 3)));
-push(@{$expectedPanicsHash{"tpinplugin_epocwind.txt"}}, (0,
-	("Thread tpinplugin.exe::Worker.*Panic PINPLUGIN 1", 2)));
 	
 # crypto - padding related tests expect panics
 push(@{$expectedPanicsHash{"tpaddingudeb_epocwind.txt"}}, (0,

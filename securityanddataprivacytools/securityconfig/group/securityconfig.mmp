@@ -40,7 +40,7 @@ END
 #ifdef __SECURE_DATA__
 TARGETPATH /resource/errors
 #else
-TARGETPATH \System\Errors
+TARGETPATH /System/Errors
 #endif
 
 SMPSAFE

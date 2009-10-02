@@ -17,9 +17,7 @@
 
 
 PRJ_EXPORTS
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-../inc/upsnotifierutil.h		/epoc32/include/ups/upsnotifierutil.h
-#endif
+../inc/upsnotifierutil.h		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(ups/upsnotifierutil.h)
 ../inc/security_ups_utils.iby	/epoc32/rom/include/security_ups_utils.iby
 
 

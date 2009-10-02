@@ -43,6 +43,7 @@ target		tups_notifier.rsc
 end
 
 start resource 	tups_notifierapp.rss
+DEPENDS techview/eikon.rsg
 header
 targetpath 	resource/apps
 end

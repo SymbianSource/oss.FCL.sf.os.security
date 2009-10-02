@@ -21,16 +21,16 @@ TARGETTYPE  exe
 UID             0x1000007A 0x101FE229
 VENDORID 0x70000001
 
-SOURCEPATH  ..\src
+SOURCEPATH  ../src
 SOURCE		tpkixcertserver.cpp	
 SOURCE		pkixcertstepbase.cpp
 SOURCE		apiteststeps.cpp
 SOURCE		validateteststep.cpp
 SOURCE		datetimefatalteststep.cpp
 
-USERINCLUDE   ..\src
-SYSTEMINCLUDE \epoc32\include
-SYSTEMINCLUDE \epoc32\include\test
+USERINCLUDE   ../src
+SYSTEMINCLUDE /epoc32/include
+SYSTEMINCLUDE /epoc32/include/test
 
 LIBRARY     	euser.lib
 LIBRARY		testexecuteutils.lib

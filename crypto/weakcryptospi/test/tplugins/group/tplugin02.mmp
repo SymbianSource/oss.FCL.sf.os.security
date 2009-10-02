@@ -57,7 +57,7 @@ SOURCE		randomimpl.cpp
 
 #ifdef SYMBIAN_SDP_IPSEC_VOIP_SUPPORT
 SOURCE		rijndaelimpl.cpp
-SOURCEPATH 	..\src\tplugin02
+SOURCEPATH 	../src/tplugin02
 SOURCE 		cmacimpl.cpp macimpl.cpp
 #endif
 

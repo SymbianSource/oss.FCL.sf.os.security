@@ -22,16 +22,10 @@
 PRJ_EXPORTS
 
 //SCS Exports
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-../inc/scsclient.h		/epoc32/include/scs/scsclient.h
-#endif
+../inc/scsclient.h		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(scs/scsclient.h)
 ../inc/scsserver.h   	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(scs/scsserver.h)
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-../inc/scscommon.h   	/epoc32/include/scs/scscommon.h
-#endif
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-../inc/scscommon.inl 	/epoc32/include/scs/scscommon.inl
-#endif
+../inc/scscommon.h   	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(scs/scscommon.h)
+../inc/scscommon.inl 	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(scs/scscommon.inl)
 
 #ifndef SYMBIAN_ENABLE_SPLIT_HEADERS
 #ifdef SYMBIAN_OLD_EXPORT_LOCATION
@@ -40,31 +34,15 @@ PRJ_EXPORTS
 #endif
 
 //IPCStream Exports
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-../inc/nullstream.h			/epoc32/include/scs/nullstream.h
-#endif
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-../inc/nullbuf.h			/epoc32/include/scs/nullbuf.h
-#endif
+../inc/nullstream.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(scs/nullstream.h)
+../inc/nullbuf.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(scs/nullbuf.h)
 ../inc/ipcstream.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(scs/ipcstream.h)
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-../inc/ipcstream.inl			/epoc32/include/scs/ipcstream.inl
-#endif
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-../inc/ipcbuf.h				/epoc32/include/scs/ipcbuf.h
-#endif
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-../inc/streamingarray.h		/epoc32/include/scs/streamingarray.h
-#endif
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-../inc/streamingarray.inl	/epoc32/include/scs/streamingarray.inl
-#endif
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-../inc/cleanuputils.h		/epoc32/include/scs/cleanuputils.h
-#endif
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-../inc/cleanuputils.inl		/epoc32/include/scs/cleanuputils.inl
-#endif
+../inc/ipcstream.inl			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(scs/ipcstream.inl)
+../inc/ipcbuf.h				SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(scs/ipcbuf.h)
+../inc/streamingarray.h		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(scs/streamingarray.h)
+../inc/streamingarray.inl	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(scs/streamingarray.inl)
+../inc/cleanuputils.h		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(scs/cleanuputils.h)
+../inc/cleanuputils.inl		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(scs/cleanuputils.inl)
 
 ../inc/scs.iby				/epoc32/rom/include/scs.iby
 ../inc/securitycommonutils.iby				/epoc32/rom/include/securitycommonutils.iby
@@ -75,9 +53,7 @@ PRJ_EXPORTS
 #endif
 
 // Common Log file
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-../inc/securitylog.h		/epoc32/include/scs/securitylog.h
-#endif
+../inc/securitylog.h		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(scs/securitylog.h)
 
 PRJ_MMPFILES
 

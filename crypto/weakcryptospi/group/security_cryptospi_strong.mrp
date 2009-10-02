@@ -8,7 +8,6 @@ source	\sf\os\security\crypto\weakcryptospi\source
 source	\sf\os\security\crypto\weakcryptospi\strong
 source	\sf\os\security\crypto\weakcryptospi\test
 source	\sf\os\security\crypto\weakcryptospi\examples
-source	\sf\os\unref\orphan\comgen\security\wincrypto
 binary  \sf\os\security\crypto\weakcryptospi\strong all
 exports  \sf\os\security\crypto\weakcryptospi\strong
 notes_source	\component_defs\release.src
@@ -34,5 +33,5 @@ ipr export-restricted B \sf\os\security\crypto\weakcryptospi\strong
 ipr export-restricted T \sf\os\security\crypto\weakcryptospi\test
 ipr export-restricted T \sf\os\security\crypto\weakcryptospi\examples
 ipr T \sf\os\security\crypto\weakcryptospi\test\dumpcryptoplugin
-ipr export-restricted E \sf\os\unref\orphan\comgen\security\wincrypto
+
 

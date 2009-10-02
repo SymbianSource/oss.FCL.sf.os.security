@@ -54,7 +54,7 @@ SOURCE		verifierimpl.cpp rsaverifyimpl.cpp rsafunction.cpp
 
 #ifdef SYMBIAN_SDP_IPSEC_VOIP_SUPPORT
 SOURCE		rijndaelimpl.cpp
-SOURCEPATH 	..\src\tplugin01
+SOURCEPATH 	../src/tplugin01
 SOURCE 		cmacimpl.cpp macimpl.cpp
 #endif
 

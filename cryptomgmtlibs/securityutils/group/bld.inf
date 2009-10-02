@@ -25,15 +25,11 @@ PRJ_PLATFORMS
 DEFAULT
 
 PRJ_EXPORTS
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-../inc/euserext.h
-#endif
-../inc/miscutil.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(miscutil.h)
-../inc/callbacktimer.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(callbacktimer.h)
+../inc/euserext.h	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(euserext.h)
+../inc/miscutil.h 	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(miscutil.h)
+../inc/callbacktimer.h 	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(callbacktimer.h)
 
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-../inc/securityerr.h			/epoc32/include/securityerr.h
-#endif
+../inc/securityerr.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(securityerr.h)
 // ROMKIT includes
 ../inc/secutil.iby 		/epoc32/rom/include/secutil.iby
 ../inc/sectcbutil.iby	/epoc32/rom/include/sectcbutil.iby

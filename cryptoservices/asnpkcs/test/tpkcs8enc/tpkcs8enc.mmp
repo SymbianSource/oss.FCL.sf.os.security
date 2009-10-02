@@ -29,11 +29,11 @@ VENDORID 0x70000001
 SOURCEPATH	.
 SOURCE pkcs8Tester.cpp
 
-USERINCLUDE  ..\..\..\..\crypto\weakcrypto\inc
-USERINCLUDE  ..\..\..\filebasedcertificateandkeystores\source\generic\client 
-USERINCLUDE  ..\..\..\filebasedcertificateandkeystores\source\generic\common
-SYSTEMINCLUDE \epoc32\include
-SYSTEMINCLUDE \epoc32\include\ecom
+USERINCLUDE  ../../../../crypto/weakcrypto/inc
+USERINCLUDE  ../../../filebasedcertificateandkeystores/source/generic/client 
+USERINCLUDE  ../../../filebasedcertificateandkeystores/source/generic/common
+SYSTEMINCLUDE /epoc32/include
+SYSTEMINCLUDE /epoc32/include/ecom
 
 LIBRARY	euser.lib efsrv.lib ecom.lib cryptography.lib
 LIBRARY certstore.lib asn1.lib crypto.lib hash.lib
