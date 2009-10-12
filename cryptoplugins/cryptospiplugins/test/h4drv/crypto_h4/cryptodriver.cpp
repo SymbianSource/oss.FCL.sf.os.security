@@ -21,7 +21,7 @@
  @internalComponent
  @released
 */
-#include <cryptodriver.h>
+#include "cryptodriver.h"
 
 /*
   NOTE: The following member functions would normally be exported from a separate client DLL

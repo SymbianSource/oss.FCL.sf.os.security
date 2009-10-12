@@ -21,7 +21,7 @@
 */
 #include "step.h"
 #include "testexecuteinterface.h"
-#include "testhandler2/t_testsetup.h"
+#include "t_testsetup.h"
 
 using namespace TestExecuteInterface;
 

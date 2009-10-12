@@ -34,7 +34,7 @@
 #include <e32std.h>
 #endif
 
-#include <keyhandle.h>
+#include "keyhandle.h"
 
 /** Hardware store LDD filename, as supplied to LoadLogicalDevice. */
 _LIT(KKmsLddFileName, "KMSLDDK");

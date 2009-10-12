@@ -18,6 +18,7 @@
 
 #define             NO_EKERN_LIB
 #include 			"kernel/kern_ext.mmh"
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 SYSTEMINCLUDE		/epoc32/include/drivers
 
 #ifdef MARM

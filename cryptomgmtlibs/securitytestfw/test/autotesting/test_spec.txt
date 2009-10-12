@@ -25,7 +25,7 @@
 ###############################################################################
 {9.5}=Init,Crypto,CryptoTokens,CAF2,Common,Certman,SWI,IntegrityServices,Asnpkcs,Filetokens,SisTools,SwiTools95Only,SwiTools,CryptoSpi,UPS,StreamingCAF,SecurityTools,Misc,ToolsLegacy,UptoMCL
 {9.6}=Init,Crypto,CryptoTokens,CAF2,CAF296,Common,Certman,SWI,Asnpkcs,Filetokens,FileTokens_UseAuth,SisTools,SwiTools,CryptoSpi,UPS,StreamingCAF,SecurityTools,USIF,Misc,ToolsNew,SwiDiran,AuthServer
-{future}=Init,Crypto,CryptoTokens,CAF2,CAF296,Common,Certman,SWI,Asnpkcs,Filetokens,FileTokens_UseAuth,SisTools,SwiTools,CryptoSpi,UPS,AuthServer,StreamingCAF,SecurityTools,USIF,Misc,ToolsNew,SwiDiran
+{future}=Init,Crypto,CryptoTokens,CAF2,CAF296,CAF2Future,Common,Certman,SWI,Asnpkcs,Filetokens,FileTokens_UseAuth,SisTools,SwiTools,CryptoSpi,UPS,AuthServer,StreamingCAF,SecurityTools,USIF,Misc,ToolsNew,SwiDiran
 
 ###############################################################################
 #                               TEST DEFINITION                               #
@@ -134,6 +134,11 @@ TESTEXECUTE, \logs\testexecute\tcafnodrmcap.htm,, z:\tcaf\tcafnodrmcap.script,30
 TESTEXECUTE, \logs\testexecute\RTA_64bit.htm,, z:\RTA\rta_64bit.script,1800, UDEB#UREL,\techview.bat,
 TESTEXECUTE, \logs\testexecute\consumerstep_64bit.htm,, z:\tcaf\consumerstep_64bit.script,1800, UDEB#UREL,\techview.bat,
 
+[CAF2Future]
+# Should run for vfuture onwards.
+TESTEXECUTE, \logs\testexecute\tcafwmdrmsupport.htm,, z:\tcaf\tcafwmdrmsupport.script,1800, UDEB#UREL,\techview.bat,
+TESTEXECUTE, \logs\testexecute\tmtputils.htm,, z:\tcaf\tmtputils\tmtputils.script,1800, UDEB#UREL,\techview.bat,
+TESTEXECUTE, \logs\testexecute\tcafhelper.htm,, z:\tcaf\tcafhelper.script,1800, UDEB#UREL,\techview.bat,
 
 
 [Common]

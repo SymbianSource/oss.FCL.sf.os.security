@@ -65,10 +65,33 @@ sub main {
 			parseLog($entry, \$failed, \$passed);
 			#printf SUMMARY (" %45s: %d tests failed out of %d\r\n", $entry, $failed, $failed+$passed);			
 		}
-		elsif ($entry =~ /\.htm/) 
-		{
-			parseHtm($entry, \$failed, \$passed, \$ntestcasefailed, \$ntestcasepassed);
-			#printf SUMMARY (" %45s: %d tests failed out of %d\r\n", $entry, $ntestcasefailed, $ntestcasepassed+$ntestcasefailed);
+                
+ 		elsif ($entry =~ /\.htm/) 
+ 		{
+		    open (HTML_LOG, "$entry" ) or die("open failed");
+            my $Is_Tef_Htm = 1; 
+
+            while(<HTML_LOG>)
+		    {
+			chomp;
+	
+			my $line  = $_;
+			$line =~ s/\x0//g;
+
+			if ($line =~ /tests failed/)
+			{
+              parseLog($entry, \$failed, \$passed);
+ 			  #printf SUMMARY (" %45s: %d tests failed out of %d\r\n", $entry, $failed, $failed+$passed);			
+              $Is_Tef_Htm = 0;
+            }
+
+            }
+
+	 	    close HTML_LOG;                    
+	        if( $Is_Tef_Htm )
+            {
+	 	      parseHtm($entry, \$failed, \$passed, \$ntestcasefailed, \$ntestcasepassed);
+            }        
 		}
 		if ( $passed > 0 or $failed > 0)
 		{

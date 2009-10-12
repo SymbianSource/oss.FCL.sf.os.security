@@ -18,8 +18,9 @@
 
 
 /**
- @file
- @internalTechnology
+ @file 
+ @publishedPartner
+ @prototype
 */
 
 #ifndef SECURITYUTILS_H

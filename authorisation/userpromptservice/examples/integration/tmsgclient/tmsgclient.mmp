@@ -23,7 +23,7 @@ uid			0x1000008d 0x01000002
 vendorid	0x70000001
 
 userinclude	    ../inc
-systeminclude	/epoc32/include
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 sourcepath	.
 

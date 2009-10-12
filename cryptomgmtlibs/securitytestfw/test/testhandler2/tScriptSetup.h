@@ -19,8 +19,8 @@
 #ifndef __T_SCRIPTSETUP_H__
 #define __T_SCRIPTSETUP_H__
 
-#include <testhandler2/t_testsetup.h>
-#include <testhandler2/tscripttests.h>
+#include "t_testsetup.h"
+#include "tscripttests.h"
 
 //test setup base classes
 _LIT8(KActionStart, "<action>");

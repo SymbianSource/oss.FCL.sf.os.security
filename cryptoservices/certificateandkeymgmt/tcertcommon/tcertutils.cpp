@@ -20,7 +20,7 @@
 #include "tcertutils.h"
 #include <wtlscert.h>
 #include <certificateapps.h>
-#include <testhandler2/t_input.h>
+#include "t_input.h"
 #include <ccertattributefilter.h>
 #include <cctcertinfo.h>
 #include <mctwritablecertstore.h>

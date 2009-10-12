@@ -50,6 +50,7 @@ CListKeys::~CListKeys()
 	{
 	iKeys.Close();
 	iKeysToFind.Close();
+	delete iListStatus;
 	}
 
 CListKeys::CListKeys(RFs& aFs, CConsoleBase& aConsole, Output& aOut)
@@ -77,7 +78,7 @@ void CListKeys::ConstructL(const TTestActionSpec& aTestActionSpec)
 	buf.Set(Input::ParseElement(aTestActionSpec.iActionBody, KListCountStart, KListCountEnd, pos, err));
 	if (err == KErrNone)
 		SetListCount(buf);
-
+	
 	do
 		{
 		buf.Set(Input::ParseElement(aTestActionSpec.iActionBody, 
@@ -86,6 +87,13 @@ void CListKeys::ConstructL(const TTestActionSpec& aTestActionSpec)
 			AddFoundKeyL(buf);
 		} 
 	while (err == KErrNone);
+	
+	// set default outcome as success for listing keys
+	SetListStatus(KErrListingSuccess);
+	buf.Set(Input::ParseElement(aTestActionSpec.iActionBody, KListingStatusStart, KListingStatusEnd, pos, err ));
+		if (err == KErrNone)
+			SetListStatus(buf);
+
 }
 
 
@@ -101,6 +109,16 @@ void CListKeys::SetListCount(const TDesC8& aListCount)
 	{
 	TLex8 lexer(aListCount);
 	lexer.Val(iResultCount);
+	}
+
+void CListKeys::SetListStatus(const TDesC8& aListStatus)
+	{
+	if(iListStatus != NULL)
+		{
+		delete iListStatus;
+		iListStatus = NULL;
+		}
+	iListStatus = aListStatus.AllocL();
 	}
 
 void CListKeys::AddFoundKeyL(const TDesC8& aFoundKey)
@@ -128,16 +146,22 @@ void CListKeys::PerformAction(TRequestStatus& aStatus)
 			{
 			TRequestStatus* status = &aStatus;
 			User::RequestComplete(status, aStatus.Int());
-			if (aStatus == iExpectedResult && (iResultCount < 0 ||
-											   iResultCount == iKeys.Count()))
+			if( iListStatus->Compare(KErrListingFailure) == 0 )
 				{
 				iResult = ETrue;
 				}
 			else
 				{
-				iResult = EFalse;
+				if (aStatus == iExpectedResult && (iResultCount < 0 ||
+												   iResultCount == iKeys.Count()))
+					{
+					iResult = ETrue;
+					}
+				else
+					{
+					iResult = EFalse;
+					}
 				}
-			
 			iActionState = EPostrequisite;				
 			}
 		}
@@ -205,7 +229,7 @@ void CListKeys::DoCheckResult(TInt aError)
 				iOut.writeNewLine();
 
 				TRAPD(err,PrintKeyInfoL(*iKeys[i])); 
-				_LIT(KFailed, "!!!Key listing failure!!!\n");
+				_LIT(KFailed, "!!!Key listing success!!!\n");
 				iConsole.Write(KFailed);
 				iOut.writeString(KFailed);
 				iOut.writeNum(err);

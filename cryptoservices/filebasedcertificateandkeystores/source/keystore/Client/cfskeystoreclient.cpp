@@ -25,7 +25,7 @@
 #include <mctauthobject.h>
 #include <asymmetrickeys.h>
 #include <pbedata.h>
-#include <ct/logger.h>
+#include "ct/logger.h"
 #include <mctkeystoreuids.h>
 
 

@@ -26,7 +26,7 @@
 #include <e32cmn.h>
 #include <e32ver.h>
 #include <e32def.h>
-#include <cryptodriver.h>
+#include "cryptodriver.h"
 
 #define TRACE_FUNCTION(funcName) do{ static TraceFunction tf( __FILE__ , funcName ); tf.Inc(); }while(0)
 

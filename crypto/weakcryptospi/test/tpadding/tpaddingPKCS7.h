@@ -23,7 +23,7 @@
 #include <e32cmn.h>
 
 
-#include <testexecutestepbase.h>
+#include <test/testexecutestepbase.h>
 #include "tpaddingTestSteps.h"
 
 _LIT(KPadPKCS7, "PadPKCS7");

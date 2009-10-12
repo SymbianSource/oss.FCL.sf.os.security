@@ -20,7 +20,7 @@
 #ifndef __TPOLICY_H__
 #define __TPOLICY_H__
 
-#include <testhandler2/t_testaction.h>
+#include "t_testaction.h"
 
 /**
  * This action is used to test whether security policies are correctly enforced.

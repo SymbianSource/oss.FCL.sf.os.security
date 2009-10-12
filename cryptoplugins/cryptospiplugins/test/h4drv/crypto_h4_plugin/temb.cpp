@@ -21,7 +21,7 @@
  @internalComponent
  @released
 */
-#include <cryptodriver.h>
+#include "cryptodriver.h"
 #include <e32base.h>
 #include <e32cons.h>
 #include <e32test.h>
@@ -34,7 +34,7 @@
 #include "keys.h"
 #include <cryptospi/cryptospidef.h>
 #include "cryptosymmetriccipherapi.h"
-#include <kmsclient.h>
+#include "kmsclient.h"
 #include <f32file.h>
 //#include "kmsservercommon.h"
 using namespace CryptoSpi;

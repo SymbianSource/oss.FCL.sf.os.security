@@ -19,8 +19,8 @@
 #ifndef __T_HARDCODEDSETUP_H__
 #define __T_HARDCODEDSETUP_H__
 
-#include <testhandler2/t_testsetup.h>
-#include <testhandler2/thardcodedtests.h>
+#include "t_testsetup.h"
+#include "thardcodedtests.h"
 
 class CTestAction;
 class TTestActionSpec;

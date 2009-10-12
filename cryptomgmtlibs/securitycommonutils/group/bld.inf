@@ -43,14 +43,11 @@ PRJ_EXPORTS
 ../inc/streamingarray.inl	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(scs/streamingarray.inl)
 ../inc/cleanuputils.h		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(scs/cleanuputils.h)
 ../inc/cleanuputils.inl		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(scs/cleanuputils.inl)
+// Security Utils
+../inc/securityutils.h 		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(scs/securityutils.h)
 
 ../inc/scs.iby				/epoc32/rom/include/scs.iby
 ../inc/securitycommonutils.iby				/epoc32/rom/include/securitycommonutils.iby
-
-// Security Utils
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-../inc/securityutils.h 		/epoc32/include/scs/securityutils.h	
-#endif
 
 // Common Log file
 ../inc/securitylog.h		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(scs/securitylog.h)

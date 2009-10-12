@@ -22,7 +22,7 @@
  @released
 */
 #include <kernel/kern_priv.h>
-#include <cryptodriver.h>
+#include "cryptodriver.h"
 #ifdef __MARM__
 #include <omap_hrp/assp/shared/omap_reg.h>
 #include <omap_hrp/assp/shared/omap_interrupt.h>

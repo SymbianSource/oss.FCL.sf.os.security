@@ -70,6 +70,12 @@ PlatSecProcessIsolation ON
 	#include "randomtests.iby"
 	#include "hashtests.iby"
 
+	#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+	#include "mtputils.iby"
+	#include "mtputilstest.iby"
+	#include "refcafhelper.iby"
+	#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+
 #endif
  
 	
@@ -113,16 +119,27 @@ data = ZDRIVE\autohardware\runupstests_9.4.bat			\runupstests.bat
 data = ZDRIVE\autohardware\runpkcs12tests_9.4.bat		\runpkcs12tests.bat
 
 #ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+	data = ZDRIVE\autohardware\runcaftests_wmdrm.bat		\runcaftests.bat
+#else
 	data = ZDRIVE\autohardware\runcaftests_9.6.bat		\runcaftests.bat
+#endif
+
 #else
 	data = ZDRIVE\autohardware\runcaftests_9.5.bat		\runcaftests.bat
 #endif
 
 #ifdef SYMBIAN_CRYPTOSPI
-	data = ZDRIVE\autohardware\runcrypto_9.5.bat	               	\runcrypto.bat
+	#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+		data = ZDRIVE\autohardware\runcrypto_wmdrm.bat	               	\runcrypto.bat
+	#else
+		data = ZDRIVE\autohardware\runcrypto_9.5.bat	               	\runcrypto.bat
+	#endif
 #else
 	data = ZDRIVE\autohardware\runcrypto_9.4.bat	               	\runcrypto.bat
 #endif
+
+
 
 data = ZDRIVE\autohardware\testsecurityperformance_cryptalg.bat	\testsecurityperformance_cryptalg.bat
 data = ZDRIVE\autohardware\testsecurityperformance_crypto.bat	\testsecurityperformance_crypto.bat
@@ -136,7 +153,11 @@ data = ZDRIVE\autohardware\testsecurityperformance_crypto.bat	\testsecurityperfo
 #ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	data = ZDRIVE\autohardware\runfiletokens_useauth.bat		\runfiletokens.bat
 #else
-	data = ZDRIVE\autohardware\runfiletokens_disableauth.bat		\runfiletokens.bat
+	#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+		data = ZDRIVE\autohardware\runfiletokens_disableauth_with_wmdrm.bat		\runfiletokens.bat
+	#else
+		data = ZDRIVE\autohardware\runfiletokens_disableauth.bat		\runfiletokens.bat
+	#endif
 #endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 #else
 	data = ZDRIVE\autohardware\runfiletokens_9.4.bat		\runfiletokens.bat

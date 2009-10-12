@@ -19,7 +19,7 @@
 
 #if (!defined __PADDING_SERVER_H__)
 #define __PADDING_SERVER_H__
-#include <testexecuteserverbase.h>
+#include <test/testexecuteserverbase.h>
 
 class CPaddingServer : public CTestServer
 {

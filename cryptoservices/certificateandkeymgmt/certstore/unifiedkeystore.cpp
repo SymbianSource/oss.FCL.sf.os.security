@@ -372,6 +372,50 @@ void CUnifiedKeyStore::CancelExportPublic()
 		}
 	}
 
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+void CUnifiedKeyStore::Open(const TCTTokenObjectHandle& aHandle,
+                            CryptoSpi::CSigner*& aSigner,
+                            TRequestStatus& aStatus)
+    {
+    if (DoOpen(aHandle, aStatus))
+        {
+        iKeyStore->Open(aHandle, aSigner, iStatus);
+        }
+    }
+
+void CUnifiedKeyStore::Open(const TCTTokenObjectHandle& aHandle,
+                            CryptoSpi:: CAsymmetricCipher*& asymmetricCipherObj,
+                            TRequestStatus& aStatus)
+    {
+    if (DoOpen(aHandle, aStatus))
+        {
+        iKeyStore->Open(aHandle, asymmetricCipherObj, iStatus);
+        }
+    }
+
+void CUnifiedKeyStore::Decrypt(const TCTTokenObjectHandle& aHandle,
+                               const TDesC8& aCiphertext,
+                               HBufC8*& aPlaintextPtr,
+                               TRequestStatus& aStatus)
+    {
+    if (DoOpen(aHandle, aStatus))
+        {
+        iKeyStore->Decrypt(aHandle, aCiphertext, aPlaintextPtr, iStatus);
+        }
+    }
+
+void CUnifiedKeyStore::Sign(const TCTTokenObjectHandle& aHandle,
+                            const TDesC8& aPlaintext,
+                            CryptoSpi::CCryptoParams*& aSignature,
+                            TRequestStatus& aStatus)
+    {
+    if (DoOpen(aHandle, aStatus))
+        {
+        iKeyStore->Sign(aHandle, aPlaintext, aSignature, iStatus);
+        }
+    }
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+
 //	************************************************************************
 //	MKeyStoreManager
 //	************************************************************************

@@ -26,8 +26,7 @@ SOURCE		securityframeworktestserver.cpp
 SOURCE		nooperationteststep.cpp	
 
 USERINCLUDE   ../src
-SYSTEMINCLUDE /epoc32/include
-SYSTEMINCLUDE /epoc32/include/test
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 LIBRARY     	euser.lib
 LIBRARY		testexecuteutils.lib

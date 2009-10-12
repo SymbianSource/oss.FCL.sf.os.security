@@ -15,9 +15,8 @@
 *
 */
 
-
-#include "apgcli.h"
-#include "apmstd.h"
+#include <apgcli.h>
+#include <apmstd.h>
 #include <caf/supplieroutputfile.h>
 
 #include <caf/caftypes.h>

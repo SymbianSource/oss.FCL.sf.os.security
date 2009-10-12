@@ -19,7 +19,7 @@
 #ifndef _TPADDINGSSLV3_H_
 #define _TPADDINGSSLV3_H_
 
-#include <testexecutestepbase.h>
+#include <test/testexecutestepbase.h>
 #include "tpaddingTestSteps.h"
 
 _LIT(KPadSSLv3, "PadSSLv3");

@@ -34,9 +34,9 @@ SOURCEPATH		../test/captestframework
 SOURCE			captestutility.cpp
 
 USERINCLUDE		.
-USERINCLUDE		../inc_private
-SYSTEMINCLUDE	/epoc32/include
-SYSTEMINCLUDE	/epoc32/include/test
+USERINCLUDE		../inc
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 LIBRARY			euser.lib
 LIBRARY			efsrv.lib

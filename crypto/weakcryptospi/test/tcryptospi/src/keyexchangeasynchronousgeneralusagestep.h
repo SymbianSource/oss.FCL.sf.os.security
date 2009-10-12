@@ -24,7 +24,7 @@
 */
 #if (!defined __KEYEXCHANGEASYNCHRONOUSGENERALUSAGE_STEP_H__)
 #define __KEYEXCHANGEASYNCHRONOUSGENERALUSAGE_STEP_H__
-#include <testexecutestepbase.h>
+#include <test/testexecutestepbase.h>
 #include "te_cryptospistepbase.h"
 
 class CKeyExchangeASynchronousGeneralUsageStep : public CTe_CryptoSpiStepBase

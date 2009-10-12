@@ -29,7 +29,7 @@ SOURCE        ../test/thash/thash.cpp
 SOURCE        ../test/thash/hashtestutils.cpp
 
 USERINCLUDE ../inc
-SYSTEMINCLUDE /epoc32/include
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 LIBRARY       euser.lib efsrv.lib hash.lib charconv.lib
 
 VENDORID 0x70000001

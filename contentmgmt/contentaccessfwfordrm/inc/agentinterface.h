@@ -78,7 +78,7 @@ namespace ContentAccess
 		 
 		 @see DataSizeL(TInt &aSize)
 		*/
-		virtual void DataSize64L(TInt64 &aSize);
+		IMPORT_C virtual void DataSize64L(TInt64 &aSize);
 #endif //SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
 		
 		/**
@@ -220,7 +220,7 @@ namespace ContentAccess
 		 					this function will not have any effect.
 		 @capability DRM Access to DRM protected content is not permitted for processes without DRM capability. Access to unprotected content is unrestricted 
 		*/
-		virtual void ReadCancel(TRequestStatus& aStatus);
+		IMPORT_C virtual void ReadCancel(TRequestStatus& aStatus);
 
 		/**
 		 Changes or retrieves the location of the file pointer within 
@@ -265,7 +265,7 @@ namespace ContentAccess
 		  
 		  @see Seek(TSeek aMode, TInt& aPos)
 		*/
-		virtual TInt Seek64(TSeek aMode, TInt64& aPos);
+		IMPORT_C virtual TInt Seek64(TSeek aMode, TInt64& aPos);
 #endif //SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
 		
 		/** 
@@ -363,7 +363,7 @@ namespace ContentAccess
 		 @return KErrCANotSupported if the agent does not support this operation.
 		 @capability DRM Access to DRM protected content is not permitted for processes without DRM capability. Access to unprotected content is unrestricted 
 		*/
-		virtual TInt Read(TInt aPos, TDes8& aDes, TInt aLength, TRequestStatus& aStatus);
+		IMPORT_C virtual TInt Read(TInt aPos, TDes8& aDes, TInt aLength, TRequestStatus& aStatus);
 		
 #ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
 		/**  
@@ -374,8 +374,40 @@ namespace ContentAccess
 		 
 		 @see Read(TInt aPos, TDes8& aDes, TInt aLength, TRequestStatus& aStatus)
 		*/
-		virtual TInt Read64(TInt64 aPos, TDes8& aDes, TInt aLength, TRequestStatus& aStatus);
+		IMPORT_C virtual TInt Read64(TInt64 aPos, TDes8& aDes, TInt aLength, TRequestStatus& aStatus);
 #endif //SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+		/**
+		Decrypts the encrypted input data packet.Default implementation of this method returns KErrCANotSupported.
+		
+		@param aEncryptedInputDataPacket	Buffer descriptor containing the encrypted data packet supplied by client application. 
+		@param aDecryptedOutputDataPacket	Buffer descriptor supplied by the client application into which the decrypted data is written.
+											The length of this descriptor must be equal to or greater than the input packet.
+		@return								KErrNone if successful or KErrInsuffcientDataPacketLength, if a part of input data packet
+											is provided for decryption.Otherwise one of the CAF error codes defined in \c caferr.h  or 
+		 									one of the other system-wide error.
+		@capability 						DRM Access to DRM protected content is not permitted for processes without DRM capability.
+											Access to unprotected content is unrestricted.
+		*/
+		IMPORT_C virtual TInt Read(const TDesC8& aEncryptedInputDataPacket, TDes8& aDecryptedOutputDataPacket);
+		
+		
+		/**
+		Decrypts the encrypted input data packet asynchronously.Default implementation of this method returns KErrCANotSupported.
+	
+		@param aEncryptedInputDataPacket	Buffer descriptor containing the encrypted data packet supplied by client application. 
+		@param aDecryptedOutputDataPacket	Buffer descriptor supplied by the client application into which the decrypted data is written.
+											The length of this descriptor must be equal to or greater than the input packet.
+		@param aStatus						Asynchronous request status. On completion this will contain one of the following error codes:
+											KErrNone if the data packet was successfully decrypted or KErrInsuffcientDataPacketLength, if a part of input data packet
+											is provided for decryption.Otherwise one of the CAF error codes defined in \c caferr.h  or 
+		 									one of the other system-wide error codes.
+		@capability 						DRM Access to DRM protected content is not permitted for processes without DRM capability.
+										    Access to unprotected content is unrestricted. 
+		*/
+		IMPORT_C virtual void Read(const TDesC8& aEncryptedInputDataPacket, TDes8& aDecryptedOutputDataPacket, TRequestStatus& aStatus);
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 		};
 
 	/**	Defines the agent interface allowing clients to browse the objects 
@@ -1422,6 +1454,95 @@ namespace ContentAccess
   		@capability DRM Copying DRM protected files is not permitted for processes without DRM capability. Copying unprotected files is permitted
 		*/
 		IMPORT_C virtual TInt CopyFile(RFile& aSource, const TDesC& aDestination);
+		
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+		/** 
+		Identifies whether or not the WMDRM content is handled by this agent using the header
+		data of WMDRM file or stream content.
+		
+		The agent should leave only if a temporary or permanent condition prevents it from knowing
+		whether it can detect the content's type.
+
+		@param aHeaderData	Header data of WMDRM file or stream content.
+	    @return ETrue 		If this agent recognises the given content. 
+		*/
+		IMPORT_C virtual TBool IsRecognizedL(const TDesC8& aHeaderData) const;
+		
+		/** 
+		 Determines whether or not the WMDRM content is recognized by this agent. 
+		 If it is recognized, the agent will populate the file and content mime 
+		 type. 
+		 
+		 The agent should leave only if a temporary or permanent condition prevents it from 
+		 detecting content's type.
+
+		 @param aHeaderData			Header data of WMDRM content.
+		 @param aFileMimeType 		Used to return the mime type of the content to the caller.
+		 @param aContentMimeType	Used to return the mime type of the content embedded within the file to the caller. This field should be zero length if there is no embedded content.
+	     @return					Whether or not the content was recognized.
+ 		 @return ETrue 				If the content is handled by this agent. The aFileMimeType and aContentMimeType were updated.
+		 @return EFalse 			If the content was not recognized by this agent.
+		 */
+		IMPORT_C virtual TBool RecognizeContentL(const TDesC8& aHeaderData, TDes8& aFileMimeType, TDes8& aContentMimeType) const;
+		
+		/**  Get an attribute from WMDRM content.
+	
+		@param aHeaderData	Header data of WMDRM content.
+		@param aAttribute	The attribute to retrieve from ContentAccess::TAttribute.
+		@param aValue		Used to return the value of the attribute.
+		
+		@return				KErrNone if the attribute value was updated.
+		@return				KErrCANotSupported if the requested attribute is not supported for this content.
+		@return				Otherwise one of the other CAF error codes defined in \c caferr.h  or one of the 
+							other system-wide error codes for any other errors.
+		@capability DRM 	Access to DRM protected content is not permitted for processes without DRM capability. Access to unprotected content is unrestricted. 
+		*/
+		IMPORT_C virtual TInt GetAttribute(const TDesC8& aHeaderData, TInt aAttribute, TInt& aValue);
+		
+		/** Get a set of attributes from WMDRM content.
+
+		@param aHeaderData		Header data of WMDRM content.
+		@param aAttributeSet	The set of attributes to query and update.
+		
+		@return 				KErrNone if the attribute set was updated successfully.
+		@return 				Otherwise one of the other CAF error codes defined in \c caferr.h  or one of the 
+								other system-wide error codes for any other errors.
+		@capability DRM 		Access to DRM protected content is not permitted for processes without DRM capability. Access to unprotected content is unrestricted. 
+		*/
+		IMPORT_C virtual TInt GetAttributeSet(const TDesC8& aHeaderData, RAttributeSet& aAttributeSet);
+		
+		
+		/**  Get text string attributes or meta-data from WMDRM content.
+
+		@param aHeaderData	Header data of WMDRM content.
+		@param aAttribute	The attribute to retrieve from ContentAccess::TStringAttribute.
+		@param aValue		Used to return the value of the attribute.
+		
+		@return				KErrNone if the attribute was retrieved successfully.
+		@return				KErrNotFound if the content object does not exist.
+		@return				KErrCANotSupported if the requested attribute does not apply to this content object.
+		@return				KErrOverflow if the buffer was not large enough to return the result.
+		@return				Otherwise one of the other CAF error codes defined in \c caferr.h  or one of the 
+							other system-wide error codes for any other errors.
+		@capability DRM 	Access to DRM protected content is not permitted for processes without DRM capability. Access to unprotected content is unrestricted. 
+		*/
+		IMPORT_C virtual TInt GetStringAttribute(const TDesC8& aHeaderData, TInt aAttribute, TDes& aValue);
+		
+		/** Used to obtain a set of string attributes from WMDRM content.
+
+		@param aStringAttributeSet	The set of attributes to query and update.
+		@param aHeaderData			Header data of WMDRM content.
+	
+		@return 					KErrNone if the attribute set was updated successfully.
+		@return 					KErrNotFound if the object with the given virtual path was not found.
+		@return 					Otherwise one of the other CAF error codes defined in \c caferr.h  or one of the 
+									other system-wide error codes for any other errors.
+		@capability DRM 			Access to DRM protected content is not permitted for processes without DRM capability. Access to unprotected content is unrestricted. 
+		*/
+		IMPORT_C virtual TInt GetStringAttributeSet(const TDesC8& aHeaderData, RStringAttributeSet& aStringAttributeSet);
+
+
+#endif //#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 		
 		};
 

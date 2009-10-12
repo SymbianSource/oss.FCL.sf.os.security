@@ -23,7 +23,7 @@
 /**
  @file
 */
-#include <scs/rtestwrapper.h>
+#include "rtestwrapper.h"
 #include <e32base.h>
 #include <f32file.h>
 

@@ -22,9 +22,9 @@
  @released
 */
 #include <kernel/kern_priv.h>
-#include <cryptodriver.h>
+#include "cryptodriver.h"
 #include "cryptoldd.h"
-#include <keyhandle.h>
+#include "keyhandle.h"
 #include "kmskext.h"
 
 DECLARE_STANDARD_LDD()

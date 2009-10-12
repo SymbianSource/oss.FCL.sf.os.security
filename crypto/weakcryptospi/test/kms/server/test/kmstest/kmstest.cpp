@@ -23,7 +23,7 @@
 
 
 #include <e32test.h>
-#include <kmsclient.h>
+#include "kmsclient.h"
 #include "kmsservercommon.h"
 
 #include "kmstest.h"

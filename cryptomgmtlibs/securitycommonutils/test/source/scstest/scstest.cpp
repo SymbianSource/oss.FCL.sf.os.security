@@ -24,7 +24,7 @@
 
 #include <e32ldr.h>
 #include <f32file.h>
-#include <scs/rtestwrapper.h>
+#include "rtestwrapper.h"
 
 #include <scs/scscommon.h>
 #include "scstestcommon.h"

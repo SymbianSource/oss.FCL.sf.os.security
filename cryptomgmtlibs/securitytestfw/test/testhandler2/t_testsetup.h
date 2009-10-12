@@ -30,7 +30,7 @@
 #define DEFAULTGROUPING		SMOKE
 
 #include <e32base.h>
-#include <testhandler2/t_output.h>
+#include "t_output.h"
 
 class CTestHandlerSettings;
 struct TScriptTests;

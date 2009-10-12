@@ -28,7 +28,7 @@
 #include <test/tefexportconst.h>
 #include <ups/upsclient.h>
 #include "tupstesteractive.h"
-#include <test/tups_clientapi_sysserver.h>
+#include "tups_clientapi_sysserver.h"
 
 
 class CUPSTestServer : public CServer2

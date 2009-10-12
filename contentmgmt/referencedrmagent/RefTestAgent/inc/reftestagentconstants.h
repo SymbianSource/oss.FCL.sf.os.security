@@ -39,6 +39,15 @@ _LIT(KRtaExtensionPostAcquisitionRights, ".dr");
 _LIT(KRtaDefaultOutputDirectory, "c:\\");
 _LIT(KRtaDefaultOutputFile, "output");
 
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+      
+// Asf header object GUID.
+_LIT8(KRtaAsfHeaderObject, "75B22630668E11CFA6D900AA0062CE6C");
+_LIT8(KRtaWmaContentType, "audio/x-ms-wma");
+_LIT(KRtaWmdrmFileExtension, ".asf");
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+      
+
 // combine KRtaDefaultOutputDirectory, KRtaDefaultOutputFile and
 // KRtaExtensionContent
 _LIT(KRtaDefaultOutputPath, "c:\\output.content");

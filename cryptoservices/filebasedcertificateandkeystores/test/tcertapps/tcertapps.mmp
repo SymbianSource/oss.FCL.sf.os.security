@@ -29,7 +29,7 @@ SOURCE t_certapps_actions.cpp
 USERINCLUDE ../../../../cryptomgmtlibs/securitytestfw/test/testhandler2
 USERINCLUDE ../../Inc\
 
-SYSTEMINCLUDE /epoc32/include /epoc32/include/ct
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 LIBRARY	euser.lib efsrv.lib
 LIBRARY t_testhandler2.lib

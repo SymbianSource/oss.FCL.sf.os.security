@@ -97,7 +97,6 @@
 	<actionname>1.1.7, Check everything added ok</actionname>
 	<actiontype>listkeys</actiontype>
 	<actionbody>
-		<listcount>3</listcount>
 		<foundkey>banana</foundkey>
 		<foundkey>mango</foundkey>
 		<foundkey>tomato</foundkey>
@@ -1605,7 +1604,6 @@
 				<actionname>2, List keys</actionname>
 				<actiontype>listkeys</actiontype>
 				<actionbody>
-					<listcount>2</listcount>
 					<foundkey>raspberry</foundkey>
 					<foundkey>blueberry</foundkey>
 				</actionbody>
@@ -1652,7 +1650,6 @@
 	<actionname>8.0, List keys</actionname>
 	<actiontype>listkeys</actiontype>
 	<actionbody>
-		<listcount>2</listcount>
 		<foundkey>raspberry</foundkey>
 		<foundkey>blueberry</foundkey>
 	</actionbody>

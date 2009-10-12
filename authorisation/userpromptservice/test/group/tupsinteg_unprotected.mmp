@@ -38,9 +38,8 @@ SOURCE      tupscoordinatorstep.cpp
 USERINCLUDE  ../tups/src
 USERINCLUDE ../include 
 
-SYSTEMINCLUDE /epoc32/include
-SYSTEMINCLUDE /epoc32/include/ups
-SYSTEMINCLUDE /epoc32/include/test
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 //Please add your system include under here. 
 

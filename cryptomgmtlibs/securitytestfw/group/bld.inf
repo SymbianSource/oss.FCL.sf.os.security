@@ -36,12 +36,6 @@ PRJ_TESTEXPORTS
 #ifdef SYMBIAN_OLD_EXPORT_LOCATION
 ../inc/rtestwrapper.h /epoc32/include/scs/rtestwrapper.h
 #endif
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-../inc/captestframework.h /epoc32/include/captestframework/captestframework.h
-#endif
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-../inc/captestutility.h /epoc32/include/captestframework/captestutility.h
-#endif
 ../inc/securitytestframework.iby	/epoc32/rom/include/securitytestframework.iby
 
 // configuration file for the CommsDB set up
@@ -96,6 +90,10 @@ PRJ_TESTEXPORTS
 	../test/autotesting/testsecurityonlyjava.bat /epoc32/winscw/c/autohardware/testsecurityonlyjava.bat
 #endif
 
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+	../test/autotesting/runcrypto_wmdrm.bat /epoc32/winscw/c/autohardware/runcrypto_wmdrm.bat
+	../test/autotesting/runfiletokens_disableauth_with_wmdrm.bat /epoc32/winscw/c/autohardware/runfiletokens_disableauth_with_wmdrm.bat
+#endif
 #ifdef SYMBIAN_CRYPTOSPI
 	../test/autotesting/runcrypto_9.5.bat /epoc32/winscw/c/autohardware/runcrypto_9.5.bat
 #else
@@ -128,6 +126,11 @@ PRJ_TESTEXPORTS
 
 ../test/autotesting/runcaftests_9.5.bat /epoc32/winscw/c/autohardware/runcaftests_9.5.bat
 ../test/autotesting/runcaftests_9.6.bat /epoc32/winscw/c/autohardware/runcaftests_9.6.bat
+
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+../test/autotesting/runcaftests_wmdrm.bat /epoc32/winscw/c/autohardware/runcaftests_wmdrm.bat
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+
 ../test/autotesting/autoexec.bat /epoc32/winscw/c/autohardware/autoexec.bat
 
 // ROMKIT includes

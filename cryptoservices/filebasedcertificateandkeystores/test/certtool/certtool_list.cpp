@@ -27,6 +27,9 @@ _LIT(KCaType, "ca");
 _LIT(KUserType, "user");
 _LIT(KPeerType, "peer");
 
+// The number of certificates being listed at a time.
+#define LIST_COUNT 30
+
 /*static*/ CCertToolList* CCertToolList::NewLC(CCertToolController* aController)
 	{
 	CCertToolList* self = new (ELeave) CCertToolList(aController);
@@ -107,6 +110,35 @@ void CCertToolList::DoCommandL(CUnifiedCertStore& aCertStore, CKeyToolParameters
 	SetActive();	
 	}
 	
+	
+
+
+void CCertToolList::InitializeIterations()
+    { 	
+	// Initialize the current list count and iCurrentListOffset with default LIST_COUNT.
+    iCurrentListCount = iCurrentListOffset = LIST_COUNT;				
+			
+    if (iCertInfos.Count() < LIST_COUNT)
+        {
+        iCurrentListCount = iCurrentListOffset = iCertInfos.Count();
+        }
+				    
+    // Compute the number of iterations for listing.    
+    // The latter operation is to add another iteration count if iCertInfos 
+    // count is not an exact multiple of LIST_COUNT.
+	iNumberOfIterationsLeft =  (iCertInfos.Count() / LIST_COUNT) + !!(iCertInfos.Count() % LIST_COUNT);   
+								
+
+   // Initialize the last iteration offset with default LIST_COUNT.				
+   iLastIterationOffset = LIST_COUNT;		
+                		
+   if (iCertInfos.Count() % LIST_COUNT)
+       {
+       // If the number of certificates is not an exact multiple of default LIST_COUNT.
+   	   iLastIterationOffset = (iCertInfos.Count() % LIST_COUNT);        			 
+       }
+   }       
+	
 void CCertToolList::RunL()
 	{
 	if (iStatus.Int() != KErrNone)
@@ -116,7 +148,7 @@ void CCertToolList::RunL()
 			// A problem occured. Handle gracefully.
 			User::Leave(iStatus.Int());	
 			}
-		}
+		}		
 		
 	switch (iState)
 		{
@@ -159,6 +191,10 @@ void CCertToolList::RunL()
 						}						
 					KeyToolUtils::FilterCertsL(iCertInfos, ownerType);
 					}
+
+               
+                InitializeIterations();   
+
   				iState = ERetrieve;
   				iIndex = 0;
 				if (iIndex <= (iCertInfos.Count()-1 ))
@@ -176,20 +212,28 @@ void CCertToolList::RunL()
 			break;
 		case ERetrieve :
 			{
+            // This marks the beginning of the current iteration.           
+			// Retrieve all the certificates up to the current list count.            
+                       
 			iParsedCerts.Append(iCertificate);
 			iIndex++;
-			if (iIndex <= (iCertInfos.Count()-1 ))
-				{
-				iCertStore->Retrieve(*iCertInfos[iIndex], iCertificate, iStatus);
-				SetActive();
-				}
+
+			if (iIndex < iCurrentListCount)
+			    {
+			    iCertStore->Retrieve(*iCertInfos[iIndex], iCertificate, iStatus);            
+			    SetActive();
+			    }
 			else
-				{
-				iState = EGetApps;
-				iIndex = 0;
-				iCertStore->Applications(*iCertInfos[iIndex], iApps, iStatus);
-				SetActive();
-				}
+			    {                
+			    iState = EGetApps;
+                                                 
+			    // Start getting the applications starting from the iIndex(current list's beginning). 
+			    iIndex = iCurrentListCount - iCurrentListOffset;
+			    RUidArray t;
+			    iApps = t;
+			    iCertStore->Applications(*iCertInfos[iIndex], iApps, iStatus);
+			    SetActive();
+			    }
 			}
 			break;
 		case EGetApps :
@@ -197,20 +241,24 @@ void CCertToolList::RunL()
 			iCertApps.Append(iApps);
 
 			iIndex++;
-			if (iIndex <= (iCertInfos.Count()-1 ))
-				{
-				RUidArray t;
-				iApps = t;				
-				iCertStore->Applications(*iCertInfos[iIndex], iApps, iStatus);
-				SetActive();
-				}
+
+			// Get all the applications up to the current list count.            
+			if (iIndex < iCurrentListCount)
+			    {      
+			    RUidArray t;
+			    iApps = t;				
+			    iCertStore->Applications(*iCertInfos[iIndex], iApps, iStatus);
+			    SetActive();
+			    }
 			else
-				{
-				iState = EGetTrust;
-				iIndex = 0;
-				iCertStore->Trusted(*iCertInfos[iIndex], iTrust, iStatus);
-				SetActive();
-				}			
+			    {
+			    iState = EGetTrust;
+                                
+		    	// Start getting the trust starting from the iIndex(current list's beginning). 
+			    iIndex = iCurrentListCount - iCurrentListOffset;                
+			    iCertStore->Trusted(*iCertInfos[iIndex], iTrust, iStatus);
+			    SetActive();
+			    }			
 			}
 			break;
 		case EGetTrust :
@@ -218,21 +266,67 @@ void CCertToolList::RunL()
 			iCertTrust.Append(iTrust);
 
 			iIndex++;
-			if (iIndex <= (iCertInfos.Count()-1 ))
-				{
-				iCertStore->Trusted(*iCertInfos[iIndex], iTrust, iStatus);
-				SetActive();
-				}
-			else
-				{
-				iState = EFinished;
-				TInt certCount = iCertInfos.Count();
-				for (TInt i = 0; i < certCount; i++)
- 					{
- 					iController->DisplayCertL(*iCertInfos[i], *iParsedCerts[i], iCertApps[i], iCertTrust[i], iParams->iIsDetailed, iParams->iPageWise);
- 					}
-				CActiveScheduler::Stop();
-				}			
+	
+  			// Get all the trust up to the current list count. 
+  			if (iIndex < iCurrentListCount) 
+		            {
+		            iCertStore->Trusted(*iCertInfos[iIndex], iTrust, iStatus);
+		            SetActive();
+		            }
+  			else 
+		            {
+                    // Update the number of iterations.                  
+                    iNumberOfIterationsLeft--;                                        
+
+                    // Check if this happens to be the last iteration. If so, adjust the list offset.                                                                    
+			        if (iNumberOfIterationsLeft == 0)
+			            {
+			            iCurrentListOffset = iLastIterationOffset;
+			            }                                
+                                
+		            // We are done with the current list processing, it's time to display the collected data.                
+		            TInt DisplayOffset = iCurrentListOffset;
+                    
+             	    // Display(list) the certificates just processed.  This marks the end of the current iteration.    
+		            for (TInt i = iIndex - DisplayOffset; i < iCurrentListCount; i++)
+		                 {
+		                 iController->DisplayCertL(*iCertInfos[i], *iParsedCerts[i], iCertApps[i], iCertTrust[i], iParams->iIsDetailed, iParams->iPageWise);                      
+	                         if (iParsedCerts[i] )
+		                     {
+		                     delete iParsedCerts[i];  // Relinquish the resources for facilitating the subsequent listing.
+		                     iParsedCerts[i] = 0;     
+		                     }
+		                 }                 
+                
+    	                    // How many more are remaining??
+		            TInt RemainingListCount = iCertInfos.Count() - iCurrentListCount;                
+                
+
+                            if (RemainingListCount == 0)
+		                {
+            	                iState = EFinished;
+		                CActiveScheduler::Stop();
+		                break;
+		                }                                                    
+                
+		            if (RemainingListCount < LIST_COUNT)
+		                {       
+                        // Total number of certificates is not an exact multiple of default LIST_COUNT.
+                        // Last iteration will have the list count lesser than the default LIST_COUNT.
+                        // So, only one iteration is left.
+		                iCurrentListCount += RemainingListCount;
+		                }
+		            else
+		                {
+                                //  Still a few more are left.
+	                        iCurrentListCount += LIST_COUNT;
+		                }
+                  
+		            // Start the next iteration.   
+		            iState = ERetrieve;               
+		            iCertStore->Retrieve(*iCertInfos[iIndex], iCertificate, iStatus);
+		            SetActive();                                         
+		            }			
 			}
 			break;
 		case EFinished :

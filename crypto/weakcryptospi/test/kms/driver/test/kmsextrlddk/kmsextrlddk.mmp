@@ -22,7 +22,9 @@
 target			kmsextrlddk.ldd
 targettype		ldd
 
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 userinclude		../../../private_include/product
+userinclude		../../../exported_include
 userinclude		../../../private_include/test
 
 sourcepath		.

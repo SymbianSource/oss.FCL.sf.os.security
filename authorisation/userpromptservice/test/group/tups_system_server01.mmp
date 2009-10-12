@@ -30,9 +30,7 @@ source tupstesteractive.cpp
 userinclude .
 userinclude ../include 
 
-systeminclude   /epoc32/include
-systeminclude   /epoc32/include/ups
-systeminclude   /epoc32/include/test
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 library         euser.lib
 library		upsclient.lib

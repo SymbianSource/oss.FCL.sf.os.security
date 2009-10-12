@@ -32,8 +32,7 @@ SOURCE pkcs8Tester.cpp
 USERINCLUDE  ../../../../crypto/weakcrypto/inc
 USERINCLUDE  ../../../filebasedcertificateandkeystores/source/generic/client 
 USERINCLUDE  ../../../filebasedcertificateandkeystores/source/generic/common
-SYSTEMINCLUDE /epoc32/include
-SYSTEMINCLUDE /epoc32/include/ecom
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 LIBRARY	euser.lib efsrv.lib ecom.lib cryptography.lib
 LIBRARY certstore.lib asn1.lib crypto.lib hash.lib

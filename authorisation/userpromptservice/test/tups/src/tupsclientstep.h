@@ -28,7 +28,7 @@
 #include <bautils.h>
 #include <swi/swispubsubdefs.h>
 #include "tupsintegstepbase.h"
-#include <test/tups_clientapi_sysserver.h>
+#include "tups_clientapi_sysserver.h"
 #include "tupsproperty.h"
 
 class TServiceRequestParameters

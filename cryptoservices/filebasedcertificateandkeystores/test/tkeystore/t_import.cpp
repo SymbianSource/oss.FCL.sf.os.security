@@ -30,6 +30,9 @@
 #include <x509cert.h>
 #include <x509keys.h>
 
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+#include "tcryptotokenhai.h"
+#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
 
 /////////////////////////////////////////////////////////////////////////////////
 // CImportKey
@@ -64,6 +67,13 @@ CImportKey::~CImportKey()
 		{
 		iKeyInfo->Release();
 		}
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+	if(iImportHardwareType)
+		{
+		delete iPublicKey;
+		delete iPrivateKey;
+		}
+#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
 }
 
 CImportKey::CImportKey(RFs& aFs,CConsoleBase& aConsole, Output& aOut) :
@@ -82,6 +92,20 @@ void CImportKey::ConstructL(const TTestActionSpec& aTestActionSpec)
 	iImportFileName = HBufC8::NewL(256); // Reasonable max length of a file name
 	TPtr8 temp(iImportFileName->Des());
 	temp.Copy(Input::ParseElement(aTestActionSpec.iActionBody, KImportDataFile, KImportDataFileEnd, pos, err));
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+	if(iHardwareType)
+		{
+		TPtrC8 buffer;
+		buffer.Set(Input::ParseElement(aTestActionSpec.iActionBody, KPublicKeyStart, KPublicKeyEnd, pos, err));
+		iPublicKey = HBufC8::NewMaxL(buffer.Length());
+		TPtr8 publicKeyPtr = iPublicKey->Des();
+		publicKeyPtr.Copy(buffer);
+		buffer.Set(Input::ParseElement(aTestActionSpec.iActionBody, KPrivateKeyStart, KPrivateKeyEnd, pos, err));
+		iPrivateKey = HBufC8::NewMaxL(buffer.Length());
+		TPtr8 privateKeyPtr = iPrivateKey->Des();
+		privateKeyPtr.Copy(buffer);
+		}
+#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
 }
 
 void CImportKey::SetKeyDataFileL(const TDesC8& aDes)
@@ -137,7 +161,15 @@ void CImportKey::PerformAction(TRequestStatus& aStatus)
 		{
 		case EImportKey:
 			{
-			TRAPD(result, SetKeyDataFileL(*iImportFileName));
+			TInt result = KErrNone;
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+			if(iHardwareType == 0)
+				{
+#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
+				TRAP(result, SetKeyDataFileL(*iImportFileName));
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+				}
+#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
 			if (KErrNone != result) 
 				{
 				iState = EFinished;			
@@ -147,18 +179,52 @@ void CImportKey::PerformAction(TRequestStatus& aStatus)
 				}
                     
 			CUnifiedKeyStore* keyStore = CSharedKeyStores::TheUnifiedKeyStores().operator[](iKeystore);
-			#ifdef SYMBIAN_AUTH_SERVER
-			if(iUseNewApi)
+			if(iKeyStoreImplLabel.Length() != 0)
 				{
-				keyStore->ImportKey(0, iKeyData->Des(), iUsage, *iLabel, iAccessType,
-									TTime(0), TTime(0), *iAuthExpression, iFreshness, iKeyInfo, aStatus);
+				SetKeyStoreIndex(keyStore);
+				}
+			
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+			if(iHardwareType)
+				{
+				MCTToken* token = NULL;
+				CCryptoTokenHai* cryptoTokenHai = NULL;
+				TRAP(result, cryptoTokenHai = CCryptoTokenHai::NewL(token));
+				if (KErrNone != result) 
+                    {
+                    iState = EFinished;         
+                    TRequestStatus *status = &aStatus;
+                    User::RequestComplete(status,result);
+                    break;          
+                    }
+				TRAP(result, cryptoTokenHai->ImportKeyL(iLabel->Des(),iPrivateKey->Des(),iPublicKey->Des()));
+				                
+				TRequestStatus *status = &aStatus;
+				if (KErrNone != result) 
+                    {
+                    User::RequestComplete(status,result);
+                    }
+				else
+				    {
+				    User::RequestComplete(status, aStatus.Int());
+				    }
 				}
 			else
-			#endif // SYMBIAN_AUTH_SERVER
+#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
 				{
-				keyStore->ImportKey(0, iKeyData->Des(), iUsage, *iLabel, iAccessType,
-									TTime(0), TTime(0), iKeyInfo, aStatus);
-				}
+				#ifdef SYMBIAN_AUTH_SERVER
+				if(iUseNewApi)
+					{
+					keyStore->ImportKey(iKeyStoreImplIndex, iKeyData->Des(), iUsage, *iLabel, iAccessType,
+										TTime(0), TTime(0), *iAuthExpression, iFreshness, iKeyInfo, aStatus);
+					}
+				else
+				#endif // SYMBIAN_AUTH_SERVER
+					{
+					keyStore->ImportKey(iKeyStoreImplIndex, iKeyData->Des(), iUsage, *iLabel, iAccessType,
+										TTime(0), TTime(0), iKeyInfo, aStatus);
+					}
+				} // else
 			iState = EFinished;
 			}		
 			break;

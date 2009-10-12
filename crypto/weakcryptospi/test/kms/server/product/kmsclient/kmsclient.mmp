@@ -21,9 +21,10 @@ targettype		dll
 
 uid				0x0 0x102833BE
 
-systeminclude	/epoc32/include
-
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 userinclude		../../../private_include/product
+userinclude		../../../exported_include
+
 
 sourcepath		.
 source			kmsclient.cpp

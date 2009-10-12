@@ -29,7 +29,7 @@ uid				0x0 0x10283697
 vendorid		0x70000001
 
 userinclude		.
-systeminclude	/epoc32/include
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 sourcepath		../source
 source			testpolicyevaluator.cpp

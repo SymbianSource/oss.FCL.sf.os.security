@@ -32,8 +32,9 @@ source			tupsstep.cpp
 source          	tuiscriptadaptors.cpp
 userinclude		.  
 
-systeminclude   /epoc32/include
-systeminclude   /epoc32/include/test
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+
 
 userinclude ../../inc
 userinclude ../../../../cryptomgmtlibs/securityutils/inc

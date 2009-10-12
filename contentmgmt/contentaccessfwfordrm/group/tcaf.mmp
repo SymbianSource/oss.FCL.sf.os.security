@@ -39,16 +39,16 @@ SOURCE		CafutilsStep.cpp
 SOURCE		CleanupStep.cpp
 SOURCE		namespacestep.cpp
 
+USERINCLUDE		../../referencedrmagent/RefTestAgent/inc
 USERINCLUDE		../../referencedrmagent
 USERINCLUDE		../../referencedrmagent/contentiterator 
 USERINCLUDE		../source/reccaf 
 USERINCLUDE		../source/caf
+USERINCLUDE		../inc
 
-SYSTEMINCLUDE	/epoc32/include
-SYSTEMINCLUDE	/epoc32/include/caf
-SYSTEMINCLUDE	/epoc32/include/test
-SYSTEMINCLUDE	/epoc32/include/ecom
-SYSTEMINCLUDE	/epoc32/include/libc
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_LIBC_SYSTEMINCLUDE
 
 LIBRARY		euser.lib
 LIBRARY		testexecuteutils.lib

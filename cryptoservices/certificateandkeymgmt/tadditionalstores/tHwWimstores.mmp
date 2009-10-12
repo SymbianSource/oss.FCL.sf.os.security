@@ -39,9 +39,7 @@ SOURCE tadditionalstoreentries.cpp
 
 USERINCLUDE ../../../crypto/weakcrypto/inc
 
-SYSTEMINCLUDE 	.
-SYSTEMINCLUDE 	/epoc32/include 
-SYSTEMINCLUDE	/epoc32/include/ecom
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 
 start resource 10206844.rss

@@ -21,7 +21,7 @@
 
 #include <e32base.h>
 #include <f32file.h>
-#include <testhandler2/t_testactionspec.h>
+#include "t_testactionspec.h"
 
 class CConsoleBase;
 class CConsoleBase;

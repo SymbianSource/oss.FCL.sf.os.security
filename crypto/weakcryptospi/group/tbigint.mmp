@@ -42,8 +42,9 @@ SOURCE			primes.cpp
 
 
 USERINCLUDE ../inc
+USERINCLUDE ../../../cryptomgmtlibs/securitytestfw/test/testhandler2
 
-SYSTEMINCLUDE /epoc32/include/testhandler2 /epoc32/include
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 LIBRARY	euser.lib efsrv.lib t_testhandler2.lib random.lib
 SMPSAFE

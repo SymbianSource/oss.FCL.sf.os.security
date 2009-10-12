@@ -30,6 +30,10 @@
 #include "RTAserver.h"
 #include "rtamessagehandler.h"
 
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+#include "wmdrmcontentparser.h"     
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT 
+
 namespace ReferenceTestAgent
 	{
 	class CRefTestAgentArchive;
@@ -67,6 +71,13 @@ namespace ReferenceTestAgent
 		void CancelRequestRightsL(const RMessage2& aMessage);
 		void DisplayInfoL(const RMessage2& aMessage);
 		void SetPropertyL(const RMessage2& aMessage);
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+        void ReadWMDRMHeaderL(const RMessage2& aMessage);     
+        void GetWMDRMAttributeL(const RMessage2& aMessage);     
+        void GetWMDRMStringAttributeL(const RMessage2& aMessage);     
+        void GetWMDRMAttributeSetL(const RMessage2& aMessage);     
+        void GetWMDRMStringAttributeSetL(const RMessage2& aMessage);     
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT 
 
 	private:
 #ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
@@ -75,6 +86,9 @@ namespace ReferenceTestAgent
 		RFile iFile;
 #endif // SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
 		CRefTestAgentArchive* iArchive;
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT          
+        CWmdrmContentParser* iWmdrmContentObject;     
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT 
 		};
 	} //namespace
 

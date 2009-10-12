@@ -19,7 +19,7 @@
 #ifndef __T_SCRIPTANDHARDCODED_H__
 #define __T_SCRIPTANDHARDCODED_H__
 
-#include <testhandler2/tscriptsetup.h>
-#include <testhandler2/thardcodedsetup.h>
+#include "tscriptsetup.h"
+#include "thardcodedsetup.h"
 
 #endif

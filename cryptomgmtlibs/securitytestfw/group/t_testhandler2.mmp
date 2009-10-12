@@ -30,8 +30,9 @@ VENDORID 0x70000001
 // Different def file because no TCapabilitySet on EKA1
 DEFFILE t_testhandler2_sss.def
 
-USERINCLUDE ../test/testhandler2 ../inc
-SYSTEMINCLUDE /epoc32/include
+USERINCLUDE ../test/testhandler2
+USERINCLUDE ../inc
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 #ifdef SYMBIAN_AUTH_SERVER
 SYSTEMINCLUDE /epoc32/include/authserver

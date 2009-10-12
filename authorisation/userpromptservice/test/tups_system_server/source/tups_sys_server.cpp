@@ -22,7 +22,7 @@
 */
  
 #include "tups_sys_server.h"
-#include <test/tups_clientapi_sysserver.h>
+#include "tups_clientapi_sysserver.h"
 #include <bacline.h>
 #include "f32file.h" 
 

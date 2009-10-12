@@ -66,7 +66,7 @@ END
 
 USERINCLUDE	.
 USERINCLUDE	../keytool
-SYSTEMINCLUDE	/epoc32/include 
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 LIBRARY	euser.lib efsrv.lib
 LIBRARY certstore.lib crypto.lib

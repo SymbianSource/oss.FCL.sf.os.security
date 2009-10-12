@@ -21,7 +21,7 @@
  @file
 */
 
-#include <kmsclient.h>
+#include "kmsclient.h"
 
 #include "kmsserver.h"
 

@@ -21,7 +21,7 @@
  @internalComponent
  @released
 */
-#include <cryptodriver.h>
+#include "cryptodriver.h"
 #include <e32base.h>
 #include <e32cons.h>
 #include <e32test.h>

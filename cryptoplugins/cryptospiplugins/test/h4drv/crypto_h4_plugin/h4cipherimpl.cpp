@@ -31,7 +31,7 @@
 #include "pluginconfig.h"
 #include <cryptopanic.h>
 #include <securityerr.h>
-#include <keyhandle.h>
+#include "keyhandle.h"
 
 using namespace HwCrypto;
 

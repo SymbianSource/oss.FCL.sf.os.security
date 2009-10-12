@@ -30,6 +30,8 @@
 
 namespace ReferenceTestAgent
 	{
+	const TInt KDefaultBufferSize = 2048;
+	
 	class RRtaClient : public RSessionBase
 		{
 	protected:

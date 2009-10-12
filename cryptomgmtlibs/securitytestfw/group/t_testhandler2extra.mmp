@@ -28,8 +28,9 @@ UID 0x10000079 0x101F546C
 VENDORID 0x70000001
 
 USERINCLUDE ../test/testhandler2extra
-SYSTEMINCLUDE /epoc32/include
-SYSTEMINCLUDE /epoc32/include/testhandler2
+USERINCLUDE ../test/testhandler2
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 SOURCEPATH	../test/testhandler2extra
 

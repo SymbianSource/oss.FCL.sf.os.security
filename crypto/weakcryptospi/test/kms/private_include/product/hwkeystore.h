@@ -30,7 +30,7 @@
 #include <e32cmn.h>
 #include <e32ver.h>
 
-#include <keyhandle.h>
+#include "keyhandle.h"
 
 
 class HwKeyStore

@@ -19,7 +19,7 @@
 #ifndef _TPADDINGNONE_H_
 #define _TPADDINGNONE_H_
 
-#include <testexecutestepbase.h>
+#include <test/testexecutestepbase.h>
 #include "tpaddingTestSteps.h"
 
 _LIT(KPadNone, "PadNone");

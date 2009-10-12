@@ -45,6 +45,14 @@ ECOM_PLUGIN(101faaa1.dll, 101faaa1.rsc)
 ECOM_PLUGIN(101faaa3.dll, 101faaa3.rsc)
 ECOM_PLUGIN(101faaa5.dll, 101faaa5.rsc)
 
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+data = ZDRIVE\tkeystore\scripts\thwkeystore.txt		tkeystore\scripts\thwkeystore.txt
+data = ZPRIVATE\101f7e95\hwkeys.dat					private\101f7e95\hwkeys.dat
+data = ZDRIVE\tkeystore\data\hwkeys.dat				tkeystore\scripts\hwkeys.dat
+file = ABI_DIR\BUILD_DIR\tcryptotokenhai.dll			sys\bin\tcryptotokenhai.dll
+ECOM_PLUGIN(101faaaa.dll, 101faaaa.rsc)
+#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
+
 //scripts
 #ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 data = ZDRIVE\tkeystore\scripts\registration.ini		tkeystore\scripts\registration.ini

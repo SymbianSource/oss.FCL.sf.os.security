@@ -23,7 +23,7 @@
 */
 
 #include <e32ldr.h>
-#include <scs/rtestwrapper.h>
+#include "rtestwrapper.h"
 
 #include <ups/upsclient.h>
 #include "f32file.h"

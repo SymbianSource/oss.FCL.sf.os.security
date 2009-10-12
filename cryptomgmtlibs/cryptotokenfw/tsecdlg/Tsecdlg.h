@@ -39,7 +39,7 @@ IMPORT_C CArrayPtr<MNotifierBase2>* NotifierArray();
 #else
 
 #include <eiknotapi.h>
-#include <implementationproxy.h>
+#include <ecom/implementationproxy.h>
 #define MNotifierBase2 MEikSrvNotifierBase2
 
 IMPORT_C const TImplementationProxy* ImplementationGroupProxy(TInt& aTableCount);

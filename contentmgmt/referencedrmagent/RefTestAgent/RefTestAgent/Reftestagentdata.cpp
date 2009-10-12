@@ -53,6 +53,31 @@ CRefTestAgentData* CRefTestAgentData::NewLC(RFile& aFile, const TDesC& aUniqueId
 	return self;
 	}
 
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+      
+CRefTestAgentData* CRefTestAgentData::NewL(const TDesC8& aHeaderData)     
+    {     
+    CRefTestAgentData* self = NewLC(aHeaderData);     
+    CleanupStack::Pop(self);     
+    return self;     
+    }     
+      
+CRefTestAgentData* CRefTestAgentData::NewLC(const TDesC8& aHeaderData)     
+    {     
+    CRefTestAgentData* self = new (ELeave) CRefTestAgentData;     
+    CleanupStack::PushL(self);     
+    self->ConstructL(aHeaderData);     
+    return self;     
+    }     
+         
+void CRefTestAgentData::ConstructL(const TDesC8& aHeaderData)     
+    {     
+    iHeaderData = aHeaderData.AllocL();     
+    User::LeaveIfError(iServer.Open(aHeaderData));     
+    }     
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT     
+  
+
 CRefTestAgentData::CRefTestAgentData()
 	{
 	}
@@ -60,6 +85,9 @@ CRefTestAgentData::CRefTestAgentData()
 CRefTestAgentData::~CRefTestAgentData()
 	{
 	iServer.Close();
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT     
+    delete iHeaderData;     
+#endif 
 	}
   
 void CRefTestAgentData::ConstructL(const TVirtualPathPtr& aVirtualPath, TContentShareMode aShareMode)
@@ -181,22 +209,50 @@ TInt CRefTestAgentData::SetProperty(TAgentProperty aProperty, TInt aValue)
 
 TInt CRefTestAgentData::GetAttribute(TInt aAttribute, TInt& aValue)
 	{
-	return iServer.GetAttribute(aAttribute, aValue);
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+    if(iHeaderData != NULL)     
+        return iServer.GetWmdrmAttribute(aAttribute, aValue);     
+    else     
+        return iServer.GetAttribute(aAttribute, aValue);     
+#else     
+    return iServer.GetAttribute(aAttribute, aValue);
+#endif
 	}
 
 TInt CRefTestAgentData::GetAttributeSet(RAttributeSet& aAttributeSet)
 	{
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+    if(iHeaderData != NULL)     
+        return iServer.GetWmdrmAttributeSet(aAttributeSet);     
+    else     
+        return iServer.GetAttributeSet(aAttributeSet);     
+#else 
 	return iServer.GetAttributeSet(aAttributeSet);
+#endif
 	}
 
 TInt CRefTestAgentData::GetStringAttribute(TInt aAttribute, TDes& aValue)
 	{
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+    if(iHeaderData != NULL)     
+        return iServer.GetWmdrmStringAttribute(aAttribute, aValue);     
+    else     
+        return iServer.GetStringAttribute(aAttribute, aValue);     
+#else 
 	return iServer.GetStringAttribute(aAttribute, aValue);
+#endif
 	}
 
 TInt CRefTestAgentData::GetStringAttributeSet(RStringAttributeSet& aStringAttributeSet)
 	{
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+    if(iHeaderData != NULL)     
+        return iServer.GetWmdrmStringAttributeSet(aStringAttributeSet);     
+    else     
+        return iServer.GetStringAttributeSet(aStringAttributeSet);     
+#else    
 	return iServer.GetStringAttributeSet(aStringAttributeSet);
+#endif
 	}
 
 #ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
@@ -226,3 +282,18 @@ void CRefTestAgentData::ReadCancel(TRequestStatus&)
 	// cannot be a situation where the consumer waits for an asynchronous operation to complete
 	}
 
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+      
+TInt CRefTestAgentData::Read(const TDesC8& aEncryptedInputDataPacket, TDes8& aDecryptedOutputDataPacket)     
+    {     
+    return iServer.Read(aEncryptedInputDataPacket, aDecryptedOutputDataPacket);     
+    }     
+                 
+void CRefTestAgentData::Read(const TDesC8& aEncryptedInputDataPacket, TDes8& aDecryptedOutputDataPacket, TRequestStatus& aStatus)     
+    {     
+    TInt err = Read(aEncryptedInputDataPacket, aDecryptedOutputDataPacket);     
+    TRequestStatus* status = &aStatus;     
+    User::RequestComplete(status, err);     
+    }     
+      
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT 

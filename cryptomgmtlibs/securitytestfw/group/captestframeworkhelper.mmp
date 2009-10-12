@@ -35,10 +35,9 @@ SOURCEPATH		../test/captestframework
 SOURCE			captestframeworkhelper.cpp
 
 USERINCLUDE		.
-USERINCLUDE		../inc_private
+USERINCLUDE		../inc
 
-SYSTEMINCLUDE	/epoc32/include
-SYSTEMINCLUDE	/epoc32/include/test
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 LIBRARY			euser.lib
 LIBRARY			testexecuteutils.lib

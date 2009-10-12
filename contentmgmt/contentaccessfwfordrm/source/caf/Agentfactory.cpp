@@ -122,3 +122,64 @@ EXPORT_C void CAgentManager::DisplayInfoL (TDisplayInfo /* aInfo */, RFile& /* a
 	User::Leave(KErrCANotSupported);
 	}
 
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+	
+EXPORT_C TInt CAgentData::Read(const TDesC8& /*aEncryptedInputDataPacket*/, TDes8& /*aDecryptedOutputDataPacket*/)
+	{
+ 	return KErrCANotSupported;
+ 	}
+ 	
+EXPORT_C void CAgentData::Read(const TDesC8& /*aEncryptedInputDataPacket*/, TDes8& /*aDecryptedOutputDataPacket*/, TRequestStatus& aStatus)
+ 	{
+ 	TRequestStatus* status = &aStatus;
+  	User::RequestComplete(status, KErrCANotSupported);
+ 	}
+ 	
+EXPORT_C TBool CAgentManager::IsRecognizedL(const TDesC8& /*aHeaderData*/) const
+ 	{
+  	return EFalse;
+ 	}
+ 	
+EXPORT_C TBool CAgentManager::RecognizeContentL(const TDesC8& /*aHeaderData*/, TDes8& aFileMimeType, TDes8& aContentMimeType) const
+	{
+	aFileMimeType.Copy(KNullDesC8());
+	aContentMimeType.Copy(KNullDesC8());
+ 	return EFalse;
+	}
+	
+EXPORT_C TInt CAgentManager::GetAttribute(const TDesC8& /*aHeaderData*/, TInt /*aAttribute*/, TInt& /*aValue*/)
+	{
+	return KErrCANotSupported;
+	}
+
+EXPORT_C TInt CAgentManager::GetAttributeSet(const TDesC8& /*aHeaderData*/, RAttributeSet& /*aAttributeSet*/)
+	{
+	return KErrCANotSupported;
+	}
+	
+EXPORT_C TInt CAgentManager::GetStringAttribute(const TDesC8& /*aHeaderData*/, TInt /*aAttribute*/, TDes& /*aValue*/)
+	{
+	return KErrCANotSupported;
+	}
+	
+EXPORT_C TInt CAgentManager::GetStringAttributeSet(const TDesC8& /*aHeaderData*/, RStringAttributeSet& /*aStringAttributeSet*/)
+	{
+	return KErrCANotSupported;
+	}
+ 	
+EXPORT_C CAgentData* CAgentFactory::CreateDataConsumerL(const TDesC8& /*aHeaderData*/)
+ 	{
+ 	User::Leave(KErrCANotSupported);
+ 	// cannot reach here. The return statement is added to avoid warning.
+ 	return NULL;
+  	}
+ 		
+EXPORT_C CAgentContent* CAgentFactory::CreateContentBrowserL(const TDesC8& /*aHeaderData*/)
+ 	{
+ 	User::Leave(KErrCANotSupported);
+ 	// cannot be reach here . The return statement is added to avoid warning.
+ 	return NULL;
+ 	}
+ 	
+
+#endif //#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT

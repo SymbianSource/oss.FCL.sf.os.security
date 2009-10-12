@@ -38,9 +38,9 @@ SOURCE		testinvalidoid.cpp
 SOURCE		testbitstr.cpp
 USERINCLUDE .
 
-SYSTEMINCLUDE /epoc32/include/testhandler2  
-SYSTEMINCLUDE /epoc32/include 
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 USERINCLUDE ../../../crypto/weakcrypto/inc
+USERINCLUDE ../../../cryptomgmtlibs/securitytestfw/test/testhandler2
 
 LIBRARY	euser.lib efsrv.lib asn1.lib t_testhandler2.lib
 

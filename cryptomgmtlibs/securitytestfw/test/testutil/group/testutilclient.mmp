@@ -38,7 +38,7 @@ SOURCEPATH	../client
 
 SOURCE		testutilclient.cpp
 
-SYSTEMINCLUDE  	/epoc32/include
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 LIBRARY		euser.lib
 LIBRARY		efsrv.lib

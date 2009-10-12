@@ -21,8 +21,7 @@ targettype			exe
 
 uid					0x0 0x10283512
 
-systeminclude		/epoc32/include
-
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 userinclude			../inc_private
 

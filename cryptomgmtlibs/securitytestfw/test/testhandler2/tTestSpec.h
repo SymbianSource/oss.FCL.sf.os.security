@@ -21,7 +21,7 @@
 #define __T_TESTSPEC_H__
 
 #include <e32base.h>
-#include <testhandler2/t_mtestspec.h>
+#include "t_mtestspec.h"
 
 /**
  * This class represents a series of a test that needs to be run. It should be passed 

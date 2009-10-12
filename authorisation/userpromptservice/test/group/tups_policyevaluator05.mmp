@@ -35,7 +35,7 @@ userinclude		../tups_policyevaluator/include
 
 macro			POLICY_05
 
-systeminclude	/epoc32/include
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 sourcepath		../tups/src
 source          tupsproperty.cpp

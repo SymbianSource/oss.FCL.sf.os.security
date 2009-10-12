@@ -109,10 +109,11 @@ public:
 	static CCertToolList* NewL(CCertToolController* aController);
 	~CCertToolList();
 	void ConstructL();
+	void InitializeIterations();	
 
 public: // From CCertToolCommand
 	void DoCommandL(CUnifiedCertStore& aCertStore, CKeyToolParameters* aParam);
-	
+		
 public: // From CActive
 	void RunL();
 	void DoCancel();
@@ -146,6 +147,16 @@ protected:
 		EIntermediate,
 		EGetTrust,
 		} iState;			
+
+	// Number of certificates that have to be listed up to the current iteration.
+	TInt iCurrentListCount;	
+	// Keeps track of the number of iterations left.
+	TInt iNumberOfIterationsLeft;
+	// List offset for the last iteration if total number of certificates is not an exact
+	// multiple of default LIST_COUNT.
+	TInt iLastIterationOffset;
+	// Default list offset for each iteration.
+	TInt iCurrentListOffset;
 	};
 	
 

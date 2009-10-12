@@ -30,7 +30,7 @@ SOURCE        tcertdump.cpp
 SOURCE        displaytype.cpp
 
 USERINCLUDE   .
-SYSTEMINCLUDE /epoc32/include
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 LIBRARY       euser.lib efsrv.lib x509.lib charconv.lib bafl.lib estor.lib x500.lib
 
 VENDORID 0x70000001

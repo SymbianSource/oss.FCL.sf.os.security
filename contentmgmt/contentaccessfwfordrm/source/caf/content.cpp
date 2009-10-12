@@ -26,6 +26,7 @@
 #include <caf/agent.h>
 #include <caf/virtualpath.h>
 #include <caf/agentfactory.h>
+#include <caf/caferr.h>
 
 #ifndef REMOVE_CAF1
 #include <caf/attribute.h>
@@ -74,6 +75,25 @@ EXPORT_C CContent* CContent::NewL(RFile& aFile)
 	return self;
 	}
 
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+
+EXPORT_C CContent* CContent::NewLC(const TDesC8& aHeaderData) 
+	{
+	CContent* self = new(ELeave) CContent();
+	CleanupStack::PushL(self);
+	self->ConstructL(aHeaderData);
+	return self;
+	}
+
+EXPORT_C CContent* CContent::NewL(const TDesC8& aHeaderData) 
+	{
+	CContent* self=CContent::NewLC(aHeaderData);
+	CleanupStack::Pop(self);
+	return self;
+	}
+	
+#endif //#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+
 CContent::CContent() : iDefaultVirtualPath(KNullDesC(), KDefaultContentObject())
 	{ 
 	}
@@ -81,15 +101,16 @@ CContent::CContent() : iDefaultVirtualPath(KNullDesC(), KDefaultContentObject())
 CContent::~CContent() 
 	{ 
 	delete iAgentContent;
-
+	iFile.Close();
+	
 	if(iVirtualPath)
 		{
 		delete iVirtualPath;
 		}
-	else
-		{
-		iFile.Close();	
-		}
+	
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+	delete iHeaderData;
+#endif //#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 	
 	// Finished with agent, this closes ECOM handle
 	delete iAgentFactory;
@@ -167,6 +188,36 @@ void CContent::ConstructL(const TDesC& aURI, TContentShareMode aShareMode)
 	// Finished with resolver and the CAgentInfo object it owns
 	CleanupStack::PopAndDestroy(2, resolver); // actualUri
 	}
+
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+
+void CContent::ConstructL(const TDesC8& aHeaderData) 
+	{
+	if(aHeaderData.Length() <= 0)
+		{
+		User::Leave(KErrMissingWmdrmHeaderData);
+		}
+	
+	iHeaderData = aHeaderData.AllocL();
+	
+	CAgentResolver* resolver = CAgentResolver::NewLC(EFalse);
+	
+	// Find the agent who handles the file
+	CAgentInfo& agentInfo = resolver->ResolveFileL(aHeaderData);
+
+	// copy the agent name and Uid
+	iAgent = agentInfo.Agent();
+
+	// Construct the agent factory (ECOM handle)
+	iAgentFactory = CAgentFactory::NewL(iAgent.ImplementationUid());
+	// Construct the CAgentContent object
+	iAgentContent = iAgentFactory->CreateContentBrowserL(aHeaderData);
+
+	// Finished with resolver (and the agentInfo object it owns)
+	CleanupStack::PopAndDestroy(resolver); 
+	}
+
+#endif //#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 
 EXPORT_C TInt CContent::OpenContainer(const TDesC &aUniqueId) 
 	{
@@ -300,12 +351,26 @@ EXPORT_C TInt CContent::SetProperty(TAgentProperty aProperty, TInt aValue)
 
 EXPORT_C CData* CContent::OpenContentL(TIntent aIntent)
 	{
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+	if(iHeaderData != NULL)
+		return OpenContentL(aIntent, *iHeaderData);
+    else
+		return OpenContentL(aIntent, iDefaultVirtualPath.UniqueId());
+#else
 	return OpenContentL(aIntent, iDefaultVirtualPath.UniqueId());
+#endif //#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 	}
 
 EXPORT_C CData* CContent::OpenContentLC(TIntent aIntent)
 	{
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+	if(iHeaderData != NULL)
+		return OpenContentLC(aIntent, *iHeaderData);
+	else
+		return OpenContentLC(aIntent, iDefaultVirtualPath.UniqueId());
+#else
 	return OpenContentLC(aIntent, iDefaultVirtualPath.UniqueId());
+#endif //#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 	}
 
 EXPORT_C CData* CContent::OpenContentL(TIntent aIntent, const TDesC &aUniqueId)
@@ -329,6 +394,22 @@ EXPORT_C CData* CContent::OpenContentLC(TIntent aIntent, const TDesC &aUniqueId)
 		return CData::NewLC(iAgent.ImplementationUid(), iFile, aUniqueId, aIntent);
 		}
 	}
+	
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+
+CData* CContent::OpenContentL(TIntent aIntent, const TDesC8& aHeaderData)
+	{
+	CData* data = OpenContentLC(aIntent, aHeaderData);
+	CleanupStack::Pop(data);
+	return data;
+	}
+
+CData* CContent::OpenContentLC(TIntent aIntent, const TDesC8& aHeaderData)
+	{
+	return CData::NewLC(iAgent.ImplementationUid(), aHeaderData, aIntent);
+	}
+	
+#endif //#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 
 EXPORT_C const TAgent& CContent::Agent() const
 	{
@@ -362,6 +443,39 @@ EXPORT_C CAttribute* CContent::NewAttributeL(TBool aPreloaded)
 	return NewAttributeL(aPreloaded, EContentShareReadOnly);
 	}
 
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+EXPORT_C CAttribute* CContent::NewAttributeL(TBool aPreloaded, TContentShareMode aShareMode)
+	{
+	CAttribute* attr = NULL;
+	
+	if(iVirtualPath)
+		{
+		// if we were opened with a file name
+		attr = CAttribute::NewLC(iAgent.ImplementationUid(), iDefaultVirtualPath.URI(), aShareMode);
+		}
+	else if(iHeaderData)
+		{
+		attr = CAttribute::NewLC(iAgent.ImplementationUid(), *iHeaderData);
+		}
+	else
+		{
+		// if we were opened with a file handle 
+		attr = CAttribute::NewLC(iAgent.ImplementationUid(), iFile);
+		}
+
+	// If aPreloaded is set, query the agent immediately for all the attributes
+	if (aPreloaded)
+		{
+		attr->QuerySet().SetAll();
+		attr->GetL();
+		}
+
+	CleanupStack::Pop(attr);
+	return attr;
+	}
+
+#else
+
 EXPORT_C CAttribute* CContent::NewAttributeL(TBool aPreloaded, TContentShareMode aShareMode)
 	{
 	CAttribute* attr = NULL;
@@ -388,8 +502,9 @@ EXPORT_C CAttribute* CContent::NewAttributeL(TBool aPreloaded, TContentShareMode
 	return attr;
 	}
 
-#endif // REMOVE_CAF1
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 
+#endif // REMOVE_CAF1
 
 // DLL entry point - only for EKA1
 

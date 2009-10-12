@@ -24,7 +24,7 @@
 #ifndef __TACTIONVALIDATE_H__
 #define __TACTIONVALIDATE_H__
 
-#include <testhandler2/t_testaction.h>
+#include "t_testaction.h"
 #include "tpkixcertval.h"
 #include <unifiedcertstore.h>
 #include "tcertutils.h"

@@ -25,7 +25,7 @@
 #define __UPSDB_STEP_H__
 #include <test/testexecutestepbase.h>
 #include "tupsintegstepbase.h"
-#include <test/tups_clientapi_sysserver.h>
+#include "tups_clientapi_sysserver.h"
 #include "tupsproperty.h"
 #include <ups/upsclient.h>
 using namespace UserPromptService;

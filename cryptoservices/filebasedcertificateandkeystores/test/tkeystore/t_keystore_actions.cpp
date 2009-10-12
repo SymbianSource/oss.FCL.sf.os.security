@@ -91,11 +91,15 @@ CKeyStoreTestAction::~CKeyStoreTestAction()
 CKeyStoreTestAction::CKeyStoreTestAction(RFs& aFs, CConsoleBase& aConsole, Output& aOut) :
 	CTestAction(aConsole, aOut), 
 	iFs(aFs),
-	iDisableCheckDialog(0)
+	iDisableCheckDialog(0),
+	iKeyStoreImplIndex(0)
 #ifdef SYMBIAN_AUTH_SERVER
 	,iUseNewApi(EFalse),
 	iFreshness(0)
 #endif // SYMBIAN_AUTH_SERVER
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+	,iHardwareType(-1)
+#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
 	{
 	iFilter.iPolicyFilter = TCTKeyAttributeFilter::EAllKeys;
 	}
@@ -113,6 +117,8 @@ void CKeyStoreTestAction::ConstructL(const TTestActionSpec& aTestActionSpec)
 	
 	SetKeyLabel(Input::ParseElement(aTestActionSpec.iActionBody, KKeyLabelStart));
 	SetKeyAlgorithm(Input::ParseElement(aTestActionSpec.iActionBody, KKeyAlgorithmStart));
+	SetKeyType(Input::ParseElement(aTestActionSpec.iActionBody, KOpenStart, KOpenEnd));
+	
 	pos = 0;
 	while (SetKeyAccessType(Input::ParseElement(aTestActionSpec.iActionBody, KKeyAccessTypeStart, KKeyAccessTypeEnd, pos)))
 		/* do nothing */;
@@ -124,6 +130,9 @@ void CKeyStoreTestAction::ConstructL(const TTestActionSpec& aTestActionSpec)
 	
 	iDisableCheckDialog = Input::ParseIntElement(aTestActionSpec.iActionBody, KDisableDialogStart, KDisableDialogEnd, pos);
 
+	pos = 0;
+	iKeyStoreImplLabel.Set(Input::ParseElement(aTestActionSpec.iActionBody, KUseKeyStoreStart, KUseKeyStoreEnd, pos));
+	
 #ifdef SYMBIAN_AUTH_SERVER
 	TPtrC8 authExpr;
 	TInt authExprPresent = KErrNone;
@@ -157,6 +166,10 @@ void CKeyStoreTestAction::ConstructL(const TTestActionSpec& aTestActionSpec)
 	iDeauthenticate = Input::ParseIntElement(aTestActionSpec.iActionBody, KAuthenticateStart, KAuthenticateEnd);
 		
 #endif // SYMBIAN_AUTH_SERVER
+	
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+	iHardwareType = Input::ParseIntElement(aTestActionSpec.iActionBody, KHwTypeStart, KHwTypeEnd, pos);
+#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
 	
 	}
 
@@ -461,6 +474,25 @@ TBool CKeyStoreTestAction::SetKeyAccessType(const TDesC8& aKeyAccessType)
 	return ret;
 	}
 
+void CKeyStoreTestAction::SetKeyStoreIndex(CUnifiedKeyStore* aUnifiedKeyStore)
+	{
+	TInt keyStoreCount = aUnifiedKeyStore->KeyStoreManagerCount();
+	for(int index = 0 ; index<keyStoreCount; ++index)
+		{
+		MCTKeyStoreManager& mctKeyStoreMngr = aUnifiedKeyStore->KeyStoreManager(index);
+		const TDesC16& label = mctKeyStoreMngr.Token().Label();
+		TBuf<50> keyStoreLabel;
+		keyStoreLabel.Copy(iKeyStoreImplLabel);
+		if(label.Compare(keyStoreLabel) == 0 )
+			{
+			iKeyStoreImplIndex = index;
+			break;
+			}
+		}
+	
+	}
+
+
 void CKeyStoreTestAction::DoPerformPrerequisite(TRequestStatus& aStatus)
 	{
 	TInt err = KErrNone;
@@ -621,6 +653,32 @@ void CKeyStoreTestAction::PrintKeyInfoL(const CCTKeyInfo& aKey)
 	iOut.writeNewLine();
 	}
 
+void CKeyStoreTestAction::SetKeyType(const TDesC8& aKeyType)
+{
+	if (aKeyType.Compare(KAlgRSA)==0)
+	{
+		iType = ERSASign;
+	}
+	else if (aKeyType.Compare(KAlgDSA)==0)
+	{
+		iType = EDSASign;
+	}
+	else if (aKeyType.Compare(KDecryptUsage)==0)
+	{
+		iType = EDecrypt;
+	}
+	else if (aKeyType.Compare(KAlgDH)==0)
+	{
+		iType = EDH;
+	}
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+    else if (aKeyType.Compare(KAlgEcc)==0)
+        {
+        iType = EECC;
+        }
+#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
+}
+
 /////////////////////////////////////////////////////////////////
 //CInitialiseKeyStore::
 ///////////////////////////////////////////////////////////////////
@@ -646,7 +704,7 @@ CTestAction* CInitialiseKeyStore::NewLC(RFs& aFs,
 }
 
 CInitialiseKeyStore::~CInitialiseKeyStore()
-{
+	{
 	delete iNewUnifiedKeyStore;
 	if (iKeyStoreLabel)
 	    {

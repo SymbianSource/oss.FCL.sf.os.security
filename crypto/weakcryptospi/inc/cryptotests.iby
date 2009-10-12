@@ -26,6 +26,10 @@ define ZDRIVE \epoc32\winscw\c
 #include "tcryptospi.iby"
 #include "cryptospi_testplugins.iby"
 
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+#include "cryptospi_testwmdrmplugins.iby"
+#endif
+
 file=ABI_DIR\BUILD_DIR\tsymmetric.exe	System\Programs\tsymmetric.exe
 file=ABI_DIR\BUILD_DIR\tasymmetric.exe	System\Programs\tasymmetric.exe
 file=ABI_DIR\BUILD_DIR\tbigint.exe	System\Programs\tbigint.exe

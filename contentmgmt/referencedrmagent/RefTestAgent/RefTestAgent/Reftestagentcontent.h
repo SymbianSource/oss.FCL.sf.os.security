@@ -37,6 +37,11 @@ public:
 	static CRefTestAgentContent* NewL(RFile& aFile);
 	static CRefTestAgentContent* NewLC(RFile& aFile);
 
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+        static CRefTestAgentContent* NewL(const TDesC8& aHeaderData);     
+        static CRefTestAgentContent* NewLC(const TDesC8& aHeaderData);     
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT 
+
 	virtual ~CRefTestAgentContent();
 
 public: 
@@ -63,8 +68,17 @@ private:
 	CRefTestAgentContent();
 	void ConstructL(const TDesC& aURI, ContentAccess::TContentShareMode aShareMode);
 	void ConstructL(RFile& aFile);
+
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+        void ConstructL(const TDesC8& aHeaderData);     
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT 
 		
 private:
 	ReferenceTestAgent::RRtaContent iContentSession;
+
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+        HBufC8* iHeaderData;     
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT 
+
 	};
 #endif // __REFTestAgentContent_H__

@@ -26,9 +26,8 @@ PRJ_PLATFORMS
 DEFAULT
 
 PRJ_EXPORTS
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-../Inc/CFSTokenTypeClient.h   /epoc32/include/cfstokentypeclient.h
-#endif
+
+../Inc/CFSTokenTypeClient.h   SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cfstokentypeclient.h)
 ../Inc/certstorepatchdata.h  SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(certstorepatchdata.h)
 ../Inc/keystore_errs.h  SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(keystore_errs.h)
 
@@ -333,6 +332,14 @@ PRJ_TESTEXPORTS
 // ROMKIT includes
 ../Inc/filetokenstests.iby /epoc32/rom/include/filetokenstests.iby
 
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+../test/tkeystore/scripts/thwkeystore.txt			/epoc32/winscw/c/tkeystore/scripts/thwkeystore.txt
+../test/tkeystore/data/hwkeys.dat				/epoc32/data/z/private/101f7e95/hwkeys.dat
+../test/tkeystore/data/hwkeys.dat				/epoc32/release/winscw/udeb/z/private/101f7e95/hwkeys.dat
+../test/tkeystore/data/hwkeys.dat				/epoc32/release/winscw/urel/z/private/101f7e95/hwkeys.dat
+../test/tkeystore/data/hwkeys.dat				/epoc32/winscw/c/tkeystore/data/hwkeys.dat
+#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
+
 PRJ_MMPFILES
 
 #ifndef TOOLS
@@ -354,6 +361,11 @@ PRJ_TESTMMPFILES
 
 #ifndef TOOLS
 #ifndef TOOLS2
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+../test/tcryptotokenhai/tcryptotokenhai.mmp
+../test/thwkeystore/client/thwkeystoreclient.mmp
+#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
+
 ../test/tfiletokens/tfiletokens.mmp
 ../test/tkeystore/tkeystore.mmp
 ../test/tcertapps/tcertapps.mmp
@@ -363,5 +375,6 @@ PRJ_TESTMMPFILES
 ../test/ttestplugin/dummykeystore.mmp
 ../test/ttestplugin/dummykeystoreman1.mmp
 ../test/ttestplugin/dummykeystoreman2.mmp
+
 #endif //TOOLS2
 #endif //TOOLS

@@ -37,6 +37,15 @@ class TInteger;
 class CCTKeyInfo;
 struct TCTKeyAttributeFilter;
 
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+namespace CryptoSpi
+    {
+    class CSigner;
+    class CAsymmetricCipher;
+    class CCryptoParams;
+    }
+#endif /* SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT */
+
 /**
  * A template for signer objects.  It isn't possible to use a base class as the
  * signature objects created are not related.
@@ -381,6 +390,163 @@ public:
 	
 	/** Cancels an ongoing ExportPublic() operation */
 	virtual void CancelExportPublic() = 0;
+
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+    /**
+     * Opens a key for signing. This function returns a CryptoSPI
+     * signer object. SignL() method should be invoked on this object
+     * to perform the signing operation.
+     *
+     * @param aHandle The handle of the key to be opened.
+     * @param aSigner The returned CryptoSPI signer object.
+     * @param aStatus Returns the status of asynchronous operation, 
+     * possible values of which are given below:-
+     * KErrNone if successful, otherwise a system wide error 
+     * code (in such a case signer object is not allocated). The 
+     * most likely error codes are:-
+     * - KErrNotSupported Default value, used if licensee does not
+     * provide an implementation.
+     * - KErrPermissionDenied If the caller does not conform to
+     * the key use security policy.
+     * - KErrNotFound If the key the handle referes to does not
+     * exist.
+     * - KErrKeyUsage If the key doesn't have sign usage.
+     * - KErrKeyValidity If the key is not currently valid.
+     * - KErrKeySize If the key length is too small.
+     * - KErrKeyAccess If an invalid combination of key access
+     * flags were specified.
+     * 
+     * @capability Requires the caller to have the capabilities
+     * specified in the key use security policy.
+     */
+	virtual void Open(const TCTTokenObjectHandle& /*aHandle*/,
+	                  CryptoSpi::CSigner*& /*aSigner*/,
+	                  TRequestStatus& aStatus)
+		{
+		TRequestStatus* status = &aStatus;
+		User::RequestComplete(status,KErrNotSupported);
+		}
+
+    /**
+     * Opens a key for decryption. This function returns a CryptoSPI
+     * signer object. ProcessL() method should be invoked on this object
+     * to perform the decryption operation.
+     *
+     * @param aHandle The handle of the key to be opened.
+     * @param aAsymmetricCipher The returned CryptoSPI cipher object.
+     * @param aStatus Returns the status of asynchronous operation,
+     * possible values of which are given below:-
+     * KErrNone if successful, otherwise a system wide error 
+     * code (in such a case cipher object is not allocated). The 
+     * most likely error codes are:-
+     * - KErrNotSupported Default value, used if licensee does not
+     * provide an implementation.
+     * - KErrPermissionDenied If the caller does not conform to
+     * the key use security policy.
+     * - KErrNotFound If the key the handle referes to does not
+     * exist.
+     * - KErrKeyUsage If the key doesn't have sign usage.
+     * - KErrKeyValidity If the key is not currently valid.
+     * - KErrKeySize If the key length is too small.
+     * - KErrKeyAccess If an invalid combination of key access
+     * flags were specified.
+     *
+     * @capability Requires the caller to have the capabilities
+     * specified in the key use security policy.
+     */
+	virtual void Open(const TCTTokenObjectHandle& /*aHandle*/,
+	                  CryptoSpi::CAsymmetricCipher*& /*aAsymmetricCipher*/,
+	                  TRequestStatus& aStatus)
+		{
+		TRequestStatus* status = &aStatus;
+		User::RequestComplete(status,KErrNotSupported);
+		}
+
+	/**
+	 * This function takes a token handle and encrypted text as input
+	 * and stores the decrypted text as one of the output parameters.
+	 * This API would should be used by the licensees who want to perform
+	 * decryption operation inside the hardware without using CryptoSPI.
+	 *
+	 * @param aHandle The handle of the key to be used for decryption.
+     * @param aCiphertext Contains the encrypted text which has to be
+     * decrypted.
+     * @param aPlaintextPtr This contains the decrypted text. Caller
+     * should take responsibility of this pointer. Derived classes 
+     * should never take ownership of the passed pointer.
+     * @param aStatus Returns the status of asynchronous operation,
+     * possible values are given below:-
+     * KErrNone if successful, otherwise a system wide error 
+     * code (in such a case aPlaintextPtr is not allocated). The 
+     * most likely error codes are:-
+     * - KErrNotSupported Default value, used if licensee does not
+     * provide an implementation.
+     * - KErrPermissionDenied If the caller does not conform to
+     * the key use security policy.
+     * - KErrNotFound If the key the handle referes to does not
+     * exist.
+     * - KErrKeyUsage If the key doesn't have sign usage.
+     * - KErrKeyValidity If the key is not currently valid.
+     * - KErrKeySize If the key length is too small.
+     * - KErrKeyAccess If an invalid combination of key access
+     * flags were specified.
+     * 
+     * @capability Requires the caller to have the capabilities
+     * specified in the key use security policy.
+     */
+	virtual void Decrypt(const TCTTokenObjectHandle& /*aHandle*/,
+                         const TDesC8& /*aCiphertext*/,
+	                     HBufC8*& /*aPlaintextPtr*/,
+	                     TRequestStatus& aStatus)
+		{
+		TRequestStatus* status = &aStatus;
+		User::RequestComplete(status,KErrNotSupported);
+		}
+
+	/**
+	 * This function takes a token handle and plain text as input and
+	 * returns the signature as one of the output parameters. This API
+	 * would enable the licensees to sign a text by just having a handle
+	 * to key. The key can be stored in the hardware and does not come
+	 * out at all. This API should be used by the licensees who want to
+	 * perform signing operation inside the hardware without using
+	 * CryptoSPI.
+	 *
+	 * @param aHandle The handle of the key to be used for decryption.
+	 * @param aPlainText Text which has to be signed.
+	 * @param aSignature The cryptoSPI signature. Caller
+	 * should take responsibility of this pointer. Derived classes 
+     * should never take ownership of the passed pointer.
+	 * @param aStatus Returns the status of asynchronous operation,
+	 * possible values are:-
+	 * KErrNone if successful, otherwise a system wide error 
+     * code (in such a case aSignature is not allocated). The 
+     * most likely error codes are:-
+     * - KErrNotSupported Default value, used if licensee does not
+     * provide an implementation.
+     * - KErrPermissionDenied If the caller does not conform to
+     * the key use security policy.
+     * - KErrNotFound If the key the handle referes to does not
+     * exist.
+     * - KErrKeyUsage If the key doesn't have sign usage.
+     * - KErrKeyValidity If the key is not currently valid.
+     * - KErrKeySize If the key length is too small.
+     * - KErrKeyAccess If an invalid combination of key access
+     * flags were specified.
+     * 
+	 * @capability Requires the caller to have the capabilities
+	 * specified in the key use security policy.
+	 */
+	virtual void Sign(	const TCTTokenObjectHandle& /*aHandle*/,
+                        const TDesC8& /*aPlainText*/,
+	                    CryptoSpi::CCryptoParams*& /*aSignature*/,
+	                    TRequestStatus& aStatus)
+		{
+		TRequestStatus* status = &aStatus;
+		User::RequestComplete(status,KErrNotSupported);
+		}
+	
+#endif /* SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT */
 
 	};
 

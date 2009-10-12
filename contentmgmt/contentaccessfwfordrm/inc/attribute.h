@@ -87,6 +87,19 @@ namespace ContentAccess
 		 */
 		static CAttribute* NewLC(TUid aAgentUid, const TDesC& aURI, TContentShareMode aShareMode=EContentShareReadOnly);
 
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT		
+		/**
+		 Constructs a new attribute given an agent and WMDRM header data.
+		 
+		 @param aAgentUid	The agent Uid
+		 @param aHeaderData	Header data of WMDRM content
+		 @return			The new CAttribute.
+		 
+		 @internalComponent
+		 @released		 
+		 */
+		static CAttribute* NewLC(TUid aAgentUid, const TDesC8& aHeaderData);
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 		
 		virtual ~CAttribute();
 
@@ -133,6 +146,11 @@ namespace ContentAccess
 	private:
 		void ConstructL(TUid aAgentUid, RFile& aFile);
 		void ConstructL(TUid aAgentUid, const TDesC& aURI, TContentShareMode aShareMode=EContentShareReadOnly);
+
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+		void ConstructL(TUid aAgentUid, const TDesC8& aHeaderData);
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+	
 		CAttribute();
 				
 	private:

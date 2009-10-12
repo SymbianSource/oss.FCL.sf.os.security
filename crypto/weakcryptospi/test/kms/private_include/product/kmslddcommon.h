@@ -30,7 +30,7 @@
 
 #include <e32cmn.h>
 
-#include <keyhandle.h>
+#include "keyhandle.h"
 
 namespace KmsLddImpl
 /**

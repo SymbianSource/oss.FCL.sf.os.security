@@ -37,8 +37,7 @@ SOURCE	           tpkcs10minortests.cpp
 	
 
 USERINCLUDE		.
-SYSTEMINCLUDE	/epoc32/include
-SYSTEMINCLUDE	/epoc32/include/test
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 
 LIBRARY     	euser.lib

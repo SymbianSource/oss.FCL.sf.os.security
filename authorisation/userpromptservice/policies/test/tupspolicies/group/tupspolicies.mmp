@@ -27,10 +27,8 @@ userinclude		../../inc_private
 userinclude		../../../source				// policyreader.h
 userinclude		../../../../inc_private
 
-systeminclude	/epoc32/include
-systeminclude	/epoc32/include/ecom
-systeminclude	/epoc32/include/test
-systeminclude	/epoc32/include/libc
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_LIBC_SYSTEMINCLUDE     
 
 sourcepath		../source
 source			activewaiter.cpp tupspolicies.cpp tserviceconfig.cpp 

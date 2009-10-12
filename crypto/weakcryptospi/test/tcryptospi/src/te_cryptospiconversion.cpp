@@ -139,7 +139,11 @@ TVariantPtrC::operator TUid()
 	else if (*this==_L("KAlgorithmCipherAesXcbcPrf128")) return KAesXcbcPrf128Uid;
 	else if (*this==_L("KMacInterface")) return KMacInterfaceUid;
 	else if (*this==_L("KMacModeType")) return KMacModeTypeUid;
-#endif	
+#endif
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+    else if (*this==_L("KAlgorithmCipherEcc")) return KEccCipherUid;
+    else if (*this==_L("KAlgorithmSignerEcc")) return KEccSignerUid;
+#endif
 	else
 		{
 		User::Panic(*this,KErrNotFound);

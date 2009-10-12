@@ -285,3 +285,74 @@ TUint TF32DefaultAttributes::GetFileMode(TContentShareMode aMode)
 		
 	return fileMode;
 	}
+
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+	
+TInt TF32DefaultAttributes::GetAttribute(const TDesC8& /*aHeaderData*/, TInt aAttribute, TInt& aValue)
+	{
+	return GetAttribute(aAttribute, aValue, KNullDesC);
+	}
+	
+TInt TF32DefaultAttributes::GetAttributeSet(const TDesC8& aHeaderData, RAttributeSet& aAttributeSet)
+	{
+	TInt i = 0;
+	TInt attribute = 0;
+	TInt value = 0;
+	TInt err = KErrNone;
+	TInt numAttributes = aAttributeSet.Count();
+	
+	// loop through all the attriutes in the set and find their values
+	for(i = 0; i < numAttributes; i++)
+		{
+		attribute = aAttributeSet[i];
+		err = GetAttribute(aHeaderData, attribute, value);
+		aAttributeSet.SetValue(attribute, value, err);
+		}	
+	return KErrNone;
+	}
+	
+TInt TF32DefaultAttributes::GetStringAttribute(const TDesC8& /*aHeaderData*/, TInt aAttribute, TDes& aValue)
+	{
+	TInt err = KErrNone;
+	TBuf8 <KMaxDataTypeLength> mimeType;
+
+	switch(aAttribute)
+		{
+		case EMimeType:
+			aValue.Copy(KNullDesC());
+			break;
+		case EContentID:
+			aValue.Copy(KDefaultContentObject());
+			break;
+		default:
+			err = KErrCANotSupported;
+			break;
+		};
+	return err;
+	}
+	
+TInt TF32DefaultAttributes::GetStringAttributeSet(const TDesC8& aHeaderData, RStringAttributeSet& aStringAttributeSet)
+	{
+	TInt i = 0;
+	TInt attribute = 0;
+	TInt err = KErrNone;
+	TBuf <KMaxDataTypeLength> buf;
+
+	TInt numAttributes = aStringAttributeSet.Count();
+
+	// loop through all the attriutes in the set and find their values
+	for(i = 0; i < numAttributes; i++)
+		{
+		buf.SetLength(0);
+		attribute = aStringAttributeSet[i];
+		err = GetStringAttribute(aHeaderData, attribute, buf);
+		err = aStringAttributeSet.SetValue(attribute, buf, err);
+		if(err != KErrNone)
+			{
+			return err;
+			}
+		}	
+	return KErrNone;
+	}
+
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT

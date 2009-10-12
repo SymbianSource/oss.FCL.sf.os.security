@@ -32,8 +32,7 @@ VENDORID 0x70000001
 SOURCEPATH	.
 SOURCE testhwerrcertstoretokentype.cpp
 
-SYSTEMINCLUDE 	/epoc32/include
-SYSTEMINCLUDE	/epoc32/include/ecom
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 
 start resource 101FE9EE.rss

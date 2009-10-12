@@ -52,6 +52,11 @@ PlatSecProcessIsolation ON
 #include "securitytestframework.iby"		
 
 #include "streamingcaf.iby"
+
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+#include "mtputils.iby"
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+
 #ifdef SYMBIAN_UNIVERSAL_INSTALL_FRAMEWORK
 	//Universal Software Install Framework production
 	#include "scr.iby" // Software Component Registry
@@ -93,7 +98,10 @@ PlatSecProcessIsolation ON
 		file=ABI_DIR\BUILD_DIR\pkcs7.dll	System\Libs\pkcs7.dll
 
 		#include "tscaf.iby"
- 
+
+		#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+		#include "mtputilstest.iby"
+ 		#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 
 		#ifdef SYMBIAN_UNIVERSAL_INSTALL_FRAMEWORK
 			//Universal Software Install Framework tests
@@ -216,7 +224,12 @@ data = ZDRIVE\autohardware\hosts		     \hosts
 		data = ZDRIVE\autohardware\runpkcs12tests_9.4.bat		\runpkcs12tests.bat
 
 #ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+		data = ZDRIVE\autohardware\runcaftests_wmdrm.bat		\runcaftests.bat
+#else
 		data = ZDRIVE\autohardware\runcaftests_9.6.bat		\runcaftests.bat
+#endif
+
 #else
 		data = ZDRIVE\autohardware\runcaftests_9.5.bat		\runcaftests.bat
 #endif

@@ -18,7 +18,7 @@
 
 #include "CKeyStoreAuthObject.h"
 #include "cfskeystoreclient.h"
-#include <ct/logger.h>
+#include "ct/logger.h"
 #ifdef SYMBIAN_ENABLE_SPLIT_HEADERS
 const TUid KKeyStoreAuthObjectUID = {0x101FE681};
 #endif

@@ -21,7 +21,7 @@
 */
 
 
-#include "registryinfov2.rh"
+#include <ecom/registryinfov2.rh>
 #include <techview/eikon.rh>
 
 #ifdef SYMBIAN_ENABLE_SPLIT_HEADERS

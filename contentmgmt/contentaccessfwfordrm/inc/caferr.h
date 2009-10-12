@@ -137,5 +137,18 @@ accessing a content object.
 */ 
 const TInt KErrCACorruptContent = -17459;
 
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+/**
 
+This error is returned when only a part of encrypted input packet provided for decryption.
+*/
+const TInt KErrInsufficientDataPacketLength = -17460;
+
+/**
+
+This error is returned when only a part of encrypted input packet provided for decryption.
+*/
+const TInt KErrMissingWmdrmHeaderData = -17461;
+
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 #endif // __CAFERR_H__

@@ -44,6 +44,7 @@ OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 userinclude  ../Inc 
 userinclude  ../../../crypto/weakcrypto/inc
 userinclude  ../../../cryptomgmtlibs/cryptotokenfw/inc_interfaces
+userinclude  ../../../cryptomgmtlibs/cryptotokenfw/inc
 userinclude  ../source/generic/common
 userinclude  ../source/generic/client
 userinclude  ../source/keystore/Client

@@ -27,8 +27,7 @@ VENDORID 0x70000001
 
 UID 0 0x102832e6
 USERINCLUDE ../inc ../inc/spi
-SYSTEMINCLUDE /epoc32/include
-
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 SOURCEPATH ../test/dumpcryptoplugin
 SOURCE dumpcryptoplugin.cpp dumpprocessor.cpp

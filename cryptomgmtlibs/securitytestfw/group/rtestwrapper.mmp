@@ -22,7 +22,8 @@ targettype		dll
 uid				0x0 0x0
 capability		ALL -Tcb
 
-systeminclude	/epoc32/include
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+USERINCLUDE ../inc
 
 sourcepath		../test/rtestwrapper
 source			rtestwrapper.cpp

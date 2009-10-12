@@ -37,9 +37,10 @@ SOURCE		embeddedcontentiterator.cpp
 SOURCE		embeddedcontentiteratorbase.cpp
 
 USERINCLUDE		../../referencedrmagent/contentiterator
+USERINCLUDE		../../referencedrmagent/RefTestAgent/inc
+USERINCLUDE		../inc
 
-SYSTEMINCLUDE	/epoc32/include
-SYSTEMINCLUDE	/epoc32/include/caf
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 LIBRARY		euser.lib
 LIBRARY		ecom.lib

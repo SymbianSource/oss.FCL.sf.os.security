@@ -22,10 +22,12 @@ CAPABILITY 	none
 UID 		0x2000851C 0x2000851C
 VENDORID	0x70000001
 
-SYSTEMINCLUDE /epoc32/include
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 // Need these for export controlled headers required to develop a plugin
 USERINCLUDE	../../../../../crypto/weakcryptospi/inc
 USERINCLUDE	../../../../../crypto/weakcryptospi/inc/spi
+USERINCLUDE	../crypto_h4
+USERINCLUDE ../../../../../crypto/weakcryptospi/test/kms/exported_include
 
 SOURCE		temb.cpp
 

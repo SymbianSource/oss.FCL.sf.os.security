@@ -22,7 +22,7 @@
 */
 
 #include <e32uid.h>
-#include <kmsclient.h>
+#include "kmsclient.h"
 
 #include "kmsservercommon.h"
 #include "kmslddcommon.h"

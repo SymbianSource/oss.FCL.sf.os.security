@@ -29,7 +29,7 @@
 
 #include <e32std.h>
 
-#include <keyhandle.h>
+#include "keyhandle.h"
 
 
 /** The server will panic clients with the category if it detects an error. */

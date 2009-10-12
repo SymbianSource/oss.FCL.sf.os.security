@@ -25,7 +25,7 @@
 #ifndef __TMESSAGE_H__
 #define __TMESSAGE_H__
 
-#include <testhandler2/t_testaction.h>
+#include "t_testaction.h"
 
 class TTestActionSpec;
 

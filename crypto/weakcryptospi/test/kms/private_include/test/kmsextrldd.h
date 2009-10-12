@@ -33,7 +33,7 @@
 	#include <e32std.h>
 #endif
 
-#include <keyhandle.h>
+#include "keyhandle.h"
 
 /** Extraction LDD filename, as supplied to LoadLogicalDevice. */
 _LIT(KKmsExtrLddFileName, "KMSEXTRLDDK");

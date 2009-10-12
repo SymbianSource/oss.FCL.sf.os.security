@@ -18,7 +18,7 @@
 
 #include "tperformancetest.h"
 #include "symmetric.h"
-#include <testhandler2/t_output.h>
+#include "t_output.h"
 
 #ifndef _FOO
 _LIT(KPerfEFormat, "\tPerformance(encryption)\t%f");

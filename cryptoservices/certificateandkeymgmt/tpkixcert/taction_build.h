@@ -24,7 +24,7 @@
 #ifndef __TACTION_BUILD_H__
 #define __TACTION_BUILD_H__
 
-#include <testhandler2/t_testaction.h>
+#include "t_testaction.h"
 #include <unifiedcertstore.h>
 #include "tcertutils.h"
 

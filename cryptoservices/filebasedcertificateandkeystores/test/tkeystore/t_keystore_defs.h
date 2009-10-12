@@ -140,6 +140,9 @@ _LIT8(KKeyAlgorithmEnd, "</keyalgorithm>");
 _LIT8(KAlgRSA, "RSA");
 _LIT8(KAlgDSA, "DSA");
 _LIT8(KAlgDH, "DH");
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+_LIT8(KAlgEcc,"ECC");
+#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
 _LIT8(KAlgBAD, "BAD");
 
 _LIT8(KKeyExportableStart, "<keyexportable>");
@@ -310,6 +313,14 @@ _LIT8(KKeyStoreLabelEnd, "</keystorelabel>");
 _LIT8(KDisableDialogStart, "<disabledialogcheck>");
 _LIT8(KDisableDialogEnd, "</disabledialogcheck>");
 
+_LIT8(KListingStatusStart,"<listingstatus>");
+_LIT8(KListingStatusEnd,"</listingstatus>");
+_LIT8(KErrListingFailure,"fail");
+_LIT8(KErrListingSuccess,"pass");
+
+_LIT8(KUseKeyStoreStart,"<usekeystore>");
+_LIT8(KUseKeyStoreEnd,"</usekeystore>");
+
 #ifdef SYMBIAN_AUTH_SERVER
 // tags for authentication expression
 _LIT8(KAuthExpressionStart, "<authexpression>");
@@ -338,5 +349,17 @@ _LIT8(KAuthenticateStart, "<authenticate>");
 _LIT8(KAuthenticateEnd, "</authenticate>");
 
 #endif // SYMBIAN_AUTH_SERVER
+
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+_LIT8(KHwTypeStart, "<hwtype>");
+_LIT8(KHwTypeEnd, "</hwtype>");
+_LIT8(KPublicKeyStart, "<publickey>");
+_LIT8(KPublicKeyEnd, "</publickey>");
+_LIT8(KPrivateKeyStart, "<privatekey>");
+_LIT8(KPrivateKeyEnd, "</privatekey>");
+_LIT8(KOperationTypeStart, "<operationtype>");
+_LIT8(KOperationTypeEnd, "</operationtype>");
+
+#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
 
 #endif	//	__T_TCERTSTOREDEFS_H__

@@ -69,6 +69,11 @@ PRJ_EXPORTS
 ../inc/StreamablePtrArray.inl		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/streamableptrarray.inl)
 ../inc/dirstreamable.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/dirstreamable.h)
 
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+../inc/cafhelper.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/cafhelper.h)
+../inc/cafhelperinterface.h		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/cafhelperinterface.h)
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+
 // ROMKIT includes
 ../inc/caf.iby /epoc32/rom/include/caf.iby
 
@@ -81,9 +86,9 @@ caf.mmp
 f32agentui.mmp
 f32agent.mmp
 reccaf.mmp
-
 #endif // TOOLS2
 #endif // TOOLS
+
 PRJ_TESTMMPFILES
 
 #ifndef TOOLS
@@ -92,9 +97,9 @@ ContentIterator.mmp	support
 testagent.mmp		support
 tcaf.mmp		manual
 tsmoke.mmp		manual
-
 #endif // TOOLS2
 #endif // TOOLS
+
 PRJ_TESTEXPORTS
 ../../referencedrmagent/tcaf/scripts/nodrmcapsteps.script 			z:/tcaf/nodrmcapsteps.script
 ../../referencedrmagent/tcaf/scripts/nodrmcapsteps.ini				z:/tcaf/nodrmcapsteps.ini
@@ -146,7 +151,13 @@ PRJ_TESTEXPORTS
 ../../referencedrmagent/tcaf/testdata/Audio.content				z:/tcaf/testdata/audio.content
 ../../referencedrmagent/tcaf/testdata/Audiomulti.content			z:/tcaf/testdata/audiomulti.content
 ../../referencedrmagent/tcaf/testdata/notes1.txt				z:/tcaf/testdata/notes1.txt
-
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+../../referencedrmagent/tcaf/scripts/tcafhelper.script 				z:/tcaf/tcafhelper.script
+../../referencedrmagent/tcaf/scripts/tcafhelper.ini 				z:/tcaf/tcafhelper.ini
+../../referencedrmagent/tcaf/scripts/tcafwmdrmsupport.script 			z:/tcaf/tcafwmdrmsupport.script
+../../referencedrmagent/tcaf/scripts/tcafwmdrmsupport.ini 			z:/tcaf/tcafwmdrmsupport.ini
+../../referencedrmagent/tcaf/testdata/dummywm.asf				z:/tcaf/testdata/dummywm.asf
+#endif  //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 // ROM test iby
 ../inc/caftest.iby 						/epoc32/rom/include/caftest.iby
 

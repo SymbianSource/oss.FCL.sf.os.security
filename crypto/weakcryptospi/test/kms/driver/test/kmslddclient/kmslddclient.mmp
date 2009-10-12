@@ -21,7 +21,7 @@ targettype		exe
 
 uid				0x0 0x102833BD
 
-systeminclude	/epoc32/include
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 sourcepath		.
 source			kmslddclient.cpp

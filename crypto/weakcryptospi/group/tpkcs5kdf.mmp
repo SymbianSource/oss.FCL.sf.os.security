@@ -30,9 +30,10 @@ SOURCEPATH	../test/tpkcs5kdf
 SOURCE tactionderivekey.cpp tpkcs5kdfmain.cpp
 
 USERINCLUDE ../inc
+USERINCLUDE ../../../cryptomgmtlibs/securitytestfw/test/testhandler2
 
-SYSTEMINCLUDE /epoc32/include/testhandler2 /epoc32/include
-SYSTEMINCLUDE /epoc32/include/libc
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_LIBC_SYSTEMINCLUDE
 
 LIBRARY	euser.lib efsrv.lib t_testhandler2.lib pbe.lib estlib.lib
 

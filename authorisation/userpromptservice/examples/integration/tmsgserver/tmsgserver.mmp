@@ -23,7 +23,7 @@ UID 0x101f7295 0x01041000
 vendorid	0x70000001
 
 userinclude	    ../inc
-systeminclude	/epoc32/include
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 sourcepath	.
 source		tmsgserver.cpp

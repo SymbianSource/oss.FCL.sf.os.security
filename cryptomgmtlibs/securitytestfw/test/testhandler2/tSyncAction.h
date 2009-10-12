@@ -20,7 +20,7 @@
 #ifndef __T_SYNCACTION_H__
 #define __T_SYNCACTION_H__
 
-#include <testhandler2/t_testaction.h>
+#include "t_testaction.h"
 
 class CSyncAction : public CTestAction
 	{

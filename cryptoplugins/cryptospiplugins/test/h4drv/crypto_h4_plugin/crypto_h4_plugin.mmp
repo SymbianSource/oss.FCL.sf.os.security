@@ -30,12 +30,14 @@ VENDORID 	0x70000001
 CAPABILITY	All
 
 
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 USERINCLUDE		.
-SYSTEMINCLUDE	/epoc32/include 
 // Need these for export controlled headers required to develop a plugin
 USERINCLUDE	../../../../../crypto/weakcryptospi/inc
 USERINCLUDE	../../../../../crypto/weakcryptospi/inc/spi
+USERINCLUDE	../crypto_h4
+USERINCLUDE ../../../../../crypto/weakcryptospi/test/kms/exported_include
 
 SOURCE		pluginentry.cpp
 SOURCE		rijndaelimpl.cpp h4cipherimpl.cpp

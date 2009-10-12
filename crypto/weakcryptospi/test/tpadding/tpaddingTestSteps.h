@@ -19,7 +19,7 @@
 #ifndef _TPADDINGTESTSTEPS_H_
 #define _TPADDINGTESTSTEPS_H_
 
-#include <testexecutestepbase.h>
+#include <test/testexecutestepbase.h>
 
 // Base class for all padding tests.
 class CPaddingStep : public CTestStep

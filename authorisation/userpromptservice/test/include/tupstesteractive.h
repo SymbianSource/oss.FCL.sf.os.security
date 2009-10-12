@@ -25,7 +25,7 @@
 #define TUPSINTERACTIVE 
  
 #include <e32base.h>
-#include <test/tups_clientapi_sysserver.h>
+#include "tups_clientapi_sysserver.h"
 
 #include <ups/upstypes.h>
 

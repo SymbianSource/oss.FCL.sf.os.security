@@ -28,7 +28,7 @@
 
 #include <e32base.h>
 #include <s32file.h> 
-#include <captestframework/captestframework.h>
+#include "captestframework.h"
 
 // CDefaultCapabilityTest
 class CDefaultCapabilityTest : public CBase, public MCapabilityTest

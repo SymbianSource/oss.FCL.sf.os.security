@@ -30,6 +30,10 @@
 #include "clientserver.h"
 #include "RTAserver.h"
 
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+#include "wmdrmcontentparser.h"     
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT 
+
 namespace ReferenceTestAgent
 	{
 	class CRefTestAgentArchive;
@@ -78,6 +82,15 @@ namespace ReferenceTestAgent
 		 */
 		void OpenContentObjectL(const RMessage2& aMessage, TInt aUriOrFileSession, TInt aUniqueIdOrFileHandle);
 		void WriteCDirToMessageL(const RMessage2& aMessage, TInt aParam, CDir& aDir);
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT     
+        void GetWMDRMAttributeL(const RMessage2& aMessage);     
+        void GetWMDRMStringAttributeL(const RMessage2& aMessage);     
+        void GetWMDRMAttributeSetL(const RMessage2& aMessage);     
+        void GetWMDRMStringAttributeSetL(const RMessage2& aMessage);     
+             
+        void OpenWmdrmContentObjectL(const RMessage2& aMessage, TInt aParameter);     
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT 
+
 	private:
 #ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
 		RFile64 iFile;
@@ -89,6 +102,9 @@ namespace ReferenceTestAgent
 		
 		// this pointer should not be deleted since it points to something owned by iArchive
 		CDrmFileContent* iContentObject;
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT     
+        CWmdrmContentParser* iWmdrmContentObject;     
+#endif  //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT 
 		};
 	
 	} //namespace

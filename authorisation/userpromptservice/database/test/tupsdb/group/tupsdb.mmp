@@ -35,9 +35,8 @@ USERINCLUDE		../../../inc
 USERINCLUDE		../../../../inc
 USERINCLUDE		../../../../inc_private
 
-SYSTEMINCLUDE	/epoc32/include
-SYSTEMINCLUDE	/epoc32/include/test
-SYSTEMINCLUDE	/epoc32/include/libc
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_LIBC_SYSTEMINCLUDE
 
 STATICLIBRARY	tefunit.lib
 

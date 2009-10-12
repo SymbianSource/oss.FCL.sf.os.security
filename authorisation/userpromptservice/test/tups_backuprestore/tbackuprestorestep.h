@@ -19,7 +19,7 @@
 #ifndef __T_BACKUP_RESTORE_STEP_H__
 #define __T_BACKUP_RESTORE_STEP_H__
 
-#include <testexecutestepbase.h>
+#include <test/testexecutestepbase.h>
 #include "tbackuprestore.h"
 
 _LIT(KTStepInstall,					"INSTALL");

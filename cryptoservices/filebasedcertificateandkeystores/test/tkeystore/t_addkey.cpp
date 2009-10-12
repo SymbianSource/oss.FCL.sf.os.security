@@ -85,16 +85,21 @@ void CAddKey::PerformAction(TRequestStatus& aStatus)
 		case EAddKey:
 			{
 			CUnifiedKeyStore* keyStore = CSharedKeyStores::TheUnifiedKeyStores().operator[](iKeystore);
+			if(iKeyStoreImplLabel.Length() != 0)
+					{
+					SetKeyStoreIndex(keyStore);
+					}
+					
 			#ifdef SYMBIAN_AUTH_SERVER		
 			if(iUseNewApi)
 				{
-				keyStore->CreateKey(0, iUsage, iSize, *iLabel, iAlgorithm,
+				keyStore->CreateKey(iKeyStoreImplIndex, iUsage, iSize, *iLabel, iAlgorithm,
 												iAccessType, iStartDate, iEndDate, *iAuthExpression, iFreshness, iKeyInfo, aStatus);
 				}
 			else
 			#endif // SYMBIAN_AUTH_SERVER
 				{
-				keyStore->CreateKey(0, iUsage, iSize, *iLabel, iAlgorithm,
+				keyStore->CreateKey(iKeyStoreImplIndex, iUsage, iSize, *iLabel, iAlgorithm,
 								iAccessType, iStartDate, iEndDate, iKeyInfo, aStatus);
 
 				}			

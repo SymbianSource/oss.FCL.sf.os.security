@@ -22,7 +22,7 @@
  @file
 */
 
-#include <captestframework/captestutility.h>
+#include "captestutility.h"
 
 // CDefaultCapabilityTest
 

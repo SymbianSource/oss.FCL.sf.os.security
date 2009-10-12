@@ -89,6 +89,15 @@ namespace ContentAccess
 		virtual void PrepareHTTPRequestHeaders(RStringPool& aStringPool, RHTTPHeaders& aRequestHeaders) const;
 		virtual TInt RenameDir(const TDesC& aOldName, const TDesC& aNewName);
 
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+		virtual TBool IsRecognizedL(const TDesC8& aHeaderData) const;
+		virtual TBool RecognizeContentL(const TDesC8& aHeaderData, TDes8& aFileMimeType, TDes8& aContentMimeType) const;
+		virtual TInt GetAttribute(const TDesC8& aHeaderData, TInt aAttribute, TInt& aValue);
+		virtual TInt GetAttributeSet(const TDesC8& aHeaderData, RAttributeSet& aAttributeSet);
+		virtual TInt GetStringAttributeSet(const TDesC8& aHeaderData, RStringAttributeSet& aAttributeSet);
+		virtual TInt GetStringAttribute(const TDesC8& aHeaderData, TInt aAttribute, TDes& aValue);
+#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+
 	protected:
 		CF32AgentManager();
 

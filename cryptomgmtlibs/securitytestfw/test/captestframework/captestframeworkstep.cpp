@@ -25,7 +25,7 @@
 #include <e32capability.h>
 
 #include "captestframeworkstep.h"
-#include <captestframework/captestframework.h>
+#include "captestframework.h"
 
 #include <test/testexecutelog.h>
 #include <s32file.h>

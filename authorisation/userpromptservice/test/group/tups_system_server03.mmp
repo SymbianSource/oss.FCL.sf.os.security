@@ -34,9 +34,7 @@ SOURCE tupstesteractive.cpp
 USERINCLUDE .
 USERINCLUDE ../include 
 
-SYSTEMINCLUDE   /epoc32/include
-SYSTEMINCLUDE   /epoc32/include/ups
-SYSTEMINCLUDE   /epoc32/include/test
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 LIBRARY         euser.lib
 LIBRARY		upsclient.lib

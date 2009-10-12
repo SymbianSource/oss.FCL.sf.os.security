@@ -35,8 +35,6 @@ ced -i c:\auto.cfg
 
 sntpclient -savings cbtime01.symbian.intra bantime01.symbian.intra
 
-runcaftests.bat
-
 runcrypto.bat
 
 REM Run recognizer tests
@@ -57,3 +55,4 @@ runauthtests.bat
 
 runfiletokens.bat
 
+runcaftests.bat

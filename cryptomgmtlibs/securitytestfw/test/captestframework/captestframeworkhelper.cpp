@@ -26,7 +26,7 @@
 #include <e32base.h>
 #include <f32file.h>
 
-#include <captestframework/captestframework.h>
+#include "captestframework.h"
 
 
 void MainL();

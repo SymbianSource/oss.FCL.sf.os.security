@@ -31,9 +31,9 @@ capability	trustedui protserv
 userinclude	../inc_private
 userinclude	../tups_notifier/source
 
-systeminclude 	/epoc32/include
-systeminclude 	/epoc32/include/ecom
-systeminclude 	/epoc32/include/techview
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+APP_LAYER_SYSTEMINCLUDE_SYMBIAN
+
 
 sourcepath    	../tups_notifier/source
 source        	tups_notifier.cpp

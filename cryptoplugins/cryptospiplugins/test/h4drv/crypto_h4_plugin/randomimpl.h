@@ -26,7 +26,7 @@
 
 #include <cryptospi/cryptoplugin.h>
 #include <cryptospi/randomplugin.h>
-#include <cryptodriver.h>
+#include "cryptodriver.h"
 
 #ifdef __MARM__
 #define __NOTSHARED __declspec(notshared)

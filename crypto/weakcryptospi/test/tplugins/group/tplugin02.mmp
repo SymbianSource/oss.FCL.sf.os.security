@@ -41,7 +41,7 @@ USERINCLUDE		../inc/tplugin02
 USERINCLUDE 	../../../inc
 USERINCLUDE 	../../../inc/spi
 
-SYSTEMINCLUDE	/epoc32/include 
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 SOURCEPATH	../src/tplugin02
 SOURCE		pluginentry.cpp softwarehashbase.cpp desextendimpl.cpp

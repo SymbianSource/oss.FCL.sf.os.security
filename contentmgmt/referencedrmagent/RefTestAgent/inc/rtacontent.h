@@ -55,11 +55,25 @@ namespace ReferenceTestAgent
 		IMPORT_C TInt CancelRequestRights(const TDesC& aUniqueId) const;
 		IMPORT_C void DisplayInfoL(ContentAccess::TDisplayInfo aInfo, const TDesC& aUniqueId) const;
 		IMPORT_C TInt SetProperty(ContentAccess::TAgentProperty aProperty, TInt aValue) const;
+		
+		#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+        IMPORT_C TInt Open(const TDesC8& aHeaderData);
+        IMPORT_C TInt GetWmdrmAttribute(const TDesC& aUniqueId, TInt aAttribute, TInt &aValue) const;
+        IMPORT_C TInt GetWmdrmAttributeSet(const TDesC& aUniqueId, ContentAccess::RAttributeSet &aAttributeSet) const; 
+        IMPORT_C TInt GetWmdrmStringAttribute(const TDesC& aUniqueId, TInt aAttribute, TDes &aValue) const; 
+        IMPORT_C TInt GetWmdrmStringAttributeSet(const TDesC& aUniqueId, ContentAccess::RStringAttributeSet &aStringAttributeSet) const;
+		#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 
 	private:
 		void SearchL (ContentAccess::RStreamablePtrArray< ContentAccess::CEmbeddedObject > &aArray, const TDesC8 &aMimeType, TBool aRecursive) const;
-		void GetAttributeSetL (const TDesC& aUniqueId, ContentAccess::RAttributeSet &aAttributeSet) const; 
-		void GetStringAttributeSetL (const TDesC& aUniqueId, ContentAccess::RStringAttributeSet &aStringAttributeSet) const; 
+		
+		#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+            void GetAttributeSetL(const TDesC& aUniqueId, ContentAccess::RAttributeSet &aAttributeSet, TBool aWmdrmFlag = EFalse) const;
+            void GetStringAttributeSetL(const TDesC& aUniqueId, ContentAccess::RStringAttributeSet &aStringAttributeSet, TBool aWmdrmFlag = EFalse) const;
+		#else
+			void GetAttributeSetL (const TDesC& aUniqueId, ContentAccess::RAttributeSet &aAttributeSet) const;
+			void GetStringAttributeSetL (const TDesC& aUniqueId, ContentAccess::RStringAttributeSet &aStringAttributeSet) const;
+		#endif
 		};
 	} // namespace
 #endif

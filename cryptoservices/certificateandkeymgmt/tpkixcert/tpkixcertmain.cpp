@@ -17,11 +17,11 @@
 
 
 #include <e32base.h>
-#include <testhandler2/t_testhandler.h>
+#include "t_testhandler.h"
 #include <f32file.h>
 #include "tactionvalidate.h"
 #include "taction_build.h"
-#include <testhandler2/tscriptandhardcoded.h>
+#include "tscriptandhardcoded.h"
 
 LOCAL_D void callExampleL() // initialize and call example code under cleanup stack
     {

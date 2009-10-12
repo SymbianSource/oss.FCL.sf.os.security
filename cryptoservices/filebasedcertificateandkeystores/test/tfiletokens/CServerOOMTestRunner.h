@@ -19,7 +19,7 @@
 #ifndef __CSERVEROOMTESTRUNNER_H__
 #define __CSERVEROOMTESTRUNNER_H__
 
-#include <clientsession.h>
+#include "clientsession.h"
 #include "t_testrunner.h"
 #include <f32file.h>
 

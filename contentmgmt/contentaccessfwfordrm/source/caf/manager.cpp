@@ -703,3 +703,63 @@ EXPORT_C void CManager::DeleteFileL(const TDesC &aFileName)
 	}
 #endif // REMOVE_CAF1
 
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+
+EXPORT_C TInt CManager::GetAttribute(const TDesC8& aHeaderData, TInt aAttribute, TInt& aValue) const
+	{
+	TRAPD(err, DoGetAttributeL(aHeaderData, aAttribute, aValue));
+	return err;
+	}
+
+void CManager::DoGetAttributeL(const TDesC8& aHeaderData, TInt aAttribute, TInt& aValue) const
+	{
+	// Find the agent who handles the file 
+	CAgentInfo& agentInfo = iResolver->ResolveFileL(aHeaderData);
+	User::LeaveIfError(agentInfo.AgentManagerL().GetAttribute(aHeaderData, aAttribute, aValue));
+	}
+	
+EXPORT_C TInt CManager::GetAttributeSet(const TDesC8& aHeaderData, RAttributeSet& aAttributeSet) const
+	{
+	TRAPD(err, DoGetAttributeSetL(aHeaderData, aAttributeSet));
+	return err;
+	}
+
+void CManager::DoGetAttributeSetL(const TDesC8& aHeaderData, RAttributeSet& aAttributeSet) const	
+	{
+	// Find the agent who handles the file 
+	CAgentInfo& agentInfo = iResolver->ResolveFileL(aHeaderData);
+	
+	User::LeaveIfError(agentInfo.AgentManagerL().GetAttributeSet(aHeaderData, aAttributeSet));
+	}
+	
+EXPORT_C TInt CManager::GetStringAttribute(const TDesC8& aHeaderData, TInt aAttribute, TDes& aValue) const
+	{
+	TRAPD(err, DoGetStringAttributeL(aHeaderData, aAttribute, aValue));
+	return err;
+	}
+	
+void CManager::DoGetStringAttributeL(const TDesC8& aHeaderData, TInt aAttribute, TDes& aValue) const
+	{
+	// Find the agent who handles the file 
+	CAgentInfo& agentInfo = iResolver->ResolveFileL(aHeaderData);
+	
+	// find out the attribute
+	User::LeaveIfError(agentInfo.AgentManagerL().GetStringAttribute(aHeaderData, aAttribute, aValue));
+	}
+	
+EXPORT_C TInt CManager::GetStringAttributeSet(const TDesC8& aHeaderData, RStringAttributeSet& aStringAttributeSet) const
+	{
+	TRAPD(err, DoGetStringAttributeSetL(aHeaderData, aStringAttributeSet));
+	return err;
+	}
+
+void CManager::DoGetStringAttributeSetL(const TDesC8& aHeaderData, RStringAttributeSet& aStringAttributeSet) const
+	{
+	// Find the agent who handles the file 
+	CAgentInfo& agentInfo = iResolver->ResolveFileL(aHeaderData);
+
+	// find out the array of attributes
+	User::LeaveIfError(agentInfo.AgentManagerL().GetStringAttributeSet(aHeaderData, aStringAttributeSet));
+	}
+	
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT

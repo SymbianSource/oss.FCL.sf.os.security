@@ -18,8 +18,9 @@
 
 
 /**
- @file
- @internalComponent
+ @file 
+ @publishedPartner
+ @prototype
 */
  
 #ifndef __CFSTOKENTYPECLIENT_H__

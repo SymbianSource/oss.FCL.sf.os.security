@@ -220,7 +220,6 @@ void CRefTestAgentManager::DisplayInfoL(TDisplayInfo aInfo, RFile& aFile, const 
 TBool CRefTestAgentManager::IsRecognizedL(const TDesC& aUri, TContentShareMode /*aShareMode*/) const
 	{
 	TBool result = EFalse;
-	
 	// Check that the file has content only, otherwise it should
 	// be put through the supplier API before it can be used
 	TPtrC extension(aUri.Right(KRtaExtensionContent().Length()));
@@ -238,7 +237,15 @@ TBool CRefTestAgentManager::IsRecognizedL(RFile& aFile) const
 	// Get the name of the file
 	TFileName fileName;
 	aFile.Name(fileName);
-
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+    TPtrC extension(fileName.Right(KRtaExtensionContent().Length()));     
+    TPtrC wmdrmExtn(fileName.Right(KRtaWmdrmFileExtension().Length()));     
+    if((extension.CompareF(KRtaExtensionContent) == 0) || (wmdrmExtn.CompareF(KRtaWmdrmFileExtension) == 0))     
+        {     
+        result = ETrue;     
+        }     
+      
+#else 
 	// Check that the file has content only, otherwise it should
 	// be put through the supplier API before it can be used
 	TPtrC extension(fileName.Right(KRtaExtensionContent().Length()));
@@ -246,6 +253,7 @@ TBool CRefTestAgentManager::IsRecognizedL(RFile& aFile) const
 		{
 		result = ETrue;
 		}
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 	return result;
 	}
 
@@ -255,6 +263,22 @@ TBool CRefTestAgentManager::RecognizeFileL(const TDesC& aFileName, const TDesC8&
 	
 	// Check filename extension
 	TPtrC extension(aFileName.Right(KRtaExtensionContent().Length()));
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+    TPtrC wmdrmExtn(aFileName.Right(KRtaWmdrmFileExtension().Length()));     
+    if(wmdrmExtn.CompareF(KRtaWmdrmFileExtension) == 0)     
+        {     
+        aFileMimeType.Copy(KRtaWmaContentType);     
+        aContentMimeType.Copy(KRtaWmaContentType);     
+        result = ETrue;     
+        }     
+         
+    else if(extension.CompareF(KRtaExtensionContent) == 0)     
+        {     
+        aFileMimeType.Copy(KRtaMimeContent());     
+        CRefTestAgentArchive::GetDefaultMimeTypeFromHeaderL(aBuffer, aContentMimeType);     
+        result = ETrue;      
+        }     
+#else    
 	if(extension.CompareF(KRtaExtensionContent) == 0)
 		{
 		// It's a content file ready for applications to read
@@ -262,6 +286,7 @@ TBool CRefTestAgentManager::RecognizeFileL(const TDesC& aFileName, const TDesC8&
 		CRefTestAgentArchive::GetDefaultMimeTypeFromHeaderL(aBuffer, aContentMimeType);
 		result = ETrue;	
 		}
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 	else
 		{
 		extension.Set(aFileName.Right(KRtaExtensionContentRights().Length()));
@@ -335,4 +360,52 @@ void CRefTestAgentManager::PrepareHTTPRequestHeaders(RStringPool& /*aStringPool*
 	}
 #endif
 
+
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT     
+      
+TBool CRefTestAgentManager::IsRecognizedL(const TDesC8& aHeaderData) const
+    {
+    TBool result = EFalse;
+    if(aHeaderData.Find(KRtaAsfHeaderObject) != KErrNotFound)     
+        {     
+        result = ETrue;     
+        }     
+             
+    return result;     
+    }
+     
+TBool CRefTestAgentManager::RecognizeContentL(const TDesC8& aHeaderData, TDes8& aFileMimeType, TDes8& aContentMimeType) const     
+    {     
+    TBool result = EFalse;     
+    if(aHeaderData.Find(KRtaAsfHeaderObject) != KErrNotFound)     
+        {     
+        aFileMimeType.Copy(KRtaWmaContentType);     
+        aContentMimeType.Copy(KRtaWmaContentType);     
+        result = ETrue;     
+        }     
+         
+    return result;     
+    }     
+         
+TInt CRefTestAgentManager::GetAttribute(const TDesC8& aHeaderData, TInt aAttribute, TInt& aValue)     
+    {     
+    return iManagerSession.GetAttribute(aHeaderData, aAttribute, aValue);     
+    }     
+      
+TInt CRefTestAgentManager::GetAttributeSet(const TDesC8& aHeaderData, RAttributeSet& aAttributeSet)     
+    {     
+    return iManagerSession.GetAttributeSet(aHeaderData, aAttributeSet);     
+    }     
+      
+TInt CRefTestAgentManager::GetStringAttribute(const TDesC8& aHeaderData, TInt aAttribute, TDes& aValue)      
+    {     
+    return iManagerSession.GetStringAttribute(aHeaderData, aAttribute, aValue);     
+    }     
+      
+TInt CRefTestAgentManager::GetStringAttributeSet(const TDesC8& aHeaderData, RStringAttributeSet& aAttributeSet)      
+    {     
+    return iManagerSession.GetStringAttributeSet(aHeaderData, aAttributeSet);     
+    }     
+         
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT 
 

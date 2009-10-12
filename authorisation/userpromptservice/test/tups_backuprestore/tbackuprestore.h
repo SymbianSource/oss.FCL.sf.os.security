@@ -18,7 +18,7 @@
 
 #ifndef __T_BACKUP_RESTORE_H__
 #define __T_BACKUP_RESTORE_H__
-#include <testexecuteserverbase.h>
+#include <test/testexecuteserverbase.h>
 
 class CTBackupRestoreServer : public CTestServer
 	{

@@ -18,7 +18,7 @@
 
 #include "tupsdbmanagementstep.h"  
 #include "tupsintegdefs.h"
-#include "upstypes.h"
+#include <ups/upstypes.h>
 
 using namespace UserPromptService;
 

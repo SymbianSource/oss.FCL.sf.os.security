@@ -29,6 +29,7 @@ CAPABILITY	All -Tcb
 
 USERINCLUDE 	../streamingrefagent/inc
 MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+APP_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 SOURCEPATH 	../streamingrefagent/source/utils
 SOURCE		srautils.cpp

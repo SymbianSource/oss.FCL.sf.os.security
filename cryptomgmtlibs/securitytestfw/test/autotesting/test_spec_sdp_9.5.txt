@@ -24,7 +24,7 @@
 #                             COMPONENT ASSIGNMENT                            #
 ###############################################################################
 {tb92SF}=Init,Crypto,CryptoTokens,CAF2,CAF296,Common,Certman,Asnpkcs,Filetokens,CryptoSpi,UPS,StreamingCAF,SecurityTools,Misc
-{tb101SF}=Init,Crypto,CryptoTokens,CAF2,CAF296,Common,Certman,Asnpkcs,Filetokens,FileTokens_UseAuth,CryptoSpi,UPS,AuthServer,StreamingCAF,SecurityTools,Misc
+{tb101SF}=Init,Crypto,CryptoTokens,CAF2,CAF296,CAF2Future,Common,Certman,Asnpkcs,Filetokens,FileTokens_UseAuth,CryptoSpi,UPS,AuthServer,StreamingCAF,SecurityTools,Misc,FileTokens_HwImpl
 
 
 ###############################################################################
@@ -103,6 +103,11 @@ TESTEXECUTE, \logs\testexecute\tcafnodrmcap.htm,, z:\tcaf\tcafnodrmcap.script,30
 TESTEXECUTE, \logs\testexecute\RTA_64bit.htm,, z:\RTA\rta_64bit.script,1800, UDEB#UREL,\techview.bat,
 TESTEXECUTE, \logs\testexecute\consumerstep_64bit.htm,, z:\tcaf\consumerstep_64bit.script,1800, UDEB#UREL,\techview.bat,
 
+[CAF2Future]
+# Should run for vfuture onwards.
+TESTEXECUTE, \logs\testexecute\tcafwmdrmsupport.htm,, z:\tcaf\tcafwmdrmsupport.script,1800, UDEB#UREL,\techview.bat,
+TESTEXECUTE, \logs\testexecute\tmtputils.htm,, z:\tcaf\tmtputils\tmtputils.script,1800, UDEB#UREL,\techview.bat,
+TESTEXECUTE, \logs\testexecute\tcafhelper.htm,, z:\tcaf\tcafhelper.script,1800, UDEB#UREL,\techview.bat,
 
 [StreamingCAF]
 #Streaming CAF Tests
@@ -732,3 +737,8 @@ PERL, \cdrivewarnings.htm,,\epoc32\winscw\c\cdrive.pl --exclude=\epoc32\winscw\c
 
 # Categorisation tags are checked for all of security sub-system 
 PERL, \searchtags.txt,,\epoc32\winscw\c\tswi\searchtags.pl, 300, UDEB,,
+[FileTokens_HwImpl]
+T_KEYSTORE, \thwkeystore.log,,		     -Dstartupmode=1 -- \tkeystore\scripts\thwkeystore.txt	\thwkeystore.log,				300, UDEB#UREL, \epoc32\winscw\c\testdata\tcryptospi\scripts\batchfiles\pre_dummyeccplugin.bat, \epoc32\winscw\c\testdata\tcryptospi\scripts\batchfiles\post_dummyeccplugin.bat
+TESTEXECUTE, \logs\testexecute\te_dummyeccciphertestcases.htm,, -Dtextshell -- \testdata\tcryptospi\scripts\te_dummyeccciphertestcases.script, 900, UDEB#UREL, \epoc32\winscw\c\testdata\tcryptospi\scripts\batchfiles\pre_dummyeccplugin.bat, \epoc32\winscw\c\testdata\tcryptospi\scripts\batchfiles\post_dummyeccplugin.bat
+
+

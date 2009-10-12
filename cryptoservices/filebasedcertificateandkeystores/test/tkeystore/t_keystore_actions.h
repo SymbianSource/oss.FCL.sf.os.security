@@ -30,7 +30,7 @@
 #include <badesca.h>
 #include "t_testaction.h"
 #include "t_output.h"
-#include <clientsession.h>
+#include "clientsession.h"
 #include <hash.h>
 #include <mctkeystore.h>
 #include <unifiedkeystore.h>
@@ -84,7 +84,20 @@ protected:
 							const TDesC& aResponse1, const TDesC& aResponse2);
 	TInt ReadDialogCountL();
 	void PrintKeyInfoL(const CCTKeyInfo& aKey);
-
+	void SetKeyType(const TDesC8& aKeyType);
+	void SetKeyStoreIndex(CUnifiedKeyStore* aUnifiedKeyStore);
+	
+public:
+	enum TKeyTypes
+		{
+		ERSASign,
+		EDSASign,
+		EDH,
+		EDecrypt,
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+		EECC,
+#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
+		};
 protected:
 	TUint iServerAlloc;
 	RFs& iFs;
@@ -99,7 +112,10 @@ protected:
 	TCTKeyAttributeFilter iFilter;
 	RMPointerArray<CCTKeyInfo> iKeys;
 	TInt iDisableCheckDialog;
-
+	TKeyTypes iType;
+	TInt iKeyStoreImplIndex;
+	TPtrC8 iKeyStoreImplLabel;
+	
 #ifdef SYMBIAN_AUTH_SERVER
 	// this variable would be used to retrieve the rom build variant 
 	// for key store.
@@ -108,6 +124,9 @@ protected:
 	TInt iFreshness;
 	TInt iDeauthenticate;
 #endif // SYMBIAN_AUTH_SERVER
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+	TInt iHardwareType;
+#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
 };
 
 class CInitialiseKeyStore : public CKeyStoreTestAction
@@ -258,6 +277,7 @@ private:
 	void ConstructL(const TTestActionSpec& aTestActionSpec);
 	void SetKeySize(const TDesC8& aKeySize);
 	void SetListCount(const TDesC8& aListCount);
+	void SetListStatus(const TDesC8& aListStatus);
 	void AddFoundKeyL(const TDesC8& aFoundKey);
 private:	
 	enum TState
@@ -274,6 +294,7 @@ private:
 	// Filter componenets
 	TUint iSize;
 	CCTKeyInfo::EKeyAccess iAccessType;
+	TDesC8* iListStatus;
 };
 
 /**
@@ -378,6 +399,11 @@ protected:
 	HBufC8*  iImportFileName;
 	HBufC8* iKeyData;
 	CCTKeyInfo* iKeyInfo;
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+	TUint iImportHardwareType;
+	HBufC8* iPublicKey;
+	HBufC8* iPrivateKey;
+#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
 private:
 	enum TState
 		{
@@ -552,8 +578,7 @@ private:
 	void DoCheckResult(TInt aError);
 	COpenKey(RFs& aFs, CConsoleBase& aConsole, Output& aOut);
 	void ConstructL(const TTestActionSpec& aTestActionSpec);
-	void SetKeyType(const TDesC8& aKeyType);
-private:
+
 private:	
 	enum TState
 		{
@@ -561,25 +586,27 @@ private:
 		EOpenKey,
 		EFinished
 		};
-
-	enum TKeyTypes
+	
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+	enum TOperationType
 		{
-		ERSASign,
-		EDSASign,
-		EDH,
-		EDecrypt
+		ESigning,
+		EDecryption,
 		};
+#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
 private:
 	TState iState;
-
-	TKeyTypes iType;
-
 	TCTTokenObjectHandle iDeleteHandle;
 //	Filter components
 	MRSASigner* iRSASigner;
 	MDSASigner* iDSASigner;
 	MCTDecryptor* iDecryptor;
 	MCTDH* iDH;
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+	TOperationType iOperationType;
+	CryptoSpi::CSigner* iSigner;
+	CryptoSpi::CAsymmetricCipher* iDecrypt;
+#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
 };
 
 //	Allows script to sign, filter on keys algorithm (or all) and deletes listed keys
@@ -600,8 +627,8 @@ private:
 	void ConstructL(const TTestActionSpec& aTestActionSpec);
 private:
 	void SetSignText(const TDesC8&);
-	void SetKeyType(const TDesC8& aKeyType);
 	void SetDigestSignL(const TDesC8&);
+	
 private:	
 	enum TState
 		{
@@ -610,20 +637,16 @@ private:
 		ESign,
 		EExportPublic,
 		EVerify,
-		EFinished
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+		ESignInHardware,
+		EVerifyHwSignature,
+#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
+		EFinished,
 		};
 
-	enum TKeyTypes
-		{
-		ERSASign,
-		EDSASign,
-		EDH,
-		EDecrypt
-		};
 private:
 	TState iState;
 	TBool iVerifyResult;
-	TKeyTypes iType;
 	TCTTokenObjectHandle iExportHandle;
 //	Filter components
 	HBufC8* iReadText;		//	Text to sign, read in from script
@@ -635,8 +658,13 @@ private:
 	CDSASignature* iDSASignature;
 	CRSASignature* iRSASignature;
 	CMessageDigest* iHash;
-	TBool iFailHashDigest;	//	Should hash the digest beforehand, but doesn't
-};							//	to test failure mode
+	TBool iFailHashDigest;	//	Should hash the digest beforehand, but doesn't to test failure mode
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+	CryptoSpi::CSigner* iSigner;
+	CryptoSpi::CCryptoParams* iSpiSignature;
+	TCTTokenObjectHandle iTokenHandle;
+#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
+};							
 
 class CDecrypt : public CKeyStoreTestAction
 {
@@ -676,6 +704,9 @@ private:
 	TPtr8 iPlainTextPtr;
 	MCTDecryptor* iDecryptor;
 	HBufC8* iPublic;
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+	CryptoSpi::CAsymmetricCipher* iDecrypt;
+#endif
 };
 
 class CDHKeyPair;

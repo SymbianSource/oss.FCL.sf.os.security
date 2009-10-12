@@ -26,7 +26,7 @@ SOURCE	      sntpclientengine.cpp
 SOURCE	      util.cpp
 
 USERINCLUDE  ../test/sntpclient 
-SYSTEMINCLUDE /epoc32/include
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 CAPABILITY WriteDeviceData NetworkServices
 

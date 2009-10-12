@@ -37,9 +37,7 @@ SOURCE		dummytestagent.cpp
 USERINCLUDE		../inc
 USERINCLUDE		../dummytestagent
 
-SYSTEMINCLUDE	/epoc32/include 
-SYSTEMINCLUDE	/epoc32/include/caf
-SYSTEMINCLUDE	/epoc32/include/ecom
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 start resource E1010101.rss
 target dummytestagent.rsc

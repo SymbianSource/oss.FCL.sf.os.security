@@ -17,7 +17,7 @@
 
 
 #include "tdhvector.h"
-#include <testhandler2/t_input.h>
+#include "t_input.h"
 #include "performancetest.h"
 
 enum TActionMode {EMode1 = 1, EMode2 = 2, EMode3 = 3, EMode4 = 4};

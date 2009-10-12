@@ -87,7 +87,12 @@ namespace ContentAccess
 
 		@panic CAF EF32AgentRightsManagerNotSupported 
 		*/
-		virtual CAgentRightsManager* CreateRightsManagerL();		
+		virtual CAgentRightsManager* CreateRightsManagerL();
+		
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+		virtual CAgentData* CreateDataConsumerL(const TDesC8& aHeaderData);
+		virtual CAgentContent* CreateContentBrowserL(const TDesC8& aHeaderData);
+#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT		
 		};
 } // namespace ContentAccess
 #endif // __F32AGENTFACTORY_H__

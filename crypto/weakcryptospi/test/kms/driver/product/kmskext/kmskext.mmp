@@ -24,7 +24,9 @@ option armcc --diag_suppress 2874
 target			kmskext.dll
 targettype		kext
 
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 userinclude		../../../private_include/product
+userinclude		../../../exported_include
 
 sourcepath		.
 source			hwkeystore.cpp kmskext.cpp

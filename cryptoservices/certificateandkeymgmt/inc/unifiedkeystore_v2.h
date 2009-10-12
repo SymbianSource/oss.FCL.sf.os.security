@@ -32,6 +32,15 @@
 
 #include <mctkeystoremanager.h>
 
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+namespace CryptoSpi
+    {
+    class CSigner;
+    class CAsymmetricCipher;
+    class CCryptoParams;
+    }
+#endif
+
 /**
  * Unified KeyStore panics 
  *
@@ -126,6 +135,23 @@ public:  // Implementation of MKeyStore interface
 							  HBufC8*& aPublicKey,
 							  TRequestStatus& aStatus);
 	virtual void CancelExportPublic();
+
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+    virtual void Open(const TCTTokenObjectHandle& aHandle,
+                      CryptoSpi::CSigner*& aSigner,
+                      TRequestStatus& aStatus);
+    virtual void Open(const TCTTokenObjectHandle& aHandle,
+                      CryptoSpi::CAsymmetricCipher*& asymmetricCipherObj,
+                      TRequestStatus& aStatus);
+    virtual void Decrypt(const TCTTokenObjectHandle& aHandle,
+                         const TDesC8& aCiphertext,
+                         HBufC8*& aPlaintextPtr,
+                         TRequestStatus& aStatus);
+    virtual void Sign(const TCTTokenObjectHandle& aHandle,
+                      const TDesC8& aPlaintext,
+                      CryptoSpi::CCryptoParams*& aSignature,
+                      TRequestStatus& aStatus);
+#endif
 
 public:		//	For MCTKeyStoreManager except those (CreateKey, ImportKey, ImportEncryptedKey)
 			//	that require a caller-specified store

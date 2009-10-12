@@ -27,7 +27,7 @@
 #include <e32cmn.h>
 #include "keys.h"
 #include "h4cipherimpl.h"
-#include <cryptodriver.h>
+#include "cryptodriver.h"
 
 /**
 Plug-in class for AES (Rijndael) block cipher

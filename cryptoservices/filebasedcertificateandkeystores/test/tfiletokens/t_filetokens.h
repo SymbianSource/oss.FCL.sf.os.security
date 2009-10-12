@@ -19,7 +19,7 @@
 #ifndef __T_FILETOKENS_H__
 #define __T_FILETOKENS_H__
 
-#include <testhandler2/t_testaction.h>
+#include "t_testaction.h"
 
 _LIT8(KServerOOMTestStart, "startserveroom");
 _LIT8(KServerOOMTestStop, "stopserveroom");

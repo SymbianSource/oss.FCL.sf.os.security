@@ -21,7 +21,7 @@ targettype			dll
 
 uid					0x0 0x10283511
 
-systeminclude		/epoc32/include
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 userinclude			../inc_private
 
