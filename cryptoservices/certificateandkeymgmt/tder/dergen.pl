@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+# Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
 # All rights reserved.
 # This component and the accompanying materials are made available
 # under the terms of the License "Eclipse Public License v1.0"
@@ -12,27 +12,11 @@
 # Contributors:
 #
 # Description: 
-#
-#!/bin/perl -w
-
-# Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
-# All rights reserved.
-# This component and the accompanying materials are made available
-# under the terms of the License "Symbian Foundation License v1.0"
-# which accompanies this distribution, and is available
-# at the URL "http://www.symbianfoundation.org/legal/sfl-v10.html".
-#
-# Initial Contributors:
-# Nokia Corporation - initial contribution.
-#
-# Contributors:
-#
-# Description:
 # Basic ASN.1 encoding library
 # Some parts of this program requrie OpenSSL which may be freely downloaded
 # from www.openssl.org
-# 
 #
+#!/bin/perl -w
 
 use strict;
 use Digest::HMAC_MD5;
