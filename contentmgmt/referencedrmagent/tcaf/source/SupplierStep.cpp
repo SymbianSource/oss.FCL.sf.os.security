@@ -29,7 +29,7 @@
 #include "bitset.h"
 
 #include <uri8.h>
-#ifndef SYMBIAN_DISABLE_UPWARD_DEPENDENCY
+#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 #include <http.h>
 #include <http/rhttpsession.h>
 #include <http/rhttptransaction.h>
@@ -602,7 +602,7 @@ TVerdict CCAFSupplierSerializeStep::doTestStepL()
 	return TestStepResult();
 	}
 
-#ifndef SYMBIAN_DISABLE_UPWARD_DEPENDENCY
+#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 
 /* 
  * Check that applications can retrieve the HTTP request headers

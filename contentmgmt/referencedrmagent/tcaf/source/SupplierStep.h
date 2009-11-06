@@ -25,7 +25,7 @@
 #include "cafstep.h"
 #include "importfile.h"
 
-#ifndef SYMBIAN_DISABLE_UPWARD_DEPENDENCY
+#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 #include <http/mhttptransactioncallback.h>
 #endif
 
@@ -34,7 +34,7 @@ _LIT(KCAFSupplierStep,"CAFSupplierStep");
 _LIT(KCAFSupplierAsyncStep,"CAFSupplierAsyncStep");
 _LIT(KCAFSupplierSerializeStep,"CAFSupplierSerializeStep");
 _LIT(KCAFClientOutputSupplierStep,"CAFClientOutputSupplierStep");
-#ifndef SYMBIAN_DISABLE_UPWARD_DEPENDENCY
+#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 _LIT(KCAFHTTPRequestHeadersStep,"CAFHTTPRequestHeaders");
 #endif
 class CCAFServer;
@@ -105,7 +105,7 @@ private:
 	};
 
 
-#ifndef SYMBIAN_DISABLE_UPWARD_DEPENDENCY
+#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 /* 
 * Used to test that an application can retrieve HTTP request headers
 * @internalComponent Exposure internally

@@ -80,7 +80,11 @@ void CKeyDetails::ConstructL(	TInt aHandle, const TDesC& aLabel,
 	// set the access type to never extractable
 	iAccessType |= CKeyInfoBase::ENeverExtractable;
 	iAccessType |= CKeyInfoBase::ELocal;
-			
+	// Policy set for keys in hardware depends on the vendor requirements 
+	// this reference implementation assumes that accessibility of keys
+	// does not need any restriction. Hence for the testing environment policy is set to always pass.
+	TSecurityPolicy  temp(TSecurityPolicy::EAlwaysPass);
+	iUsePolicy = temp;
 	}
 
 void CKeyDetails::ExternalizeL(RWriteStream& aWriteStream) const
@@ -98,7 +102,7 @@ void CKeyDetails::ExternalizeL(RWriteStream& aWriteStream) const
     TPtr8 keyPtr = iPrivateKey->Des();
     keyPtr.SetLength(stringLen);
     aWriteStream.WriteL(keyPtr);
-        
+
     stringLen = iPublicKey->Length();
     aWriteStream.WriteInt32L(stringLen);
     keyPtr = iPublicKey->Des();
@@ -127,4 +131,9 @@ void CKeyDetails::InternalizeL(RReadStream& aReadStream)
     TPtr8 publicKeyPtr((TUint8*)iPublicKey->Ptr(), stringLen, stringLen);
     publicKeyPtr.FillZ(stringLen);
     aReadStream.ReadL(publicKeyPtr);
+    // Policy set for keys in hardware depends on the vendor requirements 
+    // this reference implementation assumes that accessibility of keys
+    // does not need any restriction. Hence for the testing environment policy is set to always pass.
+    TSecurityPolicy  temp(TSecurityPolicy::EAlwaysPass);
+    iUsePolicy = temp;
     }

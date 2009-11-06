@@ -308,11 +308,10 @@ COpenKey::COpenKey(RFs& aFs, CConsoleBase& aConsole, Output& aOut)
 
 void COpenKey::ConstructL(const TTestActionSpec& aTestActionSpec)
 	{
-	TInt pos = 0, err = 0;
 	CKeyStoreTestAction::ConstructL(aTestActionSpec);
 	
 #if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
-	pos = 0;
+	TInt pos = 0, err = 0;
 	TPtrC8 operationType = Input::ParseElement(aTestActionSpec.iActionBody, KOperationTypeStart, KOperationTypeEnd, pos, err);
 	if(operationType.Compare(_L8("sign")) == 0)
 		{

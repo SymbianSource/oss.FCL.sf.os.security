@@ -27,8 +27,13 @@
 #define SRAUTILS_H
 
 #include "srarightsobject.h"
+#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 #include <sdpmediafield.h>
+#else
+class CSdpMediaField;
+#endif
 #include <f32file.h>
+
 
 IMPORT_C TBool CheckKeyStreamSupportedL(const CSdpMediaField& aSdpKeyStream, const TDesC8& aSupportedKmsIds);
 IMPORT_C void DoSetSdpMediaFieldL(RFs& aFs, CSdpMediaField*& aSdp, CSraRightsObject*& aRo, const TDesC8& aSdpData, const TDesC& aPrivateFolder);

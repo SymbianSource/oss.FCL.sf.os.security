@@ -595,13 +595,10 @@ TBool CCryptoTokenHai::KeyMatchesFilterL(const CKeyDetails& aInfo,
 				return EFalse;
 				}
 			break;
-			
 		case TCTKeyAttributeFilter::EManageableKeys:
-			if (!aInfo.ManagementPolicy().CheckPolicy(RThread()))
-				{
-				return EFalse;
-				}
-			break;
+			// As this key store implementation is a hardware simulation,
+			// the support for managing through software interface has been diabled.
+			return EFalse;
 
 		case TCTKeyAttributeFilter::EUsableOrManageableKeys:
 			if (!aInfo.UsePolicy().CheckPolicy(RThread()) &&

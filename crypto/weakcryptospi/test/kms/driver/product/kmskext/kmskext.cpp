@@ -23,6 +23,7 @@
 
 #include <nkern/nkern.h>
 #include "kmskext.h"
+#include <e32def_private.h>
 
 // singleton keystore instance
 XKeyStore KeyStore;

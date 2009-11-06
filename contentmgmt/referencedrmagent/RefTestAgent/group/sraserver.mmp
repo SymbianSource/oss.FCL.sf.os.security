@@ -40,7 +40,9 @@ LIBRARY 	euser.lib
 LIBRARY		efsrv.lib
 LIBRARY		cafutils.lib
 LIBRARY		estor.lib
+#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 LIBRARY		sdpcodec.lib
+#endif
 LIBRARY		bafl.lib
 LIBRARY 	streamingcaf.lib
 LIBRARY 	srautils.lib

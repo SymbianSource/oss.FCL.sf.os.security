@@ -17,8 +17,10 @@
 
 
 #include <caf/caf.h>
+#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 #include <http.h>
 #include <http/rhttpheaders.h>
+#endif
 #include <stringpool.h>
 
 #include "Reftestagentmanager.h"
@@ -332,7 +334,7 @@ void CRefTestAgentManager::DisplayManagementInfoL()
 // make leavescan happy, the options are: 1. TRAP leave calls
 // and ignore the errors. 2. Panic. Both options could potentially
 // break RTA clients' testcases. Hence just leave it the way it is.
-#ifndef SYMBIAN_DISABLE_UPWARD_DEPENDENCY
+#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 void CRefTestAgentManager::PrepareHTTPRequestHeaders(RStringPool& aStringPool, RHTTPHeaders& aRequestHeaders) const
 	{
 	// Add the accept header for the reference test agent

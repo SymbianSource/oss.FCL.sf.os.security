@@ -233,11 +233,16 @@ tocsp, \logs\testexecute\tocsp_newpolicy.htm,, -Dtextshell --        \system\toc
 tocsp, \logs\testexecute\tocsp_httpinterface.htm,, -Dtextshell --    \system\tocsp\scripts\httpinterface.script \logs\testexecute\tocsp_httpinterface.htm,    300, UREL, \epoc32\winscw\c\tcertstore\scripts\batchfiles\pre_tocsp_backup.bat, 	   \epoc32\winscw\c\tcertstore\scripts\batchfiles\post_httpinterface_restore.bat
 tocsp, \logs\testexecute\tocsp_logoom.htm,, -Dtextshell -- 			\system\tocsp\scripts\xcert-oom.script     \logs\testexecute\tocsp_logoom.htm,           900, UDEB#UREL, \epoc32\winscw\c\tcertstore\scripts\batchfiles\pre_tocsp_backup.bat, 	\epoc32\winscw\c\tcertstore\scripts\batchfiles\post_tocsp_restore.bat
 
+
 # TMS SUPPORT
 t_certstore, \logs\testexecute\tcertstore_conf1.1.htm,, -Dtextshell -- \tcertstore\scripts\unifiedcertstore1-conf1.script \logs\testexecute\tcertstore_conf1.1.htm, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\precert_backup.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
 t_certstore, \logs\testexecute\tcertstore_conf1.2.htm,, -Dtextshell -- \tcertstore\scripts\unifiedcertstore2-conf1.script \logs\testexecute\tcertstore_conf1.2.htm, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\precert_backup.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
 t_certstore, \logs\testexecute\tcertstore_conf1.3.htm,, -Dtextshell -- \tcertstore\scripts\unifiedcertstore3-conf1.script \logs\testexecute\tcertstore_conf1.3.htm, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\precert_backup.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
 t_certstore, \logs\testexecute\t_handle_1.htm,, -Dtextshell -- \tcertstore\scripts\t_handle_1.script \logs\testexecute\t_handle_1.htm, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\precert_backup.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
+//As of now, not in TMS format. Should be changed to TEF.
+t_certstore, \t_certstore_sha2.txt,, -Dtextshell -- \tcertstore\scripts\t_certstore_sha2.txt \t_certstore_sha2.txt, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\precert_backup.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
+//TEF Format
+t_certstore, \logs\testexecute\t_certstore_sha2.htm,, -Dtextshell -- \tcertstore\scripts\t_certstore_sha2.script \logs\testexecute\t_certstore_sha2.htm, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\precert_backup.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
 
 # TMS SUPPORT
 t_certstore, \logs\testexecute\tcertstore_oom.conf1.1.htm,, -Dtextshell -- \tcertstore\scripts\oom1.script \logs\testexecute\tcertstore_oom.conf1.1.htm, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\precert_backup.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
@@ -344,7 +349,6 @@ t_certstore, \logs\testexecute\tswicertstore19.htm,, -Dtextshell -- \tcertstore\
 
 
 ######### Composite Certstore Testing###################################################################################
-
 
 
 [SWI]

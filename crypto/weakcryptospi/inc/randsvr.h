@@ -19,7 +19,7 @@
 
 /**
  @file 
- @publishedPartner
+ @internalComponent
  @released
 */
  
@@ -33,6 +33,6 @@
 #include <randsvrimpl.h>
 #endif
 
-IMPORT_C TInt RunRandomServer(TAny* /*someParameters*/);
+TInt RunRandomServer(TAny* /*someParameters*/);
 
 #endif // __RANDSVR_H__

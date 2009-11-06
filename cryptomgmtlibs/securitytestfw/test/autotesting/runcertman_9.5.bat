@@ -30,6 +30,13 @@ copy /s z:\unifiedcertstore2\ c:\unifiedcertstore2\
 copy z:\tcertstore\data\TestKeyStore.txt c:\system\data\testkeystore.txt
 del c:\system\data\cacerts.dat
 
+del c:\system\data\certclients.dat
+t_certstore c:\tcertstore\scripts\t_certstore_sha2.txt c:\testresults\t_certstore_sha2.txt
+move c:\testresults\t_certstore_sha2.txt e:\testresults\t_certstore_sha2.txt
+
+t_certstore c:\tcertstore\scripts\t_certstore_sha2.script c:\testresults\t_certstore_sha2.htm
+move c:\testresults\t_certstore_sha2.htm e:\testresults\t_certstore_sha2.htm
+
 rem run tcertstore tests
 t_certstore c:\tcertstore\scripts\unifiedcertstore1-conf1.script c:\logs\testexecute\unifiedcertstore1-conf1.htm
 move c:\logs\testexecute\unifiedcertstore1-conf1.htm e:\testresults\unifiedcertstore1-conf1.htm

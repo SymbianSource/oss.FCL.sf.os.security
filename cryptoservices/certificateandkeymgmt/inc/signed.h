@@ -51,7 +51,15 @@ enum TAlgorithmId
 	/** A MD5 algorithm. */
 	EMD5,
 	/** A SHA-1 algorithm. */
-	ESHA1
+	ESHA1,
+	/** A SHA-224 algorithm. */
+	ESHA224,
+	/** A SHA-256 algorithm. */
+	ESHA256,
+	/** A SHA-384 algorithm. */
+	ESHA384,
+	/** A SHA-512 algorithm. */
+	ESHA512
 	};
 
 class CValidityPeriod : public CBase

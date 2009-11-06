@@ -258,7 +258,7 @@ CTestStep* CCAFServer::CreateTestStep(const TDesC& aStepName)
 		testStep = new CCafRightsInfoStep(*this);	
 	else if(aStepName == KCAFStreamablePtrArrayStep)
 		testStep = new CCafStreamablePtrArrayStep(*this);
-#ifndef SYMBIAN_DISABLE_UPWARD_DEPENDENCY
+#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 	else if(aStepName == KCAFHTTPRequestHeadersStep)
 		testStep = new CCAFHTTPRequestHeadersStep(*this);
 #endif

@@ -32,7 +32,9 @@ using namespace StreamAccess;
 
 //Forward declarations
 class CRightsObject;
-	
+class CSdpMediaField;
+class CSdpDocument;
+
 NONSHARABLE_CLASS(RSraClient) : public RSessionBase
 /**
 	The Key Stream Decoder uses this class to establish a connection with the Streaming Reference

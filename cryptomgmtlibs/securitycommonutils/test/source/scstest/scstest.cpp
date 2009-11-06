@@ -22,9 +22,11 @@
  @file
 */
 
+
 #include <e32ldr.h>
 #include <f32file.h>
 #include "rtestwrapper.h"
+#include <e32def_private.h>
 
 #include <scs/scscommon.h>
 #include "scstestcommon.h"

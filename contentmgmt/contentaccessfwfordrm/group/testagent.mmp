@@ -51,7 +51,7 @@ LIBRARY		cafutils.lib
 LIBRARY		bafl.lib
 LIBRARY		estor.lib
 
-#ifndef SYMBIAN_DISABLE_UPWARD_DEPENDENCY
+#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 LIBRARY		http.lib
 #endif
 

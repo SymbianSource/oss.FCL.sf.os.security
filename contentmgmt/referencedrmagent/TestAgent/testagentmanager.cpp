@@ -23,8 +23,10 @@
 #include "TestAgentFile.h"
 #include "TestAgentDrmContent.h"
 #include <stringpool.h>
+#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 #include <http.h>
 #include <http/rhttpheaders.h>
+#endif
 #include <stringpool.h>
 using namespace ContentAccess;
 
@@ -404,7 +406,7 @@ void CTestAgentManager::DisplayManagementInfoL()
 // make leavescan happy, the options are: 1. TRAP leave calls
 // and ignore the errors. 2. Panic. Both options could potentially
 // break RTA clients' testcases. Hence just leave it the way it is.
-#ifndef SYMBIAN_DISABLE_UPWARD_DEPENDENCY
+#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 void CTestAgentManager::PrepareHTTPRequestHeaders(RStringPool& aStringPool, RHTTPHeaders& aRequestHeaders) const
 	{
 	TBuf8 <KMaxDataTypeLength> mimeType;

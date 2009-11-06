@@ -123,7 +123,7 @@ PRJ_TESTEXPORTS
 ../../referencedrmagent/tcaf/scripts/contentstep.ini 				z:/tcaf/contentstep.ini
 ../../referencedrmagent/tcaf/scripts/oom.script 				z:/tcaf/oom.script
 ../../referencedrmagent/tcaf/scripts/oom.ini 					z:/tcaf/oom.ini
-#ifndef SYMBIAN_DISABLE_UPWARD_DEPENDENCY
+#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 ../../referencedrmagent/tcaf/scripts/supply.script 				z:/tcaf/supply.script
 #else
 ../../referencedrmagent/tcaf/scripts/supply_without_http.script z:/tcaf/supply.script

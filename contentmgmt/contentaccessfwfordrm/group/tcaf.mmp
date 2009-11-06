@@ -68,7 +68,7 @@ LIBRARY		fbscli.lib
 LIBRARY		apgrfx.lib
 LIBRARY		hal.lib
 
-#ifndef SYMBIAN_DISABLE_UPWARD_DEPENDENCY
+#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 LIBRARY		http.lib
 #endif
 

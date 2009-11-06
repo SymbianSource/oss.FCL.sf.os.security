@@ -82,7 +82,6 @@ PRJ_EXPORTS
 ../inc/hash.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(hash.h)
 ../inc/random.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(random.h)
 ../inc/keyidentifierutil.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(keyidentifierutil.h)
-../inc/randsvr.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(randsvr.h)
 ../inc/randcliserv.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(randcliserv.h)
 ../inc/pkcs5kdf.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(pkcs5kdf.h)
 ../inc/pkcs12kdf.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(pkcs12kdf.h)

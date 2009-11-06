@@ -76,6 +76,7 @@ PRJ_TESTEXPORTS
 	../test/autotesting/testsecurity_9.4_mcs_vfuture.bat /epoc32/winscw/c/autohardware/testsecurity_9.4_mcs_vfuture.bat
 	../test/autotesting/testsecurity_9.4_nonmcs.bat /epoc32/winscw/c/autohardware/testsecurity_9.4_nonmcs.bat
 	../test/autotesting/runcertman_9.5.bat /epoc32/winscw/c/autohardware/runcertman_9.5.bat
+
 	../test/autotesting/testsecurity_9.5_mcs.bat /epoc32/winscw/c/autohardware/testsecurity_9.5_mcs.bat
 	../test/autotesting/testsecurity_9.6_mcs.bat /epoc32/winscw/c/autohardware/testsecurity_9.6_mcs.bat
 	../test/autotesting/testsecurity_9.5_nonmcs.bat /epoc32/winscw/c/autohardware/testsecurity_9.5_nonmcs.bat

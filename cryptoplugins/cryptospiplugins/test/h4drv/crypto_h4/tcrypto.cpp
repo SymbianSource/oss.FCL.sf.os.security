@@ -31,6 +31,8 @@
 #include <padding.h>
 #include <bufferedtransformation.h>
 #include <random.h>
+#include <e32def_private.h>
+
 _LIT(KTxtEPOC32EX,"tcrypto: mainL failed");
 _LIT(KTxtPressAnyKey," [press any key]");
 

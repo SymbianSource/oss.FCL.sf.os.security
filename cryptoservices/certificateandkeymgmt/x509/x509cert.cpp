@@ -304,6 +304,48 @@ void CX509AlgorithmIdentifier::InitializeL(const TDesC8& aBinaryData, TInt& aPos
 			CleanupStack::PopAndDestroy(2);//seq, oid
 			return;
 			}
+
+        if (oidDes == KSHA224)
+            {
+            iAlgorithmId = ESHA224;
+            TASN1DecNull null;
+            null.DecodeDERL(*gen);//just to check the syntax is OK
+            iEncodedParams = HBufC8::NewL(1);
+            *iEncodedParams = KNullDesC8;
+            CleanupStack::PopAndDestroy(2);//seq, oid
+            return;
+            }
+        if (oidDes == KSHA256)
+            {
+            iAlgorithmId = ESHA256;
+            TASN1DecNull null;
+            null.DecodeDERL(*gen);//just to check the syntax is OK
+            iEncodedParams = HBufC8::NewL(1);
+            *iEncodedParams = KNullDesC8;
+            CleanupStack::PopAndDestroy(2);//seq, oid
+            return;
+            }      
+        if (oidDes == KSHA384)
+            {
+            iAlgorithmId = ESHA384;
+            TASN1DecNull null;
+            null.DecodeDERL(*gen);//just to check the syntax is OK
+            iEncodedParams = HBufC8::NewL(1);
+            *iEncodedParams = KNullDesC8;
+            CleanupStack::PopAndDestroy(2);//seq, oid
+            return;
+            }        
+        if (oidDes == KSHA512)
+            {
+            iAlgorithmId = ESHA512;
+            TASN1DecNull null;
+            null.DecodeDERL(*gen);//just to check the syntax is OK
+            iEncodedParams = HBufC8::NewL(1);
+            *iEncodedParams = KNullDesC8;
+            CleanupStack::PopAndDestroy(2);//seq, oid
+            return;
+            }         
+	
 		}
 	User::Leave(KErrNotSupported);
 	}
@@ -339,6 +381,22 @@ EXPORT_C CASN1EncSequence* CX509AlgorithmIdentifier::EncodeASN1DERLC() const
 		
 	case ESHA1:
 		oid=CASN1EncObjectIdentifier::NewLC(KSHA1);
+		break;
+
+	case ESHA224:
+		oid=CASN1EncObjectIdentifier::NewLC(KSHA224);
+		break;
+
+	case ESHA256:
+		oid=CASN1EncObjectIdentifier::NewLC(KSHA256);
+		break;
+
+	case ESHA384:
+		oid=CASN1EncObjectIdentifier::NewLC(KSHA384);
+		break;
+
+	case ESHA512:
+		oid=CASN1EncObjectIdentifier::NewLC(KSHA512);
 		break;
 		
 	default:
@@ -463,6 +521,39 @@ void CX509SigningAlgorithmIdentifier::ConstructL(const TDesC8& aBinaryData, TInt
 		iDigestAlgorithm = CAlgorithmIdentifier::NewL(digestId, encodedParams->Des());
 		iAsymmetricAlgorithm = CAlgorithmIdentifier::NewL(algId, encodedParams->Des());
 		}
+
+	if (oidDes == KSHA224WithRSA)
+         {
+         TAlgorithmId algId = ERSA;
+         TAlgorithmId digestId = ESHA224;
+         iDigestAlgorithm = CAlgorithmIdentifier::NewL(digestId, encodedParams->Des());
+         iAsymmetricAlgorithm = CAlgorithmIdentifier::NewL(algId, encodedParams->Des());
+         }
+	
+	if (oidDes == KSHA256WithRSA)
+         {
+         TAlgorithmId algId = ERSA;
+         TAlgorithmId digestId = ESHA256;
+         iDigestAlgorithm = CAlgorithmIdentifier::NewL(digestId, encodedParams->Des());
+         iAsymmetricAlgorithm = CAlgorithmIdentifier::NewL(algId, encodedParams->Des());
+         }
+
+	if (oidDes == KSHA384WithRSA)
+         {
+         TAlgorithmId algId = ERSA;
+         TAlgorithmId digestId = ESHA384;
+         iDigestAlgorithm = CAlgorithmIdentifier::NewL(digestId, encodedParams->Des());
+         iAsymmetricAlgorithm = CAlgorithmIdentifier::NewL(algId, encodedParams->Des());
+         }
+
+	if (oidDes == KSHA512WithRSA)
+         {
+         TAlgorithmId algId = ERSA;
+         TAlgorithmId digestId = ESHA512;
+         iDigestAlgorithm = CAlgorithmIdentifier::NewL(digestId, encodedParams->Des());
+         iAsymmetricAlgorithm = CAlgorithmIdentifier::NewL(algId, encodedParams->Des());
+         }
+
 		//???not sure if we should just leave here...
 	if (iDigestAlgorithm == NULL)
 		{	

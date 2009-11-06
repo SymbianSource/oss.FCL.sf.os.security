@@ -39,7 +39,9 @@ MW_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 LIBRARY 	euser.lib
 LIBRARY		streamingcaf.lib
+#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 LIBRARY		sdpcodec.lib 
+#endif
 LIBRARY		sraclient.lib srautils.lib
 
 START RESOURCE 10285A34.rss

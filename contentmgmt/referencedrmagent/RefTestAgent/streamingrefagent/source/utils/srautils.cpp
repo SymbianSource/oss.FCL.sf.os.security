@@ -19,9 +19,11 @@
 
 #include "srautils.h"
 #include <s32file.h>
+#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 #include <sdpfmtattributefield.h>
 #include <sdpcodecstringpool.h>
 #include <sdpattributefield.h>
+#endif
 
 HBufC8* ExtractKmsIdLC(const TDesC8& aValue)
 /**
@@ -72,6 +74,8 @@ EXPORT_C TBool CheckKeyStreamSupportedL(const CSdpMediaField& aSdpKeyStream, con
 	@return EFalse if the test stream agent fails to recognize the SDP format or is unable to decode the key stream.
  */
 	{
+	TBool supported = EFalse;
+#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 	//FormatAttributeFields method is not constant. So create a new instance.
 	CSdpMediaField* sdp = aSdpKeyStream.CloneL();
 	CleanupStack::PushL(sdp);
@@ -83,7 +87,6 @@ EXPORT_C TBool CheckKeyStreamSupportedL(const CSdpMediaField& aSdpKeyStream, con
 		return EFalse;
 		}
 
-	TBool supported = EFalse;
 	HBufC8* kmsid(0);
 	
 	for(TInt i=0; i<attributesCount && !supported; ++i)
@@ -100,7 +103,10 @@ EXPORT_C TBool CheckKeyStreamSupportedL(const CSdpMediaField& aSdpKeyStream, con
 		CleanupStack::PopAndDestroy(kmsid);
 		}
 	CleanupStack::PopAndDestroy(sdp);
-	
+#else 
+	(void) aSdpKeyStream;
+	(void) aSupportedKmsIds;
+#endif
 	return supported;
 	}
 
@@ -169,6 +175,7 @@ EXPORT_C void DoSetRightsObjectL(RFs& aFs, CSdpMediaField& aSdp, CSraRightsObjec
  	Finds and loads the Rights Object specified in the SDP given.
  */
 	{
+#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 	// Find the rights object if it is defined in the SDP
 	CSdpAttributeField* roAttrField = NULL;
 	TInt count = aSdp.AttributeFields().Count();
@@ -202,6 +209,12 @@ EXPORT_C void DoSetRightsObjectL(RFs& aFs, CSdpMediaField& aSdp, CSraRightsObjec
 		{//the rights object is defined in the SDP
 		FindAndLoadRightsObjectL(aFs, roAttrField->Value(), aPrivateFolder, aRo);
 		}
+#else
+	(void) aFs;
+	(void) aSdp;
+	(void) aRo;
+	(void) aPrivateFolder;
+#endif
 	}
 
 EXPORT_C void DoSetSdpMediaFieldL(RFs& aFs, CSdpMediaField*& aSdp, CSraRightsObject*& aRo, const TDesC8& aSdpData, const TDesC& aPrivateFolder)
@@ -215,9 +228,17 @@ EXPORT_C void DoSetSdpMediaFieldL(RFs& aFs, CSdpMediaField*& aSdp, CSraRightsObj
  	@param aPrivateFolder The private folder of the agent.
   */
 	{
+#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 	ASSERT(!aSdp);
 	// Decode the received message into an SDP object
 	aSdp = CSdpMediaField::DecodeL(aSdpData,ETrue);
 	// Set the specified RO
 	DoSetRightsObjectL(aFs, *aSdp, aRo, aPrivateFolder);
+#else
+	(void) aFs;
+	(void) aSdp;
+	(void) aRo;
+	(void) aSdpData;
+	(void) aPrivateFolder;
+#endif
 	}

@@ -38,7 +38,7 @@ PRJ_EXPORTS
 ../inc/ct/TCTTokenTypeAttribute.h						SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(ct/tcttokentypeattribute.h)
 ../inc/ct/TCTFindTokenTypesByInterface.h				SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(ct/tctfindtokentypesbyinterface.h)
 ../inc/ct/TCTFindTokenTypesByInterfaceAndAttribute.h	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(ct/tctfindtokentypesbyinterfaceandattribute.h)
-../inc/ct/InterfaceUID.hrh 								SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(ct/interfaceuid.hrh)
+../inc/ct/InterfaceUID.hrh 								/epoc32/include/ct/interfaceuid.hrh
 ../inc/CryptoTokenRegistryInfo.rh						SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cryptotokenregistryinfo.rh)
 ../inc/ct/tcttokenhandle.h								SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(ct/tcttokenhandle.h)
 ../inc/ct/RCPointerArray.h								SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(ct/rcpointerarray.h)

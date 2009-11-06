@@ -33,12 +33,15 @@
 #include <e32uid.h>
 #include <s32mem.h>
 #include <stringpool.h>
+
+#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 #include <sdpdocument.h>
 #include <sdpmediafield.h>
 #include <sdpattributefield.h>
 #include <sdpcodecstringpool.h>
 #include <sdpfmtattributefield.h>
 #include <sdpcodecstringconstants.h>
+#endif
 
 #include <caf/streaming/streamcaftypes.h>
 #include <caf/streaming/keyassociation.h>

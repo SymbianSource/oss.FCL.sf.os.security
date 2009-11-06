@@ -453,6 +453,27 @@ TBool CSignedObject::VerifyRSASignatureL(const TDesC8& aEncodedKey) const
 		digest = CSHA1::NewL();
 		break;
 		}
+	case ESHA224:
+	    {
+	    digest = CSHA2::NewL(E224Bit);
+	    break;
+	    }
+	case ESHA256:
+	    {
+	    digest = CSHA2::NewL(E256Bit);
+	    break;
+	    }
+	case ESHA384:
+	    {
+	    digest = CSHA2::NewL(E384Bit);
+	    break;
+	    }
+	case ESHA512:
+	    {
+	    digest = CSHA2::NewL(E512Bit);
+	    break;
+	    }
+
 	default:
 		User::Leave(KErrArgument);
 		}
@@ -508,62 +529,8 @@ EXPORT_C void CSignedObject::ExternalizeL(RWriteStream& aStream) const
 	aStream.WriteInt32L(iEncoding->Length());
 	aStream.WriteL(*iEncoding);
 	}
-/*
-EXPORT_C void CSignedObject::ConstructL(RReadStream& aStream, TSignedObjectParser* aParser, TKeyFactory* aFactory)
-	{
-	if (iParser != NULL)
-		{
-		delete iParser;
-		iParser = NULL;
-		}
-	iParser = aParser;
-	if (iKeyFactory != NULL)
-		{
-		delete iKeyFactory;
-		iKeyFactory = NULL;
-		}
-	iKeyFactory = aFactory;
-	if (iEncoding != NULL)
-		{
-		User::Leave(KErrGeneral);
-		}
-	TInt len = aStream.ReadInt32L();
-	iEncoding = HBufC8::NewL(aStream,len);
-	DoConstructL();
-	}
 
-EXPORT_C void CSignedObject::ConstructL(const TPtrC8& aBinaryData, TSignedObjectParser* aParser, TKeyFactory* aFactory)
-	{
-	iParser = aParser;
-	iKeyFactory = aFactory;
-	//take a copy of the whole thing
-	iEncoding = aBinaryData.AllocL();
-	DoConstructL();
-	}
 
-EXPORT_C void CSignedObject::ConstructL(const CSignedObject& aSignedObject, TSignedObjectParser* aParser, TKeyFactory* aFactory)
-	{
-	iParser = aParser;
-	iKeyFactory = aFactory;
-	iEncoding = aSignedObject.iEncoding->AllocL();
-	iFingerprint = aSignedObject.iFingerprint->AllocL();
-	iSignature = aSignedObject.iSignature->AllocL();
-	iSigningAlgorithm = CSigningAlgorithmIdentifier::NewL(*(aSignedObject.iSigningAlgorithm));
-	}
-
-void CSignedObject::DoConstructL()
-	{
-	//generate your fingerprint
-	CMD5* hash = CMD5::NewL();
-	CleanupStack::PushL(hash);
-	iFingerprint = hash->Hash(Encoding()).AllocL();
-	CleanupStack::PopAndDestroy();
-	//ask the parser for the signature
-	iSignature = iParser->SignatureL(Encoding());
-	//ask the parser for the algorithm ID
-	iSigningAlgorithm = iParser->AlgorithmIdL(Encoding());
-	}
-*/
 //****************************************************************************************//
 //certificate base
 EXPORT_C CCertificate::~CCertificate()

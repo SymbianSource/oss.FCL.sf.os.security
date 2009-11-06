@@ -25,6 +25,7 @@
 #include <e32test.h>
 #include "kmsclient.h"
 #include "kmsservercommon.h"
+#include <e32def_private.h>
 
 #include "kmstest.h"
 

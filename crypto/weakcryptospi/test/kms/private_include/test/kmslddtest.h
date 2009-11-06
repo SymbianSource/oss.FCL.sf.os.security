@@ -28,6 +28,7 @@
 
 #include <e32ldr.h>
 #include <e32test.h>
+#include <e32def_private.h>
 
 #include "kmsldd.h"
 #include "kmsextrldd.h"

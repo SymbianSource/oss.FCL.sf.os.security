@@ -36,7 +36,9 @@ deffile		../~/sraclient.def
 LIBRARY 	euser.lib 
 LIBRARY		estor.lib
 LIBRARY		cafutils.lib
+#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 LIBRARY		sdpcodec.lib
+#endif
 LIBRARY 	streamingcaf.lib 
 LIBRARY	    efsrv.lib
 SMPSAFE

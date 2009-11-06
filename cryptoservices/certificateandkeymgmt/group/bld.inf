@@ -567,6 +567,10 @@ PRJ_TESTEXPORTS
 
 ../tcertstore/scripts/t_certstore.ini				/epoc32/winscw/c/t_certstore.ini
 ../tcertstore/scripts/t_certstore_2.ini				/epoc32/winscw/c/t_certstore_2.ini
+../tcertstore/scripts/t_certstore_sha2.script			/epoc32/winscw/c/tcertstore/scripts/t_certstore_sha2.script
+../tcertstore/scripts/t_certstore_sha2.ini			/epoc32/winscw/c/tcertstore/scripts/t_certstore_sha2.ini
+../tcertstore/scripts/t_certstore_sha2.txt			/epoc32/winscw/c/tcertstore/scripts/t_certstore_sha2.txt
+
 
 
 ../tcertstore/runtest/nightrun.txt		/epoc32/winscw/c/tcertstore/runtest/nightrun.txt
