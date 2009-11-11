@@ -65,6 +65,9 @@
       <component id="filebasedcertificateandkeystores" name="File-based Certificate and Key Stores" introduced="8.0" purpose="optional">
         <unit bldFile="cryptoservices/filebasedcertificateandkeystores/group" mrp="cryptoservices/filebasedcertificateandkeystores/group/security_filetokens.mrp"/>
       </component>
+      <component id="browserrootcertificates" name="Browser Root Certificates" introduced="symbian^2" purpose="optional">
+        <unit mrp="cryptoservices/browserrootcertificates/browserrootcerts.mrp"/>
+      </component>
       <component id="asnpkcs" name="ASN PKCS" introduced="8.0" purpose="optional">
         <unit bldFile="cryptoservices/asnpkcs/group" mrp="cryptoservices/asnpkcs/group/security_asnpkcs.mrp"/>
       </component>
