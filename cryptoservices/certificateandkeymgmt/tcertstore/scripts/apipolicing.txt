@@ -1,0 +1,1434 @@
+// apipolicing.txt
+//
+// Test cert store API policing of filetokens cert store
+//
+// This test should be run in configuration 1, with only the file cert store
+// present
+
+// Test add CA
+// Test set app, set trust
+// Test not protected list, get, get apps, get trust, retrieve
+// Test remove CA
+// Test add user
+// Test not protected list, get
+// Test retrieve
+// Test remove user
+// Test add peer
+// Test retrieve
+// Test remove peer
+
+// 0. Setup
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-apipolicing-0.1.1
+//! @SYMTestCaseDesc Opening a CertificateAppInfoManager
+//! @SYMREQ REQ3466
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>0.1.1, Opening a CertificateAppInfoManager</actionname>
+	<actiontype>initappmanager</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-apipolicing-0.1.2
+//! @SYMTestCaseDesc Adding client A1
+//! @SYMREQ REQ3466
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>0.1.2, Adding client A1</actionname>
+	<actiontype>addclient</actiontype>
+	<actionbody>
+		<name>A1</name>
+		<uid>1</uid>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-apipolicing-0.1.3
+//! @SYMTestCaseDesc Adding client A2
+//! @SYMREQ REQ3466
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>0.1.3, Adding client A2</actionname>
+	<actiontype>addclient</actiontype>
+	<actionbody>
+		<name>A2</name>
+		<uid>2</uid>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-apipolicing-0.1.4
+//! @SYMTestCaseDesc Adding client A3
+//! @SYMREQ REQ3466
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>0.1.4, Adding client A3</actionname>
+	<actiontype>addclient</actiontype>
+	<actionbody>
+		<name>A3</name>
+		<uid>3</uid>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-apipolicing-0.1.5
+//! @SYMTestCaseDesc Adding client A4
+//! @SYMREQ REQ3466
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>0.1.5, Adding client A4</actionname>
+	<actiontype>addclient</actiontype>
+	<actionbody>
+		<name>A4</name>
+		<uid>4</uid>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-apipolicing-0.1.6
+//! @SYMTestCaseDesc Deleting the CertificateAppInfoManager
+//! @SYMREQ REQ3466
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>0.1.6, Deleting the CertificateAppInfoManager</actionname>
+	<actiontype>deleteappmanager</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-apipolicing-0.2
+//! @SYMTestCaseDesc Opening a writable certificate store manager
+//! @SYMREQ REQ3466
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>0.2, Opening a writable certificate store manager</actionname>
+	<actiontype>init</actiontype>
+	<actionbody>
+		<mode>write</mode>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-apipolicing-0.3.1
+//! @SYMTestCaseDesc Retrieving number of writable certificate store manager
+//! @SYMREQ REQ3466
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>0.3.1, Retrieving number of writable certificate store manager</actionname>
+	<actiontype>CUnifiedCertStore WritableCertStoreCount</actiontype>
+	<actionbody>
+		<storeindex>0</storeindex>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<numberofstores>1</numberofstores>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-apipolicing-0.3.2
+//! @SYMTestCaseDesc Retrieving number of read-only certificate store manager
+//! @SYMREQ REQ3466
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>0.3.2, Retrieving number of read-only certificate store manager</actionname>
+	<actiontype>CUnifiedCertStore ReadOnlyCertStoreCount</actiontype>
+	<actionbody>
+		<storeindex>0</storeindex>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<numberofstores>0</numberofstores>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-apipolicing-0.3.3
+//! @SYMTestCaseDesc Retrieving number of certificate store manager
+//! @SYMREQ REQ3466
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>0.3.3, Retrieving number of certificate store manager</actionname>
+	<actiontype>CUnifiedCertStore CertStoreCount</actiontype>
+	<actionbody>
+		<storeindex>0</storeindex>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<numberofstores>1</numberofstores>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-apipolicing-0.4
+//! @SYMTestCaseDesc Delete all certs
+//! @SYMREQ REQ3466
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>0.4, Delete all certs</actionname>
+	<actiontype>deletecert</actiontype>
+	<actionbody>
+		<label>*.*</label>
+		<deleteallcerts>1</deleteallcerts>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-apipolicing-0.5
+//! @SYMTestCaseDesc Import a RSA key rsacertkey1
+//! @SYMREQ REQ3466
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>0.5, Import a RSA key rsacertkey1</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>rsacertkey1.txt</ImportData>
+		<keyusage>AllUsagesButNR</keyusage>
+		<keylabel>*IMPORTED* RSA key 1</keylabel>
+		<keyaccesstype>Extractable</keyaccesstype>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+// 1. Test CA certificates
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-apipolicing-1.1
+//! @SYMTestCaseDesc Test add CA certificate protected by WriteDeviceData
+//! @SYMREQ REQ3466
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>1.1, Test add CA certificate protected by WriteDeviceData</actionname>
+	<actiontype>policytest</actiontype>
+	<actionbody>
+		<testexe>t_certstore.exe</testexe>
+		<excludedcapabilities>
+			<capability>TCB</capability>
+		</excludedcapabilities>
+		<policy>
+			<capability>WriteDeviceData</capability>
+		</policy>
+
+		<preactions>
+			<action>
+				<actionname>Opening a writable certificate store manager</actionname>
+				<actiontype>init</actiontype>
+				<actionbody>
+					<mode>write</mode>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</preactions>
+
+		<passactions>
+			<action>
+				<actionname>Add the certificate CAX1</actionname>
+				<actiontype>addcert</actiontype>
+				<actionbody>
+					<format>X509</format>
+					<label>CAX1</label>
+					<issuerkey></issuerkey>
+					<subjectkey></subjectkey>
+					<certstore>0</certstore>
+					<certfile>c:\unifiedcertstore2\CAX1.cer</certfile>
+					<certowner>ca</certowner>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>Get the list of certificates</actionname>
+				<actiontype>listcert</actiontype>
+				<actionbody>
+					<filter>
+					<ownertype>ca</ownertype>
+					</filter>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+					<CCTCertInfo><label>CAX1</label></CCTCertInfo>
+				</actionresult>
+			</action>
+		</passactions>
+
+		<failactions>
+			<action>
+				<actionname>Add the certificate CAX1</actionname>
+				<actiontype>addcert</actiontype>
+				<actionbody>
+					<format>X509</format>
+					<label>CAX1</label>
+					<issuerkey></issuerkey>
+					<subjectkey></subjectkey>
+					<certstore>0</certstore>
+					<certfile>c:\unifiedcertstore2\CAX1.cer</certfile>
+					<certowner>ca</certowner>
+				</actionbody>
+				<actionresult>
+					<return>KErrPermissionDenied</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>Get the list of certificates</actionname>
+				<actiontype>listcert</actiontype>
+				<actionbody>
+					<filter>
+					<ownertype>ca</ownertype>
+					</filter>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</failactions>
+
+		<postactions>
+			<action>
+				<actionname>Deleting the writable certificate store manager</actionname>
+				<actiontype>delete</actiontype>
+				<actionbody></actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</postactions>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-apipolicing-1.2
+//! @SYMTestCaseDesc Test set apps and trust for protected by WriteDeviceData
+//! @SYMREQ REQ3466
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>1.2, Test set apps and trust for protected by WriteDeviceData</actionname>
+	<actiontype>policytest</actiontype>
+	<actionbody>
+		<testexe>t_certstore.exe</testexe>
+		<excludedcapabilities>
+			<capability>TCB</capability>
+		</excludedcapabilities>
+		<policy>
+			<capability>WriteDeviceData</capability>
+		</policy>
+
+		<preactions>
+			<action>
+				<actionname>Opening a writable certificate store manager</actionname>
+				<actiontype>init</actiontype>
+				<actionbody>
+					<mode>write</mode>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</preactions>
+
+		<passactions>
+			<action>
+				<actionname>Set applications to the CAX1 certificate</actionname>
+				<actiontype>setapplications</actiontype>
+				<actionbody>
+					<label>CAX1</label>
+					<uid>2 3</uid>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>Set the trust for CAX1</actionname>
+				<actiontype>settrust</actiontype> 
+				<actionbody>
+					<label>CAX1</label>
+					<trust>1</trust>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>Get applications for CAX1</actionname>
+				<actiontype>getapplications</actiontype>
+				<actionbody>
+					<label>CAX1</label>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+					<uid>2 3</uid>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>Get the trust for CAX1</actionname>
+				<actiontype>gettrusters</actiontype>
+				<actionbody>
+					<label>CAX1</label>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+					<trust>1</trust>
+				</actionresult>
+			</action>
+		</passactions>
+
+		<failactions>
+			<action>
+				<actionname>Set applications to the CAX1 certificate</actionname>
+				<actiontype>setapplications</actiontype>
+				<actionbody>
+					<label>CAX1</label>
+					<uid>2 3</uid>
+				</actionbody>
+				<actionresult>
+					<return>KErrPermissionDenied</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>Set the trust for CAX1</actionname>
+				<actiontype>settrust</actiontype> 
+				<actionbody>
+					<label>CAX1</label>
+					<trust>1</trust>
+				</actionbody>
+				<actionresult>
+					<return>KErrPermissionDenied</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>Get applications for CAX1</actionname>
+				<actiontype>getapplications</actiontype>
+				<actionbody>
+					<label>CAX1</label>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+					<uid></uid>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>Get the trust for CAX1</actionname>
+				<actiontype>gettrusters</actiontype>
+				<actionbody>
+					<label>CAX1</label>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+					<trust>0</trust>
+				</actionresult>
+			</action>
+		</failactions>
+
+		<postactions>
+			<action>
+				<actionname>Deleting the writable certificate store manager</actionname>
+				<actiontype>delete</actiontype>
+				<actionbody></actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</postactions>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-apipolicing-1.3
+//! @SYMTestCaseDesc Test list, retrieve get apps and get trust not protected by any capability for CA certs
+//! @SYMREQ REQ3466
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>1.3, Test list, retrieve get apps and get trust not protected by any capability for CA certs</actionname>
+	<actiontype>policytest</actiontype>
+	<actionbody>
+		<testexe>t_certstore.exe</testexe>
+		<excludedcapabilities>
+			<capability>TCB</capability>
+		</excludedcapabilities>
+		<policy>
+		</policy>
+
+		<preactions>
+			<action>
+				<actionname>Opening a writable certificate store manager</actionname>
+				<actiontype>init</actiontype>
+				<actionbody>
+					<mode>write</mode>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</preactions>
+
+		<passactions>
+			<action>
+				<actionname>Get applications for CAX1</actionname>
+				<actiontype>getapplications</actiontype>
+				<actionbody>
+					<label>CAX1</label>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+					<uid>2 3</uid>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>Get the trust for CAX1</actionname>
+				<actiontype>gettrusters</actiontype>
+				<actionbody>
+					<label>CAX1</label>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+					<trust>1</trust>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>Get the list of certificates</actionname>
+				<actiontype>listcert</actiontype>
+				<actionbody>
+					<filter>
+					<ownertype>ca</ownertype>
+					</filter>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+					<CCTCertInfo><label>CAX1</label></CCTCertInfo>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>Retrieve CAX1 cert</actionname>
+				<actiontype>retrieve</actiontype>
+				<actionbody>
+					<label>CAX1</label>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</passactions>
+
+		<failactions>
+		</failactions>
+
+		<postactions>
+			<action>
+				<actionname>Deleting the writable certificate store manager</actionname>
+				<actiontype>delete</actiontype>
+				<actionbody></actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</postactions>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-apipolicing-1.4
+//! @SYMTestCaseDesc Test remove CA certificate protected by WriteDeviceData
+//! @SYMREQ REQ3466
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>1.4, Test remove CA certificate protected by WriteDeviceData</actionname>
+	<actiontype>policytest</actiontype>
+	<actionbody>
+		<testexe>t_certstore.exe</testexe>
+		<excludedcapabilities>
+			<capability>TCB</capability>
+		</excludedcapabilities>
+		<policy>
+			<capability>WriteDeviceData</capability>
+		</policy>
+
+		<preactions>
+			<action>
+				<actionname>Opening a writable certificate store manager</actionname>
+				<actiontype>init</actiontype>
+				<actionbody>
+					<mode>write</mode>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</preactions>
+
+		<passactions>
+			<action>
+				<actionname>Remove the certificate CAX1</actionname>
+				<actiontype>deletecert</actiontype>
+				<actionbody>
+					<certtype>ca</certtype>
+					<label>CAX1</label>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>Get the list of certificates</actionname>
+				<actiontype>listcert</actiontype>
+				<actionbody>
+					<filter>
+					<ownertype>ca</ownertype>
+					</filter>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</passactions>
+
+		<failactions>
+			<action>
+				<actionname>Remove the certificate CAX1</actionname>
+				<actiontype>deletecert</actiontype>
+				<actionbody>
+					<certtype>ca</certtype>
+					<label>CAX1</label>
+				</actionbody>
+				<actionresult>
+					<return>KErrPermissionDenied</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>Get the list of certificates</actionname>
+				<actiontype>listcert</actiontype>
+				<actionbody>
+					<filter>
+					<ownertype>ca</ownertype>
+					</filter>
+				</actionbody>
+				<actionresult>
+					<CCTCertInfo><label>CAX1</label></CCTCertInfo>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</failactions>
+
+		<postactions>
+			<action>
+				<actionname>Deleting the writable certificate store manager</actionname>
+				<actiontype>delete</actiontype>
+				<actionbody></actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</postactions>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+// 2. Test user certificates
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-apipolicing-2.1
+//! @SYMTestCaseDesc Test add user certificate protected by WriteUserData
+//! @SYMREQ REQ3466
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>2.1, Test add user certificate protected by WriteUserData</actionname>
+	<actiontype>policytest</actiontype>
+	<actionbody>
+		<testexe>t_certstore.exe</testexe>
+		<excludedcapabilities>
+			<capability>TCB</capability>
+		</excludedcapabilities>
+		<policy>
+			<capability>ReadUserData</capability>
+			<capability>WriteUserData</capability>
+		</policy>
+
+		<preactions>
+			<action>
+				<actionname>Opening a writable certificate store manager</actionname>
+				<actiontype>init</actiontype>
+				<actionbody>
+					<mode>write</mode>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</preactions>
+		
+		<failactions>
+			<action>
+				<actionname>Add the certificate rsacert1</actionname>
+				<actiontype>addcert</actiontype>
+				<actionbody>
+					<format>X509</format>
+					<label>rsacert1</label>
+					<issuerkey></issuerkey>
+					<subjectkey>4808f03892fe836e78d048bcefcca4a37913d886</subjectkey>
+					<certstore>0</certstore>
+					<certfile>c:\unifiedcertstore2\rsacert1.cer</certfile>
+					<certowner>user</certowner>
+				</actionbody>
+				<actionresult>
+					<return>KErrPermissionDenied</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>Get the list of certificates</actionname>
+				<actiontype>listcert</actiontype>
+				<actionbody>
+					<filter>
+					<ownertype>user</ownertype>
+					</filter>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</failactions>
+
+		<passactions>
+			<action>
+				<actionname>Add the certificate rsacert1</actionname>
+				<actiontype>addcert</actiontype>
+				<actionbody>
+					<format>X509</format>
+					<label>rsacert1</label>
+					<issuerkey></issuerkey>
+					<subjectkey>4808f03892fe836e78d048bcefcca4a37913d886</subjectkey>
+					<certstore>0</certstore>
+					<certfile>c:\unifiedcertstore2\rsacert1.cer</certfile>
+					<certowner>user</certowner>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>Get the list of certificates</actionname>
+				<actiontype>listcert</actiontype>
+				<actionbody>
+					<filter>
+					<ownertype>user</ownertype>
+					</filter>
+				</actionbody>
+				<actionresult>
+					<CCTCertInfo><label>rsacert1</label></CCTCertInfo>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</passactions>
+
+		<postactions>
+			<action>
+				<actionname>Deleting the writable certificate store manager</actionname>
+				<actiontype>delete</actiontype>
+				<actionbody></actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</postactions>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-apipolicing-2.2
+//! @SYMTestCaseDesc Test list not protected by any capability for user certs
+//! @SYMREQ REQ3466
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>2.2, Test list not protected by any capability for user certs</actionname>
+	<actiontype>policytest</actiontype>
+	<actionbody>
+		<testexe>t_certstore.exe</testexe>
+		<excludedcapabilities>
+			<capability>TCB</capability>
+		</excludedcapabilities>
+		<policy>
+		</policy>
+
+		<preactions>
+			<action>
+				<actionname>Opening a writable certificate store manager</actionname>
+				<actiontype>init</actiontype>
+				<actionbody>
+					<mode>write</mode>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</preactions>
+
+		<passactions>
+			<action>
+				<actionname>Get the list of certificates</actionname>
+				<actiontype>listcert</actiontype>
+				<actionbody>
+					<filter>
+					<ownertype>user</ownertype>
+					</filter>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+					<CCTCertInfo><label>rsacert1</label></CCTCertInfo>
+				</actionresult>
+			</action>
+		</passactions>
+
+		<failactions>
+		</failactions>
+
+		<postactions>
+			<action>
+				<actionname>Deleting the writable certificate store manager</actionname>
+				<actiontype>delete</actiontype>
+				<actionbody></actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</postactions>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-apipolicing-2.3
+//! @SYMTestCaseDesc Test retrieve protected by ReadUserData capability for user certs
+//! @SYMREQ REQ3466
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>2.3, Test retrieve protected by ReadUserData capability for user certs</actionname>
+	<actiontype>policytest</actiontype>
+	<actionbody>
+		<testexe>t_certstore.exe</testexe>
+		<excludedcapabilities>
+			<capability>TCB</capability>
+		</excludedcapabilities>
+		<policy>
+			<capability>ReadUserData</capability>
+		</policy>
+
+		<preactions>
+			<action>
+				<actionname>Opening a writable certificate store manager</actionname>
+				<actiontype>init</actiontype>
+				<actionbody>
+					<mode>write</mode>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</preactions>
+
+		<passactions>
+			<action>
+				<actionname>Retrieve rsacert1 cert</actionname>
+				<actiontype>retrieve</actiontype>
+				<actionbody>
+					<label>rsacert1</label>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</passactions>
+
+		<failactions>
+			<action>
+				<actionname>Retrieve rsacert1 cert</actionname>
+				<actiontype>retrieve</actiontype>
+				<actionbody>
+					<label>rsacert1</label>
+				</actionbody>
+				<actionresult>
+					<return>KErrPermissionDenied</return>
+				</actionresult>
+			</action>
+		</failactions>
+
+		<postactions>
+			<action>
+				<actionname>Deleting the writable certificate store manager</actionname>
+				<actiontype>delete</actiontype>
+				<actionbody></actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</postactions>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-apipolicing-2.4
+//! @SYMTestCaseDesc Test remove user certificate protected by WriteUserData
+//! @SYMREQ REQ3466
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>2.4, Test remove user certificate protected by WriteUserData</actionname>
+	<actiontype>policytest</actiontype>
+	<actionbody>
+		<testexe>t_certstore.exe</testexe>
+		<excludedcapabilities>
+			<capability>TCB</capability>
+		</excludedcapabilities>
+		<policy>
+			<capability>WriteUserData</capability>
+		</policy>
+
+		<preactions>
+			<action>
+				<actionname>Opening a writable certificate store manager</actionname>
+				<actiontype>init</actiontype>
+				<actionbody>
+					<mode>write</mode>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</preactions>
+
+		<passactions>
+			<action>
+				<actionname>Remove the certificate rsacert1</actionname>
+				<actiontype>deletecert</actiontype>
+				<actionbody>
+					<certtype>user</certtype>
+					<label>rsacert1</label>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>Get the list of certificates</actionname>
+				<actiontype>listcert</actiontype>
+				<actionbody>
+					<filter>
+					<ownertype>user</ownertype>
+					</filter>
+				</actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</passactions>
+
+		<failactions>
+			<action>
+				<actionname>Remove the certificate rsacert1</actionname>
+				<actiontype>deletecert</actiontype>
+				<actionbody>
+					<certtype>user</certtype>
+					<label>rsacert1</label>
+				</actionbody>
+				<actionresult>
+					<return>KErrPermissionDenied</return>
+				</actionresult>
+			</action>
+
+			<action>
+				<actionname>Get the list of certificates</actionname>
+				<actiontype>listcert</actiontype>
+				<actionbody>
+					<filter>
+					<ownertype>user</ownertype>
+					</filter>
+				</actionbody>
+				<actionresult>
+					<CCTCertInfo><label>rsacert1</label></CCTCertInfo>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</failactions>
+
+		<postactions>
+			<action>
+				<actionname>Deleting the writable certificate store manager</actionname>
+				<actiontype>delete</actiontype>
+				<actionbody></actionbody>
+				<actionresult>
+					<return>KErrNone</return>
+				</actionresult>
+			</action>
+		</postactions>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+ // 3. Test peer certificates
+ //! @file
+ //! @SYMTestCaseID Sec-tcertstore-apipolicing-3.1
+ //! @SYMTestCaseDesc Test add peer certificate protected by WriteUserData
+ //! @SYMTestExpectedResults KErrNone
+ 
+ <action>
+ 	<actionname>3.1, Test add peer certificate protected by WriteUserData</actionname>
+ 	<actiontype>policytest</actiontype>
+ 	<actionbody>
+ 		<testexe>t_certstore.exe</testexe>
+ 		<excludedcapabilities>
+ 			<capability>TCB</capability>
+ 		</excludedcapabilities>
+ 		<policy>
+ 			<capability>WriteUserData</capability>
+ 		</policy>
+ 
+ 		<preactions>
+ 			<action>
+ 				<actionname>Opening a writable certificate store manager</actionname>
+ 				<actiontype>init</actiontype>
+ 				<actionbody>
+ 					<mode>write</mode>
+ 				</actionbody>
+ 				<actionresult>
+ 					<return>KErrNone</return>
+ 				</actionresult>
+ 			</action>
+ 		</preactions>
+ 		
+ 		<failactions>
+ 			<action>
+ 				<actionname>Add the certificate U5K3</actionname>
+ 				<actiontype>addcert</actiontype>
+ 				<actionbody>
+ 					<format>X509</format>
+ 					<label>U5K3</label>
+ 					<issuerkey></issuerkey>
+ 					<subjectkey>eeda2c6da84f17519ee837eadb8a5289dadfbb26</subjectkey>
+ 					<certstore>0</certstore>
+ 					<certfile>c:\unifiedcertstore2\U5K3.crt</certfile>
+ 					<certowner>peer</certowner>
+ 				</actionbody>
+ 				<actionresult>
+ 					<return>KErrPermissionDenied</return>
+ 				</actionresult>
+ 			</action>
+ 
+ 			<action>
+ 				<actionname>Get the list of certificates</actionname>
+ 				<actiontype>listpeercert</actiontype>
+ 				<actionbody>
+					<filter>
+					<ownertype>peer</ownertype>
+					</filter>
+				</actionbody>
+ 				<actionresult>
+ 					<return>KErrNone</return>
+ 				</actionresult>
+ 			</action>
+ 		</failactions>
+ 
+ 		<passactions>
+ 			<action>
+ 				<actionname>Add the certificate U5K3</actionname>
+ 				<actiontype>addcert</actiontype>
+ 				<actionbody>
+ 					<format>X509</format>
+ 					<label>U5K3</label>
+ 					<issuerkey></issuerkey>
+ 					<subjectkey>eeda2c6da84f17519ee837eadb8a5289dadfbb26</subjectkey>
+ 					<certstore>0</certstore>
+ 					<certfile>c:\unifiedcertstore2\U5K3.crt</certfile>
+ 					<certowner>peer</certowner>
+ 				</actionbody>
+ 				<actionresult>
+ 					<return>KErrNone</return>
+ 				</actionresult>
+ 			</action>
+ 
+ 			<action>
+ 				<actionname>Get the list of certificates</actionname>
+ 				<actiontype>listcert</actiontype>
+ 				<actionbody>
+					<filter>
+					<ownertype>peer</ownertype>
+					</filter>
+				</actionbody>
+ 				<actionresult>
+ 					<return>KErrNone</return>
+ 					<CCTCertInfo><label>U5K3</label></CCTCertInfo>
+ 				</actionresult>
+ 			</action>
+ 		</passactions>
+ 
+ 		<postactions>
+ 			<action>
+ 				<actionname>Deleting the writable certificate store manager</actionname>
+ 				<actiontype>delete</actiontype>
+ 				<actionbody></actionbody>
+ 				<actionresult>
+ 					<return>KErrNone</return>
+ 				</actionresult>
+ 			</action>
+ 		</postactions>
+ 	</actionbody>
+ 	<actionresult>
+ 		<return>KErrNone</return>
+ 	</actionresult>
+ </action>
+ 
+ //! @file
+ //! @SYMTestCaseID Sec-tcertstore-apipolicing-3.2
+ //! @SYMTestCaseDesc Test list not protected by any capability for peer certs
+ //! @SYMTestExpectedResults KErrNone
+ 
+ <action>
+ 	<actionname>3.2, Test list not protected by any capability for peer certs</actionname>
+ 	<actiontype>policytest</actiontype>
+ 	<actionbody>
+ 		<testexe>t_certstore.exe</testexe>
+ 		<excludedcapabilities>
+ 			<capability>TCB</capability>
+ 		</excludedcapabilities>
+ 		<policy>
+ 		</policy>
+ 
+ 		<preactions>
+ 			<action>
+ 				<actionname>Opening a writable certificate store manager</actionname>
+				<actiontype>init</actiontype>
+ 				<actionbody>
+ 					<mode>write</mode>
+ 				</actionbody>
+ 				<actionresult>
+ 					<return>KErrNone</return>
+ 				</actionresult>
+ 			</action>
+ 		</preactions>
+ 
+ 		<passactions>
+ 			<action>
+ 				<actionname>Get the list of certificates</actionname>
+ 				<actiontype>listcert</actiontype>
+ 				<actionbody>
+					<filter>
+					<ownertype>peer</ownertype>
+					</filter>
+				</actionbody>
+ 				<actionresult>
+ 					<return>KErrNone</return>
+ 					<CCTCertInfo><label>U5K3</label></CCTCertInfo>
+ 				</actionresult>
+ 			</action>
+ 		</passactions>
+ 
+ 		<failactions>
+ 		</failactions>
+ 
+ 		<postactions>
+ 			<action>
+ 				<actionname>Deleting the writable certificate store manager</actionname>
+ 				<actiontype>delete</actiontype>
+ 				<actionbody></actionbody>
+				<actionresult>
+ 					<return>KErrNone</return>
+ 				</actionresult>
+ 			</action>
+ 		</postactions>
+ 	</actionbody>
+ 	<actionresult>
+ 		<return>KErrNone</return>
+ 	</actionresult>
+ </action>
+ 
+ //! @file
+ //! @SYMTestCaseID Sec-tcertstore-apipolicing-3.3
+ //! @SYMTestCaseDesc Test retrieve protected by ReadUserData capability for peer certs
+ //! @SYMTestExpectedResults KErrNone
+ 
+ <action>
+ 	<actionname>3.3, Test retrieve protected by ReadUserData capability for peer certs</actionname>
+ 	<actiontype>policytest</actiontype>
+ 	<actionbody>
+ 		<testexe>t_certstore.exe</testexe>
+ 		<excludedcapabilities>
+ 			<capability>TCB</capability>
+		</excludedcapabilities>
+ 		<policy>
+ 			<capability>ReadUserData</capability>
+ 		</policy>
+ 
+ 		<preactions>
+ 			<action>
+				<actionname>Opening a writable certificate store manager</actionname>
+ 				<actiontype>init</actiontype>
+ 				<actionbody>
+ 					<mode>write</mode>
+ 				</actionbody>
+ 				<actionresult>
+ 					<return>KErrNone</return>
+ 				</actionresult>
+ 			</action>
+ 		</preactions>
+ 
+ 		<passactions>
+ 			<action>
+ 				<actionname>Retrieve U5K3 cert</actionname>
+ 				<actiontype>retrieve</actiontype>
+ 				<actionbody>
+ 					<label>U5K3</label>
+ 				</actionbody>
+ 				<actionresult>
+ 					<return>KErrNone</return>
+ 				</actionresult>
+ 			</action>
+ 		</passactions>
+ 
+ 		<failactions>
+ 			<action>
+ 				<actionname>Retrieve U5K3 cert</actionname>
+ 				<actiontype>retrieve</actiontype>
+ 				<actionbody>
+ 					<label>U5K3</label>
+ 				</actionbody>
+ 				<actionresult>
+ 					<return>KErrPermissionDenied</return>
+ 				</actionresult>
+ 			</action>
+ 		</failactions>
+ 
+ 		<postactions>
+ 			<action>
+ 				<actionname>Deleting the writable certificate store manager</actionname>
+ 				<actiontype>delete</actiontype>
+ 				<actionbody></actionbody>
+ 				<actionresult>
+ 					<return>KErrNone</return>
+ 				</actionresult>
+ 			</action>
+ 		</postactions>
+ 	</actionbody>
+ 	<actionresult>
+ 		<return>KErrNone</return>
+ 	</actionresult>
+ </action>
+ 
+ //! @file
+ //! @SYMTestCaseID Sec-tcertstore-apipolicing-3.4
+ //! @SYMTestCaseDesc Test remove peer certificate protected by WriteUserData
+ //! @SYMTestExpectedResults KErrNone
+ 
+ <action>
+ 	<actionname>3.4, Test remove peer certificate protected by WriteUserData</actionname>
+ 	<actiontype>policytest</actiontype>
+ 	<actionbody>
+ 		<testexe>t_certstore.exe</testexe>
+ 		<excludedcapabilities>
+ 			<capability>TCB</capability>
+ 		</excludedcapabilities>
+ 		<policy>
+ 			<capability>WriteUserData</capability>
+ 		</policy>
+ 
+ 		<preactions>
+ 			<action>
+ 				<actionname>Opening a writable certificate store manager</actionname>
+ 				<actiontype>init</actiontype>
+ 				<actionbody>
+ 					<mode>write</mode>
+ 				</actionbody>
+ 				<actionresult>
+ 					<return>KErrNone</return>
+ 				</actionresult>
+ 			</action>
+ 		</preactions>
+ 
+ 		<passactions>
+ 			<action>
+ 				<actionname>Remove the certificate U5K3</actionname>
+ 				<actiontype>deletecert</actiontype>
+ 				<actionbody>
+ 					<certtype>peer</certtype>
+ 					<label>U5K3</label>
+ 				</actionbody>
+ 				<actionresult>
+ 					<return>KErrNone</return>
+ 				</actionresult>
+ 			</action>
+ 
+ 			<action>
+ 				<actionname>Get the list of certificates</actionname>
+ 				<actiontype>listcert</actiontype>
+ 				<actionbody>
+					<filter>
+					<ownertype>peer</ownertype>
+					</filter>
+				</actionbody>
+ 				<actionresult>
+ 					<return>KErrNone</return>
+ 				</actionresult>
+ 			</action>
+ 		</passactions>
+ 
+ 		<failactions>
+ 			<action>
+ 				<actionname>Remove the certificate U5K3</actionname>
+ 				<actiontype>deletecert</actiontype>
+ 				<actionbody>
+ 					<certtype>peer</certtype>
+ 					<label>U5K3</label>
+ 				</actionbody>
+ 				<actionresult>
+ 					<return>KErrPermissionDenied</return>
+ 				</actionresult>
+ 			</action>
+ 
+ 			<action>
+ 				<actionname>Get the list of certificates</actionname>
+ 				<actiontype>listcert</actiontype>
+ 				<actionbody>
+					<filter>
+					<ownertype>peer</ownertype>
+					</filter>
+				</actionbody>
+ 				<actionresult>
+ 					<CCTCertInfo><label>U5K3</label></CCTCertInfo>
+ 					<return>KErrNone</return>
+ 				</actionresult>
+ 			</action>
+ 		</failactions>
+ 
+ 		<postactions>
+ 			<action>
+ 				<actionname>Deleting the writable certificate store manager</actionname>
+ 				<actiontype>delete</actiontype>
+ 				<actionbody></actionbody>
+ 				<actionresult>
+ 					<return>KErrNone</return>
+ 				</actionresult>
+ 			</action>
+ 		</postactions>
+ 	</actionbody>
+ 	<actionresult>
+ 		<return>KErrNone</return>
+ 	</actionresult>
+ </action>
+ 
+
+// 4. Cleanup
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-apipolicing-4.1
+//! @SYMTestCaseDesc Delete all certs
+//! @SYMREQ REQ3466
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Delete all certs</actionname>
+	<actiontype>deletecert</actiontype>
+	<actionbody>
+		<label>*.*</label>
+		<deleteallcerts>1</deleteallcerts>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file
+//! @SYMTestCaseID Sec-tcertstore-apipolicing-4.2
+//! @SYMTestCaseDesc Deleting the writable certificate store manager
+//! @SYMREQ REQ3466
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Deleting the writable certificate store manager</actionname>
+	<actiontype>delete</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>

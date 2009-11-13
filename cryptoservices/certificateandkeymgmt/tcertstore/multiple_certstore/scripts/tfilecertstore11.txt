@@ -1,0 +1,92 @@
+// CASE11: Duplicates in Distinct certstore (DD), with Duplicates in Same certstore (SD) of least order
+// CASE11a: Duplicates in Distinct certstore (DD), with Duplicates in Same certstore (SD) in middle of the order
+
+// TEST-CASE:         SEC-FILECERTSTORE-0011
+// FILES:             cacerts3.dat, cacerts2.dat, renamed-cacerts5.dat 
+// LABELS:            Testing ACS Root, TOCSP-Signing5-RSA, Testing ACS Root, Testing XXX Root, Testing XXX Root
+// EXPECTED RESULTS:  Testing ACS Root, TOCSP-Signing5-RSA, Testing XXX Root
+// VARIANT:           UDEB, UREL
+
+// TEST-CASE:         SEC-FILECERTAPPSTORE-0011
+// FILES:             certclients3.dat, certclients2.dat, renamed-certclients5.dat 
+// UIDS:              270506792, 268478646, 270506792, 270506793, 270506793 
+// EXPECTED RESULTS:  270506792, 268478646, 270506793   
+// VARIANT:           UDEB, UREL
+
+
+//! @file
+//! @SYMTestCaseID SEC-FILECERTSTORE-0011
+//! @SYMTestCaseDesc Aggregating and opening a filecertstore
+//! @SYMREQ REQ9983, REQ9986, REQ10141  
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Aggregation and opening of filecertstore</actionname>
+	<actiontype>init</actiontype>
+	<actionbody>
+		<mode>write</mode>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Get the list of CA certificates</actionname>
+	<actiontype>listcert</actiontype>
+	<actionbody>
+		<filter>
+		<ownertype>ca</ownertype>
+		</filter>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+    <CCTCertInfo><label>Testing ACS Root</label></CCTCertInfo>
+		<CCTCertInfo><label>TOCSP-Signing5-RSA</label></CCTCertInfo>
+		<CCTCertInfo><label>Testing XXX Root</label></CCTCertInfo>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Delete the writable certificate store manager</actionname>
+	<actiontype>delete</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>  
+
+
+//! @file
+//! @SYMTestCaseID SEC-FILECERTAPPSTORE-0011
+//! @SYMTestCaseDesc Aggregating and opening a filecertappstore
+//! @SYMREQ REQ9983, REQ9989
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Creating a CertificateAppInfoManager</actionname>
+	<actiontype>initappmanager</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Retrieving the clients</actionname>
+	<actiontype>getclients</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<uid>270506792 268478646 270506793</uid>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Deleting the CertificateAppInfoManager</actionname>
+	<actiontype>deleteappmanager</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>

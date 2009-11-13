@@ -1,0 +1,57 @@
+<action>
+	<actionname>None</actionname>
+	<actiontype>startmemfailure</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>TX509 OOM Validate Tests 01</actionname>
+	<actiontype>Validate</actiontype>
+	<actionbody>
+		<filename>\tx509\data\001_auth.cer</filename>
+		<expectedkeyid>FFB8F1E6EBCC32E28AA5B0E50DDF25729583D8FB</expectedkeyid>
+		<result>valid</result>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>None</actionname>
+	<actiontype>stopmemfailure</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>None</actionname>
+	<actiontype>startmemfailure</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>TX509 OOM Validate Tests 02</actionname>
+	<actiontype>Validate</actiontype>
+	<actionbody>
+		<filename>\tx509\data\asia.crt</filename>
+		<expectedkeyid>5E32DFFC14D0DA3F806CA93F7750283F8C093375</expectedkeyid>
+		<result>Invalid</result>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+	<actionname>None</actionname>
+	<actiontype>stopmemfailure</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>

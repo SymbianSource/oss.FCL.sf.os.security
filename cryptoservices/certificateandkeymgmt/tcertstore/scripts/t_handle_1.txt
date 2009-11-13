@@ -1,0 +1,205 @@
+<action>
+	<actionname>Opening a Unified Cert Store</actionname>
+	<actiontype>init</actiontype>
+	<actionbody>
+		<mode>write</mode>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Adding a certificate</actionname>
+	<actiontype>addcert</actiontype>
+	<actionbody>
+		<format>WTLS</format>
+		<label>CAW2</label>
+		<certstore>0</certstore>
+		<certfile>c:\tcertstore\ent-wtls2.cer</certfile>
+		<certowner>ca</certowner>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Add the certificate caX1</actionname>
+	<actiontype>addcert</actiontype>
+	<actionbody>
+		<format>X509</format>
+		<label>CAX1</label>
+		<certstore>0</certstore>
+		<certfile>c:\unifiedcertstore2\CAX1.cer</certfile>
+		<certowner>ca</certowner>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+	<actionname>Getting the handle</actionname>
+	<actiontype>CCTCertInfo Handle</actiontype>
+	<actionbody>
+		<label>CAW2</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Getting the certificate by handle</actionname>
+	<actiontype>CUnifiedCertStore GetCert</actiontype>
+	<actionbody>
+			<tokentype>270487578</tokentype>
+			<token>1</token>
+			<object>0</object>
+		
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Getting the certificate by handle</actionname>
+	<actiontype>CUnifiedCertStore GetCert</actiontype>
+	<actionbody>
+			<tokentype>1234</tokentype>
+			<token>3</token>
+			<object>4</object>
+		
+	</actionbody>
+	<actionresult>
+		<return>KErrNotFound</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Getting the certificate by handle</actionname>
+	<actiontype>CUnifiedCertStore GetCert</actiontype>
+	<actionbody>
+			<tokentype>270487578</tokentype>
+			<token>1</token>
+			<object>1</object>
+		
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Getting the certificate by handle</actionname>
+	<actiontype>CUnifiedCertStore GetCert</actiontype>
+	<actionbody>
+			<tokentype>270487578</tokentype>
+			<token>1</token>
+			<object>0</object>
+		
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Deleting the certificate CAW2</actionname>
+	<actiontype>deletecert</actiontype>
+	<actionbody>
+		<certtype>ca</certtype>
+		<label>CAW2</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+Having deleted the first certificate, the second one should still be getable
+
+<action>
+	<actionname>Getting the certificate by handle</actionname>
+	<actiontype>CUnifiedCertStore GetCert</actiontype>
+	<actionbody>
+			<tokentype>270487578</tokentype>
+			<token>1</token>
+			<object>1</object>
+		
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Adding a certificate</actionname>
+	<actiontype>addcert</actiontype>
+	<actionbody>
+		<format>WTLS</format>
+		<label>CAW2</label>
+		<issuerkey></issuerkey>
+		<subjectkey></subjectkey>
+		<certstore>0</certstore>
+		<certfile>c:\tcertstore\ent-wtls2.cer</certfile>
+		<certowner>ca</certowner>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+CAW2 should be added with handle 2, as the last cert in the store is
+CAX1 with handle 1
+
+<action>
+	<actionname>Getting the certificate by handle</actionname>
+	<actiontype>CUnifiedCertStore GetCert</actiontype>
+	<actionbody>
+			<tokentype>270487578</tokentype>
+			<token>1</token>
+			<object>2</object>
+		
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+	<actionname>Deleting the certificate CAX1</actionname>
+	<actiontype>deletecert</actiontype>
+	<actionbody>
+		<certtype>ca</certtype>
+		<label>CAX1</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Deleting the certificate CAW2</actionname>
+	<actiontype>deletecert</actiontype>
+	<actionbody>
+		<certtype>ca</certtype>
+		<label>CAW2</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+	<actionname>Deleting the Unified Cert Store</actionname>
+	<actiontype>delete</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>

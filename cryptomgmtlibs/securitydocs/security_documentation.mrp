@@ -1,0 +1,11 @@
+component	security_documentation
+
+source	\sf\os\security\cryptomgmtlibs\securitydocs\
+
+notes_source	\component_defs\release.src
+
+
+#  == IPR section auto-inserted from distribution.policy files  ==
+ipr G 
+
+# == end auto-inserted section ==

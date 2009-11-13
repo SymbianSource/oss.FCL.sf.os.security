@@ -1,0 +1,410 @@
+//! multiplecertstoresfilter.txt
+//!
+//! Test the ordering and filting in & out of multiple certores implementation which required in PREQ226 MIDP 2.0 support. 
+//! The file contains different sets of certstore orders as input and expect ordering results as output.
+
+// Note: The in-source test tag is only added to the new tests for PREQ226. The tests without test tag is the existing tests
+// in the certstore component, which are used to set up the environment needed by the PREQ226 tests.
+
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-WModeUCTWithSF1.1
+//! @SYMTestCaseDesc The test is to open one UnifiedCertStore in write mode with the
+//! sequence of Software, SIM, WIM and UICC certstore implementations, and expect worng ordering.The test need
+//! filecertore.dll, thwsimcertstores.dll, thwwimcertstores.dll and thwuicccertstores.dll enabled
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNotFound
+<action>
+	<actionname>1.1,Opening a writable certificate store manager</actionname>
+	<actiontype>init</actiontype>
+	<actionbody>
+		<mode>write</mode>
+		<orderingfilter>1,2,3,4</orderingfilter>
+	</actionbody>
+	<actionresult>
+		<orderingresult>270487578,270559303,270559302,270559304</orderingresult>
+		<return>KErrNotFound</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>0.1,Deleting the writable certificate store manager</actionname>
+	<actiontype>delete</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-WModeUCTWithSS1.2
+//! @SYMTestCaseDesc The test is to open one UnifiedCertStore in write mode with the
+//! sequence of SIM, UICC, Software and WIM certstore implementations, and expect the correct order. The test needs
+//! tDeviceImmutablestores.dll, filecertore.dll, thwsimcertstores.dll, thwwimcertstores.dll and thwuicccertstores.dll enabled
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>1.2,Opening a writable certificate store manager</actionname>
+	<actiontype>init</actiontype>
+	<actionbody>
+		<mode>write</mode>
+		<orderingfilter>5,2,4,1,3</orderingfilter>
+	</actionbody>
+	<actionresult>
+		<orderingresult>270563267,270559302,270559304,270487578,270559303</orderingresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>0.1,Deleting the writable certificate store manager</actionname>
+	<actiontype>delete</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-WModeUCTWithSS1.3
+//! @SYMTestCaseDesc The test is to open one UnifiedCertStore in write mode with the
+//! sequence of SIM, WIM and UICC certstore implementations, and expect the correct order. The test need 
+//! filecertore.dll, thwsimcertstores.dll, thwwimcertstores.dll and thwuicccertstores.dll enabled
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>1.3,Opening a writable certificate store manager</actionname>
+	<actiontype>init</actiontype>
+	<actionbody>
+		<mode>write</mode>
+		<orderingfilter>1,2,3</orderingfilter>
+	</actionbody>
+	<actionresult>
+		<orderingresult>270487578,270559302,270559303</orderingresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+	<actionname>0.1,Deleting the writable certificate store manager</actionname>
+	<actiontype>delete</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-WModeUCTWithSF1.4
+//! @SYMTestCaseDesc The test is to open one UnifiedCertStore in write mode with the
+//! sequence of SIM, WIM certstore implementations, and expect worng ordering.The test need
+//! filecertore.dll, thwsimcertstores.dll, thwwimcertstores.dll and thwuicccertstores.dll enabled
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNotFound
+<action>
+	<actionname>1.4,Opening a writable certificate store manager</actionname>
+	<actiontype>init</actiontype>
+	<actionbody>
+		<mode>write</mode>
+		<orderingfilter>2,3</orderingfilter>
+	</actionbody>
+	<actionresult>
+		<orderingresult>270559303,270559302</orderingresult>
+		<return>KErrNotFound</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>0.1,Deleting the writable certificate store manager</actionname>
+	<actiontype>delete</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-WModeUCTWithSS1.5
+//! @SYMTestCaseDesc The test is to open one UnifiedCertStore in write mode with the
+//! sequence of SIM, UICC, Software and WIM certstore implementations, and expect the correct order. The test needs
+//! tDeviceImmutablestores.dll, filecertore.dll, tadditionalstores.dll, thwsimcertstores.dll, 
+//! thwwimcertstores.dll and thwuicccertstores.dll enabled
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+   	<actionname>1.5,Opening a writable certificate store manager</actionname>
+   	<actiontype>init</actiontype>
+   	<actionbody>
+   		<mode>write</mode>
+ 		<orderingfilter>5,2,4,1,3,0</orderingfilter>
+   	</actionbody>
+   	<actionresult>
+ 		<orderingresult>270563267,270559302,270559304,270487578,270559303,270488185</orderingresult>
+   		<return>KErrNone</return>
+   	</actionresult>
+</action>
+   
+<action>
+   	<actionname>0.1,Deleting the writable certificate store manager</actionname>
+   	<actiontype>delete</actiontype>
+   	<actionbody></actionbody>
+   	<actionresult>
+   		<return>KErrNone</return>
+   	</actionresult>
+</action>
+
+
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-RModeUCTWithSF5.1
+//! @SYMTestCaseDesc The test is to open one UnifiedCertStore in read mode with the
+//! sequence of SIM, WIM, UICC and Software cerstore implementations, and expect worng ordering.The test need
+//! filecertore.dll, thwsimcertstores.dll, thwwimcertstores.dll and thwuicccertstores.dll enabled
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNotFound
+<action>
+	<actionname>5.1,Opening a read-only certificate store manager</actionname>
+	<actiontype>init</actiontype>
+	<actionbody>
+		<mode>read</mode>
+		<orderingfilter>2,3,4,1</orderingfilter>
+	</actionbody>
+	<actionresult>
+		<orderingresult>270559302,270559304,270487578,270559303</orderingresult>
+		<return>KErrNotFound</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>0.2,Deleting the read-only certificate store manager</actionname>
+	<actiontype>delete</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-RModeUCTWithSS5.2
+//! @SYMTestCaseDesc The test is to open one UnifiedCertStore in read mode with the
+//! sequence of SIM, Software, UICC and WIM cerstore implementations, and expect the correct order.The test need
+//! filecertore.dll, thwsimcertstores.dll, thwwimcertstores.dll and thwuicccertstores.dll enabled
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>5.2,Opening a read-only certificate store manager</actionname>
+	<actiontype>init</actiontype>
+	<actionbody>
+		<mode>read</mode>
+		<orderingfilter>2,1,4,3</orderingfilter>
+	</actionbody>
+	<actionresult>
+		<orderingresult>270559302,270487578,270559304,270559303</orderingresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+	<actionname>0.2,Deleting the second read-only certificate store manager</actionname>
+	<actiontype>delete</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-RModeUCTWithSS5.3
+//! @SYMTestCaseDesc The test is to open one UnifiedCertStore in read mode with the
+//! sequence of Software, UICC and WIM cerstore implementations, and expect the correct order.The test need
+//! filecertore.dll, thwsimcertstores.dll, thwwimcertstores.dll and thwuicccertstores.dll enabled
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>5.3,Opening a read-only certificate store manager</actionname>
+	<actiontype>init</actiontype>
+	<actionbody>
+		<mode>read</mode>
+		<orderingfilter>1,4,3</orderingfilter>
+	</actionbody>
+	<actionresult>
+		<orderingresult>270487578,270559304,270559303</orderingresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+	<actionname>0.2,Deleting the second read-only certificate store manager</actionname>
+	<actiontype>delete</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-RModeUCTWithSF5.4
+//! @SYMTestCaseDesc The test is to open one UnifiedCertStore in read mode with the
+//! sequence of Software, WIM cerstore implementations, and expect worng ordering. The test need
+//! filecertore.dll, thwsimcertstores.dll, thwwimcertstores.dll and thwuicccertstores.dll enabled
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNotFound
+<action>
+	<actionname>5.4,Opening a read-only certificate store manager</actionname>
+	<actiontype>init</actiontype>
+	<actionbody>
+		<mode>read</mode>
+		<orderingfilter>1,3</orderingfilter>
+	</actionbody>
+	<actionresult>
+		<orderingresult>270559303,270487578</orderingresult>
+		<return>KErrNotFound</return>
+	</actionresult>
+</action>
+
+
+<action>
+	<actionname>0.2,Deleting the second read-only certificate store manager</actionname>
+	<actiontype>delete</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-RModeUCTWithSS5.5
+//! @SYMTestCaseDesc The test is to open one UnifiedCertStore in read mode with the
+//! sequence of SIM, ThirdpartySoftware, UICC, hardware, WIM and ManufactureSoftware cerstore 
+//! implementations, and expect the correct order.The test need
+//! filecertore.dll, tadditionalstores.dll, tDeviceImmutableStores.dll, thwsimcertstores.dll, 
+//! thwwimcertstores.dll and thwuicccertstores.dll enabled
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+ 	<actionname>5.5,Opening a read-only certificate store manager</actionname>
+ 	<actiontype>init</actiontype>
+ 	<actionbody>
+ 		<mode>read</mode>
+ 		<orderingfilter>2,1,4,0,3,5</orderingfilter>
+ 	</actionbody>
+ 	<actionresult>
+ 		<orderingresult>270559302,270487578,270559304,270488185,270559303,270563267</orderingresult>
+ 		<return>KErrNone</return>
+ 	</actionresult>
+</action>
+ 
+<action>
+   	<actionname>0.2,Deleting the second read-only certificate store manager</actionname>
+   	<actiontype>delete</actiontype>
+   	<actionbody></actionbody>
+   	<actionresult>
+   		<return>KErrNone</return>
+   	</actionresult>
+</action>
+
+<action>
+	<actionname>Enabling cancellation testing</actionname>
+	<actiontype>startcancellation</actiontype>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-WModeUCTCancel2.1
+//! @SYMTestCaseDesc The test is to test cancelling unified certstore instantiation with the sequence of 
+//! Software, SIM, WIM and UICC. The test needs filecertore.dll, thwsimcertstores.dll, 
+//! thwwimcertstores.dll and thwuicccertstores.dll enabled.
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>2.1,Cancellation of Opening a writable certificate store manager</actionname>
+	<actiontype>init</actiontype>
+	<actionbody>
+		<mode>write</mode>
+		<orderingfilter>1,2,3,4</orderingfilter>
+	</actionbody>
+	<actionresult>
+		<orderingresult>270487578,270559302,270559303,270559304</orderingresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Disabling cancellation testing</actionname>
+	<actiontype>stopcancellation</actiontype>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>0.1,Deleting the writable certificate store manager</actionname>
+	<actiontype>delete</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>None</actionname>
+	<actiontype>startmemfailure</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-WModeUCTOOM3.1
+//! @SYMTestCaseDesc The test is the OOM test for unified certstore instantiation with the sequence of 
+//! Software, SIM, WIM and UICC. The test needs filecertore.dll, thwsimcertstores.dll, 
+//! thwwimcertstores.dll and thwuicccertstores.dll enabled.
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>3.1,OOM test of Opening a writable certificate store manager</actionname>
+	<actiontype>init</actiontype>
+	<actionbody>
+		<mode>write</mode>
+		<orderingfilter>1,2,3,4</orderingfilter>
+	</actionbody>
+	<actionresult>
+		<orderingresult>270487578,270559302,270559303,270559304</orderingresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>None</actionname>
+	<actiontype>stopmemfailure</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>0.1,Deleting the writable certificate store manager</actionname>
+	<actiontype>delete</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>

@@ -1,0 +1,159 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+#ifndef __SECURITYTESTS_IBY__
+#define __SECURITYTESTS_IBY__
+
+// We need bigger ROFS files for tests with TBAS
+rofssize=0x2100000
+
+// Save build details in ROM
+data=\buildid.txt                 \buildid.txt
+
+define ZDRIVE \epoc32\winscw\c
+
+
+// This should be included in the Techview.oby file
+// All test data and scripts gets copied to the root of ROM drive.
+// This should be copied to the relevant directory on the C drive.
+
+// platsec.oby should be included, but a problem in rombuild prevents build with watchers disabled and PlatSecEnforceSysBin ON
+//#include "platsec.oby"
+ROM_IMAGE[0] {
+PlatSecDiagnostics ON
+PlatSecEnforcement ON
+PlatSecEnforceSysBin ON
+PlatSecProcessIsolation ON
+}
+
+#include "setcap.iby"
+
+#include "testexecute.iby"
+#include "t_testhandler.iby"
+#include "testutil.iby"
+#include "xml.iby" // Needed for security tests
+
+#include "securityframeworktestserver.iby"
+
+
+#ifdef SYMBIAN_USER_PROMPT_SERVICE
+	#include "ups.iby"
+	#include "tups.iby"
+#endif
+
+		
+// iby files for caf
+#include "caf.iby"
+#include "caftest.iby"
+#include "reccafconfig.iby"
+#include "rta.iby"
+#include "rtatest.iby"
+#include "tpkcs12integrationserver.iby"
+ 
+#ifdef SYMBIAN_CAF_STREAMING
+	#include "streamingcaf.iby"
+	#include "tscaf.iby"
+#endif	
+
+
+#include "secutiltests.iby"
+
+            	
+#include "randomtests.iby"
+#include "hashtests.iby"
+#include "certmantests.iby"
+
+#include "ctframeworktests.iby"
+#include "tpkcs7server.iby"
+#include "filetokenstests.iby"
+#include "asnpkcstests.iby"
+
+#include "cryptotests.iby"
+
+
+// This is the bat file to run the security tests automatically
+// comms configuration (and configuration using sim.tsy)
+data = ZDRIVE\auto.cfg					\auto.cfg
+data = ZDRIVE\auto_broken.cfg					\auto_broken.cfg
+data = ZDRIVE\autosimtsy.cfg					\autosimtsy.cfg
+data = ZDRIVE\prompt.cfg					\prompt.cfg
+
+// This the file which used to redirect the request from cam-ocsptest01 to ban-ocsptest01
+data = ZDRIVE\autohardware\hosts		     \hosts
+
+
+#ifdef __AUTO_HARDWARE_TESTS__
+	data = ZDRIVE\autohardware\autoexec.bat		\autoexec.bat
+#endif
+
+
+data = ZDRIVE\autohardware\runcertman_9.4.bat			\runcertman.bat
+data = ZDRIVE\autohardware\runasnpkcs_9.4.bat			\runasnpkcs.bat
+data = ZDRIVE\autohardware\runfiletokens_9.4.bat		\runfiletokens.bat
+data = ZDRIVE\autohardware\runcryptotokens_9.4.bat		\runcryptotokens.bat
+data = ZDRIVE\autohardware\runupstests_9.4.bat			\runupstests.bat
+data = ZDRIVE\autohardware\runpkcs12tests_9.4.bat		\runpkcs12tests.bat
+
+#ifdef SYMBIAN_CAF_STREAMING
+	data = ZDRIVE\autohardware\runcaftests_9.6.bat		\runcaftests.bat
+#else
+	data = ZDRIVE\autohardware\runcaftests_9.4.bat		\runcaftests.bat
+#endif
+
+#ifdef SYMBIAN_CRYPTOSPI
+	data = ZDRIVE\autohardware\runcrypto_9.5.bat	               	\runcrypto.bat
+#else
+	data = ZDRIVE\autohardware\runcrypto_9.4.bat	               	\runcrypto.bat
+#endif
+
+data = ZDRIVE\autohardware\testsecurityperformance_cryptalg.bat	\testsecurityperformance_cryptalg.bat
+data = ZDRIVE\autohardware\testsecurityperformance_crypto.bat	\testsecurityperformance_crypto.bat
+
+
+data = ZDRIVE\autohardware\testsecurity_sdp.bat			\testsecurity.bat
+	
+
+
+//estor.dll is put in ROFS by deafult but we need to put it into CORE as well
+//core version will be used; see DEF113303 for details
+#ifdef __SECURITY_TEST_ROM__
+#ifdef _NAND2
+ROM_IMAGE[0] {
+file = \epoc32\release\armv5\urel\estor.dll \sys\bin\estor.dll
+}
+#endif
+#endif
+
+
+REM ---------- Comms-Infras ----------
+// ced is not included in release builds by default (in commdb.iby)
+// so we include it explicitly here if _DEBUG is NOT defined
+file=ABI_DIR\BUILD_DIR\ced.exe                      System\Libs\ced.exe
+data=EPOCROOT##epoc32\data\z\system\data\meshpreface1.cfg		system\data\meshpreface1.cfg
+
+file=ABI_DIR\BUILD_DIR\ceddump.exe                  System\Programs\ceddump.exe
+
+file=ABI_DIR\BUILD_DIR\RUNTESTS.EXE                 System\Programs\RUNTESTS.EXE
+
+#include "thindump.iby"
+#include "sntpclient.iby"
+
+// DEF137562 fix - Removing illegal dependency from OS to MW layer. Relocation of OCSP component from OS to MW layer.
+#include "ocsp.iby" 
+#include "ocsptests.iby"
+
+
+#endif

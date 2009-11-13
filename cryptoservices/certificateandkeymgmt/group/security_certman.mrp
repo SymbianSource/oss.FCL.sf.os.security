@@ -1,0 +1,27 @@
+component	security_certman
+source	\sf\os\security\cryptoservices\certificateandkeymgmt
+binary	\sf\os\security\cryptoservices\certificateandkeymgmt\group	all
+exports	\sf\os\security\cryptoservices\certificateandkeymgmt\group
+-export_file	\sf\os\security\cryptoservices\certificateandkeymgmt\group\makecertstore.ipr	\epoc32\engdoc\tools\makecertstore.ipr
+
+notes_source	\component_defs\release.src
+
+#  == IPR section auto-inserted from distribution.policy files  ==
+ipr E 
+ipr T \sf\os\security\cryptoservices\certificateandkeymgmt\tadditionalstores
+ipr T \sf\os\security\cryptoservices\certificateandkeymgmt\tasn1
+ipr T \sf\os\security\cryptoservices\certificateandkeymgmt\tcertcommon
+ipr T \sf\os\security\cryptoservices\certificateandkeymgmt\tcertdump
+ipr T \sf\os\security\cryptoservices\certificateandkeymgmt\tcertstore
+ipr T \sf\os\security\cryptoservices\certificateandkeymgmt\tder
+ipr T \sf\os\security\cryptoservices\certificateandkeymgmt\testcertificates
+ipr T \sf\os\security\cryptoservices\certificateandkeymgmt\testdata
+ipr T \sf\os\security\cryptoservices\certificateandkeymgmt\testhwerrstore
+ipr T \sf\os\security\cryptoservices\certificateandkeymgmt\tpkcs10
+ipr T \sf\os\security\cryptoservices\certificateandkeymgmt\tpkcs12intgrtn
+ipr T \sf\os\security\cryptoservices\certificateandkeymgmt\tpkcs7
+ipr T \sf\os\security\cryptoservices\certificateandkeymgmt\tpkixcert
+ipr T \sf\os\security\cryptoservices\certificateandkeymgmt\twtlscert
+ipr T \sf\os\security\cryptoservices\certificateandkeymgmt\tx509
+
+# == end auto-inserted section ==

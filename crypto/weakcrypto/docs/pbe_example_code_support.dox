@@ -1,0 +1,80 @@
+/**
+@page pbe_example_code_support PBE example code support
+	
+	Below is the supporting code for the @ref pbe_example_code "PBE example code".
+
+<hr>
+
+@code
+#include "e32std.h"
+#include "f32file.h"
+#include "s32file.h"
+#include "pbe.h"
+#include "pbedata.h"
+
+/*
+ * Class to demonstrate the use of the PBE API.
+ */
+class CPBEExample : public CBase
+		 {
+public:
+		 static CPBEExample* NewLC();
+		 virtual ~CPBEExample();
+		 
+		 void WriteEncryptedDataL(const TDesC8& aInput, const TDesC& aFilename, const TDesC& aPassword);
+		 HBufC8* ReadEncryptedDataLC(const TDesC& aFilename, const TDesC& aPassword);
+private:
+		 CPBEExample();
+		 void ConstructL();
+private:
+		 RFs iFs;
+		 };
+
+CPBEExample* CPBEExample::NewLC()
+		 {
+		 CPBEExample* self = new (ELeave) CPBEExample();
+		 CleanupStack::PushL(self);
+		 self->ConstructL();
+		 return self;
+		 }
+
+CPBEExample::CPBEExample()
+		 {
+		 }
+
+void CPBEExample::ConstructL()
+		 {
+		 User::LeaveIfError(iFs.Connect());
+		 }
+
+CPBEExample::~CPBEExample()
+		 {
+		 iFs.Close();
+		 }
+
+LOCAL_D void RunPBEExampleL()
+		 {
+		 _LIT(KFilename, "c:\\pbe_example_data.dat");
+		 _LIT8(KInputData, "This is the data to be encrypted");
+		 _LIT(KPassword, "pa55w0rd");
+
+		 CPBEExample* main = CPBEExample::NewLC();
+		 main->WriteEncryptedDataL(KInputData, KFilename, KPassword);
+		 HBufC8* outputData = main->ReadEncryptedDataLC(KFilename, KPassword);
+		 ASSERT(*outputData == KInputData);
+		 CleanupStack::PopAndDestroy(2, main);
+		 }
+
+GLDEF_C TInt E32Main() // main function called by E32
+    {
+		 __UHEAP_MARK;
+		 CTrapCleanup* cleanup = CTrapCleanup::New(); // get clean-up stack
+		 TRAPD(error, RunPBEExampleL());
+		 __ASSERT_ALWAYS(!error,User::Panic(_L("pbe_example_code"),error));
+		 delete cleanup; // destroy clean-up stack
+		 __UHEAP_MARKEND;
+		 return 0;
+    }
+
+@endcode
+*/

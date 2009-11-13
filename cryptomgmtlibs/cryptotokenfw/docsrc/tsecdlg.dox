@@ -1,0 +1,190 @@
+/**
+
+@page cryptotokens_TSecdlg tsecdlg - The dummy security dialog notifier
+
+@section tsecdlg_intro Introduction
+
+This document describes tsecdlg, the dummy security dialog notifier.
+
+The security dialog API provides a way for components to ask the user various
+standard security-related questions.  For example, it contains methods to prompt
+the user to enter a passphrase, among others.  The API is defined in the file
+secdlg.h.
+
+It is necessary to write test harnesses for clients of this API which can be run
+unattended, without user intervention.  To achieve this, tsecdlg was developed.
+It allows user responses to security dialogs to be pre-defined, and enables a
+test harness to check that the expected dialogs would have been displayed to the
+user.
+
+@section tsecdlg_secdlg_implementation Security dialog implementation
+
+The dialogs that the user sees cannot be implemented as part of the security
+subsystem because they form part of the user interface layer.  So the security
+dialog API passes client requests to the security dialog notifier.  This is a
+type of plugin, and is typically supplied by the UI implementation - for example
+by techview.  The protocol used to pass messages to and from the plugin is
+defined in the file secDlgImplDefs.h.
+
+tsecdlg is just an implementation of the security dialog notifier that doesn't
+ask the user for information.  Instead it either gives default responses or
+reads them from a file.
+
+@section tsecdlg_when_to_use_tsecdlg When it's necessary to use tsecdlg
+
+Any test that directly or indirectly uses the security dialog API will require
+the use of tsecdlg if the tests are to be run unattended.  At the moment, the
+keystore is the main client of this API.  The keystore tests rely heavily on
+tsecdlg, and anything that uses keystore will probably need to use it as well -
+for example TLS.
+
+<hr>
+
+@section tsecdlg_preparation Preparation for running tests that use tsecdlg
+
+@section tsecdlg_building_tsecdlg Building tsecdlg
+
+Two versions of tsecdlg are built on all platforms - one for the extended
+notifier framework (ie graphical notifiers, or techview) and one for textshell.
+This means that tests will work in both environments.
+
+To build tsecdlg just requires building the test code supplied in the
+security cryptotokens component, eg:
+
+\code
+cd common\generic\security\cryptotokens\group
+bldmake bldfiles
+abld test build wins udeb
+\endcode
+
+There are two tsecdlg components: 
+
+<table>
+<tr><th>Name</th><th>Location</th><th>Description</th></tr>
+<tr><td>t_secdlg</td><td>z:\\system\\notifiers\\tsecdlg.dll</td><td>Extended notifier</td></tr>
+<tr><td>t_secdlg_text</td><td>z:\\system\\tnotifiers\\tsecdlg_text.dll</td><td>Textshell notifier</td></tr>
+</table>
+
+@section tsecdlg_emulator_testing Testing on the emulator 
+
+If you are running in techview mode, you must ensure that the techview
+implementation of the security dialog notifier (secdlg.dll) is not present (if
+both secldg.dll and tsecdlg.dll are present, epoc will crash).  This can be
+found in in z:\\system\\notifiers, for example
+\\epoc32\\release\\wins\\udeb\\z\\system\\notifiers for wins udeb.  The easiest
+way to ensure secdlg.dll is removed is to use the following command:
+
+\code
+del /s /f /q \epoc32\secdlg.dll
+\endcode
+
+This does not matter for textshell mode, because there is no default textshell
+security dialog plugin.
+
+@section tsecdlg_hardware_testing Testing on hardware
+
+To test on hardware, the appropriate dll (either techview or textshell) must be
+included in the ROM in the same location as it is in the emulator (ie
+z:\\system\\notifiers for techview mode).  This can be done adding the following
+line to an iby file:
+
+\code
+file=ABI_DIR\BUILD_DIR\tsecdlg.dll		System\Notifiers\tsecdlg.dll
+\endcode
+
+This is done for security tests in the file filetokenstests.iby.
+
+Note that if you are using techview mode, you must ensure that secdlg.dll is not
+included - you must edit \\epoc32\\rom\\include\\secui.iby and comment out the
+following line:
+
+\code
+file=ABI_DIR\BUILD_DIR\secdlg.dll		System\Notifiers\Secdlg.dll
+\endcode
+
+<hr>
+
+@section tsecdlg_cryptotokens_operation tsecdlg operation
+
+tsecdlg has two modes of operation:
+
+@li Default mode
+@li Scripted mode
+
+@section tsecdlg_default_mode Default mode
+
+This is the simpler mode.  Whenever the dialog for a passphrase is triggered,
+tsecdlg replies with a default passphrase ('pinkcloud').
+
+This is intended to used by test code that is not directly testing a client of
+the security dialog API, for example by TLS.
+
+tsecdlg runs in this mode when the files c:\\t_secdlg_in.dat and
+c:\\t_secdlg_out.dat are not present.
+
+@section tsecdlg_scripted_mode Scripted mode
+
+This mode is more complex, and is intended to be used by for testing direct
+clients of the security dialog API - for example the keystore.
+
+Before a test is run, a file of expected dialogs and the required responses is
+prepared.  Every time the security dialog API is called and tsecdlg invoked, it
+checks that the requested dialog is the one expected, and answers with the
+pre-determined response.  An unexpected dialog request produces an error.  A
+file containing the number of correctly answered dialog requests is maintained
+and this allows the test harness to determine whether all expected dialogs were
+triggered correctly.
+
+The list of expected dialogs is read from c:\\t_secdlg_in.dat.  This has the
+following format:
+
+<table>
+<tr><th>Type</th><th>Description</th></th>
+<tr><td>TInt32</td><td>Number of dialogs expected</td></tr>
+</table>
+
+Then, for every expected dialog, the following data is present.  Strings are
+represented with their size (TInt32) followed by that many bytes of data.
+
+<table>
+<tr><th>Type</th><th>Description</th></tr>
+<tr><td>TInt32</td><td>Expected operation</td></tr>
+<tr><td>String</td><td>Expected label</td></tr>
+<tr><td>String</td><td>Response 1</td></tr>
+<tr><td>String</td><td>Response 2 (not always used)</td></tr>
+</table>
+
+The expected operation should be a member of the TSecurityDialogOperation
+enumeration - this specifies the expected type of dialog that is requested (for
+example, the enter passphrase dialog).  If the requested operation is not the
+same as this, the operation is completed with KErrOperationMismatch.  If the
+operation is one that is not supported by tsecdlg (only the ones necessary for
+testing keystore are currently implemented), the operation is completed with
+KErrOperationNotSupported.
+
+The expected label allows the test code to specify the label passed to the API.
+It is matched if the actual label contains the expected label - this means that
+passing an empty string will always ensure a match.  If the expected label is
+not matched, the operation is completed with KErrLabelMismatch.
+
+The responses are the information tsecdlg passes back as if from the user.  Some
+operations (eg change PIN) return two pieces of information, but for the most
+part only the first one is used.  
+
+The error codes are summarised below.  Note that as this is test code, these are
+not officially allocated!
+
+<table>
+<tr><th>Name</th><th>Code</th><th>Description</th></tr>
+<tr><td>KErrTooManyDialogs</td><td>-12000</td><td>More dialogs have been requested than are described in the input file</td></tr>
+<tr><td>KErrLabelMismatch</td><td>-12001</td><td>The label requested did not match the expected value</td></tr>
+<tr><td>KErrOperationMismatch</td><td>-12002</td><td>The operation requested did not match the expected value</td></tr>
+<tr><td>KErrOperationNotSupported</td><td>-12003</td><td>The operation requested is not implemented by tsecdlg</td></tr>
+</table>
+
+Every time a request is succesfully answered, the file c:\\t_secdlg_out.dat is
+updated - it contains a single TInt32 that indicates the index of the current
+dialog in the list of expected dialogs described by c:\\t_secdlg_in.dat.  If it
+is not present, its value is assumed to be zero.
+
+*/

@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<relnotes name="Content Access Framework for DRM">
+  <purpose>
+    Framework support for Digital Rights Management (DRM), enables policy based management of loading and access to restricted content by applications and Multimedia plugins.
+  </purpose>
+
+  <defect number="PDEF126231" title="Make Security Test Suites Run Standalone" revision="031">
+      Make Security Test Suites Run Standalone
+  </defect>
+
+  <defect number="DEF124908" title="CAF: Resolving should handle leaves in CAgentManager construction " revision="030">
+      The leave from AgentManagerL is trapped and ignored.
+  </defect>
+
+  <defect number="PDEF124679" title="Improve RTA performance by disabling flogger calls in release build " revision="029">
+      Disabled flogger calls in release builds to improve RTA performance.
+  </defect>
+
+  <defect number="DEF123059" title="The cafu.def should contains the same number of ordinals as the MCL ones" revision="028">
+      cafu.def file updates to ordinals for EABI and BWINS to maintain BC
+  </defect>
+
+  <deliverystep number="1127" name="CR1440: Crypto Services: Additional CAF support for retrieval of Cover Art for OMA DRM files" osproject="Naiad" revision="027">
+    <milestone project="GT0379" number="MS3.34"/>
+    <cr number="1440" title="Additional CAF support for retrieval of Cover Art for OMA DRM files">
+      Additional CAF support for retrieval of Cover Art for OMA DRM files
+    </cr>
+  </deliverystep>
+
+  <defect number="PDEF120732" title="Add agent specific base enum to TEventMask in caftypes.h in caf2 component." revision="026">
+      added an enum to TEventMask.
+  </defect>    
+  
+  <defect number="INC118611" title="CAF2 ConstructL does not check for success of allocation." revision="025">
+      CAF2 ConstructL does check for success of allocation.
+  </defect>  
+  
+  <defect number="DEF116208" title="Filename Policy non-conformance generates build warnings" revision="024">
+     changed the case in the caf2 streaming component.
+  </defect>
+  
+  <defect number="DEF116370" title="Wrong case of "BWINS" and "EABI" in security_caf2 mrp file" revision="023">
+     Fixed case in MRP file.
+  </defect>
+
+  <deliverystep number="891" name="CR1184: Crypto Services: CAF" osproject="Sphinx" revision="022">
+    <milestone project="GT0379" number="MS3.13"/>
+    <cr number="1184" title="Additional CAF support for OMA DRM Content Differentiation">
+      Added new attributes to enumerations.
+    </cr>
+  </deliverystep>
+
+  <defect number="PDEF111260" title="Can't cancel CAF asynchronous read" revision="021">
+     Added an interface for canceling an asynchronous request in CData together with default implementation.
+  </defect>
+
+  <deliverystep number="708" name="Security - Alignment of CBR and System Model components" osproject="Oghma" revision="020">
+    <milestone project="GT0313" number="MS3.7"/>
+    <preq number="775" title="Alignment of CBR and System Model components">
+      Modified the ipr category of reccafconfig.
+    </preq>
+  </deliverystep>
+
+  <defect number="PDEF110025" title="Error in CSupplier::ImportFileL" revision="019">
+    Removed dead code from CSupplier::ImportFileL
+  </defect>
+
+  <defect number="DEF108584" title="tjmioom test fails in MCL" revision="018">
+    Fixed OOM handling by revising connection management to the SystemAMS server
+  </defect>
+
+  <defect number="DEF108575" title="CAF - RFile interfaces do not document requirement for shared sessions" revision="017">
+    Fixed documentation for RFile &amp; related calls - it did not state that RFs sessions should be shared.
+  </defect>
+
+  <defect number="PDEF107577" title="Security test tswi\searchtags.pl fails because of 2 caf files" revision="016">
+    Added @file tag to the following files: caf2\inc\patchdata.h, caf2\source\cafutils\mimefieldanddata.h.
+  </defect>
+
+  <defect number="PDEF107974" title="Device crashes if URL saved after TV streaming is played from video tab" revision="015">
+    Fixed defect where recognizer raised a panic on a long URI
+  </defect>
+
+  <defect number="DEF107052" title="CAF Resolver - error handling needs to be revised" revision="014">
+    Revised error handling in CAF, so that if the agent leaves in either DoRecognizeL or IsRecognizedL, we will not trap the error. Potential behaviour change was approved in BR2123.1
+  </defect>
+
+  <defect number="PDEF107038" title="Elena + DRM V1 + Embedded MMS: It is possible to select and send a FL-Audio c..." revision="013">
+    KErrInUse is propagated now if an agent returns it in Resolve
+  </defect>
+
+  <defect number="DEF106919" title="Caf introduced Lint errors into the Security subsystem" revision="012">
+    Added various minor fixes to fix lint errors.
+  </defect>
+
+  <defect number="PDEF106450" title="Media gallery - &quot;File cannot be moved&quot; from phone to memory card" revision="011">
+    CF32AgentManager::RenameFile was rewritten to support operation across drives
+  </defect>
+
+  <defect number="PDEF104572" title="SWSV_633_91_R24_A01_MEDIA_IMG-IG-2: Picture gallery crash when try to open co..." revision="010">
+    F32 Agent returns system wide error when recognising mime types for given content instead of failing silently
+  </defect>
+
+  <defect number="DEF104038" title="Scoping change to streamableptrarray causes build failures" revision="009">
+    Modified code so that it compiles with CW3.0 compiler as well as CW3.1.1
+  </defect>
+
+  <defect number="PDEF102493" title="name space collision due to using namespace in published partner header" revision="008">
+    Removed using namespace ContentAccess; from public header and inl files
+  </defect>
+
+  <defect number="PDEF102779" title="CAF attributes do not support all OMA DRM v2 DCF fields" revision="007">
+    Added EContentVersion attribute to TAttribute enum, and EContentLocation and ERightsIssuerURI to TStringAttribute enum, to ensure CAF more fully supports the OMA DRM v2 specification.
+  </defect>
+
+  <deliverystep number="557" name="Filename policy changes" osproject="Oghma" revision="006">
+    <milestone project="GT0329" number="3.11"/>
+    <preq number="1182" title="GNU Make-based build system">
+    Updating the component source files to comply with the Symbian filename policy.
+  </preq>
+  </deliverystep>
+
+  <minorchange revision="005">
+    Symbian OS v9.3 component branched from common codeline
+  </minorchange>
+
+  <defect number="PDEF102182" title="RTA panics when CContent::GetStringAttributeSet() is called" revision="004">
+    Fixed defect where RTL CContent::GetStringAttributeSet() funciton in RTA was causing panic. Added test code to verify against regression.
+  </defect>
+
+  <defect number="DEF101878" title="CImportFile API capability requirements incorrect (CAF2)" revision="003">
+    Removed the capability requirement on users of the CImportFile API.
+  </defect>
+
+  <defect number="INC101398" title="CAF agents cannot be installed via SIS packages" revision="002">
+    The compile-time CAF_LOAD_POST_PRODUCTION_AGENTS macro relocated to ROM build-time to allow licensees to enable this feature with out recompiling the CAF component.
+  </defect>
+
+  <minorchange revision="001">
+    
+    Minor Change - Moved source code from the security subsystem to the Syslibs subsystem.
+    
+  </minorchange>
+</relnotes>

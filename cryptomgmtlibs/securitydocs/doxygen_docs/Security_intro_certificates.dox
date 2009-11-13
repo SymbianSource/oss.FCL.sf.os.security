@@ -1,0 +1,33 @@
+/**
+@page Security_intro_certificates Certificates
+
+A @ref certificate binds a public key to a certain individual/entity. This is usually done using @ref digital_signature "digital signatures": if a 
+@ref certificate bearing a public key and an individual's name is signed with a key pair which you already trust, then you can 
+rest assure that the public key in the @ref certificate really does belong to the individual named in the @ref certificate.
+
+Different standards using public key cryptography employ different models for using certificates to establish trust. 
+Such a model, encompassing data structures, rules for their use, and users of them, may be referred to as a 
+@ref PKI "Public Key Infrastructure" (PKI). @ref SSL, @ref TLS and @ref SMIME "S/MIME" all use @ref X509 "X.509" v.3 certificates, and a 
+hierarchical @ref PKI in which users are certified by @ref CA "Certification Authorities" (CAs). 
+
+All data which appear in the interface between the Symbian OS and the rest of the world need a transport encoding, and it 
+is in this form that they are sent and received. The transport encoding for @ref X509 "X.509" data structures is @ref DER encoded
+@ref ASN "ASN.1".
+
+@section certification_authorities Certification Authorities
+
+@ref CA "Certification Authorities" (CAs) are trusted third parties which perform the following functions in the @ref PKIX public 
+key infrastructure:
+
+@li provide trusted 'root' certificates to users (@ref EE "End Entities"), by supplying them with the @ref CA's public key 
+@li certifying End Entities: checking that they are who they say they are, and generating certificates for them. The 
+certified End Entity is the \b subject of the @ref certificate: the @ref CA is the \b issuer
+@li supporting @ref certificate revocation and revocation checking: if an End Entity suspects that their key has been 
+compromised, they contact the Certification Authority which issued it. @ref CA "CA"s publish lists of revoked certificates 
+(known as @ref CRL "Certificate Revocation Lists") at regular intervals, which End Entities can use to check that 
+certificates sent to them have not been revoked 
+@li publishing certificates: the most likely place for this is an LDAP directory, since @ref X509_certificate "X.509 certificates" identify 
+their subjects and issuers by describing a path through an X.500 directory 
+
+
+*/

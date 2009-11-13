@@ -1,0 +1,23 @@
+/**
+
+@page SS_Cryptalg_howto_change_crypto_strength How to change the crypto strength
+\n
+
+<b>Pre-v.8.0</b>
+
+To change the crypto strength simply replace the cryptalg.dll file, located in 
+\c <your-SDK-path>\\epoc32\\release\\\<target>\\\<variant>, with a version of the DLL that has the required strength. 
+There are several crypto DLLs available for selection, see @ref SS_Cryptalg_weak_strong_crypto for the complete list.
+
+So, for example, if you wanted to increase the strength of \c cryptalg.dll in say 
+\c <your-SDK-path>\\epoc32\\release\\wins\\urel to \c crypt256.dll, then you would do this as follows:
+
+@li Get a copy of \c crypt256.dll from \c <your-SDK-path>\\src\\generic\\security\\cryptalg\\import\\bin\\wins\\urel
+
+@li Paste this into \c <your-SDK-path>\\epoc32\\release\\wins\\urel
+
+@li Rename the copied \c crypt256.dll to \c cryptalg.dll
+
+
+
+*/

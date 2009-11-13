@@ -1,0 +1,137 @@
+/**
+@page mainpage_certman Certificate Management
+\n
+
+The certificate management component comprises:
+
+@li @ref UnifiedStores
+@li @ref certman_certstore_index
+@li @ref overview_OCSP
+@li @ref overview_WTLS Certificate Validation
+@li @ref Certman_X509_Certificate_Validation (and PKIX)
+@li @ref crypto_DLL_overview
+
+<hr>
+
+@section Overview
+
+The main purpose of certificate management is to provide validation services according to the @ref PKIX @ref certificate and 
+@ref CRL profile for public keys given the following: a set of one or more @ref EE "End Entity" (EE) and intermediate 
+@ref CA_certificate "Certification Authority certificates" supplied by an EE, and a local store of 
+@ref CA certificates which are directly trusted by the user (@ref root_certificate "'root' certificates").
+
+Services provided by Certificate Management include:
+@li Storage and retrieval of certificates
+@li Assignment of trust status to certificates on an application by application basis
+@li Certificate chain construction and validation
+@li On-line certificate revocation checking.
+
+
+A subsidiary role of certificate management is to enable users to add and delete @ref root_certificate "root certificates",
+and edit their trust settings.
+
+
+
+Public key certificates are a way to bind a public key to an entity, such as a person or a server. The certificate 
+management module provides the following services:
+@li Assignment of trust status to a certificate on an application by application basis
+@li Certificate chain construction and validation.
+
+Both X.509v3 and WTLS format certificates are supported. The architecture allows for other certificate formats and 
+profiles to be added in the future.
+
+<hr>
+@section certman_cert_storage Certificate Storage
+
+Certificate storage uses the cryptographic token framework. It comprises the following components: 
+
+@section certman_cert_storage_scc security/certman/certstore
+
+This is an existing component (in both v7.0 and v7.0s) that provides a unified certificate store.
+The unified certificate store unifies all the available implementations of the certificate storage interface. If a product
+manufacturer implements one of the certificate storage interfaces using, for example, WIM, then it will automatically be 
+picked up by the unified certificate store.
+
+@section certman_cert_storage_scf security/certman/filecertstore
+
+This is an existing component (in both v7.0 and v7.0s) that provides an implementation of the certificate storage interface.
+
+The file-based certificate store implementation of the writable interface is entirely in software. It uses the device 
+memory to store certificates: this supports user and CA, X.509 and WTLS certificates, and certificate URLs.
+Multiple concurrent users of the filecertstore are allowed.  It is possible for one application to have read/write access 
+to the interface when other applications have read-only access, thus access to database is rarely blocked. 
+
+@section certman_cert_storage_scw security/certman/wapcertstore
+
+This was a component (in both v7.0 and v7.0s) that provided an implementation of the certificate storage interface. This 
+implementation of the read-only interface provided access to the store of WTLS certificates used by the WAP Stack in 
+Symbian OS. This component will be removed in Zephyr
+
+@section certman_cert_storage_xcv X509 Certificate Validation
+
+X509 certificate validation is supported according to the PKIX certificate profile [PKIX]. Since all objects defined in 
+PKIX are specified using ASN.1, the certificate management component includes functionality that translates between ASN.1 
+and native Symbian OS data types.
+The component also provides services for the handling of X500 distinguished names.
+
+The following functionality is supported: 
+-# Ability to parse a set of X.509 certificates sent from their binary encoded form into a form in which they are useful, 
+and in which client code can extract interesting information (e.g. name information).
+-# Use of these certificates to construct a chain back to a locally stored trusted root certificate.
+-# Validation of this chain.
+
+The certificate validation algorithm processes the following X.509 extensions:
+-# Basic Constraints
+-# Subject Alt Name
+-# Issuer Alt Name
+-# Key Usage
+-# Name Constraints
+-# Policy Constraints
+-# Certificate Policies
+-# Policy Mapping
+-# Authority Key Id
+-# Subject Key Id
+-# Extended Key Usage
+
+This is existing functionality (in both v7.0 and v7.0s) that is provided by the combination of the following three
+components. As these components are not new for Zephyr, they will be documented within the new functional specification 
+template later.
+
+<hr>
+@section certman_ocsp OCSP
+This is an existing component (in both v7.0 and v7.0s) that enables application code to check the revocation status of a certificate using the Online Certificate Status Protocol [OCSP].
+Although it is currently only used by Software Install, it is a generic OCSP client. It is transport-agnostic, but the only transport supplied by default is HTTP.
+
+
+@section certman_ocsp_auth_info_access Authority Info Access
+
+@code
+<security>/<ocsp>/001.001
+TITLE	AuthorityInfoAccess
+PARENT	REQ <8.0>/<1890>
+STATUS	Implemented
+DESCRIPTION	The ocsp module supports the X509 certificate extension "AuthorityInfoAccess", which allows the location of an
+OCSP responder to be specified in a certificate.
+@endcode
+
+The ocsp module supports the AuthorityInfoAccess extension. When an ocsp check is made, there is an option to use this extension, if present, to determine the OCSP server to contact. 
+
+This functionality is implemented in v7.0s but not in v7.0.
+
+@section certman_ocsp_indiv_ocsp_req Individual OCSP Requests
+
+@code
+<security>/<ocsp>/001.002
+TITLE	Individual OCSP Requests
+PARENT	REQ <8.0>/<2174>
+STATUS	Implemented
+DESCRIPTION	The ocsp module uses individual ocsp requests for each certificate in a multi-certificate chain.
+@endcode
+
+The ocsp module makes individual requests for the status of each certificate when checking a certificate chain.  A summary
+result is made available to the client, as well as the results of the individual transactions.  
+
+This functionality is implemented in 7.0s but not in 7.0.
+
+
+*/

@@ -1,0 +1,16 @@
+/**
+@page Security_signatures Digital signatures
+
+A digital signature is used to verify that a message (or data) actually came from the sender (the one who signed the 
+message) and that it has not been tampered with.
+
+A signature is formed by producing a fixed-length digest (@ref hash) of the message using a hash algorithm, which is then 
+encrypted using the sender's private key. This signature and the message are then sent to the recipient.
+
+The receiver can then verify the signature as follows: a @ref hash is produced of the sender's message (using the hashing 
+algorithm sent with the signature); also, using the sender's public key, their signature is decrypted into a @ref hash. 
+These two hashes are compared: if they are the same, it is more or less certain that the public key used for the 
+@ref decryption corresponds to the private key used to create the signature, thus data integrity is validated.
+
+
+*/

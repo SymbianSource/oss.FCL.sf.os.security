@@ -1,0 +1,29 @@
+/**
+@page mainpage_cryptalg Cryptalg
+
+The old \c Cryptalg Cryptography component comprises:
+
+@li @ref bigint
+@li @ref cryptographic_hash
+@li Random number generator (RNG)
+@li @ref symmetric_ciphers
+@li @ref asymmetric_cryptography
+
+<!-- @li @ref mainpage_pbe -->
+
+<hr>
+
+For <b>pre-v.8.0</b>, the <b> Security Supplement </b> of the Developer Library gives: 
+
+@li @ref SS_Cryptalg_cryptography_overview
+@li @ref SS_Cryptalg_symmetric_ciphers
+@li @ref SS_Cryptalg_asymmetric_ciphers
+@li @ref SS_Cryptalg_private_key_interface
+@li @ref SS_Cryptalg_signature_classes
+@li @ref SS_Cryptalg_parameter_classes
+@li @ref SS_Cryptalg_hash_algorithms
+@li @ref SS_Cryptalg_weak_strong_crypto
+@li @ref SS_Cryptalg_howto_find_crypto_strength
+@li @ref SS_Cryptalg_howto_change_crypto_strength
+
+*/

@@ -1,0 +1,37 @@
+// CASE5: Covers the case 'Duplicates in same certstore' (SD) with corrupt certstore (C) of least order.
+
+// TEST-CASE:         SEC-SWICERTSTORE-0005
+// FILES:             swicertstore5.dat, corrupt.dat
+// LABELS:            RootXXX, RootXXX
+// EXPECTED RESULTS:  RootXXX
+// VARIANT:           UDEB, UREL
+
+//! @file
+//! @SYMTestCaseID SEC-SWICERTSTORE-0005
+//! @SYMTestCaseDesc Open the SWI cert store
+//! @SYMREQ REQ9981, REQ9983, REQ10141 
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>Open the SWI cert store</actionname>
+	<actiontype>initswicertstore</actiontype>
+	<actionbody>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>Get the list of CA certificates</actionname>
+	<actiontype>listcert</actiontype>
+	<actionbody>
+		<filter>
+			<ownertype>ca</ownertype>
+		</filter>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<CCTCertInfo><label>RootXXX</label><readonly>True</readonly></CCTCertInfo>
+	</actionresult>
+</action>

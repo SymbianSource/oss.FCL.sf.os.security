@@ -1,0 +1,111 @@
+/**
+
+@page SS_Cryptalg_symmetric_ciphers Symmetric ciphers
+\n
+
+<b>Pre-v.8.0</b>
+
+Symmetric algorithms are much faster than asymmetric algorithms so are used to encrypt and decrypt large amounts of data. 
+They have a single secret key and come in two basic types - block and stream. There is a consistent basic interface which 
+allows the encryption and decryption of data through a common base class once an appropriate cipher for the application 
+has been selected.
+
+Symmetric algorithms have the property that if a message is encrypted under a given key, it can only be decrypted using 
+the same key:
+
+@image html k_km.gif
+
+So it provides secrecy and also some kind of authentication. If Alice encrypts a secret using a key known only to her, 
+then only she can access the secrets.
+
+It can also be used for communication: if Alice shares a key with Bob (and only Bob), then she can encrypt her messages 
+with that key and send it to Bob, and only Bob can decrypt them. In this case the key is a 'shared secret' enabling 
+private communications.
+
+
+<hr>
+
+@section blockciphers Block and stream ciphers
+
+Stream ciphers are essentially functions which are initialised with a key, and output a stream of pseudorandom bits, this 
+'keystream' is typically XOR-ed with the @ref plaintext to generate the @ref ciphertext. So they encrypt a bit of plaintext at a 
+time.
+
+Block ciphers encrypt several bits at once in a fixed-size block. The cipher and its mode of operation define the block 
+size: the plaintext is split up into appropriately-sized blocks and each block is fed into the cipher. There are two 
+issues here which don't occur with stream ciphers:
+
+@li padding: the total size of the input has to be a multiple of the block size, so the plaintext usually has to be padded to 
+fit.
+
+@li combining blocks: if you just encrypt each plaintext block with the cipher and then concatenate the ciphertext blocks, 
+then an attacker who knows something about the structure can switch the order of the ciphertext blocks to alter the 
+meaning of the message. For example, if the plaintext includes instructions like 'pay £XXX to account holder ABC, 
+reference number YYY' then an attacker could replace the encryption of XXX with some of the encryption of YYY. This leads 
+to other techniques for combining blocks, called modes, where, for example, the output of the last block is fed into the 
+input for the next one. So, the output is not just a function of that plaintext block and key, but is a function of that 
+plaintext block, the key, and all preceding ciphertext blocks.
+
+Both stream ciphers and block ciphers are provided by the API with a similar interface. Block ciphers usually need padding
+for non completed block. The API allows the user to choose the padding to be added at the end of the last encrypted block
+or to be checked and removed from the last decrypted block.
+
+
+ 
+
+<hr>
+
+@section types_of_symmetric_algoritms_supported Types of symmetric algorithms supported
+
+The following symmetric algorithms are supported:
+
+@li DES (Data Encryption Standard)
+
+@li 3DES (Triple Data Encryption Standard)
+
+@li RC2
+
+@li ARC4
+
+@li RC5
+
+ARC4 is a Symbian version of RC4. It is a stream cipher, while RC2, RC5, DES and 3DES are block ciphers.
+
+
+ 
+
+<hr>
+
+@section base_classes_and_their_derived_classes Base classes and their derived classes
+
+\c TSymmetricCipher is the abstract base class which allows a client to use the supported symmetric algorithms listed above.
+It allows clients to encrypt and decrypt without having to know anything about which encryption algorithm is currently in 
+use. The diagram below shows the \c TSymmetricCipher base class and derived classes.
+
+@image html symmetric.gif
+
+The diagrams below further show the \c TSymmetricCipher derived classes and in turn their derived classes. For detailed 
+information on each component see the Developer Library Cryptography API Reference material. 
+
+The classes ending in OFB, CFB, CBC and ECB are different block chaining modes.
+
+@image html symmetric2.gif
+
+The figure above shows the \c TCipherDES base class including its derived classes.
+
+@image html symmetric3.gif
+
+The figure above shows the \c TCipher3DES intermediate class including its derived classes.
+
+@image html symmetric4.gif
+
+The figure above shows the \c TCipherRC2 base class including its derived classes.
+
+@image html symmetric5.gif
+
+The figure above shows the \c TCipherRC5 class including its derived classes.
+
+
+
+
+*/

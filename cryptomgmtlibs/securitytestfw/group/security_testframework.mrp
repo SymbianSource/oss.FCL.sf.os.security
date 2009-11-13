@@ -1,0 +1,12 @@
+component	security_testframework
+source	\sf\os\security\cryptomgmtlibs\securitytestfw\bwins
+source	\sf\os\security\cryptomgmtlibs\securitytestfw\eabi
+source	\sf\os\security\cryptomgmtlibs\securitytestfw\group
+source	\sf\os\security\cryptomgmtlibs\securitytestfw\inc
+source	\sf\os\security\cryptomgmtlibs\securitytestfw\test
+ 
+notes_source	\component_defs\release.src
+
+#  == IPR section auto-inserted from distribution.policy files  ==
+ipr export-restricted T 
+# == end auto-inserted section ==

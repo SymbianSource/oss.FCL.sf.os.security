@@ -1,0 +1,106 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+//! @file
+// Recog unit (integration) tests
+PRINT Run Java Recog test
+
+LOAD_SUITE trecogserver
+
+START_TESTCASE recognizeSmallJad
+
+//! @SYMTestCaseID SEC-JAVATRECOG-1
+//! @SYMTestCaseDesc to recognize a small JAD passed by File Name
+//! @SYMDEF DEF071593
+//! @SYMTestPriority Critical
+//! @SYMTestActions to recognize a small jad file
+//! @SYMTestExpectedResults text/vnd.sun.j2me.app-descriptor
+//! @SYMDevelopedForRelease Mike
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogjava.ini PassByNameSmallJad
+
+//! @SYMTestCaseID SEC-JAVATRECOG-2
+//! @SYMTestCaseDesc to recognize a small JAD passed by Handle
+//! @SYMDEF DEF071593
+//! @SYMTestPriority Critical
+//! @SYMTestActions to recognize a small jad file
+//! @SYMTestExpectedResults text/vnd.sun.j2me.app-descriptor
+//! @SYMDevelopedForRelease Mike
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogjava.ini PassByHandleSmallJad
+
+//! @SYMTestCaseID SEC-JAVATRECOG-3
+//! @SYMTestCaseDesc to recognize a small JAD passed by name/buffer
+//! @SYMDEF DEF071593
+//! @SYMTestPriority Critical
+//! @SYMTestActions to recognize a small jad file
+//! @SYMTestExpectedResults text/vnd.sun.j2me.app-descriptor
+//! @SYMDevelopedForRelease Mike
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogjava.ini PassByBufferSmallJad
+
+END_TESTCASE recognizeSmallJad
+
+START_TESTCASE recognizeLargeJad
+
+//! @SYMTestCaseID SEC-JAVATRECOG-4
+//! @SYMTestCaseDesc to recognize a large JAD passed by File Name
+//! @SYMDEF DEF071593
+//! @SYMTestPriority Critical
+//! @SYMTestActions to recognize a large jad file
+//! @SYMTestExpectedResults text/vnd.sun.j2me.app-descriptor
+//! @SYMDevelopedForRelease Mike
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogjava.ini PassByNameLargeJad
+
+//! @SYMTestCaseID SEC-JAVATRECOG-5
+//! @SYMTestCaseDesc to recognize a large JAD passed by Handle
+//! @SYMDEF DEF071593
+//! @SYMTestPriority Critical
+//! @SYMTestActions to recognize a large jad file
+//! @SYMTestExpectedResults text/vnd.sun.j2me.app-descriptor
+//! @SYMDevelopedForRelease Mike
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogjava.ini PassByHandleLargeJad
+
+//! @SYMTestCaseID SEC-JAVATRECOG-6
+//! @SYMTestCaseDesc to recognize a large JAD passed by name/buffer
+//! @SYMDEF DEF071593
+//! @SYMTestPriority Critical
+//! @SYMTestActions to recognize a large jad file
+//! @SYMTestExpectedResults text/vnd.sun.j2me.app-descriptor
+//! @SYMDevelopedForRelease Mike
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogjava.ini PassByBufferLargeJad
+
+//! @SYMTestCaseID SEC-JAVATRECOG-7
+//! @SYMTestCaseDesc to recognize a large JAD passed by name/short buffer
+//! @SYMDEF INC093580
+//! @SYMTestPriority Critical
+//! @SYMTestActions to recognize a large jad file
+//! @SYMTestExpectedResults text/vnd.sun.j2me.app-descriptor
+//! @SYMDevelopedForRelease Mike
+RUN_TEST_STEP 100 trecogserver RecogStep c:\trecog\trecogjava.ini PassByShortBufferLargeJad
+
+END_TESTCASE recognizeLargeJad
+
+START_TESTCASE recognizeVeryLargeJad
+//! @SYMTestCaseID SEC-JAVATRECOG-7
+//! @SYMTestCaseDesc to recognize a very large JAD passed by name
+//! @SYMDEF INC092383 	Invalid JAD File Causes Phone To Freeze/Hang
+//! @SYMTestPriority Critical
+//! @SYMTestActions to recognize a very large jad file (without reading entire file
+//! @SYMTestExpectedResults text/vnd.sun.j2me.app-descriptor
+//! @SYMDevelopedForRelease Mike
+// Note very short timeout on the following step to check if entire file is being read.
+RUN_UTILS CopyFile c:\midpfiles\newhuge.jar c:\trecog\verylargejad.jad
+RUN_UTILS CopyFile z:\midpfiles\newhuge.jar c:\trecog\verylargejad.jad
+RUN_TEST_STEP 10 trecogserver RecogStep c:\trecog\trecogjava.ini PassByNameVeryLargeJad
+RUN_UTILS DeleteFile c:\trecog\verylargejad.jad
+END_TESTCASE recognizeVeryLargeJad

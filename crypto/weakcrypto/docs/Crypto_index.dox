@@ -1,0 +1,118 @@
+/**
+@page mainpage_cryptography Cryptography
+
+The Cryptography component comprises:
+
+<!-- @li @ref bigint -->
+<!--
+@li @ref cryptographic_hash -- (points to cryptalg documentation)
+@li @ref mainpage_pbe
+@li @ref mainpage_rng Random number generator (RNG)
+@li @ref symmetric_ciphers -- (points to cryptalg documentation) 
+@li @ref asymmetric_cryptography -- (points to cryptalg documentation)
+-->
+
+- Cryptographic Hash Functions
+- @ref mainpage_pbe
+	- @ref secure_stream_encryption
+- Random Number Generator (RNG)
+- Symmetric Cryptography
+- Asymmetric Cryptography
+
+<b>Important Note</b>: \n
+<code>Security/crypto</code> is a new replacement library, the previous RSA-based version being <code>Security/cryptalg</code>.
+Note that the <code>Security/cryptalg</code> module is still available from GT, but configurability defaults now enable 
+the new component in all builds.
+
+See @ref mainpage_cryptalg "Cryptalg documentation".
+
+<hr>
+
+For <b>pre-v.8.0</b>, the <b> Security Supplement </b> of the Developer Library gives: 
+
+@li @ref SS_Cryptalg_cryptography_overview
+@li @ref SS_Cryptalg_symmetric_ciphers
+@li @ref SS_Cryptalg_asymmetric_ciphers
+@li @ref SS_Cryptalg_private_key_interface
+@li @ref SS_Cryptalg_signature_classes
+@li @ref SS_Cryptalg_parameter_classes
+@li @ref SS_Cryptalg_hash_algorithms
+@li @ref SS_Cryptalg_weak_strong_crypto
+@li @ref SS_Cryptalg_howto_find_crypto_strength
+@li @ref SS_Cryptalg_howto_change_crypto_strength
+
+<hr>
+
+@section crypto_apis Security/Cryptography APIs
+
+The crypto API is a new component that is based on Symbian-developed code rather than code licensed from RSA.
+
+The component is configurable, and can be built as either a strong or weak library based on a compilation option. 
+By its very nature, the code - being capable of strong encryption - is subject to export controls (as is the strong binary).
+ 
+See the Legal Notices for the Security Subsystem and the 3rd Party Supplier Information for guidelines on handling of this
+code.
+	
+The cryptography component includes these significant sub-components:
+-# Symmetric and asymmetric ciphers. \n
+	The following ciphers are supported:
+	- Symmetric ciphers:	DES, 3DES, RC2, RC4, AES.
+	- Asymmetric ciphers:	RSA, DSA, DH
+-# Hash functions. The hash functions supported are MD2, MD5, SHA (SHA1) and HMAC.
+-# Random number generator (RNG). Several cryptographic applications like one-time pads, key generation and random nonces 
+	all rely upon the randomness, unpredictability and irreproducibility of the random number generator 
+	<A HREF="http://www.schneier.com/book-applied.html">[AC]</A>. The RNG uses
+	RANROT seeded by random data available on the target hardware (e.g. free running counters available on ARM processors).
+-# Big Integers. Implementation of arbitrarily large integers (Big ints, big numbers).  This is only intended for use by 
+	the crypto library and not by application code, so as few functions as possible are exported.
+
+
+The following APIs are exposed by the <code>Security/Cryptography</code> component:
+<table>
+<tr><th>API Name</th><th>Broad Purpose</th><th>Intended Users</th></tr>
+<tr>
+	<td>Random</td>
+	<td>Generation of cryptographically strong random numbers 
+	<A HREF="http://www.schneier.com/paper-prngs.html">[PRNG]</A>.</td>
+	<td>Used internally by certman and crypto. External users include <code>networking/tls</code> (SSL and WTLS support) 
+	and <code>app-engines/cntmodel</code> (generating a unique machine id).</td>
+</tr>
+<tr>
+	<td>Hash</td>
+	<td>MD2, MD5, SHA (SHA1) and HMAC implementations.</td>
+	<td>Used internally by appinst, certman and crypto.
+		<code>networking/tls</code> uses a pseudo-random function (PRF) based on HMAC. Both MD5 and SHA-1 are used in TLS.</td>
+	</tr>
+<tr>
+	<td>Cryptography</td>
+	<td>
+		<table>
+			<tr><td>Symmetric ciphers: DES, 3DES, RC2, RC4, AES.</td></tr>
+			<tr><td>Asymmetric ciphers: RSA, DSA, DH. Only the public operations.</td></tr>
+		</table>
+	</td>
+	<td>
+		<table>
+			<tr><td>Used by Networking (<code>TLS/IPSec</code>).</td></tr>
+			<tr><td>Used by \c certman for WTLS and x509 certificate support and by appinst for SIS file signature 
+			verification. \n Used by Networking (<code>TLS/IPSec</code>).</td></tr>
+		</table>		
+	</td>	
+</tr>
+<tr>
+	<td>PKCS5</td>
+	<td>Key Derivation Support</td>
+	<td>Allows the derivation of deterministic arbitrary length byte streams from an input string. The output byte stream 
+	is generated using multiple iterations of a CSHA-1 message digest and is suitable for use as a cryptographic symmetric 
+	key</td>
+</tr>
+<tr>
+	<td>%PBE</td>
+	<td>Password Based Encryption. Efficient password based encryption and decryption of multiple elements</td>
+	<td>This is useful if one wants random access to an encrypted source consisting of multiple, independent, elements; 
+	for example a database or a store</td>
+</tr>
+</table>
+
+*/
+

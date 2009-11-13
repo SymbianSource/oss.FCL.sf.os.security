@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<relnotes name="INTEGRATIONTEST">
+  <purpose>
+  </purpose>
+
+  <defect number="PDEF127823" title="BATS BREEZE SDP: Emulator network access issues using WinPcap" revision="025">
+      new configchangebats perl added to make use of environment variable when environement value available for MAC
+  </defect>
+
+  <defect number="PDEF126231" title="Make Security Test Suites Run Standalone" revision="024">
+      Make Security Test Suites Run Standalone
+  </defect>
+
+  <defect number="INC123526" title="Symbian, CX500DistinguishedName::ExactMatchL fails if DNs contain unsupported at" revision="023">
+     Add support for the PKCS9 unstructuredName attribute
+  </defect>
+
+  <deliverystep number="1094" name="CR1497: Remove emulator dependency on certificate database creation tool" osproject="Naiad" revision="022">
+	  <milestone project="GT0379" number="MS3.33"/>
+	  <cr number="1497" title="Remove emulator dependency on certificate database creation tool">
+		Remove emulator dependency on certificate database creation tool	  
+	  </cr>
+  </deliverystep>
+  
+  <deliverystep number="958" name="CR1313: OCSP Changes for Cingular/AT&T" osproject="Sphinx" revision="021">
+	  <milestone project="GT0379" number="MS3.18"/>
+	  <cr number="1313" title="OCSP Changes for Cingular/AT&T">
+		OCSP Changes for Cingular/AT&T	  
+	  </cr>
+  </deliverystep>
+  
+  <deliverystep number="708" name="Security - Alignment of CBR and System Model components" osproject="Oghma" revision="020">
+    <milestone project="GT0313" number="MS3.7"/>
+    <preq number="775" title="Alignment of CBR and System Model components">
+      OSD and IPR category are modified fro sntpclient.
+    </preq>
+  </deliverystep>
+
+  <defect number="DEF106230" title="Clean up build's tagscan errors" revision="019">
+    Remove tagscan errors.
+  </defect>
+
+  <defect number="DEF105943" title="Master build specs refer to ChrisDa's personal branch" revision="018">
+    sntpclient is moved to testframework/test to remove the incorrect referance of chrisda’s personal branch in master build specs.
+  </defect>
+
+  <ec number="074" title="Include an implementation of the MD4 hash function (IETF RFC 1320) in those provided by the Symbian Hash library (part of Symbian Security subsystem)" revision="017">
+    Added the MD4 Message Digest Algorithm(RFC 1320) implementation.
+  </ec>
+
+  <defect number="DEF104814" title="runced.bat should not be stored in be under Generic\security\zepher" revision="016">
+    New version of some files added to security\testframework\test\autotesting from //PR/share/DABSRelease/buildscripts/projects/security/zephyr/
+  </defect>
+
+  <cr number="0956" title="Control ordering of uninstall RUNREMOVE action" revision="015">
+    Added integration tests for CR956 -Control ordering of RR action.
+  </cr>
+
+  <defect number="PDEF102746" title="OOM tests failing in JMI component" revision="014">
+    Fixed numerous problems under OOM.
+  </defect>
+
+  <preq number="1182" title="GNU Make-based build system" revision="013">
+    TOOLS2 macro is added with TOOLS.
+  </preq>
+
+  <defect number="DEF104321" title="Include all tests for Vfuture" revision="012">
+    All regression tests are included for future build
+  </defect>
+
+  <preq number="1182" title="GNU Make-based build system" revision="011">
+    Changed according to filename policy to support the building of Symbian OS on both Windows and Linux for the test code.
+  </preq>
+
+  <preq number="1182" title="GNU Make-based build system" revision="010">
+    Changed according to filename policy to support the building of Symbian OS on both Windows and Linux.
+  </preq>
+
+  <defect number="DEF102382" title="Some tests are running repeatly in test_spec_9.3" revision="009">
+    test scripts duplication removed from test spec
+  </defect>
+
+  <defect number="DEF101551" title="tpkcs5kdftests.txt regression" revision="008">
+    Removed tpkcs5kdftests.txt and added the test cases present in tpkcs5kdftests.txt to tpkcs12kdftests.txt.
+  </defect>
+
+  <minorchange revision="007">
+    Naiad Quality plan to improve the test coverage and to reduce the defect level in the production code
+  </minorchange>
+
+  <defect number="DEF102043" title="Makesis &amp; SWI assumes system drive is c:" revision="006">
+    Removed hardcoded references to C drive and replaced with system drive.
+  </defect>
+
+  <defect number="PDEF098621" title="bld.inf and distribution.policy missing from security directory in CBR" revision="005">
+    Top level bld.inf is added into CBR release
+  </defect>
+
+  <defect number="PDEF100686" title="Hardware tests result (integritychecktest.htm) is not copied to E drive(MMC)" revision="004">
+    Copied integritychecktest.htm to E:(MMC).
+  </defect>
+
+  <defect number="DEF096191" title="57: t_testhandler2 OOM test framework can go into an infinite loop" revision="003">
+    Infinite loop exited when any unknown error comes other than KErrNone and KErrNoMemory for OOM Test Framework.
+  </defect>
+
+  <defect number="DEF099289" title="Remove SYMBIAN_PKCS12 #ifdefs from code" revision="002">
+    Removed SYMBIAN_PKCS12 #ifdefs from code.
+  </defect>
+
+  <minorchange revision="001">
+    Altered iby to ensure that platsec settings are put in the core image of the DP test roms
+  </minorchange>
+</relnotes>

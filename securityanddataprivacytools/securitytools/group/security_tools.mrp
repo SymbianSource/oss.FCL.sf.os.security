@@ -1,0 +1,9 @@
+component	security_tools
+source	\sf\os\security\securityanddataprivacytools\securitytools
+binary	\sf\os\security\securityanddataprivacytools\securitytools\group	all
+exports	\sf\os\security\securityanddataprivacytools\securitytools\group
+
+notes_source	\component_defs\release.src
+
+ipr E
+ipr T \sf\os\security\securityanddataprivacytools\securitytools\certapp\test

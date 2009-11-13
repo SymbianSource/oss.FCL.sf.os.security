@@ -1,0 +1,1094 @@
+	//! unifiedcertstore2-conf2.txt
+//!
+//! New tests are added to the existing test scripts to test certificate addition, removal, setapplication 
+//! and settrust which required in PREQ226 MIDP 2.0 support. 
+//! These tests need to have taddtionalstores enabled.
+
+// Note: The in-source test tag is only added to the new tests for PREQ226. The tests without test tag is the existing tests
+// in the certstore component, which are used to set up the environment needed by the PREQ226 tests.
+
+//5.1 Test cases for single file-based writable certificate store
+
+//5.1.1 Successfull addition, listing and retrieval of certificates (X.509)
+<action>
+	<actionname>No Test,Opening a CertificateAppInfoManager</actionname>
+	<actiontype>initappmanager</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>No Test,Adding client A1</actionname>
+	<actiontype>addclient</actiontype>
+	<actionbody>
+		<name>A1</name>
+		<uid>1</uid>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>No Test,Adding client A2</actionname>
+	<actiontype>addclient</actiontype>
+	<actionbody>
+		<name>A2</name>
+		<uid>2</uid>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>No Test,Adding client A3</actionname>
+	<actiontype>addclient</actiontype>
+	<actionbody>
+		<name>A3</name>
+		<uid>3</uid>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>No Test,Adding client A4</actionname>
+	<actiontype>addclient</actiontype>
+	<actionbody>
+		<name>A4</name>
+		<uid>4</uid>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>No Test,Deleting the CertificateAppInfoManager</actionname>
+	<actiontype>deleteappmanager</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>5.1.1.1,Opening a certificate store manager</actionname>
+	<actiontype>init</actiontype>
+	<actionbody>
+		<mode>write</mode>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-WModeUCTAddCWN5.1.1.2
+//! @SYMTestCaseDesc The test is to add a X509 CA certficate CAX1 in the CertStore and get notification.
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>5.1.1.2,Add the certificate CAX1 with notification</actionname>
+	<actiontype>addcert</actiontype>
+	<actionbody>
+		<format>X509</format>
+		<label>CAX1</label>
+		<issuerkey></issuerkey>
+		<subjectkey></subjectkey>
+		<certstore>0</certstore>
+		<certfile>c:\unifiedcertstore2\CAX1.cer</certfile>
+		<certowner>ca</certowner>
+		<ChangeNotification>1</ChangeNotification>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-WModeUCTAddCWN5.1.1.3
+//! @SYMTestCaseDesc The test is to a X509 CA certficate CAX2 in the CertStore and get notification.
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>5.1.1.3,Add the certificate CAX2 with notification</actionname>
+	<actiontype>addcert</actiontype>
+	<actionbody>
+		<format>X509</format>
+		<label>CAX2</label>
+		<issuerkey></issuerkey>
+		<subjectkey></subjectkey>
+		<certstore>1</certstore>
+		<certfile>c:\unifiedcertstore2\CAX2.cer</certfile>
+		<certowner>ca</certowner>
+		<ChangeNotification>1</ChangeNotification>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-WModeUCTAddCWN5.1.1.4
+//! @SYMTestCaseDesc The test is to add a X509 CA certficate CAX3 in the CertStore and get notification.
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>5.1.1.4,Add the certificate CAX3 with notification</actionname>
+	<actiontype>addcert</actiontype>
+	<actionbody>
+		<format>X509</format>
+		<label>CAX3</label>
+		<issuerkey></issuerkey>
+		<subjectkey></subjectkey>
+		<certstore>0</certstore>
+		<certfile>c:\unifiedcertstore2\CAX3.cer</certfile>
+		<certowner>ca</certowner>
+		<ChangeNotification>1</ChangeNotification>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>5.1.1.5,Get the list of certificates</actionname>
+	<actiontype>listcert</actiontype>
+	<actionbody>
+		<filter>
+			<ownertype>ca</ownertype>
+		</filter>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<CCTCertInfo><label>CAX1</label></CCTCertInfo>
+		<CCTCertInfo><label>CAX3</label></CCTCertInfo>
+		<CCTCertInfo><label>CAX2</label></CCTCertInfo>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>5.1.1.5.1,Retrieve CAX1 cert</actionname>
+	<actiontype>retrieve</actiontype>
+	<actionbody>
+		<label>CAX1</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>5.1.1.9,Deleting the certificate store manager</actionname>
+	<actiontype>delete</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>5.1.1.10,Opening a certificate store manager</actionname>
+	<actiontype>init</actiontype>
+	<actionbody>
+		<mode>write</mode>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>5.1.1.11,Get the list of certificates</actionname>
+	<actiontype>listcert</actiontype>
+	<actionbody>
+		<filter>
+			<ownertype>ca</ownertype>
+		</filter>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<CCTCertInfo><label>CAX1</label></CCTCertInfo>
+		<CCTCertInfo><label>CAX3</label></CCTCertInfo>
+		<CCTCertInfo><label>CAX2</label></CCTCertInfo>
+	</actionresult>
+</action>
+
+//5.1.2 Successfull addition, listing and retrieval of certificates (WTLS)
+
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-WModeUCTAddCWN5.1.2.1
+//! @SYMTestCaseDesc The test is to add a WTLS CA certficate CAW1 in the CertStore and get notification.
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>5.1.2.1,Add the certificate CAW1 with notification</actionname>
+	<actiontype>addcert</actiontype>
+	<actionbody>
+		<format>WTLS</format>
+		<label>CAW1</label>
+		<issuerkey></issuerkey>
+		<subjectkey></subjectkey>
+		<certstore>0</certstore>
+		<certfile>c:\unifiedcertstore2\CAW1.cer</certfile>
+		<certowner>ca</certowner>
+		<ChangeNotification>1</ChangeNotification>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-WModeUCTAddCWN5.1.2.2
+//! @SYMTestCaseDesc The test is to add a WTLS CA certficate CAW2 in the CertStore and get notification.
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>5.1.2.2,Add the certificate CAW2 with notification</actionname>
+	<actiontype>addcert</actiontype>
+	<actionbody>
+		<format>WTLS</format>
+		<label>CAW2</label>
+		<issuerkey></issuerkey>
+		<subjectkey></subjectkey>
+		<certstore>1</certstore>
+		<certfile>c:\unifiedcertstore2\CAW2.cer</certfile>
+		<certowner>ca</certowner>
+		<ChangeNotification>1</ChangeNotification>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-WModeUCTAddCWN5.1.2.3
+//! @SYMTestCaseDesc The test is to add a WTLS CA certficate CAW3 in the CertStore and get notification.
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>5.1.2.3,Add the certificate CAW3 with notification</actionname>
+	<actiontype>addcert</actiontype>
+	<actionbody>
+		<format>WTLS</format>
+		<label>CAW3</label>
+		<issuerkey></issuerkey>
+		<subjectkey></subjectkey>
+		<certstore>0</certstore>
+		<certfile>c:\unifiedcertstore2\CAW3.cer</certfile>
+		<certowner>ca</certowner>
+		<ChangeNotification>1</ChangeNotification>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>5.1.2.4,Get the list of certificates</actionname>
+	<actiontype>listcert</actiontype>
+	<actionbody>
+		<filter>
+			<ownertype>ca</ownertype>
+		</filter>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<CCTCertInfo><label>CAX1</label></CCTCertInfo>
+		<CCTCertInfo><label>CAX3</label></CCTCertInfo>
+		<CCTCertInfo><label>CAW1</label></CCTCertInfo>
+		<CCTCertInfo><label>CAW3</label></CCTCertInfo>
+		<CCTCertInfo><label>CAX2</label></CCTCertInfo>
+		<CCTCertInfo><label>CAW2</label></CCTCertInfo>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>5.1.2.4.1,Retrieve CAW1 cert</actionname>
+	<actiontype>retrieve</actiontype>
+	<actionbody>
+		<label>CAW1</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>5.1.2.5,Deleting the certificate store manager</actionname>
+	<actiontype>delete</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>5.1.2.6,Opening a certificate store manager</actionname>
+	<actiontype>init</actiontype>
+	<actionbody>
+		<mode>write</mode>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>5.1.2.7,Get the list of certificates</actionname>
+	<actiontype>listcert</actiontype>
+	<actionbody>
+		<filter>
+			<ownertype>ca</ownertype>
+		</filter>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<CCTCertInfo><label>CAX1</label></CCTCertInfo>
+		<CCTCertInfo><label>CAX3</label></CCTCertInfo>
+		<CCTCertInfo><label>CAW1</label></CCTCertInfo>
+		<CCTCertInfo><label>CAW3</label></CCTCertInfo>
+		<CCTCertInfo><label>CAX2</label></CCTCertInfo>
+		<CCTCertInfo><label>CAW2</label></CCTCertInfo>
+	</actionresult>
+</action>
+
+//5.1.3 Successfull trust settings updates and retrieval
+
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-WModeUCTSAppCWN5.1.3.1
+//! @SYMTestCaseDesc The test is to set application to a X509 CA certficate CAX1 in the CertStore and get notification.
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>5.1.3.1,Set applications to the CAX1 certificate with notification</actionname>
+	<actiontype>setapplications</actiontype>
+	<actionbody>
+		<label>CAX1</label>
+		<uid>1 2 3</uid>
+		<ChangeNotification>1</ChangeNotification>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-WModeUCTSTrustCWN5.1.3.2
+//! @SYMTestCaseDesc The test is to set trust to a X509 CA certficate CAX1 in the CertStore and get notification.
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>5.1.3.2,set the trust for CAX1 with notification</actionname>
+	<actiontype>settrust</actiontype>
+	<actionbody>
+		<label>CAX1</label>
+		<trust>1</trust>
+		<ChangeNotification>1</ChangeNotification>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-WModeUCTSAppCWN5.1.3.3
+//! @SYMTestCaseDesc The test is to set application to a X509 CA certficate CAX2 in the CertStore and get notification.
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>5.1.3.3,Set applications to the CAX2 certificate with notification</actionname>
+	<actiontype>setapplications</actiontype>
+	<actionbody>
+		<label>CAX2</label>
+		<uid>1</uid>
+		<ChangeNotification>1</ChangeNotification>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-WModeUCTSTrustCWN5.1.3.4
+//! @SYMTestCaseDesc The test is to set trust to a X509 CA certficate CAX2 in the CertStore and get notification.
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>5.1.3.4,set the trust for CAX2 with notification</actionname>
+	<actiontype>settrust</actiontype>
+	<actionbody>
+		<label>CAX2</label>
+		<trust>1</trust>
+		<ChangeNotification>1</ChangeNotification>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-WModeUCTSAppCWN5.1.3.5
+//! @SYMTestCaseDesc The test is to set application to a X509 CA certficate CAX3 in the CertStore and get notification.
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>5.1.3.5,Set applications to the CAX3 certificate with notification</actionname>
+	<actiontype>setapplications</actiontype>
+	<actionbody>
+		<label>CAX3</label>
+		<uid></uid>
+		<ChangeNotification>1</ChangeNotification>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-WModeUCTSTrustCWN5.1.3.6
+//! @SYMTestCaseDesc The test is to set trust to a X509 CA certficate CAX3 in the CertStore and get notification.
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>5.1.3.6,set the trust for CAX3 with notification</actionname>
+	<actiontype>settrust</actiontype>
+	<actionbody>
+		<label>CAX3</label>
+		<trust>1</trust>
+		<ChangeNotification>1</ChangeNotification>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>5.1.3.7,Get applications for CAX1</actionname>
+	<actiontype>getapplications</actiontype>
+	<actionbody>
+		<label>CAX1</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<uid>1 2 3</uid>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>5.1.3.8,Get the trust for CAX1</actionname>
+	<actiontype>gettrusters</actiontype>
+	<actionbody>
+		<label>CAX1</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<trust>1</trust>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>5.1.3.9,Get applications for CAX2</actionname>
+	<actiontype>getapplications</actiontype>
+	<actionbody>
+		<label>CAX2</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<uid>1</uid>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>5.1.3.10,Get the trust for CAX2</actionname>
+	<actiontype>gettrusters</actiontype>
+	<actionbody>
+		<label>CAX2</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<trust>1</trust>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>5.1.3.11,Get applications for CAX3</actionname>
+	<actiontype>getapplications</actiontype>
+	<actionbody>
+		<label>CAX3</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<uid></uid>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>5.1.3.12,Get the trust for CAX3</actionname>
+	<actiontype>gettrusters</actiontype>
+	<actionbody>
+		<label>CAX3</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<trust>1</trust>
+	</actionresult>
+</action>
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-WModeUCTSAppCWN5.1.3.13
+//! @SYMTestCaseDesc The test is to set application to a WTLS CA certficate CAW2 in the CertStore and get notification.
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>5.1.3.13,Set trusters to the CAW2 certificate with notification</actionname>
+	<actiontype>setapplications</actiontype>
+	<actionbody>
+		<label>CAW2</label>
+		<uid>1 2 3</uid>
+		<ChangeNotification>1</ChangeNotification>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-WModeUCTSTrustCWN5.1.3.14
+//! @SYMTestCaseDesc The test is to set trust to a WTLS CA certficate CAW2 in the CertStore and get notification.
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>5.1.3.14,set the trust for CAW2 with notification</actionname>
+	<actiontype>settrust</actiontype>
+	<actionbody>
+		<label>CAW2</label>
+		<trust>1</trust>
+		<ChangeNotification>1</ChangeNotification>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-WModeUCTSAppCWN5.1.3.15
+//! @SYMTestCaseDesc The test is to set application to a WTLS CA certficate CAW3 in the CertStore and get notification.
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>5.1.3.15,Set trusters to the CAW3 certificate with notification</actionname>
+	<actiontype>setapplications</actiontype>
+	<actionbody>
+		<label>CAW3</label>
+		<uid>1 2</uid>
+		<ChangeNotification>1</ChangeNotification>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-WModeUCTSTrustCWN5.1.3.16
+//! @SYMTestCaseDesc The test is to set trust to a WTLS CA certficate CAW3 in the CertStore and get notification.
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>5.1.3.16,set the trust for CAW3 with notification</actionname>
+	<actiontype>settrust</actiontype>
+	<actionbody>
+		<label>CAW3</label>
+		<trust>1</trust>
+		<ChangeNotification>1</ChangeNotification>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>5.1.3.17,Get applications for CAW1</actionname>
+	<actiontype>getapplications</actiontype>
+	<actionbody>
+		<label>CAW1</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<uid></uid>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>5.1.3.18,Get the trust for CAW1</actionname>
+	<actiontype>gettrusters</actiontype>
+	<actionbody>
+		<label>CAW1</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<trust>0</trust>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>5.1.3.19,Get applications for CAW2</actionname>
+	<actiontype>getapplications</actiontype>
+	<actionbody>
+		<label>CAW2</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<uid>1 2 3</uid>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>5.1.3.20,Get the trust for CAW2</actionname>
+	<actiontype>gettrusters</actiontype>
+	<actionbody>
+		<label>CAW2</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<trust>1</trust>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>5.1.3.21,Get applications for CAW3</actionname>
+	<actiontype>getapplications</actiontype>
+	<actionbody>
+		<label>CAW3</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<uid>1 2</uid>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>5.1.3.22,Get the trust for CAW3</actionname>
+	<actiontype>gettrusters</actiontype>
+	<actionbody>
+		<label>CAW3</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<trust>1</trust>
+	</actionresult>
+</action>
+
+//5.1.4 Successfull addition and retrieval of user certificates
+
+<action>
+<actionname>1.1.0.4 Import a RSA key</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>rsacertkey1.txt</ImportData>
+		<keyusage>AllUsagesButNR</keyusage>
+		<keylabel>*IMPORTED* RSA key 1</keylabel>
+		<keyaccesstype>Extractable</keyaccesstype>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.1.0.5 Import a RSA key</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>rsacertkey2.txt</ImportData>
+		<keyusage>AllUsagesButNR</keyusage>
+		<keylabel>*IMPORTED* RSA key 2</keylabel>
+		<keyaccesstype>Extractable</keyaccesstype>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.1.0.6 Import a RSA key</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>rsacertkey3.txt</ImportData>
+		<keyusage>AllUsagesButNR</keyusage>
+		<keylabel>*IMPORTED* RSA key 3</keylabel>
+		<keyaccesstype>Extractable</keyaccesstype>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>5.1.4.1, Add certificate rsacert1 ***NEW***</actionname>
+	<actiontype>addcert</actiontype>
+	<actionbody>
+		<format>X509</format>
+		<label>rsacert1</label>
+		<issuerkey></issuerkey>
+		<subjectkey>4808f03892fe836e78d048bcefcca4a37913d886</subjectkey>
+		<certstore>0</certstore>
+		<certfile>c:\unifiedcertstore2\rsacert1.cer</certfile>
+		<certowner>user</certowner>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+	<actionname>5.1.4.2,Add the certificate rsacert2 ***NEW***</actionname>
+	<actiontype>addcert</actiontype>
+	<actionbody>
+		<format>X509</format>
+		<label>rsacert2</label>
+		<issuerkey></issuerkey>
+		<subjectkey>dc448293c7c3ed68c9fabd37db43007136ae2ef4</subjectkey>
+		<certstore>0</certstore>
+		<certfile>c:\unifiedcertstore2\rsacert2.cer</certfile>
+		<certowner>user</certowner>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>5.1.4.3,Add the certificate rsacert3 ***NEW***</actionname>
+	<actiontype>addcert</actiontype>
+	<actionbody>
+		<format>X509</format>
+		<label>rsacert3</label>
+		<issuerkey></issuerkey>
+		<subjectkey>0b2e1d1d4dbae5fc59a02a5115d2c2910fa796e0</subjectkey>
+		<certstore>0</certstore>
+		<certfile>c:\unifiedcertstore2\rsacert3.cer</certfile>
+		<certowner>user</certowner>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>5.1.4.4.a,Get the list of certificates</actionname>
+	<actiontype>listcert</actiontype>
+	<actionbody>
+		<filter>
+			<ownertype>ca</ownertype>
+		</filter>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<CCTCertInfo><label>CAX1</label></CCTCertInfo>
+		<CCTCertInfo><label>CAX3</label></CCTCertInfo>
+		<CCTCertInfo><label>CAW1</label></CCTCertInfo>
+		<CCTCertInfo><label>CAW3</label></CCTCertInfo>
+		<CCTCertInfo><label>CAX2</label></CCTCertInfo>
+		<CCTCertInfo><label>CAW2</label></CCTCertInfo>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>5.1.4.4.b,Get the list of certificates</actionname>
+	<actiontype>listcert</actiontype>
+	<actionbody>
+		<filter>
+			<ownertype>user</ownertype>
+		</filter>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+		<CCTCertInfo><label>rsacert1</label></CCTCertInfo>
+		<CCTCertInfo><label>rsacert2</label></CCTCertInfo>
+		<CCTCertInfo><label>rsacert3</label></CCTCertInfo>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>5.1.4.4.c,Retrieve rsacert1 cert</actionname>
+	<actiontype>retrieve</actiontype>
+	<actionbody>
+		<label>rsacert1</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-WModeUCTdelCWN1.1
+//! @SYMTestCaseDesc The test is to delete a X509 CA certficate CAX1 in the CertStore and get notification.
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>No Test,Deleting the certificate CAX1 with notification</actionname>
+	<actiontype>deletecert</actiontype>
+	<actionbody>
+		<certtype>ca</certtype>
+		<label>CAX1</label>
+		<ChangeNotification>1</ChangeNotification>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-WModeUCTdelCWN1.2
+//! @SYMTestCaseDesc The test is to delete a X509 CA certficate CAX2 in the CertStore and get notification.
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>No Test,Deleting the certificate CAX2 with notification</actionname>
+	<actiontype>deletecert</actiontype>
+	<actionbody>
+		<certtype>ca</certtype>
+		<label>CAX2</label>
+		<ChangeNotification>1</ChangeNotification>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-WModeUCTdelCWN1.3
+//! @SYMTestCaseDesc The test is to delete a X509 CA certficate CAX3 in the CertStore and get notification.
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>No Test,Deleting the certificate CAX3 with notification</actionname>
+	<actiontype>deletecert</actiontype>
+	<actionbody>
+		<certtype>ca</certtype>
+		<label>CAX3</label>
+		<ChangeNotification>1</ChangeNotification>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-WModeUCTdelCWN1.4
+//! @SYMTestCaseDesc The test is to delete a WTLS CA certficate CAW1 in the CertStore and get notification.
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>No Test,Deleting the certificate CAW1 with notification</actionname>
+	<actiontype>deletecert</actiontype>
+	<actionbody>
+		<certtype>ca</certtype>
+		<label>CAW1</label>
+		<ChangeNotification>1</ChangeNotification>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-WModeUCTdelCWN1.5
+//! @SYMTestCaseDesc The test is to delete a WTLS CA certficate CAW2 in the CertStore and get notification.
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>No Test,Deleting the certificate CAW2 with notification</actionname>
+	<actiontype>deletecert</actiontype>
+	<actionbody>
+		<certtype>ca</certtype>
+		<label>CAW2</label>
+		<ChangeNotification>1</ChangeNotification>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-WModeUCTdelCWN1.6
+//! @SYMTestCaseDesc The test is to delete a WTLS CA certficate CAW3 in the CertStore and get notification.
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+	<actionname>No Test,Deleting the certificate CAW3 with notification</actionname>
+	<actiontype>deletecert</actiontype>
+	<actionbody>
+		<certtype>ca</certtype>
+		<label>CAW3</label>
+		<ChangeNotification>1</ChangeNotification>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>No Test,Deleting the certificate rsacert1 ***NEW***</actionname>
+	<actiontype>deletecert</actiontype>
+	<actionbody>
+		<certtype>user</certtype>
+		<label>rsacert1</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>No Test,Deleting the certificate rsacert2 ***NEW***</actionname>
+	<actiontype>deletecert</actiontype>
+	<actionbody>
+		<certtype>user</certtype>
+		<label>rsacert2</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>No Test,Deleting the certificate rsacert3 ***NEW***</actionname>
+	<actiontype>deletecert</actiontype>
+	<actionbody>
+		<certtype>user</certtype>
+		<label>rsacert3</label>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>No Test,Deleting the writable certificate store manager</actionname>
+	<actiontype>delete</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>No Test,Opening a CertificateAppInfoManager</actionname>
+	<actiontype>initappmanager</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>No Test,Deleting the client A1</actionname>
+	<actiontype>removeclient</actiontype>
+	<actionbody>
+		<uid>1</uid>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>No Test,Deleting the client A2</actionname>
+	<actiontype>removeclient</actiontype>
+	<actionbody>
+		<uid>2</uid>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>No Test,Deleting the client A3</actionname>
+	<actiontype>removeclient</actiontype>
+	<actionbody>
+		<uid>3</uid>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>No Test,Deleting the client A4</actionname>
+	<actiontype>removeclient</actiontype>
+	<actionbody>
+		<uid>4</uid>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>No Test,Deleting the CertificateAppInfoManager</actionname>
+	<actiontype>deleteappmanager</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+//! @file 
+//! @SYMTestCaseID UCTSSEC-CT-RModeUCTWithSS5.6
+//! @SYMTestCaseDesc The test is to open one UnifiedCertStore in read mode with the
+//! sequence of UICC, WIM, unknown hardware, SIM, ManufactureSoftware and ThirdpartySoftware cerstore 
+//! implementations, and expect the correct order.The test needs
+//! tadditionalstores.dll enabled
+//! @SYMPREQ 226
+//! @SYMTestCasePriority High
+//! @SYMTestExpectedResults KErrNone
+<action>
+ 	<actionname>5.6,Opening a read-only certificate store manager</actionname>
+ 	<actiontype>init</actiontype>
+ 	<actionbody>
+ 		<mode>read</mode>
+ 		<orderingfilter>4,3,0,2,5,1</orderingfilter>
+ 	</actionbody>
+ 	<actionresult>
+ 		<orderingresult>270488185</orderingresult>
+ 		<return>KErrNone</return>
+ 	</actionresult>
+</action>
+ 
+<action>
+   	<actionname>0.2,Deleting the second read-only certificate store manager</actionname>
+   	<actiontype>delete</actiontype>
+   	<actionbody></actionbody>
+   	<actionresult>
+   		<return>KErrNone</return>
+   	</actionresult>
+</action>

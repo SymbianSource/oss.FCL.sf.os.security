@@ -1,0 +1,2302 @@
+////////////////////////////////////////////////////////////////////////////////////
+//	Exporting  a key
+////////////////////////////////////////////////////////////////////////////////////
+<action>
+	<actionname>Delete keystore data file</actionname>
+	<actiontype>deletekeystoredata</actiontype>
+	<actionbody>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.0.1 Opening key store in manager mode</actionname>
+	<actiontype>init</actiontype>
+	<actionbody>
+		<mode>manager</mode>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.0.2 NOT A TEST Delete everything ** Basic PKCS8 cleartext RSA key import/export**</actionname>
+	<actiontype>deletekeys</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<!-- Basic PKCS8 DH key import -->
+
+<action>
+<actionname>1.0.1.0, Import a DH key</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>pkcs8dh.001</ImportData>
+		<keyusage>Derive</keyusage>
+		<keylabel>cheeku</keylabel>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>create pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNotSupported</return>
+	</actionresult>
+</action>
+
+
+<!-- Basic PKCS8 cleartext RSA key import/export -->
+
+<action>
+<actionname>1.1.0 Import a RSA key</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>pkcs8rsa.001</ImportData>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm0</keylabel>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>create pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+	<actionname>1.1.0.1, Set passphrase timeout to "don't cache"</actionname>
+	<actiontype>settimeout</actiontype>
+	<actionbody>
+		<keylabel>gm0</keylabel>
+		<timeout>0</timeout>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+<actionname>1.1.1 Import a RSA key</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>pkcs8rsa1.001</ImportData>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm1</keylabel>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.1.2 Import a RSA key</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>pkcs8rsa2.001</ImportData>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm2</keylabel>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.1.3 Import a RSA key</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>pkcs8rsa3.001</ImportData>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm3</keylabel>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.1.4 Import a RSA key</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>pkcs8rsa4.001</ImportData>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm4</keylabel>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+<actionname>1.1.5 Export a RSA key</actionname>
+	<actiontype>exportkey</actiontype>
+	<actionbody>
+		<ExportFile>export_pkcs8rsa_0.001</ExportFile>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm0</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<encrypted>0</encrypted>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.1.6 Export a RSA key</actionname>
+	<actiontype>exportkey</actiontype>
+	<actionbody>
+		<ExportFile>export_pkcs8rsa_1.001</ExportFile>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm1</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<encrypted>0</encrypted>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.1.7 Export a RSA key</actionname>
+	<actiontype>exportkey</actiontype>
+	<actionbody>
+		<ExportFile>export_pkcs8rsa_2.001</ExportFile>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm2</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<encrypted>0</encrypted>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.1.8 Export a RSA key</actionname>
+	<actiontype>exportkey</actiontype>
+	<actionbody>
+		<ExportFile>export_pkcs8rsa_3.001</ExportFile>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm3</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<encrypted>0</encrypted>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.1.9 Export a RSA key </actionname>
+	<actiontype>exportkey</actiontype>
+	<actionbody>
+		<ExportFile>export_pkcs8rsa_4.001</ExportFile>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm4</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<encrypted>0</encrypted>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<!-- Now test export public -->
+
+<action>
+<actionname>1.1.8 Export a public RSA key</actionname>
+	<actiontype>exportpublickey</actiontype>
+	<actionbody>
+		<ExportFile>export_public_rsa_0.001</ExportFile>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm0</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<encrypted>0</encrypted>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.1.8 Export a public RSA key</actionname>
+	<actiontype>exportpublickey</actiontype>
+	<actionbody>
+		<ExportFile>export_public_rsa_1.001</ExportFile>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm1</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<encrypted>0</encrypted>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.1.8 Export a public RSA key</actionname>
+	<actiontype>exportpublickey</actiontype>
+	<actionbody>
+		<ExportFile>export_public_rsa_2.001</ExportFile>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm2</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<encrypted>0</encrypted>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.1.8 Export a public RSA key</actionname>
+	<actiontype>exportpublickey</actiontype>
+	<actionbody>
+		<ExportFile>export_public_rsa_3.001</ExportFile>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm3</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<encrypted>0</encrypted>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<!-- Basic sanity check, import the keys we exported -->
+
+<action>
+<actionname>1.2.0 Import a RSA key from a previously exported one</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>export_pkcs8rsa_0.001</ImportData>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm0_from_exported</keylabel>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.2.1 Import a RSA key from a previously exported one</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>export_pkcs8rsa_1.001</ImportData>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm1_from_exported</keylabel>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.2.2 Import a RSA key from a previously exported one</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>export_pkcs8rsa_2.001</ImportData>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm2_from_exported</keylabel>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.2.3 Import a RSA key from a previously exported one</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>export_pkcs8rsa_3.001</ImportData>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm3_from_Exported</keylabel>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.2.4 Import a RSA key from a previously exported one</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>export_pkcs8rsa_4.001</ImportData>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm4_from_Exported</keylabel>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<!--- Do a bitwise comparison of exported/imported keys to ensure sanity -->
+
+<action>
+	<actionname>1.3.0 Bitwise Comparison of original key and exported one (RSA, cleartext) </actionname>
+	<actiontype>compare</actiontype>
+	<actionbody>
+          <originalfile>pkcs8rsa1.001</originalfile>
+          <newfile>export_pkcs8rsa_1.001</newfile>
+        </actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.3.1 Bitwise Comparison of original key and exported one (RSA, cleartext) </actionname>
+	<actiontype>compare</actiontype>
+	<actionbody>
+          <originalfile>pkcs8rsa2.001</originalfile>
+          <newfile>export_pkcs8rsa_2.001</newfile>
+        </actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+	<actionname>1.3.2 Bitwise Comparison of original key and exported one (RSA, cleartext) </actionname>
+	<actiontype>compare</actiontype>
+	<actionbody>
+          <originalfile>pkcs8rsa3.001</originalfile>
+          <newfile>export_pkcs8rsa_3.001</newfile>
+        </actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+	<actionname>1.3.3 Bitwise Comparison of original key and exported one (RSA, cleartext) </actionname>
+	<actiontype>compare</actiontype>
+	<actionbody>
+          <originalfile>pkcs8rsa4.001</originalfile>
+          <newfile>export_pkcs8rsa_4.001</newfile>
+        </actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.3.4 Bitwise Comparison of original key and exported one (RSA, cleartext) </actionname>
+	<actiontype>compare</actiontype>
+	<actionbody>
+          <originalfile>pkcs8rsa.001</originalfile>
+          <newfile>export_pkcs8rsa_0.001</newfile>
+        </actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.3.5 Bitwise Comparison of original key and exported one (RSA public) </actionname>
+	<actiontype>compare</actiontype>
+	<actionbody>
+          <originalfile>rsapub.txt</originalfile>
+          <newfile>export_public_rsa_0.001</newfile>
+        </actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.3.6 Bitwise Comparison of original key and exported one (RSA public) </actionname>
+	<actiontype>compare</actiontype>
+	<actionbody>
+          <originalfile>rsapub1.txt</originalfile>
+          <newfile>export_public_rsa_1.001</newfile>
+        </actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.3.7 Bitwise Comparison of original key and exported one (RSA public) </actionname>
+	<actiontype>compare</actiontype>
+	<actionbody>
+          <originalfile>rsapub2.txt</originalfile>
+          <newfile>export_public_rsa_2.001</newfile>
+        </actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.3.8 Bitwise Comparison of original key and exported one (RSA public) </actionname>
+	<actiontype>compare</actiontype>
+	<actionbody>
+          <originalfile>rsapub3.txt</originalfile>
+          <newfile>export_public_rsa_3.001</newfile>
+        </actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<!-- Basic PKCS8 cleartext DSA key import/export -->
+
+<action>
+	<actionname>1.4.0 NOT A TEST Delete everything 
+                    ** Basic PKCS8 cleartext DSA key import/export**</actionname>
+	<actiontype>deletekeys</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.4.1 Import a DSA key</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>pkcs8dsa.001</ImportData>
+		<keyusage>DSAUsage</keyusage>
+		<keylabel>gm0</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>create pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.4.2 Import a DSA key</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>pkcs8dsa1.001</ImportData>
+		<keyusage>DSAUsage</keyusage>
+		<keylabel>gm1</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+<actionname>1.4.3 Import a DSA key</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>pkcs8dsa2.001</ImportData>
+		<keyusage>DSAUsage</keyusage>
+		<keylabel>gm2</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+<actionname>1.4.4 Import a DSA key</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>pkcs8dsa3.001</ImportData>
+		<keyusage>DSAUsage</keyusage>
+		<keylabel>gm3</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.4.5 Import a DSA key</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>pkcs8dsa4.001</ImportData>
+		<keyusage>DSAUsage</keyusage>
+		<keylabel>gm4</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.4.6 Export a DSA key</actionname>
+	<actiontype>exportkey</actiontype>
+	<actionbody>
+		<ExportFile>export_pkcs8dsa_0.001</ExportFile>
+		<keyusage>DSAUsage</keyusage>
+		<keylabel>gm0</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<encrypted>0</encrypted>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.4.7 Export a DSA key</actionname>
+	<actiontype>exportkey</actiontype>
+	<actionbody>
+		<ExportFile>export_pkcs8dsa_1.001</ExportFile>
+		<keyusage>DSAUsage</keyusage>
+		<keylabel>gm1</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<encrypted>0</encrypted>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.4.8 Export a DSA key</actionname>
+	<actiontype>exportkey</actiontype>
+	<actionbody>
+		<ExportFile>export_pkcs8dsa_2.001</ExportFile>
+		<keyusage>DSAUsage</keyusage>
+		<keylabel>gm2</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<encrypted>0</encrypted>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+ 
+<action>
+<actionname>1.4.9 Export a DSA key</actionname>
+	<actiontype>exportkey</actiontype>
+	<actionbody>
+		<ExportFile>export_pkcs8dsa_3.001</ExportFile>
+		<keyusage>DSAUsage</keyusage>
+		<keylabel>gm3</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<encrypted>0</encrypted>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+<actionname>1.4.10 Export a DSA key</actionname>
+	<actiontype>exportkey</actiontype>
+	<actionbody>
+		<ExportFile>export_pkcs8dsa_4.001</ExportFile>
+		<keyusage>DSAUsage</keyusage>
+		<keylabel>gm4</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<encrypted>0</encrypted>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<!-- Now public DSA export -->
+
+<action>
+<actionname>1.4.12 Export a DSA public key </actionname>
+	<actiontype>exportpublickey</actiontype>
+	<actionbody>
+		<ExportFile>export_public_dsa_0.001</ExportFile>
+		<keyusage>DSAUsage</keyusage>
+		<keylabel>gm0</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<encrypted>0</encrypted>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+<actionname>1.4.13 Export a DSA public key </actionname>
+	<actiontype>exportpublickey</actiontype>
+	<actionbody>
+		<ExportFile>export_public_dsa_1.001</ExportFile>
+		<keyusage>DSAUsage</keyusage>
+		<keylabel>gm1</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<encrypted>0</encrypted>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+<actionname>1.4.14 Export a DSA public key </actionname>
+	<actiontype>exportpublickey</actiontype>
+	<actionbody>
+		<ExportFile>export_public_dsa_2.001</ExportFile>
+		<keyusage>DSAUsage</keyusage>
+		<keylabel>gm2</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<encrypted>0</encrypted>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.4.15 Export a DSA public key </actionname>
+	<actiontype>exportpublickey</actiontype>
+	<actionbody>
+		<ExportFile>export_public_dsa_3.001</ExportFile>
+		<keyusage>DSAUsage</keyusage>
+		<keylabel>gm3</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<encrypted>0</encrypted>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.4.16 Export a DSA public key </actionname>
+	<actiontype>exportpublickey</actiontype>
+	<actionbody>
+		<ExportFile>export_public_dsa_4.001</ExportFile>
+		<keyusage>DSAUsage</keyusage>
+		<keylabel>gm4</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<encrypted>0</encrypted>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<!-- bit wise check public -->
+
+<action>
+	<actionname>1.4.1.5 Bitwise Comparison of original key and exported one (DSA public) </actionname>
+	<actiontype>compare</actiontype>
+	<actionbody>
+          <originalfile>dsapub.txt</originalfile>
+          <newfile>export_public_dsa_0.001</newfile>
+        </actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+	<actionname>1.4.1.6 Bitwise Comparison of original key and exported one (DSA public) </actionname>
+	<actiontype>compare</actiontype>
+	<actionbody>
+          <originalfile>dsapub1.txt</originalfile>
+          <newfile>export_public_dsa_1.001</newfile>
+        </actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+	<actionname>1.4.1.7 Bitwise Comparison of original key and exported one (DSA public) </actionname>
+	<actiontype>compare</actiontype>
+	<actionbody>
+          <originalfile>dsapub2.txt</originalfile>
+          <newfile>export_public_dsa_2.001</newfile>
+        </actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.4.1.8 Bitwise Comparison of original key and exported one (DSA public) </actionname>
+	<actiontype>compare</actiontype>
+	<actionbody>
+          <originalfile>dsapub3.txt</originalfile>
+          <newfile>export_public_dsa_3.001</newfile>
+        </actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.4.1.9 Bitwise Comparison of original key and exported one (DSA public) </actionname>
+	<actiontype>compare</actiontype>
+	<actionbody>
+          <originalfile>dsapub4.txt</originalfile>
+          <newfile>export_public_dsa_4.001</newfile>
+        </actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<!-- Basic sanity check, import the keys we exported -->
+
+
+<action>
+<actionname>1.5.0 Import a DSA key from a previously exported one </actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>export_pkcs8dsa_0.001</ImportData>
+		<keyusage>DSAUsage</keyusage>
+		<keylabel>gm0_from_exported</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.5.1 Import a DSA key from a previously exported one </actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>export_pkcs8dsa_1.001</ImportData>
+		<keyusage>DSAUsage</keyusage>
+		<keylabel>gm1_from_exported</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.5.2 Import a DSA key from a previously exported one</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>export_pkcs8dsa_2.001</ImportData>
+		<keyusage>DSAUsage</keyusage>
+		<keylabel>gm2_from_exported</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.5.3 Import a DSA key from a previously exported one</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>export_pkcs8dsa_3.001</ImportData>
+		<keyusage>DSAUsage</keyusage>
+		<keylabel>gm3_from_Exported</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.5.4 Import a DSA key from a previously exported one</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>export_pkcs8dsa_4.001</ImportData>
+		<keyusage>DSAUsage</keyusage>
+		<keylabel>gm4_from_exported</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<!--- Do a bitwise comparison of exported/imported keys to ensure sanity -->
+
+<action>
+	<actionname>1.6.0 Bitwise Comparison of original key and exported one (DSA, cleartext) </actionname>
+	<actiontype>compare</actiontype>
+	<actionbody>
+          <originalfile>pkcs8dsa.001</originalfile>
+          <newfile>export_pkcs8dsa_0.001</newfile>
+        </actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.6.1 Bitwise Comparison of original key and exported one (DSA, cleartext) </actionname>
+	<actiontype>compare</actiontype>
+	<actionbody>
+          <originalfile>pkcs8dsa1.001</originalfile>
+          <newfile>export_pkcs8dsa_1.001</newfile>
+        </actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.6.2 Bitwise Comparison of original key and exported one (DSA, cleartext) </actionname>
+	<actiontype>compare</actiontype>
+	<actionbody>
+          <originalfile>pkcs8dsa2.001</originalfile>
+          <newfile>export_pkcs8dsa_2.001</newfile>
+        </actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.6.3 Bitwise Comparison of original key and exported one (DSA, cleartext) </actionname>
+	<actiontype>compare</actiontype>
+	<actionbody>
+          <originalfile>pkcs8dsa3.001</originalfile>
+          <newfile>export_pkcs8dsa_3.001</newfile>
+        </actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.6.4 Bitwise Comparison of original key and exported one (DSA, cleartext) </actionname>
+	<actiontype>compare</actiontype>
+	<actionbody>
+          <originalfile>pkcs8dsa4.001</originalfile>
+          <newfile>export_pkcs8dsa_4.001</newfile>
+        </actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+
+
+<!-- Basic PKCS8 encrypted RSA key import/export -->
+
+<action>
+	<actionname>1.7.0 NOT A TEST Delete everything 
+                    **Basic PKCS8 encrypted RSA key import/export**</actionname>
+	<actiontype>deletekeys</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.7.1 Import a PKCS5 encrypted RSA key</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>encryptPK8rsaDER.txt</ImportData>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gmRSA0</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>import clanger</passphrase>
+		<passphrase>create pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+<actionname>1.7.2 Import a PKCS5 encrypted RSA key</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>encryptPK8rsa1DER.txt</ImportData>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gmRSA1</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>import clanger</passphrase>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.7.3 Import a PKCS5 encrypted RSA key</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>encryptPK8rsa2DER.txt</ImportData>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gmRSA2</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>import clanger</passphrase>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.7.4 Import a PKCS5 encrypted RSA key</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>encryptPK8rsa3DER.txt</ImportData>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gmRSA3</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>import clanger</passphrase>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.7.5 Import a PKCS5 encrypted RSA key</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>encryptPK8rsa4DER.txt</ImportData>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gmRSA4</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>import clanger</passphrase>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.7.6 Export a RSA key in encrypted format</actionname>
+	<actiontype>exportkey</actiontype>
+	<actionbody>
+		<ExportFile>encrypted_export_pkcs8rsa.001</ExportFile>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gmRSA0</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<encrypted>1</encrypted>
+		<passphrase>pinkcloud</passphrase>
+		<passphrase>export clanger</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.7.7 Export a RSA key in encrypted format</actionname>
+	<actiontype>exportkey</actiontype>
+	<actionbody>
+		<ExportFile>encrypted_export_pkcs8rsa1.001</ExportFile>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gmRSA1</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<encrypted>1</encrypted>
+		<passphrase>pinkcloud</passphrase>
+		<passphrase>export clanger</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.7.8 Export a RSA key in encrypted format</actionname>
+	<actiontype>exportkey</actiontype>
+	<actionbody>
+		<ExportFile>encrypted_export_pkcs8rsa2.001</ExportFile>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gmRSA2</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<encrypted>1</encrypted>
+		<passphrase>pinkcloud</passphrase>
+		<passphrase>export clanger</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.7.8 Export a RSA key in encrypted format</actionname>
+	<actiontype>exportkey</actiontype>
+	<actionbody>
+		<ExportFile>encrypted_export_pkcs8rsa3.001</ExportFile>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gmRSA3</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<encrypted>1</encrypted>
+		<passphrase>pinkcloud</passphrase>
+		<passphrase>export clanger</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.7.9 Export a RSA key in encrypted format</actionname>
+	<actiontype>exportkey</actiontype>
+	<actionbody>
+		<ExportFile>encrypted_export_pkcs8rsa4.001</ExportFile>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gmRSA4</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<encrypted>1</encrypted>
+		<passphrase>pinkcloud</passphrase>
+		<passphrase>export clanger</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<!-- Keys Encrypted with various ciphers -->
+
+
+<action>
+<actionname>1.7.10 Import a PKCS5 encrypted RSA key encrypted with 3DES</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>pkcs8rsa1_3des.der</ImportData>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gmRSA_3DES</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>import clanger</passphrase>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<!-- Basic sanity check for PKCS8 encrypted RSA key import/export -->
+<!-- Import a clear text key. Export it encrypted. Import it. Export it clear text. Compare. -->
+
+<action>
+	<actionname>1.8.0 NOT A TEST Delete everything ** PKCS8 encrypted RSA export sanity check ** Import a clear text key. Export it encrypted. Import it. Export it clear text. Compare.
+        </actionname>
+	<actiontype>deletekeys</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+
+</action>
+
+<action>
+<actionname>1.8.1 Import a RSA key</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>pkcs8rsa.001</ImportData>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm0</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>create pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+<actionname>1.8.2 Export a RSA key in encrypted format</actionname>
+	<actiontype>exportkey</actiontype>
+	<actionbody>
+		<ExportFile>encrypted_export_pkcs8rsa.001</ExportFile>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm0</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<encrypted>1</encrypted>
+		<passphrase>pinkcloud</passphrase>
+		<passphrase>export clanger</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.8.3 NOT A TEST Delete everything </actionname>
+	<actiontype>deletekeys</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+
+</action>
+
+
+<action>
+<actionname>1.8.4 Import a PKCS5 encrypted RSA key from the result of previous export action </actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>encrypted_export_pkcs8rsa.001</ImportData>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm0</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>import clanger</passphrase>
+		<passphrase>create pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+<actionname>1.8.5 Export a RSA key (cleartext) which has been imported from a
+            generated encrypted pkcs8 file</actionname>
+	<actiontype>exportkey</actiontype>
+	<actionbody>
+		<ExportFile>exportFromImport_pkcs8rsa.001</ExportFile>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm0</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<encrypted>0</encrypted>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.8.6 Bitwise Comparison of original key and exported one </actionname>
+	<actiontype>compare</actiontype>
+	<actionbody>
+          <originalfile>pkcs8rsa.001</originalfile>
+          <newfile>exportFromImport_pkcs8rsa.001</newfile>
+        </actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<!-- Basic PKCS8 encrypted DSA key import/export -->
+
+<action>
+	<actionname>1.9.0 NOT A TEST Delete everything 
+                    ** Basic PKCS8 encrypted DSA key import/export **</actionname>
+	<actiontype>deletekeys</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+
+</action>
+
+<action>
+<actionname>1.9.1 Import a PKCS5 encrypted DSA key</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>encryptPK8dsaDER.txt</ImportData>
+		<keyusage>DSAUsage</keyusage>
+		<keylabel>gmDSA0</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>import clanger</passphrase>
+		<passphrase>create pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.9.2 Import a PKCS5 encrypted DSA key</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>encryptPK8dsa1DER.txt</ImportData>
+		<keyusage>DSAUsage</keyusage>
+		<keylabel>gmDSA1</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>import clanger</passphrase>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+<action>
+<actionname>1.9.3 Import a PKCS5 encrypted DSA key</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>encryptPK8dsa2DER.txt</ImportData>
+		<keyusage>DSAUsage</keyusage>
+		<keylabel>gmDSA2</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>import clanger</passphrase>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.9.4 Import a PKCS5 encrypted DSA key</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>encryptPK8dsa3DER.txt</ImportData>
+		<keyusage>DSAUsage</keyusage>
+		<keylabel>gmDSA3</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>import clanger</passphrase>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.9.5 Import a PKCS5 encrypted DSA key</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>encryptPK8dsa4DER.txt</ImportData>
+		<keyusage>DSAUsage</keyusage>
+		<keylabel>gmDSA4</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>import clanger</passphrase>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+<actionname>1.9.6 Export a DSA key in encrypted format</actionname>
+	<actiontype>exportkey</actiontype>
+	<actionbody>
+		<ExportFile>encrypted_export_pkcs8dsa.001</ExportFile>
+		<keyusage>DSAUsage</keyusage>
+		<keylabel>gmDSA0</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<encrypted>1</encrypted>
+		<passphrase>pinkcloud</passphrase>
+		<passphrase>export clanger</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+<actionname>1.9.7 Export a DSA key in encrypted format</actionname>
+	<actiontype>exportkey</actiontype>
+	<actionbody>
+		<ExportFile>encrypted_export_pkcs8dsa1.001</ExportFile>
+		<keyusage>DSAUsage</keyusage>
+		<keylabel>gmDSA1</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<encrypted>1</encrypted>
+		<passphrase>pinkcloud</passphrase>
+		<passphrase>export clanger</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+<actionname>1.9.8 Export a DSA key in encrypted format</actionname>
+	<actiontype>exportkey</actiontype>
+	<actionbody>
+		<ExportFile>encrypted_export_pkcs8dsa2.001</ExportFile>
+		<keyusage>DSAUsage</keyusage>
+		<keylabel>gmDSA2</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<encrypted>1</encrypted>
+		<passphrase>pinkcloud</passphrase>
+		<passphrase>export clanger</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+<actionname>1.9.9 Export a DSA key in encrypted format</actionname>
+	<actiontype>exportkey</actiontype>
+	<actionbody>
+		<ExportFile>encrypted_export_pkcs8dsa3.001</ExportFile>
+		<keyusage>DSAUsage</keyusage>
+		<keylabel>gmDSA3</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<encrypted>1</encrypted>
+		<passphrase>pinkcloud</passphrase>
+		<passphrase>export clanger</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+<actionname>1.9.10 Export a DSA key in encrypted format</actionname>
+	<actiontype>exportkey</actiontype>
+	<actionbody>
+		<ExportFile>encrypted_export_pkcs8dsa4.001</ExportFile>
+		<keyusage>DSAUsage</keyusage>
+		<keylabel>gmDSA4</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<encrypted>1</encrypted>
+		<passphrase>pinkcloud</passphrase>
+		<passphrase>export clanger</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<!-- Now export public -->
+
+<action>
+<actionname>1.9.11 Export a DSA public key </actionname>
+	<actiontype>exportkey</actiontype>
+	<actionbody>
+		<ExportFile>export_public_dsa_0.001</ExportFile>
+		<keyusage>DSAUsage</keyusage>
+		<keylabel>gmDSA0</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<encrypted>0</encrypted>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<!-- Basic sanity check for PKCS8 encrypted DSA key import/export -->
+<!-- Import a clear text key. Export it encrypted. Import it. Export it clear text. Compare -->
+
+<action>
+	<actionname>1.10.0 NOT A TEST Delete everything 
+                    ** Basic sanity check for PKCS8 encrypted DSA key import/export **</actionname>
+	<actiontype>deletekeys</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.10.1 Import a DSA key</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>pkcs8dsa.001</ImportData>
+		<keyusage>DSAUsage</keyusage>
+		<keylabel>gmDSA0</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>create pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+<actionname>1.10.2 Export a DSA key in encrypted format</actionname>
+	<actiontype>exportkey</actiontype>
+	<actionbody>
+		<ExportFile>encrypted_export_pkcs8dsa.001</ExportFile>
+		<keyusage>DSAUsage</keyusage>
+		<keylabel>gmDSA0</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<encrypted>1</encrypted>
+		<passphrase>pinkcloud</passphrase>
+		<passphrase>export clanger</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.10.3 NOT A TEST Delete everything </actionname>
+	<actiontype>deletekeys</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+
+</action>
+
+<action>
+<actionname>1.10.4 Import a PKCS5 encrypted DSA key from a previously exported one</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>encrypted_export_pkcs8dsa.001</ImportData>
+		<keyusage>DSAUsage</keyusage>
+		<keylabel>gmDSA0_encrypted</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>import clanger</passphrase>
+		<passphrase>create pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.10.5 Export a DSA key (cleartext) which has been imported from a
+            generated encrypted pkcs8 file </actionname>
+	<actiontype>exportkey</actiontype>
+	<actionbody>
+		<ExportFile>exportFromImport_pkcs8dsa.001</ExportFile>
+		<keyusage>DSAUsage</keyusage>
+		<keylabel>gmDSA0_encrypted</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<encrypted>0</encrypted>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.10.6 Bitwise Comparison of original key and exported one </actionname>
+	<actiontype>compare</actiontype>
+	<actionbody>
+          <originalfile>pkcs8dsa.001</originalfile>
+          <newfile>exportFromImport_pkcs8dsa.001</newfile>
+        </actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<!-- Now test import/export of weird encrypted pkcs8 -->
+
+<action>
+	<actionname>1.11.0.0 NOT A TEST Delete everything 
+                    ** Test import/export of weird encrypted pkcs8 **</actionname>
+	<actiontype>deletekeys</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.11.0 Import a PKCS5 encrypted RSA key encrypted with 3DES</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>pkcs8rsa1_3des.der</ImportData>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gmRSA_3DES</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>import clanger</passphrase>
+		<passphrase>create pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+	<actionname>1.11.0.1, Set passphrase timeout to "don't cache"</actionname>
+	<actiontype>settimeout</actiontype>
+	<actionbody>
+		<keylabel>gm0</keylabel>
+		<timeout>0</timeout>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+<actionname>1.11.1 Import a PKCS5 encrypted RSA key encrypted with RC2</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>pkcs8rsa1_rc2.der</ImportData>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gmRSA_RC2</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>import clanger</passphrase>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.11.3 Try to Import a PKCS5 encrypted RSA key encrypted with RC4 (Unsupported)</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>pkcs8rsa1_rc4.der</ImportData>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gmRSA_RC4</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrArgument</return>
+	</actionresult>
+</action>
+
+<!-- Keystore not accessed since we cannot even parse the key!!! -->
+<action>
+<actionname>1.11.4 Try to Import a PKCS5 encrypted DSA key encrypted with DES3 Broken Netscape format (Unsupported)</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>pkcs8dsa1_des3_nsdh.der</ImportData>
+		<keyusage>DSAUsage</keyusage>
+		<keylabel>gmDSA_nsdb</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>import clanger</passphrase>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrArgument</return>
+	</actionresult>
+</action>
+
+<!-- The key is parsed but it's wrong... -->
+<action>
+<actionname>1.11.5 Try to Import a PKCS5 encrypted RSA key encrypted with DES3 Broken Nooctet format (Unsupported)</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>pkcs8rsa1_des3_nooctet.der</ImportData>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gmRSA_nooct</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>import clanger</passphrase>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrArgument</return>
+	</actionresult>
+</action>
+
+
+<!-- Keystore not accessed since we cannot even parse the key!!! -->
+<action>
+<actionname>1.11.6 Try to Import a PKCS5 encrypted DSA key encrypted with DES3 Broken embed format (Unsupported)</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>pkcs8dsa1_des3_embed.der</ImportData>
+		<keyusage>DSAUsage</keyusage>
+		<keylabel>gmDSA_embed</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>import clanger</passphrase>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrArgument</return>
+	</actionresult>
+</action>
+
+
+<!-- Test pkcs8 attribute handling -->
+
+<action>
+	<actionname>1.12.0 NOT A TEST Delete everything 
+                    ** key import/export of keys with optional PKC#8 attribuets **</actionname>
+	<actiontype>deletekeys</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.12.1 Import a RSA key containing PKCS#8 attributes</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>pkcs8rsa_attr.001</ImportData>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm0_attr</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>create pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+	<actionname>1.12.1.1, Set passphrase timeout to "don't cache"</actionname>
+	<actiontype>settimeout</actiontype>
+	<actionbody>
+		<keylabel>gm0_attr</keylabel>
+		<timeout>0</timeout>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+<actionname>1.12.2 Import a DSA key</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>pkcs8dsa_attr.001</ImportData>
+		<keyusage>DSAUsage</keyusage>
+		<keylabel>gm1_attr</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+<actionname>1.12.3 Export a RSA key with optional PKCS8 attributes</actionname>
+	<actiontype>exportkey</actiontype>
+	<actionbody>
+		<ExportFile>export_pkcs8rsa_attr.001</ExportFile>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm0_attr</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<encrypted>0</encrypted>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+<actionname>1.12.4 Export a DSA key with optional PKCS#8 encryption</actionname>
+	<actiontype>exportkey</actiontype>
+	<actionbody>
+		<ExportFile>export_pkcs8dsa_attr.001</ExportFile>
+		<keyusage>DSAUsage</keyusage>
+		<keylabel>gm1_attr</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<encrypted>0</encrypted>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.12.5 Bitwise Comparison of original key and exported one (RSA, attributes) </actionname>
+	<actiontype>compare</actiontype>
+	<actionbody>
+          <originalfile>pkcs8rsa_attr.001</originalfile>
+          <newfile>export_pkcs8rsa_attr.001</newfile>
+        </actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.12.6 Bitwise Comparison of original key and exported one (DSA, attributes) </actionname>
+	<actiontype>compare</actiontype>
+	<actionbody>
+          <originalfile>pkcs8dsa_attr.001</originalfile>
+          <newfile>export_pkcs8dsa_attr.001</newfile>
+        </actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<!-- Sanity check all ciphers -->
+
+<action>
+	<actionname>1.12.0.1 NOT A TEST Delete everything 
+                    ** Sanity check all ciphers **</actionname>
+	<actiontype>deletekeys</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.12.0.2 Import a RSA key</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>pkcs8rsa.001</ImportData>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm0</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>create pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.12.0.3, Set passphrase timeout to "don't cache"</actionname>
+	<actiontype>settimeout</actiontype>
+	<actionbody>
+		<keylabel>gm0</keylabel>
+		<timeout>0</timeout>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<!-- Export the same key with multiple PBE ciphers -->
+
+<!-- At the moment there are no OIDs for AES PBE, when they are available insert relevant tests here -->
+<action>
+<actionname>1.12.0.7 Export a RSA key with ECipher3DES_CBC</actionname>
+	<actiontype>exportkey</actiontype>
+	<actionbody>
+		<ExportFile>export_pkcs8rsa_0_3DES_CBC.001</ExportFile>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm0</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<encrypted>1</encrypted>
+                <cipher>ECipher3DES_CBC</cipher>
+		<passphrase>pinkcloud</passphrase>
+		<passphrase>export clanger</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.12.0.8 Export a RSA key with ECipherDES_CBC</actionname>
+	<actiontype>exportkey</actiontype>
+	<actionbody>
+		<ExportFile>export_pkcs8rsa_0_DES_CBC.001</ExportFile>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm0</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<encrypted>1</encrypted>
+                <cipher>ECipherDES_CBC</cipher>
+		<passphrase>pinkcloud</passphrase>
+		<passphrase>export clanger</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.12.0.9 Export a RSA key with ECipherRC2_CBC_40</actionname>
+	<actiontype>exportkey</actiontype>
+	<actionbody>
+		<ExportFile>export_pkcs8rsa_0_RC2_CBC_40.001</ExportFile>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm0</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<encrypted>1</encrypted>
+                <cipher>ECipherRC2_CBC_40</cipher>
+		<passphrase>pinkcloud</passphrase>
+		<passphrase>export clanger</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.12.0.10 Export a RSA key with ECipherRC2_CBC_128</actionname>
+	<actiontype>exportkey</actiontype>
+	<actionbody>
+		<ExportFile>export_pkcs8rsa_0_RC2_CBC_128.001</ExportFile>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm0</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<encrypted>1</encrypted>
+                <cipher>ECipherRC2_CBC_128</cipher>
+		<passphrase>pinkcloud</passphrase>
+		<passphrase>export clanger</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+<actionname>1.12.0.9 Export a RSA key with ECipherRC2_CBC_40_16</actionname>
+	<actiontype>exportkey</actiontype>
+	<actionbody>
+		<ExportFile>export_pkcs8rsa_0_RC2_CBC_40_16.001</ExportFile>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm0</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<encrypted>1</encrypted>
+                <cipher>ECipherRC2_CBC_40_16</cipher>
+		<passphrase>pinkcloud</passphrase>
+		<passphrase>export clanger</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.12.0.10 Export a RSA key with ECipherRC2_CBC_128_16</actionname>
+	<actiontype>exportkey</actiontype>
+	<actionbody>
+		<ExportFile>export_pkcs8rsa_0_RC2_CBC_128_16.001</ExportFile>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm0</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<encrypted>1</encrypted>
+                <cipher>ECipherRC2_CBC_128_16</cipher>
+		<passphrase>pinkcloud</passphrase>
+		<passphrase>export clanger</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+<actionname>1.12.0.11 Import a PKCS5 encrypted RSA key previously exported with ECipherRC2_CBC_40 </actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>export_pkcs8rsa_0_RC2_CBC_40.001</ImportData>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm_export_pkcs8rsa_0_RC2_CBC_40</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>import clanger</passphrase>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.12.0.12 Import a PKCS5 encrypted RSA key previously exported with ECipherRC2_CBC_128 </actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>export_pkcs8rsa_0_RC2_CBC_128.001</ImportData>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm_export_pkcs8rsa_0_RC2_CBC_128</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>import clanger</passphrase>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.12.0.11b Import a PKCS5 encrypted RSA key previously exported with ECipherRC2_CBC_40_16 </actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>export_pkcs8rsa_0_RC2_CBC_40_16.001</ImportData>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm_export_pkcs8rsa_0_RC2_CBC_40_16</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>import clanger</passphrase>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.12.0.12b Import a PKCS5 encrypted RSA key previously exported with ECipherRC2_CBC_128_16 </actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>export_pkcs8rsa_0_RC2_CBC_128_16.001</ImportData>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm_export_pkcs8rsa_0_RC2_CBC_128_16</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>import clanger</passphrase>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.12.0.13 Import a PKCS5 encrypted RSA key previously exported with ECipherDES_CBC </actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>export_pkcs8rsa_0_DES_CBC.001</ImportData>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm_export_pkcs8rsa_0_DES_CBC.001</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>import clanger</passphrase>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+<actionname>1.12.0.14 Import a PKCS5 encrypted RSA key previously exported with ECipher3DES_CBC </actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>export_pkcs8rsa_0_3DES_CBC.001</ImportData>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm_export_pkcs8rsa_0_3DES_CBC.001</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<encrypted>1</encrypted>
+		<passphrase>import clanger</passphrase>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<!-- Test access modifiers Sensitive, AlwaysSensitive, Extractable and NeverExtractable !-->
+
+<action>
+	<actionname>1.13.1 NOT A TEST Delete everything 
+                    ** Test access modifiers Sensitive, AlwaysSensitive, Extractable and NeverExtractable **</actionname>
+	<actiontype>deletekeys</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+<actionname>1.13.1 Import a cleartext RSA key ** Cannot become AlwaysSensitive **</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>pkcs8rsa.001</ImportData>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm0</keylabel>
+		<keyaccesstype>Sensitive</keyaccesstype>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>create pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+	<actionname>1.13.2 Check access settings ** Cannot be AlwaysSensitive ** </actionname>
+	<actiontype>getkeyinfo</actiontype>
+	<actionbody>
+		<keyusage>allusagesbutNR</keyusage>
+		<keysize>512</keysize>
+		<keylabel>gm0</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<keyaccesstype>Sensitive</keyaccesstype>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.13.2 Import a PKCS5 encrypted RSA key ** Must become AlwaysSensitive **</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>encryptPK8rsaDER.txt</ImportData>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gmRSA0</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<keyaccesstype>Sensitive</keyaccesstype>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<passphrase>import clanger</passphrase>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.13.3 Check access settings ** Must be AlwaysSensitive ** </actionname>
+	<actiontype>getkeyinfo</actiontype>
+	<actionbody>
+		<keyusage>allusagesbutNR</keyusage>
+		<keysize>512</keysize>
+		<keylabel>gmRSA0</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<keyaccesstype>Sensitive</keyaccesstype>
+		<keyaccesstype>AlwaysSensitive</keyaccesstype>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+<actionname>1.13.4 Import a cleartext RSA key make it not extractable ** Cannot become NeverExtractable **</actionname>
+	<actiontype>importkey</actiontype>
+	<actionbody>
+		<ImportData>pkcs8rsa.001</ImportData>
+		<keyusage>allusagesbutNR</keyusage>
+		<keylabel>gm3</keylabel>
+		<keyaccesstype>Sensitive</keyaccesstype>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.13.5 Check access settings ** Cannot be NeverExtractable ** </actionname>
+	<actiontype>getkeyinfo</actiontype>
+	<actionbody>
+		<keyusage>allusagesbutNR</keyusage>
+		<keysize>512</keysize>
+		<keylabel>gm3</keylabel>
+		<keyalgorithm>RSA</keyalgorithm>
+		<keyaccesstype>Sensitive</keyaccesstype>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+
+<action>
+	<actionname>1.13.6 Create a key, set the extractable flag ** Cannot be NeverExtractble **</actionname>
+	<actiontype>addkey</actiontype>
+	<actionbody>
+		<keyusage>DSAUsage</keyusage>
+		<keysize>512</keysize>
+		<keylabel>carrot</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<keyaccesstype>Sensitive</keyaccesstype>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.13.7 Check access settings ** Cannot be NeverExtractable, must be AlwaysSensitive ** </actionname>
+	<actiontype>getkeyinfo</actiontype>
+	<actionbody>
+		<keyusage>allusagesbutNR</keyusage>
+		<keysize>512</keysize>
+		<keylabel>carrot</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<keyaccesstype>Extractable</keyaccesstype>
+		<keyaccesstype>Sensitive</keyaccesstype>
+		<keyaccesstype>AlwaysSensitive</keyaccesstype>
+		<keyaccesstype>Local</keyaccesstype>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.13.8 Create a key ** Must be NeverExtractble **</actionname>
+	<actiontype>addkey</actiontype>
+	<actionbody>
+		<keyusage>DSAUsage</keyusage>
+		<keysize>512</keysize>
+		<keylabel>carrot2</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<keyaccesstype>Sensitive</keyaccesstype>
+		<passphrase>pinkcloud</passphrase>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.13.9 Check access settings ** Must be NeverExtractable, must be AlwaysSensitive ** </actionname>
+	<actiontype>getkeyinfo</actiontype>
+	<actionbody>
+		<keyusage>allusagesbutNR</keyusage>
+		<keysize>512</keysize>
+		<keylabel>carrot2</keylabel>
+		<keyalgorithm>DSA</keyalgorithm>
+		<keyaccesstype>NeverExtractable</keyaccesstype>
+		<keyaccesstype>Sensitive</keyaccesstype>
+		<keyaccesstype>AlwaysSensitive</keyaccesstype>
+		<keyaccesstype>Local</keyaccesstype>
+	</actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<!-- That's it, clean up! -->
+
+<action>
+	<actionname>1.13.X NOT A TEST Delete everything 
+                    ** Test access modifiers Sensitive, AlwaysSensitive, Extractable and NeverExtractable **</actionname>
+	<actiontype>deletekeys</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+ 
+<!-- The end -->
+
+<action>
+	<actionname>1.14.1 Closing key store</actionname>
+	<actiontype>delete</actiontype>
+	<actionbody></actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.14.2 Sleep 5 seconds</actionname>
+	<actiontype>sleep</actiontype>
+	<actionbody>
+          <seconds>5</seconds>
+        </actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>
+
+<action>
+	<actionname>1.14.3 Check for server heap error</actionname>
+	<actiontype>checkserverheaperror</actiontype>
+	<actionbody>
+    </actionbody>
+	<actionresult>
+		<return>KErrNone</return>
+	</actionresult>
+</action>

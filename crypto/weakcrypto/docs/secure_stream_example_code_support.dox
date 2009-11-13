@@ -1,0 +1,83 @@
+/**
+	@page secure_stream_example_code_support Secure stream example code support
+	
+	Below is the supporting code for the @ref secure_stream_example_code .
+	
+<hr>
+
+@code
+#include "e32std.h"
+#include "f32file.h"
+#include "s32file.h"
+#include "pbe.h"
+#include "pbedata.h"
+#include "s32crypt.h"
+
+/*
+ * Class to demonstrate the use of secure stream encryption APIs.
+ */
+class CSecureStreamExample : public CBase
+		 {
+public:
+		 static CSecureStreamExample* NewLC();
+		 virtual ~CSecureStreamExample();
+		 
+		 void WriteEncryptedDataL(const TDesC8& aInput, const TDesC& aFilename, const TDesC& aPassword);
+		 HBufC8* ReadEncryptedDataLC(const TDesC& aFilename, const TDesC& aPassword);
+private:
+		 CSecureStreamExample();
+		 void ConstructL();
+private:
+		 RFs iFs;
+		 };
+
+CSecureStreamExample* CSecureStreamExample::NewLC()
+		 {
+		 CSecureStreamExample* self = new (ELeave) CSecureStreamExample();
+		 CleanupStack::PushL(self);
+		 self->ConstructL();
+		 return self;
+		 }
+
+CSecureStreamExample::CSecureStreamExample()
+		 {
+		 }
+
+void CSecureStreamExample::ConstructL()
+		 {
+		 User::LeaveIfError(iFs.Connect());
+		 }
+
+CSecureStreamExample::~CSecureStreamExample()
+		 {
+		 iFs.Close();
+		 }
+
+
+LOCAL_D void RunPBEExampleL()
+		 {
+		 _LIT(KFilename, "c:\\pbe_example_data.dat");
+		 _LIT8(KInputData, "This is the data to be encrypted.");
+		 _LIT(KPassword, "pa55w0rd");
+
+		 CSecureStreamExample* main = CSecureStreamExample::NewLC();
+		 main->WriteEncryptedDataL(KInputData, KFilename, KPassword);
+		 HBufC8* outputData = main->ReadEncryptedDataLC(KFilename, KPassword);
+		 ASSERT(*outputData == KInputData);
+		 CleanupStack::PopAndDestroy(2, main);
+		 }
+
+GLDEF_C TInt E32Main() // main function called by E32
+    {
+		 __UHEAP_MARK;
+		 CTrapCleanup* cleanup = CTrapCleanup::New(); // get clean-up stack
+		 TRAPD(error, RunPBEExampleL());
+		 __ASSERT_ALWAYS(!error,User::Panic(_L("pbe_example_code"),error));
+		 delete cleanup; // destroy clean-up stack
+		 __UHEAP_MARKEND;
+		 return 0;
+    }
+
+@endcode
+
+*/

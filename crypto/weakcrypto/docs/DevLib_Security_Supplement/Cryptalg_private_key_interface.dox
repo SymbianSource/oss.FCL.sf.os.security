@@ -1,0 +1,82 @@
+/**
+
+@page SS_Cryptalg_private_key_interface Private key interface
+\n
+
+<b>Pre-v.8.0</b>
+
+The private key interface enables a Symbian OS device to participate in protocols which require it to authenticate itself 
+or the user (client authentication).
+
+It acts as an extension to the \c cryptalg library and is used in asymmetric operations:
+
+@li \c cryptalg is used to handle the public key side,
+
+@li while the private key extension is used to handle the private key side.
+
+The private key classes are all defined in \c privkey.h and implemented in \c privkey.dll.
+
+The diagram below shows the object hierarchy including @ref RSA and @ref DSA private key objects and a possible extension 
+to the API to include stored key objects.
+
+@image html privkey.gif
+
+Note that the private key library does not provide secure storage of asymmetric key pairs.
+
+
+<hr>
+
+@section rsa_private_keys RSA Private Keys
+
+@subsection private_key_encryption_and_decryption Private Key Encryption and Decryption
+
+@ref RSA private keys provide functionality for encrypting and decrypting data with the private key. Encrypting with the 
+private key is typically used in signature generation while decrypting would be used for key exchange or confidentiality 
+of other small amounts of data.
+
+The basic mathematics involved in the encryption and decryption is identical, the differences lay with the handling of 
+padding; encryption adds padding while decryption removes and checks it.
+
+@subsection rsa_padding Padding
+
+For padding, the existing @ref PKCS 1 padding mechanism is used. However, this interface allows the use of any defined 
+padding mechanism.
+
+@subsection rsa_key_generation Key Generation
+
+Before any private keys can be used they need to be generated. They can be generated on the device or generated elsewhere.
+
+An RSA modulus takes the form of the product of a pair of large prime numbers, which will be generated randomly and 
+considered prime if they pass a probabilistic primality test (where the chance of claiming a nonprime is prime is less 
+than 1 in 2<sup>30</sup>). This generation process can be rather long-winded, even for relatively small keys.
+
+While there is no actually limit on RSA modulus sizes, for most applications they range from 512 bits to 4096 bits.
+
+
+ 
+
+<hr>
+
+@section dsa_private_keys DSA Private Keys
+
+@subsection signing Signing
+
+@ref DSA private keys are used only for signing data.
+
+Signature generation is implemented as specified in FIPS-186.
+
+@subsection dsa_key_generation Key Generation
+
+DSA keys have an associated set of parameters, these parameters are generally public and used across a community of users. 
+If some parameters are supplied the key generation will use those parameters or it will generate a set if there are none 
+supplied.
+
+@subsection dsa_parameter_generation Parameter Generation
+
+Parameter generation for DSA keys is implemented as specified in 
+<A HREF="http://www.itl.nist.gov/fipspubs/fip186.htm">FIPS-186</A>.
+
+
+
+
+*/

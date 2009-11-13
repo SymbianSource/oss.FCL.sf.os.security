@@ -1,0 +1,1104 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+// tinteg_cms.script
+// Integration tests for CMS (Cryptographic message sintax)
+
+LOAD_SUITE tpkcs7server
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-DETACHED-SINGLESTEP-0001
+//! @SYMTestCaseDesc Test CMS Signed Data creation in single step with detached data,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures:1
+//!		The signing key: RSA key
+//!             Digest Algorithm: SHA1
+//!		Signer identifier: issuer and serial number 
+//!		Signed data content: Dettached
+//!		Hash available: yes
+//!		Certificates provided by User: Yes
+//!		Certificates attached: Yes
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-DETACHED-SINGLESTEP-0001
+
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-DETACHED-SINGLESTEP-0002
+//! @SYMTestCaseDesc Test CMS Signed Data creation in single step with detached data,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures:1
+//!		The signing key: RSA key
+//!             Digest Algorithm: MD2
+//!		Signer identifier: suject Key ID extension 
+//!		Signed data content: Dettached
+//!		Hash available: yes
+//!		Certificates provided by User: Yes
+//!		Certificates attached: Not
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-DETACHED-SINGLESTEP-0002
+
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-DETACHED-SINGLESTEP-0003
+//! @SYMTestCaseDesc Test CMS Signed Data creation in single step with detached data,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures:1
+//!		The signing key: RSA key
+//!             Digest Algorithm: MD5
+//!		Signer identifier: issuer and serial number 
+//!		Signed data content: Dettached
+//!		Hash available: yes
+//!		Certificates provided by User: Yes
+//!		Certificates attached: Yes
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-DETACHED-SINGLESTEP-0003
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-DETACHED-SINGLESTEP-0004
+//! @SYMTestCaseDesc Test CMS Signed Data creation in single step with detached data,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures:1
+//!		The signing key: DSA key
+//!             Digest Algorithm: SHA1
+//!		Signer identifier: issuer and serial number 
+//!		Signed data content: Dettached
+//!		Hash available: yes
+//!		Certificates provided by User: Yes
+//!		Certificates attached: Yes
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-DETACHED-SINGLESTEP-0004
+
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-DETACHED-SINGLESTEP-0005
+//! @SYMTestCaseDesc Test CMS Signed Data creation in single step with detached data,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures:1
+//!		The signing key: DSA key
+//!             Digest Algorithm: SHA1
+//!		Signer identifier: suject Key ID extension 
+//!		Signed data content: Dettached
+//!		Hash available: yes
+//!		Certificates provided by User: Yes
+//!		Certificates attached: Not
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-DETACHED-SINGLESTEP-0005
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-DETACHED-SINGLESTEP-0006
+//! @SYMTestCaseDesc Test CMS Signed Data creation in single step with detached data,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures:1 (attribute certificate)
+//!		The signing key: DSA key
+//!             Digest Algorithm: SHA1
+//!		Signer identifier: issuer and serial number 
+//!		Signed data content: Dettached
+//!		Hash available: yes
+//!		Certificates provided by User: Yes
+//!		Certificates attached: yet
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-DETACHED-SINGLESTEP-0006
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-DETACHED-SINGLESTEP-0006
+//! @SYMTestCaseDesc Test CMS Signed Data creation in single step with detached data,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures:1 (attribute certificate)
+//!		The signing key: DSA key
+//!             Digest Algorithm: SHA1
+//!		Signer identifier: issuer and serial number 
+//!		Signed data content: Dettached
+//!		Hash available: yes
+//!		Certificates provided by User: Yes
+//!		Certificates attached: yet
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-DETACHED-SINGLESTEP-0006
+
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-DETACHED-SINGLESTEP-0007
+//! @SYMTestCaseDesc Test CMS Signed Data creation in single step with detached data,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures:1 (attribute certificate)
+//!		The signing key: RSA key
+//!             Digest Algorithm: SHA1
+//!		Signer identifier: issuer and serial number 
+//!		Signed data content: Dettached
+//!		Hash available: yes
+//!		Certificates provided by User: Yes
+//!		Certificates attached: not
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-DETACHED-SINGLESTEP-0007
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-DETACHED-SINGLESTEP-0008
+//! @SYMTestCaseDesc Test CMS Signed Data creation in single step with detached data,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures:3 
+//!		The signing key: All 3; DSA key
+//!             Digest Algorithm: SHA1
+//!		Signer identifier: suject Key ID extension
+//!		Signed data content: Dettached
+//!		Hash available: yes
+//!		Certificates provided by User: Yes
+//!		Certificates attached: yes
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-DETACHED-SINGLESTEP-0008
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-DETACHED-SINGLESTEP-0009
+//! @SYMTestCaseDesc Test CMS Signed Data creation in single step with detached data,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures:3 
+//!		The signing key: All 3; RSA key
+//!             Digest Algorithm: MD2
+//!		Signer identifier: n1,n2 suject Key ID extension, n3 issuer and serial number 
+//!		Signed data content: Dettached
+//!		Hash available: yes
+//!		Certificates provided by User: Yes
+//!		Certificates attached: yes
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-DETACHED-SINGLESTEP-0009
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-DETACHED-SINGLESTEP-0010
+//! @SYMTestCaseDesc Test CMS Signed Data creation in single step with detached data,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures:3 
+//!		The signing key: n1 RSA, n2, n3 DSA
+//!             Digest Algorithm: n1,n2 RSA, n3 MD5
+//!		Signer identifier: n1 suject Key ID extension, n2,n3 issuer and serial number 
+//!		Signed data content: Dettached
+//!		Hash available: yes
+//!		Certificates provided by User: Yes
+//!		Certificates attached: yes
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-DETACHED-SINGLESTEP-0010
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-DETACHED-SINGLESTEP-0011
+//! @SYMTestCaseDesc Test CMS Signed Data creation in single step with detached data,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures:3 
+//!		The signing key: n1 RSA, n2, n3 DSA
+//!             Digest Algorithm: n1,n2 RSA, n3 MD5
+//!		Signer identifier: n1 suject Key ID extension, n2,n3 issuer and serial number 
+//!		Signed data content: Dettached
+//!		Hash available: yes
+//!		Certificates provided by User: Yes
+//!		Certificates attached: not
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-DETACHED-SINGLESTEP-0011
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-DETACHED-SINGLESTEP-0012
+//! @SYMTestCaseDesc Test CMS Signed Data creation in single step with detached data,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures:3 
+//!		The signing key: n1,n2 RSA, n3 DSA
+//!             Digest Algorithm: All SHA1
+//!		Signer identifier: All suject Key ID extension
+//!		Signed data content: Dettached
+//!		Hash available: yes
+//!		Certificates provided by User: Yes
+//!		Certificates attached: not
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-DETACHED-SINGLESTEP-0012
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-DETACHED-SINGLESTEP-0013
+//! @SYMTestCaseDesc Test CMS Signed Data creation in single step with detached data,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures:3 
+//!		The signing key: all RSA
+//!             Digest Algorithm: All SHA1
+//!		Signer identifier: All issuer and serial number
+//!		Signed data content: Dettached
+//!		Hash available: yes
+//!		Certificates provided by User: Yes
+//!		Certificates attached: yes
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-DETACHED-SINGLESTEP-0013
+
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-DETACHED-SINGLESTEP-0014
+//! @SYMTestCaseDesc Test CMS Signed Data creation in single step with detached data,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures:3 (+1 attribute certificate)
+//!		The signing key: all DSA
+//!             Digest Algorithm: All SHA1
+//!		Signer identifier: All issuer and serial number
+//!		Signed data content: Dettached
+//!		Hash available: yes
+//!		Certificates provided by User: Yes
+//!		Certificates attached: yes
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-DETACHED-SINGLESTEP-0014
+
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-DETACHED-TWOSTEP-0001
+//! @SYMTestCaseDesc Test CMS Signed Data creation in two step with detached data,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures:1
+//!		The signing key: RSA key
+//!             Digest Algorithm: SHA1
+//!		Signer identifier: issuer and serial number 
+//!		Signed data content: Dettached
+//!		Hash available: yes
+//!		Certificates provided by User: Yes
+//!		Certificates attached: yes
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-DETACHED-TWOSTEP-0001
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-DETACHED-TWOSTEP-0002
+//! @SYMTestCaseDesc Test CMS Signed Data creation in two step with detached data,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures:1
+//!		The signing key: RSA key
+//!             Digest Algorithm: MD2
+//!		Signer identifier: suject Key ID extension
+//!		Signed data content: Dettached
+//!		Hash available: yes
+//!		Certificates provided by User: Yes
+//!		Certificates attached: not
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-DETACHED-TWOSTEP-0002
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-DETACHED-TWOSTEP-0003
+//! @SYMTestCaseDesc Test CMS Signed Data creation in two step with detached data,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures:1
+//!		The signing key: RSA key
+//!             Digest Algorithm: MD5
+//!		Signer identifier: issuer and serial number 
+//!		Signed data content: Dettached
+//!		Hash available: yes
+//!		Certificates provided by User: Yes
+//!		Certificates attached: yes
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-DETACHED-TWOSTEP-0003
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-DETACHED-TWOSTEP-0004
+//! @SYMTestCaseDesc Test CMS Signed Data creation in two step with detached data,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures:1
+//!		The signing key: DSA key
+//!             Digest Algorithm: SHA1
+//!		Signer identifier: issuer and serial number 
+//!		Signed data content: Dettached
+//!		Hash available: yes
+//!		Certificates provided by User: Yes
+//!		Certificates attached: yes
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-DETACHED-TWOSTEP-0004
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-DETACHED-TWOSTEP-0005
+//! @SYMTestCaseDesc Test CMS Signed Data creation in two step with detached data,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures:1
+//!		The signing key: DSA key
+//!             Digest Algorithm: SHA1
+//!		Signer identifier: suject Key ID extension
+//!		Signed data content: Dettached
+//!		Hash available: yes
+//!		Certificates provided by User: Yes
+//!		Certificates attached: not
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-DETACHED-TWOSTEP-0005
+
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-DETACHED-TWOSTEP-0006
+//! @SYMTestCaseDesc Test CMS Signed Data creation in two step with detached data,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures:1 (+ 1 signature attribute)
+//!		The signing key: DSA key
+//!             Digest Algorithm: SHA1
+//!		Signer identifier: issuer and serial number 
+//!		Signed data content: Dettached
+//!		Hash available: yes
+//!		Certificates provided by User: Yes
+//!		Certificates attached: not
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-DETACHED-TWOSTEP-0006
+
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-DETACHED-TWOSTEP-0007
+//! @SYMTestCaseDesc Test CMS Signed Data creation in two step with detached data,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures: 3
+//!		The signing key: ALL RSA key
+//!             Digest Algorithm: All SHA1
+//!		Signer identifier: issuer and serial number 
+//!		Signed data content: Dettached
+//!		Hash available: yes
+//!		Certificates provided by User: Yes
+//!		Certificates attached: not
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-DETACHED-TWOSTEP-0007
+
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-DETACHED-TWOSTEP-0008
+//! @SYMTestCaseDesc Test CMS Signed Data creation in two step with detached data,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures: 3
+//!		The signing key: All RSA
+//!             Digest Algorithm: n1 & n2 SHA1, n3 MD5
+//!		Signer identifier: n1 suject Key ID extension, n2 & n3 issuer and serial number
+//!		Signed data content: Dettached
+//!		Hash available: yes
+//!		Certificates provided by User: Yes
+//!		Certificates attached: yes
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-DETACHED-TWOSTEP-0008
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-DETACHED-TWOSTEP-0009
+//! @SYMTestCaseDesc Test CMS Signed Data creation in two step with detached data,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures: 3
+//!		The signing key: n1 RSA, n2 & n3 DSA
+//!             Digest Algorithm: All SHA1
+//!		Signer identifier: n1 issuer and serial number, n2 & n3 suject Key ID extension
+//!		Signed data content: Dettached
+//!		Hash available: yes
+//!		Certificates provided by User: Yes
+//!		Certificates attached: yes
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-DETACHED-TWOSTEP-0009
+
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-DETACHED-TWOSTEP-0010
+//! @SYMTestCaseDesc Test CMS Signed Data creation in two step with detached data,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures: 3
+//!		The signing key: 3 DSA (+1 Attribute certificate)
+//!             Digest Algorithm: All SHA1
+//!		Signer identifier: All issuer and serial number
+//!		Signed data content: Dettached
+//!		Hash available: yes
+//!		Certificates provided by User: Yes
+//!		Certificates attached: not
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-DETACHED-TWOSTEP-0010
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-DETACHED-TWOSTEP-NH-0001
+//! @SYMTestCaseDesc Test CMS Signed Data creation in two step with detached data without providing hash,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures:1
+//!		The signing key: RSA key
+//!             Digest Algorithm: SHA1
+//!		Signer identifier: issuer and serial number 
+//!		Signed data content: Dettached
+//!		Hash available: not
+//!		Certificates provided by User: Yes
+//!		Certificates attached: Yes
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-DETACHED-TWOSTEP-NH-0001
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-DETACHED-TWOSTEP-NH-0002
+//! @SYMTestCaseDesc Test CMS Signed Data creation in two step with detached data without providing hash,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures:1
+//!		The signing key: DSA key
+//!             Digest Algorithm: SHA1
+//!		Signer identifier: issuer and serial number 
+//!		Signed data content: Dettached
+//!		Hash available: not
+//!		Certificates provided by User: Yes
+//!		Certificates attached: Yes
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-DETACHED-TWOSTEP-NH-0002
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-DETACHED-TWOSTEP-NH-0003
+//! @SYMTestCaseDesc Test CMS Signed Data creation in two step with detached data without providing hash,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures:1 (+1 attribute certificate)
+//!		The signing key: DSA key
+//!             Digest Algorithm: sha1
+//!		Signer identifier: suject Key ID extension 
+//!		Signed data content: Dettached
+//!		Hash available: not
+//!		Certificates provided by User: Yes
+//!		Certificates attached: not
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-DETACHED-TWOSTEP-NH-0003
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-DETACHED-TWOSTEP-NH-0004
+//! @SYMTestCaseDesc Test CMS Signed Data creation in two step with detached data without providing hash,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures:3
+//!		The signing key: All RSA 
+//!             Digest Algorithm: All MD5
+//!		Signer identifier: n1 & n3 suject Key ID extension, n2 issuer and serial number 
+//!		Signed data content: Dettached
+//!		Hash available: not
+//!		Certificates provided by User: Yes
+//!		Certificates attached: yes
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-DETACHED-TWOSTEP-NH-0004
+
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-DETACHED-TWOSTEP-NH-0005
+//! @SYMTestCaseDesc Test CMS Signed Data creation in two step with detached data without providing hash,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures:3
+//!		The signing key: n1 & n2 RSA, n3 DSA 
+//!             Digest Algorithm: n1 MD2, n2 MD5, n3 SHA1
+//!		Signer identifier: n1 suject Key ID extension, n2 & n3 issuer and serial number 
+//!		Signed data content: Dettached
+//!		Hash available: not
+//!		Certificates provided by User: Yes
+//!		Certificates attached: not
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-DETACHED-TWOSTEP-NH-0005
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-DETACHED-TWOSTEP-NH-0006
+//! @SYMTestCaseDesc Test CMS Signed Data creation in two step with detached data without providing hash,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures:3 (+ 1 attribute certificate)
+//!		The signing key: all DSA 
+//!             Digest Algorithm: All SHA1
+//!		Signer identifier: All issuer and serial number 
+//!		Signed data content: Dettached
+//!		Hash available: not
+//!		Certificates provided by User: Yes
+//!		Certificates attached: yes
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-DETACHED-TWOSTEP-NH-0006
+
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-DETACHED-TWOSTEP-NH-0006
+//! @SYMTestCaseDesc Test CMS Signed Data creation in two step with detached data without providing hash,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures:3 (+ 1 attribute certificate)
+//!		The signing key: all DSA 
+//!             Digest Algorithm: All SHA1
+//!		Signer identifier: All issuer and serial number 
+//!		Signed data content: Dettached
+//!		Hash available: not
+//!		Certificates provided by User: Yes
+//!		Certificates attached: yes
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-DETACHED-TWOSTEP-NH-0006
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-ATTACHED-TWOSTEP-NH-0001
+//! @SYMTestCaseDesc Test CMS Test CMS Signed Data creation in two step with attached data without providing hash,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures: 1
+//!		The signing key: RSA 
+//!             Digest Algorithm: SHA1
+//!		Signer identifier: issuer and serial number 
+//!		Signed data content: Attached
+//!		Hash available: not
+//!		Certificates provided by User: Yes
+//!		Certificates attached: yes
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-ATTACHED-TWOSTEP-NH-0001
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-ATTACHED-TWOSTEP-NH-0002
+//! @SYMTestCaseDesc Test CMS Test CMS Signed Data creation in two step with attached data without providing hash,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures: 1
+//!		The signing key: RSA 
+//!             Digest Algorithm: MD2
+//!		Signer identifier: suject Key ID extension
+//!		Signed data content: Attached
+//!		Hash available: not
+//!		Certificates provided by User: Yes
+//!		Certificates attached: not
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-ATTACHED-TWOSTEP-NH-0002
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-ATTACHED-TWOSTEP-NH-0003
+//! @SYMTestCaseDesc Test CMS Test CMS Signed Data creation in two step with attached data without providing hash,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures: 1
+//!		The signing key: RSA 
+//!             Digest Algorithm: MD5
+//!		Signer identifier: issuer and serial number 
+//!		Signed data content: Attached
+//!		Hash available: not
+//!		Certificates provided by User: Yes
+//!		Certificates attached: yes
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-ATTACHED-TWOSTEP-NH-0003
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-ATTACHED-TWOSTEP-NH-0004
+//! @SYMTestCaseDesc Test CMS Test CMS Signed Data creation in two step with attached data without providing hash,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures: 1
+//!		The signing key: DSA 
+//!             Digest Algorithm: SHA1
+//!		Signer identifier: issuer and serial number 
+//!		Signed data content: Attached
+//!		Hash available: not
+//!		Certificates provided by User: Yes
+//!		Certificates attached: not
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-ATTACHED-TWOSTEP-NH-0004
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-ATTACHED-TWOSTEP-NH-0005
+//! @SYMTestCaseDesc Test CMS Test CMS Signed Data creation in two step with attached data without providing hash,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures: 1 (+a attribute certificate)
+//!		The signing key: DSA 
+//!             Digest Algorithm: SHA1
+//!		Signer identifier: issuer and serial number 
+//!		Signed data content: Attached
+//!		Hash available: not
+//!		Certificates provided by User: Yes
+//!		Certificates attached: not
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-ATTACHED-TWOSTEP-NH-0005
+
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-ATTACHED-TWOSTEP-NH-0006
+//! @SYMTestCaseDesc Test CMS Test CMS Signed Data creation in two step with attached data without providing hash,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures: 3
+//!		The signing key: RSA 
+//!             Digest Algorithm: All MD2
+//!		Signer identifier: All suject Key ID extension.
+//!		Signed data content: Attached
+//!		Hash available: not
+//!		Certificates provided by User: Yes
+//!		Certificates attached: yes
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-ATTACHED-TWOSTEP-NH-0006
+
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-ATTACHED-TWOSTEP-NH-0007
+//! @SYMTestCaseDesc Test CMS Test CMS Signed Data creation in two step with attached data without providing hash,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures: 3
+//!		The signing key: RSA 
+//!             Digest Algorithm: All MD5
+//!		Signer identifier: n1 & n3 suject Key ID extension, n2 issuer and serial number 
+//!		Signed data content: Attached
+//!		Hash available: not
+//!		Certificates provided by User: Yes
+//!		Certificates attached: yes
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-ATTACHED-TWOSTEP-NH-0007
+
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-ATTACHED-TWOSTEP-NH-0008
+//! @SYMTestCaseDesc Test CMS Test CMS Signed Data creation in two step with attached data without providing hash,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures: 3
+//!		The signing key: n1 RSA, n2 & n3 DSA 
+//!             Digest Algorithm: n1 MD2, n2 MD5, n3 SHA1
+//!		Signer identifier: n1 suject Key ID extension, n2 & n3 issuer and serial number 
+//!		Signed data content: Attached
+//!		Hash available: not
+//!		Certificates provided by User: Yes
+//!		Certificates attached: not
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-ATTACHED-TWOSTEP-NH-0008
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-ATTACHED-TWOSTEP-NH-0009
+//! @SYMTestCaseDesc Test CMS Test CMS Signed Data creation in two step with attached data without providing hash,
+//!                  encoding, decoding and validation. 
+//!             Number of signatures: 3 (+1 X509 certificate)
+//!		The signing key: All DSA 
+//!             Digest Algorithm: All SHA1
+//!		Signer identifier: All issuer and serial number 
+//!		Signed data content: Attached
+//!		Hash available: not
+//!		Certificates provided by User: Yes
+//!		Certificates attached: not
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-ATTACHED-TWOSTEP-NH-0009
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-ATTACHED-TWOSTEP-0001
+//! @SYMTestCaseDesc Test CMS Test CMS Signed Data creation in two step with attached data (providing hash),
+//!                  encoding, decoding and validation. 
+//!             Number of signatures: 1
+//!		The signing key: RSA 
+//!             Digest Algorithm: SHA1
+//!		Signer identifier: issuer and serial number 
+//!		Signed data content: Attached
+//!		Hash available: yes
+//!		Certificates provided by User: Yes
+//!		Certificates attached: yes
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-ATTACHED-TWOSTEP-0001
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-ATTACHED-TWOSTEP-0002
+//! @SYMTestCaseDesc Test CMS Test CMS Signed Data creation in two step with attached data (providing hash),
+//!                  encoding, decoding and validation. 
+//!             Number of signatures: 1
+//!		The signing key: RSA 
+//!             Digest Algorithm: MD5
+//!		Signer identifier: issuer and serial number 
+//!		Signed data content: Attached
+//!		Hash available: yes
+//!		Certificates provided by User: Yes
+//!		Certificates attached: yes
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-ATTACHED-TWOSTEP-0002
+
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-ATTACHED-TWOSTEP-0003
+//! @SYMTestCaseDesc Test CMS Test CMS Signed Data creation in two step with attached data (providing hash),
+//!                  encoding, decoding and validation. 
+//!             Number of signatures: 1
+//!		The signing key: DSA 
+//!             Digest Algorithm: SHA1
+//!		Signer identifier: suject Key ID extension
+//!		Signed data content: Attached
+//!		Hash available: yes
+//!		Certificates provided by User: not
+//!		Certificates attached: not
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-ATTACHED-TWOSTEP-0003
+
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-ATTACHED-TWOSTEP-0004
+//! @SYMTestCaseDesc Test CMS Test CMS Signed Data creation in two step with attached data (providing hash),
+//!                  encoding, decoding and validation. 
+//!             Number of signatures: 3
+//!		The signing key: All 3 RSA 
+//!             Digest Algorithm: All 3 SHA1
+//!		Signer identifier: All issuer and serial number 
+//!		Signed data content: Attached
+//!		Hash available: yes
+//!		Certificates provided by User: not
+//!		Certificates attached: not
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-ATTACHED-TWOSTEP-0004
+
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-ATTACHED-TWOSTEP-0005
+//! @SYMTestCaseDesc Test CMS Test CMS Signed Data creation in two step with attached data (providing hash),
+//!                  encoding, decoding and validation. 
+//!             Number of signatures: 3 (+1 attribute certificate)
+//!		The signing key: All 3 RSA 
+//!             Digest Algorithm: n1 SHA1, n2 MD2, n3 MD5
+//!		Signer identifier: All issuer and serial number 
+//!		Signed data content: Attached
+//!		Hash available: yes
+//!		Certificates provided by User: not
+//!		Certificates attached: not
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-ATTACHED-TWOSTEP-0005
+
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-ATTACHED-TWOSTEP-0006
+//! @SYMTestCaseDesc Test CMS Test CMS Signed Data creation in two step with attached data (providing hash),
+//!                  encoding, decoding and validation. 
+//!             Number of signatures: 3 
+//!		The signing key: All 3 RSA 
+//!             Digest Algorithm: n1 MD2, n2 MD5, n3 SHA1
+//!		Signer identifier: All issuer and serial number 
+//!		Signed data content: Attached
+//!		Hash available: yes
+//!		Certificates provided by User: yes
+//!		Certificates attached: yes
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation. 
+//! @SYMTestExpectedResults successfully validated
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SIGNED-ATTACHED-TWOSTEP-0006
+
+
+
+//! @SYMTestCaseID SEC-CMS-IT-UNSIGNED-0001
+//! @SYMTestCaseDesc Test to ensure that CCmsContentInfo can deal with small amount of unsigned data.
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Call CCmsContentInfo providing only 4 bytes of data for the aContentData content value.
+//! @SYMTestExpectedResults Object is constructed without error, and is equal to expected result 
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSData C:\tpkcs7\tinteg_cms.ini SEC-CMS-IT-UNSIGNED-0001
+
+
+
+//! @SYMTestCaseID SEC-CMS-IT-UNSIGNED-0002
+//! @SYMTestCaseDesc Test to ensure that CCmsContentInfo can deal with small amount of unsigned data.
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Call CCmsContentInfo providing only 500 Kbytes of data for the aContentData content value.
+//! @SYMTestExpectedResults Object is constructed without error, and is equal to expected result 
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSData C:\tpkcs7\tinteg_cms.ini SEC-CMS-IT-UNSIGNED-0002
+
+
+
+//! @SYMTestCaseID SEC-CMS-IT-OOM-0001
+//! @SYMTestCaseDesc Test to To ensure that Symbian a CCmsSignedObject can handle out of memory 
+//!                   conditions gracefully
+//!             Number of signatures: 1 
+//!		The signing key:  RSA 
+//!             Digest Algorithm: MD2
+//!		Signer identifier: suject Key ID extension
+//!		Signed data content: Detached
+//!		Certificates provided by User: not
+//!		Certificates attached: not
+//!             Construction method: Single Step
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation in OOM conditions. 
+//! @SYMTestExpectedResults Constructor Should return KErrNoMemory, No memory leak is created
+//! @SYMTestType CIT
+RUN_TEST_STEP 800 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SEC-CMS-IT-OOM-0001
+
+
+//! @SYMTestCaseID SEC-CMS-IT-OOM-0002
+//! @SYMTestCaseDesc Test to To ensure that Symbian a CCmsSignedObject can handle out of memory 
+//!                   conditions gracefully
+//!             Number of signatures: 3 
+//!		The signing key:  RSA 
+//!             Digest Algorithm: n1 & n2 SHA1, n3 MD5
+//!		Signer identifier: n1 suject Key ID extension, n2 & n3 issuer and serial number 
+//!		Signed data content: Detached
+//!		Certificates provided by User: not
+//!		Certificates attached: not
+//!             Construction method: two Steps
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation in OOM conditions. 
+//! @SYMTestExpectedResults Constructor Should return KErrNoMemory, No memory leak is created
+//! @SYMTestType CIT
+RUN_TEST_STEP 800 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SEC-CMS-IT-OOM-0002
+
+
+//! @SYMTestCaseID SEC-CMS-IT-OOM-0003
+//! @SYMTestCaseDesc Test to To ensure that Symbian a CCmsSignedObject can handle out of memory 
+//!                   conditions gracefully
+//!             Number of signatures: 3 
+//!		The signing key:  n1 & n2 RSA, n3 DSA 
+//!             Digest Algorithm: n1 MD2, n2 MD5, n3 SHA1
+//!		Signer identifier: n1 suject Key ID extension, n2 & n3 issuer and serial number 
+//!		Signed data content: Detached
+//!		Certificates provided by User: not
+//!		Certificates attached: not
+//!             Construction method: two Steps & no hash provided
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation in OOM conditions. 
+//! @SYMTestExpectedResults Constructor Should return KErrNoMemory, No memory leak is created
+//! @SYMTestType CIT
+RUN_TEST_STEP 800 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SEC-CMS-IT-OOM-0003
+
+//! @SYMTestCaseID SEC-CMS-IT-OOM-0004
+//! @SYMTestCaseDesc Test to To ensure that Symbian a CCmsSignedObject can handle out of memory 
+//!                   conditions gracefully
+//!             Number of signatures: 3 
+//!		The signing key:  All RSA
+//!             Digest Algorithm: All MD2
+//!		Signer identifier: All suject Key ID extension 
+//!		Signed data content: Attached
+//!		Certificates provided by User: yes
+//!		Certificates attached: yes
+//!             Construction method: two Steps & no hash provided
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation in OOM conditions. 
+//! @SYMTestExpectedResults Constructor Should return KErrNoMemory, No memory leak is created
+//! @SYMTestType CIT
+RUN_TEST_STEP 800 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SEC-CMS-IT-OOM-0004
+
+//! @SYMTestCaseID SEC-CMS-IT-OOM-0005
+//! @SYMTestCaseDesc Test to To ensure that Symbian a CCmsSignedObject can handle out of memory 
+//!                   conditions gracefully
+//!             Number of signatures: 3 
+//!		The signing key:  All RSA
+//!             Digest Algorithm: n1 MD2, n2 MD5, n3 SHA1
+//!		Signer identifier: All issuer and serial number 
+//!		Signed data content: Attached
+//!		Certificates provided by User: yes
+//!		Certificates attached: yes
+//!             Construction method: two Steps 
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions Test CMS signed data construction, encoding, decoding and validation in OOM conditions. 
+//! @SYMTestExpectedResults Constructor Should return KErrNoMemory, No memory leak is created
+//! @SYMTestType CIT
+RUN_TEST_STEP 800 tpkcs7server CMSSignedData C:\tpkcs7\tinteg_cms.ini SEC-CMS-IT-OOM-0005
+
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-NEGATIVE-0001
+//! @SYMTestCaseDesc To ensure that CCmsSignedObject returns the appropriate leave error code when the 
+//!                            two stage constructor is used incorrectly; data and hash are null. 
+//!
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions      1. A.- Call the constructor:
+//!                     CCmsSignedObject* NewL(TCmsContentInfoType aType, TBool aIsDetached,
+//!                     const TDesC8&  aContentData)  providing a NULL for the aContentData value.
+//!                      2. Call SignL method with a NULL hash value.
+//!
+//! @SYMTestExpectedResults KErrArgument returned
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedDataDecoding C:\tpkcs7\tinteg_cms.ini SIGNED-NEGATIVE-0001
+
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-NEGATIVE-0002
+//! @SYMTestCaseDesc To ensure that CCmsSignedObject returns the appropriate leave error code when the 
+//!                  single stage constructor for detached data is used incorrectly; hash is null. . 
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions CCmsSignedObject* NewLC(TCmsContentInfoType aType, const TDesC8& aHashValue, 
+//!                 TAlgorithmId aDigestAlgorithm, const CRSAPrivateKey& aKey, const CX509Certificate& 
+//!                 aCert, TBool aAddCertificate) providing a NULL for the aHashValue value.
+//! @SYMTestExpectedResults KErrArgument returned
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedDataDecoding C:\tpkcs7\tinteg_cms.ini SIGNED-NEGATIVE-0002
+
+
+//! @SYMTestCaseID SEC-CMS-IT-SIGNED-NEGATIVE-0003
+//! @SYMTestCaseDesc To ensure that CCmsSignedObject will reject any raw non supported content type with 
+//!                  the appropriate leave error, the type to test for this case 
+//!                  is unsupported attribute certificate tag value. 
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions TCall the constructor CCmsSignedObject(aContentInfo) where the attribute certificate 
+//!                 tag has a value of  2. No
+//! @SYMTestExpectedResults KErrArgument returned
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CMSSignedDataDecoding C:\tpkcs7\tinteg_cms.ini SIGNED-NEGATIVE-0003
+
+//! @SYMTestCaseID  SEC-CMS-IT-CONTENTINFO-0001
+//! @SYMTestCaseDesc To ensure that CCmsContentInfowill can recognise content of type: Data.
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions TCall the constructor CCmsSignedObject(aContentInfo) where the where the intput data 
+//!                 is raw is of type data (plain) 
+//!
+//!
+//! @SYMTestExpectedResults type data returned
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CmsContentInfoDecoding C:\tpkcs7\tinteg_cms.ini SEC-CMS-IT-CONTENTINFO-0001
+
+//! @SYMTestCaseID  SEC-CMS-IT-CONTENTINFO-0002
+//! @SYMTestCaseDesc To ensure that CCmsContentInfowill can recognise content of type:  Enveloped.
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions TCall the constructor CCmsSignedObject(aContentInfo) where the where the intput data 
+//!                 is raw is of type Enveloped data 
+//!
+//!
+//! @SYMTestExpectedResults type Enveloped data
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CmsContentInfoDecoding C:\tpkcs7\tinteg_cms.ini SEC-CMS-IT-CONTENTINFO-0002
+
+//! @SYMTestCaseID  SEC-CMS-IT-CONTENTINFO-0003
+//! @SYMTestCaseDesc To ensure that CCmsContentInfowill can recognise content of type:  digested.
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions TCall the constructor CCmsSignedObject(aContentInfo) where the where the intput data 
+//!                 is raw is of type digested data 
+//!
+//!
+//! @SYMTestExpectedResults digested data
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CmsContentInfoDecoding C:\tpkcs7\tinteg_cms.ini SEC-CMS-IT-CONTENTINFO-0003
+
+//! @SYMTestCaseID  SEC-CMS-IT-CONTENTINFO-0004
+//! @SYMTestCaseDesc To ensure that CCmsContentInfowill can recognise content of type: Encrypted.
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions TCall the constructor CCmsSignedObject(aContentInfo) where the where the intput data 
+//!                 is raw is of type encrypted 
+//!
+//!
+//! @SYMTestExpectedResults type encrypted  returned
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CmsContentInfoDecoding C:\tpkcs7\tinteg_cms.ini SEC-CMS-IT-CONTENTINFO-0004
+
+
+//! @SYMTestCaseID  SEC-CMS-IT-CONTENTINFO-0005
+//! @SYMTestCaseDesc To ensure that CCmsContentInfowill can recognise content of type: signed and enveloped.
+//! @SYMPREQ PREQ968
+//! @SYMTestPriority Critical
+//! @SYMTestActions TCall the constructor CCmsSignedObject(aContentInfo) where the where the intput data 
+//!                 is raw is of type signed and enveloped 
+//!
+//!
+//! @SYMTestExpectedResults type signed and enveloped  returned
+//! @SYMTestType CIT
+RUN_TEST_STEP 100 tpkcs7server CmsContentInfoDecoding C:\tpkcs7\tinteg_cms.ini SEC-CMS-IT-CONTENTINFO-0005
+

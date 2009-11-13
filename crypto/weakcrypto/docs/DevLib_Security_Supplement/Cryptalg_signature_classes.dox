@@ -1,0 +1,16 @@
+/**
+
+@page SS_Cryptalg_signature_classes Signature classes
+\n
+
+<b>Pre-v.8.0</b>
+
+These classes contain the structures of asymmetric algorithm signatures. Some asymmetric algorithms do not have the 
+capability to perform signing and therefore will not have associated signature classes.
+
+\c CAsymmetricSignature is the base class for signature objects, which are created and verified by asymmetric algorithms. 
+The diagram below shows this base class and its derived class.
+
+@image html asymmetric2.gif
+
+*/
