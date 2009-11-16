@@ -1,5 +1,5 @@
-component rootcerts
-source \sf\os\security\cryptoservices\rootcertificates
+component browserrootcertificates
+source \sf\os\security\cryptoservices\browserrootcertificates
 notes_source \component_defs\release.src 
 
 
