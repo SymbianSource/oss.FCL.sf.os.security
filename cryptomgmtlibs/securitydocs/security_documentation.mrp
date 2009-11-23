@@ -1,0 +1,9 @@
+component	security_documentation
+
+source	\sf\os\security\cryptomgmtlibs\securitydocs\
+
+notes_source	\component_defs\release.src
+
+
+ipr G 
+

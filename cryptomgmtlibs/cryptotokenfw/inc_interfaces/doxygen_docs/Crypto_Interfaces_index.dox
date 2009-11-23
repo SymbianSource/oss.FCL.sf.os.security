@@ -1,0 +1,11 @@
+/**
+@page page_cryptoInterfaces Cryptographic interfaces
+
+Welcome to Cryptographic Interfaces
+
+@li Authentication object management interface
+@li Certificate storage interface
+@li Key storage interface
+
+
+*/

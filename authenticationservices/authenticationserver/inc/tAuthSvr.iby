@@ -1,0 +1,76 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+#ifndef __TAUTHSVR_IBY__
+#define __TAUTHSVR_IBY__
+
+#include <testexecute.iby>
+#include "tpinplugin.iby"
+
+define ZDRIVE \epoc32\data\z
+file=ABI_DIR\BUILD_DIR\authtool.exe			sys\bin\authtool.exe
+file=ABI_DIR\BUILD_DIR\tauthkeys.exe		sys\bin\tauthkeys.exe
+file=ABI_DIR\BUILD_DIR\tauthdb.exe			sys\bin\tauthdb.exe
+file=ABI_DIR\BUILD_DIR\tauthcliserv.exe		sys\bin\tauthcliserv.exe
+file=ABI_DIR\BUILD_DIR\tauthplugins.exe		sys\bin\tauthplugins.exe
+data=ABI_DIR\BUILD_DIR\tAuthSvr.exe			sys\bin\tAuthSvr.exe
+file=ABI_DIR\BUILD_DIR\tauthsvrwdd.exe		sys\bin\tauthsvrwdd.exe
+file=ABI_DIR\BUILD_DIR\tauthsvrnc.exe		sys\bin\tauthsvrnc.exe
+REM security tests
+file=ABI_DIR\BUILD_DIR\authsecuritytests.dll	sys\bin\authsecuritytests.dll
+
+ECOM_PLUGIN(testplugins.dll, testplugins.rsc)
+ECOM_PLUGIN(tAuthPlugin.dll, tAuthPlugin.rsc)
+
+data = \epoc32\winscw\c\tauth\tAuthSvr\testdata\AuthSvrPolicy.ini				tauth\tAuthSvr\testdata\AuthSvrPolicy.ini	 attrib=W
+data = \epoc32\winscw\c\tauth\tAuthSvr\testdata\initialisation_Info.ini				tauth\tAuthSvr\testdata\initialisation_Info.ini	 attrib=W		  
+data = \epoc32\winscw\c\tauth\tAuthSvr\scripts\tAuthSvr2.script					tauth\tAuthSvr\scripts\tAuthSvr2.script				  
+data = \epoc32\winscw\c\tauth\tAuthSvr\scripts\tAuthSvr2.ini		                        tauth\tAuthSvr\scripts\tAuthSvr2.ini
+data = \epoc32\winscw\c\tauth\tAuthSvr\scripts\tAuthSvr2_unicode.ini				tauth\tAuthSvr\scripts\tAuthSvr2_unicode.ini
+data = \epoc32\winscw\c\tauth\tAuthSvr\testdata\Pin11113100Db.ini               		tauth\tAuthSvr\testdata\Pin11113100Db.ini        attrib=W
+data = \epoc32\winscw\c\tauth\tAuthSvr\testdata\Pin11113101Db.ini				tauth\tAuthSvr\testdata\Pin11113101Db.ini        attrib=W
+data = \epoc32\winscw\c\tauth\tAuthSvr\testdata\Pin11113102Db.ini				tauth\tAuthSvr\testdata\Pin11113102Db.ini        attrib=W
+data = \epoc32\winscw\c\tauth\tAuthSvr\testdata\Pin11113103Db.ini				tauth\tAuthSvr\testdata\Pin11113103Db.ini        attrib=W
+data = \epoc32\winscw\c\tauth\tAuthSvr\testdata\Pin11113104Db.ini				tauth\tAuthSvr\testdata\Pin11113104Db.ini        attrib=W
+data = \epoc32\winscw\c\tauth\tAuthSvr\testdata\Pin10234100Db.ini				tauth\tAuthSvr\testdata\Pin10234100Db.ini        attrib=W
+data = \epoc32\winscw\c\tauth\tauthcliserv\scripts\tauthcliserv.script		    tauth\tauthcliserv\scripts\tauthcliserv.script		  
+data = \epoc32\winscw\c\tauth\tauthplugins\scripts\tauthplugins.script		    tauth\tauthplugins\scripts\tauthplugins.script		  
+data = \epoc32\winscw\c\tauth\tauthdb\scripts\tauthdb.script				    tauth\tauthdb\scripts\tauthdb.script				  
+data = \epoc32\winscw\c\tauth\tauthexpr\scripts\tauthexpr.script			    tauth\tauthexpr\scripts\tauthexpr.script			  
+data = \epoc32\winscw\c\tauth\tauthkeys\scripts\tauthkeys.script			    tauth\tauthkeys\scripts\tauthkeys.script			  
+data = \epoc32\winscw\c\tauth\tpostmarketplugins\tauthpluginupgrade.rsc			    tauth\tpostmarketplugins\tauthpluginupgrade.rsc
+data = \epoc32\winscw\c\tauth\tpostmarketplugins\tauthpluginupgrade.dll			    tauth\tpostmarketplugins\tauthpluginupgrade.dll
+data = \epoc32\winscw\c\tauth\tpostmarketplugins\tpostmarketramplugin.rsc		    tauth\tpostmarketplugins\tpostmarketramplugin.rsc
+data = \epoc32\winscw\c\tauth\tpostmarketplugins\tpostmarketramplugin.dll		    tauth\tpostmarketplugins\tpostmarketramplugin.dll
+data = \epoc32\winscw\c\tauth\tpostmarketplugins\testpluginsupgrade.rsc			    tauth\tpostmarketplugins\testpluginsupgrade.rsc
+data = \epoc32\winscw\c\tauth\tpostmarketplugins\testpluginsupgrade.dll			    tauth\tpostmarketplugins\testpluginsupgrade.dll
+data = \epoc32\winscw\c\tauth\tAuthSvr\scripts\tpostmarketplugin.script					tauth\tAuthSvr\scripts\tpostmarketplugin.script	
+data = \epoc32\winscw\c\tauth\tAuthSvr\scripts\tpostmarketplugin_macroenabled.script	tauth\tAuthSvr\scripts\tpostmarketplugin_macroenabled.script	
+data = \epoc32\winscw\c\tauth\tAuthSvr\scripts\tpostmarketplugin.ini				    tauth\tAuthSvr\scripts\tpostmarketplugin.ini
+data = \epoc32\winscw\c\tauth\tAuthSvr\scripts\tclientsidsupport.script					tauth\tAuthSvr\scripts\tclientsidsupport.script				  
+data = \epoc32\winscw\c\tauth\tAuthSvr\scripts\tclientsidsupport.ini				    tauth\tAuthSvr\scripts\tclientsidsupport.ini
+data = \epoc32\winscw\c\tauth\tAuthSvr\testdata\pinplugin_inactive.txt				tauth\tAuthSvr\testdata\pinplugin_inactive.txt	attrib=W
+
+data = \epoc32\winscw\c\tauth\securitytests\scripts\authsecuritytests.ini			tauth\securitytests\scripts\authsecuritytests.ini
+data = \epoc32\winscw\c\tauth\securitytests\scripts\authsecuritytests.script			tauth\securitytests\scripts\authsecuritytests.script
+data = \epoc32\winscw\c\tauth\tAuthSvr\scripts\tauthsvr_performance.script			tauth\tAuthSvr\scripts\tauthsvr_performance.script				  
+data = \epoc32\winscw\c\tauth\tAuthSvr\scripts\tauthsvr_performance.ini				tauth\tAuthSvr\scripts\tauthsvr_performance.ini
+data = \epoc32\winscw\c\tauth\tAuthSvr\scripts\performance_log_parser.pl			tauth\tAuthSvr\scripts\performance_log_parser.pl
+data = \epoc32\winscw\c\tauth\tAuthSvr\scripts\tauthsvrclock.script					tauth\tAuthSvr\scripts\tauthsvrclock.script
+
+#endif
