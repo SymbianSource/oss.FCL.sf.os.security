@@ -202,7 +202,7 @@ public:
 	* @param aBlockBytes	The block size in bytes.
 	* @return				A pointer to the new CPaddingPKCS1Signature object.
 	*/
-	IMPORT_C static CPaddingPKCS1Signature* CPaddingPKCS1Signature::NewLC(
+	IMPORT_C static CPaddingPKCS1Signature* NewLC(
 		TInt aBlockBytes);
 	void UnPadL(const TDesC8& aInput,TDes8& aOutput);
 	TInt MinPaddingLength(void) const;

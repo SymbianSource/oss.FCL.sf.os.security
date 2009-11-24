@@ -129,26 +129,15 @@ EXPORT_C TInt CWmdrmContentParser::GetAttributeSet(RAttributeSet &aAttributeSet)
 	return err;
 	}
 
-EXPORT_C TInt CWmdrmContentParser::GetStringAttributeSet(RStringAttributeSet &aStringAttributeSet) const
+EXPORT_C void CWmdrmContentParser::GetStringAttributeSetL(RStringAttributeSet &aStringAttributeSet) const
 	{
-	TInt err = KErrNone;
 	for(TInt i = 0; i < aStringAttributeSet.Count(); i++)
 		{
 		TInt attribute = aStringAttributeSet[i];
-		HBufC* value = NULL;
-		TRAP(err, value = HBufC::NewL(iStringAttributeSet.GetValueLength(attribute)));
-		CleanupStack::PushL(value);
-
+		HBufC* value = HBufC::NewLC(iStringAttributeSet.GetValueLength(attribute));
 		TPtr valuePtr = value->Des();
-		err = GetStringAttribute(attribute, valuePtr);
-		if(err != KErrNone)
-			{
-			CleanupStack::PopAndDestroy(value);
-			break;
-			}
-
-		aStringAttributeSet.SetValue(attribute, valuePtr, err);
+		User::LeaveIfError(GetStringAttribute(attribute, valuePtr));
+		aStringAttributeSet.SetValue(attribute, valuePtr, KErrNone);
 		CleanupStack::PopAndDestroy(value);
 		}
-	return err;
 	}

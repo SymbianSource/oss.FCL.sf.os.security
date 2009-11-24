@@ -34,7 +34,6 @@
 class CKeyDetails : public CKeyInfoBase
 	{
 public:
-
 	static CKeyDetails* NewL(	TInt aHandle, const TDesC& aLabel, 
 								const TDesC8& aPrivateKey, const TDesC8& aPublicKey );
 	static CKeyDetails* NewL(RStoreReadStream& aReadStream);
@@ -48,7 +47,22 @@ public:
 	void ExternalizeL(RWriteStream&) const;
 	
 private:
-	void ConstructL(TInt aHandle, const TDesC& aLabel,const TDesC8& aPrivateKey, const TDesC8& aPublicKey );
+	CKeyDetails(TKeyIdentifier aID,
+				TKeyUsagePKCS15 aUsage,
+				TUint aSize, 
+				HBufC* aLabel,
+				TInt aHandle,
+				const TSecurityPolicy& aUsePolicy,
+				const TSecurityPolicy& aManagementPolicy,
+				EKeyAlgorithm aAlgorithm,
+				TInt aAccessType,
+				TBool aNative,
+				TTime aStartDate,
+				TTime aEndDate,
+				HBufC8* aPKCS8AttributeSet);
+		
+	void ConstructL(const TDesC8& aPrivateKey, const TDesC8& aPublicKey );
+	void ConstructL( RStoreReadStream& aReadStream);
 	CKeyDetails();
 	void InternalizeL(RReadStream& aReadStream);
 	

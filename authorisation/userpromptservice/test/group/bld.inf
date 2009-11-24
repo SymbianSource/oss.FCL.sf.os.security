@@ -85,12 +85,8 @@ tups_nopolicies_server.mmp
 
 tupsinteg_post1.mmp  // target need to be deleted after sis creation 
 
-//// create SIS files for postmanufacture tests.   /////
+//// create SIS files for postmanufacture tests and negative postmanufacture tests   /////
 makefile  ../tups/packages/integ_buildsis.fil
-makefile  ../tups/packages/integ_buildsis_2.fil
-
-//// create SIS files for negative postmanufacture tests.   /////
-makefile  ../tups/packages/integ_buildsis_negative.fil
 
 gnumakefile ../tups/packages/testromstub.mak
 

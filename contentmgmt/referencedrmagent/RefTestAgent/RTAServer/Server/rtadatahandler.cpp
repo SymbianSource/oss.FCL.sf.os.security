@@ -453,7 +453,7 @@ void CRtaDataHandler::GetWMDRMStringAttributeSetL(const RMessage2& aMessage)
     attributeSet.InternalizeL(readStream);     
     CleanupStack::PopAndDestroy(2, value);     
          
-    iWmdrmContentObject->GetStringAttributeSet(attributeSet);     
+    iWmdrmContentObject->GetStringAttributeSetL(attributeSet);     
       
     // Write the object out to a buffer, send to client     
     CBufFlat* buf = CBufFlat::NewL(50);     

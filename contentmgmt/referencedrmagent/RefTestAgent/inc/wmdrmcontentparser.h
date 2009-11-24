@@ -41,7 +41,7 @@ namespace ReferenceTestAgent
 		IMPORT_C TInt GetAttribute(TInt aAttribute, TInt& aValue) const;
 		IMPORT_C TInt GetStringAttribute(TInt aAttribute, TDes& aValue) const;
 		IMPORT_C TInt GetAttributeSet(ContentAccess::RAttributeSet &aAttributeSet) const; 
-		IMPORT_C TInt GetStringAttributeSet(ContentAccess::RStringAttributeSet &aStringAttributeSet) const;
+		IMPORT_C void GetStringAttributeSetL(ContentAccess::RStringAttributeSet &aStringAttributeSet) const;
 		
 	private:
 		CWmdrmContentParser();

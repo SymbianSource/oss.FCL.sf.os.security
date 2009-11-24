@@ -54,7 +54,8 @@ CCertToolAdd::~CCertToolAdd()
 
 void CCertToolAdd::ConstructL()
 	{
-
+	//The Certificate added is deletable by default.
+	iIsDeletable = ETrue;
 	}
 
 
@@ -152,10 +153,35 @@ void CCertToolAdd::DoCommandL(CUnifiedCertStore& aCertStore, CKeyToolParameters*
 		TCertificateFormat format = DoRecognizeL(*iCertData);
 						
 		iState = EIntermediate;
+		
+		/**
+		 * If the iIsDeletable variable of iParams is set, parse its value
+		 * and set the iIsDeletable flag appropriately.
+		 */
+		if(iParams->iIsDeletable)
+		    {
+		    HBufC* lowerCaseString = HBufC::NewLC(iParams->iIsDeletable->Length());
+		    TPtr ptr(lowerCaseString->Des());
+		    
+		    //Convert to lower case.
+		    ptr.CopyLC(*iParams->iIsDeletable);
+		    
+		    if(ptr.CompareF(_L("n")) == 0 || ptr.CompareF(_L("no")) == 0 )
+		        {
+		        iIsDeletable = EFalse;
+		        }
+            else if (ptr.CompareF(_L("y")) != 0  && ptr.CompareF(_L("yes")) != 0)
+                {
+                //Wrong value passed.
+                User::Leave(KErrArgument);     
+                }
+
+		    CleanupStack::PopAndDestroy(lowerCaseString);            
+		    }
 
 		SetActive();
 		//wCertStore.Add(*iParams->iLabel, format, ECACertificate, NULL, NULL, *iCertData, iStatus);
-		wCertStore.Add(*iParams->iLabel, format, EUserCertificate, NULL, NULL, *iCertData, iStatus);
+		wCertStore.Add(*iParams->iLabel, format, EUserCertificate, NULL, NULL, *iCertData, iIsDeletable, iStatus);
 		CleanupStack::PopAndDestroy(2, &fs);
 	}
 
@@ -178,7 +204,7 @@ void CCertToolAdd::RunL()
 				MCTWritableCertStore& wCertStore = iCertStore->WritableCertStore(iParams->iCertstoreIndex);
 				TCertificateFormat format = DoRecognizeL(*iCertData);
 				SetActive();				
-				wCertStore.Add(*iParams->iLabel, format, ECACertificate, NULL, NULL, *iCertData, iStatus);				
+				wCertStore.Add(*iParams->iLabel, format, ECACertificate, NULL, NULL, *iCertData, iIsDeletable, iStatus);				
 				}
 			else 
 				{

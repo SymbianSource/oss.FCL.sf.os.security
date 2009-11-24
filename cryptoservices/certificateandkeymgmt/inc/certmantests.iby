@@ -442,13 +442,13 @@ data = ZDRIVE\twtlscert\data\wtls-root-badsig.cer			twtlscert\data\wtls-root-bad
 data = ABI_DIR\BUILD_DIR\t_certstore.exe				sys\bin\t_certstore.exe
 
 //scripts
-data = ZDRIVE\tcertstore\scripts\t_certstore_sha2.txt			tcertstore\scripts\t_certstore_sha2.txt attrib=r
 data = ZDRIVE\tcertstore\scripts\t_certstore_sha2.script		tcertstore\scripts\t_certstore_sha2.script attrib=r
 data = ZDRIVE\tcertstore\scripts\t_certstore_sha2.ini			tcertstore\scripts\t_certstore_sha2.ini attrib=r
 data = ZDRIVE\tcertstoreconcurrent\scripts\certstoreconcurrent1.txt	tcertstoreconcurrent\scripts\certstoreconcurrent1.txt attrib=r
 data = ZDRIVE\tcertstoreconcurrent\scripts\certstoreconcurrent2.txt	tcertstoreconcurrent\scripts\certstoreconcurrent2.txt attrib=r
 data = ZDRIVE\tcertstoreconcurrent\scripts\certstoreconcurrent3.txt	tcertstoreconcurrent\scripts\certstoreconcurrent3.txt attrib=r
-data = ZDRIVE\tcertstore\scripts\swicertstore1hw.txt				tcertstore\scripts\swicertstore1.txt attrib=r
+data = ZDRIVE\tcertstore\scripts\swicertstore1hw.ini				tcertstore\scripts\swicertstore1.ini attrib=r
+data = ZDRIVE\tcertstore\scripts\swicertstore1hw.script		      tcertstore\scripts\swicertstore1.script attrib=r
 
 
 //TMS support

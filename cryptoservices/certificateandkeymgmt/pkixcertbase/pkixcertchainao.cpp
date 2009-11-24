@@ -20,7 +20,7 @@
 #include "pkixCons.h"
 #include <x509keys.h>
 #include <pkixcertchain.h>
-#include <x509constraintext.h>
+#include "x509constraintext.h"
 
 CPKIXCertChainAO* CPKIXCertChainAO::NewL(MCertStore& aCertStore,
 										 CPKIXCertChainBase &aPKIXCertChain,

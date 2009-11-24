@@ -86,6 +86,7 @@ class CKeyToolParameters : public CBase
 		TBool 						iPageWise;
 		TBool						iRemoveKey;
 		TSetPolicy					iPolicy;
+		HBufC*                      iIsDeletable;
 #ifdef KEYTOOL
 		HBufC*						iOldKeyFile;
 		HBufC*						iNewKeyFile;

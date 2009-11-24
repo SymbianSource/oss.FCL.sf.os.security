@@ -131,7 +131,7 @@ void CKeyStoreTestAction::ConstructL(const TTestActionSpec& aTestActionSpec)
 	iDisableCheckDialog = Input::ParseIntElement(aTestActionSpec.iActionBody, KDisableDialogStart, KDisableDialogEnd, pos);
 
 	pos = 0;
-	iKeyStoreImplLabel.Set(Input::ParseElement(aTestActionSpec.iActionBody, KUseKeyStoreStart, KUseKeyStoreEnd, pos));
+	iKeyStoreImplLabel.Copy(Input::ParseElement(aTestActionSpec.iActionBody, KUseKeyStoreStart, KUseKeyStoreEnd, pos));
 	
 #ifdef SYMBIAN_AUTH_SERVER
 	TPtrC8 authExpr;

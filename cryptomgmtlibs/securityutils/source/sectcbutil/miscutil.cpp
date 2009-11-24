@@ -87,16 +87,14 @@ EXPORT_C TBool ReadNonEmptyLineL(const TDesC8& aBuffer, TInt& aPos, TPtrC8& aLin
  */
 EXPORT_C void DeletePathIfEmpty(RFs& aFs, const TDesC& aPath)
 	{
-	HBufC* pathBuf = aPath.AllocLC();
-	TPtr pathPtr(pathBuf->Des());
-	TParsePtr path(pathPtr);
+	TParse path;
+	path.Set(aPath,NULL,NULL);
 
 	if (path.PathPresent())
 		{
 		while ((aFs.RmDir(path.DriveAndPath()) == KErrNone) && (path.PopDir() == KErrNone))
 			;
-		}
-	CleanupStack::PopAndDestroy(pathBuf);
+		}		
 	}
 
 }	// namespace MiscUtil

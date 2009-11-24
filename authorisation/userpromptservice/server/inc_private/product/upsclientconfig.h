@@ -43,7 +43,7 @@ the client passed the system server's security check.
 NONSHARABLE_CLASS(CUpsClientConfig) : public CBase
 	{
 public:
-	static CUpsClientConfig* CUpsClientConfig::NewL(TInt aCount, TServiceConfig *aRawServiceConfig);	
+	static CUpsClientConfig* NewL(TInt aCount, TServiceConfig *aRawServiceConfig);	
 
 	enum TQueryUpsResult { EAllow, EQueryUps, EReject };
 	

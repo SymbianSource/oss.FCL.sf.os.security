@@ -114,7 +114,7 @@ protected:
 	TInt iDisableCheckDialog;
 	TKeyTypes iType;
 	TInt iKeyStoreImplIndex;
-	TPtrC8 iKeyStoreImplLabel;
+	TBuf8<50> iKeyStoreImplLabel;
 	
 #ifdef SYMBIAN_AUTH_SERVER
 	// this variable would be used to retrieve the rom build variant 

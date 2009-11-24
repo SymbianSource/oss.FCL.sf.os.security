@@ -837,6 +837,10 @@ RFile* KeyToolUtils::iFile = NULL;
 	PrintInfoL(_L("\tMarked as trusted: "));
 	PrintInfoL( aTrusted ? _L("Yes"): _L("No"));
 	PrintInfoL(newline, aPageWise);
+	PrintInfoL(_L("\tMarked as Deletable : "));
+	PrintInfoL( aCertInfo.IsDeletable() ? _L("Yes"): _L("No"));
+
+	PrintInfoL(newline, aPageWise);
 	}
 	
 void KeyToolUtils::SetConsole(CConsoleBase *aConsole )

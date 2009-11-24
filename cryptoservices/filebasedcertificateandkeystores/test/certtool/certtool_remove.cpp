@@ -79,8 +79,12 @@ void CCertToolRemove::RunL()
 			break;
 		case EFinished:
 			{
-			// We are done!
-			iController->DisplayLocalisedMsgL(R_CERTTOOL_ERR_REMOVE_SUCCESS);			
+
+			User::LeaveIfError(iStatus.Int());
+
+		     // We are done!
+		    iController->DisplayLocalisedMsgL(R_CERTTOOL_ERR_REMOVE_SUCCESS);   
+			 		
 			CActiveScheduler::Stop();
 			}
 			break;
@@ -90,4 +94,25 @@ void CCertToolRemove::RunL()
 			}			
 		}
 	}
+
+TInt CCertToolRemove::RunError(TInt aError)
+    {
+    CActiveScheduler::Stop();
+
+    switch (aError)
+        {
+        case KErrNotFound :
+            {
+            TRAP_IGNORE(iController->DisplayLocalisedMsgL(R_CERTTOOL_ERR_NOTFOUND));         
+            }
+            break;
+        default:
+            {
+            TRAP_IGNORE(iController->DisplayLocalisedMsgL(R_CERTTOOL_ERR_REMOVE_FAILURE, aError));                
+            }
+        }   
+
+	TRAP_IGNORE(iController->DisplayErrorL(_L("\n"), iParams->iPageWise));  
+    return KErrNone;        
+    }
 

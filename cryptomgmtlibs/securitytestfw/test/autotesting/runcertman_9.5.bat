@@ -31,9 +31,6 @@ copy z:\tcertstore\data\TestKeyStore.txt c:\system\data\testkeystore.txt
 del c:\system\data\cacerts.dat
 
 del c:\system\data\certclients.dat
-t_certstore c:\tcertstore\scripts\t_certstore_sha2.txt c:\testresults\t_certstore_sha2.txt
-move c:\testresults\t_certstore_sha2.txt e:\testresults\t_certstore_sha2.txt
-
 t_certstore c:\tcertstore\scripts\t_certstore_sha2.script c:\testresults\t_certstore_sha2.htm
 move c:\testresults\t_certstore_sha2.htm e:\testresults\t_certstore_sha2.htm
 
@@ -68,7 +65,7 @@ move c:\logs\testexecute\tcertstore-errors.htm e:\testresults\tcertstore-errors.
 
 del c:\system\data\cacerts.dat
 t_certstore c:\tcertstore\scripts\swicertstore1.script c:\logs\testexecute\swicertstore1.htm
-move c:\logs\testexecute\swicertstore.htm e:\testresults\swicertstore.htm
+move c:\logs\testexecute\swicertstore1.htm e:\testresults\swicertstore1.htm
 
 t_certstore c:\tcertstore\scripts\swicertstore4.script c:\logs\testexecute\swicertstore4.htm
 move c:\logs\testexecute\swicertstore4.htm e:\testresults\swicertstore4.htm

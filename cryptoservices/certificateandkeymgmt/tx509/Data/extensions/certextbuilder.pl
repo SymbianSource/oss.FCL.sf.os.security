@@ -15,29 +15,6 @@
 #
 #!/bin/perl -w
 
-# Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
-# All rights reserved.
-# This component and the accompanying materials are made available
-# under the terms of the License "Symbian Foundation License v1.0"
-# which accompanies this distribution, and is available
-# at the URL "http://www.symbianfoundation.org/legal/sfl-v10.html".
-#
-# Initial Contributors:
-# Nokia Corporation - initial contribution.
-#
-# Contributors:
-#
-# Description:
-# This script converts certificate constraint extensions specified in an INI 
-# format into a hex representation of the DER encoding that OpenSSL can 
-# add to a certificate.
-# This script allows corrupt certificate extensions to be generated for unit 
-# testing and therefore using this script to create production certificates is
-# NOT supported.
-# See SGL.GT0220.255_Developer_Certificates.doc for usage instructions.
-# 
-#
-
 use strict;
 use Getopt::Long;
 

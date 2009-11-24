@@ -1,0 +1,800 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+PRINT Authentication Server tests...
+
+//LOAD_SUITE tAuthSvr -SharedData
+
+LOAD_SUITE tAuthSvr
+
+//Next line makes use of the new keyword that is more readable
+//LOAD_SERVER tAuthSvrServer -SharedData		
+
+
+//============================================================
+//
+//! @SYMTestCaseID SEC-AUT-AUTHSVR-0056
+//! @SYMTestCaseDesc Start the authServer with no identities, having a default plugin defined
+//! 		     (IdentifyMultiple_AllAtOnce)
+//! @SYMREQ REQ , REQ , REQ , REQ 
+//! @SYMTestPriority Medium
+//! @SYMTestActions  Have a default plugin defined, use a client that has ReadDeviceData capability to connect to the AuthServer, 
+//!			call the Enumerate Identity API
+//! @SYMTestExpectedResults Default identity is the only one listed
+//! @SYMDevelopedForRelease Intulo
+START_TESTCASE SEC-AUT-AUTHSVR-0056
+
+//RUN_UTILS MakeReadWrite c:\tauth\tAuthSvr\testdata\AuthSvrPolicy.ini
+
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	CreateTestDb 
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	FIRST_START			c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0001
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	IDENTIFY_MULTIPLE	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0001
+
+END_TESTCASE SEC-AUT-AUTHSVR-0056
+
+//============================================================
+// //
+// //! @SYMTestCaseID SEC-AUT-AUTHSVR-0021
+// //! @SYMTestCaseDesc Start the authServer with no identities, having a default plugin defined
+// //! 		        (RegisterIdentity1_Normal)
+// //! @SYMREQ REQ4969 4970 4971 4972 4975 4976 4977 4978
+// //! @SYMTestPriority Medium
+// //! @SYMTestActions  Have a default plugin defined, use a client that has ReadDeviceData capability to connect to the AuthServer, 
+// //!			call the Enumerate Identity API
+// //! @SYMTestExpectedResults Default identity is the only one listed
+// //! @SYMDevelopedForRelease Intulo
+// START_TESTCASE SEC-AUT-AUTHSVR-0021
+
+// RUN_UTILS MakeReadWrite c:\tauth\tAuthSvr\testdata\AuthSvrPolicy.ini
+// RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+// RUN_TEST_STEP !Result=Fail  100	tAuthSvr 	AUTHENTICATE	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0021b
+// RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0021a
+// RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHENTICATE	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0021b
+// RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHSVR_CHECK	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0021c
+// END_TESTCASE SEC-AUT-AUTHSVR-0021
+
+
+//============================================================
+//
+// //! @SYMTestCaseID SEC-AUT-AUTHSVR-0022
+// //! @SYMTestCaseDesc , Attempt to register a new identity, while a specific plugin inactive, the plugin should be remain untrained
+// //! 		        (RegisterIdentity2_NoActivePlugin)
+// //! @SYMREQ REQ4941 REQ4943 REQ4953 REQ4954
+// //! @SYMTestPriority Medium
+// //! @SYMTestActions  Start the authServer with no identities. 
+// //!			Have a default plugin defined, which is inactive,
+// //!			use a client that has ReadDeviceData capability to connect to the AuthServer, 
+// //!			call the Enumerate Plugins API
+// //! @SYMTestExpectedResults Specific plugin is untrained
+// //! @SYMDevelopedForRelease Intulo
+// START_TESTCASE SEC-AUT-AUTHSVR-0022
+
+// RUN_UTILS MakeReadWrite c:\tauth\tAuthSvr\testdata\AuthSvrPolicy.ini
+// RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+// RUN_TEST_STEP !RESULT=-2 100	tAuthSvr 	AUTHENTICATE	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0022b
+// RUN_TEST_STEP !RESULT=-2  100	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0022a
+// RUN_TEST_STEP !RESULT=-2  100	tAuthSvr 	AUTHENTICATE	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0022b
+// RUN_TEST_STEP !RESULT=-2  100	tAuthSvr 	AUTHSVR_CHECK	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0022c
+
+// // END_TESTCASE SEC-AUT-AUTHSVR-0022
+ 
+
+//============================================================
+// ////
+// //! @SYMTestCaseID SEC-AUT-AUTHSVR-0023
+// //! @SYMTestCaseDesc Attempt to register a new identity, while no plugins are active, then one is activated.
+// //! 		        (RegisterIdentity3_PluginActivatedLater
+// //! @SYMREQ REQ4954 REQ4960 REQ4962 REQ4968 REQ4957
+// //! @SYMTestPriority Medium
+// //! @SYMTestActions  Have a default plugin defined, which is inactive, and a second one which is inactive
+// //!			use a client that has ReadDeviceData capability to connect to the AuthServer, 
+// //!			call the Enumerate Plugins API
+// //! @SYMTestExpectedResults Default plugin is untrained, then fully trained after the 2nd try
+// //! @SYMDevelopedForRelease Intulo
+// START_TESTCASE SEC-AUT-AUTHSVR-0023
+
+// //RUN_UTILS MakeReadWrite c:\tauth\tAuthSvr\testdata\AuthSvrPolicy.ini
+RUN_UTILS MKDIR C:\testplugin_active\
+// RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+// RUN_TEST_STEP !RESULT=-2  100	tAuthSvr 	AUTHENTICATE	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0023b
+// RUN_TEST_STEP !RESULT=-2  100	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0023a
+// RUN_TEST_STEP !RESULT=-2  100	tAuthSvr 	AUTHENTICATE	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0023b
+// RUN_TEST_STEP !RESULT=-2  100	tAuthSvr 	AUTHSVR_CHECK	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0023c
+// RUN_TEST_STEP_RESULT 0  100	tAuthSvr 	REMOVE_DBS
+// RUN_TEST_STEP !RESULT=-2  100	tAuthSvr 	AUTHENTICATE	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0023b
+// RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0023d
+// RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHENTICATE	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0023f
+// RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHSVR_CHECK	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0023e
+
+// END_TESTCASE SEC-AUT-AUTHSVR-0023
+
+
+//============================================================
+////
+//! @SYMTestCaseID SEC-AUT-AUTHSVR-0024
+//! @SYMTestCaseDesc Attempt to register a new identity, but the transient key obtained from one of auth Plugin is non-unique.
+//! 		     (RegisterIdentity4_NonUniqueTransientkey)
+//! @SYMREQ REQ4953 REQ4954 REQ4955 REQ4957 REQ4958
+//! @SYMTestPriority Medium
+//! @SYMTestActions  Have a default plugin defined, which is inactive, and a second one which is inactive
+//!			use a client that has ReadDeviceData capability to connect to the AuthServer, 
+//!			call the Enumerate Plugins API
+//!			Try to register a 2nd identity while using the same 'Entered-Pin' as for the default identity.
+//! @SYMTestExpectedResults KErrAuthServPluginCancelled is received, then the plugin is showed as 
+//!				partially trained, not fully trained
+//! @SYMDevelopedForRelease Intulo
+START_TESTCASE SEC-AUT-AUTHSVR-0024
+
+RUN_UTILS MKDIR C:\testplugin_active\
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+RUN_TEST_STEP !RESULT=Fail 100	tAuthSvr 	AUTHENTICATE	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0024b
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0024a
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHENTICATE	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0024b
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHSVR_CHECK	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0024c
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHSVR_CHECK	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0024d
+RUN_UTILS DELETEDIRECTORY C:\testplugin_active\
+END_TESTCASE SEC-AUT-AUTHSVR-0024 
+
+//============================================================
+////
+//! @SYMTestCaseID SEC-AUT-AUTHSVR-0025
+//! @SYMTestCaseDesc Attempt to register a new identity, but a plugin returns the cancellation code
+//! 		     (RegisterIdentity5_PluginCancel)
+//! @SYMREQ REQ4954 REQ4955 REQ4958 REQ4968 REQ4970 4971 4972
+//! @SYMTestPriority Medium
+//! @SYMTestActions  Have a default plugin defined, which is inactive, and a second one which is inactive
+//!			use a client that has ReadDeviceData capability to connect to the AuthServer, 
+//!			call the Enumerate Plugins API
+//!			Try to register a 2nd identity while using the 'Cancel' code as the PIN input
+//! @SYMTestExpectedResults KErrAuthServPluginCancelled is received, then the plugin is showed as 
+//!				partially trained, not fully trained
+//! @SYMDevelopedForRelease Intulo
+START_TESTCASE SEC-AUT-AUTHSVR-0025
+
+
+RUN_UTILS MKDIR C:\testplugin_active\
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHSVR_CHECK	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0025a
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHSVR_CHECK	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0025b
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0025c
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHSVR_CHECK	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0025d
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHSVR_CHECK	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0025e
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHENTICATE	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0025f
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	RETRAIN_PLUGIN	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0025g
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHSVR_CHECK	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0025d
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHSVR_CHECK	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0025h
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHENTICATE	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0025i
+RUN_UTILS DELETEDIRECTORY C:\testplugin_active\
+END_TESTCASE SEC-AUT-AUTHSVR-0025
+
+
+//============================================================
+////
+//! @SYMTestCaseID SEC-AUT-AUTHSVR-0026
+//! @SYMTestCaseDesc Attempt to register a new identity, but a plugin returns the 'quit' code
+//! 		     (RegisterIdentity6_PluginExit)
+//! @SYMREQ REQ4954 REQ4955 REQ4958 REQ4968 REQ4970 4971 4972
+//! @SYMTestPriority Medium
+//! @SYMTestActions  Have a default plugin defined, which is inactive, and a second one which is inactive
+//!			use a client that has ReadDeviceData capability to connect to the AuthServer, 
+//!			call the Enumerate Plugins API
+//!			Try to register a 2nd identity while using the 'Quit' code as the PIN input
+//! @SYMTestExpectedResults KErrAuthServPluginQuit is received, then the plugin is showed as 
+//!				partially trained, not fully trained
+//! @SYMDevelopedForRelease Intulo
+START_TESTCASE SEC-AUT-AUTHSVR-0026
+
+RUN_UTILS MKDIR C:\testplugin_active\
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0026a
+RUN_TEST_STEP !RESULT=Fail 100	tAuthSvr 	AUTHENTICATE	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0026b
+END_TESTCASE SEC-AUT-AUTHSVR-0026
+
+
+////
+//! @SYMTestCaseID SEC-AUT-AUTHSVR-0027
+//! @SYMTestCaseDesc Attempt to register a new identity, but the authserver cannot uniquely resolve the identity with any of the supplied plugins
+//! 		     (RegisterIdentity7_NonUniqueIdentity_Retrain)
+//! @SYMREQ REQ4953 REQ4954 4955 4956 
+//! @SYMTestPriority Medium
+//! @SYMTestActions  Have a default plugin defined, which is active, and two others which are active
+//!			use a client that has ReadDeviceData capability to connect to the AuthServer, 
+//!			call the Enumerate Plugins API
+//!			Try to register a 2nd identity while using the '0000' code as the PIN input
+//! @SYMTestExpectedResults The second identity is not registered. All the plugins are still 
+//!				fully trained
+//! @SYMDevelopedForRelease Intulo
+START_TESTCASE SEC-AUT-AUTHSVR-0027
+
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0027a
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHSVR_CHECK	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0027b
+END_TESTCASE SEC-AUT-AUTHSVR-0027
+
+////
+//! @SYMTestCaseID SEC-AUT-AUTHSVR-0028
+//! @SYMTestCaseDesc Attempt to register a new identity, but the training for the 2 active plugins is cancelled
+//! 		     (RegisterIdentity8_NonUniqueIdentity_AllPluginsCancelled)
+//! @SYMREQ REQ4953 REQ4954 4955 4956
+//! @SYMTestPriority Medium
+//! @SYMTestActions  Have a default plugin defined, which is inactive, and a second one which is inactive
+//!			use a client that has ReadDeviceData capability to connect to the AuthServer, 
+//!			call the Enumerate Plugins API
+//!			Try to register a 2nd identity while using the 'Cancel' code as the PIN input for all 3 plugins
+//! @SYMTestExpectedResults The 2nd identity is not registered then the 3 plugins are showed as fully trained
+//!			       
+//! @SYMDevelopedForRelease Intulo
+START_TESTCASE SEC-AUT-AUTHSVR-0028
+
+RUN_UTILS MKDIR C:\testplugin_active\
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0028a
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHSVR_CHECK	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0028b
+RUN_UTILS DELETEDIRECTORY C:\testplugin_active\
+END_TESTCASE SEC-AUT-AUTHSVR-0028
+
+
+////
+// //! @SYMTestCaseID SEC-AUT-AUTHSVR-0041
+// //! @SYMTestCaseDesc Successful attempt at retraining a specified plugin
+// //! 		        (RetrainPlug-in1_Normal)
+// //! @SYMREQ REQ4953 REQ4954 4955 4956
+// //! @SYMTestPriority Medium
+// //! @SYMTestActions  Have a default plugin defined, which is active, and a second one which is active as well
+// //!			use a client that has ReadDeviceData capability to connect to the AuthServer, 
+// //!			call the Enumerate Plugins API
+// //!			Successfully register a 2nd identity while using a specified PIN input
+// //!			Authenticate then call the Train() function. Use the same PIN input so that the identity trained is one
+// //!			that has been previously trained. The plugin status is then checked
+// //! @SYMTestExpectedResults The authentication, registration and retrain are successful. The plugin status is 
+// //!			fully trained, then fully trained again
+// //! @SYMDevelopedForRelease Intulo
+// START_TESTCASE SEC-AUT-AUTHSVR-0041
+// RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+// RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0041a
+// RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHENTICATE	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0041b
+// RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	RETRAIN_PLUGIN	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0041c
+// RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHENTICATE	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0041d
+// END_TESTCASE SEC-AUT-AUTHSVR-0041
+
+
+//============================================================
+//
+//! @SYMTestCaseID SEC-AUT-AUTHSVR-0042
+//! @SYMTestCaseDesc Attempt at retraining a specified plugin, but authentication fails
+//! 		     (RetrainPlug-in2_AuthFailed)
+//! @SYMREQ 4969 4970 4971 4972 4975 4976 4977 4952
+//! @SYMTestPriority Medium
+//! @SYMTestActions  Have a default plugin defined, which is active, and a second one which is active as well
+//!			use a client that has ReadDeviceData capability to connect to the AuthServer, 
+//!			call the Enumerate Plugins API
+//!			Successfully register a 2nd identity while using a specified PIN input
+//!			Authenticate then call the Train() function. Use the a PIN input that has not been used before 
+//!			so that no identity is returned as having that PIN. 
+//! @SYMTestExpectedResults The registration is successful, the authentication fails, and so the retrain is unsuccessful. 
+//!			The plugin status is fully trained, then fully trained again
+//! @SYMDevelopedForRelease Intulo
+START_TESTCASE SEC-AUT-AUTHSVR-0042 
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0042a
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	RETRAIN_PLUGIN	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0042b
+END_TESTCASE SEC-AUT-AUTHSVR-0042
+
+
+//============================================================
+//
+//! @SYMTestCaseID SEC-AUT-AUTHSVR-0043
+//! @SYMTestCaseDesc Attempt to retrain a specified plugin, but the plugin is unknown
+//! 		     (RetrainPlug-in3_UnknownPlugin)
+//! @SYMREQ 4969 4970 4971 4972 4975 4976 4977 4952
+//! @SYMTestPriority Medium
+//! @SYMTestActions  Have a default plugin defined, which is active, and a second one which is active as well
+//!			use a client that has ReadDeviceData capability to connect to the AuthServer, 
+//!			call the Enumerate Plugins API
+//!			Successfully register a 2nd identity while using a specified PIN input
+//!			Authenticate then call the Train() function. Use the a PIN input that has not been used before 
+//!			so that no identity is returned as having that PIN. 
+//! @SYMTestExpectedResults The registration is successful, the authentication fails, and so the retrain are unsuccessful. 
+//!			The plugin status is fully trained, then trained
+//! @SYMDevelopedForRelease Intulo
+START_TESTCASE SEC-AUT-AUTHSVR-0043
+
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0043a
+//RUN_TEST_STEP_RESULT 106 100	tAuthSvr 	RETRAIN_PLUGIN	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0043b
+END_TESTCASE SEC-AUT-AUTHSVR-0043
+
+
+
+//============================================================
+//
+//! @SYMTestCaseID SEC-AUT-AUTHSVR-0044
+//! @SYMTestCaseDesc Attempt to retrain a specified plugin, but the 2nd authentication fails
+//! 		     (RetrainPlug-in4_2ndAuthFailed)
+//! @SYMREQ 4969 4970 4971 4972 4975 4976 4977 4978 4952
+//! @SYMTestPriority Medium
+//! @SYMTestActions  Have a default plugin defined, which is active, and a second one which is active as well
+//!			use a client that has ReadDeviceData capability to connect to the AuthServer, 
+//!			call the Enumerate Plugins API
+//!			Successfully register a 2nd identity while using a specified PIN input
+//!			Authenticate then call the Train() function. Use the a PIN input that was used before so that the 
+//!			2nd identity is returned. A new PIN is now associated with the identity and that plugin
+//!			Attempt the authentication again, but using a wrong PIN. 
+//! @SYMTestExpectedResults The registration is successful, The first 'authenticate' and 'train' calls succeed. 
+//!			The 2nd authentication fails, and so the 2nd call to train is unsuccessful. 
+//!			The plugin status is fully trained, all three times that it is checked
+//! @SYMDevelopedForRelease Intulo
+START_TESTCASE SEC-AUT-AUTHSVR-0044
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0044a
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	RETRAIN_PLUGIN	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0044b
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	RETRAIN_PLUGIN	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0044c
+END_TESTCASE SEC-AUT-AUTHSVR-0044
+
+
+//============================================================
+//
+//! @SYMTestCaseID SEC-AUT-AUTHSVR-0045
+//! @SYMTestCaseDesc Attempt to retrain a specified plugin, but a non-unique transient key is generated, prompting 
+//!			the retrain to be cancelled
+//! 		     (RetrainPlug-in5_NonUniqueTransientKey)
+//! @SYMREQ 4969 4970 4971 4972 4975 4976 4977 4978
+//! @SYMTestPriority Medium
+//! @SYMTestActions  Have a default plugin defined, which is active, and a second one which is active as well
+//!			use a client that has ReadDeviceData capability to connect to the AuthServer, 
+//!			call the Enumerate Plugins API
+//!			Successfully register a 2nd identity while using a specified PIN input
+//!			Authenticate then call the Train() function. Use the a PIN input that has not been used before 
+//!			so that the retrain is cancelled.
+//! @SYMTestExpectedResults The registration is successful, the authentication fails, and so the retrain are unsuccessful. 
+//!			The plugin status is fully trained, then fully trained again
+//! @SYMDevelopedForRelease Intulo
+START_TESTCASE SEC-AUT-AUTHSVR-0045
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0045a
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	RETRAIN_PLUGIN	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0045b
+END_TESTCASE SEC-AUT-AUTHSVR-0045
+
+
+//============================================================
+//
+//! @SYMTestCaseID SEC-AUT-AUTHSVR-0046
+//! @SYMTestCaseDesc Attempt to retrain a specified plugin, but a cancellation code is entered at the 'retrain' stage
+//! 		     (RetrainPlug-in6_Cancel)
+//! @SYMREQ 4969 4970 4971 4972 4975 4976 4977 4978
+//! @SYMTestPriority Medium
+//! @SYMTestActions  Have a default plugin defined, which is active, and a second one which is active as well
+//!			use a client that has ReadDeviceData capability to connect to the AuthServer, 
+//!			call the Enumerate Plugins API
+//!			Successfully register a 2nd identity while using a specified PIN input
+//!			Authenticate then call the Train() function. Use the a cancellation code as the input
+//!			so that the retrain is cancelled.
+//! @SYMTestExpectedResults The registration is successful, the authentication fails, and so the retrain are unsuccessful. 
+//!			The plugin status is fully trained, then fully trained again
+//! @SYMDevelopedForRelease Intulo
+START_TESTCASE SEC-AUT-AUTHSVR-0046
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0046a
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	RETRAIN_PLUGIN	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0046b
+END_TESTCASE SEC-AUT-AUTHSVR-0046
+
+
+//============================================================
+//
+//! @SYMTestCaseID SEC-AUT-AUTHSVR-0047
+//! @SYMTestCaseDesc Attempt to retrain a specified plugin, but a Quit code is entered at the 'retrain' stage
+//! 		     (RetrainPlug-in7_Quit)
+//! @SYMREQ 4969 4970 4971 4972 4975 4976 4977 4978
+//! @SYMTestPriority Medium
+//! @SYMTestActions  Have a default plugin defined, which is active, and a second one which is active as well
+//!			use a client that has ReadDeviceData capability to connect to the AuthServer, 
+//!			call the Enumerate Plugins API
+//!			Successfully register a 2nd identity while using a specified PIN input
+//!			Authenticate then call the Train() function. Use the a Quit code as the input
+//!			so that the retrain is quit.
+//! @SYMTestExpectedResults The registration is successful, the authentication fails, and so the retrain are unsuccessful. 
+//!			The plugin status is fully trained, then fully trained again
+//! @SYMDevelopedForRelease Intulo
+START_TESTCASE SEC-AUT-AUTHSVR-0047
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0047a
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	RETRAIN_PLUGIN	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0047b
+END_TESTCASE SEC-AUT-AUTHSVR-0047
+
+
+//============================================================
+//
+//! @SYMTestCaseID SEC-AUT-AUTHSVR-0057
+//! @SYMTestCaseDesc Successful attempt to retrain a specified plugin, then another. 2nd Authentication required in both cases
+//! 		     (RetrainPlug-in8_2ndAuthRequired)
+//! @SYMREQ 4969 4970 4971 4972 4975 4976 4977 4978
+//! @SYMTestPriority Medium
+//! @SYMTestActions  Have a default plugin defined, which is active, and a second one which is active as well
+//!			use a client that has ReadDeviceData capability to connect to the AuthServer, 
+//!			call the Enumerate Plugins API
+//!			Successfully register a 2nd identity while using a specified PIN input
+//!			Authenticate then call the Train() function on the first plugin. Use the a valid, unique input
+//!			Authtenticate then call the Train function on the second plugin. Use a valid, unique input
+//! @SYMTestExpectedResults The registration is successful, the 2nd authentication is successful in both cases, 
+//!			as well as the retrain calls.
+//!			The plugin status for both plugins is fully trained, then fully trained again
+//! @SYMDevelopedForRelease Intulo
+START_TESTCASE SEC-AUT-AUTHSVR-0057
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0048a
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	RETRAIN_PLUGIN	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0048b
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	RETRAIN_PLUGIN	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0048c
+END_TESTCASE SEC-AUT-AUTHSVR-0057
+
+
+//============================================================
+//
+//! @SYMTestCaseID SEC-AUT-AUTHSVR-0058
+//! @SYMTestCaseDesc Successful attempt to retrain a specified plugin, then another. 2nd Authentication required in both cases
+//! 		     (RetrainPlug-in8_2ndAuthRequired)
+//! @SYMREQ 4969 4970 4971 4972 4975 4976 4977 4978
+//! @SYMTestPriority Medium
+//! @SYMTestActions  Have a default plugin defined, which is active, and a second one which is active as well
+//!			use a client that has ReadDeviceData capability to connect to the AuthServer, 
+//!			call the Enumerate Plugins API
+//!			Successfully register a 2nd identity while using a specified PIN input
+//!			Authenticate then call the Train() function on the first plugin. Use the a valid, unique input
+//!			Authtenticate then call the Train function on the second plugin. Use a valid, unique input
+//! @SYMTestExpectedResults The registration is successful, the 2nd authentication is successful in both cases, 
+//!			as well as the retrain calls.
+//!			The plugin status for both plugins is fully trained, then fully trained again
+//! @SYMDevelopedForRelease Intulo
+START_TESTCASE SEC-AUT-AUTHSVR-0058
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0048a
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	RETRAIN_PLUGIN	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0048b
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	RETRAIN_PLUGIN	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0048c
+END_TESTCASE SEC-AUT-AUTHSVR-0058
+
+//============================================================
+//
+//! @SYMTestCaseID SEC-AUT-AUTHSVR-0061
+//! @SYMTestCaseDesc Attempt to add a new authentication method first to one then the second of the
+//!			two present identities
+//! 		     (AddAuthMethod1_BothIdentities_Normal)
+//! @SYMREQ 4969 4970 4971 4972 4975 4976 4977 4978
+//! @SYMTestPriority Medium
+//! @SYMTestActions  Have a default plugin defined, which is active, and a second one which is inactive
+//!			use a client that has ReadDeviceData capability to connect to the AuthServer, 
+//!			call the Enumerate Plugins API
+//!			Successfully register a 2nd identity while using a specified PIN input with the default plugin only
+//!			Authenticate then call the Train() function. Use an identifying input that corresponds to what
+//!			was used to register the default identity using the default plugin. Therefore the default identity
+//!			is returned following the Authentication. The training is then done for the 2nd plugin
+//!			Carry out the same process with the second identity
+//! @SYMTestExpectedResults The authentication is successful,  and the first train call passes.
+//!			but the second train call passes as well
+//!			The plugin status for the second plugin is untrained, trained, then fully trained
+//!			There are 2 identities present after the register identity step
+//! @SYMDevelopedForRelease Intulo
+START_TESTCASE SEC-AUT-AUTHSVR-0061
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHENTICATE	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0061Test
+// RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0061a
+// RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHSVR_CHECK	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0061b
+// RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	RETRAIN_PLUGIN	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0061c
+// RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHSVR_CHECK	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0061d
+// RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	RETRAIN_PLUGIN	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0061e
+// RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHSVR_CHECK	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0061f
+END_TESTCASE SEC-AUT-AUTHSVR-0061
+
+//============================================================
+//
+//! @SYMTestCaseID SEC-AUT-AUTHSVR-0062
+//! @SYMTestCaseDesc Attempt to add a new authentication method first to one then the second of the
+//!			two present identities. Authentication fails in both cases.
+//! 		     (AddAuthMethod2_BothIdentities_AuthFailed)
+//! @SYMREQ 4969 4970 4971 4972 4975 4976 4977 4978
+//! @SYMTestPriority Medium
+//! @SYMTestActions   Have a default plugin defined, which is active, and a second one which is inactive
+//!			use a client that has ReadDeviceData capability to connect to the AuthServer, 
+//!			call the Enumerate Plugins API
+//!			Successfully register a 2nd identity while using a specified PIN input with the default plugin only
+//!			Fail to authenticate then try to call the Train() function. Use an identifying input that does not 
+//!			corresponds to what was used to register the default identity using the default plugin. Therefore no identity
+//!			is returned following the Authentication. The training is then attempted for the 2nd plugin
+//!			Carry out the same process with the second identity
+//! @SYMTestExpectedResults The authentication is successful,  and the first train call passes.
+//!			but the second train call passes as well
+//!			The plugin status for the second plugin is untrained, trained, then fully trained
+//!			There are 2 identities present after the register identity step
+//! @SYMDevelopedForRelease Intulo
+START_TESTCASE SEC-AUT-AUTHSVR-0062
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0062a
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHSVR_CHECK	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0062b
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	RETRAIN_PLUGIN	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0062c
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHSVR_CHECK	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0062d
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	RETRAIN_PLUGIN	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0062e
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHSVR_CHECK	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0062f
+END_TESTCASE SEC-AUT-AUTHSVR-0062
+
+// //============================================================
+// //
+// //! @SYMTestCaseID SEC-AUT-AUTHSVR-0101
+// //! @SYMTestCaseDesc Successful attempt to remove a specified identity
+// //! 		        (RemoveIdentity1_Normal)
+// //! @SYMREQ 4964 4965 4966 4954
+// //! @SYMTestPriority Medium
+// //! @SYMTestActions  Have a default plugin defined, which is active, and a second one which is active as well
+// //!			use a client that has ReadDeviceData capability to connect to the AuthServer, 
+// //!			call the Enumerate Plugins API
+// //!			Successfully register a 2nd identity while using a specified PIN input
+// //!			Authenticate then call the removeIdentity() function. Use the a valid input so that the
+// //!			identity that was recently registered is returned following the Authentication, then removed
+// //! @SYMTestExpectedResults The registration is successful, the authentication is successful, 
+// //!			as well as the removeIdentity call.
+// //!			The plugin status for both plugins is fully trained, then fully trained again
+// //! @SYMDevelopedForRelease Intulo
+// START_TESTCASE SEC-AUT-AUTHSVR-0101
+RUN_UTILS MKDIR C:\testplugin_active\
+// RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+// RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0101a
+// RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHENTICATE	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0101b
+// RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0101c
+// RUN_TEST_STEP !Result=Fail 100	tAuthSvr 	AUTHENTICATE	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0101d
+// RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHSVR_CHECK	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0101c
+RUN_UTILS DELETEDIRECTORY C:\testplugin_active\
+// END_TESTCASE SEC-AUT-AUTHSVR-0101
+
+
+
+//============================================================
+//
+//! @SYMTestCaseID SEC-AUT-AUTHSVR-0102
+//! @SYMTestCaseDesc Attempt to remove a specified identity when only one identity exists
+//! 		     (RemoveIdentity2_OneIdentity)
+//! @SYMREQ 4964 4965 4966 4954
+//! @SYMTestPriority Medium
+//! @SYMTestActions  Have a default plugin defined, which is active, and a second one which is active as well
+//!			use a client that has ReadDeviceData capability to connect to the AuthServer, 
+//!			call the Enumerate Plugins API
+//!			Authenticate then call the removeIdentity() function. Use an input that corresponds to what
+//!			was used to register the default identity. Therefore the default identity is returned 
+//!			following the Authentication, then attempt to remove it
+//! @SYMTestExpectedResults The authentication is successful, but the removeIdentity call fails
+//!			The plugin status for the specified plugin is fully trained, then fully trained again
+//! @SYMDevelopedForRelease Intulo
+START_TESTCASE SEC-AUT-AUTHSVR-0102
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+//RUN_TEST_STEP !Error=-10811 100	tAuthSvr 	REMOVE_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0102b
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHSVR_CHECK	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0102b
+END_TESTCASE SEC-AUT-AUTHSVR-0102
+
+
+//============================================================
+//
+//! @SYMTestCaseID SEC-AUT-AUTHSVR-0103
+//! @SYMTestCaseDesc Attempt to remove a specified identity when only one identity exists
+//! 		     (RemoveIdentity3_NonExistentIdentity)
+//! @SYMREQ 4964 4965 4966 4954
+//! @SYMTestPriority Medium
+//! @SYMTestActions  Have a default plugin defined, which is active, and a second one which is active as well
+//!			use a client that has ReadDeviceData capability to connect to the AuthServer, 
+//!			call the Enumerate Plugins API
+//!			Successfully register a 2nd identity while using a specified PIN input
+//!			Authenticate then call the removeIdentity() function. Use an input that corresponds to what
+//!			was used to register the 2nd identity. Therefore the 2nd identity is returned 
+//!			following the Authentication. Remove this second identity then attempt to remove it again
+//! @SYMTestExpectedResults The authentication is successful,  and the first removeIdentity call passes.
+//!			but the second removeIdentity call fails because there's only 1 identity left
+//!			The plugin status for the specified plugin is fully trained, then fully trained again
+//!			There's 1 identity present after the 2 removeIdentity calls
+//! @SYMDevelopedForRelease Intulo
+START_TESTCASE SEC-AUT-AUTHSVR-0103
+RUN_UTILS MKDIR C:\testplugin_active\
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0103a
+//RUN_TEST_STEP !Error=-10811 100	tAuthSvr 	REMOVE_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0103b
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHSVR_CHECK	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0103b
+RUN_UTILS DELETEDIRECTORY C:\testplugin_active\
+END_TESTCASE SEC-AUT-AUTHSVR-0103
+
+
+//============================================================
+//
+//! @SYMTestCaseID SEC-AUT-AUTHSVR-0104
+//! @SYMTestCaseDesc Attempt to remove a specified identity but the authentication fails
+//! 		     (RemoveIdentity4_AuthFailed)
+//! @SYMREQ 4964 4965 4966 4954
+//! @SYMTestPriority Medium
+//! @SYMTestActions  Have a default plugin defined, which is active, and a second one which is active as well
+//!			use a client that has ReadDeviceData capability to connect to the AuthServer, 
+//!			call the Enumerate Plugins API
+//!			Successfully register a 2nd identity while using a specified PIN input
+//!			Authenticate then call the removeIdentity() function. Use an input that doesn't correspond
+//!			to what was used to register the 2nd identity. Therefore no identity is returned 
+//!			following the Authentication. Attempt to remove this absent identity.
+//! @SYMTestExpectedResults The authentication fails,  and the removeIdentity call fails.
+//!			because there is no such identity in the authentication server.
+//!			The plugin status for the specified plugin is fully trained, then fully trained again
+//!			There's 1 identity present after the 2 removeIdentity calls
+//! @SYMDevelopedForRelease Intulo
+START_TESTCASE SEC-AUT-AUTHSVR-0104
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0104a
+//RUN_TEST_STEP !Error=-10808 100	tAuthSvr 	REMOVE_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0104b
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHSVR_CHECK	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0104b
+END_TESTCASE SEC-AUT-AUTHSVR-0104
+
+
+// //============================================================
+// //
+// //! @SYMTestCaseID SEC-AUT-AUTHSVR-0105
+// //! @SYMTestCaseDesc Attempt to remove a specified identity when only one identity exists
+// //! 		        (RemoveIdentity5_NonExistentIdentity_TwoOthersExist)
+// //! @SYMREQ 4964 4965 4966 4954
+// //! @SYMTestPriority Medium
+// //! @SYMTestActions  Have a default plugin defined, which is active, and a second one which is active as well
+// //!			use a client that has ReadDeviceData capability to connect to the AuthServer, 
+// //!			call the Enumerate Plugins API
+// //!			Successfully register a 2nd identity while using a specified PIN input
+// //!			Successfully register a 3rd identity while using a specified PIN input
+// //!			Authenticate then call the removeIdentity() function. Use an input that corresponds to what
+// //!			was used to register the 2nd identity. Therefore the 2nd identity is returned 
+// //!			following the Authentication. Remove this second identity then attempt to remove it again
+// //! @SYMTestExpectedResults The authentication is successful,  and the first removeIdentity call passes.
+// //!			but the second removeIdentity call fails because an unknown identity was specified
+// //!			The plugin status for the specified plugin is fully trained, then fully trained again
+// //!			There are 2 identities present after the 2 removeIdentity calls
+// //! @SYMDevelopedForRelease Intulo
+// START_TESTCASE SEC-AUT-AUTHSVR-0105
+// RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+// RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0105a
+// RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0105b
+// RUN_TEST_STEP !Error=-10808 100	tAuthSvr 	REMOVE_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0105c
+// RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHSVR_CHECK	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0105c
+// END_TESTCASE SEC-AUT-AUTHSVR-0105
+//============================================================
+//
+//! @SYMTestCaseID SEC-AUT-AUTHSVR-0121
+//! @SYMTestCaseDesc A user successfully removes an authentication plug-in trained for their identity
+//! 		     (ForgetPlug-in1_Normal)
+//! @SYMREQ REQ4964 REQ4965 REQ4966 REQ4954
+//! @SYMTestPriority Medium
+//! @SYMTestActions  
+//! @SYMTestExpectedResults 
+//! @SYMDevelopedForRelease Intulo
+START_TESTCASE SEC-AUT-AUTHSVR-0121
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0121b
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHENTICATE	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0121a
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	FORGET_PLUGIN	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0121c
+RUN_TEST_STEP !RESULT=Fail 100	tAuthSvr 	AUTHENTICATE	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0121d
+END_TESTCASE SEC-AUT-AUTHSVR-0121
+
+/============================================================
+//
+//! @SYMTestCaseID SEC-AUT-AUTHSVR-0122
+//! @SYMTestCaseDesc A user attempts to remove an auth plug-in trained for their identity, but there's only a single auth method for the identity.
+//! 		     (ForgetPlug-in1_LastPlugin)
+//! @SYMREQ REQ4964 REQ4965 REQ4966 REQ4954
+//! @SYMTestPriority Medium
+//! @SYMTestActions  
+//! @SYMTestExpectedResults 
+//! @SYMDevelopedForRelease Intulo
+START_TESTCASE SEC-AUT-AUTHSVR-0122
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0122b
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHENTICATE	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0122a
+RUN_TEST_STEP !RESULT=Fail 100 tAuthSvr FORGET_PLUGIN	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0122c
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHENTICATE	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0122a
+END_TESTCASE  SEC-AUT-AUTHSVR-0122
+/============================================================
+//
+//! @SYMTestCaseID SEC-AUT-AUTHSVR-0123
+//! @SYMTestCaseDesc A user attempts to remove an auth plug-in, but the identity has no transient key associated with this plug-in
+//! 		     (ForgetUntrainedAuthMethod)
+//! @SYMREQ REQ4964 REQ4965 REQ4966 REQ4954
+//! @SYMTestPriority Medium
+//! @SYMTestActions  
+//! @SYMTestExpectedResults 
+//! @SYMDevelopedForRelease Intulo
+START_TESTCASE SEC-AUT-AUTHSVR-0123
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0123b
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHENTICATE	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0123a
+RUN_TEST_STEP !RESULT=Fail 100 tAuthSvr FORGET_PLUGIN	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0123c
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHENTICATE	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0123a
+END_TESTCASE SEC-AUT-AUTHSVR-0123
+
+/============================================================
+//
+//! @SYMTestCaseID SEC-AUT-AUTHSVR-0124
+//! @SYMTestCaseDesc A user attempts to remove an auth plug-in, but the plugin does not exist
+//! 		     (ForgetUnknownPlugin)
+//! @SYMREQ REQ4964 REQ4965 REQ4966 REQ4954
+//! @SYMTestPriority Medium
+//! @SYMTestActions  
+//! @SYMTestExpectedResults 
+//! @SYMDevelopedForRelease Intulo
+START_TESTCASE SEC-AUT-AUTHSVR-0124
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0124b
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHENTICATE	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0124a
+RUN_TEST_STEP !RESULT=Fail 100 tAuthSvr FORGET_PLUGIN	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0124c
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHENTICATE	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0124a
+END_TESTCASE SEC-AUT-AUTHSVR-0124
+
+/============================================================
+//
+//! @SYMTestCaseID SEC-AUT-AUTHSVR-0125
+//! @SYMTestCaseDesc A user attempts to remove an auth plug-in, but the identity specified does not exist
+//! 		     (ForgetUnknownIdentity)
+//! @SYMREQ REQ4964 REQ4965 REQ4966 REQ4954
+//! @SYMTestPriority Medium
+//! @SYMTestActions  
+//! @SYMTestExpectedResults 
+//! @SYMDevelopedForRelease Intulo
+START_TESTCASE SEC-AUT-AUTHSVR-0125
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+RUN_TEST_STEP !RESULT=Fail 100 tAuthSvr FORGET_PLUGIN	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0125
+END_TESTCASE SEC-AUT-AUTHSVR-0125
+
+
+//============================================================
+//
+//! @SYMTestCaseID SEC-AUT-AUTHSVR-0141
+//! @SYMTestCaseDesc Auth preferences are set correctly.
+//! 		     (SetPreference_Success)
+//! @SYMREQ REQ4983 REQ4973 REQ4966 REQ4967 REQ4968
+//! @SYMTestPriority Medium
+//! @SYMTestActions  
+//! @SYMTestExpectedResults 
+//! @SYMDevelopedForRelease Intulo
+START_TESTCASE SEC-AUT-AUTHSVR-0141
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0141
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	SET_PREFS 		c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0141
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHENTICATE    c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0141
+END_TESTCASE SEC-AUT-AUTHSVR-0141
+
+//============================================================
+//
+//! @SYMTestCaseID SEC-AUT-AUTHSVR-0142
+//! @SYMTestCaseDesc An Auth preference is set with an invalid plug-in
+//! 		     (SetPreference_Success)
+//! @SYMREQ REQ4964 REQ4965 REQ4966 REQ4954
+//! @SYMTestPriority Medium
+//! @SYMTestActions  
+//! @SYMTestExpectedResults 
+//! @SYMDevelopedForRelease Intulo
+START_TESTCASE SEC-AUT-AUTHSVR-0142
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0142
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	SET_PREFS 		c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0142
+RUN_TEST_STEP !Error=-10802 100	tAuthSvr 	AUTHENTICATE    c:\tauth\tAuthSvr\scripts\tauthsvr3.ini Test0142
+END_TESTCASE SEC-AUT-AUTHSVR-0142

@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SystemDefinition schema="3.0.0">
   <package id="security" name="OS Security" levels="physical-abstraction plugins libraries management services utilities">
+	<collection id="authenticationservices" name="Authentication Services" level="utilities">
+      <component id="authenticationserver" name="Authentication Server" introduced="tb92" purpose="optional">
+        <unit bldFile="authenticationservices/authenticationserver/group" mrp="authenticationservices/authenticationserver/group/security_authserver.mrp"/>
+      </component>
+    </collection>
     <collection id="authorisation" name="Authorisation" level="utilities">
       <component id="userpromptservice" name="User Prompt Service" introduced="tb92" purpose="mandatory">
         <unit bldFile="authorisation/userpromptservice/group" mrp="authorisation/userpromptservice/group/security_ups.mrp"/>
@@ -32,8 +37,8 @@
       <component id="securityutils" name="Security Utils" introduced="8.0" purpose="optional">
         <unit bldFile="cryptomgmtlibs/securityutils/group" mrp="cryptomgmtlibs/securityutils/group/security_common.mrp"/>
       </component>
-      <component id="securitytestfw" name="Security Test Framework" deprecated="tb92" introduced="7.0" purpose="development">
-        <unit mrp="cryptomgmtlibs/securitytestfw/group/security_testframework.mrp"/>
+      <component id="securitytestfw" name="Security Test Framework" deprecated="tb92" introduced="7.0" purpose="development" filter="test">
+        <unit mrp="cryptomgmtlibs/securitytestfw/group/security_testframework.mrp" bldFile="cryptomgmtlibs/securitytestfw/group"/>
       </component>
       <component id="securitydocs" name="Security Documentation" purpose="development" class="doc">
         <unit mrp="cryptomgmtlibs/securitydocs/security_documentation.mrp"/>

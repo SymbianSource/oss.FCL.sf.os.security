@@ -45,7 +45,7 @@ public:
 protected:
 	void DoMultiplyL(TInteger& aResult, const TInteger& aA, const TInteger& aB) const;
 	void DoSquareL(TInteger& aResult, const TInteger& aA) const;
-	TInteger& ConvertIn(TInteger& aInteger) const;
+	TInteger& ConvertInL(TInteger& aInteger) const;
 	TInteger& ConvertOutL(TInteger& aInteger) const;
 	CMontgomeryStructure();
 private:

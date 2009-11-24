@@ -475,6 +475,11 @@ RESOURCE TBUF r_certtool_err_remove_success
 	{
 	buf = STRING_r_certtool_err_remove_success;
 	}
+
+RESOURCE TBUF r_certtool_err_remove_failure
+	{
+	buf = STRING_r_certtool_err_remove_failure;
+	}
 	
 RESOURCE TBUF r_certtool_err_list
 	{
@@ -649,8 +654,12 @@ RESOURCE TBUF r_certtool_usage_import4
 RESOURCE TBUF r_certtool_usage_import5
 	{
 	buf = STRING_r_certtool_usage_import5;
+	}	
+
+RESOURCE TBUF r_certtool_usage_import6
+	{
+	buf = STRING_r_certtool_usage_import6;
 	}
-	
 
 RESOURCE TBUF r_certtool_usage_liststores
 	{

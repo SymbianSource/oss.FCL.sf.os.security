@@ -46,7 +46,8 @@ ECOM_PLUGIN(101faaa3.dll, 101faaa3.rsc)
 ECOM_PLUGIN(101faaa5.dll, 101faaa5.rsc)
 
 #if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
-data = ZDRIVE\tkeystore\scripts\thwkeystore.txt		tkeystore\scripts\thwkeystore.txt
+data = ZDRIVE\tkeystore\scripts\thwkeystore.script		tkeystore\scripts\thwkeystore.script
+data = ZDRIVE\tkeystore\scripts\thwkeystore.ini			tkeystore\scripts\thwkeystore.ini
 data = ZPRIVATE\101f7e95\hwkeys.dat					private\101f7e95\hwkeys.dat
 data = ZDRIVE\tkeystore\data\hwkeys.dat				tkeystore\scripts\hwkeys.dat
 file = ABI_DIR\BUILD_DIR\tcryptotokenhai.dll			sys\bin\tcryptotokenhai.dll
@@ -59,7 +60,8 @@ data = ZDRIVE\tkeystore\scripts\registration.ini		tkeystore\scripts\registration
 data = ZDRIVE\tkeystore\scripts\initialize.script	tkeystore\scripts\initialize.script
 data = ZDRIVE\tkeystore\scripts\reg_first_identity.script	tkeystore\scripts\reg_first_identity.script
 data = ZDRIVE\tkeystore\scripts\reg_second_identity.script	tkeystore\scripts\reg_second_identity.script
-data = ZDRIVE\tkeystore\scripts\authobjects_useauth.txt	tkeystore\scripts\authobjects_useauth.txt
+data = ZDRIVE\tkeystore\scripts\authobjects_useauth.script	tkeystore\scripts\authobjects_useauth.script
+data = ZDRIVE\tkeystore\scripts\authobjects_useauth.ini	tkeystore\scripts\authobjects_useauth.ini
 
 //TMS support
 data = ZDRIVE\tkeystore\scripts\cancel_useauth.script		tkeystore\scripts\cancel_useauth.script
@@ -178,6 +180,7 @@ data = ZDRIVE\tkeystore\data\dsapub4.txt		tkeystore\data\dsapub4.txt
 // ttesttools data
 
 data = ZDRIVE\ttesttools\data\cert_addapps.txt		ttesttools\data\cert_addapps.txt
+data = ZDRIVE\ttesttools\data\cert_addapps1.txt		ttesttools\data\cert_addapps1.txt
 data = ZDRIVE\ttesttools\data\cert_addappsfail1.txt	ttesttools\data\cert_addappsfail1.txt
 data = ZDRIVE\ttesttools\data\cert_addappsfail2.txt	ttesttools\data\cert_addappsfail2.txt
 data = ZDRIVE\ttesttools\data\cert_helpfail1.txt	ttesttools\data\cert_helpfail1.txt
@@ -214,6 +217,11 @@ data = ZDRIVE\ttesttools\data\cert_setapps1.txt		ttesttools\data\cert_setapps1.t
 data = ZDRIVE\ttesttools\data\cert_setappsfail1.txt	ttesttools\data\cert_setappsfail1.txt
 data = ZDRIVE\ttesttools\data\cert_setappsfail2.txt	ttesttools\data\cert_setappsfail2.txt
 data = ZDRIVE\ttesttools\data\certfail.txt		ttesttools\data\certfail.txt
+data = ZDRIVE\ttesttools\data\cert_importdeletable1.txt		ttesttools\data\cert_importdeletable1.txt
+data = ZDRIVE\ttesttools\data\cert_importdeletable2.txt		ttesttools\data\cert_importdeletable2.txt
+data = ZDRIVE\ttesttools\data\cert_importdeletable3.txt		ttesttools\data\cert_importdeletable3.txt
+data = ZDRIVE\ttesttools\data\cert_removedeletable1.txt		ttesttools\data\cert_removedeletable1.txt
+data = ZDRIVE\ttesttools\data\cert_removedeletable2.txt		ttesttools\data\cert_removedeletable2.txt
 data = ZDRIVE\ttesttools\data\certhelp.txt		ttesttools\data\certhelp.txt
 
 data = ZDRIVE\tkeystore\data\corrupt.001		tkeystore\data\corrupt.001
@@ -274,10 +282,13 @@ data = ZDRIVE\tcertapps\scripts\apipolicing.ini	tcertapps\scripts\apipolicing.in
 #else
 // additional certstore needed in normal rom for sec-filetokens tests which uses certstore1 ,2,...
 ECOM_PLUGIN(tadditionalstores.dll, tadditionalstores.rsc)
-// The below 4 test data needed for sec-filetokens-tools.script which will run only in normal image(testsecurity_sdp.bat)
-data = ZDRIVE\tcertstore\ent-wtls.cer					\tcertstore\ent-wtls.cer attrib=r
-data = ZDRIVE\tcertstore\ent-wtls1.cer					\tcertstore\ent-wtls1.cer attrib=r
-data = ZDRIVE\tcertstore\ent-wtls2.cer					\tcertstore\ent-wtls2.cer attrib=r
+// The below test data needed for sec-filetokens-tools.script which will run only in normal image(testsecurity_sdp.bat)
+data = ZDRIVE\tcertstore\ent-wtls.cer					             \tcertstore\ent-wtls.cer attrib=r
+data = ZDRIVE\tcertstore\ent-wtls1.cer					           \tcertstore\ent-wtls1.cer attrib=r
+data = ZDRIVE\tcertstore\ent-wtls2.cer					           \tcertstore\ent-wtls2.cer attrib=r
+data = ZDRIVE\tcertstore\thawteserverca.cer				         \tcertstore\thawteserverca.cer attrib=r
+data = ZDRIVE\tcertstore\veriSignclass1primaryca.cer			 \tcertstore\veriSignclass1primaryca.cer attrib=r
+
 // DSA private key and certificate for certstore tests
 data = ZDRIVE\tcertstore\data\pkcs8dsa1.001			tcertstore\data\pkcs8dsa1.001 attrib=r
 data = ZDRIVE\tcertstore\data\cert_dsa1.der			tcertstore\data\cert_dsa1.der attrib=r

@@ -41,7 +41,7 @@ EXPORTS
 	?Read@CDrmFileContent@ReferenceTestAgent@@QAEH_JAAVTDes8@@H@Z @ 40 NONAME ; int ReferenceTestAgent::CDrmFileContent::Read(long long, class TDes8 &, int)
 	?GetStringAttribute@CWmdrmContentParser@ReferenceTestAgent@@QBEHHAAVTDes16@@@Z @ 41 NONAME ; int ReferenceTestAgent::CWmdrmContentParser::GetStringAttribute(int, class TDes16 &) const
 	?GetAttribute@CWmdrmContentParser@ReferenceTestAgent@@QBEHHAAH@Z @ 42 NONAME ; int ReferenceTestAgent::CWmdrmContentParser::GetAttribute(int, int &) const
-	?GetStringAttributeSet@CWmdrmContentParser@ReferenceTestAgent@@QBEHAAVRStringAttributeSet@ContentAccess@@@Z @ 43 NONAME ; int ReferenceTestAgent::CWmdrmContentParser::GetStringAttributeSet(class ContentAccess::RStringAttributeSet &) const
+	?GetStringAttributeSetL@CWmdrmContentParser@ReferenceTestAgent@@QBEXAAVRStringAttributeSet@ContentAccess@@@Z @ 43 NONAME ; void ReferenceTestAgent::CWmdrmContentParser::GetStringAttributeSetL(class ContentAccess::RStringAttributeSet &) const
 	?GetAttributeSet@CWmdrmContentParser@ReferenceTestAgent@@QBEHAAVRAttributeSet@ContentAccess@@@Z @ 44 NONAME ; int ReferenceTestAgent::CWmdrmContentParser::GetAttributeSet(class ContentAccess::RAttributeSet &) const
 	?NewL@CWmdrmContentParser@ReferenceTestAgent@@SAPAV12@ABVTDesC8@@@Z @ 45 NONAME ; class ReferenceTestAgent::CWmdrmContentParser * ReferenceTestAgent::CWmdrmContentParser::NewL(class TDesC8 const &)
 

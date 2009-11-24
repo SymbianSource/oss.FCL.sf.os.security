@@ -1,0 +1,51 @@
+/*
+* Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* authclient.exe Implementation of authentication client
+*
+*/
+
+
+/**
+ @file
+*/
+
+CAPABILITY ALL -TCB
+
+target authclient.dll
+targettype dll
+
+// this is a static, as opposed to polymorphic DLL
+UID				0x1000008D 0x102740FD
+VENDORID		0x70000001
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+USERINCLUDE		../source/common
+USERINCLUDE		../source/client
+USERINCLUDE		../inc_private
+USERINCLUDE             ../inc/authserver
+
+SOURCEPATH		../source/client
+SOURCE			authclient.cpp
+SOURCE			authmgrclient.cpp
+SOURCE 			asyncresponsedecoder.cpp
+
+LIBRARY			euser.lib 
+LIBRARY			estor.lib 
+LIBRARY			efsrv.lib
+LIBRARY			random.lib
+LIBRARY			cryptography.lib
+LIBRARY			authcommon.lib scsclient.lib 
+SMPSAFE

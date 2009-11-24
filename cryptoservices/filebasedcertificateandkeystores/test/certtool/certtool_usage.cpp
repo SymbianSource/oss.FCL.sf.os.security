@@ -78,6 +78,7 @@ void CCertToolUsage::DoCommandL(CUnifiedCertStore& /*aCertStore*/, CKeyToolParam
         iController->DisplayLocalisedMsgL(R_CERTTOOL_USAGE_IMPORT3);
         iController->DisplayLocalisedMsgL(R_CERTTOOL_USAGE_IMPORT4);
         iController->DisplayLocalisedMsgL(R_CERTTOOL_USAGE_IMPORT5);
+        iController->DisplayLocalisedMsgL(R_CERTTOOL_USAGE_IMPORT6);
 		}
 	else
 	if (!aParam->iDefault->Compare(_L("list")) )

@@ -1,0 +1,59 @@
+MAKEDATA :
+!IF "$(PLATFORM)" == "GCCXML" || "$(PLATFORM)" == "TOOLS" || "$(PLATFORM)" == "TOOLS2"
+	cd
+	echo ----------------
+	echo  Do nothing ...
+	echo ----------------
+!ELSE
+	cd
+	echo ---------------------------------------------------------------------
+	echo Copy test upgrade dlls and rsc files to c:\tauth\tpostmarketplugins\
+	echo ---------------------------------------------------------------------
+	
+	if not exist %EPOCROOT%epoc32\winscw\c\tauth\tpostmarketplugins mkdir %EPOCROOT%epoc32\winscw\c\tauth\tpostmarketplugins
+	copy %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\tauthpluginupgrade.dll %EPOCROOT%epoc32\winscw\c\tauth\tpostmarketplugins\tauthpluginupgrade.dll
+	copy %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\testpluginsupgrade.dll %EPOCROOT%epoc32\winscw\c\tauth\tpostmarketplugins\testpluginsupgrade.dll
+	copy %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\tpostmarketramplugin.dll %EPOCROOT%epoc32\winscw\c\tauth\tpostmarketplugins\tpostmarketramplugin.dll
+
+	del %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\tauthpluginupgrade.dll
+	del %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\testpluginsupgrade.dll
+	del %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\tpostmarketramplugin.dll
+
+	if exist %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\z\resource\plugins\tauthpluginupgrade.rsc copy %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\z\resource\plugins\tauthpluginupgrade.rsc %EPOCROOT%epoc32\winscw\c\tauth\tpostmarketplugins\tauthpluginupgrade.rsc
+	if exist %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\z\resource\plugins\testpluginsupgrade.rsc copy %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\z\resource\plugins\testpluginsupgrade.rsc %EPOCROOT%epoc32\winscw\c\tauth\tpostmarketplugins\testpluginsupgrade.rsc
+	if exist %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\z\resource\plugins\tpostmarketramplugin.rsc copy %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\z\resource\plugins\tpostmarketramplugin.rsc %EPOCROOT%epoc32\winscw\c\tauth\tpostmarketplugins\tpostmarketramplugin.rsc
+
+	if exist %EPOCROOT%epoc32\data\z\resource\plugins\testpluginsupgrade.rsc copy /y %EPOCROOT%epoc32\data\z\resource\plugins\testpluginsupgrade.rsc %EPOCROOT%epoc32\winscw\c\tauth\tpostmarketplugins\testpluginsupgrade.rsc
+	if exist %EPOCROOT%epoc32\data\z\resource\plugins\tauthpluginupgrade.rsc copy /y %EPOCROOT%epoc32\data\z\resource\plugins\tauthpluginupgrade.rsc %EPOCROOT%epoc32\winscw\c\tauth\tpostmarketplugins\tauthpluginupgrade.rsc
+	if exist %EPOCROOT%epoc32\data\z\resource\plugins\tpostmarketramplugin.rsc copy /y %EPOCROOT%epoc32\data\z\resource\plugins\tpostmarketramplugin.rsc %EPOCROOT%epoc32\winscw\c\tauth\tpostmarketplugins\tpostmarketramplugin.rsc
+
+	if exist %EPOCROOT%epoc32\data\z\resource\plugins\testpluginsupgrade.rsc del %EPOCROOT%epoc32\data\z\resource\plugins\testpluginsupgrade.rsc
+	if exist %EPOCROOT%epoc32\data\z\resource\plugins\tauthpluginupgrade.rsc  del %EPOCROOT%epoc32\data\z\resource\plugins\tauthpluginupgrade.rsc 
+	if exist %EPOCROOT%epoc32\data\z\resource\plugins\tpostmarketramplugin.rsc del %EPOCROOT%epoc32\data\z\resource\plugins\tpostmarketramplugin.rsc
+
+	if exist %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\z\resource\plugins\tauthpluginupgrade.rsc del %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\z\resource\plugins\tauthpluginupgrade.rsc
+	if exist %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\z\resource\plugins\testpluginsupgrade.rsc del %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\z\resource\plugins\testpluginsupgrade.rsc
+	if exist %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\z\resource\plugins\tpostmarketramplugin.rsc del %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\z\resource\plugins\tpostmarketramplugin.rsc
+
+!ENDIF
+
+DO_NOTHING:
+	rem do nothing
+
+#
+# The targets invoked by abld...
+#
+
+MAKMAKE : DO_NOTHING
+FREEZE : DO_NOTHING
+LIB : DO_NOTHING
+RESOURCE : DO_NOTHING
+CLEANLIB : DO_NOTHING
+BLD : DO_NOTHING
+RELEASABLES : DO_NOTHING
+
+SAVESPACE : BLD
+
+FINAL : MAKEDATA
+
+CLEAN : 

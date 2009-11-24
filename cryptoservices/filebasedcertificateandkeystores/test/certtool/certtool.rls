@@ -40,11 +40,12 @@ rls_string STRING_r_certtool_usage_list4 "If a owner type is specified using -ow
 rls_string STRING_r_certtool_usage_list5 "If a details tag is specified using -details, then it displays all the details about the certificate"
 
 
-rls_string STRING_r_certtool_usage_import "[-store idx] [-label labelname] [-private key] -import | -i {CertFile} Imports a certificate from the specified file."
+rls_string STRING_r_certtool_usage_import "[-store idx] [-label labelname] [-private key] [-deletable | -del {yes|no}] -import | -i {CertFile} Imports a certificate from the specified file."
 rls_string STRING_r_certtool_usage_import2 "The certificate is added to the first store implementation found."
 rls_string STRING_r_certtool_usage_import3 "If a certstore implementation is specified using -store, then it is added to the one specified with -store."
 rls_string STRING_r_certtool_usage_import4 "If a certificate label is specified using -label, then it is added with specified label otherwise the certificate file name is taken as label."
 rls_string STRING_r_certtool_usage_import5 "If a private key (DER encoded pkcs file)is specified using -private, then the certificate is imported as a CA root certificate if and only if the corresponding private key cannot be found in the keystore otherwise imported as a user certificate."
+rls_string STRING_r_certtool_usage_import6 "-deletable {Y|N} Used to set if a certificate is deletable or not. A certificate is deletable by default."
 
 rls_string STRING_r_certtool_usage_remove "-remove CertLabel [-rka] Removes the specified certificate from the certstore."
 rls_string STRING_r_certtool_usage_remove2 "if -rka option specified, then the key with the CertLabel also be removed if and only if the key is imported using -private option from the certtool."
@@ -93,6 +94,7 @@ rls_string STRING_r_certtool_err_deletesuccess "Certificate deleted successfully
 
 rls_string STRING_r_certtool_err_remove "Certificate to remove not specified."
 rls_string STRING_r_certtool_err_remove_success "Certificate removed successfully."
+rls_string STRING_r_certtool_err_remove_failure "Certificate removal failed."
 
 rls_string STRING_r_certtool_err_setapps_success "Certificate applicability set successfully."
 

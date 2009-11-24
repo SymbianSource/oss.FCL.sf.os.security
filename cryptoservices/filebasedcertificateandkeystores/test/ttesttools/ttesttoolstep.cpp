@@ -611,7 +611,7 @@ TVerdict CTestToolParseFileStep::doTestStepL()
 	
 		if (iExpectedError.CompareF(*actual16) != KErrNone)
 			{
-			INFO_PRINTF1(_L("Exptected Error is Different from Actual"));
+			INFO_PRINTF1(_L("Expected Error is Different from Actual"));
 			SetTestStepResult(EFail);
 			}
 		CleanupStack::PopAndDestroy(3, fileContents); //actual16, actualError, fileContents

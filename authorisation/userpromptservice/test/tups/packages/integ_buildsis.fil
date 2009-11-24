@@ -1,99 +1,66 @@
-!IF "$(PLATFORM)" == "GCCXML" || "$(PLATFORM)" == "TOOLS" || "$(PLATFORM)" == "TOOLS2" 
 MAKEDATA :
+!IF "$(PLATFORM)" == "GCCXML" || "$(PLATFORM)" == "TOOLS" || "$(PLATFORM)" == "TOOLS2" 
 	cd
 	echo ----------------
 	echo  Do nothing ...
 	echo ----------------
 !ELSE
-
-!IF "$(PLATFORM)" == "WINSCW"
-$(EPOCROOT)epoc32\release\$(PLATFORM)\$(CFG)\z\tups\integ\packages\tupsinteg_post1.sis : $(EPOCROOT)epoc32\release\$(PLATFORM)\$(CFG)\tupsinteg_1.exe tupsinteg_post1.pkg
-!ELSE
-$(EPOCROOT)epoc32\data\z\tups\integ\packages\tupsinteg_post1.sis : $(EPOCROOT)epoc32\release\$(PLATFORM)\$(CFG)\tupsinteg_1.exe tupsinteg_post1.pkg
-!ENDIF
 	cd
+	echo --------------------------------------------------------------
+	echo Copying required input datas
+	echo --------------------------------------------------------------
+
+	call copy.bat $(PLATFORM) $(CFG)
+
 	echo --------------------------------------------------------------
 	echo Building SIS file to install removable test client
 	echo --------------------------------------------------------------
 	
-	echo Copy executable to common location
-	copy /y %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\tupsinteg_post1.exe tupsinteg_post1.exe
-	
-	echo makesis
-	makesis tupsinteg_post1.pkg tupsinteg_post1_unsigned.sis
-	del /q  tupsinteg_post1.exe
-	
-	echo signsis	
-	signsis tupsinteg_post1_unsigned.sis tupsinteg_post1.sis   %SECURITYSOURCEDIR%\testframework\testcertificates\ups\test\root5ca\ca.pem  %SECURITYSOURCEDIR%\testframework\testcertificates\ups\test\root5ca\ca.key.pem
-	del /q tupsinteg_post1_unsigned.sis 
-		
-	echo Copy winscw sis to emulator drive or armv5 to data z tree
-	if "$(PLATFORM)" == "WINSCW" copy /y tupsinteg_post1.sis %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\z\tups\integ\packages\tupsinteg_post1.sis 
-	if "$(PLATFORM)" == "ARMV5"  copy /y tupsinteg_post1.sis %EPOCROOT%epoc32\data\z\tups\integ\packages\tupsinteg_post1.sis 
-	if exist tupsinteg_post1.sis	del /q tupsinteg_post1.sis 
+	call create.bat $(PLATFORM) $(CFG) tupsinteg_post1 tupsinteg_post1 ROOT5CA
 	
 
-!IF "$(PLATFORM)" == "WINSCW"
-$(EPOCROOT)epoc32\release\$(PLATFORM)\$(CFG)\z\tups\integ\packages\tupsinteg_policies1.sis : $(EPOCROOT)epoc32\release\$(PLATFORM)\$(CFG)\Z\private\10283558\policies\t_ups_101f7f1f_ff000001_version1.rsc tupsinteg_policies1.pkg
-!ELSE
-$(EPOCROOT)epoc32\data\z\tups\integ\packages\tupsinteg_policies1.sis : $(EPOCROOT)epoc32\data\z\private\10283558\policies\t_ups_101f7f1f_ff000001_version1.rsc tupsinteg_policies1.pkg
-!ENDIF
 	echo --------------------------------------------------------------
 	echo Building SIS to install policy files post manufacture.
 	echo --------------------------------------------------------------
 	
-	echo RSC file to here
-	if "$(PLATFORM)" == "WINSCW" copy /y %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\Z\private\10283558\policies\t_ups_101f7f1f_ff000001_version1.rsc 
-	if "$(PLATFORM)" == "ARMV5"  copy /y %EPOCROOT%epoc32\data\z\private\10283558\policies\t_ups_101f7f1f_ff000001_version1.rsc 
-	
-	echo makesis
-    makesis tupsinteg_policies1.pkg tupsinteg_policies1_unsigned.sis
-	del /q t_ups_101f7f1f_ff000001_version1.rsc
+	call create.bat $(PLATFORM) $(CFG) tupsinteg_policies1 tupsinteg_policies1 ROOT5CA
 
-	echo signsis	
-	signsis tupsinteg_policies1_unsigned.sis tupsinteg_policies1.sis   %SECURITYSOURCEDIR%\testframework\testcertificates\ups\test\root5ca\ca.pem  %SECURITYSOURCEDIR%\testframework\testcertificates\ups\test\root5ca\ca.key.pem
-	del /q tupsinteg_policies1_unsigned.sis
-
-	echo Copy winscw sis to emulator drive or armv5 to data z tree
-	if "$(PLATFORM)" == "WINSCW" copy /y tupsinteg_policies1.sis %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\z\tups\integ\packages\tupsinteg_policies1.sis 
-	if "$(PLATFORM)" == "ARMV5" copy /y tupsinteg_policies1.sis %EPOCROOT%epoc32\data\z\tups\integ\packages\tupsinteg_policies1.sis
-	 
-	Rem Removes temporary files.
-	del /q tupsinteg_policies1.sis 
-
-!IF "$(PLATFORM)" == "WINSCW"
-$(EPOCROOT)epoc32\release\$(PLATFORM)\$(CFG)\z\tups\integ\packages\tupsinteg_policies2.sis : $(EPOCROOT)epoc32\release\$(PLATFORM)\$(CFG)\Z\private\10283558\policies\t_ups_101f7f1f_ff000001_version2.rsc tupsinteg_policies2.pkg
-!ELSE
-$(EPOCROOT)epoc32\data\z\tups\integ\packages\tupsinteg_policies2.sis : $(EPOCROOT)epoc32\data\z\private\10283558\policies\t_ups_101f7f1f_ff000001_version2.rsc tupsinteg_policies2.pkg
-!ENDIF
 	echo --------------------------------------------------------------
 	echo Building SIS to install policy files post manufacture.
 	echo --------------------------------------------------------------
 	
-	echo RSC file to here
-	if "$(PLATFORM)" == "WINSCW" copy /y %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\Z\private\10283558\policies\t_ups_101f7f1f_ff000001_version2.rsc 
-	if "$(PLATFORM)" == "ARMV5"  copy /y %EPOCROOT%epoc32\data\z\private\10283558\policies\t_ups_101f7f1f_ff000001_version2.rsc 
+	call create.bat $(PLATFORM) $(CFG) tupsinteg_policies2 tupsinteg_policies2 ROOT5CA
+
+	echo --------------------------------------------------------------
+	echo Building SIS file to install a policy evaluator via SWI
+	echo --------------------------------------------------------------
 	
-	echo makesis
-    makesis tupsinteg_policies2.pkg tupsinteg_policies2_unsigned.sis
-	del /q t_ups_101f7f1f_ff000001_version2.rsc
+	call create.bat $(PLATFORM) $(CFG) tupsinteg_evaluator1	tupsinteg_evaluator1 ALL
+    
+	echo ---------------------------------------------------------------------------
+	echo Building SIS file to install a policy evaluator and dialog creator via SWI
+	echo ---------------------------------------------------------------------------
+	
+	call create.bat $(PLATFORM) $(CFG) tupsinteg_dialog1 tupsinteg_dialog1 ALL
 
-	echo signsis	
-	signsis tupsinteg_policies2_unsigned.sis tupsinteg_policies2.sis   %SECURITYSOURCEDIR%\testframework\testcertificates\ups\test\root5ca\ca.pem  	%SECURITYSOURCEDIR%\testframework\testcertificates\ups\test\root5ca\ca.key.pem
-	del /q tupsinteg_policies2_unsigned.sis
+	echo -------------------------------------- 
+	echo Building SIS to eclipse policy files.
+	echo --------------------------------------
+	
+	call create.bat $(PLATFORM) $(CFG) tupsinteg_eclipse1 tupsinteg_eclipse1 ROOT5CA
 
-	echo Copy winscw sis to emulator drive or armv5 to data z tree
-	if "$(PLATFORM)" == "WINSCW" copy /y tupsinteg_policies2.sis %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\z\tups\integ\packages\tupsinteg_policies2.sis 
-	if "$(PLATFORM)" == "ARMV5" copy /y tupsinteg_policies2.sis %EPOCROOT%epoc32\data\z\tups\integ\packages\tupsinteg_policies2.sis
-	 
-	Rem Removes temporary files.
-	del /q tupsinteg_policies2.sis 
+	echo --------------------------------------------------------------------------
+	echo Building SIS to (attempt to) install policy files (incorrect cert used)
+	echo --------------------------------------------------------------------------
+	
+	call create.bat $(PLATFORM) $(CFG) tupsinteg_policies1	tupsinteg_policies1_negative TESTROOT
 
-!IF "$(PLATFORM)" == "WINSCW"
-MAKEDATA : $(EPOCROOT)epoc32\release\$(PLATFORM)\$(CFG)\z\tups\integ\packages\tupsinteg_post1.sis $(EPOCROOT)epoc32\release\$(PLATFORM)\$(CFG)\z\tups\integ\packages\tupsinteg_policies1.sis $(EPOCROOT)epoc32\release\$(PLATFORM)\$(CFG)\z\tups\integ\packages\tupsinteg_policies2.sis 
-!ELSE
-MAKEDATA : $(EPOCROOT)epoc32\data\z\tups\integ\packages\tupsinteg_post1.sis $(EPOCROOT)epoc32\data\z\tups\integ\packages\tupsinteg_policies1.sis $(EPOCROOT)epoc32\data\z\tups\integ\packages\tupsinteg_policies2.sis 
-!ENDIF
+	echo -----------------------------------------------------------------------
+	echo Building SIS to install policy files signed with CA cert not in store
+	echo -----------------------------------------------------------------------
+	
+	call create.bat $(PLATFORM) $(CFG) tupsinteg_ca_not_instore tupsinteg_ca_not_instore SELF
+
 	echo
 
 !ENDIF
@@ -111,12 +78,12 @@ FREEZE : DO_NOTHING
 LIB : DO_NOTHING
 RESOURCE : DO_NOTHING
 CLEANLIB : DO_NOTHING
-FINAL : DO_NOTHING
+BLD : DO_NOTHING
 RELEASABLES : DO_NOTHING
 
 SAVESPACE : BLD
 
-BLD : MAKEDATA
+FINAL : MAKEDATA
 
 CLEAN : 
 	if exist %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\z\tups\integ\packages\tupsinteg_post1.sis 	del /q %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\z\tups\integ\packages\tupsinteg_post1.sis 

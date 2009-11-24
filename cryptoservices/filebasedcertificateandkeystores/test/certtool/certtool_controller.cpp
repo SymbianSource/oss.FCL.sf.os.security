@@ -155,6 +155,12 @@ void CCertToolController::HandleCommandL(TInt aCommand, CKeyToolParameters* aPar
 			{
 			certstoreIndex = aParam->iCertstoreIndex;
 			iEngine->AddAppsL(aParam);
+			if (aParam->iLabel)
+				{
+				delete aParam->iDefault;
+				aParam->iDefault = NULL;
+				aParam->iDefault = aParam->iLabel->AllocL();
+				}
 			CActiveScheduler::Start();
 			aParam->iCertstoreIndex = certstoreIndex;	
 			iEngine->ListL(aParam);			

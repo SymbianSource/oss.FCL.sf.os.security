@@ -35,7 +35,7 @@
 	return self;
 	}
 
-CCertToolAddApps::CCertToolAddApps(CCertToolController* aController) : CCertToolList(aController)
+CCertToolAddApps::CCertToolAddApps(CCertToolController* aController) : CCertToolList(aController), iCertIndex (-1)
 	{
 	}
 
@@ -67,19 +67,17 @@ void CCertToolAddApps::RunL()
 				if (iParams->iDefault)    
 					{
 					// Look for a specific certificate					
-					TInt certIndex = -1;
 					for (TInt j = 0; j < iCertInfos.Count(); j++)
 						{
 						if (iCertInfos[j]->Label() == *iParams->iDefault) 
 							{
-							certIndex = j;
+							iCertIndex = j;
 							break;
 							}
 						}	
 						
-					if (certIndex != -1)
+					if (iCertIndex != -1)
 						{
-						iIndex = certIndex;						
 						// Certificate found set app uids!
 						if (iParams->iCertstoreIndex == -1)
 							{
@@ -90,7 +88,7 @@ void CCertToolAddApps::RunL()
 							iController->DisplayLocalisedMsgL(R_CERTTOOL_ERR_NOTEXIST);	
 							User::Leave(KErrArgument);			
 							}						
-						iCertStore->Applications(*iCertInfos[iIndex], iApps, iStatus);
+						iCertStore->Applications(*iCertInfos[iCertIndex], iApps, iStatus);
 						iState = ESetApps;
 						SetActive();
 						}
@@ -131,9 +129,24 @@ void CCertToolAddApps::RunL()
 				{
 				iParams->iUIDs.Append(iApps[j]);
 				}
-			iState = EFinished;
-			iCertStore->SetApplicability(*iCertInfos[iIndex], iParams->iUIDs, iStatus);
+			if(iCertInfos[iCertIndex]->CertificateOwnerType() == ECACertificate)							
+				{
+				iState = ESetTrust;
+				}
+			else
+				{
+				iState = EFinished;								
+				}	
+			iCertStore->SetApplicability(*iCertInfos[iCertIndex], iParams->iUIDs, iStatus);
 			SetActive();
+			}
+			break;
+		case ESetTrust:
+			{
+			iState = EFinished;
+			const TBool caCert = ETrue;
+			iCertStore->SetTrust(*iCertInfos[iCertIndex],caCert,iStatus);
+			SetActive();				
 			}
 			break;
 		case EFinished:

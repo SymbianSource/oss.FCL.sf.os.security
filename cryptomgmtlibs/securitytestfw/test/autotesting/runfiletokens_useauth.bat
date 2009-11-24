@@ -39,8 +39,8 @@ REM These set of tests run when keystore has been enbled to use authentication s
 T_KEYSTORE c:\tkeystore\scripts\tkeystore_useauth.script	c:\logs\testexecute\tkeystore_useauth.htm
 move c:\logs\testexecute\tkeystore_useauth.htm e:\testresults\tkeystore_useauth.htm
 
-T_KEYSTORE c:\tkeystore\scripts\authobjects_useauth.txt c:\tkeystore_authobjects_useauth.log
-move c:\tkeystore_authobjects_useauth.log e:\testresults\tkeystore_authobjects_useauth.log
+T_KEYSTORE c:\tkeystore\scripts\authobjects_useauth.script c:\logs\testexecute\tkeystore_authobjects_useauth.htm
+move c:\logs\testexecute\tkeystore_authobjects_useauth.htm e:\testresults\tkeystore_authobjects_useauth.htm
 
 T_KEYSTORE c:\tkeystore\scripts\exportscript_useauth.script c:\logs\testexecute\tkeystore_export_useauth.htm
 move c:\logs\testexecute\tkeystore_export_useauth.htm c:\testresults\tkeystore_export_useauth.htm

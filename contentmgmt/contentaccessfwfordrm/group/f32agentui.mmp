@@ -35,7 +35,8 @@ SOURCE		f32agentui.cpp
 
 USERINCLUDE		../inc
 
-OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+// OS_LAYER_SYSTEMINCLUDE_SYMBIAN -- should be this but has an upward dependency on apmstd.h in the MW layer.
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 LIBRARY			euser.lib
 SMPSAFE

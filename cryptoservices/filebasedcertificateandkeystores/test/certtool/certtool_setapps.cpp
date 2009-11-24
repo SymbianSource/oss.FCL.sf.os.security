@@ -35,7 +35,7 @@
 	return self;
 	}
 
-CCertToolSetApps::CCertToolSetApps(CCertToolController* aController) : CCertToolList(aController), iCertIndex (-1), iCaCert(EFalse)
+CCertToolSetApps::CCertToolSetApps(CCertToolController* aController) : CCertToolList(aController), iCertIndex (-1)
 	{
 	}
 
@@ -90,7 +90,6 @@ void CCertToolSetApps::RunL()
 							}
 						if(iCertInfos[iCertIndex]->CertificateOwnerType() == ECACertificate)							
 							{
-							iCaCert = ETrue;
 							iState = ESetTrust;
 							}
 						else
@@ -111,7 +110,8 @@ void CCertToolSetApps::RunL()
 		case ESetTrust:
 			{
 			iState = EFinished;
-			iCertStore->SetTrust(*iCertInfos[iCertIndex],iCaCert,iStatus);
+			const TBool caCert = ETrue;
+			iCertStore->SetTrust(*iCertInfos[iCertIndex],caCert,iStatus);
 			SetActive();				
 			}
 			break;

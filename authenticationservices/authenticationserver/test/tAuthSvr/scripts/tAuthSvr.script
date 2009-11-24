@@ -1,0 +1,118 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+PRINT Authentication Server tests...
+
+LOAD_SUITE tAuthSvr -SharedData
+//Next line makes use of the new keyword that is more readable
+//LOAD_SERVER tAuthSvr -SharedData		
+
+
+//============================================================
+//
+//! @SYMTestCaseID SEC-AUT-AUTHSVR-0001
+//! @SYMTestCaseDesc Start the authServer with no identities, having a default plugin defined
+//! 		     (FirstStart1_Normal)
+//! @SYMREQ REQ , REQ , REQ , REQ 
+//! @SYMTestPriority Medium
+//! @SYMTestActions  Have a default plugin defined, use a client that has ReadDeviceData capability to connect to the AuthServer, 
+//!			call the Enumerate Identity API
+//! @SYMTestExpectedResults Default identity is the only one listed
+//! @SYMDevelopedForRelease Intulo
+START_TESTCASE SEC-AUT-AUTHSVR-0001
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	FIRST_START	c:\tAuthSvr\scripts\tauthsvr.ini Test0001
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHSVR_CHECK	c:\tAuthSvr\scripts\tauthsvr.ini Test0001
+END_TESTCASE SEC-AUT-AUTHSVR-0001 
+
+
+//! @SYMTestCaseID SEC-AUT-AUTHSVR-0002
+//! @SYMTestCaseDesc Start the authServer with no identities, having no default plugin defined
+//! 		     (FirstStart2_NoDefaultPlugin)
+//! @SYMREQ REQ , REQ , REQ , REQ 
+//! @SYMTestPriority Medium
+//! @SYMTestActions  Have no default plugin defined, use a client that has ReadDeviceData capability to connect to the AuthServer, 
+//!			call the Enumerate Identity API.
+//! @SYMTestExpectedResults KErrServerTerminated is received when trying to call the Identities API
+//! @SYMDevelopedForRelease Intulo
+START_TESTCASE SEC-AUT-AUTHSVR-0002
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	FIRST_START	c:\tAuthSvr\scripts\tauthsvr.ini Test0002
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHSVR_CHECK	c:\tAuthSvr\scripts\tauthsvr.ini Test0002
+END_TESTCASE SEC-AUT-AUTHSVR-0002
+
+
+//! @SYMTestCaseID SEC-AUT-AUTHSVR-0003
+//! @SYMTestCaseDesc Start the authServer with no identities, having a default plugin defined which is a Biometric type
+//! 		     (FirstStart3_DefaultIsBiometricType)
+//! @SYMREQ REQ , REQ , REQ , REQ 
+//! @SYMTestPriority Medium
+//! @SYMTestActions  Have a default plugin defined, which is of Biometric type. use a client that has ReadDeviceData 
+//!			capability to connect to the AuthServer, call the Enumerate Identity API.
+//! @SYMTestExpectedResults KErrServerTerminated is received when trying to call the Identities API
+//! @SYMDevelopedForRelease Intulo
+START_TESTCASE SEC-AUT-AUTHSVR-0003
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	FIRST_START	c:\tAuthSvr\scripts\tauthsvr.ini Test0003
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHSVR_CHECK	c:\tAuthSvr\scripts\tauthsvr.ini Test0003
+END_TESTCASE SEC-AUT-AUTHSVR-0003
+
+
+//! @SYMTestCaseID SEC-AUT-AUTHSVR-0004
+//! @SYMTestCaseDesc Start the authServer with no identities, having a default plugin which does not support the returning of a default result
+//! 		     (FirstStart4_NoDefaultResult)
+//! @SYMREQ REQ , REQ , REQ , REQ 
+//! @SYMTestPriority Medium
+//! @SYMTestActions  Have a default plugin defined, which returns a default result. 
+//! 			Use a client that has ReadDeviceData capability to connect to the AuthServer, 
+//!			call the Enumerate Identity API
+//! @SYMTestExpectedResults KErrServerTerminated is received when trying to call the Identities API
+//! @SYMDevelopedForRelease Intulo
+START_TESTCASE SEC-AUT-AUTHSVR-0004
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	FIRST_START	c:\tAuthSvr\scripts\tauthsvr.ini Test0004
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHSVR_CHECK	c:\tAuthSvr\scripts\tauthsvr.ini Test0004
+END_TESTCASE SEC-AUT-AUTHSVR-0004
+
+
+//----------------------------------------------------------------------
+
+//! @SYMTestCaseID SEC-AUT-AUTHSVR-0005
+//! @SYMTestCaseDesc Attempt to register a new identity
+//! 		     (RegisterIdentity1_Normal)
+//! @SYMREQ REQ , REQ , REQ , REQ 
+//! @SYMTestPriority Medium
+//! @SYMTestActions  Have a default plugin defined, which supports the returning of a default result. 
+//! 			Use a client that has ReadDeviceData capability to connect to the AuthServer, 
+//! 			Call the RegisterNewUser API with a client that has WriteDeviceData then train the 1 existing active plugin
+//!			call the Enumerate Identity API
+//! @SYMTestExpectedResults KErrServerTerminated is received when trying to call the Identities API
+//! @SYMDevelopedForRelease Intulo
+START_TESTCASE SEC-AUT-AUTHSVR-0005
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REG_IDENTITY	c:\tAuthSvr\scripts\tauthsvr.ini Test0021
+//RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHSVR_CHECK	c:\tAuthSvr\scripts\tauthsvr.ini Test0021
+END_TESTCASE SEC-AUT-AUTHSVR-0005

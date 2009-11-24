@@ -46,7 +46,6 @@ _LIT(KX520GenerationQualifier,"2.5.4.44");
 _LIT(KX520DNQualifier,"2.5.4.46");
 _LIT(KX520SerialNumber,"2.5.4.5");
 
-#ifndef SYMBIAN_ENABLE_SPLIT_HEADERS
 //more attribute types we handle at present
 _LIT(KX520PostalCode,"2.5.4.17");
 _LIT(KRFC2247DomainComponent, "0.9.2342.19200300.100.1.25");
@@ -93,8 +92,6 @@ const TInt KPKCS9MaxUnstructuredNameLength = 256;
 const TInt KRFC2247MaxDomainComponentLength = 128;
 /** The maximum length allowed a for street. */
 const TInt KRFC2256StreetLength = 128;
-
-#endif
 
 
 /** The attribute type. 

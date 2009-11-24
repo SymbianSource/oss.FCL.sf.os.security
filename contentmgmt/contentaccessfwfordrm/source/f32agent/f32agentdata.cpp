@@ -362,7 +362,7 @@ TInt CF32AgentData::Read(const TDesC8& aEncryptedInputDataPacket, TDes8& aDecryp
 	{
 	if(aEncryptedInputDataPacket.Length() <= 0)
 		{
-		User::Leave(KErrInsufficientDataPacketLength);
+		return KErrInsufficientDataPacketLength;
 		}
 	
 	aDecryptedOutputDataPacket = aEncryptedInputDataPacket;

@@ -39,7 +39,11 @@ CKeyToolParameters::~CKeyToolParameters()
 	delete iLabel;
 	delete iPrivate;
 	delete iOwnerType;
+	delete iIsDeletable;
 	iUIDs.Close();
+	
+	
+	
 #ifdef KEYTOOL
 	delete iOldKeyFile;
 	delete iNewKeyFile;

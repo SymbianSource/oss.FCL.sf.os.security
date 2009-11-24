@@ -196,6 +196,7 @@ protected:
 private:
 	HBufC8*	iCertData;
 	CUnifiedCertStore* iCertStore;	
+	TBool iIsDeletable;
 	};
 
 
@@ -212,7 +213,7 @@ public:
 	
 public: // From CActive
 	void RunL();
-
+	TInt RunError(TInt aError);    
 protected:
 
 private:
@@ -241,7 +242,6 @@ protected:
 private:
 	CCertToolSetApps(CCertToolController* aController);
 	TInt iCertIndex;
-	TBool iCaCert;
 	};
 	
 	
@@ -266,13 +266,14 @@ protected:
 		ERetrieve,
 		EGetApps,
 		ESetApps,
+		ESetTrust,
 		EFinished,
 		EIntermediate
 		} iState;
 
 private:
 	CCertToolAddApps(CCertToolController* aController);
-	
+	TInt iCertIndex;
 	};
 	
 /**

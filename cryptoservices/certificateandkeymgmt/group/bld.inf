@@ -569,7 +569,7 @@ PRJ_TESTEXPORTS
 ../tcertstore/scripts/t_certstore_2.ini				/epoc32/winscw/c/t_certstore_2.ini
 ../tcertstore/scripts/t_certstore_sha2.script			/epoc32/winscw/c/tcertstore/scripts/t_certstore_sha2.script
 ../tcertstore/scripts/t_certstore_sha2.ini			/epoc32/winscw/c/tcertstore/scripts/t_certstore_sha2.ini
-../tcertstore/scripts/t_certstore_sha2.txt			/epoc32/winscw/c/tcertstore/scripts/t_certstore_sha2.txt
+
 
 
 
@@ -601,7 +601,6 @@ PRJ_TESTEXPORTS
 ../tcertstore/certstores/test2certstore.dat	/epoc32/winscw/c/tcertstore/certstores/test2deviceimmutablecertstore.dat
 
 // SWI cert store tests (winscw only)
-../tcertstore/scripts/swicertstore1hw.txt		/epoc32/winscw/c/tcertstore/scripts/swicertstore1hw.txt // For ROM build
 
 
 ../tcertstore/scripts/swicertstore1.script		/epoc32/winscw/c/tcertstore/scripts/swicertstore1.script
@@ -609,7 +608,7 @@ PRJ_TESTEXPORTS
 ../tcertstore/scripts/swicertstore3.script		/epoc32/winscw/c/tcertstore/scripts/swicertstore3.script
 ../tcertstore/scripts/swicertstore4.script		/epoc32/winscw/c/tcertstore/scripts/swicertstore4.script
 ../tcertstore/scripts/wri-swicertstore1.script	/epoc32/winscw/c/tcertstore/scripts/wri-swicertstore1.script // For emulator tests
-// ../tcertstore/scripts/swicertstore1hw.script	/epoc32/winscw/c/tcertstore/scripts/swicertstore1hw.script // For ROM build
+../tcertstore/scripts/swicertstore1hw.script	/epoc32/winscw/c/tcertstore/scripts/swicertstore1hw.script // For ROM build
 ../tcertstore/scripts/wri-swicertstorehw.script	/epoc32/winscw/c/tcertstore/scripts/wri-swicertstorehw.script // For ROM build
 ../tcertstore/scripts/wri-swicertstore2.script	/epoc32/winscw/c/tcertstore/scripts/wri-swicertstore2.script
 ../tcertstore/scripts/wri-swicertstore3.script	/epoc32/winscw/c/tcertstore/scripts/wri-swicertstore3.script
@@ -620,7 +619,7 @@ PRJ_TESTEXPORTS
 ../tcertstore/scripts/swicertstore3.ini		/epoc32/winscw/c/tcertstore/scripts/swicertstore3.ini
 ../tcertstore/scripts/swicertstore4.ini		/epoc32/winscw/c/tcertstore/scripts/swicertstore4.ini
 ../tcertstore/scripts/wri-swicertstore1.ini	/epoc32/winscw/c/tcertstore/scripts/wri-swicertstore1.ini // For emulator tests
-// ../tcertstore/scripts/swicertstore1hw.ini		/epoc32/winscw/c/tcertstore/scripts/swicertstore1hw.ini // For ROM build
+../tcertstore/scripts/swicertstore1hw.ini		/epoc32/winscw/c/tcertstore/scripts/swicertstore1hw.ini // For ROM build
 ../tcertstore/scripts/wri-swicertstorehw.ini	/epoc32/winscw/c/tcertstore/scripts/wri-swicertstorehw.ini // For ROM build
 ../tcertstore/scripts/wri-swicertstore2.ini	/epoc32/winscw/c/tcertstore/scripts/wri-swicertstore2.ini
 ../tcertstore/scripts/wri-swicertstore3.ini	/epoc32/winscw/c/tcertstore/scripts/wri-swicertstore3.ini

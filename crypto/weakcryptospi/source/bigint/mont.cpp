@@ -56,7 +56,7 @@ CMontgomeryStructure::CMontgomeryStructure()
 	{
 	}
 
-TInteger& CMontgomeryStructure::ConvertIn(TInteger& aInteger) const
+TInteger& CMontgomeryStructure::ConvertInL(TInteger& aInteger) const
 	{
 	aInteger <<= WordsToBits(iModulus.Size());
 	aInteger %= iModulus;
@@ -99,7 +99,7 @@ const TInteger& CMontgomeryStructure::SquareL(const TInteger& aA) const
 	{
 	RInteger a = RInteger::NewL(aA);
 	CleanupStack::PushL(a);
-	DoSquareL(iResult, ConvertIn(a));
+	DoSquareL(iResult, ConvertInL(a));
 	ConvertOutL(iResult);
 	CleanupStack::PopAndDestroy(&a);
 	return iResult;
@@ -138,8 +138,8 @@ EXPORT_C const TInteger& CMontgomeryStructure::ExponentiateL(
 	// g2 <- g^2
 	RInteger g2 = RInteger::NewL(aBase);
 	CleanupStack::PushL(g2);
-	ConvertIn(g2);
-	//ConvertIn can shrink g2, because we call DoSquare on g2, g2 must be the same size as the modulus
+	ConvertInL(g2);
+	//ConvertInL can shrink g2, because we call DoSquare on g2, g2 must be the same size as the modulus
 	g2.CleanGrowL(iModulus.Size());
 	RInteger g1 = RInteger::NewL(g2);
 	CleanupStack::PushL(g1);
@@ -164,7 +164,7 @@ EXPORT_C const TInteger& CMontgomeryStructure::ExponentiateL(
 	// 2 A <- 1, i <- t
 	RInteger temp = RInteger::NewL(TInteger::One());
 	CleanupStack::PushL(temp);
-	ConvertIn(temp);
+	ConvertInL(temp);
 
 	RInteger& A = iResult;
 	//Set A to one converted in for this modulus without changing the memory size of A (iResult)
@@ -214,7 +214,7 @@ const TInteger& CMontgomeryStructure::ReduceL(
 	{
 	RInteger temp = RInteger::NewL(aInteger);
 	CleanupStack::PushL(temp);
-	ConvertIn(temp);
+	ConvertInL(temp);
 	iResult.CopyL(ConvertOutL(temp), EFalse);
 	CleanupStack::PopAndDestroy(&temp);
 	return iResult;
@@ -235,7 +235,7 @@ const TInteger& CMontgomeryStructure::MultiplyL(const TInteger& aA,
 	CleanupStack::PushL(a);
 	RInteger b = RInteger::NewL(aB);
 	CleanupStack::PushL(b);
-	DoMultiplyL(iResult, ConvertIn(a), ConvertIn(b));
+	DoMultiplyL(iResult, ConvertInL(a), ConvertInL(b));
 	ConvertOutL(iResult);
 	CleanupStack::PopAndDestroy(&b); 
 	CleanupStack::PopAndDestroy(&a); 

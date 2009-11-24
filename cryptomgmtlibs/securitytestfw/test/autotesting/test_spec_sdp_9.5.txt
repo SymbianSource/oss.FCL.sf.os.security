@@ -239,8 +239,7 @@ t_certstore, \logs\testexecute\tcertstore_conf1.1.htm,, -Dtextshell -- \tcertsto
 t_certstore, \logs\testexecute\tcertstore_conf1.2.htm,, -Dtextshell -- \tcertstore\scripts\unifiedcertstore2-conf1.script \logs\testexecute\tcertstore_conf1.2.htm, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\precert_backup.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
 t_certstore, \logs\testexecute\tcertstore_conf1.3.htm,, -Dtextshell -- \tcertstore\scripts\unifiedcertstore3-conf1.script \logs\testexecute\tcertstore_conf1.3.htm, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\precert_backup.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
 t_certstore, \logs\testexecute\t_handle_1.htm,, -Dtextshell -- \tcertstore\scripts\t_handle_1.script \logs\testexecute\t_handle_1.htm, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\precert_backup.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
-//As of now, not in TMS format. Should be changed to TEF.
-t_certstore, \t_certstore_sha2.txt,, -Dtextshell -- \tcertstore\scripts\t_certstore_sha2.txt \t_certstore_sha2.txt, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\precert_backup.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
+
 //TEF Format
 t_certstore, \logs\testexecute\t_certstore_sha2.htm,, -Dtextshell -- \tcertstore\scripts\t_certstore_sha2.script \logs\testexecute\t_certstore_sha2.htm, 300, UDEB#UREL, \epoc32\winscw\c\twtlscert\scripts\batchfiles\precert_backup.bat, \epoc32\winscw\c\twtlscert\scripts\batchfiles\postcert_restore.bat
 
@@ -584,9 +583,7 @@ TESTEXECUTE, \logs\testexecute\reg_first_identity.htm,, -Dstartupmode=1 --  \tke
 
 # TMS support
 T_KEYSTORE, \logs\testexecute\tkeystore_useauth.htm,,     -Dstartupmode=1 -- \tkeystore\scripts\tkeystore_useauth.script	\logs\testexecute\tkeystore_useauth.htm,			300, UDEB#UREL,, \epoc32\winscw\c\tkeystore\scripts\batchfiles\tkeystore_post.bat 
-
-# non TMS
-T_KEYSTORE, \tkeystore_authobjects_useauth.log,, -Dstartupmode=1 -- \tkeystore\scripts\authobjects_useauth.txt	\tkeystore_authobjects_useauth.log,		300, UDEB#UREL,, \epoc32\winscw\c\tkeystore\scripts\batchfiles\tkeystore_authobject_post.bat 
+T_KEYSTORE, \logs\testexecute\tkeystore_authobjects_useauth.htm,, -Dstartupmode=1 -- \tkeystore\scripts\authobjects_useauth.script	\logs\testexecute\tkeystore_authobjects_useauth.htm,		300, UDEB#UREL,, \epoc32\winscw\c\tkeystore\scripts\batchfiles\tkeystore_authobject_post.bat 
 
 # TMS support
 T_KEYSTORE, \logs\testexecute\tkeystore_export_useauth.htm,,      -Dstartupmode=1 -- \tkeystore\scripts\exportscript_useauth.script	\logs\testexecute\tkeystore_export_useauth.htm,			300, UDEB#UREL,, 
@@ -595,11 +592,10 @@ T_KEYSTORE, \logs\testexecute\tkeystore_cancel_useauth.htm,,      -Dstartupmode=
 T_KEYSTORE, \logs\testexecute\tkeystore_servoom_useauth.htm,,	 -Dstartupmode=1 -- \tkeystore\scripts\servoom_useauth.script \logs\testexecute\tkeystore_servoom_useauth.htm,			6000, UDEB,, 
 T_KEYSTORE, \logs\testexecute\tkeystore_reload_useauth.htm,,      -Dstartupmode=1 -- \tkeystore\scripts\reload_useauth.script \logs\testexecute\tkeystore_reload_useauth.htm,			300, UDEB#UREL,, 
 T_KEYSTORE, \logs\testexecute\tkeystore_capability_useauth.htm,,	 -Dstartupmode=1 -- \tkeystore\scripts\capability_useauth.script \logs\testexecute\tkeystore_capability_useauth.htm,	1800, UDEB#UREL,, 
-
-# non TMS
-T_KEYSTORE, \tkeystore_createoldkeystore.log,,	 -Dstartupmode=1 -- \tkeystore\scripts\createoldkeystore.txt		\tkeystore_createoldkeystore.log,	1800, UDEB#UREL,\epoc32\winscw\c\tkeystore\scripts\batchfiles\tkeystore_migrate_pre.bat, \epoc32\winscw\c\tkeystore\scripts\batchfiles\tkeystore_migrate_copykeys.bat  
+T_KEYSTORE, \logs\testexecute\tkeystore_createoldkeystore.htm,,	 -Dstartupmode=1 -- \tkeystore\scripts\createoldkeystore.script		\logs\testexecute\tkeystore_createoldkeystore.htm,	1800, UDEB#UREL,\epoc32\winscw\c\tkeystore\scripts\batchfiles\tkeystore_migrate_pre.bat, \epoc32\winscw\c\tkeystore\scripts\batchfiles\tkeystore_migrate_copykeys.bat
 TESTEXECUTE, \logs\testexecute\keytool_migrate.htm,,  -Dstartupmode=1 -- \ttesttools\scripts\keytool_migrate.script, 600, UDEB#UREL,,
-T_KEYSTORE, \tkeystore_testnewkeystore.log,,	 -Dstartupmode=1 -- \tkeystore\scripts\testnewkeystore.txt		\tkeystore_testnewkeystore.log,	1800, UDEB#UREL,\epoc32\winscw\c\tkeystore\scripts\batchfiles\tkeystore_migrate_post.bat, 
+T_KEYSTORE, \logs\testexecute\tkeystore_testnewkeystore.htm,,	 -Dstartupmode=1 -- \tkeystore\scripts\testnewkeystore.script		\logs\testexecute\tkeystore_testnewkeystore.htm,	1800, UDEB#UREL,\epoc32\winscw\c\tkeystore\scripts\batchfiles\tkeystore_migrate_post.bat, 
+
 
 # TMS support
 T_KEYSTORE, \logs\testexecute\tkeystore_authenticate_useauth.htm,,	 -Dstartupmode=1 -- \tkeystore\scripts\authenticate_useauth.script \logs\testexecute\tkeystore_authenticate_useauth.htm,	1800, UDEB#UREL,, 
@@ -725,7 +721,7 @@ TESTEXECUTE, \logs\testexecute\tsifrefinstaller.htm,,z:\tusif\tsifrefinstaller\t
 PERL, \security_tools\tcertapp\tCertapp_Output.htm,, \epoc32\winscw\c\security_tools\tcertapp\run_tcertapp.pl, 1600, UDEB#UREL,,
 t_certapps, \logs\testexecute\SDP-Security_Tools-CertApp-CCDAT-EMU00.htm,, -Dtextshell -- \security_tools\tcertapp\SDP-Security_Tools-CertApp-CCDAT-EMU00.script \logs\testexecute\SDP-Security_Tools-CertApp-CCDAT-EMU00.htm, 300, UDEB#UREL, \epoc32\winscw\c\security_tools\tcertapp\pre_tcertapp.bat, \epoc32\winscw\c\security_tools\tcertapp\post_tcertapp.bat
 t_certstore, \logs\testexecute\SDP-Security_Tools-CertApp-FILEDAT-EMU00.htm,, -Dtextshell -- \security_tools\tcertapp\SDP-Security_Tools-CertApp-FILEDAT-EMU00.script \logs\testexecute\SDP-Security_Tools-CertApp-FILEDAT-EMU00.htm, 600, UDEB#UREL, \epoc32\winscw\c\security_tools\tcertapp\pre_tcertapp.bat, \epoc32\winscw\c\security_tools\tcertapp\post_tcertapp.bat
-t_certstore, \logs\testexecute\SDP-Security_Tools-CertApp-SWIDAT-EMU00.htm,, -Dtextshell -- \security_tools\tcertapp\SDP-Security_Tools-CertApp-SWIDAT-EMU00.script \logs\testexecute\SDP-Security_Tools-CertApp-SWIDAT-EMU00.htm 600, UDEB#UREL, \epoc32\winscw\c\security_tools\tcertapp\pre_tcertapp.bat, \epoc32\winscw\c\security_tools\tcertapp\post_tcertapp.bat
+t_certstore, \logs\testexecute\SDP-Security_Tools-CertApp-SWIDAT-EMU00.htm,, -Dtextshell -- \security_tools\tcertapp\SDP-Security_Tools-CertApp-SWIDAT-EMU00.script \logs\testexecute\SDP-Security_Tools-CertApp-SWIDAT-EMU00.htm, 600, UDEB#UREL, \epoc32\winscw\c\security_tools\tcertapp\pre_tcertapp.bat, \epoc32\winscw\c\security_tools\tcertapp\post_tcertapp.bat
 
 [UptoMCL]
 # Scan for unexpected panics in epocwind.out files
@@ -742,7 +738,7 @@ PERL, \cdrivewarnings.htm,,\epoc32\winscw\c\cdrive.pl --exclude=\epoc32\winscw\c
 # Categorisation tags are checked for all of security sub-system 
 PERL, \searchtags.txt,,\epoc32\winscw\c\tswi\searchtags.pl, 300, UDEB,,
 [FileTokens_HwImpl]
-T_KEYSTORE, \thwkeystore.log,,		     -Dstartupmode=1 -- \tkeystore\scripts\thwkeystore.txt	\thwkeystore.log,				300, UDEB#UREL, \epoc32\winscw\c\testdata\tcryptospi\scripts\batchfiles\pre_dummyeccplugin.bat, \epoc32\winscw\c\testdata\tcryptospi\scripts\batchfiles\post_dummyeccplugin.bat
+T_KEYSTORE, \logs\testexecute\thwkeystore.htm,,		     -Dstartupmode=1 -- \tkeystore\scripts\thwkeystore.script	\logs\testexecute\thwkeystore.htm,				300, UDEB#UREL, \epoc32\winscw\c\testdata\tcryptospi\scripts\batchfiles\pre_dummyeccplugin.bat, \epoc32\winscw\c\testdata\tcryptospi\scripts\batchfiles\post_dummyeccplugin.bat
 TESTEXECUTE, \logs\testexecute\te_dummyeccciphertestcases.htm,, -Dtextshell -- \testdata\tcryptospi\scripts\te_dummyeccciphertestcases.script, 900, UDEB#UREL, \epoc32\winscw\c\testdata\tcryptospi\scripts\batchfiles\pre_dummyeccplugin.bat, \epoc32\winscw\c\testdata\tcryptospi\scripts\batchfiles\post_dummyeccplugin.bat
 
 

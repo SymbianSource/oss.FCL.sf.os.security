@@ -52,7 +52,7 @@ move c:\logs\testexecute\tkeystore_reload.htm e:\testresults\tkeystore_reload.ht
 t_keystore c:\tkeystore\scripts\oldserver_newfeature.script c:\logs\testexecute\oldserver_newfeature.htm
 move c:\logs\testexecute\oldserver_newfeature.htm e:\testresults\oldserver_newfeature.htm
 
-t_keystore c:\tkeystore\scripts\thwkeystore.txt c:\testresults\thwkeystore.log
-move c:\testresults\thwkeystore.log e:\testresults\thwkeystore.log
+t_keystore c:\tkeystore\scripts\thwkeystore.script c:\logs\testexecute\thwkeystore.htm
+move c:\logs\testexecute\thwkeystore.htm e:\testresults\thwkeystore.htm
 
 del /s c:\tkeystore\

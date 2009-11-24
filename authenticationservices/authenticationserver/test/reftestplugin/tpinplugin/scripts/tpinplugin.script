@@ -1,0 +1,1309 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+
+PRINT PinPlugin tests...
+
+LOAD_SUITE tpinplugin
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0050
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Delete already existing plugin store.
+//!@SYMPREQ                 PREQ218
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestExpectedResults	Deletion successful.
+//!@SYMTestType				UT
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0050
+
+RUN_UTILS DeleteFile c:\private\102740fc\plugin.store
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0050
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0001 
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and get the
+//					properties of the pin plugin.
+//!@SYMREQ 				REQ5004, REQ5005, REQ5006, REQ5007,REQ5019,REQ5001
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1.Load Pin Plugin
+//      				2.Get the Properties of the plugin
+//      				3.Verify the properties
+//!@SYMTestExpectedResults		verification returns success
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0001
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini plugin_properties
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0001
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0002 
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and get the
+//					default data of the pin plugin.
+//!@SYMREQ 				REQ5019
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1.Load Pin Plugin
+//      				2.Get the default data of the plugin
+//      				3.Verify with identify operation
+//!@SYMTestExpectedResults		verification returns success
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0002
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini default_data
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0002
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0003 
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and train the
+//					User with the selected Pin and store the pin and ID of
+//					the user to the DB.
+//!@SYMREQ 				REQ5021, REQ5012
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in and call Train Function
+//					2. Select first Pin from first Train dialog (EPINPlugInTraining).
+//					3. Save the Identity ID and returned Identify hash in aResult parameter inside test 	
+//					harness.
+//					4. Call Identify function.
+//					5. Displays Identify dialogs (EPINPlugInIdentify), enter PIN saved in previous 		
+//					operation from notification dialog code.
+//!@SYMTestExpectedResults		Saved values from Train operation and returned values from Identity
+//					operation match
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0003
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini train_ok1
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0003
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0004 
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and train the
+//					User with the selected Pin and store the pin and ID of
+//					the user to the DB.
+//!@SYMREQ 				REQ5021, REQ5012
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in and call Train Function
+//					2. Select first Pin from second Train dialog (EPINPlugInTraining).
+//					3. Save the Identity ID and returned Identify hash in aResult parameter inside test 	
+//					harness.
+//					4. Call Identify function.
+//					5. Displays Identify dialogs (EPINPlugInIdentify), enter PIN saved in previous 		
+//					operation from notification dialog code.
+//!@SYMTestExpectedResults		Saved values from Train operation and returned values from Identity
+//					operation match
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0004
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini train_ok2
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0004
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0005 
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and train the
+//					User with the selected Pin and store the pin and ID of
+//					the user to the DB.
+//!@SYMREQ 				REQ5021, REQ5012
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in and call Train Function
+//					2. Select first Pin from Third Train dialog (EPINPlugInTraining).
+//					3. Save the Identity ID and returned Identify hash in aResult parameter inside test 	
+//					harness.
+//					4. Call Identify function.
+//					5. Displays Identify dialogs (EPINPlugInIdentify), enter PIN saved in previous 		
+//					operation from notification dialog code.
+//!@SYMTestExpectedResults		Saved values from Train operation and returned values from Identity
+//					operation match
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0005
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini train_ok3
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0005
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0006 
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and train the
+//					User with the selected Pin and store the pin and ID of
+//					the user to the DB.
+//!@SYMREQ 				REQ5021, REQ5012
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in and call Train Function
+//					2. Select first Pin from fifth Train dialog (EPINPlugInTraining).
+//					3. Save the Identity ID and returned Identify hash in aResult parameter inside test 	
+//					harness.
+//					4. Call Identify function.
+//					5. Displays Identify dialogs (EPINPlugInIdentify), enter PIN saved in previous 		
+//					operation from notification dialog code.
+//!@SYMTestExpectedResults		Saved values from Train operation and returned values from Identity
+//					operation match
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0006
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini train_ok4
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0006
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0007
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and train the
+//					User with the selected Pin and store the pin and ID of
+//					the user to the DB.
+//!@SYMREQ 				REQ5021
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in and call Train Function
+//					2. Select first Pin from Tenth Train dialog (EPINPlugInTraining).
+//					3. Save the Identity ID and returned Identify hash in aResult parameter inside test 	
+//					harness.
+//					4. Call Identify function.
+//					5. Displays Identify dialogs (EPINPlugInIdentify), enter PIN saved in previous 		
+//					operation from notification dialog code.
+//!@SYMTestExpectedResults		Saved values from Train operation and returned values from Identity
+//					operation match
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0007
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini train_ok5
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0007
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0008 
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and train the
+//					User with the selected Pin and store the pin and ID of
+//					the user to the DB.
+//!@SYMREQ 				REQ5021,REQ5020
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in and call Train Function
+//					2. Enter the new pinlength in first Train dialog and Enter Next button.
+//					3. Select first Pin from next Train dialog which displays pin with new length.
+//					4. Save the Identity ID and returned Identify hash in aResult parameter inside test 	
+//					harness.
+//					4. Call Identify function.
+//					5. Displays Identify dialogs (EPINPlugInIdentify), enter PIN saved in previous 		
+//					operation from notification dialog code.
+//!@SYMTestExpectedResults		Saved values from Train operation and returned values from Identity
+//					operation match
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0008
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini train_changepin
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0008
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0009 
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and train the
+//					User with the selected Pin and store the pin and ID of
+//					the user to the DB.
+//!@SYMREQ 				REQ5021
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in and call Train Function
+//					2. Select Cancel button when Training dialog displayed.
+//					3. Call Identify function.
+//					4. Displays Identify dialogs (EPINPlugInIdentify), enter random PIN		
+//!@SYMTestExpectedResults		Train function should complete with KErrAuthServPluginCancelled
+//					and Identify Fails and gives the result as no identity Exist.
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0009
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini train_cancel
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0009
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0010
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and train the
+//					User with the selected Pin and store the pin and ID of
+//					the user to the DB.
+//!@SYMREQ 				REQ5021
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in and call Train Function
+//					2. Select Quit button when Training dialog displayed.
+//					3. Call Identify function.
+//					4. Displays Identify dialogs (EPINPlugInIdentify), enter random PIN		
+//!@SYMTestExpectedResults		Train function should complete with KErrAuthServPluginuit
+//					and Identify Fails and gives the result as no identity Exist.
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0010
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini train_quit
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0010
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0011 
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and train the
+//					User with the selected Pin and store the pin and ID of
+//					the user to the DB.
+//!@SYMREQ 				REQ5021
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in and call Train Function
+//					2. Call Cancel function of Plug-in object.
+//					4. Call Identify function.
+//					5. Displays Identify dialogs (EPINPlugInIdentify), enter random pin.
+//!@SYMTestExpectedResults		Train asynchronous operation shall be stopped. Calling active object receive
+//					KErrCancel. and identify Fails and gives the result as no identity Exist.
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0011
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini train_server_cancel1
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0011
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0012 
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and train the
+//					User with the selected Pin and store the pin and ID of
+//					the user to the DB.
+//!@SYMREQ 				REQ5022, REQ5013
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in 
+//					2. call Train Function
+//					3. Select first Pin from first Train dialog (EPINPlugInTraining).
+//					4. Save the Identity ID and returned Identify hash in aResult parameter inside test 	
+//					harness.
+//					5. Call Identify function.
+//					6. Displays Identify dialogs (EPINPlugInIdentify), enter PIN saved in previous 		
+//					operation from notification dialog code.
+//					7. Repeat 1-6 to ReTrain
+//!@SYMTestExpectedResults		Saved values from Train operation and returned values from Identity
+//					operation match
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0012
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini retrain_ok1
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0012
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0013
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and train the
+//					User with the selected Pin and store the pin and ID of
+//					the user to the DB.
+//!@SYMREQ 				REQ5022, REQ5013
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in 
+//					2. call Train Function
+//					3. Select first Pin from Second Train dialog (EPINPlugInTraining).
+//					4. Save the Identity ID and returned Identify hash in aResult parameter inside test 	
+//					harness.
+//					5. Call Identify function.
+//					6. Displays Identify dialogs (EPINPlugInIdentify), enter PIN saved in previous 		
+//					operation from notification dialog code.
+//					7. Repeat 1-6 to ReTrain
+//!@SYMTestExpectedResults		Saved values from Train operation and returned values from Identity
+					operation match
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0013
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini retrain_ok2
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0013
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0014
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and train the
+//					User with the selected Pin and store the pin and ID of
+//					the user to the DB.
+//!@SYMREQ 				REQ5022, REQ5013
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in 
+//					2. call Train Function
+//					3. Select first Pin from Third Train dialog (EPINPlugInTraining).
+//					4. Save the Identity ID and returned Identify hash in aResult parameter inside test 	
+//					harness.
+//					5. Call Identify function.
+//					6. Displays Identify dialogs (EPINPlugInIdentify), enter PIN saved in previous 		
+//					operation from notification dialog code.
+//					7. Repeat 1-6 to ReTrain
+//!@SYMTestExpectedResults		Saved values from Train operation and returned values from Identity
+					operation match
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0014
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini retrain_ok3
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0014
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0015 
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and train the
+//					User with the selected Pin and store the pin and ID of
+//					the user to the DB.
+//!@SYMREQ 				REQ5022, REQ5013
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in 
+//					2. call Train Function
+//					3. Select first Pin from Fifth Train dialog (EPINPlugInTraining).
+//					4. Save the Identity ID and returned Identify hash in aResult parameter inside test 	
+//					harness.
+//					5. Call Identify function.
+//					6. Displays Identify dialogs (EPINPlugInIdentify), enter PIN saved in previous 		
+//					operation from notification dialog code.
+//					7. Repeat 1-6 to ReTrain
+//!@SYMTestExpectedResults		Saved values from Train operation and returned values from Identity
+//					operation match
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0015
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini retrain_ok4
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0015
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0016 
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and train the
+//					User with the selected Pin and store the pin and ID of
+//					the user to the DB.
+//!@SYMREQ 				REQ5022
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in 
+//					2. call Train Function
+//					3. Select first Pin from Tenth Train dialog (EPINPlugInTraining).
+//					4. Save the Identity ID and returned Identify hash in aResult parameter inside test 	
+//					harness.
+//					5. Call Identify function.
+//					6. Displays Identify dialogs (EPINPlugInIdentify), enter PIN saved in previous 		
+//					operation from notification dialog code.
+//					7. Repeat 1-6 to ReTrain
+//!@SYMTestExpectedResults		Saved values from Train operation and returned values from Identity
+//					operation match
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0016
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini retrain_ok5
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0016
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0017
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and train the
+//					User with the selected Pin and store the pin and ID of
+//					the user to the DB.
+//!@SYMREQ 				REQ5021,REQ5020
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in, call Train Function and select first pin form first dialog.
+//					2. Call Identify function, enter PIN saved in previous operation from notification 
+//					dialog code.
+//					3. call Train Function. Enter the new pinlength in first Train dialog and Enter Next 
+//					button.
+//					3. Select first Pin from next Train dialog which displays pin with new length.
+//					4. Save the Identity ID and returned Identify hash in aResult parameter inside test 	
+//					harness.
+//					4. Call Identify function.
+//					5. Displays Identify dialogs (EPINPlugInIdentify), enter PIN saved in previous 		
+//					operation from notification dialog code.
+//!@SYMTestExpectedResults		Saved values from Train operation and returned values from Identity
+//					operation match
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0017
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini retrain_changepin
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0017
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0018 
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and train the
+//					User with the selected Pin and store the pin and ID of
+//					the user to the DB.
+//!@SYMREQ 				REQ5021
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in, call Train Function and select first pin form first dialog.
+//					2. Call Identify function, enter PIN saved in previous operation from notification 
+//					dialog code.
+//					3. call Train Function. Enter the Cancel button.
+//					4. Call Identify function.
+//					5. Displays Identify dialogs (EPINPlugInIdentify), enter random PIN		
+//!@SYMTestExpectedResults		Train function complete with KErrAuthServPluginCancelled
+//					and Identify Fails and gives the result as identityexist given a wrong pin
+//					while repeat identy function with correct pin gives success.
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0018
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini retrain_cancel
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0018
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0019
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and train the
+//					User with the selected Pin and store the pin and ID of
+//					the user to the DB.
+//!@SYMREQ 				REQ5021
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in, call Train Function and select first pin form first dialog.
+//					2. Call Identify function, enter PIN saved in previous operation from notification 
+//					dialog code.
+//					3. call Train Function. Enter the Quit button.
+//					3. Call Identify function.
+//					4. Displays Identify dialogs (EPINPlugInIdentify), enter random PIN		
+//!@SYMTestExpectedResults		Train function complete with KErrAuthServPluginCancelled
+//					and Identify Fails and gives the result as identityexist given a wrong pin
+//					while repeat identy function with correct pin gives success.
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0019
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini retrain_quit
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0019
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0020 
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and train the
+//					User with the selected Pin and store the pin and ID of
+//					the user to the DB.
+//!@SYMREQ 				REQ5021
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in, call Train Function and select first pin form first dialog.
+//					2. Call Identify function, enter PIN saved in previous operation from notification 
+//					dialog code.
+//					3. call Train Function. Call Cancel function of Plug-in object.
+//					4. Call Identify function.
+//					5. Displays Identify dialogs (EPINPlugInIdentify), enter random pin.
+//!@SYMTestExpectedResults		Train asynchronous operation shall be stopped. Calling active object receive
+//					KErrCancel. and Identify Fails and gives the result as identityexist given a wrong
+//					pin while repeat identy function with correct pin gives success.
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0020
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini retrain_server_cancel1
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0020
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0021 
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and identify the
+//					User with the given Pin and return the keyhash to the server.
+//!@SYMREQ 				REQ5021
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in 
+//					2. Call Identify function which already trained with default pin.
+//					5. Displays Identify dialogs (EPINPlugInIdentify), enter default pin in first dialog.
+//!@SYMTestExpectedResults		identify returns success in first dialog itself
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0021
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini identify_ok_pass
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0021
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0022
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and identify the
+//					User with the given Pin and return the keyhash to the server.
+//!@SYMREQ 				REQ5021
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in 
+//					2. Call Identify function which already trained.
+//					5. Displays Identify dialogs (EPINPlugInIdentify), enter wrong pin 3 retry dialogs.
+//!@SYMTestExpectedResults		identify operation not displayed 4 dialog and failed with 
+//					EPinPluginIdentificationFailure.
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0022
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini identify_ok_fail
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0022
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0023
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and identify the
+//					User with the given Pin and return the keyhash to the server.
+//!@SYMREQ 				REQ5021
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in and call Identify Function
+//					2. Select Cancel button when Identify dialog displayed.
+//!@SYMTestExpectedResults		Identify function complete with KErrAuthServPluginCancelled(code = -10804)  
+//					and Identify Fails with EPinPluginIdentificationFailure.
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0023
+
+RUN_TEST_STEP !Error=-10804  100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini identify_cancel
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0023
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0024 
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and identify the
+//					User with the given Pin and return the keyhash to the server.
+//!@SYMREQ 				REQ5021
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in and call Identify Function
+//					2. Select Quit button when Identify dialog displayed.
+//!@SYMTestExpectedResults		Identify function complete with KErrAuthServPluginQuit(code = -10805)
+//					and Identify Fails with EPinPluginIdentificationFailure.
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0024
+
+RUN_TEST_STEP !Error=-10805 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini identify_quit
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0024
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0025
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and identify the
+//					User with the given Pin and return the keyhash to the server.
+//!@SYMREQ 				REQ5021
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in and call Identify Function
+//					2. Call Cancel function of Plug-in object.
+//!@SYMTestExpectedResults		Identify asynchronous operation shall be stopped. Calling active object receive
+//					KErrCancel. 
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0025
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini identify_server_cancel1
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0025
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0026
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases will load the pinplugin and while training the
+//					User because of invalid pinsize the registration fails.  
+//					the user to the DB.
+//!@SYMREQ 				REQ5021,REQ5020
+//!@SYMPREQ                   		PREQ219, DEF141405
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in and call Train Function
+//					2. Enter the new pinlength which is more than the max value in first Train dialog and 
+//					Enter Next button.
+//!@SYMTestExpectedResults		Pinplugin leaves with KErrAuthServRegistrationFailed(-10810).
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0026
+
+RUN_TEST_STEP !Error=-10810  100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini newpin_morethanmax
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0026
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0027 
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and while train the
+//					User because of invalid pinsize the registration fails.
+//!@SYMREQ 				REQ5021,REQ5020
+//!@SYMPREQ                   		PREQ219, DEF141405
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in and call Train Function
+//					2. Enter the new pinlength which is less than the min value in first Train dialog and 
+//					Enter Next button.
+//!@SYMTestExpectedResults		Pinplugin leaves with KErrAuthServRegistrationFailed(-10810).
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0027
+
+RUN_TEST_STEP !Error=-10810  100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini newpin_lessthanmin
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0027
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0028 
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and perform various train, 
+//					identify, cancel functions sequentially.
+//!@SYMREQ 				REQ5021, REQ 5020
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in 
+//					2. call Train Function verify with Identify Function.
+//					2. call Train Function
+//					3. Call Forget Function verify with Identify Function.
+//					4. call Train Function and while training the user cancel from dialog.
+//					5. call Train Function and verify with identify Function.
+//!@SYMTestExpectedResults		All the Function returns expected results
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0028
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini sequence
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0028
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0029 
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and forget
+//					the trained data if already trained.
+//!@SYMREQ 				REQ5021
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in and 
+//					2. Call Forget operation for unknown identity
+//					3. verify with identify operation
+//!@SYMTestExpectedResults		return with KErrAuthServNoSuchIdentity. Identify fails
+//					and gives the reason as no identity exists.
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0029
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini forget_fail
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0029
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0030 
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and forget
+//					the trained data if already trained.
+//!@SYMREQ 				REQ5021
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in
+//					2. Call Forget operation for already trained identity
+//					and number of trained entries in the DB is more than one.
+//					3. verify with identify operation
+//!@SYMTestExpectedResults		Identify fails and gives the reason as no such identity exists.
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0030
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini forget_pass1
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0030
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0031 
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and forget
+//					the trained data if already trained.
+//!@SYMREQ 				REQ5021
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in
+//					2. Call Forget operation for already trained identity
+//					and number of trained entries in the DB is more than one.
+//					3. verify with identify operation
+//!@SYMTestExpectedResults		Identify fails and gives the reason as no such identity exists.
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0031
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini forget_pass2
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0031
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0032
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and forget
+//					the trained data if already trained.
+//!@SYMREQ 				REQ5021
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in
+//					2. Call Forget operation for already trained identity
+//					and number of trained entries in the DB is more than one.
+//					3. verify with identify operation
+//!@SYMTestExpectedResults		Identify fails and gives the reason as no such identity exists.
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0032
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini forget_pass3
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0032
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0033
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and forget
+//					the trained data if already trained.
+//!@SYMREQ 				REQ5021
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in
+//					2. Call Forget operation for already trained identity
+//					and number of trained entries in the DB is more than one.
+//					3. verify with identify operation
+//!@SYMTestExpectedResults		Identify fails and gives the reason as no such identity exists.
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0033
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini forget_pass4
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0033
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0034
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and forget
+//					the trained data if already trained.
+//!@SYMREQ 				REQ5021
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in
+//					2. Call Forget operation for already trained identity
+//					and number of trained entries in the DB is more than one.
+//					3. verify with identify operation
+//!@SYMTestExpectedResults		Identify fails and gives the reason as no such identity exists.
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0034
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini forget_pass5
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0034
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0035 
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and forget
+//					the trained data if already trained.
+//!@SYMREQ 				REQ5021
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in
+//					2. Call Forget operation for already trained identity
+//					and number of trained entries in the DB is more than one.
+//					3. verify with identify operation
+//!@SYMTestExpectedResults		Identify fails and gives the reason as no such identity exists.
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0035
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini forget_pass6
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0035
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0036
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and forget
+//					the trained data if already trained.
+//!@SYMREQ 				REQ5021
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in
+//					2. Call Forget operation for already trained identity
+//					and number of trained entries in the DB is more than one.
+//					3. verify with identify operation
+//!@SYMTestExpectedResults		Identify fails and gives the reason as no such identity exists.
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0036
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini forget_pass7
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0036
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0037 
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and forget
+//					the trained data if already trained.
+//!@SYMREQ 				REQ5021
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in
+//					2. Call Forget operation for already trained identity
+//					and number of trained entries in the DB is more than one.
+//					3. verify with identify operation
+//!@SYMTestExpectedResults		Identify fails and gives the reason as no such identity exists.
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0037
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini forget_pass8
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0037
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0038 
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and forget
+//					the trained data if already trained.
+//!@SYMREQ 				REQ5021
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in
+//					2. Call Forget operation for already trained identity
+//					and number of trained entries in the DB is more than one.
+//					3. verify with identify operation
+//!@SYMTestExpectedResults		Identify fails and gives the reason as no such identity exists.
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0038
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini forget_pass9
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0038
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0039
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and forget
+//					the trained data if already trained.
+//!@SYMREQ 				REQ5021
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in
+//					2. Call Forget operation for already trained identity
+//					and number of trained entries in the DB is more than one.
+//					3. verify with identify operation
+//!@SYMTestExpectedResults		Identify fails and gives the reason as no such identity exists.
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0039
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini forget_pass10
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0039
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0040 
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and forget
+//					the trained data if already trained.
+//!@SYMREQ 				REQ5021
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in
+//					2. Call Forget operation for already trained identity
+//					and number of trained entries in the DB is more than one.
+//					3. verify with identify operation
+//!@SYMTestExpectedResults		Identify fails and gives the reason as no such identity exists.
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0040
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini forget_pass11
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0040
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0041 
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and forget
+//					the trained data if already trained.
+//!@SYMREQ 				REQ5021
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in
+//					2. Call Forget operation for already trained identity
+//					and number of trained entries in the DB is more than one.
+//					3. verify with identify operation
+//!@SYMTestExpectedResults		Identify fails and gives the reason as no such identity exists.
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0041
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini forget_pass12
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0041
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0042
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and forget
+//					the trained data if already trained.
+//!@SYMREQ 				REQ5021
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in
+//					2. Call Forget operation for already trained identity
+//					and number of trained entries in the DB is more than one.
+//					3. verify with identify operation
+//!@SYMTestExpectedResults		Identify fails and gives the reason as no such identity exists.
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0042
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini forget_pass13
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0042
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0043
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and forget
+//					the trained data if already trained.
+//!@SYMREQ 				REQ5021
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in
+//					2. Call Forget operation for already trained identity
+//					and number of trained entries in the DB is more than one.
+//					3. verify with identify operation
+//!@SYMTestExpectedResults		Identify fails and gives the reason as no such identity exists.
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0043
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini forget_pass14
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0043
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0044 
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and forget
+//					the trained data if already trained.
+//!@SYMREQ 				REQ5021
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in
+//					2. Call Forget operation for already trained identity
+//					and number of trained entries in the DB is more than one.
+//					3. verify with identify operation
+//!@SYMTestExpectedResults		Identify fails and gives the reason as no such identity exists.
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0044
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini forget_pass15
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0044
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0045 
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and forget
+//					the trained data if already trained.
+//!@SYMREQ 				REQ5021
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in
+//					2. Call Forget operation for already trained identity
+//					and number of trained entries in the DB is more than one.
+//					3. verify with identify operation
+//!@SYMTestExpectedResults		Identify fails and gives the reason as no such identity exists.
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0045
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini forget_pass16
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0045
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0046 
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test cases perform load the pinplugin and forget
+//					the trained data if already trained.
+//!@SYMREQ 				REQ5021
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestActions  			1. Load Plug-in
+//					2. Call Forget operation for already trained identity
+//					and number of trained entrie in the DB is exactly one.
+//					3. verify with identify operation
+//!@SYMTestExpectedResults		Identify fails and gives the reason as no such identity exists.
+//!@SYMTestType				UT
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0046
+
+RUN_TEST_STEP 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini forget_pass17
+
+// delete the source file
+RUN_UTILS DeleteFile c:\private\102740fc\plugin.store
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0046
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0047
+//!@SYMTestCaseDependencies		TEF, ini file (pinplugin.ini) containing the test data path for 
+//					the OOM tests.
+//!@SYMTestCaseDesc			Below test cases perform out of memory tests for the Pin Plugin.
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestExpectedResults		
+//!@SYMTestType				UT
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0047
+
+// Test case perform out of memory tests for CAuthPluginInterface* NewL()
+RUN_TEST_STEP !OOM 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini oom1
+
+// Test case perform out of memory tests for DefaultData()
+RUN_TEST_STEP !OOM 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini oom2
+
+// Test case perform out of memory tests for Identify()
+RUN_TEST_STEP !OOM 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini oom3
+
+// Test case perform out of memory tests for Train()
+RUN_TEST_STEP !OOM 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini oom4
+
+// Test case perform out of memory tests for ReTrain()
+RUN_TEST_STEP !OOM 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini oom5
+
+// Test case perform out of memory tests for Forget()
+RUN_TEST_STEP !OOM 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini oom6
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0047
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+//!@file				
+//!@SYMTestCaseID			SEC-AUT-PINPLUGIN-0049
+//!@SYMTestCaseDependencies		TestData ini file(pinplugin.ini) containing the data 
+//!@SYMTestCaseDesc			Below test case try to load the plugin when the DB was corrupted.
+//!@SYMPREQ                   		PREQ219
+//!@SYMTestStatus			Implemented
+//!@SYMTestPriority			High
+//!@SYMTestExpectedResults		Load fails with error code
+//!@SYMTestType				UT
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+START_TESTCASE SEC-AUT-PINPLUGIN-0049
+
+RUN_UTILS DeleteFile c:\private\102740fc\plugin.store
+RUN_UTILS CopyFile c:\tauth\tauthsvr\testdata\authsvrpolicy.ini c:\private\102740fc\plugin.store
+RUN_TEST_STEP_RESULT -5 100 tpinplugin tPinPluginTestStep c:\tauth\tpinplugin\scripts\tpinplugin.ini plugin_properties
+RUN_UTILS DeleteFile c:\private\102740fc\plugin.store
+
+END_TESTCASE SEC-AUT-PINPLUGIN-0049
+
+

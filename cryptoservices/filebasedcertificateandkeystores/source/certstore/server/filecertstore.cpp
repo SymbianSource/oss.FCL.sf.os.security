@@ -326,11 +326,15 @@ void CFSCertStoreServer::RemoveL(TInt aHandle, const RMessage2& aMessage)
 	// API policing
 	const CCertStoreEntry& entry = iEntryList->GetByIndex(index);
 
-	if (!AddRemovePolicy(entry.CertInfo().CertificateOwnerType()).CheckPolicy(aMessage))
+
+	//Check whether the certificate is deleteable and that the necessary capabilities are 
+	//present
+	if (!AddRemovePolicy(entry.CertInfo().CertificateOwnerType()).CheckPolicy(aMessage) ||
+	        !entry.CertInfo().IsDeletable())
 		{
 		User::Leave(KErrPermissionDenied);
 		}
-
+	
 	TCleanupItem cleanupStore(RevertStore, iStore);
 	CleanupStack::PushL(cleanupStore);	
 	

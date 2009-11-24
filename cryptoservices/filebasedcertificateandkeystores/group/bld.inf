@@ -71,10 +71,13 @@ PRJ_TESTEXPORTS
 ../test/tkeystore/scripts/batchfiles/tkeystore_export_post.bat	/epoc32/winscw/c/tkeystore/scripts/batchfiles/tkeystore_export_post.bat	
 
 #ifdef SYMBIAN_AUTH_SERVER
-../test/tkeystore/scripts/authobjects_v2_useauth.txt	/epoc32/winscw/c/tkeystore/scripts/authobjects_useauth.txt
+../test/tkeystore/scripts/authobjects_v2_useauth.script	/epoc32/winscw/c/tkeystore/scripts/authobjects_useauth.script
+../test/tkeystore/scripts/authobjects_v2_useauth.ini	/epoc32/winscw/c/tkeystore/scripts/authobjects_useauth.ini
 
-../test/tkeystore/scripts/createoldkeystore.txt			/epoc32/winscw/c/tkeystore/scripts/createoldkeystore.txt
-../test/tkeystore/scripts/testnewkeystore.txt			/epoc32/winscw/c/tkeystore/scripts/testnewkeystore.txt
+../test/tkeystore/scripts/createoldkeystore.script			/epoc32/winscw/c/tkeystore/scripts/createoldkeystore.script
+../test/tkeystore/scripts/createoldkeystore.ini			/epoc32/winscw/c/tkeystore/scripts/createoldkeystore.ini
+../test/tkeystore/scripts/testnewkeystore.script			/epoc32/winscw/c/tkeystore/scripts/testnewkeystore.script
+../test/tkeystore/scripts/testnewkeystore.ini			/epoc32/winscw/c/tkeystore/scripts/testnewkeystore.ini
 
 ../test/tkeystore/scripts/oldserver_newfeature.script		/epoc32/winscw/c/tkeystore/scripts/oldserver_newfeature.script
 ../test/tkeystore/scripts/tkeystore_useauth.script			/epoc32/winscw/c/tkeystore/scripts/tkeystore_useauth.script
@@ -121,6 +124,7 @@ PRJ_TESTEXPORTS
 // ttesttools data
 
 ../test/ttesttools/data/cert_addapps.txt	/epoc32/winscw/c/ttesttools/data/cert_addapps.txt
+../test/ttesttools/data/cert_addapps1.txt	/epoc32/winscw/c/ttesttools/data/cert_addapps1.txt
 ../test/ttesttools/data/cert_addappsfail1.txt	/epoc32/winscw/c/ttesttools/data/cert_addappsfail1.txt
 ../test/ttesttools/data/cert_addappsfail2.txt	/epoc32/winscw/c/ttesttools/data/cert_addappsfail2.txt
 ../test/ttesttools/data/cert_helpfail1.txt	/epoc32/winscw/c/ttesttools/data/cert_helpfail1.txt
@@ -158,7 +162,11 @@ PRJ_TESTEXPORTS
 ../test/ttesttools/data/cert_setappsfail2.txt	/epoc32/winscw/c/ttesttools/data/cert_setappsfail2.txt
 ../test/ttesttools/data/certfail.txt		/epoc32/winscw/c/ttesttools/data/certfail.txt
 ../test/ttesttools/data/certhelp.txt		/epoc32/winscw/c/ttesttools/data/certhelp.txt
-
+../test/ttesttools/data/cert_importdeletable1.txt		/epoc32/winscw/c/ttesttools/data/cert_importdeletable1.txt
+../test/ttesttools/data/cert_importdeletable2.txt		/epoc32/winscw/c/ttesttools/data/cert_importdeletable2.txt
+../test/ttesttools/data/cert_importdeletable3.txt		/epoc32/winscw/c/ttesttools/data/cert_importdeletable3.txt
+../test/ttesttools/data/cert_removedeletable1.txt		/epoc32/winscw/c/ttesttools/data/cert_removedeletable1.txt
+../test/ttesttools/data/cert_removedeletable2.txt		/epoc32/winscw/c/ttesttools/data/cert_removedeletable2.txt
 
 ../test/ttesttools/data/corrupt.001		/epoc32/winscw/c/tkeystore/data/corrupt.001
 ../test/ttesttools/data/empty.001		/epoc32/winscw/c/tkeystore/data/empty.001
@@ -333,7 +341,8 @@ PRJ_TESTEXPORTS
 ../Inc/filetokenstests.iby /epoc32/rom/include/filetokenstests.iby
 
 #if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
-../test/tkeystore/scripts/thwkeystore.txt			/epoc32/winscw/c/tkeystore/scripts/thwkeystore.txt
+../test/tkeystore/scripts/thwkeystore.script			/epoc32/winscw/c/tkeystore/scripts/thwkeystore.script
+../test/tkeystore/scripts/thwkeystore.ini			/epoc32/winscw/c/tkeystore/scripts/thwkeystore.ini
 ../test/tkeystore/data/hwkeys.dat				/epoc32/data/z/private/101f7e95/hwkeys.dat
 ../test/tkeystore/data/hwkeys.dat				/epoc32/release/winscw/udeb/z/private/101f7e95/hwkeys.dat
 ../test/tkeystore/data/hwkeys.dat				/epoc32/release/winscw/urel/z/private/101f7e95/hwkeys.dat
