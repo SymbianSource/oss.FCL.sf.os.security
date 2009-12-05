@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+# Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
 # All rights reserved.
 # This component and the accompanying materials are made available
 # under the terms of the License "Eclipse Public License v1.0"
@@ -12,9 +12,9 @@
 # Contributors:
 #
 # Description: 
-#
-#!/bin/perl -w
-
+# Basic ASN.1 encoding library
+# Some parts of this program requrie OpenSSL which may be freely downloaded
+# from www.openssl.org
 use strict;
 use Digest::HMAC_MD5;
 use Digest::HMAC_SHA1;
