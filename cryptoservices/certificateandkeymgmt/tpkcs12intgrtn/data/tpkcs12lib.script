@@ -18,7 +18,7 @@
 // Tests      : Pradeep, Bindu
 // Component  : PKCS#12 library
 // The scope of this work package to verify the functionality of the Pkcs#12 library. 
-// The test data should be in the folder 'c:\data' and the ini files should be in the 'c:\tpkcs12intg\script\ini //		folder'
+// The test data should be in the folder 'c:\data' and the ini files should be in the folder 'c:\tpkcs12intg\script\ini'
 //
 
 LOAD_SUITE tpkcs12libtest

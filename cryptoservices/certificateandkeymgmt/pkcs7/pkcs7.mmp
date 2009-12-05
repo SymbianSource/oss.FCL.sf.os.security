@@ -20,7 +20,6 @@
 @SYMPurpose pkcs7.dll Manages PKCS#7 signed objects
 */
 
-
 target		pkcs7.dll
 CAPABILITY	All -Tcb
 targettype	dll

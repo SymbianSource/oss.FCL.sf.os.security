@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+# Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
 # All rights reserved.
 # This component and the accompanying materials are made available
 # under the terms of the License "Eclipse Public License v1.0"
@@ -12,9 +12,9 @@
 # Contributors:
 #
 # Description: 
-#
-#!/bin/perl -w
-
+# This script converts certificate constraint extensions specified in an INI 
+# format into a hex representation of the DER encoding that OpenSSL can 
+# add to a certificate.
 use strict;
 use Getopt::Long;
 
