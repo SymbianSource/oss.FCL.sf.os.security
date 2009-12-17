@@ -49,8 +49,6 @@ namespace ContentAccess
 	@li The type of file (receipt or content)
 	@li The mime type of the file
 	
-	@publishedPartner
-	@released
 	*/
 	class CSupplierOutputFile : public CBase
 		{

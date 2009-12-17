@@ -18,7 +18,7 @@
 
 /**
  @file
- @publishedPartner
+ @publishedAll
  @released
 */
 
@@ -40,9 +40,7 @@ namespace ContentAccess
 	
 	The array can be streamed using the InternalizeL() and ExternalizeL() functions
 
-  	@publishedPartner
-	@released
-	*/
+  	*/
 	template <class T>
 		class RStreamablePtrArray
 		{

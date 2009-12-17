@@ -16,7 +16,7 @@
 */
 
 
-#include "cfstokentypeclient.h"
+#include "CFSTokenTypeClient.h"
 #include <certificateapps.h>
 #include <ct/mcttoken.h>
 #include <mctcertapps.h>

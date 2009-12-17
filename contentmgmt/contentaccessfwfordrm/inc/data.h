@@ -20,7 +20,7 @@
 /** 
 @file
 
-@publishedPartner
+@publishedAll
 @released
 */
 
@@ -48,8 +48,6 @@ namespace ContentAccess
  	This class is initialised with an agent implementation that is
  	responsible for this content object.
  
- 	@publishedPartner
- 	@released
  	*/
 	class CData : public CBase
 		{
@@ -247,9 +245,6 @@ namespace ContentAccess
 		 @leave ...				One of the other CAF error codes defined in \c caferr.h  
 		 						or one of the other system-wide error codes 
 								for any other errors.
-		
-		@internalComponent
-		@released
 		 */
 		static CData* NewLC(TUid aAgentUid, const TVirtualPathPtr& aVirtualPath,
 							TIntent aIntent, TContentShareMode aShareMode); 
@@ -275,8 +270,6 @@ namespace ContentAccess
 		 						or one of the other system-wide error codes for 
 								any other errors.
 
-		@internalComponent
-		@released
 		 */
 		static CData* NewLC(TUid aAgentUid, RFile& aFile, const TDesC& aUniqueId, TIntent aIntent);
 
@@ -342,8 +335,7 @@ namespace ContentAccess
 										system-wide error for any other errors.
 		 @capability 					DRM Access to DRM protected content is not permitted for processes without DRM capability.
 										Access to unprotected content is unrestricted.
-		 @internalComponent
-		 @released
+		 
 		*/
 		
 		static CData* NewLC(TUid aAgentUid, const TDesC8& aHeaderData, TIntent aIntent);

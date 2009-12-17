@@ -89,6 +89,8 @@ namespace CryptoSpi
 		see CopyL().
 	
 		@return A pointer to the new reset CHash object.
+		@leave ...	Any of the crypto error codes defined in 
+  					cryptospi_errs.h or any of the system-wide error codes.
 		*/
 		IMPORT_C CHash* ReplicateL();		
 
@@ -102,6 +104,8 @@ namespace CryptoSpi
 		the current object, see ReplicateL().
 
 		@return A pointer to the new CHash object.
+		@leave ...	Any of the crypto error codes defined in 
+  					cryptospi_errs.h or any of the system-wide error codes.
 		*/
 		IMPORT_C CHash* CopyL();
 				
@@ -110,6 +114,9 @@ namespace CryptoSpi
 		 * 
 		 * Set the key used for HMAC mode operation.
 		 * @param aKey	The key for HMAC
+		 * @leave KErrArgument if aKey is not of the expected type.
+		 * @leave ...	Any of the crypto error codes defined in 
+  				    	cryptospi_errs.h or any of the system-wide error codes.
 		 */
 		IMPORT_C void SetKeyL(const CKey& aKey);
 			
@@ -118,6 +125,9 @@ namespace CryptoSpi
 		 * 
 		 * Set the operation mode, ie hash or hmac
 		 * @param aOperationMode	The UID to identifiy the operation mode
+		 * @leave KErrNotSupported if the specified operation mode is not supported.
+		 * @leave ...	Any of the crypto error codes defined in 
+  						cryptospi_errs.h or any of the system-wide error codes.
 		 */		
 		IMPORT_C void SetOperationModeL(TUid aOperationMode);
 		
@@ -190,6 +200,8 @@ namespace CryptoSpi
 		see CopyL().
 
 		@return A pointer to the new reset CAsyncHash object.
+		@leave ...	Any of the crypto error codes defined in 
+  					cryptospi_errs.h or any of the system-wide error codes.
 		*/
 		IMPORT_C CAsyncHash* ReplicateL();		
 
@@ -203,6 +215,8 @@ namespace CryptoSpi
 		the current object, see ReplicateL().
 
 		@return A pointer to the new CAsyncHash object.
+		@leave ...	Any of the crypto error codes defined in 
+  					cryptospi_errs.h or any of the system-wide error codes.
 		*/
 		IMPORT_C CAsyncHash* CopyL();
 		
@@ -211,6 +225,9 @@ namespace CryptoSpi
 		 * 
 		 * Set the key used for HMAC mode operation.
 		 * @param aKey the key for HMAC
+		 * @leave KErrArgument if aKey is not of the expected type.
+		 * @leave ...	Any of the crypto error codes defined in 
+  						cryptospi_errs.h or any of the system-wide error codes.
 		 */
 		IMPORT_C void SetKeyL(const CKey& aKey);
 			
@@ -219,6 +236,9 @@ namespace CryptoSpi
 		 * 
 		 * Set the operation mode, ie hash or hmac
 		 * @param aOperationMode The UID to identifiy the operation mode
+		 * @leave KErrNotSupported if the specified mode is not supported.
+		 * @leave ...	Any of the crypto error codes defined in 
+  						cryptospi_errs.h or any of the system-wide error codes.
 		 */		
 		IMPORT_C void SetOperationModeL(TUid aOperationMode);
 		

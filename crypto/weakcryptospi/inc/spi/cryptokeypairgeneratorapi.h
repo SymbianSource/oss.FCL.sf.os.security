@@ -53,6 +53,8 @@ namespace CryptoSpi
 		@param aKeySize 	The algorithm-specific metric in number of bits
 		@param aKeyParameters	The list of algorithm-specific parameters used by the generator to generate the key pair
 		@param aKeyPair	The generated key pair
+		@leave ...	Any of the crypto error codes defined in 
+  					cryptospi_errs.h or any of the system-wide error codes.
 		*/
 		IMPORT_C void GenerateKeyPairL(TInt aKeySize, const CCryptoParams& aKeyParameters, CKeyPair*& aKeyPair);
 
@@ -95,6 +97,8 @@ namespace CryptoSpi
 		@param aKeyParameters	The list of algorithm-specific parameters used by the generator to generate the key pair
 		@param aKeyPair	The generated key pair
 		@param aRequestStatus
+		@leave ...	Any of the crypto error codes defined in 
+  					cryptospi_errs.h or any of the system-wide error codes.
 		*/
 		IMPORT_C void GenerateKeyPairL(TInt aKeySize, const CCryptoParams& aKeyParameters, CKeyPair*& aKeyPair, TRequestStatus& aRequestStatus);
 

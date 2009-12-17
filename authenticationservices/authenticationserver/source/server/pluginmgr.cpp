@@ -23,7 +23,8 @@
 
 #include "authserver_impl.h"
 #include <authserver/authpatchdata.h>
-#include <u32hal.h> 
+#include <u32hal.h>
+#include <e32svr.h> 
 using namespace AuthServer;
 
 TLinearOrder<CAuthPluginInterface> CPluginMgr::SPluginOrder(PluginCompare);

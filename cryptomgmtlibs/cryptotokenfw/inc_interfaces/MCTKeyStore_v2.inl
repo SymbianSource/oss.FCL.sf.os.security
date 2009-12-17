@@ -17,6 +17,11 @@
 *
 */
 
+/**
+ @file 
+ @publishedPartner
+ @released
+*/
 
 inline TKeyIdentifier CKeyInfoBase::ID() const
 	{

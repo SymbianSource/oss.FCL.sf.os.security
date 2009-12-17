@@ -19,7 +19,7 @@
 
 /**
  @file 
- @publishedPartner
+ @publishedAll
  @released
 */
 

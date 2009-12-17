@@ -38,8 +38,6 @@ namespace ContentAccess
 	/** Rights class to store a summary description of the rights and a unique 
 	reference to the rights object within an Agent
 
-	@publishedPartner
-    @released
 	*/
 	class CRightsInfo : public CBase
 		{
@@ -117,8 +115,6 @@ namespace ContentAccess
 	All derived classes must implement the serialization functions InternalizeL() 
 	and ExternalizeL()
 
-	@publishedPartner
-	@released
 	*/
 	class MAgentRightsBase 
 		{

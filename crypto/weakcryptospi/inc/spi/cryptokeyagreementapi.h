@@ -61,6 +61,8 @@ namespace CryptoSpi
 		Set the private key for this keyagreement. Reset() is called to reinitialized the keyAgreement
 		@param aSelfPrivateKey	The private key of one of the parties
 		@param aParams	The parameters shared between both parties
+		@leave ...	Any of the crypto error codes defined in 
+  					cryptospi_errs.h or any of the system-wide error codes.		
 		*/
 		IMPORT_C void SetKeyL(const CKey& aSelfPrivateKey, const CCryptoParams* aParams);
 
@@ -69,6 +71,8 @@ namespace CryptoSpi
 		@param aOtherPublicKey	The public key of the other party
 		@param aParams	The parameters shared between both parties
 		@return A pointer to a CKey instance containing the agreed key
+		@leave ...	Any of the crypto error codes defined in 
+  					cryptospi_errs.h or any of the system-wide error codes.
 		*/
 		IMPORT_C CKey* AgreeL(const CKey& aOtherPublicKey, const CCryptoParams* aParams);
 
@@ -103,6 +107,8 @@ namespace CryptoSpi
 		Set the private key for this keyagreement. Reset() is called to reinitialized the keyAgreement
 		@param aSelfPrivateKey	The private key of one of the parties
 		@param aParams	The parameters shared between both parties
+		@leave ...	Any of the crypto error codes defined in 
+  					cryptospi_errs.h or any of the system-wide error codes.
 		*/
 		IMPORT_C void SetKeyL(const CKey& aSelfPrivateKey, const CCryptoParams* aParams);
 		
@@ -113,6 +119,8 @@ namespace CryptoSpi
 		@param aKey A pointer to a CKey instance containing the agreed key
 		@param aParams	The parameters shared between both parties
 		@param aRequestStatus
+		@leave ...	Any of the crypto error codes defined in 
+  					cryptospi_errs.h or any of the system-wide error codes.
 		*/
 		IMPORT_C void AgreeL(const CKey& aOtherPublicKey, CKey& aKey, const CCryptoParams* aParams, TRequestStatus& aRequestStatus);
 

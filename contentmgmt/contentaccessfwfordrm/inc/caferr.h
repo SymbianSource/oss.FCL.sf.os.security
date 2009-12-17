@@ -26,7 +26,7 @@ Content Access Framework.
 All CAF error codes lie within the range \c KErrCA_LowerLimit to 
 \c KErrCA_UpperLimit inclusive.
 
-@publishedPartner
+@publishedAll
 @released
 */
 

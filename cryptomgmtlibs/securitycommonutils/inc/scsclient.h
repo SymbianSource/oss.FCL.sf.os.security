@@ -20,7 +20,7 @@
 
 /**
  @file
- @internalTechnology
+ @publishedAll
  @released
 */
 

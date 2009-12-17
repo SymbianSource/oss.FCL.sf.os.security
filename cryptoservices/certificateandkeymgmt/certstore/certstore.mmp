@@ -44,7 +44,7 @@ SOURCE CCheckedCertStore.cpp
 
 USERINCLUDE ../../../crypto/weakcrypto/inc
 USERINCLUDE  ../../../cryptomgmtlibs/cryptotokenfw/inc_interfaces
-USERINCLUDE  ../../filebasedcertificateandkeystores/inc
+USERINCLUDE  ../../filebasedcertificateandkeystores/Inc
 OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 LIBRARY	euser.lib estor.lib efsrv.lib 

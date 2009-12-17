@@ -15,18 +15,19 @@
 *
 */
 
-
 /**
- @file
+ @file 
  @publishedAll
  @released
- 
- 
- 
- @param aLeft
- @param aRight
- @return
- 
+*/
+
+
+/**
+ * 
+ * 
+ * @param aLeft
+ * @param aRight
+ * @return
 */
 inline TKeyUsagePKCS15 operator|(TKeyUsagePKCS15 aLeft, TKeyUsagePKCS15 aRight)
 	{

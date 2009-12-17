@@ -36,6 +36,8 @@ START_TESTCASE                SEC-CERTMAN-TX509-0001
 
 //!                           8) TX509 Corruption Test
 
+//! 						  9) Validates a certificate which contains the OID 1.3.14.3.2.29  - SHA1 with RSA signature
+
 RUN_TEST_STEP                 -1    CTestHandler        Syntax                 tx509.ini   SEC-CERTMAN-TX509-0001-001
 
 RUN_TEST_STEP                 -1    CTestHandler        Validate               tx509.ini   SEC-CERTMAN-TX509-0001-002
@@ -49,6 +51,8 @@ RUN_TEST_STEP                 -1    CTestHandler        Validate               t
 RUN_TEST_STEP                 -1    CTestHandler        Validate               tx509.ini   SEC-CERTMAN-TX509-0001-006
 
 RUN_TEST_STEP                 -1    CTestHandler        Validate               tx509.ini   SEC-CERTMAN-TX509-0001-007
+
+RUN_TEST_STEP                 -1    CTestHandler        Validate               tx509.ini   SEC-CERTMAN-TX509-0001-009
 
 RUN_TEST_STEP                 -1    CTestHandler        Corruption             tx509.ini   SEC-CERTMAN-TX509-0001-008
 

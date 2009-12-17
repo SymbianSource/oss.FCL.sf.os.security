@@ -19,7 +19,7 @@
 /** 
 @file
 
-@publishedPartner
+@publishedAll
 @released
 */
 
@@ -70,9 +70,6 @@ namespace ContentAccess
    
   During construction CContent loads the correct CAF Agent plugin to handle 
   the file specified by the URI.
-  
-  @publishedPartner
-  @released
  */
 	class CContent :  public CBase
 		{
@@ -954,6 +951,11 @@ namespace ContentAccess
 		*/
 		IMPORT_C const TAgent& Agent() const;
 		
+		/** Indicates the mode in which the content is shared.
+			@return The content sharing mode
+		*/
+		inline TContentShareMode ShareMode() const;
+		
 #ifndef REMOVE_CAF1
 		/** Create a CData object for reading the content 
 
@@ -1056,5 +1058,8 @@ namespace ContentAccess
 
 		};
 
+#include <caf/content.inl>
 	} // namespace ContentAccess
-#endif /* __CONTENT_H__ */
+
+#endif // __CONTENT_H__ 
+

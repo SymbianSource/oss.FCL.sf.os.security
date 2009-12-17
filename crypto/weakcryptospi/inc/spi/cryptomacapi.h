@@ -68,6 +68,8 @@ namespace CryptoSpi
 		 * @param aMessage  The data for which MAC value is to be evaluated.
 		 * @return          A descriptor pointer to the buffer containing the
 		 *                  resulting MAC value.
+		 * @leave ...		Any of the crypto error codes defined in 
+  							cryptospi_errs.h or any of the system-wide error codes.
 		 */
 		IMPORT_C TPtrC8 MacL(const TDesC8& aMessage);    
 		
@@ -76,6 +78,8 @@ namespace CryptoSpi
 		 * needs to be evaluated.
          * 
          * @param aMessage	The data to be included in the MAC evaluation.
+		 * @leave ...		Any of the crypto error codes defined in 
+  							cryptospi_errs.h or any of the system-wide error codes.
          */
 		IMPORT_C void UpdateL(const TDesC8& aMessage);
 
@@ -87,6 +91,8 @@ namespace CryptoSpi
          * @param aMessage	The data to be included in the MAC evaluation.
 		 * @return          A descriptor pointer to the buffer containing the
 		 *                  resulting MAC value.
+		 * @leave ...		Any of the crypto error codes defined in 
+  							cryptospi_errs.h or any of the system-wide error codes.
 		 */
 		IMPORT_C TPtrC8 FinalL(const TDesC8& aMessage);
 
@@ -96,6 +102,8 @@ namespace CryptoSpi
          * with the same underlying algorithm but a new symmetric key.
 		 *
 		 * @param aKey  Symmetric key for calculating message authentication code value. 
+		 * @leave ...		Any of the crypto error codes defined in 
+  							cryptospi_errs.h or any of the system-wide error codes.
 		 */
 		IMPORT_C void ReInitialiseAndSetKeyL(const CKey& aKey);    
 		
@@ -104,6 +112,8 @@ namespace CryptoSpi
 		 * information from the current object.  
 		 * 
 		 * @return 	A pointer to the new reset CMac object
+		 * @leave ...		Any of the crypto error codes defined in 
+  							cryptospi_errs.h or any of the system-wide error codes.
 		 */
 		IMPORT_C CMac* ReplicateL();		
 
@@ -113,6 +123,8 @@ namespace CryptoSpi
  		 * This function copies all internal state of the message digest.
 		 * 
 		 * @return 	A pointer to the new CMac object
+		 * @leave ...		Any of the crypto error codes defined in 
+  							cryptospi_errs.h or any of the system-wide error codes.
 		 */
 		IMPORT_C CMac* CopyL();
 
@@ -166,6 +178,8 @@ namespace CryptoSpi
 		 * 					request for MAC evaluation.
 		 * @return          A descriptor pointer to the buffer containing the
 		 *                  resulting MAC value.
+		 * @leave ...		Any of the crypto error codes defined in 
+  							cryptospi_errs.h or any of the system-wide error codes.
 		 */
 		IMPORT_C TPtrC8 MacL(const TDesC8& aMessage, TRequestStatus& aStatus);    
 			
@@ -176,6 +190,8 @@ namespace CryptoSpi
          * @param aMessage	The data to be included in the MAC evaluation.
 		 * @param aStatus   Holds the completion status of an asynchronous
 		 * 					request for MAC evaluation.
+		 * @leave ...		Any of the crypto error codes defined in 
+  							cryptospi_errs.h or any of the system-wide error codes.
          */
 		IMPORT_C void UpdateL(const TDesC8& aMessage, TRequestStatus& aStatus);
 
@@ -189,6 +205,8 @@ namespace CryptoSpi
 		 * 					request for MAC evaluation.
 		 * @return          A descriptor pointer to the buffer containing the
 		 *                  resulting MAC value.
+		 * @leave ...		Any of the crypto error codes defined in 
+  							cryptospi_errs.h or any of the system-wide error codes.
 		 */
 		IMPORT_C TPtrC8 FinalL(const TDesC8& aMessage, TRequestStatus& aStatus);
 
@@ -198,6 +216,8 @@ namespace CryptoSpi
          * with the same underlying algorithm but a new symmetric key.
 		 *
 		 * @param aKey  Symmetric key for calculating message authentication code value. 
+		 * @leave ...		Any of the crypto error codes defined in 
+  							cryptospi_errs.h or any of the system-wide error codes.
 		 */
 		IMPORT_C void ReInitialiseAndSetKeyL(const CKey& aKey);    
 		
@@ -206,6 +226,8 @@ namespace CryptoSpi
 		 * information from the current object.  
 		 * 
 		 * @return	A pointer to the new reset CAsyncMac object
+		 * @leave ...		Any of the crypto error codes defined in 
+  							cryptospi_errs.h or any of the system-wide error codes.
 		 */
 		IMPORT_C CAsyncMac* ReplicateL();		
 
@@ -215,6 +237,8 @@ namespace CryptoSpi
 		 * This function copies all internal state of the message digest.
 		 * 
 		 * @return	A pointer to the new CAsyncHash object
+		 * @leave ...		Any of the crypto error codes defined in 
+  							cryptospi_errs.h or any of the system-wide error codes.
 		 */
 		IMPORT_C CAsyncMac* CopyL();
 		

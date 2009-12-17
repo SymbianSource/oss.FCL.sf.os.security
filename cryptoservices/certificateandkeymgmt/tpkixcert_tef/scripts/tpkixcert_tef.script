@@ -98,6 +98,7 @@ END_TESTCASE 			SEC-CERTMAN-PKIXCERT-DATETIME-0003
 //! @SYMTestPurpose 		Test we correctly report the full gamut of possible critical extension patterns we may be expected to deal with in a certificate chain – multiple extensions in one certificate, multiple extensions spanning multiple certificates and the same extension in multiple certificates.
 START_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0001
 RUN_TEST_STEP 100 tpkixcert_tefserver ValidateCertChain c:\tpkixcert_tef\scripts\validatetests.ini CustomCriticalExts
+RUN_TEST_STEP 100 tpkixcert_tefserver ValidateCertChain c:\tpkixcert_tef\scripts\validatetests.ini CustomCriticalExts1
 END_TESTCASE 			SEC-CERTMAN-PKIXCERT-CRITEXT-0001
 
 

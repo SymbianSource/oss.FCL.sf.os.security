@@ -25,6 +25,7 @@
 #include <certstorepatchdata.h>
 #include <certificateapps.h>
 #include <u32hal.h> 
+#include <e32svr.h>
 
 // Filename where all data is stored
 _LIT(KCertAppsFilename,"certclients.dat");

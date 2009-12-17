@@ -45,6 +45,7 @@ _LIT(KX520Initials,"2.5.4.43");
 _LIT(KX520GenerationQualifier,"2.5.4.44");
 _LIT(KX520DNQualifier,"2.5.4.46");
 _LIT(KX520SerialNumber,"2.5.4.5");
+_LIT(KX520Description,"2.5.4.13");
 
 //more attribute types we handle at present
 _LIT(KX520PostalCode,"2.5.4.17");
@@ -92,6 +93,8 @@ const TInt KPKCS9MaxUnstructuredNameLength = 256;
 const TInt KRFC2247MaxDomainComponentLength = 128;
 /** The maximum length allowed a for street. */
 const TInt KRFC2256StreetLength = 128;
+/** The maximum length allowed for an Description field. */
+const TInt KX520MaxDescriptionLength = 1024;
 
 
 /** The attribute type. 
@@ -138,7 +141,9 @@ enum TAttributeType
 	* A street */
 	ERFC2256Street,
 	/** A name of the subject of a certificate as an unstructured ASCII string */
-	EPKCS9UnstructuredName
+	EPKCS9UnstructuredName,
+	/** A Description */
+	EX520Description,
 	};
 
 

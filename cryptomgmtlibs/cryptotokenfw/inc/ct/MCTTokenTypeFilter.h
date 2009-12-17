@@ -18,7 +18,7 @@
 
 /**
  @file
- @publishedPartner
+ @publishedAll
  @released    
 */
  

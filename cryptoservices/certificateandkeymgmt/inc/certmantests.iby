@@ -907,5 +907,6 @@ data=ZDRIVE\tpkixcert_tef\data\003_ee.der tpkixcert_tef\data\003_ee.der
 data=ZDRIVE\tpkixcert_tef\data\004_ee.der tpkixcert_tef\data\004_ee.der
 data=ZDRIVE\tpkixcert_tef\data\009_rc.der tpkixcert_tef\data\009_rc.der
 data=ZDRIVE\tpkixcert_tef\data\009_ee.der tpkixcert_tef\data\009_ee.der
+data=ZDRIVE\tpkixcert_tef\data\fulltrust.der	tpkixcert_tef\data\fulltrust.der
 
 #endif

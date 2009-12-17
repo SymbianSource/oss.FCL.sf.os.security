@@ -87,7 +87,7 @@ ICATPCA.CER ValidatedOK
 ice-ca.cer ValidatedOK
 ICE-PCA-X509.CER ValidatedOK
 ICE-ROOT.CER ErrNotSupported
-ICE-TEL_CODESIGNERSCA.CER ErrNotSupported
+ICE-TEL_CODESIGNERSCA.CER ValidatedOK
 ICE-TEL_INDIVIDUALSCA.CER ValidatedOK
 ice-tel-it.cer ValidatedOK
 ICE-TEL_SERVERSCA.CER ValidatedOK

@@ -231,6 +231,12 @@ void CX520AttributeTypeAndValue::ConstructL(TAttributeType aType, const TDesC8& 
 			type = decoderGeneric.Tag();	
 			break;	
 			}
+		case EX520Description:
+			{
+			ptr.Set(KX520Description);
+			maxlen = KX520MaxDescriptionLength;
+			break;
+			}
 		default:
 			User::Leave(KErrArgument);
 		}
@@ -397,6 +403,10 @@ EXPORT_C HBufC* CX520AttributeTypeAndValue::ValueL() const
 		{
 		maxLength = KRFC2256StreetLength;
 		}
+	if (iType->Des() == KX520Description)
+		{
+		maxLength = KX520MaxDescriptionLength;
+		}
 	if (maxLength == 0)
 		{
 		User::Leave(KErrNotSupported);
@@ -410,7 +420,7 @@ EXPORT_C HBufC* CX520AttributeTypeAndValue::ValueL() const
 TBool CX520AttributeTypeAndValue::IsCaseInSensitiveL(const TDesC8& aSource) const
 	{
 	TPtr attribute = iType->Des();
-	TBool caseInsensitiveAttr = (attribute == KPKCS9EmailAddress || attribute == KPKCS9UnstructuredName);
+	TBool caseInsensitiveAttr = (attribute == KPKCS9EmailAddress || attribute == KPKCS9UnstructuredName || attribute == KX520Description);
 	TASN1DecGeneric gen(aSource);
 	gen.InitL();
 	return ((gen.Tag() == EASN1PrintableString) || caseInsensitiveAttr);

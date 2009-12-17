@@ -25,7 +25,7 @@
 #ifndef __CREFSECURITYDIALOG_H__
 #define __CREFSECURITYDIALOG_H__
 
-#include "secdlgimpldefs.h"
+#include "secdlgImplDefs.h"
 
 class CDialogRequester;
 

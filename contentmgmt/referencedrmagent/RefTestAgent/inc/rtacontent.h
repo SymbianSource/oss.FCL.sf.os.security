@@ -28,6 +28,10 @@
 
 #include <e32std.h>
 #include <caf/caf.h>
+#ifdef SYMBIAN_ENABLE_SPLIT_HEADERS
+#include <caf/cafplatform.h>
+#endif // SYMBIAN_ENABLE_SPLIT_HEADERS
+
 #include "rtaclient.h"
 
 namespace ReferenceTestAgent

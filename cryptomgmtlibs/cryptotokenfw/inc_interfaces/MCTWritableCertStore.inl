@@ -15,6 +15,12 @@
 *
 */
 
+/**
+ @file 
+ @publishedPartner
+ @released
+*/
+ 
 
 #include <e32base.h>
 

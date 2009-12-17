@@ -25,7 +25,13 @@
 #ifndef __RTAIMPORT_H__
 #define __RTAIMPORT_H__
 
+
 #include <caf/caf.h>
+
+#ifdef SYMBIAN_ENABLE_SPLIT_HEADERS
+#include <caf/cafplatform.h>
+#endif // SYMBIAN_ENABLE_SPLIT_HEADERS
+
 #include "rtaArchive.h"
 
 _LIT(KRtaTempOutFileName, "tmpout");

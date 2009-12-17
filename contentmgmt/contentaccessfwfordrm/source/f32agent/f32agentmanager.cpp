@@ -16,8 +16,8 @@
 */
 
 
-#include <caf/caf.h>
 #include <caf/cafpanic.h>
+#include <caf/virtualpathptr.h>
 #include <caf/dirstreamable.h>
 #include "f32agentmanager.h"
 #include "f32defaultattributes.h"

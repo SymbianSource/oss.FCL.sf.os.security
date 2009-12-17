@@ -19,6 +19,9 @@
 #include <test/testexecutelog.h>
 #include <s32mem.h>
 #include <caf/caf.h>
+#include <caf/rightsinfo.h>
+#include <caf/manager.h>
+#include <caf/supplieroutputfile.h>
 #include "cafserver.h"
 #include "CafUtilsStep.h"
 

@@ -24,7 +24,9 @@
 #include <s32file.h>
 #include <authserver/auth_srv_errs.h>
 #include <authserver/authpatchdata.h>
-#include <u32hal.h> 
+#include <u32hal.h>
+#include <e32svr.h>
+ 
 using namespace AuthServer;
 
 _LIT(KTrainSuccess,   	"TrainingSuccess");

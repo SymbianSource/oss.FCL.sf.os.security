@@ -527,10 +527,6 @@ EXPORT_C TInt Tefinput::GetActionResult(TInt aErrCode, TDes8& aReturnTag)
 			{
 			aReturnTag.Copy(_L8("\r\n\t\t<return>KErrBadPassphrase</return>"));
 			}
-	else if(aErrCode == KErrTotalLossOfEntropy)
-			{
-			aReturnTag.Copy(_L8("\r\n\t\t<return>KErrTotalLossOfEntropy</return>"));
-			}
 	else if(aErrCode == KErrKeyNotWeakEnough)
 			{
 			aReturnTag.Copy(_L8("\r\n\t\t<return>KErrKeyNotWeakEnough</return>"));

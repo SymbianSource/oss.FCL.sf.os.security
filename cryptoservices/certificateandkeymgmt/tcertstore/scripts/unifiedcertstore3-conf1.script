@@ -622,7 +622,7 @@ RUN_TEST_STEP                 -1    CTestHandler        retrieve               u
 
 RUN_TEST_STEP                 -1    CTestHandler        retrieve               unifiedcertstore3-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE3-CONF1-0006-007
 
-RUN_TEST_STEP                 -1    CTestHandler        deletecert             unifiedcertstore3-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE3-CONF1-0006-008
+RUN_TEST_STEP		      -1    CTestHandler        deletecert             unifiedcertstore3-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE3-CONF1-0006-008
 
 RUN_TEST_STEP                 -1    CTestHandler        delete              
 

@@ -46,6 +46,8 @@ namespace CryptoSpi
 		@param aInput	The hash of the message to be verified
 		@param aSignature	The signature of the hash
 		@param aVerificationResult	Indicates the success or failure of the verification
+		@leave ...	Any of the crypto error codes defined in 
+  					cryptospi_errs.h or any of the system-wide error codes.
 		*/
 		virtual void VerifyL(const TDesC8& aInput, const CCryptoParams& aSignature, TBool& aVerificationResult) = 0;
 
@@ -53,6 +55,8 @@ namespace CryptoSpi
 		Unsign the signature
 		@param aOutput	The unsigned hash
 		@param aSignature	The signature of the hash
+		@leave ...	Any of the crypto error codes defined in 
+  					cryptospi_errs.h or any of the system-wide error codes.
 		*/
 		virtual void InverseSignL(HBufC8*& aOutput, const CCryptoParams& aSignature) = 0;
 		};
@@ -67,6 +71,8 @@ namespace CryptoSpi
 		@param aSignature	The signature of the hash
 		@param aVerificationResult	Indicates the success or failure of the verification
 		@param aRequestStatus
+		@leave ...	Any of the crypto error codes defined in 
+  					cryptospi_errs.h or any of the system-wide error codes.
 		*/
 		virtual void VerifyL(const TDesC8& aInput, const CCryptoParams& aSignature, TBool& aVerificationResult, TRequestStatus& aRequestStatus) = 0;
 
@@ -75,6 +81,8 @@ namespace CryptoSpi
 		@param aOutput	The unsigned hash
 		@param aSignature	The signature of the hash
 		@param aRequestStatus the request status.
+		@leave ...	Any of the crypto error codes defined in 
+  					cryptospi_errs.h or any of the system-wide error codes.
 		*/
 		virtual void InverseSignL(HBufC8*& aOutput, const CCryptoParams& aSignature, TRequestStatus& aRequestStatus) = 0;
 		/**

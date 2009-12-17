@@ -2694,7 +2694,7 @@ RUN_UTILS MakeReadWrite c:\tswi\tbackuprestore\backup10285777.1
 RUN_UTILS DeleteFile c:\private\10283558\policies\ups_101f7f1f_ff000001.rsc
 
 // restores policy file
-RUN_TEST_STEP_RESULT -1 100 tups_backuprestore  RESTORE  z:\tups\integ\scripts\tups_integ.ini	backup_policy_file2
+RUN_TEST_STEP_RESULT -11 100 tups_backuprestore  RESTORE  z:\tups\integ\scripts\tups_integ.ini	backup_policy_file2
 
 // uninstall SIS files previously installed
 RUN_TEST_STEP 100 tups_install UninstallAugStep z:\tups\integ\scripts\tups_integ.ini  un_install_policies1v2

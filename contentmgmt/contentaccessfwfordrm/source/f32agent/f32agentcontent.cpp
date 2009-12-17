@@ -16,7 +16,7 @@
 */
 
 
-#include <caf/caf.h>
+#include <caf/embeddedobject.h>
 #include <apmstd.h>
 #include "f32agentcontent.h"
 #include "f32defaultattributes.h"

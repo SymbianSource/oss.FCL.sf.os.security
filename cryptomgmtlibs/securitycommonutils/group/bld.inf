@@ -22,7 +22,7 @@
 PRJ_EXPORTS
 
 //SCS Exports
-../inc/scsclient.h		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(scs/scsclient.h)
+../inc/scsclient.h		SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(scs/scsclient.h)
 ../inc/scsserver.h   	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(scs/scsserver.h)
 ../inc/scscommon.h   	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(scs/scscommon.h)
 ../inc/scscommon.inl 	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(scs/scscommon.inl)

@@ -18,7 +18,7 @@
 
 /**
  @file
- @publishedPartner
+ @publishedAll
  @released
 */
 
@@ -40,12 +40,9 @@ namespace ContentAccess
 	
 	It is also possible for an agent to provide an extended set of these 
 	attributes beyond EAgentSpecificAttributeBase but only applications written 
-	to support a that particular agent will support this.
+	to support that particular agent will support this.
 
 	No duplicate attributes are allowed in the set
-
-	@publishedPartner
-	@released
 	*/
 	class RAttributeSet
 		{

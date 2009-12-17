@@ -43,30 +43,47 @@ namespace CryptoSpi
 		/**
 		Set the key of this cipher. Reset() is called to reinitialise the cipher.
 		@param aKey	The symmetric key.
+		@leave KErrArgument if aKey is not of the expected type.
+		@leave KErrNotSupported if the key is not of valid length.
+		@leave ...	Any of the crypto error codes defined in 
+  					cryptospi_errs.h or any of the system-wide error codes.
 		*/
 		virtual void SetKeyL(const CKey& aKey) = 0;
 
 		/**
 		Set the operation mode of this cipher
 		@param aOperationMode	The operation mode e.g. CBC, ECB etc
+		@leave KErrNotSupported if the operation mode is not supported.
+		@leave ...	Any of the crypto error codes defined in 
+  					cryptospi_errs.h or any of the system-wide error codes.
 		*/
 		virtual void SetOperationModeL(TUid aOperationMode) = 0;
 
 		/**
 		Set the crypto mode of this cipher. Reset() is called to reinitialise the cipher.
 		@param aCryptoMode	The crypto mode e.g encryption, decryption
+		@leave KErrNotSupported if the crypto mode is not supported.
+		@leave ...	Any of the crypto error codes defined in 
+  					cryptospi_errs.h or any of the system-wide error codes.
 		*/
 		virtual void SetCryptoModeL(TUid aCryptoMode) = 0;
 
 		/**
 		Set padding Mode of this cipher. Reset() is called to reinitialise the cipher.
 		@param aPaddingMode	The padding mode e.g. SSLv3, PKCS7
+		@leave KErrNotSupported if the padding mode is not supported.
+		@leave ...	Any of the crypto error codes defined in 
+  					cryptospi_errs.h or any of the system-wide error codes.
 		*/
 		virtual void SetPaddingModeL(TUid aPaddingMode) = 0;
 
 		/**
 		Set the initialization vector of this cipher. Reset() is called to reinitialise the cipher.
 		@param aIv	The initialization vector.
+		@leave KErrNotSupported if the current mode of operation does not support this.
+		@leave KErrArgument If the length of the Iv is not equal to the block size.
+		@leave ...	Any of the crypto error codes defined in 
+  					cryptospi_errs.h or any of the system-wide error codes.
 		*/
 		virtual void SetIvL(const TDesC8& aIv) = 0;
 
@@ -109,7 +126,9 @@ namespace CryptoSpi
 		/**
 		Encrypts or decrypts aInput and appends the result to aOutput.
 		@param aInput	The input data to be processed.
-		@param aOutput	The resulting processed data appended to aOutput.		
+		@param aOutput	The resulting processed data appended to aOutput.	
+		@leave ...	Any of the crypto error codes defined in 
+  					cryptospi_errs.h or any of the system-wide error codes.		
 		*/
 		virtual void ProcessL(const TDesC8& aInput, TDes8& aOutput) = 0;
 
@@ -118,6 +137,8 @@ namespace CryptoSpi
 		encrypts or decrypts the input data, and appends the result to aOutput
 		@param aInput  The input buffer to be encrypted or decrypted.
 		@param aOutput The resulting, padded, processed data is appended to aOutput.
+		@leave ...	Any of the crypto error codes defined in 
+  					cryptospi_errs.h or any of the system-wide error codes.
 		*/
 		virtual void ProcessFinalL(const TDesC8& aInput, TDes8& aOutput) = 0;
 		};
@@ -132,6 +153,8 @@ namespace CryptoSpi
 		@param aInput	The input data to be processed.
 		@param aOutput	The resulting processed data appended to aOutput.		
 		@param aRequestStatus
+		@leave ...	Any of the crypto error codes defined in 
+  					cryptospi_errs.h or any of the system-wide error codes.
 		*/
 		virtual void ProcessL(const TDesC8& aInput, TDes8& aOutput, TRequestStatus& aRequestStatus) = 0;
 
@@ -141,6 +164,8 @@ namespace CryptoSpi
 		@param aInput  The input buffer to be encrypted or decrypted.
 		@param aOutput The resulting, padded, processed data is appended to aOutput.
 		@param aRequestStatus
+		@leave ...	Any of the crypto error codes defined in 
+  					cryptospi_errs.h or any of the system-wide error codes.
 		*/
 		virtual void ProcessFinalL(const TDesC8& aInput, TDes8& aOutput, TRequestStatus& aRequestStatus) = 0;
 

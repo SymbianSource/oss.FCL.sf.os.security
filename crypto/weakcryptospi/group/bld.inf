@@ -42,7 +42,7 @@ PRJ_EXPORTS
 ../inc/spi/cryptoplugin.h				SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cryptospi/cryptoplugin.h)
 ../inc/spi/plugincharacteristics.h		SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(cryptospi/plugincharacteristics.h)
 ../inc/spi/ruleselector.h				SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(cryptospi/ruleselector.h)
-../inc/spi/pluginselectorbase.h				SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cryptospi/pluginselectorbase.h)
+../inc/spi/pluginselectorbase.h				SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(cryptospi/pluginselectorbase.h)
 ../inc/spi/romlit.h						SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cryptospi/romlit.h)
 ../inc/spi/extendedcharacteristics.h	SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(cryptospi/extendedcharacteristics.h)
 ../inc/spi/cryptocharacteristics.h		SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(cryptospi/cryptocharacteristics.h)
@@ -214,8 +214,8 @@ PRJ_TESTEXPORTS
 
 ../test/tsymmetric/scripts/AESMonteCarloEncryptCBC128.script /epoc32/winscw/c/tsymmetric/aesmontecarloencryptcbc128.script
 ../test/tsymmetric/scripts/AESMonteCarloEncryptCBC128.ini /epoc32/winscw/c/tsymmetric/aesmontecarloencryptcbc128.ini
-../test/tsymmetric/scripts/AESMonteCarloEncryptCBC192A.script /epoc32/winscw/c/tsymmetric/aesmontecarloencryptcbc192A.script
-../test/tsymmetric/scripts/AESMonteCarloEncryptCBC192B.script /epoc32/winscw/c/tsymmetric/aesmontecarloencryptcbc192B.script
+../test/tsymmetric/scripts/aesmontecarloencryptcbc192A.script /epoc32/winscw/c/tsymmetric/aesmontecarloencryptcbc192a.script
+../test/tsymmetric/scripts/aesmontecarloencryptcbc192B.script /epoc32/winscw/c/tsymmetric/aesmontecarloencryptcbc192b.script
 ../test/tsymmetric/scripts/AESMonteCarloEncryptCBC192.ini /epoc32/winscw/c/tsymmetric/aesmontecarloencryptcbc192.ini
 ../test/tsymmetric/scripts/AESMonteCarloEncryptCBC256.script /epoc32/winscw/c/tsymmetric/aesmontecarloencryptcbc256.script
 ../test/tsymmetric/scripts/AESMonteCarloEncryptCBC256.ini /epoc32/winscw/c/tsymmetric/aesmontecarloencryptcbc256.ini

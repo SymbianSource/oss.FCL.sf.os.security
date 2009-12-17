@@ -15,11 +15,15 @@
 *
 */
 
+/**
+ @file 
+ @test
+ @internalComponent
+*/
 
 #ifndef __REFTESTAGENTRIGHTSMANAGER_H__
 #define __REFTESTAGENTRIGHTSMANAGER_H__
 
-#include <caf/caf.h>
 #include <caf/agentinterface.h>
 
 /** A simple agent implementing a small part of OMA DRM v1.0

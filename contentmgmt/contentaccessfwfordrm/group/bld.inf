@@ -27,21 +27,23 @@ DEFAULT
 
 PRJ_EXPORTS
 // Common CAF headers
-../inc/caf.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/caf.h)
-../inc/caftypes.h		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/caftypes.h)
-../inc/caferr.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/caferr.h)
-../inc/cafpanic.h		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/cafpanic.h)
+../inc/caf.h			SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(caf/caf.h)
+../inc/cafplatform.h	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/cafplatform.h)
+../inc/caftypes.h		SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(caf/caftypes.h)
+../inc/caferr.h			SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(caf/caferr.h)
+../inc/cafpanic.h		SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(caf/cafpanic.h)
 
 // CAF.DLL exported headers
-../inc/content.h 		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/content.h)
-../inc/data.h	 		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/data.h)
-../inc/manager.h	 	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/manager.h)
-../inc/importfile.h		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/importfile.h)
+../inc/content.h 			SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(caf/content.h)
+../inc/content.inl 			SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(caf/content.inl)
+../inc/data.h	 			SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(caf/data.h)
+../inc/manager.h	 		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/manager.h)
+../inc/importfile.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/importfile.h)
 ../inc/rightsmanager.h		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/rightsmanager.h)
-../inc/supplier.h	 	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/supplier.h)
-../inc/supplieroutputfile.h  	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/supplieroutputfile.h)
-../inc/attribute.h		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/attribute.h)
-../inc/patchdata.h		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/patchdata.h)
+../inc/supplier.h	 		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/supplier.h)
+../inc/supplieroutputfile.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/supplieroutputfile.h)
+../inc/attribute.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/attribute.h)
+../inc/patchdata.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/patchdata.h)
 
 // Agent interface
 ../inc/agentinterface.h		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/agentinterface.h)
@@ -56,18 +58,18 @@ PRJ_EXPORTS
 
 
 ../inc/agentfactory.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/agentfactory.h)
-../inc/metadata.h	  		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/metadata.h)
-../inc/metadataarray.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/metadataarray.h)
-../inc/virtualpath.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/virtualpath.h)
-../inc/virtualpathptr.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/virtualpathptr.h)
-../inc/agent.h				SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/agent.h)
-../inc/EmbeddedObject.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/embeddedobject.h)
-../inc/attributeset.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/attributeset.h)
-../inc/stringattributeset.h		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/stringattributeset.h)
-../inc/rightsinfo.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/rightsinfo.h)
-../inc/StreamablePtrArray.h		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/streamableptrarray.h)
-../inc/StreamablePtrArray.inl		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/streamableptrarray.inl)
-../inc/dirstreamable.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/dirstreamable.h)
+../inc/metadata.h	  			SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(caf/metadata.h)
+../inc/metadataarray.h			SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(caf/metadataarray.h)
+../inc/virtualpath.h			SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(caf/virtualpath.h)
+../inc/virtualpathptr.h			SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(caf/virtualpathptr.h)
+../inc/agent.h					SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(caf/agent.h)
+../inc/EmbeddedObject.h			SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(caf/embeddedobject.h)
+../inc/attributeset.h			SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(caf/attributeset.h)
+../inc/stringattributeset.h		SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(caf/stringattributeset.h)
+../inc/rightsinfo.h				SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/rightsinfo.h)
+../inc/StreamablePtrArray.h		SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(caf/streamableptrarray.h)
+../inc/StreamablePtrArray.inl	SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(caf/streamableptrarray.inl)
+../inc/dirstreamable.h			SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(caf/dirstreamable.h)
 
 #ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 ../inc/cafhelper.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(caf/cafhelper.h)

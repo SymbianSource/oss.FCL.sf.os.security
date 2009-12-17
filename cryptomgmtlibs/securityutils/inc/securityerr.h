@@ -11,46 +11,104 @@
 *
 * Contributors:
 *
-* Description: 
+* Description:  Defines error codes for the security subsystem.
 *
+*
+* @file 
+* @publishedAll
+* @released
 */
-
 
 #ifndef __SECURITYERR_H__
 #define __SECURITYERR_H__
 
 #include <e32std.h>
 
+
+
 /**
- * @file
- *
- * Defines error codes for the security subsystem.  Codes -11000 to -11500 are
- * reserved for security.
- *
- * @internalTechnology
- */
-
-/* Crypto libraries */
-
+	If the passphrase entered is incorrect.
+**/
 const TInt KErrBadPassphrase				= -11000;
-const TInt KErrTotalLossOfEntropy			= -11001;
-const TInt KErrKeyNotWeakEnough				= -11002;	
+
+
+
+/** 
+	If the key size is larger than that allowed 
+	by the cipher strength restrictions of the crypto 
+	library.
+**/
+const TInt KErrKeyNotWeakEnough				= -11002;
+
+
+
+/**
+	If the padding on a block does not conform to the
+	specifications of the algorithm.	 
+**/	
 const TInt KErrInvalidPadding				= -11003;
+
+
+
+/** 
+	If the key is weaker than that allowed 
+	by the cipher strength restrictions of the crypto 
+	library.
+ **/
 const TInt KErrWeakKey						= -11004;
+
+
+
+/**
+	If the export of negative values is not
+	supported.
+**/
 const TInt KErrNegativeExportNotSupported	= -11005;
 
-/*
- * Key store
- *
- * These error codes relate to the cryptokens key store interfaces and the
- * software keystore.  They are described in the interfaces where they occur.
- */
 
+
+/**
+	If the requested key generation algorithm is not 
+	supported.
+**/
 const TInt KErrKeyAlgorithm	   				= -11006;
+
+
+
+/**
+	If the key usage flags are not valid or not
+	consistent with the key algorithm.
+**/
 const TInt KErrKeyUsage						= -11007;
+
+
+
+/**
+	If a validity period is specified during key generation,
+	but the end date is in the past.
+**/
 const TInt KErrKeyValidity				   	= -11008;
+
+
+
+/**
+	If the requested key size is not supported.
+**/
 const TInt KErrKeySize						= -11009;
+
+
+
+/**
+	If an invalid combination of key access
+	flags were specified.
+**/
 const TInt KErrKeyAccess					= -11010;
+
+
+
+/**
+	If the requested private key is not present.
+**/
 const TInt KErrPrivateKeyNotFound			= -11011;
 
 #endif	//	__SECURITYERR_H__

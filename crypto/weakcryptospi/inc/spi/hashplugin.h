@@ -70,6 +70,8 @@ namespace CryptoSpi
 		To make a copy of a message digest with its internal state intact,
 		see CopyL().
 		@return A pointer to the new reset MHash object
+		@leave ...	Any of the crypto error codes defined in 
+  					cryptospi_errs.h or any of the system-wide error codes.
 		*/
 		virtual MHash* ReplicateL() = 0;		
 
@@ -77,10 +79,12 @@ namespace CryptoSpi
 		Creates a new MHash object with the exact same state as
 		the current object.  
 
-		This function copies all internal state of the message digest.
+		This function copies all internal state of the message digest.  
 		To create a new MHash object without the state of
 		the current object, see ReplicateL().
 		@return A pointer to the new MHash object
+		@leave ...	Any of the crypto error codes defined in 
+  					cryptospi_errs.h or any of the system-wide error codes.
 		*/
 		virtual MHash* CopyL() = 0;
 		
@@ -89,6 +93,10 @@ namespace CryptoSpi
 		 * 
 		 * Set the key used for HMAC mode operation.
 		 * @param aKey	The key for HMAC
+		 * @leave KErrArgument if aKey is not of the expected type.
+		 * @leave KErrNotSupported if the key is not of valid length.
+		 * @leave ...	Any of the crypto error codes defined in 
+  						cryptospi_errs.h or any of the system-wide error codes.
 		 */
 		virtual void SetKeyL(const CKey& aKey) = 0;
 			
@@ -97,6 +105,10 @@ namespace CryptoSpi
 		 * 
 		 * Set the operation mode, ie hash or hmac
 		 * @param aOperationMode	The UID to identifiy the operation mode
+
+		@leave KErrNotSupported if the operation mode is not supported.
+		@leave ...	Any of the crypto error codes defined in 
+  					cryptospi_errs.h or any of the system-wide error codes.
 		 */		
 		virtual void SetOperationModeL(TUid aOperationMode) = 0;
 	    };
@@ -145,6 +157,9 @@ namespace CryptoSpi
 		see CopyL().
 
 		@return A pointer to the new reset MAsyncHash object
+
+		@leave ...	Any of the crypto error codes defined in 
+  					cryptospi_errs.h or any of the system-wide error codes.
 		*/
 		virtual MAsyncHash* ReplicateL() = 0;		
 
@@ -157,6 +172,9 @@ namespace CryptoSpi
 		the current object, see ReplicateL().
 
 		@return A pointer to the new MAsyncHash object
+
+		@leave ...	Any of the crypto error codes defined in 
+  					cryptospi_errs.h or any of the system-wide error codes.
 		*/
 		virtual MAsyncHash* CopyL() = 0;
 		
@@ -165,6 +183,10 @@ namespace CryptoSpi
 		 * 
 		 * Set the key used for HMAC mode operation.
 		 * @param aKey	The key for HMAC
+		 * @leave KErrArgument if aKey is not of the expected type.
+		 * @leave KErrNotSupported if the key is not of valid length.
+		 * @leave ...	Any of the crypto error codes defined in 
+  						cryptospi_errs.h or any of the system-wide error codes.
 		 */
 		virtual void SetKeyL(const CKey& aKey) = 0;
 			
@@ -173,6 +195,10 @@ namespace CryptoSpi
 		 * 
 		 * Set the operation mode, ie hash or hmac
 		 * @param aOperationMode	The UID to identifiy the operation mode
+	 	 * @leave KErrArgument if aKey is not of the expected type.
+		 * @leave KErrNotSupported if the key is not of valid length.
+		 * @leave ...	Any of the crypto error codes defined in 
+  						cryptospi_errs.h or any of the system-wide error codes.
 		 */		
 		virtual void SetOperationModeL(TUid aOperationMode) = 0;
 	    };	

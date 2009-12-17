@@ -33,6 +33,7 @@
 #include <x509keys.h>
 #include <wtlscert.h>
 #include <u32hal.h> 
+#include <e32svr.h>
 
 _LIT(KCertStoreFilename,"CACerts.dat");
 _LIT(KCertStoreFilenamePattern,"cacerts*.dat");
@@ -327,10 +328,7 @@ void CFSCertStoreServer::RemoveL(TInt aHandle, const RMessage2& aMessage)
 	const CCertStoreEntry& entry = iEntryList->GetByIndex(index);
 
 
-	//Check whether the certificate is deleteable and that the necessary capabilities are 
-	//present
-	if (!AddRemovePolicy(entry.CertInfo().CertificateOwnerType()).CheckPolicy(aMessage) ||
-	        !entry.CertInfo().IsDeletable())
+	if (!AddRemovePolicy(entry.CertInfo().CertificateOwnerType()).CheckPolicy(aMessage))
 		{
 		User::Leave(KErrPermissionDenied);
 		}

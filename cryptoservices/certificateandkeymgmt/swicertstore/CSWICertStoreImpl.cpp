@@ -28,6 +28,7 @@
 #include <ccertattributefilter.h>
 #include <f32file.h>
 #include <u32hal.h> 
+#include <e32svr.h>
 
 _LIT(KSWICertStoreZFilename,"z:\\resource\\swicertstore.dat");
 _LIT(KSWIWritableCertStorePath,"!:\\resource\\swicertstore\\dat\\");

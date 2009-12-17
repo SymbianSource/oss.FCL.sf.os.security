@@ -15,6 +15,11 @@
 *
 */
 
+/**
+ @file
+ @publishedAll
+ @released
+*/
 
 #include <ecom/registryinfo.rh>
 #include "ct/interfaceuid.hrh"

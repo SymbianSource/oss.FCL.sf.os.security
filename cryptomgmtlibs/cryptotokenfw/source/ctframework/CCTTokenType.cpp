@@ -18,8 +18,8 @@
 
 #include <e32base.h>
 #include "ct/ccttokentype.h"
-#include "ct/ccttokentypeinfo.h"
-#include "ct/interfaceuid.hrh"
+#include "ct/CCTTokenTypeInfo.h"
+#include "ct/InterfaceUID.hrh"
 #include "ct/logger.h"
 #include "cttokentypedeletehandler.h"
 

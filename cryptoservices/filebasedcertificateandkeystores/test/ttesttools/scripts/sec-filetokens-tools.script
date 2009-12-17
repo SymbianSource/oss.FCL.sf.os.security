@@ -1088,7 +1088,7 @@ END_TESTCASE SEC-FILETOKENS-IMPROVEMENT-0004
 //! @SYMTestCaseDesc 	Certtool remove command
 //! @SYMTestPriority 	Medium
 //! @SYMTestActions  	Call certtool to remove the certificate imported with deletable set to 'n'
-//! @SYMTestExpectedResults "The expected output is Certificate removal failed."
+//! @SYMTestExpectedResults The expected output is "Certificate removed successfully."
 
 START_TESTCASE SEC-FILETOKENS-IMPROVEMENT-0005
 RUN_PROGRAM certtool.exe c:\ttesttools\data\cert_removedeletable2.txt c:\output.txt

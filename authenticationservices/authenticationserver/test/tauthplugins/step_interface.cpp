@@ -28,6 +28,7 @@
 #include <authserver/authpatchdata.h>
 #include <authserver/auth_srv_errs.h>
 #include <u32hal.h> 
+#include <e32svr.h>
 
 using namespace AuthServer;
 

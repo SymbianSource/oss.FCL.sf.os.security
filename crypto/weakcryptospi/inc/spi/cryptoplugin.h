@@ -49,6 +49,8 @@ namespace CryptoSpi
 		/**
 		Retrieves the plugin's common characteristics
 		@param aPluginCharacteristics	The plugin characteristics value retrieved
+		@leave ...		Any of the crypto error codes defined in 
+  						cryptospi_errs.h or any of the system-wide error codes.
 		*/
 		virtual void GetCharacteristicsL(const TCharacteristics*& aPluginCharacteristics) = 0;
 		
@@ -56,6 +58,8 @@ namespace CryptoSpi
 		Retrieves the plugin's extended characteristics
 		@return The extended plugin characteristics, on the heap.
 		This should be deleted by the caller when finished with.
+		@leave ...		Any of the crypto error codes defined in 
+  						cryptospi_errs.h or any of the system-wide error codes.
 		*/	
 		virtual const CExtendedCharacteristics* GetExtendedCharacteristicsL() = 0;
 

@@ -514,7 +514,7 @@ void CX509SigningAlgorithmIdentifier::ConstructL(const TDesC8& aBinaryData, TInt
 		iAsymmetricAlgorithm = CAlgorithmIdentifier::NewL(algId, encodedParams->Des());
 		}
 
-	if (oidDes == KSHA1WithRSA)
+	if (oidDes == KSHA1WithRSA  || oidDes == KSHA1WithRSASignature)
 		{
 		TAlgorithmId algId = ERSA;
 		TAlgorithmId digestId = ESHA1;

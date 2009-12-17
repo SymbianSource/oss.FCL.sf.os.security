@@ -61,6 +61,8 @@ namespace CryptoSpi
 		@param aCharacteristics the array of characteristic dll list.
 		@param aInterface the uid of the interface, 0 means that enumerating characteristics for all the interfaces
 		@param aExtended if extended characteristic needs to be retrieved.
+		@leave ...	Any of the crypto error codes defined in 
+  					cryptospi_errs.h or any of the system-wide error codes.	
 		*/
 		IMPORT_C static void EnumerateCharacteristicsL(RPointerArray<CCharacteristicsAndPluginName>& aCharacteristics, TInt32 aInterface, TBool aExtended);
 		};

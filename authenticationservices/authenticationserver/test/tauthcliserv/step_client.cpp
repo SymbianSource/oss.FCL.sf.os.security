@@ -21,7 +21,9 @@
 #include "authserver/aspubsubdefs.h"
 #include <e32property.h>
 #include <authserver/authpatchdata.h>
-#include <u32hal.h> 
+#include <u32hal.h>
+#include <e32svr.h>
+ 
 using namespace AuthServer;
 
 class CAuthActive : CActive

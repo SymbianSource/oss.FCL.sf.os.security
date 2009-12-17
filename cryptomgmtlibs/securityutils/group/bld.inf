@@ -29,9 +29,9 @@ PRJ_EXPORTS
 ../inc/miscutil.h 	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(miscutil.h)
 ../inc/callbacktimer.h 	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(callbacktimer.h)
 
-../inc/securityerr.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(securityerr.h)
+../inc/securityerr.h	SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(securityerr.h)
 // ROMKIT includes
-../inc/secutil.iby 		/epoc32/rom/include/secutil.iby
+../inc/secutil.iby 	/epoc32/rom/include/secutil.iby
 ../inc/sectcbutil.iby	/epoc32/rom/include/sectcbutil.iby
 
 

@@ -16,7 +16,7 @@
 */
 
 
-#include <caf/caf.h>
+#include <caf/rightsinfo.h>
 #include "testagentrightsmanager.h"
 
 using namespace ContentAccess;

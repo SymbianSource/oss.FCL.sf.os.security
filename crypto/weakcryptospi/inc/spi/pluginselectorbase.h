@@ -19,7 +19,7 @@
 
 /**
  @file
- @publishedPartner
+ @publishedAll
  @released
 */
 
@@ -78,6 +78,7 @@ namespace CryptoSpi
 		 * @param 	aKey The key for Hmac mode, which should be NULL in Hash mode
 		 * @param 	aAlgorithmParams The parameters that are specific to a particular 
 		 * 			algorithm. This is for extendibility and will normally be null.
+		 * @leave 	KErrNone if successful; otherwise, a system wide error code.
 		 */
 		virtual void CreateHashL(CHash*& aHash,
 								TUid aAlgorithmUid,
@@ -91,6 +92,7 @@ namespace CryptoSpi
 		@param aRandom A reference to a pointer that should be set to point to the new CRandom object.
 		@param aAlgorithmUid The algorithm to use
 		@param aAlgorithmParams Parameters that are specific this algorithm.
+	    @leave KErrNone if successful; otherwise, a system wide error code.
 		*/		
 		virtual void CreateRandomL(CRandom*& aRandom,
 									TUid aAlgorithmUid,
@@ -106,6 +108,7 @@ namespace CryptoSpi
 		@param aOperationMode The Symmetric cipher operation mode.
 		@param aPaddingMode The Symmetric cipher padding mode.
 		@param aAlgorithmParams Parameters that are specific to a particular algorithm. This is for extendibility and will normally be null.
+		@leave	KErrNone if successful; otherwise, a system wide error code.
 		*/
 		virtual void CreateSymmetricCipherL(CSymmetricCipher*& aCipher,
 											TUid aAlgorithmUid,
@@ -124,6 +127,7 @@ namespace CryptoSpi
 		@param aCryptoMode whether to encrypt or decrypt
 		@param aPaddingMode The padding mode to use
 		@param aAlgorithmParams Parameters that are specific to a particular algorithm. This is for extendibility and will normally be null.
+		@leave	KErrNone if successful; otherwise, a system wide error code.
 		*/
 		virtual void CreateAsymmetricCipherL(CAsymmetricCipher*& aCipher,
 											TUid aAlgorithmUid,
@@ -140,6 +144,7 @@ namespace CryptoSpi
 		@param aKey The signing key.
 		@param aPaddingMode The padding mode of the signer.
 		@param aAlgorithmParams Parameters that are specific to a particular algorithm. This is for extendibility and will normally be null.
+		@leave	KErrNone if successful; otherwise, a system wide error code.
 		*/
 		virtual void CreateSignerL(CSigner*& aSigner,
 									TUid aAlgorithmUid,
@@ -155,6 +160,7 @@ namespace CryptoSpi
 		@param aKey The key to verify the signature with.
 		@param aPaddingMode The padding mode of the signer.
 		@param aAlgorithmParams Parameters that are specific to a particular algorithm. This is for extendibility and will normally be null.
+		@leave	KErrNone if successful; otherwise, a system wide error code.
 		*/
 		virtual void CreateVerifierL(CVerifier*& aVerifier,
 									TUid aAlgorithmUid,
@@ -168,6 +174,7 @@ namespace CryptoSpi
 		@param aKeyPairGenerator A reference to a pointer that should be set to point to the new asymmetric key pair generator object.
 		@param aKeyAlgorithmUid	The algorithm UID
 		@param aAlgorithmParams	The parameters that are specific to a particular algorithm. This is for extendibility and will normally be null.
+		@leave	KErrNone if successful; otherwise, a system wide error code.
 		*/
 		virtual void CreateKeyPairGeneratorL(CKeyPairGenerator*& aKeyPairGenerator,
 											TUid aKeyAlgorithmUid,
@@ -181,6 +188,7 @@ namespace CryptoSpi
 		@param aAlgorithmUid The algorithm to use
 		@param aPrivateKey The private key to combine with the other parties public key during the agreement.
 		@param aAlgorithmParams The parameters that are specific to a particular algorithm. This is for extendibility and will normally be null.
+		@leave	KErrNone if successful; otherwise, a system wide error code.
 		*/
 		virtual void CreateKeyAgreementL(CKeyAgreement*& aKeyAgreement,
 										TUid aAlgorithmUid,
@@ -198,6 +206,7 @@ namespace CryptoSpi
 		 * @param 	aKey The key for Hmac mode, which should be NULL in Hash mode
 		 * @param 	aAlgorithmParams The parameters that are specific to a particular 
 		 * 			algorithm. This is for extendibility and will normally be null.
+		 * @leave	KErrNone if successful; otherwise, a system wide error code.
 		 */										
 		virtual void CreateAsyncHashL(CAsyncHash*& aHash,
 										TUid aAlgorithmUid,
@@ -210,6 +219,7 @@ namespace CryptoSpi
 		@param aRandom A reference to a pointer that should be set to point to the new CRandom object.
 		@param aAlgorithmUid The algorithm to use
 		@param aAlgorithmParams Parameters that are specific this algorithm.
+		@leave	KErrNone if successful; otherwise, a system wide error code.
 		*/
 		virtual void CreateAsyncRandomL(CAsyncRandom*& aRandom,
 										TUid aAlgorithmUid,
@@ -224,6 +234,7 @@ namespace CryptoSpi
 		@param aOperationMode The Symmetric cipher operation mode.
 		@param aPaddingMode The Symmetric cipher padding mode.
 		@param aAlgorithmParams Parameters that are specific to a particular algorithm. This is for extendibility and will normally be null.
+		@leave	KErrNone if successful; otherwise, a system wide error code.
 		*/
 		virtual void CreateAsyncSymmetricCipherL(CAsyncSymmetricCipher*& aCipher,
 										TUid aAlgorithmUid,
@@ -242,6 +253,7 @@ namespace CryptoSpi
 		@param aCryptoMode whether to encrypt or decrypt
 		@param aPaddingMode The padding mode to use
 		@param aAlgorithmParams Parameters that are specific to a particular algorithm. This is for extendibility and will normally be null.
+		@leave	KErrNone if successful; otherwise, a system wide error code.
 		*/
 		virtual void CreateAsyncAsymmetricCipherL(CAsyncAsymmetricCipher*& aCipher,
 										TUid aAlgorithmUid,
@@ -257,6 +269,7 @@ namespace CryptoSpi
 		@param aKey The signing key.
 		@param aPaddingMode The padding mode of the signer.
 		@param aAlgorithmParams Parameters that are specific to a particular algorithm. This is for extendibility and will normally be null.
+		@leave	KErrNone if successful; otherwise, a system wide error code.
 		*/
 		virtual void CreateAsyncSignerL(CAsyncSigner*& aSigner,
 										TUid aAlgorithmUid,
@@ -271,6 +284,7 @@ namespace CryptoSpi
 		@param aKey The key to verify the signature with.
 		@param aPaddingMode The padding mode of the signer.
 		@param aAlgorithmParams Parameters that are specific to a particular algorithm. This is for extendibility and will normally be null.
+		@leave	KErrNone if successful; otherwise, a system wide error code.
 		*/		
 		virtual void CreateAsyncVerifierL(CAsyncVerifier*& aVerifier,
 										TUid aAlgorithmUid,
@@ -284,6 +298,7 @@ namespace CryptoSpi
 		@param aKeyPairGenerator A reference to a pointer that should be set to point to the new asymmetric key pair generator object.
 		@param aKeyAlgorithmUid	The algorithm UID
 		@param aAlgorithmParams	The parameters that are specific to a particular algorithm. This is for extendibility and will normally be null.
+		@leave	KErrNone if successful; otherwise, a system wide error code.
 		*/
 		virtual void CreateAsyncKeyPairGeneratorL(CAsyncKeyPairGenerator*& aKeyPairGenerator,
 										TUid aAlgorithmUid,
@@ -296,6 +311,7 @@ namespace CryptoSpi
 		@param aAlgorithmUid The algorithm to use
 		@param aPrivateKey The private key to combine with the other parties public key during the agreement.
 		@param aAlgorithmParams The parameters that are specific to a particular algorithm. This is for extendibility and will normally be null.
+		@leave	KErrNone if successful; otherwise, a system wide error code.
 		*/
 		virtual void CreateAsyncKeyAgreementL(CAsyncKeyAgreement*& aKeyAgreement,
 										TUid aAlgorithmUid,
@@ -345,7 +361,7 @@ namespace CryptoSpi
 		 * @param 	aAlgorithmUid The specific hash algorithm e.g. MD2, SHA1, MD4
 		 * @param 	aAlgorithmParams The parameters that are specific to a particular 
 		 * 			algorithm. This is for extendibility and will normally be null.
-		 * @return 	KErrNone if successful; otherwise, a system wide error code.
+		 * @leave 	KErrNone if successful; otherwise, a system wide error code.
 		 */
 		virtual void CreateHashL(CHash*& aHash,
 								TUid aAlgorithmUid,
@@ -358,7 +374,7 @@ namespace CryptoSpi
 		 * @param 	aAlgorithmUid The specific hash algorithm e.g. MD2, SHA1, MD4
 		 * @param 	aAlgorithmParams The parameters that are specific to a particular 
 		 * 			algorithm. This is for extendibility and will normally be null.
-		 * @return 	KErrNone if successful; otherwise, a system wide error code.
+		 * @leave 	KErrNone if successful; otherwise, a system wide error code.
 		 */
 		virtual void CreateAsyncHashL(CAsyncHash*& aAsyncHash, 
 								TUid aAlgorithmUid,

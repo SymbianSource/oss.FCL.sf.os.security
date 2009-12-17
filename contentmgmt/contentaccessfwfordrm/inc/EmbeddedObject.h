@@ -18,7 +18,7 @@
 
 /**
  @file
- @publishedPartner
+ @publishedAll
  @released
 */
 
@@ -36,8 +36,6 @@ namespace ContentAccess
 	The agent defined uniqueId field describes the location of the object within 
 	the file.
 
-	@publishedPartner
-	@released
 	*/
 	class CEmbeddedObject : public CBase
 		{

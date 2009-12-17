@@ -83,7 +83,7 @@ namespace SoftwareCrypto
 		TUint iGCopy;
 		TUint iHCopy;
 		TUint iNlCopy;
-		TUint iNhCopy;	
+		TUint64 iNhCopy;	
 		TUint iDataCopy[KSHA256BlockSize];
 		
 		TUint iNl;
