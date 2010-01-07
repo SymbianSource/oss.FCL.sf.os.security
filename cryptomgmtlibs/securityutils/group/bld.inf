@@ -28,11 +28,13 @@ PRJ_EXPORTS
 ../inc/euserext.h	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(euserext.h)
 ../inc/miscutil.h 	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(miscutil.h)
 ../inc/callbacktimer.h 	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(callbacktimer.h)
+../inc/SecSettingsclient.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(SecSettings/SecSettingsclient.h)
 
 ../inc/securityerr.h	SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(securityerr.h)
 // ROMKIT includes
 ../inc/secutil.iby 	/epoc32/rom/include/secutil.iby
 ../inc/sectcbutil.iby	/epoc32/rom/include/sectcbutil.iby
+../inc/SecSettings.iby			/epoc32/rom/include/SecSettings.iby
 
 
 PRJ_TESTEXPORTS
@@ -62,6 +64,8 @@ PRJ_MMPFILES
 #ifndef TOOLS2
 secutil.mmp
 sectcbutil.mmp
+SecSettingsserver.mmp
+SecSettingsclient.mmp
 #endif //TOOLS2
 #endif //TOOLS
 

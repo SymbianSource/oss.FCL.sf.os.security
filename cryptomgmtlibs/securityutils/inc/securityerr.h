@@ -111,4 +111,9 @@ const TInt KErrKeyAccess					= -11010;
 **/
 const TInt KErrPrivateKeyNotFound			= -11011;
 
+/**
+	If a setting in the repository is not found.
+**/
+const TInt KErrSettingNotFound					= -11012;	
+
 #endif	//	__SECURITYERR_H__

@@ -42,7 +42,7 @@ SOURCE		Reftestagent.cpp
 USERINCLUDE		../inc
 USERINCLUDE		../RefTestAgent
 
-MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 start resource 10205EA0.rss
 target reftestagent.rsc
@@ -50,8 +50,6 @@ end
 
 LIBRARY		euser.lib
 LIBRARY		efsrv.lib
-LIBRARY		apgrfx.lib
-LIBRARY		apmime.lib
 LIBRARY		caf.lib
 LIBRARY		cafutils.lib
 LIBRARY		rtaarchive.lib
@@ -61,6 +59,7 @@ LIBRARY		bafl.lib
 
 #ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 LIBRARY		http.lib
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
 #endif
 
 SMPSAFE

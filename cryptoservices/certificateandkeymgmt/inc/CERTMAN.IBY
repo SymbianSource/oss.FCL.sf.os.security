@@ -28,7 +28,8 @@
 
 #include "secutil.iby"
 #include "sectcbutil.iby"
-#include "ocspconfig.iby"
+#include "secsettings.iby"
+#include "ocspcenrep.iby"
 
 REM Certificate management libraries
 

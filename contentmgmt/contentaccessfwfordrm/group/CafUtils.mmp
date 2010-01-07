@@ -70,7 +70,5 @@ LIBRARY		euser.lib
 LIBRARY		estor.lib
 LIBRARY		charconv.lib
 LIBRARY		efsrv.lib
-LIBRARY		apgrfx.lib
 LIBRARY		ecom.lib
-LIBRARY		apmime.lib
 SMPSAFE

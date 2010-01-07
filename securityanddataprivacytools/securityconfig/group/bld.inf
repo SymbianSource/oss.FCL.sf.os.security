@@ -29,10 +29,8 @@ DEFAULT
 PRJ_EXPORTS
 ../filetokens/filetokensconfig.iby /epoc32/rom/include/filetokensconfig.iby
 
-../ocsp/ocsppolicy.ini /epoc32/release/winscw/udeb/z/system/data/ocsppolicy.ini
-../ocsp/ocsppolicy.ini /epoc32/release/winscw/urel/z/system/data/ocsppolicy.ini
-../ocsp/ocsppolicy.ini  /epoc32/data/z/system/data/ocsppolicy.ini
-../ocsp/ocspconfig.iby /epoc32/rom/include/ocspconfig.iby
+../ocsp/2002b28b.txt               z:/private/10202be9/2002b28b.txt
+../ocsp/ocspcenrep.iby             /epoc32/rom/include/ocspcenrep.iby
 
 // Optional Replaceable files for UPS
 ../ups/backup/backup_registration.xml		z:/private/10283558/backup_registration.xml
