@@ -30,6 +30,7 @@
 #include "kmstest.h"
 
 #include <e32ldr.h>
+#include <e32ldr_private.h>
 
 RTest test(_L("KmsTest"));						///< Test object asserts conditions and prints status.
 

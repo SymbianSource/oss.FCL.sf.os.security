@@ -23,6 +23,7 @@
 */
 
 #include <e32ldr.h>
+#include <e32ldr_private.h>
 #include "rtestwrapper.h"
 
 #include <ups/upsclient.h>

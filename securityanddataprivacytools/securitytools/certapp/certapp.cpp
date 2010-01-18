@@ -461,7 +461,15 @@ void ProcessCommandLine(int aArgc, char **aArgv,
 		if(arg == "--license")
 			{
 			prog << sVersion << Log::Endl();
-			prog << "Copyright (c) 2008 Symbian Software Ltd. All rights reserved." << Log::Endl();
+			prog << "Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies)." << Log::Endl();
+			prog << "All rights reserved." << Log::Endl();
+			prog << "This component and the accompanying materials are made available" << Log::Endl();
+			prog << "under the terms of the License \"Eclipse Public License v1.0\"" << Log::Endl();
+			prog << "which accompanies this distribution, and is available" << Log::Endl();
+			prog << "at the URL \"http://www.eclipse.org/legal/epl-v10.html\"." << Log::Endl();
+			prog << "Initial Contributors:" << Log::Endl();
+			prog << "Nokia Corporation - initial contribution." << Log::Endl() << Log::Endl();
+			
 			prog << "Linked against openssl. Credits and license for openssl follow:-" << Log::Endl();
 			prog << openssl_license << Log::Endl();
 			

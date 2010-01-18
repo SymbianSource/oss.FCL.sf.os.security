@@ -27,6 +27,7 @@
 #define KMSLDDTEST_H
 
 #include <e32ldr.h>
+#include <e32ldr_private.h>
 #include <e32test.h>
 #include <e32def_private.h>
 

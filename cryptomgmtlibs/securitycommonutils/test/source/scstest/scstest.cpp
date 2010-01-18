@@ -24,6 +24,7 @@
 
 
 #include <e32ldr.h>
+#include <e32ldr_private.h>
 #include <f32file.h>
 #include "rtestwrapper.h"
 #include <e32def_private.h>
