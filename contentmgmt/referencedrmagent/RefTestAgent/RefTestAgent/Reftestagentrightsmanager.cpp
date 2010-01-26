@@ -46,27 +46,35 @@ void  CRefTestAgentRightsManager::ListAllRightsL (RStreamablePtrArray< CRightsIn
 	{
 	TRightsStatus rightsStatus= ERightsStatusNone;
 	CRightsInfo *rightsInfo = CRightsInfo::NewL(KRightsDescription(), KRightsUniqueId(), ERightsTypeConsumable , rightsStatus);
+	CleanupStack::PushL(rightsInfo);
 	aArray.AppendL(rightsInfo);
+	CleanupStack::Pop(rightsInfo);
 	}
 	
 void  CRefTestAgentRightsManager::ListRightsL (RStreamablePtrArray< CRightsInfo > &aArray, const TDesC &) const
 	{
 	TRightsStatus rightsStatus= ERightsStatusNone;
 	CRightsInfo *rightsInfo = CRightsInfo::NewL(KRightsDescription(), KRightsUniqueId(), ERightsTypeConsumable , rightsStatus);
+	CleanupStack::PushL(rightsInfo);
 	aArray.AppendL(rightsInfo);
+	CleanupStack::Pop(rightsInfo);
 	}
 	
 void  CRefTestAgentRightsManager::ListRightsL (RStreamablePtrArray< CRightsInfo > &aArray, TVirtualPathPtr &/*aVirtualPath*/) const
 	{
 	TRightsStatus rightsStatus= ERightsStatusNone;
 	CRightsInfo *rightsInfo = CRightsInfo::NewL(KRightsDescription(), KRightsUniqueId(), ERightsTypeConsumable , rightsStatus);
+	CleanupStack::PushL(rightsInfo);
 	aArray.AppendL(rightsInfo);
+	CleanupStack::Pop(rightsInfo);
 	}
 	
 void  CRefTestAgentRightsManager::ListContentL (RStreamablePtrArray< CVirtualPath > &aArray, CRightsInfo &aRightsInfo) const
 	{
 	CVirtualPath *virtualPath= CVirtualPath::NewL(aRightsInfo.Description());
+	CleanupStack::PushL(virtualPath);
 	aArray.AppendL(virtualPath);
+	CleanupStack::Pop(virtualPath);
 	}
 	
 MAgentRightsBase *CRefTestAgentRightsManager::GetRightsDataL (const CRightsInfo &/*aRightsInfo*/) const

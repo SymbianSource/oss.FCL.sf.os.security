@@ -66,6 +66,7 @@
 
 #include "os/security/authorisation/userpromptservice/group/bld.inf"
 #include "os/security/authorisation/userpromptutils/group/bld.inf"
+#include "app/techview/securityapps/securityupstechview/group/bld.inf"
 
 
 #ifdef SYMBIAN_AUTH_SERVER
