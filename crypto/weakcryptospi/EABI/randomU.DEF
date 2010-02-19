@@ -15,4 +15,5 @@ EXPORTS
 	_ZN7TRandom6RandomER5TDes8 @ 14 NONAME
 	_ZTI13CSystemRandom @ 15 NONAME ; #<TI>#
 	_ZN7TRandom7RandomLER5TDes8 @ 16 NONAME
+	_ZN7TRandom13SecureRandomLER5TDes8 @ 17 NONAME
 

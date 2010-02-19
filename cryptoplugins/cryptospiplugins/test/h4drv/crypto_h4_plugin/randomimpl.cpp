@@ -28,11 +28,6 @@
 #include "pluginentry.h"
 #include "pluginconfig.h"
 
-#include "randsvr.h"
-#include "randcliserv.h"
-
-
-
 using namespace HwCrypto;
 
 _LIT(KLddFileName,"cryptoldd.ldd");

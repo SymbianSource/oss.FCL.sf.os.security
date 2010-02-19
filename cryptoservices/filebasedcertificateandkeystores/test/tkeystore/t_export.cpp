@@ -30,6 +30,7 @@
 #include <x509keys.h>
 #include <pbe.h>
 #include <pbedata.h>
+#include <securityerr.h>
 
 
 const TInt KKeyStoreEmpty = -1199;
@@ -104,13 +105,17 @@ void CExportKey::ConstructL(const TTestActionSpec& aTestActionSpec)
 		HBufC8* saltc = HBufC8::NewMaxLC(KDefaultSaltSize);           
 		TPtr8 salt(saltc->Des());
 		salt.FillZ(); 
-		rand->GenerateBytesL(salt);
+		TRAPD(err, rand->GenerateBytesL(salt));
+		if((err != KErrNone) && (err != KErrNotSecure))
+			User::Leave(err);
 
 		HBufC8* ivc = HBufC8::NewMaxLC(KDESBlockBytes);          
 	
 		TPtr8 iv(ivc->Des());
 		iv.FillZ(); 
-		rand->GenerateBytesL(iv);	
+		TRAP(err, rand->GenerateBytesL(iv));
+		if((err != KErrNone) && (err != KErrNotSecure))
+			User::Leave(err);
 
 		ASSERT(!iPbeParams);
 		iPbeParams = CPBEncryptParms::NewL(ECipherDES_CBC, salt, iv, 2048); 

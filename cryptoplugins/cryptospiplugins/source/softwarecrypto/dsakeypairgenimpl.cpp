@@ -29,6 +29,7 @@
 #include "mont.h"
 #include "sha1impl.h"
 #include <random.h>
+#include <securityerr.h>
 
 
 const TUint KShaSize = 20;
@@ -287,7 +288,9 @@ void CDSAKeyPairGenImpl::GenerateKeyPairL(TInt aKeySize,
 	
 	do 
 		{
-		GenerateRandomBytesL(seed);
+	    TRAPD(err, GenerateRandomBytesL(seed));
+	    if((err != KErrNone) && (err != KErrNotSecure))
+	        User::Leave(err);
 		}
 	while(!GeneratePrimesL(seed, c, p, aKeySize, q));
 	

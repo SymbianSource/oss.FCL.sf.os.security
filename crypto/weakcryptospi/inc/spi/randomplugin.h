@@ -31,7 +31,7 @@
 namespace CryptoSpi
 	{
 	/**
-	A cryptographically secure pseudo-random number generator (CSPRNG)
+	A pseudo-random number generator (PRNG).
 	Generates random numbers derived from entropy obtained from another
 	source, usually a hardware random number generator or if unavailable,
 	from a combination variety of unpredictable system variables, added
@@ -42,11 +42,18 @@ namespace CryptoSpi
 	    {
 	    public:
 	        /**
-	        Generate enough random bytes to fill the supplied descriptor
-	        If there is not enough entropy available, or another error
-	        occurs (e.g. out of memory) then this method may leave.
-	        @param aDest The returned generated random bytes
-	        */
+	         * Implementations of this method should fill the passed
+	         * buffer with the generated pseudo-random data up to the
+	         * current length, discarding any current contents. The 
+	         * implementations should leave with KErrNotSecure when 
+	         * the generated random data is not secure enough. 
+	         *
+	         * @param aDest The buffer to fill with random data
+	         * @leave KErrNotSecure Random data generated is not 
+	         *        secure enough for crytographic operations
+	         *        otherwise, leaves with any other system wide error code.
+	         *
+	         */
 	        virtual void GenerateRandomBytesL(TDes8& aDest) = 0;
 	    };
 
@@ -55,11 +62,20 @@ namespace CryptoSpi
 	    {
 	    public:
 	        /**
-	        Generate enough random bytes to fill the supplied descriptor
-	        If there is not enough entropy available, or another error
-	        occurs (e.g. out of memory) then this method may leave.
-	        @param aDest The returned generated random bytes
-	        */
+	         * Implementations of this method should fill the passed
+	         * buffer with the generated pseudo-random data up to the
+	         * current length, discarding any current contents. The 
+	         * implementations should leave with KErrNotSecure when 
+	         * the generated random data is not secure enough. 
+	         *
+	         * @param aDest The buffer to fill with random data
+	         * @param aStatus The argument to carry the asynchonous request completion
+	         *        status to notify the client when buffer is filled with random data.  
+	         * @leave KErrNotSecure Random data generated is not 
+	         *        secure enough for crytographic operations
+	         *        otherwise, leaves with any other system wide error code.
+	         *
+	         */
 	        virtual void GenerateRandomBytesL(TDes8& aDest, TRequestStatus& aStatus) = 0;
 
 	        /**

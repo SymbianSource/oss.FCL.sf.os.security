@@ -23,7 +23,6 @@
 ROM_IMAGE[0] {
 #endif
 file=ABI_DIR\BUILD_DIR\random.dll	sys\bin\random.dll
-file=ABI_DIR\BUILD_DIR\randsvr.exe	sys\bin\randsvr.exe
 #ifdef __SECURITY_TEST_ROM__
 }
 #endif

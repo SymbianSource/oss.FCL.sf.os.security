@@ -40,10 +40,15 @@ public:
 
 	/**
 	 * Implementations of this method should fill the passed
-	 * buffer with securely generated random data up to the 
-	 * current length, discarding any current contents.
+	 * buffer with the generated pseudo-random data up to the
+	 * current length, discarding any current contents. The 
+	 * implementations should leave with KErrNotSecure when 
+	 * the generated random data is not secure enough. 
 	 *
-	 * @param aDest The buffer in to which to write random data.
+	 * @param aDest The buffer to fill with random data
+	 * @leave KErrNotSecure Random data generated is not 
+	 *        secure enough for crytographic operations
+	 *        otherwise, leaves with any other system wide error code.
 	 *
 	 */
 	virtual void GenerateBytesL(TDes8& aDest) = 0;
@@ -56,20 +61,19 @@ private:
 
 /**
  *
- * Sets a secure random number generator implementation to use
- * for this thread.
+ * Sets a pseudo-random number generator implementation to use for this thread.
  * 
- * @param aRNG The secure random number generator to use.
+ * @param aRNG The pseudo-random number generator to use.
  *
  */
 IMPORT_C void SetThreadRandomL(CRandom* aRNG);
 
 /**
  *
- * Sets a secure random number generator implementation to use
+ * Sets a pseudo-random number generator implementation to use
  * for this thread, placing it on the cleanup stack.
  * 
- * @param aRNG The secure random number generator to use.
+ * @param aRNG The pseudo-random number generator to use.
  *
  */
 IMPORT_C void SetThreadRandomLC(CRandom* aRNG);
@@ -87,11 +91,14 @@ IMPORT_C void DestroyThreadRandom(void);
 
 /**
  *
- * Generates cryptographically secure random data, filling
- * the provided buffer up to its current length, discarding
- * any data that it may currently contain.
+ * Generates pseudo-random data.
+ * Fills the provided buffer up to its current length,
+ * discarding any data that it may currently contain.
  *
  * @param aDest The buffer to fill with random data
+ * @leave KErrNotSecure The random data generated is  
+ *        not secure enough for cryptographic operations
+ *        otherwise, leaves with any other system wide error codes. 
  *
  */
 IMPORT_C void GenerateRandomBytesL(TDes8& aDest);
@@ -100,9 +107,8 @@ class CRandomShim;
 class CSystemRandom : public CRandom
 /**
  *
- * This default secure random number generator uses
- * system state to generate entropy for the generation
- * of cryptographically secure random numbers.
+ * This default pseudo-random number generator uses system state 
+ * to generate entropy for the generation of random numbers.
  *
  * @publishedAll
  * @released
@@ -114,7 +120,7 @@ public:
 
 	/**
 	 *
-	 * Constructs a new system random number generator.
+	 * Constructs a new pseudo-random number generator.
 	 *
 	 * @return A ready-to-use random number generator.
 	 */
@@ -122,7 +128,7 @@ public:
 	
 	/**
 	 *
-	 * Constructs a new system random number generator,
+	 * Constructs a new pseudo-random number generator,
 	 * and places it on the cleanup stack.
 	 *
 	 * @return A ready-to-use random number generator.
@@ -132,13 +138,14 @@ public:
 	
 	/**
 	 *
-	 * Implements the contract as specified in the base
-	 * class, CRandom, filling the buffer supplied with
-	 * cryptographically secure random data up to its
-	 * current length, discarding its current content.
+	 * Implements the contract as specified in the base class,  CRandom, filling the buffer
+	 * supplied with random data  up to its current length, discarding its current content.
+	 * It will leave with KErrNotSecure when the generated random data is not secure enough.
 	 *
 	 * @param aDest The buffer to which to write random data
-	 *
+	 * @leave KErrNotSecure The generated random data is not secure enough for cryptographic operations 
+	 *        otherwise, leaves with any other system wide error codes.
+	 *        
 	 */
 	virtual void GenerateBytesL(TDes8& aDest);
 	
@@ -156,8 +163,7 @@ private:
 class TRandom
 /**
  *
- * The user interface to the system cryptographically 
- * secure random number generator.
+ * The user interface to the random number generator.
  *
  * @publishedAll
  * @released
@@ -167,8 +173,14 @@ public:
 
 	/**
 	 * 
-	 * Fills the provided buffer with secure random data up to its
-	 * current length, discarding any current content.
+	 * Fills the provided buffer with pseudo-random data up to its current length, 
+	 * discarding any current content.
+	 *
+	 * This method will not return secure random numbers for some time after the phone boot-up. Because,
+	 * pseudo-random number generator will take some time to attain a secure state by collecting enough 
+	 * entropy samples after the boot-up. Till that time, the pseudo-random numbers generated may not be
+	 * cryptographically secure and there is no way to get to know about it with this API. 
+	 * So, if explcit notification on the strength of the random numbers is necessary, use TRandom::SecureRandomL.
 	 *
 	 * @param aDestination The buffer in which to write the random data.
 	 * @deprecated Use RandomL() instead
@@ -177,16 +189,40 @@ public:
 	 */
 	IMPORT_C static void Random(TDes8& aDestination);
 
-	/**
+	/**	
 	 * 
-	 * Fills the provided buffer with secure random data up to its
-	 * current length, discarding any current content.
+	 * Fills the provided buffer with pseudo-random data up to its current length,
+	 * discarding any current content.
+	 *
+	 * This method will not return secure random numbers for some time after the phone boot-up. Because,
+     * pseudo-random number generator will take some time to attain a secure state by collecting enough 
+     * entropy samples after the boot-up. Till that time, the pseudo-random numbers generated may not be
+     * cryptographically secure and there is no way to get to know about it with this API. 
+     * So, if explcit notification on the strength of the random numbers is necessary, use TRandom::SecureRandomL.
 	 *
 	 * @param aDestination The buffer in which to write the random data.
 	 * @leave This function can leave under low memory conditions
 	 *
 	 */
 	IMPORT_C static void RandomL(TDes8& aDestination);
+	
+	/**
+	 * 
+	 * Fills the provided buffer with the pseudo-random data up to its current length, discarding any current
+	 * content of the descriptor. When this method returns normally (with out leave), the system state is secure
+	 * and hence the random numbers generated are cryptographically secure as well. When this method leaves with
+	 * the error code KErrNotSecure, the system internal state is not secure and hence the random numbers too.
+	 * 
+	 * Though this method leaves when the system internal state is not secure, still the descriptor will be filled 
+	 * with pseudo-random bytes. This random data may or may not be secure enough. Recommended to treat these numbers 
+	 * as not secure.
+	 *
+	 * @param aDestination The buffer in which to write the random data.
+	 * @leave KErrNotSecure The generated random numbers is not secure enough for cryptographic operations.
+	 *        Otherwise, leaves with some other system wide error codes.
+	 *
+	 */
+	IMPORT_C static void SecureRandomL(TDes8& aDestination);
 	};
 
 class RRandomSession:public RSessionBase
@@ -205,7 +241,7 @@ public:
 	
 	/**
 	 * 
-	 * Fills the provided buffer with secure random data up to its
+	 * Fills the provided buffer with pseudo-random data up to its
 	 * current length, discarding any current content.
 	 *
 	 * @param aDestination The buffer in to which to write the random data 
@@ -215,7 +251,7 @@ public:
 	
 	/**
 	 *
-	 * Opens a new session with the random number server.
+	 * Opens a new session with the random number generator.
 	 *
 	 */
 	IMPORT_C void ConnectL(void);

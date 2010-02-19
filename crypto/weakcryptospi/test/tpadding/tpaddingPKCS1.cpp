@@ -18,6 +18,7 @@
 
 #include <random.h>
 #include <padding.h>
+#include <securityerr.h>
 #include "tpaddingPKCS1.h"
 
 CTestPadPKCS1::CTestPadPKCS1()
@@ -281,7 +282,10 @@ void CTestUnpadPKCS1::TestPKCS1EncryptionUnpadding(TInt aBlockSize)
       in[0] = 0;
       in[1] = 2;
       TBuf8<256> rnd(256);
-      GenerateRandomBytesL(rnd);
+      TRAPD(err, GenerateRandomBytesL(rnd));
+      if((err != KErrNone) && (err != KErrNotSecure))
+          User::Leave(err);
+
 
       TInt k = 2;
       TInt j = 0;
@@ -294,7 +298,9 @@ void CTestUnpadPKCS1::TestPKCS1EncryptionUnpadding(TInt aBlockSize)
          
          if (++j%256 == 0)
          {
-            GenerateRandomBytesL(rnd);
+         TRAP(err, GenerateRandomBytesL(rnd));
+         if((err != KErrNone) && (err != KErrNotSecure))
+             User::Leave(err);
          }
       }
       in[endOfPadding] = 0; // delimiter
@@ -306,7 +312,7 @@ void CTestUnpadPKCS1::TestPKCS1EncryptionUnpadding(TInt aBlockSize)
      comp.Append(text);
       }
 
-      TRAPD(err, padding->UnPadL(in, out));
+      TRAP(err, padding->UnPadL(in, out));
       TEST(err == KErrNone);
 
 	  TEST(out == comp);		  
