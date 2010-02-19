@@ -1,0 +1,73 @@
+swicertstoretool
+================
+
+swicertstoretool is a tool for creating the SWI cert store data file containing
+the root certificates used by software install.  
+
+Command syntax
+--------------
+
+The syntax of the command is:
+
+swicertstoretool INPUT_FILE OUTPUT_FILE LOG_FILE
+
+INPUT_FILE is a text file describing the certificates to be put in the store.
+The format is described below.
+
+OUTPUT_FILE is where the cert store data file is written.  This will need to be
+copied to where the SWI cert store expects to find it,
+z:\resource\swicertstore.dat.
+
+LOG_FILE names a file that information is logged to when the command is run.
+This should be checked afterwards to see if the command succeeded.  Errors are
+indicated by lines starting with "***".
+
+Input file format
+-----------------
+
+The input file is in "ini" format.  Each section describes a certificate to be
+put in the store, with the section name taken as the certificate label.
+
+The following parameters can be specified for each certificate:
+
+Name			Description
+--------------------------------------------------------------------------------
+file			The name of the file containing the DER encoded certificate. 
+				This field must be present.
+
+mandatory		Whether the certificate is marked as mandatory for software
+				install. The value must be either "0" or "1".  The field is
+				optional - if it is not present the default is "0".
+
+capability		The name of a capability that the certificate can sign for.
+				This field can be repeated to allow multiple capabilities to be
+				specified.  Allowed capabilities are:
+
+					TCB
+					CommDD
+					PowerMgmt
+					MultimediaDD
+					ReadDeviceData
+					WriteDeviceData
+					DRM
+					TrustedUI
+					ProtServ
+					DiskAdmin
+					NetworkControl
+					AllFiles
+					SwEvent
+					NetworkServices
+					LocalServices
+					ReadUserData
+					WriteUserData
+					Location
+
+application		The name of an application that the certificate can be used for.
+				This can be repeated, but it must appear at least once.  Allowed
+				applications are:
+
+					SWInstall		(Software install)
+					SWInstallOCSP	(Software install OCSP signing)
+--------------------------------------------------------------------------------
+
+An example input file can be found in this directory.

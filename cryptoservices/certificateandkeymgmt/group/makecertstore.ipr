@@ -1,0 +1,22 @@
+[purpose]
+
+Creates a default certificate store, as used by the certificate
+management component. For use by licensees only for the purpose
+of creating a certificate store to be included within the ROM
+of a device. 
+
+[categories]
+licensee
+
+[files]
+tools\makecertstore.bat
+release\winc\urel\makecertstore.exe
+
+[owner]
+Runtime & Tools		# CERTMAN
+
+[IPR]
+Copyright (c) 2000 Symbian Ltd. All rights reserved.
+
+Makecertstore.exe can be freely distributed as a binary, 
+but the source code requires an export licence.

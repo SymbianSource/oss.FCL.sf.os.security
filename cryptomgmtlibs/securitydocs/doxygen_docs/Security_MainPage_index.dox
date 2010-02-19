@@ -1,0 +1,31 @@
+/**
+@mainpage Security on Symbian OS
+
+The Security sub-system comprises:
+
+- @ref mainpage_certman
+- @ref mainpage_caf
+- @ref mainpage_caf2
+- @ref mainpage_cryptography
+- @ref mainpage_tokenframework
+- @ref mainpage_key_management
+- @ref mainpage_pbe
+- @ref mainpage_SWI
+
+<hr>
+
+Security on Symbian OS enables data confidentiality, integrity and @ref authentication; secure comms protocols 
+(for example, @ref SSL, @ref TLS, @ref WTLS, @ref IPSec, @ref SMIME "S/MIME"); and technology to support application 
+signing. It provides APIs for standard cryptography and @ref hash algorithms, key generation, 
+certificate management, and random number generation.
+
+@ref Security_intro provides a quick basic overview on Public Key Cryptography, Certificates, and Digital Signatures, 
+that Security APIs support. However, for detailed explanations refer to any of the standard security books available 
+(for example, Applied Cryptography by Bruce Schneier).
+
+For an overview of how the various security components are structured in the Symbian OS, see @ref Security_arch_overview.
+
+- @ref api_migration_guide
+- @ref security_glossary
+
+*/

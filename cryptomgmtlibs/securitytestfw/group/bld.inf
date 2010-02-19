@@ -1,0 +1,247 @@
+/*
+* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Generic technology part of test framework security subsystem
+*
+*/
+
+
+/**
+ @file
+*/
+
+// Generic technology part of test framework security subsystem
+#include "../test/testutil/group/bld.inf"
+PRJ_PLATFORMS
+DEFAULT
+
+PRJ_EXPORTS
+// Nothing should be exported as this is only a test framework and not part of the 
+// release
+
+
+PRJ_TESTEXPORTS
+
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+../inc/rtestwrapper.h /epoc32/include/scs/rtestwrapper.h
+#endif
+../inc/securitytestframework.iby	/epoc32/rom/include/securitytestframework.iby
+
+// configuration file for the CommsDB set up
+../test/autotesting/auto.cfg /epoc32/winscw/c/auto.cfg
+../test/autotesting/auto_broken.cfg /epoc32/winscw/c/auto_broken.cfg
+../test/autotesting/auto_winpcap.cfg /epoc32/winscw/c/auto_winpcap.cfg
+../test/autotesting/auto_winpcap_prompt.cfg /epoc32/winscw/c/auto_winpcap_prompt.cfg
+../test/autotesting/auto_wintap.cfg /epoc32/winscw/c/auto_wintap.cfg
+../test/autotesting/auto_wintap_prompt.cfg /epoc32/winscw/c/auto_wintap_prompt.cfg
+// configuration file for the CommsDB that prompts the user if the default iap is selected
+../test/autotesting/prompt.cfg /epoc32/winscw/c/prompt.cfg
+// configuration file for the CommsDB set up for testing using sim.tsy (simulated tsy)
+../test/autotesting/autosimtsy.cfg /epoc32/winscw/c/autosimtsy.cfg
+../test/autotesting/dummytefscript.script /epoc32/winscw/c/dummytefscript.script
+
+../test/autotesting/testMakesis.pl /epoc32/winscw/c/tswi/testmakesis.pl
+../test/autotesting/panicscan.pl /epoc32/winscw/c/tswi/panicscan.pl
+../test/autotesting/panicscan_authserver.pl /epoc32/winscw/c/tswi/panicscan_authserver.pl
+../test/autotesting/checklocationofcertificates.pl /epoc32/winscw/c/checklocationofcertificates.pl
+../test/autotesting/cdrive.pl /epoc32/winscw/c/cdrive.pl
+../test/autotesting/configchangebats.pl /epoc32/winscw/c/configchangebats.pl
+../test/autotesting/cdrive_exclude.txt /epoc32/winscw/c/cdrive_exclude.txt
+
+../test/autotesting/config_udeb.bat /epoc32/winscw/c/config_udeb.bat
+../test/autotesting/config_urel.bat /epoc32/winscw/c/config_urel.bat
+
+../test/autotesting/searchtags.pl /epoc32/winscw/c/tswi/searchtags.pl
+
+../test/autotesting/testexecute.ini  /epoc32/winscw/c/system/data/testexecute.ini
+
+// batch files for automated hardware testing
+
+	../test/autotesting/hosts		     /epoc32/winscw/c/autohardware/hosts
+	../test/autotesting/testsecurity_sdp.bat	     /epoc32/winscw/c/autohardware/testsecurity_sdp.bat
+	../test/autotesting/testsecurity_sdp_auth.bat	     /epoc32/winscw/c/autohardware/testsecurity_sdp_auth.bat
+	../test/autotesting/testsecurity_sdp_newrom.bat	     /epoc32/winscw/c/autohardware/testsecurity_sdp_newrom.bat
+	../test/autotesting/testsecurity_9.4_mcs.bat /epoc32/winscw/c/autohardware/testsecurity_9.4_mcs.bat
+	../test/autotesting/testsecurity_9.4_mcs_vfuture.bat /epoc32/winscw/c/autohardware/testsecurity_9.4_mcs_vfuture.bat
+	../test/autotesting/testsecurity_9.4_nonmcs.bat /epoc32/winscw/c/autohardware/testsecurity_9.4_nonmcs.bat
+	../test/autotesting/runcertman_9.5.bat /epoc32/winscw/c/autohardware/runcertman_9.5.bat
+
+	../test/autotesting/testsecurity_9.5_mcs.bat /epoc32/winscw/c/autohardware/testsecurity_9.5_mcs.bat
+	../test/autotesting/testsecurity_9.6_mcs.bat /epoc32/winscw/c/autohardware/testsecurity_9.6_mcs.bat
+	../test/autotesting/testsecurity_9.5_nonmcs.bat /epoc32/winscw/c/autohardware/testsecurity_9.5_nonmcs.bat
+	../test/autotesting/testsecurity_9.6_nonmcs.bat /epoc32/winscw/c/autohardware/testsecurity_9.6_nonmcs.bat
+	../test/autotesting/switextshell_nonmcs.bat	 /epoc32/winscw/c/autohardware/switextshell_nonmcs.bat
+
+#ifdef SYMBIAN_JAVA_NOT_INCLUDED
+	../test/autotesting/testsecurity_9.6_crypto.bat /epoc32/winscw/c/autohardware/testsecurity_9.6_crypto.bat
+#else
+	../test/autotesting/runjavamidletinstaller_9.4.bat /epoc32/winscw/c/autohardware/runjavamidletinstaller_9.4.bat
+	../test/autotesting/testsecurity_9.4_java.bat /epoc32/winscw/c/autohardware/testsecurity_9.4_java.bat
+	../test/autotesting/testsecurityonlyjava.bat /epoc32/winscw/c/autohardware/testsecurityonlyjava.bat
+#endif
+
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+	../test/autotesting/runcrypto_wmdrm.bat /epoc32/winscw/c/autohardware/runcrypto_wmdrm.bat
+	../test/autotesting/runfiletokens_disableauth_with_wmdrm.bat /epoc32/winscw/c/autohardware/runfiletokens_disableauth_with_wmdrm.bat
+#endif
+#ifdef SYMBIAN_CRYPTOSPI
+	../test/autotesting/runcrypto_9.5.bat /epoc32/winscw/c/autohardware/runcrypto_9.5.bat
+#else
+	../test/autotesting/runcrypto_9.4.bat /epoc32/winscw/c/autohardware/runcrypto_9.4.bat
+#endif
+	../test/autotesting/runcryptotokens_9.4.bat /epoc32/winscw/c/autohardware/runcryptotokens_9.4.bat
+	../test/autotesting/runasnpkcs_9.4.bat /epoc32/winscw/c/autohardware/runasnpkcs_9.4.bat
+#ifdef SYMBIAN_AUTH_SERVER
+	../test/autotesting/runfiletokens_useauth.bat /epoc32/winscw/c/autohardware/runfiletokens_useauth.bat
+	../test/autotesting/runfiletokens_disableauth.bat /epoc32/winscw/c/autohardware/runfiletokens_disableauth.bat
+#else
+	../test/autotesting/runfiletokens_9.4.bat /epoc32/winscw/c/autohardware/runfiletokens_9.4.bat
+#endif // SYMBIAN_AUTH_SERVER
+	../test/autotesting/runsisinstaller_9.4.bat /epoc32/winscw/c/autohardware/runsisinstaller_9.4.bat
+	
+
+	../test/autotesting/runswiromtests_9.6.bat /epoc32/winscw/c/autohardware/runswiromtests_9.6.bat
+	../test/autotesting/runswiromtests_9.5.bat /epoc32/winscw/c/autohardware/runswiromtests_9.5.bat
+
+../test/autotesting/runswiromtests_9.4_mcs.bat /epoc32/winscw/c/autohardware/runswiromtests_9.4_mcs.bat
+../test/autotesting/runauthtests.bat /epoc32/winscw/c/autohardware/runauthtests.bat
+../test/autotesting/runauthtests_macroenabled.bat /epoc32/winscw/c/autohardware/runauthtests_macroenabled.bat
+../test/autotesting/runupstests_9.4.bat /epoc32/winscw/c/autohardware/runupstests_9.4.bat
+../test/autotesting/runpkcs12tests_9.4.bat /epoc32/winscw/c/autohardware/runpkcs12tests_9.4.bat
+../test/autotesting/runusiftests.bat /epoc32/winscw/c/autohardware/runusiftests.bat
+../test/autotesting/runcommonutilstests.bat /epoc32/winscw/c/autohardware/runcommonutilstests.bat
+
+../test/autotesting/testsecurityperformance_cryptalg.bat /epoc32/winscw/c/autohardware/testsecurityperformance_cryptalg.bat
+../test/autotesting/testsecurityperformance_crypto.bat   /epoc32/winscw/c/autohardware/testsecurityperformance_crypto.bat
+
+../test/autotesting/runcaftests_9.5.bat /epoc32/winscw/c/autohardware/runcaftests_9.5.bat
+../test/autotesting/runcaftests_9.6.bat /epoc32/winscw/c/autohardware/runcaftests_9.6.bat
+
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+../test/autotesting/runcaftests_wmdrm.bat /epoc32/winscw/c/autohardware/runcaftests_wmdrm.bat
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+
+../test/autotesting/autoexec.bat /epoc32/winscw/c/autohardware/autoexec.bat
+
+// ROMKIT includes
+../inc/SecurityTests.iby /epoc32/rom/include/securitytests.iby
+../inc/testutil.iby /epoc32/rom/include/testutil.iby
+
+../inc/t_testhandler.iby /epoc32/rom/include/t_testhandler.iby
+../inc/sntpclient.iby  /epoc32/rom/include/sntpclient.iby
+../inc/cryptodeps.iby  /epoc32/rom/include/cryptodeps.iby
+
+// Include files for testhandler2
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+./../test/testhandler2/tcancel.h /epoc32/include/testhandler2/tcancel.h
+#endif
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+./../test/testhandler2/t_certstoreactionmemfail.h	/epoc32/include/testhandler2/t_certstoreactionmemfail.h
+#endif
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+./../test/testhandler2/Thardcodedsetup.h /epoc32/include/testhandler2/thardcodedsetup.h
+#endif
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+./../test/testhandler2/tHardcodedTests.h /epoc32/include/testhandler2/thardcodedtests.h
+#endif
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+./../test/testhandler2/t_input.h /epoc32/include/testhandler2/t_input.h
+#endif
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+./../test/testhandler2/t_message.h /epoc32/include/testhandler2/t_message.h
+#endif
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+./../test/testhandler2/t_mtestspec.h /epoc32/include/testhandler2/t_mtestspec.h
+#endif
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+./../test/testhandler2/t_output.h /epoc32/include/testhandler2/t_output.h
+#endif
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+./../test/testhandler2/tscriptandhardcoded.h /epoc32/include/testhandler2/tscriptandhardcoded.h
+#endif
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+./../test/testhandler2/tScriptSetup.h /epoc32/include/testhandler2/tscriptsetup.h
+#endif
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+./../test/testhandler2/tScriptTests.h /epoc32/include/testhandler2/tscripttests.h
+#endif
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+./../test/testhandler2/tSyncAction.h /epoc32/include/testhandler2/tsyncaction.h
+#endif
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+./../test/testhandler2/t_testaction.h /epoc32/include/testhandler2/t_testaction.h
+#endif
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+./../test/testhandler2/t_testactionspec.h /epoc32/include/testhandler2/t_testactionspec.h
+#endif
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+./../test/testhandler2/t_testhandler.h /epoc32/include/testhandler2/t_testhandler.h
+#endif
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+./../test/testhandler2/ttesthandlersettings.h /epoc32/include/testhandler2/ttesthandlersettings.h
+#endif
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+./../test/testhandler2/t_testsetup.h /epoc32/include/testhandler2/t_testsetup.h
+#endif
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+./../test/testhandler2/tTestSpec.h /epoc32/include/testhandler2/ttestspec.h
+#endif
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+./../test/testhandler2/t_utils.h /epoc32/include/testhandler2/t_utils.h
+#endif
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+./../test/testhandler2/t_errorconverter.h /epoc32/include/testhandler2/t_errorconverter.h
+#endif
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+./../test/testhandler2extra/t_inputextra.h /epoc32/include/testhandler2/t_inputextra.h
+#endif
+
+// testhandler_on_testexecute export
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+../inc/testexecuteinterface.h /epoc32/include/testexecuteinterface.h
+#endif
+
+../test/securityframeworktestserver/group/securityframeworktestserver.iby /epoc32/rom/include/securityframeworktestserver.iby
+
+
+PRJ_MMPFILES
+// None
+
+
+PRJ_TESTMMPFILES
+// specify the .mmp files required for building any test programs here
+//
+// you can specify "manual" to denote that a test should be listed in a generated
+// batch file for running a group of tests which require user input during testing.
+// you can specify "support" to denote that a file is a test support file and shouldn't
+// be listed in a batch file for running a group of tests
+// By default, each test will be listed in a batch file for running a group of tests
+// which can be left to run without requiring watching over by the person running the tests,
+// i.e. tests where no user input is required.  The default will apply if neither "manual"
+// or "support" is specified.
+
+#ifndef TOOLS
+#ifndef TOOLS2
+t_testhandler2.mmp
+t_testhandler2extra.mmp
+testhandler_on_testexecute.mmp
+sntpclient.mmp
+rtestwrapper.mmp
+captestframework.mmp
+captestframeworkhelper.mmp
+captestframeworkutil.mmp
+#endif
+#endif
+
+../test/securityframeworktestserver/group/securityframeworktestserver.mmp

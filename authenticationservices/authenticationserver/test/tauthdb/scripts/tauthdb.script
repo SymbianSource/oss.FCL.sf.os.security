@@ -1,0 +1,29 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+//! @file
+// authentication db classes tests
+
+LOAD_SUITE tauthdb
+
+////
+//! @SYMTestCaseID SEC-AUT-AUTHDB-0001
+//! @SYMTestCaseDesc	Authentication db classes test
+START_TESTCASE SEC-AUT-AUTHDB-0001
+RUN_TEST_STEP 15 tauthdb CreateTestDb
+RUN_TEST_STEP 15 tauthdb PERSIST2
+END_TESTCASE SEC-AUT-AUTHDB-0001
+ 

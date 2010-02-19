@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<relnotes name="DEVELOPERLIBRARY">
+  <purpose>
+  </purpose>
+
+  <defect number="DEF132732" title="Wrong 'CreateHashFuncLv2' definition in pluginentrydef.h" revision="007">
+ 	corrected the word document section 5.b 
+	Changed method name from 'CreateHashFuncL' to 'CreateHashFuncLv2'	
+  </defect>
+  
+  <defect number="DEF124792" title="JMI certificate documentation needs to be updated" revision="006">
+    How to configure certstore to install signed midlet is updated in the documentation
+  </defect>
+
+  <defect number="DEF124949" title="swicertstoretool.mmp location" revision="005">
+    Changes in the documentation How-to Configure the SWI Certificate Store to update swicertstoretool.mmp location and SU flag.
+  </defect>
+
+  <deliverystep number="708" name="Security - Alignment of CBR and System Model components" osproject="Oghma" revision="004">
+    <milestone project="GT0313" number="MS3.7"/>
+    <preq number="775" title="Alignment of CBR and System Model components">
+      Changed the OSD and ipr category.
+    </preq>
+  </deliverystep>
+
+  <defect number="PDEF108896" title="Doc &quot;How-to configure SWI cert store&quot; is out-of-date" revision="003">
+    The document(Appendix section) is changed that all four certificates are used by the Software Installer and are placed in swicertstore.
+  </defect>
+
+  <minorchange revision="002">
+    Updated SWI daemon documentation in the SWI design doc.
+  </minorchange>
+
+  <minorchange revision="001">
+    Updated PC Connectivity documentation in TS0013.604
+  </minorchange>
+</relnotes>

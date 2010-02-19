@@ -1,0 +1,128 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+PRINT Post Market Plugin tests...
+
+// Prepare a clone of TAuthSvr to possess authserver's SID.
+// This is required for modifying the authserver's central repository file.
+// This clone must be deleted at the end of the test.
+
+RUN_PROGRAM 100 SETCAP tAuthSvr.exe 188b0 -SID 102740FC tAuthSvr_new.exe
+
+LOAD_SUITE tAuthSvr
+LOAD_SUITE tAuthSvr_new
+
+// This test must be executed in order to set the default plugin, else authserver will never start.
+
+RUN_UTILS DeleteFile C:\pinplugin_inactive.txt
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr_new 	INIT_CENREP c:\tauth\tAuthSvr\scripts\tauthsvr2.ini defaultplugin
+RUN_UTILS DeleteFile  C:\t_pinplugindlg_in.dat
+RUN_UTILS DeleteFile  C:\t_pinplugindlg_out.dat
+
+// The following tests are run when KEnablePostMarketAutheticationPlugins is set to zero,
+// i.e post market plugins are not supported.
+
+////
+//! @SYMTestCaseID 		SEC-AUT-AUTHPOSTMARKETPLUGIN-0001
+//! @SYMTestCaseDesc 		Install an upgrade of a ROM plugin whose ROM_Only field is set to zero.Verify that the upgrade version is loaded.
+//!				during install and ROM version is loaded during uninstall.
+//! @SYMREQ 			REQ 11235
+//! @SYMTestPriority 		Medium
+//! @SYMTestActions  		1)Retrieve the available plugin list before an upgrade is installed.
+//!		     		2)Install an upgrade of a ROM plugin specified in the ini file.
+//!		     		3)Repeat step 1.Verify that the plugin count matches the expected,and that 
+//!                    		the upgrade version of the plugin is loaded by comparing the plugin name with 
+//!                    		the expected name specified in the ini file.
+//!				4)Retrieve the plugin list before the upgrade (installed in step 2) is uninstalled.
+//!				5)Uninstall the ROM upgrade.
+//!		     		6)Repeat step 1.Verify that the plugin count matches the expected,and that 
+//!                    		the ROM version of the plugin is loaded by comparing the plugin name with 
+//!                    		the expected name specified in the ini file.		
+//! @SYMTestExpectedResults	Upgraded version of the specfied ROM plugin must be loaded during install and ROM version must be loaded after uninstall.
+//! @SYMDevelopedForRelease 	Diran
+
+START_TESTCASE SEC-AUT-AUTHPOSTMARKETPLUGIN-0001
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr	POST_MARKET_PLUGIN	c:\tauth\tAuthSvr\scripts\tpostmarketplugin.ini Test0001
+END_TESTCASE SEC-AUT-AUTHPOSTMARKETPLUGIN-0001
+
+////
+//! @SYMTestCaseID 		SEC-AUT-AUTHPOSTMARKETPLUGIN-0002
+//! @SYMTestCaseDesc 		Install an upgrade of a ROM plugin whose ROM_Only field is set to one.Verify that the ROM version is loaded during install and uninstall.
+//! @SYMREQ 			REQ 11235
+//! @SYMTestPriority 		Medium
+//! @SYMTestActions  		1)Retrieve the available plugin list before an upgrade is installed.
+//!		     		2)Install an upgrade of a ROM plugin specified in the ini file.
+//!		     		3)Repeat step 1.Verify that the plugin count matches the expected,and that 
+//!                    		the ROM version of the plugin is loaded by comparing the plugin name with 
+//!                    		the expected name specified in the ini file.
+//!				4)Retrieve the plugin list before the upgrade (installed in step 2) is uninstalled.
+//!				5)Uninstall the ROM upgrade.
+//!		     		6)Repeat step 1.Verify that the plugin count matches the expected,and that 
+//!                    		the ROM version of the plugin is loaded by comparing the plugin name with 
+//!                    		the expected name specified in the ini file.			
+//! @SYMTestExpectedResults	ROM version of the specfied ROM plugin must be loaded during install and uninstall.
+//! @SYMDevelopedForRelease 	Diran
+
+START_TESTCASE SEC-AUT-AUTHPOSTMARKETPLUGIN-0002
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr	POST_MARKET_PLUGIN	c:\tauth\tAuthSvr\scripts\tpostmarketplugin.ini Test0002
+END_TESTCASE SEC-AUT-AUTHPOSTMARKETPLUGIN-0002
+
+////
+//! @SYMTestCaseID 		SEC-AUT-AUTHPOSTMARKETPLUGIN-0003
+//! @SYMTestCaseDesc 		Install and uninstall a non-ROM plugin.Verify that the plugin count remains the same pre and post install and uninstall operation.
+//! @SYMREQ 			REQ 11235
+//! @SYMTestPriority 		Medium
+//! @SYMTestActions  		1)Retrieve the available plugin list before a non-ROM plugin is installed.
+//!		     		2)Install non-ROM plugin specified in the ini file.
+//!		     		3)Repeat step 1.Verify that the plugin count remains the same pre and post install operation.
+//!				4)Retrieve the available plugin list before non-ROM plugin is uninstalled.
+//!				5)Uninstall the non-ROM plugin(installed in step 2).
+//!		     		6)Repeat step 1.Verify that the plugin count remains the same pre and post uninstall operation.
+//!						
+//! @SYMTestExpectedResults	Plugin count remains the same pre and post install and uninstall operation.
+//! @SYMDevelopedForRelease 	Diran
+
+START_TESTCASE SEC-AUT-AUTHPOSTMARKETPLUGIN-0003
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr	POST_MARKET_PLUGIN	c:\tauth\tAuthSvr\scripts\tpostmarketplugin.ini Test0003
+END_TESTCASE SEC-AUT-AUTHPOSTMARKETPLUGIN-0003
+
+////
+//! @SYMTestCaseID 		SEC-AUT-AUTHPOSTMARKETPLUGIN-0004
+//! @SYMTestCaseDesc 		Verify authentication behaviour using a non ROM plugin post install and uninstall operation.
+//! @SYMREQ 			REQ 11235
+//! @SYMTestPriority 		Medium
+//! @SYMTestActions  		1)Install non-ROM plugin specified in the ini file.
+//!		     		2)Register an identity using a specified pin input.
+//!				3)Authenticate using the non ROM plugin installed in step 1.
+//!		     		4)Uninstall the plugin.
+//!				5)Authenticate again using the same plugin.
+//!				
+//!						
+//! @SYMTestExpectedResults	Authentication must fail with KErrAuthServNoSuchPlugin using the non ROM plugin 
+//!				post install and uninstall operation.
+//! @SYMDevelopedForRelease 	Diran
+START_TESTCASE SEC-AUT-AUTHPOSTMARKETPLUGIN-0004
+
+RUN_TEST_STEP_RESULT 0 100 tAuthSvr INSTALL_PLUGIN c:\tauth\tAuthSvr\scripts\tpostmarketplugin.ini Test0003
+DELAY 3000
+RUN_TEST_STEP_RESULT 0 100 tAuthSvr REMOVE_DBS
+RUN_TEST_STEP_RESULT 0 100 tAuthSvr REG_IDENTITY c:\tauth\tAuthSvr\scripts\tpostmarketplugin.ini Test0005
+RUN_TEST_STEP !Error=-10802 100 tAuthSvr AUTHENTICATE c:\tauth\tAuthSvr\scripts\tpostmarketplugin.ini Test0006
+RUN_TEST_STEP_RESULT 0 100 tAuthSvr UNINSTALL_PLUGIN c:\tauth\tAuthSvr\scripts\tpostmarketplugin.ini Test0007
+DELAY 3000
+RUN_TEST_STEP !Error=-10802 100 tAuthSvr AUTHENTICATE c:\tauth\tAuthSvr\scripts\tpostmarketplugin.ini Test0006
+END_TESTCASE SEC-AUT-AUTHPOSTMARKETPLUGIN-0004
+

@@ -1,0 +1,57 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* Defines the default pin size, min and max of pin size, retry 
+* count for the identify dialog, name and Description
+* for the pin plugin.
+*
+*/
+
+
+/**
+ @file 
+*/
+
+NAME PINP
+
+#include <uikon.rh>
+#include "pinplugin.rh"
+
+RESOURCE RSS_SIGNATURE { }
+
+RESOURCE PIN_SIZE r_pin_size
+	{
+	pinsize = 5;
+	}
+
+RESOURCE PIN_MIN_SIZE r_pin_min_size
+	{
+	minsize = 4;
+	}
+
+RESOURCE PIN_MAX_SIZE r_pin_max_size
+	{
+	maxsize = 10;
+	}
+
+RESOURCE IDENTIFY_DIALOG_RETRY_COUNT r_identify_dialog_retry_count
+	{
+	retrycount = 3;
+	}
+
+RESOURCE PLUGIN_INFO r_plugin_info
+	{
+	name = "PinPlugin";
+	Description = "Pinplugin authenticates device holder using PIN numbers generated from 0-9 digits";
+	}

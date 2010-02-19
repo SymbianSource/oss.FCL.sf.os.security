@@ -1,0 +1,46 @@
+/*
+* Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* This DLL contains code which is common to the authentication
+* server and the client interface.
+*
+*/
+
+
+CAPABILITY All -TCB
+
+target			authcommon.dll
+targettype		dll
+
+// this is a static interface, as opposed to polymorphic DLL.
+UID				0x1000008D 0x102740FB
+VENDORID		0x70000001
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+USERINCLUDE		../source/client
+
+USERINCLUDE		../source/common
+SOURCEPATH		../source/common
+SOURCE			identity.cpp
+SOURCE			protectionkey.cpp
+SOURCE			authexpression.cpp
+SOURCE			plugindesc.cpp
+SOURCE			idandstring.cpp
+SOURCE			authpatchdata.cpp
+SOURCE			authserveripc.cpp
+
+LIBRARY			estor.lib efsrv.lib euser.lib
+LIBRARY			cryptography.lib random.lib hash.lib
+SMPSAFE

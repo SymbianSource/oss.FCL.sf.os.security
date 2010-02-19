@@ -1,0 +1,48 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+//! @file
+// Auth Security tests
+PRINT Run Auth Security tests
+
+// Prepare a clone of TAuthSvr to possess authserver's SID.
+// This is required for modifying the authserver's central repository file.
+// This clone must be deleted at the end of the test.
+
+RUN_PROGRAM 100 SETCAP tAuthSvr.exe 188b0 -SID 102740FC tAuthSvr_new.exe
+
+LOAD_SUITE captestframework
+LOAD_SUITE tAuthSvr_new
+
+// This test must be executed in order to set the default plugin, else authserver will never start.
+
+RUN_UTILS DeleteFile C:\pinplugin_inactive.txt
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr_new 	INIT_CENREP c:\tauth\tAuthSvr\scripts\tauthsvr2.ini defaultplugin
+RUN_UTILS DeleteFile  C:\t_pinplugindlg_in.dat
+RUN_UTILS DeleteFile  C:\t_pinplugindlg_out.dat
+
+//! @SYMTestCaseID SEC-AUT-SecurityTests
+//! @SYMTestCaseDesc Runs the whole suite of security test cases for authserver. Both negative and positive tests are included.
+//! @SYMREQ REQ0000
+//! @SYMTestPriority Medium
+//! @SYMTestActions Tests IPC calls from different capabilities
+//! @SYMTestExpectedResults KErrPermissionDenied received on calls which should fail
+//! @SYMDevelopedForRelease Diran
+
+
+START_TESTCASE AuthSecTest
+RUN_TEST_STEP 100 captestframework RunThoroughCapabilityChecks c:\tauth\securitytests\scripts\authsecuritytests.ini authsecuritytests
+END_TESTCASE AuthSecTest

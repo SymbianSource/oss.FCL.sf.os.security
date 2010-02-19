@@ -1,0 +1,51 @@
+/*
+* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* authsecuritytests.dll Test harness for AuthServer security testing without the TCB capability
+*
+*/
+
+
+/**
+ @file
+*/
+
+// Capabilities are set by captestframework
+CAPABILITY All -TCB
+
+TARGET			authsecuritytests.dll
+TARGETTYPE		dll
+UID				0x101F7295 0x1082D53E
+VENDORID		0x70000001
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+SOURCEPATH		../source
+SOURCE			authsecuritytests.cpp
+SOURCE			authreaddevicedata.cpp
+SOURCE			authreaduserdata.cpp
+SOURCE			authwriteuserdata.cpp
+SOURCE			authwritedevicedata.cpp
+SOURCE			authtrustedui.cpp
+SOURCE			authreaduseranddevicedata.cpp
+
+USERINCLUDE		.
+USERINCLUDE		../inc
+USERINCLUDE		../../../../../cryptomgmtlibs/securitytestfw/test/captestframework
+
+
+LIBRARY			euser.lib efsrv.lib
+LIBRARY			captestframeworkutil.lib
+LIBRARY			authclient.lib authcommon.lib
+SMPSAFE

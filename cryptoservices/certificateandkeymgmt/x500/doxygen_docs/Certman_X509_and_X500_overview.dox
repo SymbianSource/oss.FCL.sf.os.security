@@ -1,0 +1,23 @@
+/**
+@page overview_X500_and_X509 X.500 and X.509 Overview
+
+The X.500 component is a general component that provides services for the handling of X.500 distinguished names.
+It implements the @ref DN "Distinguished Name" (DN) as defined in the X.500 standard. An X.500 Distinguished Name consists of a
+sequence of \c AttributeTypeAndValue objects, as defined in the X.520 standard. Thus the two public classes implemented in
+this DLL are \c CX520AttributeTypeAndValue and \c CX500DistinguishedName.
+
+The X.509 component provides classes for handling @ref X509_certificate "X.509 certificates". It provides an implementation of the X.509 
+certificate and its components. In fact X.500 also includes structures from X.520, but for simplicity they are considered 
+to be part of X.500.
+
+For the most part, these DLLs simply represent data that the PKIXCert DLL operates on: they are the primary 
+input to certificate validation.
+
+In the X.500, X.509 and X.520 standards the structures are specified with Abstract Syntax Notation 1 (@ref ASN "ASN.1") and are 
+encoded for transport using the @ref "Basic Encoding Rules" (BER) which encode @ref ASN "ASN.1" as 8-bit binary data.
+
+In addition, when they represent data to be signed, as they do within certificate management, the signature is calculated 
+on the data encoded using @ref DER "Distinguished Encoding Rules" (DER: a subset of @ref BER which has the property that the 
+same data always encodes to the same binary representation).
+
+*/
