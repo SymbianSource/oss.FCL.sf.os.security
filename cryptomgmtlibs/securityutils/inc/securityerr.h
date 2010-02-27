@@ -33,6 +33,13 @@ const TInt KErrBadPassphrase				= -11000;
 
 
 
+/**
+	Operation in progress or its result is not secure.
+**/
+const TInt KErrNotSecure        			= -11001;
+
+
+
 /** 
 	If the key size is larger than that allowed 
 	by the cipher strength restrictions of the crypto 
@@ -43,9 +50,8 @@ const TInt KErrKeyNotWeakEnough				= -11002;
 
 
 /**
-	If the padding on a block does not conform to the
-	specifications of the algorithm.	 
-**/	
+	Length of the padding data is invalid.
+**/
 const TInt KErrInvalidPadding				= -11003;
 
 
@@ -111,9 +117,11 @@ const TInt KErrKeyAccess					= -11010;
 **/
 const TInt KErrPrivateKeyNotFound			= -11011;
 
+
+
 /**
 	If a setting in the repository is not found.
 **/
-const TInt KErrSettingNotFound					= -11012;	
+const TInt KErrSettingNotFound				= -11012;	
 
 #endif	//	__SECURITYERR_H__

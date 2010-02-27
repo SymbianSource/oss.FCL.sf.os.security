@@ -61,48 +61,7 @@ namespace SoftwareCrypto
 		~CRandomImpl();
 		
 	private:
-		TUid iImplementationUid;
-	
-		};
-
-	class TRandomImpl {
-	/**
-	 * The user interface to the system cryptographically 
-	 * secure random number generator.
-	 */
-	public:
-		
-		/**
-		 * Fills the provided buffer with secure random data up to its
-		 * current length, discarding any current content.
-		 *
-		 * @param aDestination The buffer in which to write the random data.
-		 */
-		static void Random(TDes8& aDestination);
-		};
-	
-	class RRandomSessionImpl : public RSessionBase
-	/**
-	 * The client interface to the system random number generator. End
-	 * users should use TRandom instead of this interface.
-	 *
-	 */
-		{
-	public:
-		RRandomSessionImpl();
-		
-		/**
-		 * Fills the provided buffer with secure random data up to its
-		 * current length, discarding any current content.
-		 *
-		 * @param aDestination The buffer in to which to write the random data 
-		 */
-		TInt GetRandom(TDes8& aDestination);
-		
-		/**
-		 * Opens a new session with the random number server.
-		 */
-		void ConnectL();
+		TUid iImplementationUid;	
 		};
 	}
 

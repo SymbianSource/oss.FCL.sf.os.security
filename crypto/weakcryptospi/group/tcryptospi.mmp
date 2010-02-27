@@ -113,6 +113,7 @@ SOURCE			dummyeccsignerloadstep.cpp
 USERINCLUDE     ..
 USERINCLUDE     ../test/tcryptospi/src
 USERINCLUDE	../inc/spi
+USERINCLUDE ../../../cryptomgmtlibs/securityutils/inc
 
 
 OS_LAYER_SYSTEMINCLUDE_SYMBIAN

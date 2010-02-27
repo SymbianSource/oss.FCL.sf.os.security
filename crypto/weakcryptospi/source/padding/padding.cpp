@@ -295,7 +295,9 @@ void CPaddingPKCS1Encryption::DoPadL(const TDesC8& aInput,TDes8& aOutput)
 	TInt startOfData=BlockSize()-aInput.Length();
 	aOutput[1]=2;				// Block type 2 (public key operation)
 	TBuf8<256> rnd(256);
-	GenerateRandomBytesL(rnd);
+	TRAPD(err, GenerateRandomBytesL(rnd));
+	if((err != KErrNone) && (err != KErrNotSecure))
+	    User::Leave(err);
 
 	TInt i = 2;
 	TInt j = 0;
@@ -307,7 +309,9 @@ void CPaddingPKCS1Encryption::DoPadL(const TDesC8& aInput,TDes8& aOutput)
 			}
 		if (++j==256)
 			{
-			GenerateRandomBytesL(rnd);
+			TRAP(err, GenerateRandomBytesL(rnd));
+			if((err != KErrNone) && (err != KErrNotSecure))
+				User::Leave(err);
 			j=0;
 			}
 		}

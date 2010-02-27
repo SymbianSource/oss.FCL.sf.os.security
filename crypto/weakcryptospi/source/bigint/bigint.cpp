@@ -805,7 +805,9 @@ void TInteger::RandomizeL(TUint aBits, TRandomAttribute aAttr)
 	CleanGrowL(words);
 	TPtr8 buf((TUint8*)(Ptr()), bytes, WordsToBytes(Size()));
 	TUint bitpos = aBits % BYTE_BITS;
-	GenerateRandomBytesL(buf);
+	TRAPD(err, GenerateRandomBytesL(buf));
+	if((err != KErrNone) && (err != KErrNotSecure))
+	    User::Leave(err);
 	//mask with 0 all bits above the num requested in the most significant byte
 	if(bitpos)
 		{
