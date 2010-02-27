@@ -19,7 +19,7 @@
 /**
 @file
 
-@SYMPurpose random.dll Pseudo-random number generator server, client-side
+@SYMPurpose random.dll Pseudo-random number generator interface
 */
 
 TARGET			random.dll
@@ -35,6 +35,7 @@ SOURCE          random.cpp threadrandom.cpp randomshim.cpp
 
 USERINCLUDE	../inc
 USERINCLUDE	../inc/spi
+USERINCLUDE ../../../cryptomgmtlibs/securityutils/inc
 USERINCLUDE	../../../cryptoplugins/cryptospiplugins/source/softwarecrypto
 OS_LAYER_SYSTEMINCLUDE
 OS_LAYER_ESTLIB_SYSTEMINCLUDE

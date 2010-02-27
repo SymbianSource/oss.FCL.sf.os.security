@@ -44,7 +44,7 @@ public:
 private:
 	CRandomShim();
 	CRandomShim(const CRandomShim&);
-	CRandomShim& operator=(const CRandomShim&);
+	CRandomShim& operator=(const CRandomShim&);	
 	void ConstructL();
 
 private:
@@ -56,6 +56,7 @@ class TRandomShim
 public:
 	static void Random(TDes8& aDestination);
 	static void RandomL(TDes8& aDestination);
+	static void SecureRandomL(TDes8& aDestination);
 	};
 
 #endif // __RANDOMSHIM_H__

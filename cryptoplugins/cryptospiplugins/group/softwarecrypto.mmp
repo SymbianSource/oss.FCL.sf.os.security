@@ -37,7 +37,8 @@ USERINCLUDE		.
 USERINCLUDE		../../../crypto/weakcryptospi/inc
 USERINCLUDE		../../../crypto/weakcryptospi/source
 USERINCLUDE		../../../crypto/weakcryptospi/source/bigint
-USERINCLUDE	../../../crypto/weakcryptospi/inc/spi
+USERINCLUDE		../../../crypto/weakcryptospi/inc/spi
+USERINCLUDE		../../../cryptomgmtlibs/securityutils/inc
 OS_LAYER_SYSTEMINCLUDE
 
 SOURCEPATH	../source/softwarecrypto

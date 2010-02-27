@@ -27,6 +27,7 @@
 
 #include <bigint.h>
 #include <hash.h>
+#include <securityerr.h>
 
 TInt CCorruptionTest::nInstances = 0;
 _LIT(KCorruptLogFile, "WTLSCERTCorruptLog.txt");
@@ -172,7 +173,9 @@ void CCorruptionTest::RunCorruptionTestL(const TDesC &aFilename)
 			HBufC8* rand = HBufC8::NewLC(5);
 			TPtr8 pRand = rand->Des();
 			pRand.SetLength(5);
-			random->GenerateBytesL(pRand);
+			TRAPD(err, random->GenerateBytesL(pRand));
+			if((err != KErrNone) && (err != KErrNotSecure))
+				User::Leave(err);
 			TUint num = 0;
 			for (TInt k = 0; k < 4 ; k++)
 				{
@@ -197,7 +200,7 @@ void CCorruptionTest::RunCorruptionTestL(const TDesC &aFilename)
 			iCorruptOut->writeNewLine();
 			//try to make corrupt cert
 			CWTLSCertificate* cert = NULL;
-			TRAPD(err, cert = CWTLSCertificate::NewL(pBuf));
+			TRAP(err, cert = CWTLSCertificate::NewL(pBuf));
 			CleanupStack::PushL(cert);
 			if (err == KErrNone)
 				{

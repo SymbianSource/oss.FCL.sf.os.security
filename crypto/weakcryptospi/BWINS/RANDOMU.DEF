@@ -12,4 +12,5 @@ EXPORTS
 	?SetThreadRandomL@@YAXPAVCRandom@@@Z @ 11 NONAME ; void __cdecl SetThreadRandomL(class CRandom *)
 	?SetThreadRandomLC@@YAXPAVCRandom@@@Z @ 12 NONAME ; void __cdecl SetThreadRandomLC(class CRandom *)
 	?RandomL@TRandom@@SAXAAVTDes8@@@Z @ 13 NONAME ; void TRandom::RandomL(class TDes8 &)
+	?SecureRandomL@TRandom@@SAXAAVTDes8@@@Z @ 14 NONAME ; void TRandom::SecureRandomL(class TDes8 &)
 
