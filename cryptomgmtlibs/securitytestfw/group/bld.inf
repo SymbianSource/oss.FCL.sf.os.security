@@ -97,6 +97,7 @@ PRJ_TESTEXPORTS
 #endif
 #ifdef SYMBIAN_CRYPTOSPI
 	../test/autotesting/runcrypto_9.5.bat /epoc32/winscw/c/autohardware/runcrypto_9.5.bat
+	../test/autotesting/runhardwarecrypto.bat /epoc32/winscw/c/autohardware/runhardwarecrypto.bat
 #else
 	../test/autotesting/runcrypto_9.4.bat /epoc32/winscw/c/autohardware/runcrypto_9.4.bat
 #endif
