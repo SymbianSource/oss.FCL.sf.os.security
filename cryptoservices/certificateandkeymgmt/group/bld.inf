@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2001-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2001-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -505,6 +505,7 @@ PRJ_TESTEXPORTS
 ../tcertstore/tdata/nrcertkey.txt		/epoc32/winscw/c/tcertstore/data/nrcertkey.txt
 ../tcertstore/tdata/signcertkey2.txt	/epoc32/winscw/c/tcertstore/data/signcertkey2.txt
 ../tcertstore/tdata/enciphersigncertkey2.txt	/epoc32/winscw/c/tcertstore/data/enciphersigncertkey2.txt
+../tcertstore/tdata/SelfSignedPrivateKey_pk8.der	/epoc32/winscw/c/tcertstore/data/SelfSignedPrivateKey_pk8.der
 
 ../tcertstore/scripts/certstoreconcurrent1.txt		/epoc32/winscw/c/tcertstoreconcurrent/scripts/certstoreconcurrent1.txt
 ../tcertstore/scripts/certstoreconcurrent2.txt		/epoc32/winscw/c/tcertstoreconcurrent/scripts/certstoreconcurrent2.txt

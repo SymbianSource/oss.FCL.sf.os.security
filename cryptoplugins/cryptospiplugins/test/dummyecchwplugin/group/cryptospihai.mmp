@@ -36,7 +36,7 @@ VENDORID	0x70000001
 DEFFILE cryptospihai.def
 
 USERINCLUDE		.
-SYSTEMINCLUDE /epoc32/include
+OS_LAYER_SYSTEMINCLUDE
 USERINCLUDE	../../../../../crypto/weakcryptospi/inc/spi
 USERINCLUDE	../../../../../cryptoservices/filebasedcertificateandkeystores/test/tcryptotokenhai
 

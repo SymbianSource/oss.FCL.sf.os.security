@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -64,7 +64,9 @@ class CFilter : public CBase
 		void SetSubjectKeyIdFilter(const TDesC8& aSubjectKeyId);
 		// Sets the issuerkeyid which is synonymous to the authority key identifier.
 		void SetIssuerKeyIdFilter(const TDesC8& aIssuerKeyId);
-	
+		// Sets the subjetkeyid filter using the certificate.
+		void SetSubjectKeyIdFromCertFilterL(const TDesC8& aCertPath);
+				
 	private:
 		static CCertAttributeFilter* iFilter;
 		Output& iOut;

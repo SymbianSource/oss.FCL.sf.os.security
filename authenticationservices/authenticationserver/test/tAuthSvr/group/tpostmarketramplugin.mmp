@@ -46,8 +46,8 @@ USERINCLUDE		../../../source/server
 USERINCLUDE		../../../source/common
 USERINCLUDE		../../../source/client
 
-SYSTEMINCLUDE 	/epoc32/include 
-SYSTEMINCLUDE 	/epoc32/include/ecom
+OS_LAYER_SYSTEMINCLUDE
+SYSTEMINCLUDE OS_LAYER_PUBLIC_EXPORT_PATH(ecom)
 
 LIBRARY cinidata.lib	// add text INI file parsing ability
 LIBRARY ecom.lib	//ECOM plug-in DLLs must link against ECOM.lib

@@ -38,7 +38,7 @@ DEFFILE dummyecchwplugin.def
 
 USERINCLUDE		.
 USERINCLUDE	../../../../../crypto/weakcryptospi/inc/spi
-SYSTEMINCLUDE /epoc32/include
+OS_LAYER_SYSTEMINCLUDE
 
 SOURCEPATH ../src
 SOURCE		pluginentry.cpp
