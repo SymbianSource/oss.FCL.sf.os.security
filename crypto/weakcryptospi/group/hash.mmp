@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -33,8 +33,6 @@ VENDORID 0x70000001
 SOURCEPATH		../source/hash
 SOURCE          hash.cpp md2.cpp md5.cpp sha1.cpp hmac.cpp hashshim.cpp md4.cpp sha2.cpp
 
-USERINCLUDE		../inc
-USERINCLUDE	../inc/spi
 OS_LAYER_SYSTEMINCLUDE
 
 LIBRARY         euser.lib cryptospi.lib

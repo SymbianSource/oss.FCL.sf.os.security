@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -23,6 +23,9 @@
 
 // Generic technology part of test framework security subsystem
 #include "../test/testutil/group/bld.inf"
+// test certificate of security subsystem
+#include "../testcertificates/group/bld.inf"
+
 PRJ_PLATFORMS
 DEFAULT
 

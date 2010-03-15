@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -25,11 +25,11 @@
 #include "te_cryptospidefs.h"
 #include <cryptospi/cryptohashapi.h>
 #include <cryptospi/cryptorandomapi.h>
-#include "cryptosymmetriccipherapi.h"
-#include "cryptoasymmetriccipherapi.h"
-#include "cryptosignatureapi.h"
-#include "cryptokeypairgeneratorapi.h"
-#include "cryptokeyagreementapi.h"
+#include <cryptospi/cryptosymmetriccipherapi.h>
+#include <cryptospi/cryptoasymmetriccipherapi.h>
+#include <cryptospi/cryptosignatureapi.h>
+#include <cryptospi/cryptokeypairgeneratorapi.h>
+#include <cryptospi/cryptokeyagreementapi.h>
 #include <cryptospi/ruleselector.h>
 
 using namespace CryptoSpi;
