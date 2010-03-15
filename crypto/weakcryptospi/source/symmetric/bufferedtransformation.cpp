@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2002-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2002-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -21,7 +21,7 @@
 #include <cryptospi/cryptospidef.h>
 #include <cryptopanic.h>
 #include <e32cmn.h>
-#include "symmetriccipherplugin.h"
+#include <cryptospi/symmetriccipherplugin.h>
 
 #include "blocktransformation.h"
 #include "bufferedtransformationshim.h"
