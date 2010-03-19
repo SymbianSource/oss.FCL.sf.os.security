@@ -57,9 +57,6 @@ PRJ_EXPORTS
 #ifdef SYMBIAN_OLD_EXPORT_LOCATION
 ../inc/spi/rulecharacteristics.h		/epoc32/include/rulecharacteristics.h
 #endif
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-../inc/randsvrimpl.h 				/epoc32/include/randsvrimpl.h
-#endif
 #endif
 
 
@@ -82,7 +79,6 @@ PRJ_EXPORTS
 ../inc/hash.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(hash.h)
 ../inc/random.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(random.h)
 ../inc/keyidentifierutil.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(keyidentifierutil.h)
-../inc/randcliserv.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(randcliserv.h)
 ../inc/pkcs5kdf.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(pkcs5kdf.h)
 ../inc/pkcs12kdf.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(pkcs12kdf.h)
 
@@ -106,7 +102,6 @@ cryptolib.mmp
 crypto.mmp	BUILD_AS_ARM 		// Don't build for thumb 
 #endif
 hash.mmp
-randsvr.mmp
 random.mmp
 pbe.mmp
 cryptospisetup.mmp

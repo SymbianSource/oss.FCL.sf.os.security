@@ -27,8 +27,10 @@
 #include <random.h>
 #include <f32file.h>
 
-RTest test(_L("Random Number Generator Tests"));
+RTest test(_L("Random Number Generator"));
 
+TInt gTestPassCount = 0;
+TInt gTestRequestCount = 10;
 TInt gNumberOfRandomNumbers=10000;
 
 /** Wraps a console and logs output to a file. */
@@ -301,8 +303,7 @@ void WriteFile(const TUint8* aData,const TDesC& aFileName)
 void DoTestsL(void)
 
 	{
-	test.Printf(_L("  Run random tests with normal salting\r\n"));
-    
+	test.Printf(_L("Run random tests with normal salting\r\n"));    
 	TInt i;
 	TBuf8<16> buf2;
 	for (i=0;i<16;i++)
@@ -310,23 +311,39 @@ void DoTestsL(void)
 		buf2.SetLength(i);
 		TRandom::RandomL(buf2);
 		}
+	
 	HBufC8* buf=HBufC8::NewMaxL(gNumberOfRandomNumbers);
+	CleanupStack::PushL(buf);
 	TPtr8 buffer=buf->Des();
-	for (i=0;i<11;i++)
+	test.Printf(_L("\nRequesting for random numbers.\n"));
+	for (i=0;i<gTestRequestCount;i++)
 		{
-		User::After(10000000);
-		TPtr8 thePtr(buf->Des());
-		thePtr.FillZ();
-	//	Generate the random data	
+		TPtr8 thePtr(buf->Des());		
+		//	Generate the random data	
 		TRandom::RandomL(buffer);
 		if (buf->Length()!=gNumberOfRandomNumbers)
+		    {
 			User::Leave(KErrGeneral);
-
-
-		WriteFile(buffer.Ptr(),_L("User.rnd"));
-		test.Printf(_L("."));
-		}
-	delete buf;
+		    }
+		++gTestPassCount;
+	    test.Printf(_L("."));
+		}	
+	
+	// Request for Secure Random numbers.
+	test.Printf(_L("\nRequesting for cryptographically secure random numbers.\n"));
+    for (i=0;i<gTestRequestCount;i++)
+        {
+        TPtr8 thePtr(buf->Des());        
+		// Generate the random data    
+        TRAP_IGNORE(TRandom::SecureRandomL(buffer));
+        if (buf->Length() != gNumberOfRandomNumbers)
+            {
+            User::Leave(KErrGeneral);
+            }
+        ++gTestPassCount;
+        test.Printf(_L("."));
+        }
+	CleanupStack::PopAndDestroy(buf);
 	}
 
 void TestsL(void)
@@ -338,10 +355,6 @@ void TestsL(void)
 	test.SetConsole(con);
 	
 	DoTestsL();
-	
-	//	If test reached here, no tests failed, otherwise it would have panicked
-	//	and terminated prematurely. Print this out for tester's reference.	
-	test.Printf(_L("\n0 tests failed out of 11\r\n"));
 	}
 
 GLDEF_C TInt E32Main(void)
@@ -355,13 +368,11 @@ GLDEF_C TInt E32Main(void)
 	test.Start(_L(" @SYMTestCaseID:SEC-CRYPTOSPI-RANDOM-0001 Starting random number generator tests\r\n"));
 	CConsoleBase* originalConsole = test.Console();
 
-	TRAPD(ret,TestsL());
-	if (ret)
-		{
-		test.Printf(_L("Unexpected leave\r\n"));
-		// Print something to let the build system know we failed
-		test.Printf(_L("\n1 tests failed out of 11\r\n"));
-		}	
+	TRAPD(ret,TestsL());   
+    // Infor the user about the test cases' status.
+    test.Printf(_L("\n%d tests failed out of %d\r\n"), ((2*gTestRequestCount) - gTestPassCount), 2*gTestRequestCount);
+    
+    test (ret == KErrNone);
 	test.End();
 
 	if (test.Console() != originalConsole)

@@ -40,6 +40,7 @@ USERINCLUDE		../inc
 USERINCLUDE		../inc/tplugin02
 USERINCLUDE 	../../../inc
 USERINCLUDE 	../../../inc/spi
+USERINCLUDE 	../../../../../cryptomgmtlibs/securityutils/inc
 
 OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 

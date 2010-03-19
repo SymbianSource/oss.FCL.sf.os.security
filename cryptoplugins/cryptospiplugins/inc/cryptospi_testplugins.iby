@@ -18,6 +18,7 @@
 REM H4 Hardware Device Driver
 
 #ifndef __SECURITY_NOTH4__
+#ifdef __SECURITY_MANDATORY_SWICERTSTORE__
 // Proof of concept H4 driver (NOT supported)
 #ifdef __SECURITY_TEST_ROM__
 ROM_IMAGE[0] {
@@ -47,4 +48,5 @@ file=ABI_DIR\BUILD_DIR\crypto_h4_plugin.dll 	"sys\bin\crypto_h4_plugin.dll"
 file=ABI_DIR\BUILD_DIR\tcrypto.exe 	"sys\bin\tcrypto.exe"
 file=ABI_DIR\BUILD_DIR\temb.exe 	"sys\bin\temb.exe"
 file=ABI_DIR\BUILD_DIR\tasync.exe 	"sys\bin\tasync.exe"
+#endif
 #endif

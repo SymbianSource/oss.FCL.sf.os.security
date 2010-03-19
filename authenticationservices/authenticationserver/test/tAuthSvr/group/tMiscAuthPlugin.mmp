@@ -39,8 +39,8 @@ USERINCLUDE		../../../source/server
 USERINCLUDE		../../../source/common
 USERINCLUDE		../../../source/client
 
-SYSTEMINCLUDE	/epoc32/include
-SYSTEMINCLUDE   /EPOC32/INCLUDE/ECOM
+OS_LAYER_SYSTEMINCLUDE
+SYSTEMINCLUDE OS_LAYER_PLATFORM_EXPORT_PATH(test)
 
 LIBRARY		euser.lib
 LIBRARY     ecom.lib

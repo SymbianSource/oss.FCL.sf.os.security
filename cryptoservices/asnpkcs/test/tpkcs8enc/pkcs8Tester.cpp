@@ -30,9 +30,9 @@
 #include <pbebase.h>
 #include <pbedata.h>
 #include <random.h>
-#include <asymmetrickeys.h>
- 
+#include <asymmetrickeys.h> 
 #include <bigint.h>
+#include <securityerr.h>
   
 #include "pkcs8tester.h"
 
@@ -157,7 +157,9 @@ LOCAL_D void DoTestsDSAEncryptedL(CDecPKCS8Data& decoded)
 	HBufC8* saltc = HBufC8::NewMaxLC(16);
 	TPtr8 salt(saltc->Des());
 	salt.FillZ(); 
-	rand->GenerateBytesL(salt);
+	TRAPD(err, rand->GenerateBytesL(salt));
+	if((err != KErrNone) && (err != KErrNotSecure))
+		User::Leave(err);
 
 	HBufC8* ivc = HBufC8::NewMaxLC(8);
 	
@@ -229,13 +231,17 @@ LOCAL_D void DoTestsRSAEncryptedL(CDecPKCS8Data& decoded)
 	HBufC8* saltc = HBufC8::NewMaxLC(16);
 	TPtr8 salt(saltc->Des());
 	salt.FillZ(); 
-	rand->GenerateBytesL(salt);
+	TRAPD(err, rand->GenerateBytesL(salt));
+	if((err != KErrNone) && (err != KErrNotSecure))
+		User::Leave(err);
 
 	HBufC8* ivc = HBufC8::NewMaxLC(8);
 	
 	TPtr8 iv(ivc->Des());
 	iv.FillZ(); 
-	rand->GenerateBytesL(iv);
+	TRAP(err, rand->GenerateBytesL(iv));
+	if((err != KErrNone) && (err != KErrNotSecure))
+		User::Leave(err);
 	
 	CPBEncryptParms* params = CPBEncryptParms::NewLC(ECipher3DES_CBC, salt, iv, 2048);
 	CPBEncryptElement* encryptElement = CPBEncryptElement::NewLC(pass, *params);

@@ -28,7 +28,7 @@
 #include <cryptospi/plugincharacteristics.h>
 #include "keys.h"
 #include <e32debug.h>
-
+#include "securityerr.h"
 
 using namespace CryptoSpi;
 
@@ -53,7 +53,7 @@ CRandomShim* CRandomShim::NewLC()
 	}
 
 void CRandomShim::GenerateBytesL(TDes8& aDest)
-	{
+	{	
 	iRandomImpl->GenerateRandomBytesL(aDest);
 	}
 
@@ -65,10 +65,10 @@ CRandomShim::~CRandomShim()
 	{
 	delete iRandomImpl;
 	}
-
+	
 void CRandomShim::ConstructL()
 	{
-	CRandomFactory::CreateRandomL(iRandomImpl, KRandomUid, NULL);
+	CRandomFactory::CreateRandomL(iRandomImpl, KRandomUid, NULL);	
 	}
 
 /**
@@ -87,7 +87,7 @@ void TRandomShim::Random(TDes8& aDest)
 		}
 	TRAPD(ret2, rand->GenerateBytesL(aDest));
 	delete rand;
-	if (ret2 != KErrNone)
+	if ((ret2 != KErrNone) && (ret2 != KErrNotSecure))
 		{
 		// this method can't leave so the cleanup stack can't be used (because of PushL()) 
 		// so we just delete the randon shim here if GenerateBytesL() leaves
@@ -99,7 +99,21 @@ void TRandomShim::RandomL(TDes8& aDest)
 	{
 	CRandomShim* rand = CRandomShim::NewL();
 	CleanupStack::PushL(rand);
-	rand->GenerateBytesL(aDest);
+	
+	TRAPD(error, rand->GenerateBytesL(aDest));
 	CleanupStack::PopAndDestroy(rand); // Use a singleton, avoid new overhead?
-	}
+	
+	// This method should leave on low memory conditions.
+	if(error == KErrNoMemory)
+		{
+		User::Leave(error);	
+		}
+	}	
 
+void TRandomShim::SecureRandomL(TDes8& aDest)
+	{
+	CRandomShim* rand = CRandomShim::NewLC();	
+	
+	rand->GenerateBytesL(aDest);
+	CleanupStack::PopAndDestroy(rand);	
+	}

@@ -57,6 +57,7 @@ PlatSecProcessIsolation ON
 	#include "tpkcs7server.iby"     
 	#include "tpkcs12integrationserver.iby"  	
 	#include "ctframeworktests.iby"
+	#include "cryptotests.iby"
 #else
 	#include "streamingcaf.iby"
 	// iby files for caf
@@ -131,9 +132,17 @@ data = ZDRIVE\autohardware\runpkcs12tests_9.4.bat		\runpkcs12tests.bat
 
 #ifdef SYMBIAN_CRYPTOSPI
 	#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-		data = ZDRIVE\autohardware\runcrypto_wmdrm.bat	               	\runcrypto.bat
+		#ifdef __SECURITY_MANDATORY_SWICERTSTORE__
+			data = ZDRIVE\autohardware\runhardwarecrypto.bat				\runcrypto.bat
+		#else
+			data = ZDRIVE\autohardware\runcrypto_wmdrm.bat	               	\runcrypto.bat
+		#endif		
 	#else
-		data = ZDRIVE\autohardware\runcrypto_9.5.bat	               	\runcrypto.bat
+		#ifdef __SECURITY_MANDATORY_SWICERTSTORE__
+			data = ZDRIVE\autohardware\runhardwarecrypto.bat				\runcrypto.bat
+		#else
+			data = ZDRIVE\autohardware\runcrypto_9.5.bat	               	\runcrypto.bat
+		#endif
 	#endif
 #else
 	data = ZDRIVE\autohardware\runcrypto_9.4.bat	               	\runcrypto.bat

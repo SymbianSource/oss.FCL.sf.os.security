@@ -45,6 +45,8 @@ move c:\logs\testexecute\trecogcert.htm e:\testresults\trecogcert.htm
 testexecute z:\trecog\trecogpkcs12.script
 move c:\logs\testexecute\trecogpkcs12.htm e:\testresults\trecogpkcs12.htm
 
+REM Test the hardware crypto library
+runcrypto.bat
 
 runupstests.bat
 

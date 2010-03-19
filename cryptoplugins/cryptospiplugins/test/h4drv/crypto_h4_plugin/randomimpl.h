@@ -73,32 +73,6 @@ namespace HwCrypto
 		TUid iImplementationUid;
 		RCryptoDriver iCryptoDriver;
 		};
-
-	class RRandomSessionImpl : public RSessionBase
-	/**
-	 * The client interface to the system random number generator. End
-	 * users should use TRandom instead of this interface.
-	 *
-	 * @internalAll
-	 * @released
-	 */
-		{
-	public:
-		RRandomSessionImpl();
-		
-		/**
-		 * Fills the provided buffer with secure random data up to its
-		 * current length, discarding any current content.
-		 *
-		 * @param aDestination The buffer in to which to write the random data 
-		 */
-		TInt GetRandom(TDes8& aDestination);
-		
-		/**
-		 * Opens a new session with the random number server.
-		 */
-		void ConnectL();
-		};
 	}
 
 #endif // __CRYPTOAPI_RANDOMIMPL_H__

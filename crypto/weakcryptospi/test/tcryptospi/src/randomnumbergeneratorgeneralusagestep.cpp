@@ -21,9 +21,10 @@
  @file
  @internalTechnology
 */
-#include "randomnumbergeneratorgeneralusagestep.h"
-
 #include <cryptospi/cryptorandomapi.h>
+
+#include "securityerr.h"
+#include "randomnumbergeneratorgeneralusagestep.h"
 
 
 using namespace CryptoSpi;
@@ -86,13 +87,13 @@ TVerdict CRandomNumberGeneratorGeneralUsageStep::doTestStepL()
 				
 				INFO_PRINTF2(_L("*** Original Content: %S ***"),&originalState);
 				
-				TRAP_LOG(err,randomImpl->GenerateRandomBytesL(randomStr));
+				TRAP(err,randomImpl->GenerateRandomBytesL(randomStr));
 				
 				//Copy the 8bit descriptor to 16bit using using a conversion macro
 				TBuf<50> randomResult;
 				randomResult.Copy(randomStr);
 					
-				if((randomResult != KEmptyString) && (randomResult != originalState) && (err == KErrNone))
+				if((randomResult != KEmptyString) && (randomResult != originalState) && ((err == KErrNone) || (err == KErrNotSecure)))
 					{
 					INFO_PRINTF1(_L("*** Random Number Generator - General Usage : PASS ***"));
 					SetTestStepResult(EPass);	
@@ -101,8 +102,7 @@ TVerdict CRandomNumberGeneratorGeneralUsageStep::doTestStepL()
 					{
 					ERR_PRINTF1(_L("*** FAIL: Failed to Fill Random String ***"));
 					SetTestStepResult(EFail);	
-					}
-	
+					}	
 				}
 			else
 				{

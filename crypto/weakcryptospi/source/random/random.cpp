@@ -24,9 +24,6 @@
 #include <e32math.h>
 #include <random.h>
 #include <hash.h>
-
-#include "randsvr.h"
-#include "randcliserv.h"
 #include "randomshim.h"
 
 extern "C" {
@@ -93,6 +90,12 @@ EXPORT_C void TRandom::RandomL(TDes8& aDestination)
 	// Method replaced by shim
 	TRandomShim::RandomL(aDestination);
 	}
+	
+EXPORT_C void TRandom::SecureRandomL(TDes8& aDestination)
+	{
+	// Method replaced by shim
+	TRandomShim::SecureRandomL(aDestination);
+	}
 
 EXPORT_C RRandomSession::RRandomSession(void)
 	{
@@ -114,4 +117,3 @@ EXPORT_C TInt RRandomSession::GetRandom(TDes8& aDestination)
 	TRandomShim::Random(aDestination);
 	return KErrNone;
 	}
-
