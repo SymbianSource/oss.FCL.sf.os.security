@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2005-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -140,11 +140,9 @@ public:
 	 *
 	 * Implements the contract as specified in the base class,  CRandom, filling the buffer
 	 * supplied with random data  up to its current length, discarding its current content.
-	 * It will leave with KErrNotSecure when the generated random data is not secure enough.
+	 * It will leave under no memory condition.
 	 *
-	 * @param aDest The buffer to which to write random data
-	 * @leave KErrNotSecure The generated random data is not secure enough for cryptographic operations 
-	 *        otherwise, leaves with any other system wide error codes.
+	 * @param aDest The buffer to be filled with random data
 	 *        
 	 */
 	virtual void GenerateBytesL(TDes8& aDest);

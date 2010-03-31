@@ -28,6 +28,7 @@ PRJ_TESTEXPORTS
 
 // Certman Component
 ../certman/tcertstore/tdata/subjectkeycert.der		/epoc32/winscw/c/unifiedcertstore2/subjectkeycert.der
+../certman/tcertstore/tdata/SelfSignedCertificate.der	/epoc32/winscw/c/tcertstore/data/SelfSignedCertificate.der
 ../certman/tcertstore/unifiedcertstore2/URL1K1.cer	/epoc32/winscw/c/unifiedcertstore2/url1k1.cer
 ../certman/tcertstore/unifiedcertstore2/URL2K2.cer	/epoc32/winscw/c/unifiedcertstore2/url2k2.cer
 ../certman/tcertstore/unifiedcertstore2/URL3K5.cer	/epoc32/winscw/c/unifiedcertstore2/url3k5.cer
@@ -400,6 +401,9 @@ PRJ_TESTEXPORTS
 ../certman/tpkixcert_tef/004_ee.der	/epoc32/winscw/c/tpkixcert_tef/data/004_ee.der
 ../certman/tpkixcert_tef/009_rc.der	/epoc32/winscw/c/tpkixcert_tef/data/009_rc.der
 ../certman/tpkixcert_tef/009_ee.der	/epoc32/winscw/c/tpkixcert_tef/data/009_ee.der
+
+../certman/tpkixcert_tef/fulltrust.der	/epoc32/winscw/c/tpkixcert_tef/data/fulltrust.der
+
 ../certman/tx509/Data/dnames/dn_unstructuredname_lc.der		/epoc32/winscw/c/tx509/data/dn_unstructuredname_lc.der
 ../certman/tx509/Data/extensions/certs/absent.der 			/epoc32/winscw/c/tx509/data/extensions/certs/absent.der
 ../certman/tx509/Data/extensions/certs/corrupt.der 			/epoc32/winscw/c/tx509/data/extensions/certs/corrupt.der
