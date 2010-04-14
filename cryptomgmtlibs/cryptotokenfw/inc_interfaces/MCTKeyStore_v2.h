@@ -76,9 +76,6 @@ public:
 		ERSA				= 1,
 		EDSA				= 2,
 		EDH					= 3,
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-		EECC                = 4,
-#endif
 		};
 
 	/** Flags for key access bitfield. */

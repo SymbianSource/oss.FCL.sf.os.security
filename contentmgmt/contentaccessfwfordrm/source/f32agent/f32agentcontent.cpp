@@ -42,16 +42,6 @@ CF32AgentContent* CF32AgentContent::NewL(RFile& aFile)
 	return self;
 	}
 
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-CF32AgentContent* CF32AgentContent::NewL(const TDesC8& aHeaderData)
-	{
-	CF32AgentContent* self = new (ELeave) CF32AgentContent;
-	CleanupStack::PushL(self);
-	self->ConstructL(aHeaderData);
-	CleanupStack::Pop(self);
-	return self;
-	}
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 	
 CF32AgentContent::CF32AgentContent()
 	{
@@ -66,10 +56,6 @@ CF32AgentContent::~CF32AgentContent()
 		iFs.Close();
 		}
 	delete iURI;
-	
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT	
-	delete iHeaderData;
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 	}
   
 void CF32AgentContent::ConstructL(const TDesC& aURI, TContentShareMode aShareMode)
@@ -87,16 +73,6 @@ void CF32AgentContent::ConstructL(RFile& aFile)
 	{
 	User::LeaveIfError(iFile.Duplicate(aFile));
 	}
-
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT	
-void CF32AgentContent::ConstructL(const TDesC8& aHeaderData)
-	{
-	if(aHeaderData.Length() > 0)
-		iHeaderData = aHeaderData.AllocL();
-	else
-		User::Leave(KErrMissingWmdrmHeaderData);
-	}
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 
 TInt CF32AgentContent::OpenContainer(const TDesC&)
 	{
@@ -182,33 +158,6 @@ TInt CF32AgentContent::Search(RStreamablePtrArray<CEmbeddedObject>& aArray, cons
 	return err;
 	}
 
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-TInt CF32AgentContent::GetAttribute(TInt aAttribute, TInt& aValue, const TDesC& aUniqueId)
-	{
-	
-	// check that the unique Id exists
-	if(TF32DefaultAttributes::CheckUniqueId(aUniqueId) != KErrNone)
-		{
-		return KErrNotFound;	
-		}
-	
-	TInt err = KErrNone;
-	if(iURI)
-		{
-		err = TF32DefaultAttributes::GetAttribute(aAttribute, aValue, *iURI);
-		}
-	else if(iHeaderData)
-		{
-		err = TF32DefaultAttributes::GetAttribute(*iHeaderData, aAttribute, aValue);
-		}
-	else
-		{
-		err = TF32DefaultAttributes::GetAttribute(aAttribute, aValue, iFile);
-		}
-	return err;
-	}
-
-#else
 TInt CF32AgentContent::GetAttribute(TInt aAttribute, TInt& aValue, const TDesC& aUniqueId)
 	{
 	// check that the unique Id exists
@@ -228,35 +177,7 @@ TInt CF32AgentContent::GetAttribute(TInt aAttribute, TInt& aValue, const TDesC& 
 		}
 	return err;
 	}
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-
-TInt CF32AgentContent::GetAttributeSet(RAttributeSet& aAttributeSet, const TDesC& aUniqueId)
-	{
-	// check that the unique Id exists
-	if(TF32DefaultAttributes::CheckUniqueId(aUniqueId) != KErrNone)
-		{
-		return KErrNotFound;	
-		}
-		
-	TInt err = KErrNone;
-	if(iURI)
-		{
-		err = TF32DefaultAttributes::GetAttributeSet(aAttributeSet, *iURI);
-		}
-	else if(iHeaderData)
-		{
-		err = TF32DefaultAttributes::GetAttributeSet(*iHeaderData, aAttributeSet);
-		}
-	else
-		{
-		err = TF32DefaultAttributes::GetAttributeSet(aAttributeSet, iFile);
-		}
-	return err;
-	}
-
-#else
 
 TInt CF32AgentContent::GetAttributeSet(RAttributeSet& aAttributeSet, const TDesC& aUniqueId)
 	{
@@ -278,35 +199,6 @@ TInt CF32AgentContent::GetAttributeSet(RAttributeSet& aAttributeSet, const TDesC
 	return err;
 	}
 
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-
-TInt CF32AgentContent::GetStringAttribute(TInt aAttribute, TDes& aValue, const TDesC& aUniqueId)
-	{
-	// check that the unique Id exists
-	if(TF32DefaultAttributes::CheckUniqueId(aUniqueId) != KErrNone)
-		{
-		return KErrNotFound;	
-		}
-		
-	TInt err = KErrNone;
-	if(iURI)
-		{
-		err = TF32DefaultAttributes::GetStringAttribute(aAttribute, aValue, *iURI);
-		}
-	else if(iHeaderData)
-		{
-		err = TF32DefaultAttributes::GetStringAttribute(*iHeaderData, aAttribute, aValue);
-		}
-	else
-		{
-		err = TF32DefaultAttributes::GetStringAttribute(aAttribute, aValue, iFile);
-		}
-	return err;
-	}
-
-#else
 TInt CF32AgentContent::GetStringAttribute(TInt aAttribute, TDes& aValue, const TDesC& aUniqueId)
 	{
 	// check that the unique Id exists
@@ -326,35 +218,7 @@ TInt CF32AgentContent::GetStringAttribute(TInt aAttribute, TDes& aValue, const T
 		}
 	return err;
 	}
-#endif
 
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-
-TInt CF32AgentContent::GetStringAttributeSet(RStringAttributeSet& aStringAttributeSet, const TDesC& aUniqueId)
-	{
-	// check that the unique Id exists
-	if(TF32DefaultAttributes::CheckUniqueId(aUniqueId) != KErrNone)
-		{
-		return KErrNotFound;	
-		}
-	
-	TInt err = KErrNone;
-	if(iURI)
-		{
-		err = TF32DefaultAttributes::GetStringAttributeSet(aStringAttributeSet, *iURI);
-		}
-	else if(iHeaderData)
-		{
-		err = TF32DefaultAttributes::GetStringAttributeSet(*iHeaderData, aStringAttributeSet);
-		}
-	else
-		{
-		err = TF32DefaultAttributes::GetStringAttributeSet(aStringAttributeSet, iFile);
-		}
-	return err;
-	}
-
-#else
 
 TInt CF32AgentContent::GetStringAttributeSet(RStringAttributeSet& aStringAttributeSet, const TDesC& aUniqueId)
 	{
@@ -375,8 +239,6 @@ TInt CF32AgentContent::GetStringAttributeSet(RStringAttributeSet& aStringAttribu
 		}
 	return err;
 	}
-
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 
 TInt CF32AgentContent::AgentSpecificCommand(TInt , const TDesC8& , TDes8& )
 	{

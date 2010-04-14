@@ -105,10 +105,6 @@ SOURCE			symmetric_mac_incremental_with_replicate_step.cpp
 SOURCE			symmetric_mac_incremental_with_copy_step.cpp
 #endif
 
-#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
-SOURCE			dummyecccipherloadstep.cpp
-SOURCE			dummyeccsignerloadstep.cpp
-#endif
 
 USERINCLUDE     ..
 USERINCLUDE     ../test/tcryptospi/src

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2008-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -53,24 +53,15 @@
 #include "os/security/securityanddataprivacytools/securityconfig/group/bld.inf"
 #include "os/security/cryptomgmtlibs/securitytestfw/group/bld.inf"
 #include "os/security/contentmgmt/cafrecogniserconfig/bld.inf"
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-#include "os/security/contentmgmt/referencedrmagent/refcafhelper/group/bld.inf"
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 #include "os/security/contentmgmt/contentaccessfwfordrm/group/bld.inf"
 #include "os/security/contentmgmt/cafstreamingsupport/group/bld.inf"
 #include "os/security/contentmgmt/referencedrmagent/RefTestAgent/group/bld.inf"
 
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-#include "os/security/contentmgmt/mtputils/group/bld.inf"
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 
 #include "os/security/authorisation/userpromptservice/group/bld.inf"
 #include "os/security/authorisation/userpromptutils/group/bld.inf"
 
 
-#ifdef SYMBIAN_AUTH_SERVER
-#include "os/security/authenticationservices/authenticationserver/group/bld.inf"
-#endif
 
 #endif //TOOLS2
 

@@ -24,12 +24,7 @@
 
 _LIT(KKeyStoreFilename,"keys.dat");
 
-#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-#include <e32property.h>
-#include <authserver/aspubsubdefs.h>
-#else
 const TInt KDefaultPassphraseTimeout = 30;
-#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 
 //	*********************************************************************
 //	Key store data manager - maintains array of objects representing keys
@@ -57,18 +52,13 @@ CFileKeyDataManager::~CFileKeyDataManager()
 		
 	iKeys.ResetAndDestroy();
 	iKeys.Close();
-	#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-	iIdentityId.Close();
-	#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	}
 
 CFileKeyDataManager::CFileKeyDataManager() :
 	iRootStreamId(KNullStreamId),
 	iInfoStreamId(KNullStreamId)
-#ifndef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	,iPassStreamId(KNullStreamId),
 	iTimeoutStreamId(KNullStreamId)
-#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	{
 	}
 
@@ -81,13 +71,8 @@ void CFileKeyDataManager::ConstructL()
 	RStoreReadStream lookupStream;
 	lookupStream.OpenLC(*iFileStore, iInfoStreamId);
 
-	#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-	User::LeaveIfError(iIdentityId.Attach(	AuthServer::KAuthServerSecureId,
-											AuthServer::KUidAuthServerAuthChangeEvent));
-	#else
 	iPassStreamId = (TStreamId) lookupStream.ReadUint32L();
 	iTimeoutStreamId = (TStreamId) lookupStream.ReadUint32L();
-	#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 
 	TInt count = lookupStream.ReadInt32L();
 	for (TInt index = 0; index < count; index++)
@@ -101,11 +86,7 @@ void CFileKeyDataManager::ConstructL()
 		}
 	
 	CleanupStack::PopAndDestroy(&lookupStream);
-
-#ifndef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	ReadPassphraseTimeoutL();
-#endif //SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-	
 	}
 
 CPassphraseManager* CFileKeyDataManager::CreatePassphraseManagerLC()
@@ -184,23 +165,19 @@ void CFileKeyDataManager::CreateStoreInFileL(const TDesC& aFile)
 	TCleanupItem cleanupStore(RevertStore, iFileStore);
 	CleanupStack::PushL(cleanupStore);
 	
-#ifndef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	// Create timeout stream with default timeout
 	RStoreWriteStream timeoutStream;
 	iTimeoutStreamId = timeoutStream.CreateLC(*iFileStore);
 	timeoutStream.WriteUint32L(KDefaultPassphraseTimeout);
 	timeoutStream.CommitL();
 	CleanupStack::PopAndDestroy(&timeoutStream);
-#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	
 	// Create info stream - Currently no passphrase created, and no keys
 	RStoreWriteStream infoStream;
 	iInfoStreamId = infoStream.CreateLC(*iFileStore);
 	
-#ifndef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	infoStream.WriteUint32L(KNullStreamId.Value());
 	infoStream.WriteUint32L(iTimeoutStreamId.Value());
-#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	
 	infoStream.WriteUint32L(0); // Write key count of zero
 	infoStream.CommitL();
@@ -262,10 +239,9 @@ void CFileKeyDataManager::WriteKeysToStoreL()
 	RStoreWriteStream lookupStream;
 	lookupStream.ReplaceLC(*iFileStore, iInfoStreamId);
 
-	#ifndef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-		lookupStream.WriteUint32L(iPassStreamId.Value());
-		lookupStream.WriteUint32L(iTimeoutStreamId.Value());
-	#endif //SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	lookupStream.WriteUint32L(iPassStreamId.Value());
+	lookupStream.WriteUint32L(iTimeoutStreamId.Value());
+
 	
 	TInt keyCount = iKeys.Count();
 	lookupStream.WriteInt32L(keyCount);
@@ -287,15 +263,11 @@ void CFileKeyDataManager::WriteKeysToStoreL()
 void CFileKeyDataManager::AddL(const CFileKeyData* aKeyData)
 	{
 	ASSERT(aKeyData);
-#ifndef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-		ASSERT(aKeyData->PassphraseStreamId() != KNullStreamId);
-#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	ASSERT(aKeyData->PassphraseStreamId() != KNullStreamId);
 
 	// Add the key to to the array, rewrite the infostream and 
 	// ONLY THEN commit the store
 	User::LeaveIfError(iKeys.Append(aKeyData));
-
-#ifndef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	TStreamId oldDefaultPassphraseId;
 
 	// Set the default passphrase id if this is the first key
@@ -304,16 +276,13 @@ void CFileKeyDataManager::AddL(const CFileKeyData* aKeyData)
 		{
 		iPassStreamId = aKeyData->PassphraseStreamId();
 		}
-#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	
 	TRAPD(err,UpdateStoreL());
 	
 	if (err != KErrNone)
 		{
 		iKeys.Remove(iKeys.Count() - 1);
-		#ifndef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-			iPassStreamId = oldDefaultPassphraseId;
-		#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+		iPassStreamId = oldDefaultPassphraseId;
 		User::Leave(err);
 		}
 	}
@@ -361,7 +330,6 @@ void CFileKeyDataManager::RemoveL(TInt aObjectId)
 	iFileStore->DeleteL(key->PublicDataStreamId());
 	iFileStore->DeleteL(key->InfoDataStreamId());
 
-#ifndef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	// Remove the passphrase if it's the last key
 	TStreamId oldPassphraseId = iPassStreamId;
 	if (Count() == 1)
@@ -369,7 +337,6 @@ void CFileKeyDataManager::RemoveL(TInt aObjectId)
 		iFileStore->DeleteL(iPassStreamId);
 		iPassStreamId = KNullStreamId;
 		}
-#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	
 	// Remove the key
 	iKeys.Remove(index);
@@ -378,9 +345,8 @@ void CFileKeyDataManager::RemoveL(TInt aObjectId)
 
 	if (res != KErrNone)
 		{
-#ifndef SYMBIAN_KEYSTORE_USE_AUTH_SERVER		
 		iPassStreamId = oldPassphraseId;
-#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+
 		User::LeaveIfError(iKeys.Append(key)); // Put it back, shouldn't leave
 		User::Leave(res);
 		}
@@ -394,24 +360,6 @@ void CFileKeyDataManager::RemoveL(TInt aObjectId)
 	CompactStore();
 }
 
-#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-TBool CFileKeyDataManager::IsKeyAlreadyInStore(const TDesC& aKeyLabel, AuthServer::TIdentityId aIdentity) const
-	{//	Check each key in the store to determine if aKeyLabel already exists
-	TInt keyCount = iKeys.Count();
-	TBool isInStore = EFalse;
-	for (TInt index = 0; index < keyCount; ++index)
-		{
-		const TDesC& keyLabel = iKeys[index]->Label();
-		if (keyLabel.Compare(aKeyLabel)==0 && (iKeys[index]->Identity() == aIdentity))
-			{
-			isInStore = ETrue;
-			break;
-			}
-		}
-	return (isInStore);
-	}
-
-#else
 TBool CFileKeyDataManager::IsKeyAlreadyInStore(const TDesC& aKeyLabel) const
 {//	Check each key in the store to determine if aKeyLabel already exists
 	TInt keyCount = iKeys.Count();
@@ -429,7 +377,6 @@ TBool CFileKeyDataManager::IsKeyAlreadyInStore(const TDesC& aKeyLabel) const
 	return (isInStore);
 }
 
-#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 
 TInt CFileKeyDataManager::Count() const
 	{
@@ -458,18 +405,6 @@ const CFileKeyData* CFileKeyDataManager::Lookup(TInt aObjectId) const
 //	Management of file and store therein
 //	*********************************************************************
 
-#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-
-const CFileKeyData* CFileKeyDataManager::CreateKeyDataLC(const TDesC& aLabel, AuthServer::TIdentityId aIdentityId)
-	{
-	TInt objectId = ++iKeyIdentifier;
-	TStreamId infoData = CreateWriteStreamL();
-	TStreamId publicKeyData = CreateWriteStreamL();
-	TStreamId privateKeyData = CreateWriteStreamL();
-	return CFileKeyData::NewLC(objectId, aLabel, infoData, publicKeyData, privateKeyData, aIdentityId);
-	}
-
-#else
 const CFileKeyData* CFileKeyDataManager::CreateKeyDataLC(const TDesC& aLabel, TStreamId aPassStreamId)
 	{
 	ASSERT(aPassStreamId != KNullStreamId);
@@ -480,7 +415,6 @@ const CFileKeyData* CFileKeyDataManager::CreateKeyDataLC(const TDesC& aLabel, TS
 	return CFileKeyData::NewLC(objectId, aLabel, infoData, aPassStreamId, publicKeyData, privateKeyData);
 	}
 
-#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 
 //	Creates a new write stream in the store (which it then closes)
 //	Returns the TStreamId associated with it
@@ -508,9 +442,6 @@ CKeyInfo* CFileKeyDataManager::ReadKeyInfoLC(const CFileKeyData& aKeyData) const
 	stream.OpenLC(*iFileStore, aKeyData.InfoDataStreamId());
 	CKeyInfo* info = CKeyInfo::NewL(stream);
 	
-#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-	ReadAuthDetailsL(stream, *info);
-#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	CleanupStack::PopAndDestroy(&stream);
 	info->CleanupPushL();
 	if (info->Handle() != aKeyData.Handle())
@@ -525,30 +456,9 @@ void CFileKeyDataManager::WriteKeyInfoL(const CFileKeyData& aKeyData, const CKey
 	RStoreWriteStream infoStream;
 	OpenInfoDataStreamLC(aKeyData, infoStream);
 	infoStream << aKeyInfo;
-#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-	WriteAuthDetailsL(infoStream, aKeyInfo);
-#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	infoStream.CommitL();
 	CleanupStack::PopAndDestroy(&infoStream);
 	}
-
-#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-void CFileKeyDataManager::WriteAuthDetailsL( RStoreWriteStream& aInfoStream, const CKeyInfo& aKeyInfo )
-	{
-	aInfoStream.WriteInt32L(aKeyInfo.Identity());
-	aInfoStream << aKeyInfo.AuthExpression();
-  	aInfoStream.WriteInt32L(aKeyInfo.Freshness());
-	}
-
-void CFileKeyDataManager::ReadAuthDetailsL( RStoreReadStream& aInfoStream, CKeyInfo& aKeyInfo ) const
-	{
-	aKeyInfo.SetIdentity(aInfoStream.ReadInt32L());
-	HBufC* expression = HBufC::NewLC(aInfoStream, KMaxTInt);
-	aKeyInfo.SetAuthExpressionL(*expression);
-	aKeyInfo.SetFreshness(aInfoStream.ReadInt32L());
-	CleanupStack::PopAndDestroy(expression);
-	}
-#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 
 void CFileKeyDataManager::SafeWriteKeyInfoL(const CFileKeyData& aKeyData, const CKeyInfo& aKeyInfo)
 	{
@@ -579,22 +489,6 @@ void CFileKeyDataManager::OpenPublicDataStreamLC(const CFileKeyData& aKeyData, R
 	aStream.OpenLC(*iFileStore, aKeyData.PublicDataStreamId());
 	}
 
-#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-
-void CFileKeyDataManager::OpenPrivateDataStreamLC(const CFileKeyData& aKeyData, RStoreWriteStream& aStream) 
-	{
-	__ASSERT_DEBUG(iFileStore, PanicServer(EPanicStoreInitialised));
-	aStream.ReplaceLC(*iFileStore, aKeyData.PrivateDataStreamId());
-	}
-
-void CFileKeyDataManager::OpenPrivateDataStreamLC(const CFileKeyData& aKeyData, RStoreReadStream& aStream) const
-	{
-	__ASSERT_DEBUG(iFileStore, PanicServer(EPanicStoreInitialised));
-	aStream.OpenLC(*iFileStore, aKeyData.PrivateDataStreamId());
-	}
-
-#else
-
 void CFileKeyDataManager::OpenPrivateDataStreamLC(const CFileKeyData& aKeyData, CPassphrase& aPassphrase,
 												  RStoreReadStream& aStream) 
 	{
@@ -610,9 +504,6 @@ void CFileKeyDataManager::OpenPrivateDataStreamLC(const CFileKeyData& aKeyData, 
 	}
 
 
-#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-
-#ifndef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 TInt CFileKeyDataManager::GetPassphraseTimeout() const
 	{
 	return iTimeout;
@@ -658,7 +549,6 @@ TStreamId CFileKeyDataManager::DefaultPassphraseId() const
 	return iPassStreamId;
 	}
 
-#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 
 /**
  * Attempt to compact the store - it doesn't matter if these calls leave, it
@@ -670,28 +560,8 @@ void CFileKeyDataManager::CompactStore()
 	TRAP_IGNORE(iFileStore->ReclaimL(); iFileStore->CompactL());
 	}
 
-#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-TUint32 CFileKeyDataManager::CachedIdentity()
-	{
-	TInt value = 0;
-	iIdentityId.Get(value);
-	return value;
-	}
-#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-
 // CFileKeyData ////////////////////////////////////////////////////////////////
 
-#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-CFileKeyData* CFileKeyData::NewLC(	TInt aObjectId, const TDesC& aLabel, TStreamId aInfoData,
-								  TStreamId aPublicData, TStreamId aPrivateData,
-								  AuthServer::TIdentityId aIdentityId)
-	{
-	CFileKeyData* self = new (ELeave) CFileKeyData(aObjectId, aInfoData, aPublicData, aPrivateData, aIdentityId);
-	CleanupStack::PushL(self);
-	self->ConstructL(aLabel);
-	return self;
-	}
-#else
 CFileKeyData* CFileKeyData::NewLC(TInt aObjectId, const TDesC& aLabel, TStreamId aInfoData,
 								  TStreamId aPassphraseId, TStreamId aPublicData, TStreamId aPrivateData)
 	{
@@ -701,7 +571,6 @@ CFileKeyData* CFileKeyData::NewLC(TInt aObjectId, const TDesC& aLabel, TStreamId
 	return self;
 	}
 
-#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 
 CFileKeyData* CFileKeyData::NewL(RStoreReadStream& aReadStream)
 	{
@@ -717,21 +586,6 @@ CFileKeyData::~CFileKeyData()
 	delete iLabel;
 	}
 
-#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-CFileKeyData::CFileKeyData(TInt aObjectId, TStreamId aInfoData,  
-						   TStreamId aPublicData, TStreamId aPrivateData,
-						   AuthServer::TIdentityId aIdentityId) :
-	iObjectId(aObjectId), iInfoData(aInfoData), 
-	iPublicKeyData(aPublicData), iPrivateKeyData(aPrivateData),
-	iIdentityId(aIdentityId)
-	{
-	ASSERT(iObjectId);
-	ASSERT(iInfoData != KNullStreamId);
-	ASSERT(iPublicKeyData != KNullStreamId);
-	ASSERT(iPrivateKeyData != KNullStreamId);
-	ASSERT(iIdentityId);
-	}
-#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 #ifdef KEYTOOL
 CFileKeyData::CFileKeyData(TInt aObjectId, TStreamId aInfoData,  
 						   TStreamId aPublicData, TStreamId aPrivateData,
@@ -777,9 +631,7 @@ void CFileKeyData::InternalizeL(RReadStream& aReadStream)
 {
 	iObjectId = aReadStream.ReadInt32L();
 	iInfoData.InternalizeL(aReadStream);
-#ifndef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	iPassphraseId.InternalizeL(aReadStream);
-#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	iPublicKeyData.InternalizeL(aReadStream);
 	iPrivateKeyData.InternalizeL(aReadStream);
 	
@@ -788,18 +640,13 @@ void CFileKeyData::InternalizeL(RReadStream& aReadStream)
 	TPtr theLabel((TUint16*)iLabel->Ptr(), labelLen, labelLen);
 	theLabel.FillZ(labelLen);
 	aReadStream.ReadL(theLabel);
-#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-	iIdentityId = aReadStream.ReadInt32L();
-#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 }
 
 void CFileKeyData::ExternalizeL(RWriteStream& aWriteStream) const
 {
 	aWriteStream.WriteInt32L(iObjectId);
 	iInfoData.ExternalizeL(aWriteStream);
-#ifndef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	iPassphraseId.ExternalizeL(aWriteStream);
-#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	iPublicKeyData.ExternalizeL(aWriteStream);
 	iPrivateKeyData.ExternalizeL(aWriteStream);
 
@@ -808,10 +655,6 @@ void CFileKeyData::ExternalizeL(RWriteStream& aWriteStream) const
 	TPtr theLabel(iLabel->Des());
 	theLabel.SetLength(labelLen);
 	aWriteStream.WriteL(theLabel);
-#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-	aWriteStream.WriteInt32L(iIdentityId);
-#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-
 }
 
 #ifdef KEYTOOL

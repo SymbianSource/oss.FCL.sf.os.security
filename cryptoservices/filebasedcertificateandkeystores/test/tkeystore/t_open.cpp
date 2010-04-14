@@ -26,12 +26,6 @@
 #include <x509keys.h>
 #include <asymmetrickeys.h>
 
-#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
-#include <cryptospidef.h>
-#include "cryptoasymmetriccipherapi.h"
-#include "cryptosignatureapi.h"
-#include <cryptospi/cryptoparams.h>
-#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC && SYMBIAN_ENABLE_SDP_ECC
 
 /*static*/ CTestAction* COpenKey::NewL(RFs& aFs, CConsoleBase& aConsole, Output& aOut, const TTestActionSpec& aTestActionSpec)
 {
@@ -50,10 +44,6 @@
 
 COpenKey::~COpenKey()
 {
-#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
-    delete iSigner;
-    delete iDecrypt;
-#endif
 	iKeys.Close();
 }
 
@@ -100,21 +90,6 @@ void COpenKey::PerformAction(TRequestStatus& aStatus)
 					case EDH:
 						keyStore->Open(*keyInfo, iDH, aStatus);
 						break;
-					#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
-					case EECC:
-						{
-						ASSERT(iHardwareType);
-						if(iOperationType == ESigning)
-							{
-							keyStore->Open(keyInfo->Handle(),iSigner,aStatus);
-							}
-						if(iOperationType == EDecryption)
-							{
-							keyStore->Open(keyInfo->Handle(),iDecrypt,aStatus);
-							}
-						break;
-						}
-					#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
 						}
 					break;
 					}
@@ -166,22 +141,7 @@ void COpenKey::PerformAction(TRequestStatus& aStatus)
 							iDH->Release();
 							}
 						break;
-	#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
-					case EECC:
-						{
-						ASSERT(iHardwareType);
-						if(iOperationType == ESigning && iSigner == NULL
-								|| iOperationType == EDecryption && iDecrypt == NULL)
-							{
-							completionCode = KErrGeneral;
-							}
-						break;
-						}
-#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
 				} // switch
-#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
-				if(iHardwareType == 0)
-#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
 					{
 					if (*label != *iLabel)
 						aStatus = KErrBadName;
@@ -253,12 +213,6 @@ void COpenKey::Reset()
 		iDH->Release();
 		iDH = NULL;
 		}
-#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
-    delete iSigner;
-    iSigner = NULL;
-    delete iDecrypt;
-    iDecrypt = NULL;
-#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
 	}
 
 void COpenKey::DoReportAction()
@@ -310,18 +264,6 @@ void COpenKey::ConstructL(const TTestActionSpec& aTestActionSpec)
 	{
 	CKeyStoreTestAction::ConstructL(aTestActionSpec);
 	
-#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
-	TInt pos = 0, err = 0;
-	TPtrC8 operationType = Input::ParseElement(aTestActionSpec.iActionBody, KOperationTypeStart, KOperationTypeEnd, pos, err);
-	if(operationType.Compare(_L8("sign")) == 0)
-		{
-		iOperationType = ESigning;
-		}
-	else if (operationType.Compare(_L8("decrypt")) == 0)
-		{
-		iOperationType = EDecryption;
-		}
-#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
 	
 	iState = EListKeysPreOpen;
 
@@ -353,10 +295,6 @@ CSign::~CSign()
 	delete iRSASignature;
 	delete iDSASignature;
 	delete iHash;
-#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
-    delete iSigner;
-    delete iSpiSignature;
-#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
 }
 
 void CSign::PerformAction(TRequestStatus& aStatus)
@@ -405,22 +343,6 @@ void CSign::PerformAction(TRequestStatus& aStatus)
 						case EDecrypt:
 							break;	//	Nothing to do, for the compiler
 						
-						#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
-						case EECC:
-							{
-							iTokenHandle = keyInfo->Handle();
-							if(iHardwareType == 0)
-								{
-								keyStore->Open(iTokenHandle, iSigner, aStatus);
-								}
-							else
-								{
-								TRequestStatus* status = &aStatus;
-								User::RequestComplete(status, KErrNone);
-								}
-							}
-							break;
-						#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
                         }
                     } // if
                 if (i == keyCount)
@@ -468,38 +390,6 @@ void CSign::PerformAction(TRequestStatus& aStatus)
 					}
 				}
 				break;
-#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
-                case EECC:
-                    {
-                    TRAPD(err, iSpiSignature = CryptoSpi::CCryptoParams::NewL());
-                    if(err == KErrNone)
-                        {
-                        if(iHardwareType)
-                            {
-                            CUnifiedKeyStore* keyStore = CSharedKeyStores::TheUnifiedKeyStores().operator[](iKeystore);
-                            ASSERT(keyStore);   //  Flag it up
-                            keyStore->Sign(iTokenHandle, *iReadText, iSpiSignature, aStatus);
-                            }
-                        else
-                            {
-                            if(iSigner)
-                                {
-                                TRAP(err, iSigner->SignL(*iReadText, *iSpiSignature));
-                                aStatus = err;
-                                }
-                            TRequestStatus* status = &aStatus;
-                            User::RequestComplete(status, aStatus.Int());
-                            }
-                        }
-                    else
-                        {
-                        aStatus = err;
-                        TRequestStatus* status = &aStatus;
-                        User::RequestComplete(status, aStatus.Int());
-                        }
-                    }
-                break;
-#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
 
 				default:
 					ASSERT(EFalse);
@@ -535,14 +425,6 @@ void CSign::PerformAction(TRequestStatus& aStatus)
 						case EDH:
 						case EDecrypt:
 							break;	//	Nothing to do, for the compiler
-#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
-						case EECC:
-							{
-							keyStore->ExportPublic(iExportHandle, iExportedPublicKey, aStatus);
-							iState = EVerify;
-							}
-							break;
-#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
 						}
 					break;
 					}
@@ -568,9 +450,6 @@ void CSign::PerformAction(TRequestStatus& aStatus)
 					{
 					iExportHandle = keyInfo->Handle();
 					CX509SubjectPublicKeyInfo* ki = NULL;
-#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
-					if(iType != EECC)
-#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
 						ki = CX509SubjectPublicKeyInfo::NewLC(*iExportedPublicKey);
 
 					switch (iType)
@@ -626,39 +505,10 @@ void CSign::PerformAction(TRequestStatus& aStatus)
 						}
 						break;
 				
-#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
-					case EECC:
-						{
-						iVerifyResult = EFalse;
-						if (iSpiSignature && iSpiSignature->IsPresent(CryptoSpi::KEccKeyTypeUid))
-							{
-							TDesC8* actualSignature = NULL;
-							TRAPD(err, actualSignature = const_cast<TDesC8*>(&(iSpiSignature->GetTDesC8L(CryptoSpi::KEccKeyTypeUid))));
-							if(err == KErrNone)
-							    {
-							    if(iExportedPublicKey->Des() == *actualSignature)
-							        {
-							        iVerifyResult = ETrue;
-							        }
-							    }
-							else
-							    {
-							    aStatus = err;
-							    }
-							}
-						_LIT(KReturned, "Returned... ");
-						iOut.writeString(KReturned);
-						iOut.writeNewLine();
-						}
-					break;
-#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC	
 					default:
 						ASSERT(EFalse);
 
 						}
-#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
-					if(iType != EECC)
-#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
 						CleanupStack::PopAndDestroy(ki);
 					}
 				}
@@ -782,12 +632,6 @@ void CSign::Reset()
 	iRSASignature = NULL;
 	delete iDSASignature;
 	iDSASignature = NULL;
-#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
-	delete iSigner;
-	iSigner = NULL;
-	delete iSpiSignature;
-	iSpiSignature = NULL;
-#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
 	}
 
 void CSign::DoReportAction()
@@ -897,9 +741,6 @@ CDecrypt::~CDecrypt()
 	delete iReadText;
 	delete iPlainText;
 	delete iPublic;
-#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
-    delete iDecrypt;
-#endif
 }
 
 void CDecrypt::PerformAction(TRequestStatus& aStatus)
@@ -938,22 +779,6 @@ void CDecrypt::PerformAction(TRequestStatus& aStatus)
 					{
 					switch(iType)
 						{
-#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
-						case EECC:
-						if(iHardwareType == 0)
-							{
-							keyStore->Open(keyInfo->Handle(), iDecrypt, aStatus);
-							}
-						else if(iHardwareType == 1 )
-							{
-							/**
-							 * Call the decrypt of hardware directly. iPlainText 
-							 * would be populated.
-							 */
-							keyStore->Decrypt(keyInfo->Handle(), *iReadText, iPlainText, aStatus);
-							}
-						break;
-#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
 					default:
 						{
 						keyStore->Open(*keyInfo, iDecryptor, aStatus);
@@ -1025,57 +850,6 @@ void CDecrypt::PerformAction(TRequestStatus& aStatus)
 				}
 			switch(iType)
 				{
-#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
-				case EECC:
-					{
-					if(iHardwareType)
-						{
-						if(*iPlainText == *iPublic)
-							{
-							aStatus = KErrNone;
-							}
-						else
-							{
-							aStatus = KErrGeneral;
-							}
-						}
-					else
-						{
-                        aStatus = KErrGeneral;
-                        if (iDecrypt)
-                            {
-                            HBufC8* decryptedText = NULL;
-                            TRAPD(err, decryptedText = HBufC8::NewL(iDecrypt->GetMaximumOutputLengthL()));
-                            
-                            if (err == KErrNone)
-                                {
-                                CleanupStack::PushL(decryptedText);
-                                TPtr8 decryptedTextPtr = decryptedText->Des();
-
-                                TRAP(err, (iDecrypt->ProcessL(*iReadText, decryptedTextPtr)));
-                                if(err != KErrNone)
-                                    {
-                                    aStatus = err;
-                                    }
-                                if ((err == KErrNone) && (decryptedTextPtr
-                                        == iPublic->Des()))
-                                    {
-                                    aStatus = KErrNone;
-                                    }
-                                CleanupStack::PopAndDestroy(decryptedText);
-                                }
-                            else
-                                {
-                                aStatus = err;
-                                }
-                            }
-                        }
-					iState = EFinished;
-					TRequestStatus* status = &aStatus;
-					User::RequestComplete(status, aStatus.Int());
-					}
-					break;
-#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
 				default:
 					{
 					CX509SubjectPublicKeyInfo* ki = 
@@ -1110,17 +884,6 @@ void CDecrypt::PerformAction(TRequestStatus& aStatus)
 
 		case EFinished:
 			{
-#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
-			if(iType == EECC)
-				{
-				iActionState = EPostrequisite;
-				iResult = (aStatus.Int() == iExpectedResult);
-					
-				TRequestStatus* status = &aStatus;
-				User::RequestComplete(status, aStatus.Int());
-				}
-			else
-#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
 				{
 				if (aStatus == KErrNone && (!iPlainText || 
 											*iPlainText != *iReadText))
@@ -1188,10 +951,6 @@ void CDecrypt::Reset()
 	iPlainText = NULL;
 	delete iPublic;
 	iPublic = NULL;
-#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
-    delete iDecrypt;
-    iDecrypt = NULL;
-#endif
 	}
 
 void CDecrypt::DoReportAction()

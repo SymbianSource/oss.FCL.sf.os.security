@@ -54,7 +54,6 @@ PRJ_TESTEXPORTS
 ../test/autotesting/autosimtsy.cfg /epoc32/winscw/c/autosimtsy.cfg
 ../test/autotesting/dummytefscript.script /epoc32/winscw/c/dummytefscript.script
 
-../test/autotesting/testMakesis.pl /epoc32/winscw/c/tswi/testmakesis.pl
 ../test/autotesting/panicscan.pl /epoc32/winscw/c/tswi/panicscan.pl
 ../test/autotesting/panicscan_authserver.pl /epoc32/winscw/c/tswi/panicscan_authserver.pl
 ../test/autotesting/checklocationofcertificates.pl /epoc32/winscw/c/checklocationofcertificates.pl
@@ -75,62 +74,37 @@ PRJ_TESTEXPORTS
 	../test/autotesting/testsecurity_sdp.bat	     /epoc32/winscw/c/autohardware/testsecurity_sdp.bat
 	../test/autotesting/testsecurity_sdp_auth.bat	     /epoc32/winscw/c/autohardware/testsecurity_sdp_auth.bat
 	../test/autotesting/testsecurity_sdp_newrom.bat	     /epoc32/winscw/c/autohardware/testsecurity_sdp_newrom.bat
-	../test/autotesting/testsecurity_9.4_mcs.bat /epoc32/winscw/c/autohardware/testsecurity_9.4_mcs.bat
-	../test/autotesting/testsecurity_9.4_mcs_vfuture.bat /epoc32/winscw/c/autohardware/testsecurity_9.4_mcs_vfuture.bat
-	../test/autotesting/testsecurity_9.4_nonmcs.bat /epoc32/winscw/c/autohardware/testsecurity_9.4_nonmcs.bat
-	../test/autotesting/runcertman_9.5.bat /epoc32/winscw/c/autohardware/runcertman_9.5.bat
-
-	../test/autotesting/testsecurity_9.5_mcs.bat /epoc32/winscw/c/autohardware/testsecurity_9.5_mcs.bat
-	../test/autotesting/testsecurity_9.6_mcs.bat /epoc32/winscw/c/autohardware/testsecurity_9.6_mcs.bat
-	../test/autotesting/testsecurity_9.5_nonmcs.bat /epoc32/winscw/c/autohardware/testsecurity_9.5_nonmcs.bat
-	../test/autotesting/testsecurity_9.6_nonmcs.bat /epoc32/winscw/c/autohardware/testsecurity_9.6_nonmcs.bat
-	../test/autotesting/switextshell_nonmcs.bat	 /epoc32/winscw/c/autohardware/switextshell_nonmcs.bat
-
-#ifdef SYMBIAN_JAVA_NOT_INCLUDED
-	../test/autotesting/testsecurity_9.6_crypto.bat /epoc32/winscw/c/autohardware/testsecurity_9.6_crypto.bat
-#else
-	../test/autotesting/runjavamidletinstaller_9.4.bat /epoc32/winscw/c/autohardware/runjavamidletinstaller_9.4.bat
-	../test/autotesting/testsecurity_9.4_java.bat /epoc32/winscw/c/autohardware/testsecurity_9.4_java.bat
-	../test/autotesting/testsecurityonlyjava.bat /epoc32/winscw/c/autohardware/testsecurityonlyjava.bat
-#endif
+	../test/autotesting/runcertman.bat /epoc32/winscw/c/autohardware/runcertman.bat
 
 #ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 	../test/autotesting/runcrypto_wmdrm.bat /epoc32/winscw/c/autohardware/runcrypto_wmdrm.bat
 	../test/autotesting/runfiletokens_disableauth_with_wmdrm.bat /epoc32/winscw/c/autohardware/runfiletokens_disableauth_with_wmdrm.bat
 #endif
-#ifdef SYMBIAN_CRYPTOSPI
-	../test/autotesting/runcrypto_9.5.bat /epoc32/winscw/c/autohardware/runcrypto_9.5.bat
-	../test/autotesting/runhardwarecrypto.bat /epoc32/winscw/c/autohardware/runhardwarecrypto.bat
-#else
-	../test/autotesting/runcrypto_9.4.bat /epoc32/winscw/c/autohardware/runcrypto_9.4.bat
-#endif
-	../test/autotesting/runcryptotokens_9.4.bat /epoc32/winscw/c/autohardware/runcryptotokens_9.4.bat
-	../test/autotesting/runasnpkcs_9.4.bat /epoc32/winscw/c/autohardware/runasnpkcs_9.4.bat
+
+../test/autotesting/runcrypto.bat /epoc32/winscw/c/autohardware/runcrypto.bat
+../test/autotesting/runhardwarecrypto.bat /epoc32/winscw/c/autohardware/runhardwarecrypto.bat
+../test/autotesting/runcryptotokens.bat /epoc32/winscw/c/autohardware/runcryptotokens.bat
+../test/autotesting/runasnpkcs.bat /epoc32/winscw/c/autohardware/runasnpkcs.bat
+
 #ifdef SYMBIAN_AUTH_SERVER
 	../test/autotesting/runfiletokens_useauth.bat /epoc32/winscw/c/autohardware/runfiletokens_useauth.bat
 	../test/autotesting/runfiletokens_disableauth.bat /epoc32/winscw/c/autohardware/runfiletokens_disableauth.bat
+	../test/autotesting/runauthtests.bat /epoc32/winscw/c/autohardware/runauthtests.bat
+	../test/autotesting/runauthtests_macroenabled.bat /epoc32/winscw/c/autohardware/runauthtests_macroenabled.bat
 #else
-	../test/autotesting/runfiletokens_9.4.bat /epoc32/winscw/c/autohardware/runfiletokens_9.4.bat
+	../test/autotesting/runfiletokens.bat /epoc32/winscw/c/autohardware/runfiletokens.bat
 #endif // SYMBIAN_AUTH_SERVER
-	../test/autotesting/runsisinstaller_9.4.bat /epoc32/winscw/c/autohardware/runsisinstaller_9.4.bat
-	
 
-	../test/autotesting/runswiromtests_9.6.bat /epoc32/winscw/c/autohardware/runswiromtests_9.6.bat
-	../test/autotesting/runswiromtests_9.5.bat /epoc32/winscw/c/autohardware/runswiromtests_9.5.bat
+../test/autotesting/runupstests.bat /epoc32/winscw/c/autohardware/runupstests.bat
+../test/autotesting/runpkcs12tests.bat /epoc32/winscw/c/autohardware/runpkcs12tests.bat
 
-../test/autotesting/runswiromtests_9.4_mcs.bat /epoc32/winscw/c/autohardware/runswiromtests_9.4_mcs.bat
-../test/autotesting/runauthtests.bat /epoc32/winscw/c/autohardware/runauthtests.bat
-../test/autotesting/runauthtests_macroenabled.bat /epoc32/winscw/c/autohardware/runauthtests_macroenabled.bat
-../test/autotesting/runupstests_9.4.bat /epoc32/winscw/c/autohardware/runupstests_9.4.bat
-../test/autotesting/runpkcs12tests_9.4.bat /epoc32/winscw/c/autohardware/runpkcs12tests_9.4.bat
-../test/autotesting/runusiftests.bat /epoc32/winscw/c/autohardware/runusiftests.bat
 ../test/autotesting/runcommonutilstests.bat /epoc32/winscw/c/autohardware/runcommonutilstests.bat
 
 ../test/autotesting/testsecurityperformance_cryptalg.bat /epoc32/winscw/c/autohardware/testsecurityperformance_cryptalg.bat
 ../test/autotesting/testsecurityperformance_crypto.bat   /epoc32/winscw/c/autohardware/testsecurityperformance_crypto.bat
 
-../test/autotesting/runcaftests_9.5.bat /epoc32/winscw/c/autohardware/runcaftests_9.5.bat
-../test/autotesting/runcaftests_9.6.bat /epoc32/winscw/c/autohardware/runcaftests_9.6.bat
+../test/autotesting/runcaftests.bat /epoc32/winscw/c/autohardware/runcaftests.bat
+
 
 #ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 ../test/autotesting/runcaftests_wmdrm.bat /epoc32/winscw/c/autohardware/runcaftests_wmdrm.bat

@@ -108,12 +108,7 @@ EXPORT_C RRandomSession::RRandomSession(void)
 
 EXPORT_C void RRandomSession::ConnectL(void)
 	{
-	// All of the ConnectL() code has moved to randomimpl.cpp
-	// in the new CryptoSPI pluggable framework. This is just
-	// a stub now that is retained for binary compatibility.
-
-	// Method replaced by shim
-	ASSERT(EFalse);
+	// No action required
 	}
 
 EXPORT_C TInt RRandomSession::GetRandom(TDes8& aDestination)

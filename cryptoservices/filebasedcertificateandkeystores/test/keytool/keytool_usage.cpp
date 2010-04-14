@@ -73,9 +73,6 @@ void CKeytoolUsage::DoCommandL(CUnifiedKeyStore& /*aKeyStore*/, CKeyToolParamete
 		// Display general usage!
         iController->DisplayLocalisedMsgL(R_KEYTOOL_USAGE);
         iController->DisplayLocalisedMsgL(R_KEYTOOL_USAGE2);
-#ifdef SYMBIAN_AUTH_SERVER
-        iController->DisplayLocalisedMsgL(R_KEYTOOL_USAGE5);
-#endif // SYMBIAN_AUTH_SERVER
         iController->DisplayLocalisedMsgL(R_KEYTOOL_USAGE3);		        
         iController->DisplayLocalisedMsgL(R_KEYTOOL_USAGE4);
         return;

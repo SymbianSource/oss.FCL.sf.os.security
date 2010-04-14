@@ -34,11 +34,7 @@ VENDORID	0x70000001
 UNPAGED
 
 #ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-deffile     rtaclient_v3.def
-#else
 deffile		rtaclient_v2.def
-#endif
 #else
 deffile		rtaclient.def
 #endif
