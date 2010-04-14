@@ -22,6 +22,12 @@ del c:\tcaf\*.*
 
 md c:\tcaf
 copy /s z:\tcaf\* c:\tcaf
+testexecute c:\tcaf\tcafnodrmcap.script
+move c:\logs\testexecute\tcafnodrmcap.htm e:\testresults\tcafnodrmcap.htm
+del c:\tcaf\*.*
+
+md c:\tcaf
+copy /s z:\tcaf\* c:\tcaf
 testexecute c:\tcaf\drmfileperformance_armv5.script
 move c:\logs\testexecute\drmfileperformance_armv5.htm e:\testresults\drmfileperformance_armv5.htm
 del c:\tcaf\*.*

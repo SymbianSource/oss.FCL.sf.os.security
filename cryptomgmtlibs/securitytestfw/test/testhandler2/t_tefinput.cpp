@@ -22,9 +22,6 @@
 #include <securityerr.h>
 #include <keystore_errs.h>
 
-#ifdef SYMBIAN_AUTH_SERVER
-#include <auth_srv_errs.h>
-#endif
 
 _LIT8(KSpace, " ");
 _LIT8(KTab, "\t");
@@ -575,83 +572,6 @@ EXPORT_C TInt Tefinput::GetActionResult(TInt aErrCode, TDes8& aReturnTag)
 			{
 			aReturnTag.Copy(_L8("\r\n\t\t<return>KErrAuthenticationFailure</return>"));
 			}
-
-#ifdef SYMBIAN_AUTH_SERVER
-	else if(aErrCode == KErrAuthServUnsupportedExprVersion)
-			{
-			aReturnTag.Copy(_L8("\r\n\t\t<return>KErrAuthServUnsupportedExprVersion</return>"));
-			}
-	else if(aErrCode == KErrAuthServNoSuchPlugin)
-			{
-			aReturnTag.Copy(_L8("\r\n\t\t<return>KErrAuthServNoSuchPlugin</return>"));
-			}
-	else if(aErrCode == KErrAuthServNoSuchIdentity)
-			{
-			aReturnTag.Copy(_L8("\r\n\t\t<return>KErrAuthServNoSuchIdentity</return>"));
-			}
-	else if(aErrCode == KErrAuthServPluginCancelled)
-			{
-			aReturnTag.Copy(_L8("\r\n\t\t<return>KErrAuthServPluginCancelled</return>"));
-			}
-	else if(aErrCode == KErrAuthServPluginQuit)
-			{
-			aReturnTag.Copy(_L8("\r\n\t\t<return>KErrAuthServPluginQuit</return>"));
-			}
-	else if(aErrCode == KErrAuthServAuthenticationRequired)
-			{
-			aReturnTag.Copy(_L8("\r\n\t\t<return>KErrAuthServAuthenticationRequired</return>"));
-			}
-	else if(aErrCode == KErrAuthServIdentityAlreadyExists)
-			{
-			aReturnTag.Copy(_L8("\r\n\t\t<return>KErrAuthServIdentityAlreadyExists</return>"));
-			}
-	else if(aErrCode == KErrAuthServIdentityNotFound)
-			{
-			aReturnTag.Copy(_L8("\r\n\t\t<return>KErrAuthServIdentityNotFound</return>"));
-			}
-	else if(aErrCode == KErrAuthServTrainingNotFound)
-			{
-			aReturnTag.Copy(_L8("\r\n\t\t<return>KErrAuthServTrainingNotFound</return>"));
-			}
-	else if(aErrCode == KErrAuthServRegistrationFailed)
-			{
-			aReturnTag.Copy(_L8("\r\n\t\t<return>KErrAuthServRegistrationFailed</return>"));
-			}
-	else if(aErrCode == KErrAuthServCanNotRemoveLastIdentity)
-			{
-			aReturnTag.Copy(_L8("\r\n\t\t<return>KErrAuthServCanNotRemoveLastIdentity</return>"));
-			}
-	else if(aErrCode == KErrAuthServCanNotRemoveLastPlugin)
-			{
-			aReturnTag.Copy(_L8("\r\n\t\t<return>KErrAuthServCanNotRemoveLastPlugin</return>"));
-			}
-	else if(aErrCode == KErrAuthServPluginNotActive)
-			{
-			aReturnTag.Copy(_L8("\r\n\t\t<return>KErrAuthServPluginNotActive</return>"));
-			}
-	else if(aErrCode == KErrAuthServDescTooLong)
-			{
-			aReturnTag.Copy(_L8("\r\n\t\t<return>KErrAuthServDescTooLong</return>"));
-			}
-	else if(aErrCode == KErrUnknownAuthStrengthAlias)
-			{
-			aReturnTag.Copy(_L8("\r\n\t\t<return>KErrUnknownAuthStrengthAlias</return>"));
-			}
-	else if(aErrCode == KErrAuthStrengthAliasNotDefined)
-			{
-			aReturnTag.Copy(_L8("\r\n\t\t<return>KErrAuthStrengthAliasNotDefined</return>"));
-			}
-	else if(aErrCode == KErrAuthServInvalidAliasStringExpression)
-			{
-			aReturnTag.Copy(_L8("\r\n\t\t<return>KErrAuthServInvalidAliasStringExpression/return>"));
-			}
-	else if(aErrCode == KErrAuthServResetMayLoseIdentity)
-			{
-			aReturnTag.Copy(_L8("\r\n\t\t<return>KErrAuthServResetMayLoseIdentity/return>"));
-			}
-#endif
-
-
 //	
 	
 	return err;

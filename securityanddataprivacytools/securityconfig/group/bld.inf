@@ -35,15 +35,8 @@ PRJ_EXPORTS
 // Optional Replaceable files for UPS
 ../ups/backup/backup_registration.xml		z:/private/10283558/backup_registration.xml
 
-#ifdef SYMBIAN_AUTH_SERVER
-// AuthServer cenrep file.
-// NOTE: this is required for emulator and target hardware testing only. It is not used in production.
-../authserver/2001ea7f.txt					z:/private/10202be9/2001ea7f.txt
-
-#endif // SYMBIAN_AUTH_SERVER
 // ConfML Files
 ../conf/securityconfig.confml            OS_LAYER_EXPORTS_CONFML(securityconfig.confml)
-../conf/securityconfig_2001ea7f.crml	 OS_LAYER_EXPORTS_CRML(securityconfig_2001ea7f.crml)
 
 // crml file for customizing the OCSP central reposiroty settings - GenerateResponseForMissingUri and EnableGetHttpMethod. 
 ../conf/securityconfig_2002b28b.crml	 OS_LAYER_EXPORTS_CRML(securityconfig_2002b28b.crml)

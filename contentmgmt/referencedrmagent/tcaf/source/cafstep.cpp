@@ -105,21 +105,6 @@ HBufC16* CCAFStep::ConvertDes8toHBufC16LC(TDesC8& source)
 	return buf;
 	}
 
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-         
-HBufC8* CCAFStep::CreateWmdrmHeaderLC()     
-    {     
-    // create dummy header data.     
-    const TInt KMaxBufferLen = 64;     
-    _LIT8(KHeaderData, "W\0R\0M\0H\0E\0A\0D\0E\0R\0");     
-         
-    HBufC8* headerData = HBufC8::NewMaxLC(KMaxBufferLen);     
-    TPtr8 headerPtr = headerData->Des();     
-    headerPtr.Repeat(KHeaderData);     
-    return headerData;     
-    }     
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT     
-  
 
 void CCAFStep::LoadCafRecognizerL()
 	{

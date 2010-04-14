@@ -59,23 +59,10 @@ namespace ReferenceTestAgent
 		IMPORT_C TInt GetStringAttribute (TInt aAttribute, TDes &aValue) const; 
 		IMPORT_C TInt GetStringAttributeSet (ContentAccess::RStringAttributeSet &aStringAttributeSet) const; 
 		IMPORT_C TInt SetProperty(ContentAccess::TAgentProperty aProperty, TInt aValue) const;
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-        IMPORT_C TInt Open(const TDesC8& aHeaderData);
-        IMPORT_C TInt Read(const TDesC8& aEncryptedInputPacket, TDes8& aDecryptedOutputPacket);
-        IMPORT_C TInt GetWmdrmAttribute(TInt aAttribute, TInt &aValue) const;
-        IMPORT_C TInt GetWmdrmAttributeSet(ContentAccess::RAttributeSet &aAttributeSet) const;
-        IMPORT_C TInt GetWmdrmStringAttribute(TInt aAttribute, TDes &aValue) const;
-        IMPORT_C TInt GetWmdrmStringAttributeSet(ContentAccess::RStringAttributeSet &aStringAttributeSet) const;
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 		
 	private:
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-        void GetAttributeSetL (ContentAccess::RAttributeSet &aAttributeSet, TBool aWmdrmFlag = EFalse) const;
-        void GetStringAttributeSetL (ContentAccess::RStringAttributeSet &aStringAttributeSet, TBool aWmdrmFlag = EFalse) const;
-#else
 		void GetAttributeSetL (ContentAccess::RAttributeSet &aAttributeSet) const;
 		void GetStringAttributeSetL (ContentAccess::RStringAttributeSet &aStringAttributeSet) const;
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 
 		};
 	} // namespace

@@ -880,17 +880,6 @@ CCAFManagerAttributeStep::CCAFManagerAttributeStep(CCAFServer& aParent) : iParen
 
 TVerdict CCAFManagerAttributeStep::doTestStepL()
 	{
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT     
-    TBool wmdrmFlag = EFalse;     
-    GetBoolFromConfig(ConfigSection(),_L("wmdrmEnabled"), wmdrmFlag);     
-         
-    if(wmdrmFlag)     
-        {     
-        TVerdict verdict = doWmdrmTestStepL();     
-        return verdict;     
-        }     
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT    
-
 	TInt attribute;
 	TInt value = KErrNone;
 	TInt expectedValue;
@@ -946,17 +935,6 @@ CCAFManagerAttributeSetStep::CCAFManagerAttributeSetStep(CCAFServer& aParent) : 
 
 TVerdict CCAFManagerAttributeSetStep::doTestStepL()
 	{
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-    TBool wmdrmFlag = EFalse;     
-    GetBoolFromConfig(ConfigSection(),_L("wmdrmEnabled"), wmdrmFlag);     
-         
-    if(wmdrmFlag)     
-        {     
-        TVerdict verdict = doWmdrmTestStepL();     
-        return verdict;     
-        }     
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT    
-
 	TInt value1;
 	TInt value2;
 	TInt expectedValue1;
@@ -1031,17 +1009,6 @@ CCAFManagerStringAttributeStep::CCAFManagerStringAttributeStep(CCAFServer& aPare
 
 TVerdict CCAFManagerStringAttributeStep::doTestStepL()
 	{
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-    TBool wmdrmFlag = EFalse;     
-    GetBoolFromConfig(ConfigSection(),_L("wmdrmEnabled"), wmdrmFlag);     
-         
-    if(wmdrmFlag)     
-        {     
-        TVerdict verdict = doWmdrmTestStepL();     
-        return verdict;     
-        }     
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT        
-     
 	TInt expectedResult;
 	TInt attribute;
 	TPtrC expectedValue;
@@ -1106,17 +1073,6 @@ CCAFManagerStringAttributeSetStep::CCAFManagerStringAttributeSetStep(CCAFServer&
 
 TVerdict CCAFManagerStringAttributeSetStep::doTestStepL()
 	{
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-    TBool wmdrmFlag = EFalse;     
-    GetBoolFromConfig(ConfigSection(),_L("wmdrmEnabled"), wmdrmFlag);     
-         
-    if(wmdrmFlag)     
-        {     
-        TVerdict verdict = doWmdrmTestStepL();     
-        return verdict;     
-        }     
-#endif  //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT     
-     
 	TPtrC expectedValue1;
 	TPtrC expectedValue2;
 	TBuf <200> value1;
@@ -1623,238 +1579,3 @@ TVerdict CCAFManagerStringAttributeSetByFileHandleStep::doTestStepL()
 	return TestStepResult();
 	}
 
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-      
-// The following methods test the various manager attribute APIs for WMDRM content.     
-      
-TVerdict CCAFManagerAttributeStep::doWmdrmTestStepL()     
-    {     
-    SetTestStepResult(EFail);     
-         
-    TInt attribVal;     
-    GetIntFromConfig(ConfigSection(),_L("attribute"), attribVal);     
-         
-    TInt expectedValue;     
-    GetIntFromConfig(ConfigSection(),_L("value"), expectedValue);     
-      
-    __UHEAP_MARK;     
-         
-    TPtrC header;     
-    HBufC8* headerData = NULL;     
-         
-    if(GetStringFromConfig(ConfigSection(),_L("header"), header))     
-        {     
-        headerData = ConvertDes16toHBufC8LC(header);     
-        }     
-    else     
-        {     
-        headerData = CreateWmdrmHeaderLC();      
-        }     
-         
-    TInt value;     
-    CManager *manager = CManager::NewLC();     
-         
-    User::LeaveIfError(manager->GetAttribute(*headerData, attribVal, value));     
-    if(expectedValue == value)     
-        {     
-        SetTestStepResult(EPass);     
-        }     
-    else     
-        {     
-        INFO_PRINTF3(_L("CManager::GetAttribute() Expected value: %d, actual value: %d"), expectedValue, value);     
-        }     
-             
-    CleanupStack::PopAndDestroy(2, headerData);          
-                 
-    __UHEAP_MARKEND;     
-    return TestStepResult();     
-    }     
-         
-      
-TVerdict CCAFManagerAttributeSetStep::doWmdrmTestStepL()     
-    {     
-    SetTestStepResult(EFail);     
-         
-    TInt attribute1;     
-    GetIntFromConfig(ConfigSection(),_L("attribute1"),attribute1);     
-         
-    TInt attribute2;     
-    GetIntFromConfig(ConfigSection(),_L("attribute2"),attribute2);     
-         
-    TInt expectedValue1;     
-    GetIntFromConfig(ConfigSection(),_L("value1"),expectedValue1);     
-         
-    TInt expectedValue2;     
-    GetIntFromConfig(ConfigSection(),_L("value2"),expectedValue2);     
-      
-__UHEAP_MARK;     
-         
-    TPtrC header;     
-    HBufC8* headerData = NULL;     
-         
-    if(GetStringFromConfig(ConfigSection(),_L("header"), header))     
-        {     
-        headerData = ConvertDes16toHBufC8LC(header);     
-        }     
-    else     
-        {     
-        headerData = CreateWmdrmHeaderLC();      
-        }     
-                 
-    RAttributeSet attributeSet;     
-    CleanupClosePushL(attributeSet);     
-    attributeSet.AddL(attribute1);     
-    attributeSet.AddL(attribute2);     
-             
-    CManager *manager = CManager::NewLC();       
-    TInt result = manager->GetAttributeSet(*headerData, attributeSet);     
-    if(result == KErrNone)     
-        {     
-        SetTestStepResult(EPass);     
-        }     
-    else     
-        {     
-        INFO_PRINTF1(_L("CManager::GetAttributeSet() failed"));     
-        }     
-             
-    TInt value1;         
-    User::LeaveIfError(attributeSet.GetValue(attribute1, value1));     
-             
-    TInt value2;     
-    User::LeaveIfError(attributeSet.GetValue(attribute2, value2));     
-             
-    if(expectedValue1 == value1 && expectedValue2 == value2 && attributeSet.Count() == 2)     
-        {     
-        SetTestStepResult(EPass);     
-        }     
-    else     
-        {     
-        INFO_PRINTF1(_L("CManager::GetAttributeSet() values don't match expected values"));     
-        }     
-             
-    CleanupStack::PopAndDestroy(3, headerData);          
-      
-__UHEAP_MARKEND;     
-      
-    return TestStepResult();     
-    }     
-      
-      
-TVerdict CCAFManagerStringAttributeStep::doWmdrmTestStepL()     
-    {     
-    SetTestStepResult(EFail);     
-         
-    TInt attribVal;     
-    GetIntFromConfig(ConfigSection(),_L("attribute"),attribVal);     
-         
-    TPtrC expectedValue;     
-    GetStringFromConfig(ConfigSection(),_L("value"),expectedValue);     
-         
-    TInt expectedResult;     
-    GetIntFromConfig(ConfigSection(),_L("result"),expectedResult);     
-      
-__UHEAP_MARK;     
-         
-    TPtrC header;     
-    HBufC8* headerData = NULL;     
-         
-    if(GetStringFromConfig(ConfigSection(),_L("header"), header))     
-        {     
-        headerData = ConvertDes16toHBufC8LC(header);     
-        }     
-    else     
-        {     
-        headerData = CreateWmdrmHeaderLC();      
-        }     
-         
-    CManager* manager = CManager::NewLC();           
-    TBuf <200> value;     
-    TInt result = manager->GetStringAttribute(*headerData, attribVal, value);     
-    if(result == expectedResult && value == expectedValue)     
-        {     
-        SetTestStepResult(EPass);     
-        }     
-    else     
-        {     
-        INFO_PRINTF3(_L("CManager::GetStringAttribute() Expected result: %d, actual result: %d"), expectedResult, result);     
-        INFO_PRINTF3(_L("CManager::GetStringAttribute() Expected value: %S, actual value: %S"), &expectedValue, &value);     
-        }     
-             
-    CleanupStack::PopAndDestroy(2, headerData);          
-         
-__UHEAP_MARKEND;     
-      
-    return TestStepResult();     
-    }     
-      
-      
-TVerdict CCAFManagerStringAttributeSetStep::doWmdrmTestStepL()     
-    {     
-    SetTestStepResult(EFail);     
-      
-    TInt attribute1;         
-    GetIntFromConfig(ConfigSection(),_L("attribute1"),attribute1);     
-         
-    TInt attribute2;     
-    GetIntFromConfig(ConfigSection(),_L("attribute2"),attribute2);     
-         
-    TPtrC expectedValue1;     
-    GetStringFromConfig(ConfigSection(),_L("value1"),expectedValue1);     
-         
-    TPtrC expectedValue2;     
-    GetStringFromConfig(ConfigSection(),_L("value2"),expectedValue2);     
-         
-__UHEAP_MARK;     
-         
-    TPtrC header;     
-    HBufC8* headerData = NULL;     
-         
-    if(GetStringFromConfig(ConfigSection(),_L("header"), header))     
-        {     
-        headerData = ConvertDes16toHBufC8LC(header);     
-        }     
-    else     
-        {     
-        headerData = CreateWmdrmHeaderLC();      
-        }     
-      
-    RStringAttributeSet attributeSet;     
-    CleanupClosePushL(attributeSet);     
-    attributeSet.AddL(attribute1);     
-    attributeSet.AddL(attribute2);     
-             
-    CManager* manager = CManager::NewLC();       
-    TInt result = manager->GetStringAttributeSet(*headerData, attributeSet);     
-    TBuf <200> value1;     
-    TBuf <200> value2;     
-    if(result == KErrNone)     
-        {     
-        TInt result3 = attributeSet.GetValue(attribute1, value1);     
-        TInt result4 = attributeSet.GetValue(attribute2, value2);     
-                 
-        if(value1 == expectedValue1 && value2 == expectedValue2 && attributeSet.Count() == 2     
-         && result3 == KErrNone && result4 == KErrNone)     
-            {     
-            SetTestStepResult(EPass);     
-            }     
-        else     
-            {     
-            INFO_PRINTF3(_L("RStringAttributeSet::GetValue() for attribute1.Expected value: %S, actual value: %S"), &expectedValue1, &value1);     
-            INFO_PRINTF3(_L("RStringAttributeSet::GetValue() for attribute2.Expected value: %S, actual value: %S"), &expectedValue2, &value2);     
-            INFO_PRINTF3(_L("RStringAttributeSet::GetValue() for attribute1. Expected result: %d, actual result: %d"), 0, result3);     
-            INFO_PRINTF3(_L("RStringAttributeSet::GetValue() for attribute2. Expected result: %d, actual result: %d"), 0, result4);      
-            }     
-            }     
-    else     
-        {     
-        INFO_PRINTF1(_L("CManager::GetStringAttributeSet() failed"));     
-        }        
-         
-    CleanupStack::PopAndDestroy(3, headerData);          
-      
-__UHEAP_MARKEND;     
-      
-    return TestStepResult();     
-    }     
-      
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT 

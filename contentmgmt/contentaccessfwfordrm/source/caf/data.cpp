@@ -111,47 +111,6 @@ CData* CData::NewLC(TUid aUid, RFile& aFile, const TDesC& aUniqueId, TIntent aIn
 	return self;
 	}
 
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-
-EXPORT_C CData* CData::NewL(const TDesC8& aHeaderData)
-	{
-	CData* self = CData::NewLC(aHeaderData);
-	CleanupStack::Pop(self);
-	return self;
-	}
-		
-EXPORT_C CData* CData::NewL(const TDesC8& aHeaderData, TIntent aIntent)
-	{
-	CData* self = CData::NewLC(aHeaderData, aIntent);
-	CleanupStack::Pop(self);
-	return self;
-	}
-		
-EXPORT_C CData* CData::NewLC(const TDesC8& aHeaderData)
-	{
-	CData* self = new (ELeave) CData();
-	CleanupStack::PushL(self);
-	self->ConstructL(aHeaderData);
-	return self;
-	}
-		
-EXPORT_C CData* CData::NewLC(const TDesC8& aHeaderData, TIntent aIntent)
-	{
-	CData* self = new (ELeave) CData();
-	CleanupStack::PushL(self);
-	self->ConstructL(aHeaderData, aIntent);
-	return self;
-	}
-		
-CData* CData::NewLC(TUid aAgentUid, const TDesC8& aHeaderData, TIntent aIntent)
-	{
-	CData* self = new (ELeave) CData();
-	CleanupStack::PushL(self);
-	self->ConstructL(aAgentUid, aHeaderData, aIntent);
-	return self;
-	}
-
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 
 CData::CData()
 	{ 
@@ -291,49 +250,6 @@ void CData::ConstructL(TUid aUid, RFile& aFile, const TDesC& aUniqueId)
 	iAgentData = iAgentFactory->CreateDataConsumerL(aFile, aUniqueId);
   	}
   
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-  	
-void CData::ConstructL(const TDesC8& aHeaderData)
-	{
-	// Find the agent who handles the file
-	CAgentResolver* resolver = CAgentResolver::NewLC(EFalse);
-	CAgentInfo& agentInfo = resolver->ResolveFileL(aHeaderData);
-	
-	// Figure out the Uid of the agent
-	TUid agentUid = agentInfo.Agent().ImplementationUid();
-	CData::ConstructL(agentUid, aHeaderData);
-	
-	// Cleanup resolver after creating CData to unnecessary 
-	// unloading and loading of agent plug-ins
-	CleanupStack::PopAndDestroy(resolver); 
-	}
-
-void CData::ConstructL(const TDesC8& aHeaderData, TIntent aIntent)
-	{
-	CData::ConstructL(aHeaderData);
-	
-	// Ensure that client's intent is possible
-	User::LeaveIfError(iAgentData->EvaluateIntent(aIntent));
-	}
-	
-void CData::ConstructL(TUid aAgentUid, const TDesC8& aHeaderData)
-	{
-	iAgentUid = aAgentUid;
-	
-	iAgentFactory = CAgentFactory::NewL(iAgentUid);
-	// create an instance of agent's CAgentStreamData.
-	iAgentData = iAgentFactory->CreateDataConsumerL(aHeaderData);
-	}
-
-void CData::ConstructL(TUid aUid, const TDesC8& aHeaderData, TIntent aIntent)
-	{
-	CData::ConstructL(aUid, aHeaderData);
-	
-	// Ensure that client's intent is possible
-	User::LeaveIfError(iAgentData->EvaluateIntent(aIntent));
-	}
-	
-#endif //#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 	
 EXPORT_C void CData::DataSizeL(TInt& aSize)
 	{
@@ -402,20 +318,6 @@ EXPORT_C void CData::ReadCancel(TRequestStatus &aStatus) const
 	iAgentData->ReadCancel(aStatus);
 	}
 	
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-
-EXPORT_C TInt CData::Read(const TDesC8& aEncryptedInputDataPacket, TDes8& aDecryptedOutputPacket) const
-	{
-	return iAgentData->Read(aEncryptedInputDataPacket, aDecryptedOutputPacket);
-	}
-		
-EXPORT_C void CData::Read(const TDesC8& aEncryptedInputDataPacket, TDes8& aDecryptedOutputPacket, TRequestStatus& aStatus) const
-	{
-	iAgentData->Read(aEncryptedInputDataPacket, aDecryptedOutputPacket, aStatus);
-	}
-
-#endif //#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-
 #ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
 	EXPORT_C TInt CData::Read_Unused(TInt aPos, TDes8& aDes, 
 								TInt aLength, TRequestStatus& aStatus) const

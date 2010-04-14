@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SystemDefinition schema="3.0.0">
   <package id="security" name="OS Security" levels="physical-abstraction plugins libraries management services utilities">
-	<collection id="authenticationservices" name="Authentication Services" level="utilities">
-      <component id="authenticationserver" name="Authentication Server" introduced="^3" purpose="optional">
-        <unit bldFile="authenticationservices/authenticationserver/group" mrp="authenticationservices/authenticationserver/group/security_authserver.mrp"/>
-      </component>
-    </collection>
     <collection id="authorisation" name="Authorisation" level="utilities">
       <component id="userpromptservice" name="User Prompt Service" introduced="^3" purpose="mandatory">
         <unit bldFile="authorisation/userpromptservice/group" mrp="authorisation/userpromptservice/group/security_ups.mrp"/>

@@ -72,11 +72,4 @@ data = DATAZ_\tcaf\testdata\audio.content		tcaf\testdata\audio.content
 data = DATAZ_\tcaf\testdata\audiomulti.content	tcaf\testdata\audiomulti.content
 data = DATAZ_\tcaf\testdata\notes1.txt			tcaf\testdata\notes1.txt
 
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-data = DATAZ_\tcaf\testdata\dummywm.asf			tcaf\testdata\dummywm.asf
-data = DATAZ_\tcaf\tcafwmdrmsupport.script		tcaf\tcafwmdrmsupport.script
-data = DATAZ_\tcaf\tcafwmdrmsupport.ini			tcaf\tcafwmdrmsupport.ini
-data = DATAZ_\tcaf\tcafhelper.script			tcaf\tcafhelper.script
-data = DATAZ_\tcaf\tcafhelper.ini			tcaf\tcafhelper.ini
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 #endif
