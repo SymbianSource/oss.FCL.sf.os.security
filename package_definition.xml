@@ -24,6 +24,9 @@
       <component id="referencedrmagent" name="Reference DRM Agent" introduced="8.0" purpose="development">      
         <unit bldFile="contentmgmt/referencedrmagent/RefTestAgent/group" mrp="contentmgmt/referencedrmagent/RefTestAgent/group/security_rta.mrp"/>
       </component>
+      <component id="cafstreamingsupport" name="CAF Streaming Support" introduced="^3" purpose="optional">
+        <unit bldFile="contentmgmt/cafstreamingsupport/group" mrp="contentmgmt/cafstreamingsupport/group/security_streamingcaf.mrp"/>
+      </component>      
     </collection>
     <collection id="crypto" name="Crypto Libraries" level="libraries">
       <component id="weakcryptospi" name="Weak Crypto SPI" filter="gt" introduced="^3" purpose="optional">

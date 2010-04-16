@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2006-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -27,19 +27,19 @@
 #include "cryptospiproperty.h"
 #include <cryptospi/hashplugin.h>
 #include <cryptospi/randomplugin.h>
-#include "symmetriccipherplugin.h"
-#include "asymmetriccipherplugin.h"
-#include "signerplugin.h"
-#include "verifierplugin.h"
-#include "keyagreementplugin.h"
-#include "keypairgeneratorplugin.h"
+#include <cryptospi/symmetriccipherplugin.h>
+#include <cryptospi/asymmetriccipherplugin.h>
+#include <cryptospi/signerplugin.h>
+#include <cryptospi/verifierplugin.h>
+#include <cryptospi/keyagreementplugin.h>
+#include <cryptospi/keypairgeneratorplugin.h>
 #include <cryptospi/cryptohashapi.h>
 #include <cryptospi/cryptorandomapi.h>
-#include "cryptosymmetriccipherapi.h"
-#include "cryptoasymmetriccipherapi.h"
-#include "cryptosignatureapi.h"
-#include "cryptokeyagreementapi.h"
-#include "cryptokeypairgeneratorapi.h"
+#include <cryptospi/cryptosymmetriccipherapi.h>
+#include <cryptospi/cryptoasymmetriccipherapi.h>
+#include <cryptospi/cryptosignatureapi.h>
+#include <cryptospi/cryptokeyagreementapi.h>
+#include <cryptospi/cryptokeypairgeneratorapi.h>
 #include <cryptospi/pluginentrydef.h>
 #include "cryptospiutil.h"
 

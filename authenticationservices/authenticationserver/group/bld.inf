@@ -153,3 +153,6 @@ PRJ_TESTEXPORTS
 ../test/tAuthSvr/scripts/tauthsvr_performance.script   	/epoc32/winscw/c/tauth/tauthsvr/scripts/tauthsvr_performance.script
 ../test/tAuthSvr/scripts/tauthsvr_performance.ini   	/epoc32/winscw/c/tauth/tauthsvr/scripts/tauthsvr_performance.ini
 ../test/tAuthSvr/scripts/performance_log_parser.pl  	/epoc32/winscw/c/tauth/tauthsvr/scripts/performance_log_parser.pl 
+
+
+

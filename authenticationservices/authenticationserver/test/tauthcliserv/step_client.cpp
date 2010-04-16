@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2005-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -93,11 +93,12 @@ public:
 
 
 
-const TPluginId KIdentity1Id = 'I1ID';
+const TPluginId KIdentity1Id = 0xE0494423;
 _LIT(KIdentity1Desc, "identity-1-desc");
-const TPluginId KIdentity2Id = 'I2ID';
+const TPluginId KIdentity2Id = 0xE0494443;
 _LIT(KIdentity2Desc, "identity-2-desc");
-const TPluginId KIdentity3Id = 'I3ID';
+const TPluginId KIdentity3Id = 0xE0494453;
+
 
 
 CTStepClient::CTStepClient()

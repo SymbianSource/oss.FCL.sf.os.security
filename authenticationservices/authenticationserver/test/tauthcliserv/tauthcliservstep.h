@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2005-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -614,10 +614,10 @@ private:
 		TIdentityId aExpectedIdentity, TInt aInitDepth);
 	};
 	
-const TPluginId KTestPluginId0 = 'PID0';
-const TPluginId KTestPluginId1 = 'PID1';
-const TPluginId KTestPluginId2 = 'PID2';
-const TPluginId KTestPluginUnknown = 'UNKW';
+const TPluginId KTestPluginId0 = 0xE0494453;
+const TPluginId KTestPluginId1 = 0xE0494463;
+const TPluginId KTestPluginId2 = 0xE0494473;
+const TPluginId KTestPluginUnknown = 0xE0494483;
 
 // These constants are defined to provide short
 // names for readability only.

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2005-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -22,20 +22,20 @@
 
 using namespace AuthServer;
 
-const TIdentityId KIdentity1Id = 'I1ID';
-const TIdentityId KIdentity2Id = 'I2ID';
-const TIdentityId KIdentity3Id = 'I3ID';
+const TIdentityId KIdentity1Id = 0xE0494409;
+const TIdentityId KIdentity2Id = 0xE0494410;
+const TIdentityId KIdentity3Id = 0xE0494411;
 _LIT(KIdentity1Desc, "identity-1-desc");
 _LIT(KIdentity1DescB, "identity-1-descB");
 _LIT(KIdentity2Desc, "identity-2-desc");
 _LIT(KIdentity3Desc, "identity-3-desc");
 
-const TPluginId KPlugin1Id = 'PID1';
-const TPluginId KPlugin2Id = 'PID2';
-const TPluginId KPlugin3Id = 'PID3';
-const TPluginId KPlugin4Id = 'PID4';
-const TPluginId KPluginAId = 'PIDA';
-const TPluginId KPluginBId = 'PIDB';
+const TPluginId KPlugin1Id = 0xE0494433;
+const TPluginId KPlugin2Id = 0xE0494434;
+const TPluginId KPlugin3Id = 0xE0494435;
+const TPluginId KPlugin4Id = 0xE0494436;
+const TPluginId KPluginAId = 0xE0494437;
+const TPluginId KPluginBId = 0xE0494438;
 
 
 CTStepPersist2::CTStepPersist2()
@@ -85,7 +85,7 @@ void CTStepPersist2::TestIdentitiesL()
 	RArray<TIdentityId> ids;
 	
 	// get id list before any ids defined
-	ids.AppendL('SYMB');	// garbage; ensure removed
+	ids.AppendL(0xE0494499);	// garbage; ensure removed
 	db->IdentitiesL(ids);
 	TESTL(ids.Count() == 0);
 	
