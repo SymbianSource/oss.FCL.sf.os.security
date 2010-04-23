@@ -73,12 +73,6 @@ namespace ReferenceTestAgent
 		IMPORT_C void DisplayInfoL(ContentAccess::TDisplayInfo aInfo, RFile& aFile, const TDesC& aUniqueId) const;
 		IMPORT_C TInt AgentSpecificCommand(TInt aCommand, const TDesC8& aInputBuffer, TDes8& aOutputBuffer) const;		 
 		IMPORT_C void DisplayManagementInfoL() const;
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-        IMPORT_C TInt GetAttribute(const TDesC8& aHeaderData, TInt aAttribute, TInt& aValue) const;
-        IMPORT_C TInt GetAttributeSet(const TDesC8& aHeaderData, ContentAccess::RAttributeSet& aAttributeSet) const;
-        IMPORT_C TInt GetStringAttributeSet(const TDesC8& aHeaderData, ContentAccess::RStringAttributeSet& aAttributeSet) const;
-        IMPORT_C TInt GetStringAttribute(const TDesC8& aHeaderData, TInt aAttribute, TDes& aValue) const;
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 
 	private:
 		enum TRetrievalType
@@ -96,10 +90,6 @@ namespace ReferenceTestAgent
 		void GetStringAttributeSetL(ContentAccess::RStringAttributeSet& aStringAttributeSet, RFile& aFile, const TDesC& aUniqueId) const;
 		void AttributeSetL(const TRetrievalType& aRetrievalType,const ContentAccess::TVirtualPathPtr* aVirtualPath, ...) const;
 		void StringAttributeSetL(const TRetrievalType& aRetrievalType,const ContentAccess::TVirtualPathPtr* aVirtualPath, ...) const;
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-        void GetAttributeSetL(const TDesC8& aHeaderData, ContentAccess::RAttributeSet& aAttributeSet) const;
-        void GetStringAttributeSetL(const TDesC8& aHeaderData, ContentAccess::RStringAttributeSet& aAttributeSet) const;
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 
 		};
 	} // namespace

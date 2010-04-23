@@ -86,23 +86,13 @@ CFSKeyStoreClient::CFSKeyStoreClient(TInt aUID, MCTToken& aToken, RFileStoreClie
 	: CFSClient(aUID, aToken, aClient),
 	  // Reference count starts at one as we're always created and returned by a GetInterface() call on the token
 	  iRefCount(1)
-#ifdef SYMBIAN_AUTH_SERVER
-	  ,iUseNewKeyServer(EFalse)
-#endif // SYMBIAN_AUTH_SERVER
 	{
 	LOG(_L("CFSKeyStoreClient::CFSKeyStoreClient: keystore client interface created"));
 	}
 
 void CFSKeyStoreClient::ConstructL()
 	{
-	CActiveScheduler::Add(this);
-
-#ifdef SYMBIAN_AUTH_SERVER
-	TPckg<TBool> idNewKeyServer(iUseNewKeyServer);
-	iClient.SendRequest(EUseNewKeyServer, TIpcArgs(0,&idNewKeyServer));
-	
-	if(iUseNewKeyServer == EFalse)
-#endif // SYMBIAN_AUTH_SERVER		
+	CActiveScheduler::Add(this);	
 		{
 		iAuthObject = CKeyStoreAuthObject::NewL(*this);
 		iAuthObject->AddRef();
@@ -199,14 +189,6 @@ void CFSKeyStoreClient::RunL()
 	
 	switch (iCurrentRequest.OutstandingRequest())
 		{
-#ifdef SYMBIAN_AUTH_SERVER
-		case ESetAuthenticationPolicy:
-			break;
-		case ECreateUserKey:
-		case EImportUserKey:
-		case EImportEncryptedUserKey:
-#endif //SYMBIAN_AUTH_SERVER
-		
 		case ECreateKey:
 		case EImportKey:
 		case EImportEncryptedKey:
@@ -374,33 +356,19 @@ void CFSKeyStoreClient::List(RMPointerArray<CCTKeyInfo>& aKeys, const TCTKeyAttr
 void CFSKeyStoreClient::DoListL(const TCTKeyAttributeFilter& aFilter, MKeyInfoArray& aOut)
 	{
 	TInt startOfNew = aOut.Count();
-#ifdef SYMBIAN_AUTH_SERVER
-	if(iUseNewKeyServer == EFalse)
-		{
-#endif // SYMBIAN_AUTH_SERVER
 		ASSERT(iAuthObject);
-#ifdef SYMBIAN_AUTH_SERVER
-		}
-#endif // SYMBIAN_AUTH_SERVER
 	
 	TPckg<TCTKeyAttributeFilter> filterPckg(aFilter);
 	SendSyncRequestAndHandleOverflowL(EListKeys, KInitialBufSizeList, TIpcArgs(&filterPckg, 0, &iRequestPtr));
    
 	CleanupClosePushL(aOut);
 	TokenDataMarshaller::ReadL(iRequestPtr, iToken, aOut);
-#ifdef SYMBIAN_AUTH_SERVER
-	if(iUseNewKeyServer == EFalse)
-		{
-#endif //SYMBIAN_AUTH_SERVER
 		for (TInt index = startOfNew ; index < aOut.Count() ; ++index)
 			{		
 			iAuthObject->AddRef();
 			LOG1(_L("CFSKeyStoreClient::DoListL: adding keyinfo %08x."), aOut[index]);
 			aOut[index]->SetProtector(*iAuthObject);
 			}
-#ifdef SYMBIAN_AUTH_SERVER
-		}
-#endif // SYMBIAN_AUTH_SERVER
 	CleanupStack::Pop(&aOut);
 	}
 
@@ -1060,14 +1028,6 @@ void CFSKeyStoreClient::CancelSetManagementPolicy()
 
 void CFSKeyStoreClient::SetPassphraseTimeout(TInt aTimeout, TRequestStatus& aStatus)
 	{
-#ifdef SYMBIAN_AUTH_SERVER
-	if(iUseNewKeyServer)
-		{
-		TRequestStatus* stat = &aStatus;
-		User::RequestComplete(stat, KErrNotSupported);
-		return;
-		}
-#endif // SYMBIAN_AUTH_SERVER
 	SetTimeout(aTimeout, aStatus);
 	}
 
@@ -1078,14 +1038,6 @@ void CFSKeyStoreClient::CancelSetPassphraseTimeout()
 
 void CFSKeyStoreClient::Relock(TRequestStatus& aStatus)
 	{
-#ifdef SYMBIAN_AUTH_SERVER
-	if(iUseNewKeyServer)
-		{
-		TRequestStatus* stat = &aStatus;
-		User::RequestComplete(stat, KErrNotSupported);
-		return;
-		}
-#endif // SYMBIAN_AUTH_SERVER
 	TInt err = iClient.SendRequest(ERelock, TIpcArgs());
 	TRequestStatus* status = &aStatus;
 	User::RequestComplete(status, err);
@@ -1113,14 +1065,6 @@ void CFSKeyStoreClient::UpdateKey()
 	// Set size and algorithm - only strictly necessary for import
 	keyInfo.SetSize(update.iSize);
 	keyInfo.SetAlgorithm(update.iAlgorithm);
-#ifdef SYMBIAN_AUTH_SERVER
-	if(iUseNewKeyServer == EFalse)
-		{
-		ASSERT(iAuthObject);
-		iAuthObject->AddRef();
-		keyInfo.SetProtector(*iAuthObject);
-		}
-#endif // SYMBIAN_AUTH_SERVER
 	LOG_DEC_INDENT();	
 	}
 
@@ -1128,14 +1072,6 @@ void CFSKeyStoreClient::UpdateKey()
 
 void CFSKeyStoreClient::ListProtectedObjects(RMPointerArray<MCTTokenObject>& aObjects, TRequestStatus& aStatus)
 	{
-#ifdef SYMBIAN_AUTH_SERVER
-	if(iUseNewKeyServer)
-		{
-		TRequestStatus* stat = &aStatus;
-		User::RequestComplete(stat, KErrNotSupported);
-		return;
-		}
-#endif //SYMBIAN_AUTH_SERVER
 	TCTKeyAttributeFilter filter;
 	filter.iPolicyFilter = TCTKeyAttributeFilter::EUsableOrManageableKeys;
 	TKeyInfoArray<MCTTokenObject> array(aObjects);
@@ -1147,14 +1083,6 @@ void CFSKeyStoreClient::ListProtectedObjects(RMPointerArray<MCTTokenObject>& aOb
 
 void CFSKeyStoreClient::ChangeReferenceData(TRequestStatus &aStatus)
 	{
-#ifdef SYMBIAN_AUTH_SERVER
-	if(iUseNewKeyServer)
-		{
-		TRequestStatus* stat = &aStatus;
-		User::RequestComplete(stat, KErrNotSupported);
-		return;
-		}
-#endif //SYMBIAN_AUTH_SERVER
 	iCurrentRequest(EChangePassphrase, &aStatus);
 	SetActive();
 	iClient.SendAsyncRequest(EChangePassphrase, TIpcArgs(), &iStatus);
@@ -1162,12 +1090,6 @@ void CFSKeyStoreClient::ChangeReferenceData(TRequestStatus &aStatus)
 
 void CFSKeyStoreClient::CancelChangeReferenceData()
 	{
-#ifdef SYMBIAN_AUTH_SERVER
-	if(iUseNewKeyServer)
-		{
-		return;
-		}
-#endif //SYMBIAN_AUTH_SERVER
 	if (iCurrentRequest.OutstandingRequest() == EChangePassphrase)
 		{
 		Cancel();
@@ -1176,26 +1098,11 @@ void CFSKeyStoreClient::CancelChangeReferenceData()
 
 TUint32 CFSKeyStoreClient::AuthStatus() const
 	{
-#ifdef SYMBIAN_AUTH_SERVER
-	if(iUseNewKeyServer)
-		{
-		return 0;
-		}
-#endif // SYMBIAN_AUTH_SERVER
-	
 	return EEnabled | EUnblockDisabled;
 	}
 
 void CFSKeyStoreClient::AuthOpen(TRequestStatus& aStatus)
 	{
-#ifdef SYMBIAN_AUTH_SERVER
-	if(iUseNewKeyServer)
-		{
-		TRequestStatus* stat = &aStatus;
-		User::RequestComplete(stat, KErrNotSupported);
-		return;
-		}
-#endif // SYMBIAN_AUTH_SERVER
 	iCurrentRequest(EAuthOpen, &aStatus);
 	SetActive();
 	iClient.SendAsyncRequest(EAuthOpen, TIpcArgs(), &iStatus);	
@@ -1203,12 +1110,6 @@ void CFSKeyStoreClient::AuthOpen(TRequestStatus& aStatus)
 
 void CFSKeyStoreClient::CancelAuthOpen()
 	{
-#ifdef SYMBIAN_AUTH_SERVER
-	if(iUseNewKeyServer)
-		{
-		return;
-		}
-#endif // SYMBIAN_AUTH_SERVER
 	if (iCurrentRequest.OutstandingRequest() == EAuthOpen)
 		{
 		Cancel();
@@ -1217,14 +1118,6 @@ void CFSKeyStoreClient::CancelAuthOpen()
 
 void CFSKeyStoreClient::AuthClose(TRequestStatus& aStatus)
 	{
-#ifdef SYMBIAN_AUTH_SERVER
-	if(iUseNewKeyServer)
-		{
-		TRequestStatus* stat = &aStatus;
-		User::RequestComplete(stat, KErrNotSupported);
-		return;
-		}
-#endif //SYMBIAN_AUTH_SERVER
 	TInt err = iClient.SendRequest(EAuthClose, TIpcArgs());
 	TRequestStatus* status = &aStatus;
 	User::RequestComplete(status, err);
@@ -1232,14 +1125,6 @@ void CFSKeyStoreClient::AuthClose(TRequestStatus& aStatus)
 
 void CFSKeyStoreClient::TimeRemaining(TInt& aTime, TRequestStatus& aStatus)
 	{
-#ifdef SYMBIAN_AUTH_SERVER
-	if(iUseNewKeyServer)
-		{
-		TRequestStatus* stat = &aStatus;
-		User::RequestComplete(stat, KErrNotSupported);
-		return;
-		}
-#endif //SYMBIAN_AUTH_SERVER
 	TInt result = iClient.SendRequest(EAuthTimeRemaining, TIpcArgs());
 	if (result >= 0)
 		{
@@ -1252,14 +1137,6 @@ void CFSKeyStoreClient::TimeRemaining(TInt& aTime, TRequestStatus& aStatus)
 
 void CFSKeyStoreClient::SetTimeout(TInt aTime, TRequestStatus& aStatus)
 	{
-#ifdef SYMBIAN_AUTH_SERVER
-	if(iUseNewKeyServer)
-		{
-		TRequestStatus* stat = &aStatus;
-		User::RequestComplete(stat, KErrNotSupported);
-		return;
-		}
-#endif //SYMBIAN_AUTH_SERVER
 	TInt err = iClient.SendRequest(ESetTimeout, TIpcArgs(0, aTime));	
 	TRequestStatus* status = &aStatus;
 	User::RequestComplete(status, err);
@@ -1267,14 +1144,6 @@ void CFSKeyStoreClient::SetTimeout(TInt aTime, TRequestStatus& aStatus)
 
 void CFSKeyStoreClient::Timeout(TInt& aTime, TRequestStatus& aStatus)
 	{
-#ifdef SYMBIAN_AUTH_SERVER
-	if(iUseNewKeyServer)
-		{
-		TRequestStatus* stat = &aStatus;
-		User::RequestComplete(stat, KErrNotSupported);
-		return;
-		}
-#endif //SYMBIAN_AUTH_SERVER
 	TInt result = iClient.SendRequest(EGetTimeout, TIpcArgs());	
 	if (result >= 0)
 		{
@@ -1285,118 +1154,4 @@ void CFSKeyStoreClient::Timeout(TInt& aTime, TRequestStatus& aStatus)
 	User::RequestComplete(status, result);
 	}
 
-#ifdef SYMBIAN_AUTH_SERVER
 
-void CFSKeyStoreClient::CreateKey(	const TDesC& aAuthenticationString, 
-									TInt aFreshness,
-									CCTKeyInfo*& aReturnedKey,
-									TRequestStatus& aStatus )
-	{
-	LOG(_L("CFSKeyStoreClient::CreateKey: create key (starting)"));
-#ifdef SYMBIAN_AUTH_SERVER
-	if(iUseNewKeyServer == EFalse)
-		{
-		TRequestStatus* stat = &aStatus;
-		User::RequestComplete(stat, KErrNotSupported);
-		return;
-		}
-#endif //SYMBIAN_AUTH_SERVER
-	//	[in, out] CCTKeyInfo, caller fills with data required to create the key, 
-	//	If request succeeds, iId and iHandle members are filled in by server
-
-	TInt r = MarshalKeyInfo(*aReturnedKey);
-	if (KErrNone!=r)
-		{
-		TRequestStatus* stat = &aStatus;
-		User::RequestComplete(stat, r);
-		return;
-		}
-
-	//	Store CCTKeyInfo to write into later (server will put extra data into it)
-	iClientPtr.iKeyInfo = &aReturnedKey;
-	SetActive();
-	iCurrentRequest(ECreateUserKey, &aStatus);
-	
-	iClient.SendAsyncRequest(ECreateUserKey, TIpcArgs(0, &iRequestPtr, &aAuthenticationString, aFreshness), &iStatus);
-	
-	}
-
-void CFSKeyStoreClient::ImportKey( const TDesC8& aKey, 
-							const TDesC& aAuthenticationString, 
-							TInt aFreshness, CCTKeyInfo*& aReturnedKey, 
-							TRequestStatus& aStatus )
-	{
-#ifdef SYMBIAN_AUTH_SERVER
-	if(iUseNewKeyServer == EFalse)
-		{
-		TRequestStatus* stat = &aStatus;
-		User::RequestComplete(stat, KErrNotSupported);
-		return;
-		}
-#endif //SYMBIAN_AUTH_SERVER
-	DoImportUserKey(EImportUserKey, aKey, aReturnedKey, aAuthenticationString, aFreshness, aStatus);
-	}
-			
-
-void CFSKeyStoreClient::ImportEncryptedKey(const TDesC8& aKey, 
-									const TDesC& aAuthenticationString, 
-									TInt aFreshness, CCTKeyInfo*& aReturnedKey, 
-									TRequestStatus& aStatus )
-	{
-#ifdef SYMBIAN_AUTH_SERVER
-	if(iUseNewKeyServer == EFalse)
-		{
-		TRequestStatus* stat = &aStatus;
-		User::RequestComplete(stat, KErrNotSupported);
-		return;
-		}
-#endif //SYMBIAN_AUTH_SERVER
-	DoImportUserKey(EImportEncryptedUserKey, aKey, aReturnedKey, aAuthenticationString, aFreshness, aStatus);
-	
-	}
-
-void CFSKeyStoreClient::SetAuthenticationPolicy(	
-		const TCTTokenObjectHandle aHandle,
-		const TDesC& aAuthenticationString,
-		TInt aFreshness,
-		TRequestStatus& aStatus)
-		{
-#ifdef SYMBIAN_AUTH_SERVER
-		if(iUseNewKeyServer == EFalse)
-			{
-			TRequestStatus* stat = &aStatus;
-			User::RequestComplete(stat, KErrNotSupported);
-			return;
-			}
-		iCurrentRequest(ESetAuthenticationPolicy, &aStatus);
-		SetActive();
-		iClient.SendAsyncRequest(ESetAuthenticationPolicy, TIpcArgs(aHandle.iObjectId, &aAuthenticationString, aFreshness), &iStatus);
-			
-#endif //SYMBIAN_AUTH_SERVER
-		}
-
-void CFSKeyStoreClient::GetAuthenticationPolicy( const TCTTokenObjectHandle aHandle,
-												HBufC*& aAuthenticationString,
-												TInt& aFreshness,
-												TRequestStatus& aStatus)
-	{
-#ifdef SYMBIAN_AUTH_SERVER
-	if(iUseNewKeyServer == EFalse)
-		{
-		TRequestStatus* stat = &aStatus;
-		User::RequestComplete(stat, KErrNotSupported);
-		return;
-		}
-	iAuthExpression = aAuthenticationString;
-	iFreshness = aFreshness;
-	TPckg<TInt> freshness(aFreshness);
-	TPtr authPtr = iAuthExpression->Des();
-	TInt err = iClient.SendRequest(EGetAuthenticationPolicy, TIpcArgs(aHandle.iObjectId, &authPtr, &freshness));
-	TRequestStatus* status = &aStatus;
-	User::RequestComplete(status, err);
-	
-#endif //SYMBIAN_AUTH_SERVER
-	
-	
-	}
-#endif // SYMBIAN_AUTH_SERVER

@@ -173,26 +173,6 @@ namespace ContentAccess
 		*/
 		virtual CAgentRightsManager* CreateRightsManagerL() = 0;
 
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT		
-		/**
-		Factory function creates a CAgentData object from header data of WMDRM file or stream content
-		for reading/decrypting WMDRM data packets.
-		 
-		@param aHeaderData	Header data of WMDRM file or stream content.
-		@return				A pointer to CAgentData object.
-		*/
-		virtual CAgentData* CreateDataConsumerL(const TDesC8& aHeaderData);
-		
-		/**
-		Factory function creates a CAgentContent object from header data of WMDRM file or stream content
-		for browsing WMDRM content.
-		 
-		@param aHeaderData	Header data of WMDRM file or stream content.
-		@return 			A pointer to CAgentContent object.
-		*/
-		virtual CAgentContent* CreateContentBrowserL(const TDesC8& aHeaderData);
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-
 	private:
 		// ECOM session key. This is set by 
 		// REComSession::CreateImplementationL() during construction

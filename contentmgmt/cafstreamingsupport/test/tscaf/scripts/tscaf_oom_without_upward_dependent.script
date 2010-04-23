@@ -1,0 +1,134 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description:
+//
+// Streaming CAF "Out of Memory" Tests
+
+PRINT Run PREQ782 Streaming CAF OOM Tests
+
+// Load Suite
+LOAD_SUITE tscaf
+
+
+//! @SYMTestCaseID 		SEC-SCAF-OOM-0001
+//! @SYMTestCaseDesc 		StartupComms
+
+START_TESTCASE SEC-SCAF-OOM-0001
+RUN_TEST_STEP 100 tscaf StartupCommsStep
+END_TESTCASE SEC-SCAF-OOM-0001
+
+
+// Note: For test case descriptions, please refer to the corresponding tscaf.script file
+
+
+//********************** SEC-SCAF-A : CONSUMER INTERFACE  **********************
+
+ 
+//! @SYMTestCaseID 		SEC-SCAF-OOM-A001
+//! @SYMTestCaseDesc 		(keystreamdecoder_positiveconstruct_OOM)
+
+START_TESTCASE SEC-SCAF-OOM-A001
+RUN_TEST_STEP tscaf SCAFSetupRightsObjects z:\tcaf\tscaf\tscaf.ini Rights_Program
+RUN_TEST_STEP 100 tscaf SCAFKeyStreamDecoderConstruct z:\tcaf\tscaf\tscaf.ini keystreamdecoder_positiveconstruct_OOM
+END_TESTCASE SEC-SCAF-OOM-A001
+
+
+//! @SYMTestCaseID 		SEC-SCAF-OOM-A004
+//! @SYMTestCaseDesc 		(keystreamdecoder_positivequery_OOM)
+
+START_TESTCASE SEC-SCAF-OOM-A004
+
+// Copy the necessary 'Program' Protected rights objects into the stream agent's private directory
+RUN_TEST_STEP tscaf SCAFSetupRightsObjects z:\tcaf\tscaf\tscaf.ini Rights_Program
+RUN_TEST_STEP tscaf SCAFKeyStreamDecoderAttributes z:\tcaf\tscaf\tscaf.ini keystreamdecoder_positivequery_programprotectedRO_OOM
+
+// Copy the necessary 'Service' Protected rights objects into the stream agent's private directory
+RUN_TEST_STEP tscaf SCAFSetupRightsObjects z:\tcaf\tscaf\tscaf.ini Rights_Service
+RUN_TEST_STEP tscaf SCAFKeyStreamDecoderAttributes z:\tcaf\tscaf\tscaf.ini keystreamdecoder_positivequery_serviceprotectedRO_OOM
+
+END_TESTCASE SEC-SCAF-OOM-A004
+
+
+
+//! @SYMTestCaseID 		SEC-SCAF-OOM-A008
+//! @SYMTestCaseDesc 		(multikeystreamdecoders_OOM)
+
+START_TESTCASE SEC-SCAF-OOM-A008
+
+// Copy the necessary rights objects into the stream agent's private directory
+RUN_TEST_STEP tscaf SCAFSetupRightsObjects z:\tcaf\tscaf\tscaf.ini Rights_ServiceProgram
+
+// 2 Key Stream Decoders, Invoking the same stream agent
+RUN_TEST_STEP tscaf SCAFMultiKeyStreamDecoders z:\tcaf\tscaf\tscaf.ini multikeystreamdecoders_singlethread_singleagent_OOM
+
+// 2 Key Stream Decoders, Invoking different stream agents
+RUN_TEST_STEP tscaf SCAFMultiKeyStreamDecoders z:\tcaf\tscaf\tscaf.ini multikeystreamdecoders_singlethread_multiagents_OOM
+
+END_TESTCASE SEC-SCAF-OOM-A008
+
+
+
+//************	SEC-SCAF-C : INTEROPERABILITY WITH DECODING STACK   ***********
+
+
+//! @SYMTestCaseID 		SEC-SCAF-OOM-C001
+//! @SYMTestCaseDesc 		(keystreamsinks_OOM)
+
+START_TESTCASE SEC-SCAF-OOM-C001
+RUN_TEST_STEP 100 tscaf SCAFKeyStreamSink z:\tcaf\tscaf\tscaf.ini sdp_service_protected_OOM
+END_TESTCASE SEC-SCAF-OOM-C001
+
+
+
+//! @SYMTestCaseID 		SEC-SCAF-OOM-C002
+//! @SYMTestCaseDesc 		(concurrent_keystreamsinks_OOM)
+
+START_TESTCASE SEC-SCAF-OOM-C002
+RUN_TEST_STEP 150 tscaf SCAFConcurrentKeyStreamSinks z:\tcaf\tscaf\tscaf.ini concurrent_keystreamsinks_OOM
+END_TESTCASE SEC-SCAF-OOM-C002
+
+
+
+//********************** SEC-SCAF-D : POST-ACQUISITION  **********************
+
+
+//! @SYMTestCaseID 		SEC-SCAF-OOM-D001
+//! @SYMTestCaseDesc 		(postacqusition_OOM)
+
+START_TESTCASE SEC-SCAF-OOM-D001
+
+RUN_TEST_STEP 100 tscaf SCAFPostAcquisition z:\tcaf\tscaf\tscaf.ini post_acquisition_OOM
+
+RUN_TEST_STEP 100 tscaf SCAFPostAcquisition z:\tcaf\tscaf\tscaf.ini post_acquisition_create_outputs_OOM
+
+END_TESTCASE SEC-SCAF-OOM-D001
+
+
+
+//********************** SEC-SCAF-E : INTEROPERABILITY WITH DECODING STACK - IPSEC    ***********
+
+RUN_SCRIPT z:\tcaf\tscaf\tscafipsec_oom.script
+
+
+
+//********************** SEC-SCAF-H : REFERENCE AGENT TEST  **********************
+
+//! @SYMTestCaseID 		SEC-SCAF-OOM-H001
+//! @SYMTestCaseDesc 		(referenceagent_OOM)
+
+START_TESTCASE SEC-SCAF-OOM-H001
+RUN_TEST_STEP 100 tscaf SCAFRefAgent z:\tcaf\tscaf\tscaf.ini reference_agent_OOM
+END_TESTCASE SEC-SCAF-OOM-H001
+
+

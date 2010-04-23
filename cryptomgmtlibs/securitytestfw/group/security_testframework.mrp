@@ -1,9 +1,6 @@
 component	security_testframework
-source	\sf\os\security\cryptomgmtlibs\securitytestfw\bwins
-source	\sf\os\security\cryptomgmtlibs\securitytestfw\eabi
-source	\sf\os\security\cryptomgmtlibs\securitytestfw\group
-source	\sf\os\security\cryptomgmtlibs\securitytestfw\inc
-source	\sf\os\security\cryptomgmtlibs\securitytestfw\test
+source	\sf\os\security\cryptomgmtlibs\securitytestfw\
+
  
 notes_source	\component_defs\release.src
 

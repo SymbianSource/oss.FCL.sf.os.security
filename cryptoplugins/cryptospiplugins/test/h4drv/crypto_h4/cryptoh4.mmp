@@ -19,13 +19,13 @@
 #define             NO_EKERN_LIB
 #include 			"kernel/kern_ext.mmh"
 OS_LAYER_SYSTEMINCLUDE_SYMBIAN
-SYSTEMINCLUDE		/epoc32/include/drivers
+SYMBIAN_BASE_SYSTEMINCLUDE(drivers)
 
 #ifdef MARM
 #include			"omap2420.mmh"
-SYSTEMINCLUDE		/epoc32/include/omap_hrp/h4
-SYSTEMINCLUDE		/epoc32/include/omap_hrp/assp/shared
-SYSTEMINCLUDE		/epoc32/include/omap_hrp/assp/omap24xx
+SYMBIAN_OMAP_HRP_SYSTEMINCLUDE(h4)
+SYMBIAN_OMAP_HRP_SYSTEMINCLUDE(assp/shared)
+SYMBIAN_OMAP_HRP_SYSTEMINCLUDE(assp/omap24xx)
 #endif
 
 USERINCLUDE   .

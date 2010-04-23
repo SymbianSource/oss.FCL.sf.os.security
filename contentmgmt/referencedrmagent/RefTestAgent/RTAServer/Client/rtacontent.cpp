@@ -266,11 +266,7 @@ EXPORT_C TInt RRtaContent::GetAttributeSet (const TDesC& aUniqueId, RAttributeSe
 	return err;
 	}
 
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-void RRtaContent::GetAttributeSetL (const TDesC& aUniqueId, RAttributeSet &aAttributeSet, TBool aWmdrmFlag) const     
-#else  
 void RRtaContent::GetAttributeSetL (const TDesC& aUniqueId, RAttributeSet &aAttributeSet) const
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 	{
 	TInt err = KErrOverflow;
 	TInt length = 0;
@@ -299,15 +295,8 @@ void RRtaContent::GetAttributeSetL (const TDesC& aUniqueId, RAttributeSet &aAttr
 		transferBuffer->Des().Copy(bufPtr);
 		TPtr8 transferPtr = transferBuffer->Des();
 
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-        if(aWmdrmFlag)     
-            err = SendReceive(EWMDRMGetAttributeSet, TIpcArgs(&aUniqueId, &transferPtr));     
-        else     
-            err = SendReceive(EGetAttributeSet, TIpcArgs(&aUniqueId, &transferPtr));     
-#else 
 		// attempt to retrieve the attributes
 		err = SendReceive(EGetAttributeSet, TIpcArgs(&aUniqueId, &transferPtr));
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 		if(err == KErrOverflow)
 			{
 			// Find out the length required to receive the resulting attribute set
@@ -339,11 +328,7 @@ EXPORT_C TInt RRtaContent::GetStringAttributeSet (const TDesC& aUniqueId, RStrin
 	return err;
 	}
 
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-void RRtaContent::GetStringAttributeSetL(const TDesC& aUniqueId, RStringAttributeSet &aStringAttributeSet, TBool aWmdrmFlag) const       
-#else 
 void RRtaContent::GetStringAttributeSetL (const TDesC& aUniqueId, RStringAttributeSet &aStringAttributeSet) const
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 	{
 	TInt err = KErrOverflow;
 	TInt length = 0;
@@ -371,15 +356,8 @@ void RRtaContent::GetStringAttributeSetL (const TDesC& aUniqueId, RStringAttribu
 		HBufC8* transferBuffer = HBufC8::NewLC(length);
 		transferBuffer->Des().Copy(bufPtr);
 		TPtr8 transferPtr = transferBuffer->Des();
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-        if(aWmdrmFlag)     
-            err = SendReceive(EWMDRMGetStringAttributeSet, TIpcArgs(&aUniqueId, &transferPtr));     
-        else     
-            err = SendReceive(EGetStringAttributeSet, TIpcArgs(&aUniqueId, &transferPtr));     
-#else    
 		// attempt to retrieve the attributes
 		err = SendReceive(EGetStringAttributeSet, TIpcArgs(&aUniqueId, &transferPtr));	
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 		if(err == KErrOverflow)
 			{
 			// Find out the length required to receive the resulting attribute set
@@ -495,67 +473,4 @@ EXPORT_C TInt RRtaContent::SetProperty(ContentAccess::TAgentProperty aProperty, 
 		}
 	return err;
 	}
-
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT     
-      
-EXPORT_C TInt RRtaContent::Open(const TDesC8& aHeaderData)     
-    {     
-    TInt err = RRtaClient::Connect();     
-    if (err != KErrNone)     
-        {     
-        return err;     
-        }     
-         
-    if(IsDrmCapabilityEnforced())     
-        {     
-        err = SendReceive(ECreateContentMessageHandler, TIpcArgs());     
-        if(err != KErrNone)     
-            {     
-            return err;     
-            }     
-             
-        err = SendReceive(EReadWMDRMHeaderData, TIpcArgs(&aHeaderData));     
-        }     
-             
-    else     
-        {     
-        err = SendReceive(ENoEnforceCreateContentMessageHandler, TIpcArgs());     
-        if(err != KErrNone)     
-            {     
-            return err;     
-            }     
-                 
-        err = SendReceive(ENoEnforceReadWMDRMHeaderData, TIpcArgs(&aHeaderData));     
-        }     
-             
-    return err;     
-    }     
-         
-EXPORT_C TInt RRtaContent::GetWmdrmAttribute(const TDesC& /*aUniqueId*/, TInt aAttribute, TInt& aValue) const     
-    {     
-    TPckg<TInt> valuePkg(aValue);     
-    TInt result = SendReceive(EWMDRMGetAttribute, TIpcArgs(aAttribute, &valuePkg));     
-    return result;     
-    }     
-         
-EXPORT_C TInt RRtaContent::GetWmdrmAttributeSet(const TDesC& aUniqueId, ContentAccess::RAttributeSet& aAttributeSet) const     
-    {     
-    TRAPD( err, GetAttributeSetL(aUniqueId, aAttributeSet, ETrue));     
-    return err;     
-    }     
-         
-EXPORT_C TInt RRtaContent::GetWmdrmStringAttribute(const TDesC& /*aUniqueId*/, TInt aAttribute, TDes& aValue) const     
-    {     
-    TIpcArgs ipcArgs(aAttribute, &aValue);     
-    TInt result = SendReceive(EWMDRMGetStringAttribute, ipcArgs);     
-    return result;     
-    }     
-      
-EXPORT_C TInt RRtaContent::GetWmdrmStringAttributeSet(const TDesC& aUniqueId, ContentAccess::RStringAttributeSet& aStringAttributeSet) const     
-    {     
-    TRAPD( err, GetStringAttributeSetL(aUniqueId, aStringAttributeSet, ETrue));     
-    return err;     
-    }     
-      
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT 
 

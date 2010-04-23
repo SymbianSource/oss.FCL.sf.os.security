@@ -28,6 +28,7 @@
 
 class CASN1EncBase;
 class CASN1EncSequence;
+class CASN1EncSet;
 
 //
 // Class capturing common functionality of a PKCS attribute.

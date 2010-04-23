@@ -34,10 +34,6 @@ _LIT(KCAFVirtualPathStep,"CAFVirtualPathStep");
 _LIT(KCAFRightsInfoStep,"CAFRightsInfoStep");
 _LIT(KCAFStreamablePtrArrayStep,"CAFStreamablePtrArrayStep");
 
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-_LIT(KCAFHelperStep,"CAFHelperStep");     
-#endif //#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT 
-
 class CCAFServer;
 
 /* 
@@ -140,20 +136,5 @@ private:
 	CCAFServer& iParent;
 	};	
 
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-class CCafHelperStep : public CCAFStep     
-    {     
-public:     
-    CCafHelperStep();     
-    ~CCafHelperStep();     
-    virtual TVerdict doTestStepL();     
-      
-private:     
-    TInt TestFileHandleCaseL(TInt aError, const TDesC& aFileName);     
-    TInt TestHeaderDataCaseL(TInt aError);     
-    };     
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT        
-     
-	
 #endif
 

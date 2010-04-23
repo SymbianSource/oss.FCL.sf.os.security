@@ -22,9 +22,6 @@
 */
 
 #include "../test/h4drv/bld.inf"
-#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
-#include "../test/dummyecchwplugin/group/bld.inf"
-#endif
 
 PRJ_PLATFORMS
 default
@@ -56,9 +53,6 @@ PRJ_TESTEXPORTS
 // ROMKIT includes
 ../inc/cryptospi_testplugins.iby /epoc32/rom/include/cryptospi_testplugins.iby
 
-#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
-../inc/cryptospi_testwmdrmplugins.iby /epoc32/rom/include/cryptospi_testwmdrmplugins.iby
-#endif
 
 
 

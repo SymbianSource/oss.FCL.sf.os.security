@@ -46,10 +46,6 @@ namespace ContentAccess
 		static CF32AgentData* NewL(const TVirtualPathPtr& aVirtualPath, TContentShareMode aShareMode);
 		static CF32AgentData* NewL(RFile& aFile, const TDesC& aUniqueId);
 		
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-		static CF32AgentData* NewL(const TDesC8& aHeaderData);
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-
 		~CF32AgentData();
 
 	public: // From CAgentData
@@ -78,19 +74,10 @@ namespace ContentAccess
 		virtual TInt Read64(TInt64 aPos, TDes8& aDes, TInt aLength, TRequestStatus& aStatus);
 #endif // SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
 
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-		virtual TInt Read(const TDesC8& aEncryptedInputDataPacket, TDes8& aDecryptedOutputDataPacket);		
-		virtual void Read(const TDesC8& aEncryptedInputDataPacket, TDes8& aDecryptedOutputDataPacket, TRequestStatus& aStatus);
-#endif	//SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-
 	private:
 		CF32AgentData();
 		void ConstructL(const TVirtualPathPtr& aVirtualPath, TContentShareMode aShareMode);
 		void ConstructL(RFile& aFile, const TDesC& aUniqueId);
-
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-		void ConstructL(const TDesC8& aHeaderData);
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 
 		CF32AgentUi& AgentUiL();
 		
@@ -108,9 +95,6 @@ namespace ContentAccess
 		CVirtualPath* iVirtualPath;
 		CF32AgentUi* iAgentUi;
 
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-		HBufC8* iHeaderData;
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 		};
 } // namespace ContentAccess
 #endif // __F32AGENTDATA_H__
