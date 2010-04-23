@@ -94,9 +94,6 @@ public:
 		EDSASign,
 		EDH,
 		EDecrypt,
-#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
-		EECC,
-#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
 		};
 protected:
 	TUint iServerAlloc;
@@ -116,17 +113,6 @@ protected:
 	TInt iKeyStoreImplIndex;
 	TBuf8<50> iKeyStoreImplLabel;
 	
-#ifdef SYMBIAN_AUTH_SERVER
-	// this variable would be used to retrieve the rom build variant 
-	// for key store.
-	TBool iUseNewApi;
-	HBufC* iAuthExpression;
-	TInt iFreshness;
-	TInt iDeauthenticate;
-#endif // SYMBIAN_AUTH_SERVER
-#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
-	TInt iHardwareType;
-#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
 };
 
 class CInitialiseKeyStore : public CKeyStoreTestAction
@@ -399,11 +385,6 @@ protected:
 	HBufC8*  iImportFileName;
 	HBufC8* iKeyData;
 	CCTKeyInfo* iKeyInfo;
-#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
-	TUint iImportHardwareType;
-	HBufC8* iPublicKey;
-	HBufC8* iPrivateKey;
-#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
 private:
 	enum TState
 		{
@@ -587,13 +568,6 @@ private:
 		EFinished
 		};
 	
-#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
-	enum TOperationType
-		{
-		ESigning,
-		EDecryption,
-		};
-#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
 private:
 	TState iState;
 	TCTTokenObjectHandle iDeleteHandle;
@@ -602,11 +576,6 @@ private:
 	MDSASigner* iDSASigner;
 	MCTDecryptor* iDecryptor;
 	MCTDH* iDH;
-#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
-	TOperationType iOperationType;
-	CryptoSpi::CSigner* iSigner;
-	CryptoSpi::CAsymmetricCipher* iDecrypt;
-#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
 };
 
 //	Allows script to sign, filter on keys algorithm (or all) and deletes listed keys
@@ -637,10 +606,6 @@ private:
 		ESign,
 		EExportPublic,
 		EVerify,
-#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
-		ESignInHardware,
-		EVerifyHwSignature,
-#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
 		EFinished,
 		};
 
@@ -659,11 +624,6 @@ private:
 	CRSASignature* iRSASignature;
 	CMessageDigest* iHash;
 	TBool iFailHashDigest;	//	Should hash the digest beforehand, but doesn't to test failure mode
-#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
-	CryptoSpi::CSigner* iSigner;
-	CryptoSpi::CCryptoParams* iSpiSignature;
-	TCTTokenObjectHandle iTokenHandle;
-#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
 };							
 
 class CDecrypt : public CKeyStoreTestAction
@@ -704,9 +664,6 @@ private:
 	TPtr8 iPlainTextPtr;
 	MCTDecryptor* iDecryptor;
 	HBufC8* iPublic;
-#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
-	CryptoSpi::CAsymmetricCipher* iDecrypt;
-#endif
 };
 
 class CDHKeyPair;

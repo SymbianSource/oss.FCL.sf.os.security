@@ -279,4 +279,5 @@ EXPORTS
 	?NewL@CCertificateValidationWarnings@@SAPAV1@H@Z @ 278 NONAME ; class CCertificateValidationWarnings * CCertificateValidationWarnings::NewL(int)
 	?NewLC@CCertificateValidationWarnings@@SAPAV1@H@Z @ 279 NONAME ; class CCertificateValidationWarnings * CCertificateValidationWarnings::NewLC(int)
 	?Warnings@CCertificateValidationWarnings@@QBEABV?$RArray@VTValidationStatus@@@@XZ @ 280 NONAME ; class RArray<class TValidationStatus> const & CCertificateValidationWarnings::Warnings(void) const
+	?SubjectKeyIdL@CX509Certificate@@QAE?AV?$TBuf8@$0BE@@@XZ @ 281 NONAME ; class TBuf8<20> CX509Certificate::SubjectKeyIdL(void)
 

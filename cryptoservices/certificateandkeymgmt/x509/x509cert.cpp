@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 1998-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 1998-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -1337,3 +1337,30 @@ EXPORT_C TKeyIdentifier CX509Certificate::SubjectKeyIdentifierL() const
 		
 	return KeyIdentifierL();
 	}
+
+EXPORT_C TKeyIdentifier CX509Certificate::SubjectKeyIdL()
+	{
+	// if it is a v1 or v2 type then there is no way of knowing which is a CA, treat all certs as CA as done in the certificate recognizer.
+	if (Version() != 3 )
+		{
+		return SubjectKeyIdentifierL();
+		}
+	
+	// if it is x509 v3 certificate then check for the basic constraint extension.
+	const CX509CertExtension* ext = Extension(KBasicConstraints);
+	if (ext)
+		{
+		CX509BasicConstraintsExt* basic = CX509BasicConstraintsExt::NewLC(ext->Data());
+		TBool markedAsCA = basic->IsCA();
+		CleanupStack::PopAndDestroy(basic);
+		// it can be an intermediate as well as root CA
+		if ( markedAsCA )
+			{
+			return SubjectKeyIdentifierL();
+			}
+		}
+	// For non-CA certs, use the recommended method of computing it from RFC5280, section 4.2.1.2
+	return KeyIdentifierL();									
+		
+	}
+

@@ -37,10 +37,6 @@
 		virtual ContentAccess::CAgentImportFile* CreateImporterL(const TDesC8& aMimeType, const ContentAccess::CMetaDataArray& aMetaDataArray, const TDesC& aOutputDirectory, const TDesC& aSuggestedFileName);
 		virtual ContentAccess::CAgentImportFile* CreateImporterL(const TDesC8& aMimeType, const ContentAccess::CMetaDataArray& aMetaDataArray);
 		virtual ContentAccess::CAgentRightsManager* CreateRightsManagerL();	
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-        virtual ContentAccess::CAgentData* CreateDataConsumerL(const TDesC8& aHeaderData);     
-        virtual ContentAccess::CAgentContent* CreateContentBrowserL(const TDesC8& aHeaderData);     
-#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT   
 		};
 
 #endif // __REFTESTAGENTFACTORY_H__

@@ -72,9 +72,7 @@ LOCAL_D void DoTestsL()
 	SCRIPT_ITEM(CCheckServerHeapError, KCheckServerHeapError),
 	SCRIPT_ITEM(CServerOOMTestStart, KServerOOMTestStart),
 	SCRIPT_ITEM(CServerOOMTestStop, KServerOOMTestStop)
-#ifdef SYMBIAN_AUTH_SERVER
-	,SCRIPT_ITEM(CAuthenticationPolicy, KAuthenticationPolicy)
-#endif // SYMBIAN_AUTH_SERVER
+
 	END_SCRIPT_LIST
 
 	// this bit is because of heap checking problems with techview

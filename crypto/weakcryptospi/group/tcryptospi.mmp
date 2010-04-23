@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -105,14 +105,9 @@ SOURCE			symmetric_mac_incremental_with_replicate_step.cpp
 SOURCE			symmetric_mac_incremental_with_copy_step.cpp
 #endif
 
-#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
-SOURCE			dummyecccipherloadstep.cpp
-SOURCE			dummyeccsignerloadstep.cpp
-#endif
 
 USERINCLUDE     ..
 USERINCLUDE     ../test/tcryptospi/src
-USERINCLUDE	../inc/spi
 USERINCLUDE ../../../cryptomgmtlibs/securityutils/inc
 
 

@@ -89,20 +89,10 @@ void CAddKey::PerformAction(TRequestStatus& aStatus)
 					{
 					SetKeyStoreIndex(keyStore);
 					}
-					
-			#ifdef SYMBIAN_AUTH_SERVER		
-			if(iUseNewApi)
-				{
-				keyStore->CreateKey(iKeyStoreImplIndex, iUsage, iSize, *iLabel, iAlgorithm,
-												iAccessType, iStartDate, iEndDate, *iAuthExpression, iFreshness, iKeyInfo, aStatus);
-				}
-			else
-			#endif // SYMBIAN_AUTH_SERVER
-				{
+
 				keyStore->CreateKey(iKeyStoreImplIndex, iUsage, iSize, *iLabel, iAlgorithm,
 								iAccessType, iStartDate, iEndDate, iKeyInfo, aStatus);
 
-				}			
 			iState = EFinished;
 			}
 			break;

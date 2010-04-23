@@ -22,14 +22,6 @@
 #include "clientutils.h"
 #include "fstokenservername.h"
 
-#ifdef SYMBIAN_AUTH_SERVER
-
-#ifdef __WINS__
-#include <u32hal.h>
-#endif //__WINS__
-
-#include <e32svr.h>
-#endif // SYMBIAN_AUTH_SERVER
 
 //	\\	//	\\	//	\\	//	\\	//	\\	//	\\	//	\\	//	\\	//	\\	//	\\	
 //	Tokentype session class for file based certificate store
@@ -38,11 +30,7 @@
 //	\\	//	\\	//	\\	//	\\	//	\\	//	\\	//	\\	//	\\	//	\\	//	\\	
 
 _LIT(KFSTokenServerImg,"fstokenserver");
-#ifdef SYMBIAN_AUTH_SERVER
-#ifdef __WINS__
-_LIT(KFSNewTokenServerImg,"fstokenserver_useauth");
-#endif // __WINS__
-#endif // SYMBIAN_AUTH_SERVER
+
 
 RFileStoreClientSession::RFileStoreClientSession()
 {}
@@ -73,13 +61,6 @@ static TInt StartServer();	//	Forward declaration
 // Connect to the server, attempting to start it if necessary
 //
 
-#ifdef SYMBIAN_AUTH_SERVER
-#ifdef __WINS__
-
-static bool UseAuthServer(void);
-
-#endif // SYMBIAN_AUTH_SERVER
-#endif // __WINS__
 
 TInt RFileStoreClientSession::Connect(ETokenEnum aToken)
 	{
@@ -93,15 +74,6 @@ TInt RFileStoreClientSession::Connect(ETokenEnum aToken)
 	for (;;)
 		{
 		TInt err = KErrNone;
-#ifdef SYMBIAN_AUTH_SERVER
-#ifdef __WINS__
-		if(UseAuthServer())
-			{
-			err = CreateSession(KFSNewTokenServerName, version, 1);
-			}
-		else
-#endif // __WINS__
-#endif // SYMBIAN_AUTH_SERVER
 			{
 			err = CreateSession(KFSTokenServerName, version, 1);
 			}
@@ -116,25 +88,6 @@ TInt RFileStoreClientSession::Connect(ETokenEnum aToken)
 		}
 	}
 
-#ifdef SYMBIAN_AUTH_SERVER
-#ifdef __WINS__
-
-/*static*/ bool UseAuthServer(void)
-	{
-	bool useAuthServer = false;
-	
-	TUint32 useAuth = 0;
-	// For the emulator allow the constant to be patched via epoc.ini
-	UserSvr::HalFunction(EHalGroupEmulator, EEmulatorHalIntProperty,
-	(TAny*)"KKeyStoreUseAuthServer", &useAuth); // read emulator property (if present)
-	if(useAuth)
-		{
-		useAuthServer = true;
-		}
-	return useAuthServer; 
-	}
-#endif // __WINS__
-#endif // SYMBIAN_AUTH_SERVER
 
 TInt StartServer()
 	{
@@ -144,16 +97,6 @@ TInt StartServer()
 
 	RProcess server;
 	TInt error = KErrNone;
-	
-#ifdef SYMBIAN_AUTH_SERVER
-#ifdef __WINS__
-	if(UseAuthServer())
-		{
-		error = server.Create(KFSNewTokenServerImg, KNullDesC, serverUid);
-		}
-	else
-#endif // __WINS__
-#endif // SYMBIAN_AUTH_SERVER
 		{
 		error = server.Create(KFSTokenServerImg, KNullDesC, serverUid);
 		}

@@ -52,17 +52,6 @@ CCAFRecognizeStep::CCAFRecognizeStep(CCAFServer& aParent)
  */
 TVerdict CCAFRecognizeStep::doTestStepL()
 	{
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-    TBool wmdrmFlag = EFalse;     
-    GetBoolFromConfig(ConfigSection(),_L("wmdrmEnabled"), wmdrmFlag);     
-         
-    if(wmdrmFlag)
-        {     
-        TVerdict verdict = doWmdrmTestStepL();     
-        return verdict;     
-        }     
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT    
-
 	TBuf8 <KCAFTestApparcBufferSize> buf;
 
 	CAgentResolver *resolver;
@@ -505,51 +494,5 @@ TVerdict CCAF_DEF077443_Step::doTestStepL()
 	return TestStepResult();
 	}
 	
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-  
-// Tests DoRecognizeL API for WMDRM content .
-      
-TVerdict CCAFRecognizeStep::doWmdrmTestStepL()     
-    {     
-    SetTestStepResult(EFail);     
-         
-    TPtrC expectedFileMimeType;     
-    GetStringFromConfig(ConfigSection(),_L("filemime"), expectedFileMimeType);     
-         
-    TPtrC expectedContentMimeType;     
-    GetStringFromConfig(ConfigSection(),_L("contentmime"), expectedContentMimeType);     
-         
-    TBool expectedResult;     
-    GetBoolFromConfig(ConfigSection(),_L("recognized"), expectedResult);     
-         
-    __UHEAP_MARK;     
-    TPtrC header;     
-    HBufC8* headerData = NULL;     
-         
-    if(GetStringFromConfig(ConfigSection(),_L("header"), header))     
-        {     
-        headerData = ConvertDes16toHBufC8LC(header);     
-        }     
-    else     
-        {     
-        headerData = CreateWmdrmHeaderLC();      
-        }     
-      
-    // Pass the WMDRM header data to CAF DoRecognize function     
-    CAgentResolver* resolver = CAgentResolver::NewLC(ETrue);     
-             
-    TBuf8 <KCafTestMaxDataTypeLength> fileMimeType;     
-    TBuf8 <KCafTestMaxDataTypeLength> contentMimeType;     
-             
-    TBool result = resolver->DoRecognizeL(*headerData, fileMimeType, contentMimeType);     
-         
-    CheckResultL(result, fileMimeType, contentMimeType, expectedResult, expectedFileMimeType, expectedContentMimeType);     
-      
-    CleanupStack::PopAndDestroy(2, headerData);      
-      
-    __UHEAP_MARKEND;     
-    return TestStepResult();     
-    }     
-      
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT 
+
 
