@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -348,7 +348,7 @@ CDecisionRecord *CUpsDbBaseStep::GetDecisionLC(CDecisionDbW &aUpsDb, CDecisionFi
 	}
 	
 
-RPointerArray<CDecisionRecord> CUpsDbBaseStep::GetDecisionsL(CDecisionDbW &aUpsDb, CDecisionFilter &aFilter, TBool aCancel)
+void CUpsDbBaseStep::GetDecisionsL(CDecisionDbW &aUpsDb, CDecisionFilter &aFilter, TBool aCancel, RPointerArray<CDecisionRecord>& aRecordList)
 /**
    Get a set of decision records from the database. Uses multiple records lookup method (RDbView).
    Prints the consumed time to perform this operation.
@@ -363,7 +363,6 @@ RPointerArray<CDecisionRecord> CUpsDbBaseStep::GetDecisionsL(CDecisionDbW &aUpsD
 
 	dbView->EvaluateView(iWaiter->iStatus);
 	TInt num = 0;
-	RPointerArray<CDecisionRecord> recordList;
 	if(aCancel)
 		{
 		dbView->Cancel();
@@ -371,18 +370,16 @@ RPointerArray<CDecisionRecord> CUpsDbBaseStep::GetDecisionsL(CDecisionDbW &aUpsD
 		}
 	else
 		{
-		iWaiter->WaitActiveL(KErrNone);	
-		CleanupClosePushL(recordList);
+		iWaiter->WaitActiveL(KErrNone);
 		CDecisionRecord *record = NULL;		
 		
 		while((record = dbView->NextDecisionL()) != NULL)
 			{
 			CleanupStack::PushL(record);
 			num++;
-			recordList.AppendL(record);
+			aRecordList.AppendL(record);
 			CleanupStack::Pop(record);
 			}
-		CleanupStack::Pop(&recordList);	
 		}
 	
 	//Timer is stopped
@@ -391,8 +388,6 @@ RPointerArray<CDecisionRecord> CUpsDbBaseStep::GetDecisionsL(CDecisionDbW &aUpsD
 	
 	INFO_PRINTF3(_L("%d records retrieved in %Ld microseconds."), num, elapsedTime);
 	CleanupStack::PopAndDestroy(dbView);
-
-	return recordList;
 	}
 	
 
@@ -555,7 +550,7 @@ void CUpsDbBaseStep::TestFingerprintValuesL(CDecisionDbW& aUpsDb)
 	
 	CDecisionRecord *record = NULL;
 	CDecisionFilter *filter = NULL;
-	RPointerArray<CDecisionRecord> recordList;
+	RPointerArray<CDecisionRecord> recordList;	
 	TBuf8<KUpsMaxFingerprintLength> bufFp;
 	TBuf8<KUpsMaxClientEntityLength> bufCe;
 	TBuf<KUpsDescriptionLength> bufDes;
@@ -572,16 +567,16 @@ void CUpsDbBaseStep::TestFingerprintValuesL(CDecisionDbW& aUpsDb)
 		InsertRecordL(aUpsDb,*record);
 		
 		filter = CreateFilterLC(flag,clientId,evaluatorId,serviceId,serverId,bufFp,bufCe,policyVersion,recordId,bufDes,result,evaluatorInfo,EEqual);
-		recordList = GetDecisionsL(aUpsDb,*filter,EFalse);
+		CleanupResetAndDestroyPushL(recordList);
+		GetDecisionsL(aUpsDb, *filter, EFalse, recordList);
 		if(recordList.Count() != 1)
 			{
 			SetTestStepResult(EFail);
+			CleanupStack::PopAndDestroy(3,record);
 			break;
 			}
-		recordList.Close();	
-		CleanupStack::PopAndDestroy(2,record);
-		}
-	
+		CleanupStack::PopAndDestroy(3,record);	
+		}				
 	}
 
 
