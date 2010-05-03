@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -22,6 +22,7 @@
 #include "t_certstoredefs.h"
 
 #include <ccertattributefilter.h>
+#include <x509cert.h>
 
 CCertAttributeFilter* CFilter::NewL(Output& aOut, 
 									const TDesC8& aFilter)
@@ -81,6 +82,10 @@ void CFilter::ConstructL(const TDesC8& aFilter)
 	
 	// Set subjetkeyid filter
 	SetIssuerKeyIdFilter(Input::ParseElement(aFilter, KIssuerKeyIdStart));
+
+	// Set subjetkeyid using the certificate details
+	SetSubjectKeyIdFromCertFilterL(Input::ParseElement(aFilter, KUseSubjectKeyIdStart));
+
 	}
 
 void CFilter::SetLabelFilter(const TDesC8& aLabel)
@@ -385,5 +390,24 @@ void CFilter::SetIssuerKeyIdFilter(const TDesC8& aIssuerKeyId)
 		iFilter->SetIssuerKeyId(id);
 		}
 	}
+
+void CFilter::SetSubjectKeyIdFromCertFilterL(const TDesC8& aCertPath)
+	{
+	if(aCertPath != KNullDesC8)
+		{
+		RFs fs;
+		User::LeaveIfError(fs.Connect());
+		CleanupClosePushL(fs);
+		TFileName filename;
+		filename.Copy(aCertPath);
+		HBufC8* buf = Input::ReadFileL(filename, fs);
+		CleanupStack::PushL(buf);
+		CX509Certificate* cert = CX509Certificate::NewLC(buf->Des());
+		TKeyIdentifier id = cert->SubjectKeyIdL();
+		CleanupStack::PopAndDestroy(3, &fs); // buf, cert, fs
+		iFilter->SetSubjectKeyId(id);
+		}
+	}
+
 
 CCertAttributeFilter* CFilter::iFilter = NULL;

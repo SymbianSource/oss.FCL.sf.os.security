@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2001-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2001-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -30,8 +30,6 @@ PRJ_EXPORTS
 // copy will be used to copy the source file to its destination
 // If there's no destination then the source file will be copied
 // to the same name in /epoc32/include
-
-../group/makecertstore.ipr	/epoc32/engdoc/tools/makecertstore.ipr
 
 ../inc/x509cert.h 	 SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(x509cert.h)
 ../inc/x509keys.h 	 SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(x509keys.h)
@@ -505,6 +503,7 @@ PRJ_TESTEXPORTS
 ../tcertstore/tdata/nrcertkey.txt		/epoc32/winscw/c/tcertstore/data/nrcertkey.txt
 ../tcertstore/tdata/signcertkey2.txt	/epoc32/winscw/c/tcertstore/data/signcertkey2.txt
 ../tcertstore/tdata/enciphersigncertkey2.txt	/epoc32/winscw/c/tcertstore/data/enciphersigncertkey2.txt
+../tcertstore/tdata/SelfSignedPrivateKey_pk8.pk8	/epoc32/winscw/c/tcertstore/data/SelfSignedPrivateKey_pk8.pk8
 
 ../tcertstore/scripts/certstoreconcurrent1.txt		/epoc32/winscw/c/tcertstoreconcurrent/scripts/certstoreconcurrent1.txt
 ../tcertstore/scripts/certstoreconcurrent2.txt		/epoc32/winscw/c/tcertstoreconcurrent/scripts/certstoreconcurrent2.txt

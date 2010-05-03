@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
 // All rights reserved.
 // This component and the accompanying materials are made available
 // under the terms of the License "Eclipse Public License v1.0"
@@ -750,6 +750,56 @@ RUN_TEST_STEP                 -1    CTestHandler        delete
 
 END_TESTCASE                  SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0014
 
+
+START_TESTCASE                SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-FilterOnSubjectKeyId
+
+//! @SYMTestCaseID            SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-FilterOnSubjectKeyId
+
+//! @SYMTestCaseDesc          4.1 Test cases for cheking the retrieval of certificates based on subject key identifier.
+
+//!                           
+
+//! @SYMTestActions           1) No Test, Add a private key (rsacertkey)
+
+//!                           2) No Test,Add the end entity certificate (rsacert1) without specifying the subject keyid.
+
+//!                           3) Filter the certificate based on subject key id.
+
+//!                           4) No Test,Add a self signed certificate
+
+//!                           5) Filter the self signed certificate based on subject key id.
+
+//!                           6) No Test,Add a CA certificate
+
+//!                           7) Filter the CA certificate based on subject key id.
+
+RUN_TEST_STEP                 -1    CTestHandler        init                   unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-FilterOnSubjectKeyId-001
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-FilterOnSubjectKeyId-002
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-FilterOnSubjectKeyId-003
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-FilterOnSubjectKeyId-004
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-FilterOnSubjectKeyId-005
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-FilterOnSubjectKeyId-006
+
+RUN_TEST_STEP                 -1    CTestHandler        importkey              unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-FilterOnSubjectKeyId-007
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-FilterOnSubjectKeyId-008
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-FilterOnSubjectKeyId-009
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-FilterOnSubjectKeyId-010
+
+RUN_TEST_STEP                 -1    CTestHandler        addcert                unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-FilterOnSubjectKeyId-011
+
+RUN_TEST_STEP                 -1    CTestHandler        listcert               unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-FilterOnSubjectKeyId-012
+
+RUN_TEST_STEP                 -1    CTestHandler        deletecert             unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-FilterOnSubjectKeyId-013
+
+END_TESTCASE                  SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-FilterOnSubjectKeyId
 
 
 

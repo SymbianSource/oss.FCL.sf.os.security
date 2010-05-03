@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2005-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -56,8 +56,13 @@ EXPORT_C CSystemRandom* CSystemRandom::NewLC(void)
 
 void CSystemRandom::GenerateBytesL(TDes8& aDest)
 	{
-	iShim->GenerateBytesL(aDest);
-	}
+	TRAPD(error, iShim->GenerateBytesL(aDest));
+    // This method must leave on low memory conditions.
+    if(error == KErrNoMemory)
+        {
+        User::Leave(error); 
+        }
+    }
 
 CSystemRandom::CSystemRandom(void)
 	{
@@ -103,12 +108,7 @@ EXPORT_C RRandomSession::RRandomSession(void)
 
 EXPORT_C void RRandomSession::ConnectL(void)
 	{
-	// All of the ConnectL() code has moved to randomimpl.cpp
-	// in the new CryptoSPI pluggable framework. This is just
-	// a stub now that is retained for binary compatibility.
-
-	// Method replaced by shim
-	ASSERT(EFalse);
+	// No action required
 	}
 
 EXPORT_C TInt RRandomSession::GetRandom(TDes8& aDestination)

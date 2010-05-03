@@ -21,6 +21,8 @@
  @file
 */
 
+#ifdef SYMBIAN_AUTH_SERVER
+
 #include "../test/reftestplugin/group/bld.inf"
 
 PRJ_PLATFORMS
@@ -155,4 +157,5 @@ PRJ_TESTEXPORTS
 ../test/tAuthSvr/scripts/performance_log_parser.pl  	/epoc32/winscw/c/tauth/tauthsvr/scripts/performance_log_parser.pl 
 
 
+#endif //SYMBIAN_AUTH_SERVER
 

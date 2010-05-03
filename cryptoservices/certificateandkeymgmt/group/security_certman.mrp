@@ -18,7 +18,6 @@ component	security_certman
 source	\sf\os\security\cryptoservices\certificateandkeymgmt
 binary	\sf\os\security\cryptoservices\certificateandkeymgmt\group	all
 exports	\sf\os\security\cryptoservices\certificateandkeymgmt\group
--export_file	\sf\os\security\cryptoservices\certificateandkeymgmt\group\makecertstore.ipr	\epoc32\engdoc\tools\makecertstore.ipr
 
 notes_source	\component_defs\release.src
 

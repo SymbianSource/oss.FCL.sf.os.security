@@ -24,7 +24,6 @@ rofssize=0x2100000
 // Save build details in ROM
 data=\buildid.txt                 \buildid.txt
 
-define ZDRIVE \epoc32\winscw\c
 
 // This should be included in the Techview.oby file
 // All test data and scripts gets copied to the root of ROM drive.
@@ -38,146 +37,65 @@ PlatSecEnforcement ON
 PlatSecEnforceSysBin ON
 PlatSecProcessIsolation ON
 }
+
 #include "setcap.iby"
-#include "testutil.iby"
+
 #include "testexecute.iby"
 #include "t_testhandler.iby"
-#include "xml.iby" // Needed for security tests
+#include "testutil.iby"
+//#include "xml.iby" // Needed for security tests
 
 #include "securityframeworktestserver.iby"
+
+
+#if defined SYMBIAN_KEYSTORE_USE_AUTH_SERVER || defined SDP_ROM1
+
+	#include "ups.iby"
+	#include "tups.iby"
+	#include "asnpkcstests.iby"
+	#include "certmantests.iby"
+	#include "tpkcs7server.iby"     
+	#include "tpkcs12integrationserver.iby"  	
+	#include "ctframeworktests.iby"
+#else
+	#include "streamingcaf.iby"
+	// iby files for caf
+	#include "caf.iby"
+	#include "caftest.iby"
+	#include "reccafconfig.iby"
+	#include "rta.iby"
+	#include "rtatest.iby"
+	#include "cryptotests.iby"
+	#include "tscaf.iby"	
+	#include "randomtests.iby"
+	#include "hashtests.iby"
+
+	#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+	#include "mtputils.iby"
+	#include "mtputilstest.iby"
+	#include "refcafhelper.iby"
+	#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+
+#endif
+ 
+	
 // Common utils libraries
 #include "securitycommonutils.iby"
-// Common utils libraries test
-#include "installtestframework.iby"
-#include "securitytestframework.iby"		
+#include "securitytestframework.iby"	
+#include "secutiltests.iby"
 
-#include "streamingcaf.iby"
-
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-#include "mtputils.iby"
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-
-#ifdef SYMBIAN_UNIVERSAL_INSTALL_FRAMEWORK
-	//Universal Software Install Framework production
-	#include "scr.iby" // Software Component Registry
-	#include "sif.iby"  // Software Install Framework
-	#include "sts.iby"  // Software Transaction Services
-	#include "sifrefinstaller.iby"  // Sif Reference Installer
-#endif //SYMBIAN_UNIVERSAL_INSTALL_FRAMEWORK
-
-#ifdef __SECURITY_NORMAL_SWICERTSTORE__
-	
-	#ifdef __SECURITY_ONLYJAVA__
-		
-		#ifndef SYMBIAN_JAVA_NOT_INCLUDED
-			#include "sisinstallertest.iby"
-			#include "JavaMIDletInstallerTest.iby"
-			#include "rtatest.iby"
-			#include "recjar.iby"
-		#endif
-	#elif __SECURITY_NORMAL__
-
-		#ifndef SYMBIAN_JAVA_NOT_INCLUDED
-  			#include "sisinstallertest.iby"
-		#endif
-
-		#include "tsistestdata.iby" 
-
-		ECOM_PLUGIN(tsecdlg.dll, 10204789.rsc)
-		
-		#include "tups.iby"
-		#include "ups.iby"
-		// iby files for caf
-		#include "caf.iby"
-		#include "caftest.iby"
-		#include "reccafconfig.iby"
-		#include "rta.iby"
-		#include "rtatest.iby"
-		#include "tpkcs12integrationserver.iby"
- 		// Dependency
-		file=ABI_DIR\BUILD_DIR\pkcs7.dll	System\Libs\pkcs7.dll
-
-		#include "tscaf.iby"
-
-		#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-		#include "mtputilstest.iby"
- 		#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-
-		#ifdef SYMBIAN_UNIVERSAL_INSTALL_FRAMEWORK
-			//Universal Software Install Framework tests
-			#include "tscr.iby"
-			#include "tsif.iby"
-			#include "tsts.iby"
-			#include "tsifrefinstaller.iby"
-		#endif //SYMBIAN_UNIVERSAL_INSTALL_FRAMEWORK
-
-		
-	
-		
-		
-		
-		// Extra test data
-		#include "tswi.iby"
-		#include "tswiconsole.iby"
-		#include "tsissignedtestdata.iby"
-		#include "secutiltests.iby"
-
-	#endif
+//filetokens and authserver run in both the images.
+#include "filetokenstests.iby"
 
 
-
-	#ifndef SYMBIAN_JAVA_NOT_INCLUDED
-  		// Jar/Jad recogniser needed for CAF tests
-  		#include "recjar.iby"
-	#endif
-
-#elif __SECURITY_MANDATORY_SWICERTSTORE__
-	// Temp
- 	#include "cryptodeps.iby"
-             
-      #include "randomtests.iby"
-   	#include "hashtests.iby"
-  	#include "certmantests.iby"
-  	#include "ctframeworktests.iby"
-  	#include "tpkcs7server.iby"
-  	#include "filetokenstests.iby"
-  	#include "asnpkcstests.iby"
-  	#include "tsiscorrupttestdata.iby" 
-  	// uncomment authserver tests when authserver gets released
-	#ifdef SYMBIAN_AUTH_SERVER
-  		#include "tAuthSvr.iby"
-	#endif // SYMBIAN_AUTH_SERVER
-	#ifndef SYMBIAN_JAVA_NOT_INCLUDED
-		// Jar Download Reference Filter - sets user agent
-		ECOM_PLUGIN(midletuaheaderfilter.dll,10200a88.rsc)
-	#endif
-  
-  	// Extra test data
-  	#include "tswi.iby"
-  	#include "tswiconsole.iby"
-  	#include "tsissignedtestdata.iby"
-  	#include "secutiltests.iby"
-#elif __SECURITY_JAVA__
-	#ifndef SYMBIAN_JAVA_NOT_INCLUDED
-  		#include "JavaMIDletInstallerTest.iby"
-	#endif
-	
-	#include "cryptotests.iby"
-	#include "randomtests.iby"
-  	#include "hashtests.iby"
-	#include "rtatest.iby"
-	#include "rta.iby"
-#endif
-
-
-//***********
-// REMOVE ME WHEN AUTHSERVER IS ADDED TO MAIN BUILD
-//***********
 #ifdef SYMBIAN_AUTH_SERVER
+	#include "tAuthSvr.iby"
 	#include "authserver.iby"
 	#include "pinplugin.iby"
 #endif // SYMBIAN_AUTH_SERVER
 
+
+define ZDRIVE \epoc32\winscw\c
 // This is the bat file to run the security tests automatically
 // comms configuration (and configuration using sim.tsy)
 data = ZDRIVE\auto.cfg					\auto.cfg
@@ -189,113 +107,83 @@ data = ZDRIVE\prompt.cfg					\prompt.cfg
 data = ZDRIVE\autohardware\hosts		     \hosts
 
 
-
 #ifdef __AUTO_HARDWARE_TESTS__
 	data = ZDRIVE\autohardware\autoexec.bat		\autoexec.bat
 #endif
 
-#ifdef __SECURITY_NORMAL_SWICERTSTORE__
 
-	#ifdef __SECURITY_ONLYJAVA__
+data = ZDRIVE\autohardware\runcertman.bat			\runcertman.bat
+data = ZDRIVE\autohardware\runasnpkcs.bat			\runasnpkcs.bat
+data = ZDRIVE\autohardware\runcryptotokens.bat		\runcryptotokens.bat
+data = ZDRIVE\autohardware\runupstests.bat			\runupstests.bat
+data = ZDRIVE\autohardware\runpkcs12tests.bat		\runpkcs12tests.bat
 
-		#ifndef SYMBIAN_JAVA_NOT_INCLUDED
-			data = ZDRIVE\autohardware\runjavamidletinstaller_9.4.bat      	\runjavamidletinstaller.bat
-			data = ZDRIVE\autohardware\runsisinstaller_9.4.bat		\runsisinstaller.bat
-			data = ZDRIVE\autohardware\testsecurityonlyjava.bat	\testsecurity.bat
-		#endif
-	#elif __SECURITY_NORMAL__
-		#ifdef SYMBIAN_UNIVERSAL_INSTALL_FRAMEWORK
-			data = ZDRIVE\autohardware\testsecurity_9.6_nonmcs.bat	\testsecurity.bat
-			data = ZDRIVE\autohardware\runswiromtests_9.6.bat	\runswiromtests.bat
-			data = ZDRIVE\autohardware\runusiftests.bat		\runusiftests.bat
-			data = ZDRIVE\autohardware\runcommonutilstests.bat	\runcommonutilstests.bat
-		#else
-			data = ZDRIVE\autohardware\testsecurity_9.5_nonmcs.bat	\testsecurity.bat
-			data = ZDRIVE\autohardware\runswiromtests_9.5.bat	\runswiromtests.bat
-		#endif
-
-		#ifndef SYMBIAN_JAVA_NOT_INCLUDED
-			data = ZDRIVE\autohardware\runsisinstaller_9.4.bat		\runsisinstaller.bat
-		#endif
-
-		
-
-		data = ZDRIVE\autohardware\runupstests_9.4.bat		\runupstests.bat
-		data = ZDRIVE\autohardware\runpkcs12tests_9.4.bat		\runpkcs12tests.bat
-
-#ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
 #ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-		data = ZDRIVE\autohardware\runcaftests_wmdrm.bat		\runcaftests.bat
+	data = ZDRIVE\autohardware\runcaftests_wmdrm.bat		\runcaftests.bat
 #else
-		data = ZDRIVE\autohardware\runcaftests_9.6.bat		\runcaftests.bat
+	data = ZDRIVE\autohardware\runcaftests.bat		\runcaftests.bat
 #endif
 
+
+
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+	data = ZDRIVE\autohardware\runcrypto_wmdrm.bat	               	\runcrypto.bat
 #else
-		data = ZDRIVE\autohardware\runcaftests_9.5.bat		\runcaftests.bat
-#endif
-		
-
-	#endif
-
-#elif __SECURITY_MANDATORY_SWICERTSTORE__
-	
-	#ifdef SYMBIAN_AUTH_SERVER
-		#ifdef SYMBIAN_ENABLE_POST_MARKET_AUTHENTICATION_PLUGINS
-			data = ZDRIVE\autohardware\runauthtests_macroenabled.bat		\runauthtests.bat
-			data = ZDRIVE\autohardware\testsecurity_9.6_mcs.bat			\testsecurity.bat
-		#else
-			data = ZDRIVE\autohardware\testsecurity_9.6_mcs.bat			\testsecurity.bat
-			data = ZDRIVE\autohardware\runauthtests.bat				\runauthtests.bat
-		#endif	//SYMBIAN_ENABLE_POST_MARKET_AUTHENTICATION_PLUGINS
-		#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-			data = ZDRIVE\autohardware\runfiletokens_useauth.bat		\runfiletokens.bat
-		#elif SYMBIAN_AUTH_SERVER
-			data = ZDRIVE\autohardware\runfiletokens_disableauth.bat		\runfiletokens.bat
-		#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-	#else
-		data = ZDRIVE\autohardware\runfiletokens_9.4.bat		\runfiletokens.bat
-		data = ZDRIVE\autohardware\testsecurity_9.5_mcs.bat			\testsecurity.bat
-	#endif // SYMBIAN_AUTH_SERVER
-
-	data = ZDRIVE\autohardware\runcertman_9.5.bat		\runcertman.bat
-	data = ZDRIVE\autohardware\runasnpkcs_9.4.bat		\runasnpkcs.bat
-	data = ZDRIVE\autohardware\runcryptotokens_9.4.bat	\runcryptotokens.bat
-	data = ZDRIVE\autohardware\runswiromtests_9.4_mcs.bat	\runswiromtests.bat
-	
-#elif __SECURITY_JAVA__
-
-#ifndef SYMBIAN_JAVA_NOT_INCLUDED
-	
-	data = ZDRIVE\autohardware\runjavamidletinstaller_9.4.bat      	\runjavamidletinstaller.bat
-	data = ZDRIVE\autohardware\testsecurity_9.4_java.bat	\testsecurity.bat
-#else
-	data = ZDRIVE\autohardware\testsecurity_9.6_crypto.bat	\testsecurity.bat
+	data = ZDRIVE\autohardware\runcrypto.bat	               	\runcrypto.bat
 #endif
 
-#ifdef SYMBIAN_CRYPTOSPI
-	data = ZDRIVE\autohardware\runcrypto_9.5.bat	               	\runcrypto.bat
-#else
-	data = ZDRIVE\autohardware\runcrypto_9.4.bat	               	\runcrypto.bat
-#endif
-#endif
+
 
 data = ZDRIVE\autohardware\testsecurityperformance_cryptalg.bat	\testsecurityperformance_cryptalg.bat
 data = ZDRIVE\autohardware\testsecurityperformance_crypto.bat	\testsecurityperformance_crypto.bat
+
+#ifdef SYMBIAN_AUTH_SERVER
+#ifdef SYMBIAN_ENABLE_POST_MARKET_AUTHENTICATION_PLUGINS
+	data = ZDRIVE\autohardware\runauthtests_macroenabled.bat		\runauthtests.bat
+#else
+	data = ZDRIVE\autohardware\runauthtests.bat				\runauthtests.bat
+#endif	//SYMBIAN_ENABLE_POST_MARKET_AUTHENTICATION_PLUGINS
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	data = ZDRIVE\autohardware\runfiletokens_useauth.bat		\runfiletokens.bat
+#else
+	#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+		data = ZDRIVE\autohardware\runfiletokens_disableauth_with_wmdrm.bat		\runfiletokens.bat
+	#else
+		data = ZDRIVE\autohardware\runfiletokens_disableauth.bat		\runfiletokens.bat
+	#endif
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+#else
+	data = ZDRIVE\autohardware\runfiletokens.bat		\runfiletokens.bat
+#endif // SYMBIAN_AUTH_SERVER
+
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER 
+	data = ZDRIVE\autohardware\testsecurity_sdp_auth.bat		\testsecurity.bat
+#else
+#ifdef SDP_ROM1
+	data = ZDRIVE\autohardware\testsecurity_sdp_newrom.bat		\testsecurity.bat
+#else
+	data = ZDRIVE\autohardware\testsecurity_sdp.bat			\testsecurity.bat
+#endif
+#endif
+	
+
+
 
 //estor.dll is put in ROFS by deafult but we need to put it into CORE as well
 //core version will be used; see DEF113303 for details
 #ifdef __SECURITY_TEST_ROM__
 #ifdef _INTERNAL_MMC
-ROM_IMAGE[0]{
+ROM_IMAGE[0] {
 file = \epoc32\release\armv5\urel\estor.dll \sys\bin\estor.dll
 }
-#elif _NAND2
+#else
+#ifdef _NAND2
 ROM_IMAGE[0] {
 file = \epoc32\release\armv5\urel\estor.dll \sys\bin\estor.dll
 }
 #endif
 #endif
-
+#endif
 
 REM ---------- Comms-Infras ----------
 // ced is not included in release builds by default (in commdb.iby)
@@ -309,7 +197,6 @@ file=ABI_DIR\BUILD_DIR\RUNTESTS.EXE                 System\Programs\RUNTESTS.EXE
 
 #include "thindump.iby"
 #include "sntpclient.iby"
-
 
 // *** Additional includes and configuration for SSM Requirements ***
 #ifdef _SSMSTARTUPMODE
@@ -328,5 +215,3 @@ data=MULTI_LINGUIFY(RSC EPOCROOT##epoc32\data\z\private\2000d75b\startup\0\eshel
 #include "ocsptests.iby"
 
 #endif
-
-

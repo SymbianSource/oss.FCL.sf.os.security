@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2004-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -151,6 +151,8 @@ _LIT8(KSubjectKeyIdStart,"<subjectkeyid>");
 _LIT8(KSubjectKeyIdEnd,"</subjectkeyid>");
 _LIT8(KIssuerKeyIdStart,"<issuerkeyid>");
 _LIT8(KIssuerKeyIdEnd,"</issuerkeyid>");
+_LIT8(KUseSubjectKeyIdStart,"<usesubjectkeyid>");
+_LIT8(KUseSubjectKeyIdEnd,"</usesubjectkeyid>");
 
 //  tag for Notification of Change
 _LIT8(KChangeNotifiedStart, "<ChangeNotification>");
