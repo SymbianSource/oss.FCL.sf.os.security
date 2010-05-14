@@ -21,7 +21,7 @@
 
 /**
  @file 
- @prototype
+ @released
  @internalComponent 
 */
 
