@@ -1,0 +1,59 @@
+/*
+* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* tpinplugin.exe Tests plugin
+*
+*/
+
+
+/**
+ @file
+*/
+
+TARGET      	tpinplugin.exe
+TARGETTYPE  	exe
+
+// To allow setcap to work
+ROMTARGET    // Empty ROM path means don't include normal execute-in-place file
+RAMTARGET /sys/bin/    // Target path (in ROM) for RAM executable image
+
+UID         	0x102740FC 0x102740FC 
+VENDORID    	0x70000001
+
+CAPABILITY TrustedUI ProtServ ReadDeviceData WriteDeviceData Location SurroundingsDD UserEnvironment
+
+OS_LAYER_SYSTEMINCLUDE
+SYSTEMINCLUDE OS_LAYER_PUBLIC_EXPORT_PATH(authserver)
+SYSTEMINCLUDE OS_LAYER_PLATFORM_EXPORT_PATH(test)
+
+USERINCLUDE		.
+USERINCLUDE		../../../source/common
+USERINCLUDE		../../../inc_private
+USERINCLUDE     ../pinplugin
+
+SOURCEPATH  	../tpinplugin
+SOURCE			tpinplugin.cpp
+SOURCE			tpinpluginteststep.cpp
+SOURCE			tpinplugintestactive.cpp
+
+
+LIBRARY     	euser.lib
+LIBRARY			testexecuteutils.lib
+LIBRARY			testexecutelogclient.lib
+LIBRARY			bafl.lib
+LIBRARY			ecom.lib
+LIBRARY			estor.lib
+LIBRARY			efsrv.lib
+LIBRARY			authcommon.lib
+SMPSAFE

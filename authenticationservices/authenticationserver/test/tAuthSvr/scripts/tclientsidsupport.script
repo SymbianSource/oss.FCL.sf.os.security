@@ -1,0 +1,195 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+
+PRINT Client Sid support tests...
+
+// Prepare a clone of TAuthSvr to possess authserver's SID.
+// This is required for modifying the authserver's central repository file.
+// This clone must be deleted at the end of the test.
+
+RUN_PROGRAM 100 SETCAP tAuthSvr.exe 188b0 -SID 102740FC tAuthSvr_new.exe
+
+// Prepare a clone of TAuthSvr without ReadUserData capability.
+// This clone must be deleted at the end of the test.
+
+RUN_PROGRAM 100 SETCAP tAuthSvr.exe 108b0 tAuthSvr1.exe
+
+LOAD_SUITE tAuthSvr
+LOAD_SUITE tAuthSvr_new
+LOAD_SUITE tAuthSvr1
+
+// This test must be executed in order to set the default plugin, else authserver will never start.
+
+RUN_UTILS DeleteFile C:\pinplugin_inactive.txt
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr_new 	INIT_CENREP c:\tauth\tAuthSvr\scripts\tauthsvr2.ini defaultplugin
+RUN_UTILS DeleteFile  C:\t_pinplugindlg_in.dat
+RUN_UTILS DeleteFile  C:\t_pinplugindlg_out.dat
+
+////
+//! @SYMTestCaseID SEC-AUT-CLIENTSIDSUPPORT-0001
+//! @SYMTestCaseDesc 		When a client Sid is non-zero, the same must be used to generate the protection key 
+//!				of an identity.
+//! @SYMREQ 			REQ11236
+//! @SYMTestPriority 		Medium
+//! @SYMTestActions  		Have a default plugin defined, which is active, and a second one which is active as well
+//!				use a client that has ReadUserData capability to connect to the AuthServer.
+//! 
+//!				Successfully register a 2nd identity while using a specified PIN input
+//!				Authenticate using the same PIN input so that the identity to be trained is one
+//!				that has been previously trained.Store the Identity obtained as a result of authentication.
+//! 
+//!				Then call the Train() function, giving a different input. Attempt to authenticate,
+//!				giving the new input.Store the identity obtained as a result of authentication.
+//!			
+//!				Generate a protection key using the key of the identity resulting from the first 
+//!				authentication with the client sid and compare with the identity key obtained from 
+//!				second authentication.
+//!				
+//! @SYMTestExpectedResults 	The authentication, registration and retrain are successful. Protection key generated 
+//!				by the identity resulting from first authentication must be the same as the protection key 
+//!				of the identity resulting from second authentication.
+//! @SYMDevelopedForRelease 	Diran
+//!
+START_TESTCASE SEC-AUT-CLIENTSIDSUPPORT-0001
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tclientsidsupport.ini Test0001
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	CLIENT_SID_CHECK	c:\tauth\tAuthSvr\scripts\tclientsidsupport.ini Test0002
+END_TESTCASE SEC-AUT-CLIENTSIDSUPPORT-0001
+
+
+////
+//! @SYMTestCaseID SEC-AUT-CLIENTSIDSUPPORT-0002
+//! @SYMTestCaseDesc 		When a client Sid is zero, the calling application's sid must be used to generate the 
+//!				protection key of an identity.
+//! @SYMREQ 			REQ11236
+//! @SYMTestPriority 		Medium
+//! @SYMTestActions  		Have a default plugin defined, which is active, and a second one which is active as well
+//!				use a client that has ReadUserData capability to connect to the AuthServer.
+//! 
+//!				Successfully register a 2nd identity while using a specified PIN input
+//!				Authenticate using the same PIN input so that the identity to be trained is one
+//!				that has been previously trained.Store the Identity obtained as a result of authentication.
+//! 
+//!				Then call the Train() function, giving a different input. Attempt to authenticate,
+//!				giving the new input.Store the identity obtained as a result of authentication.
+//!			
+//!				Generate a protection key using the key of the identity resulting from the first 
+//!				authentication with the client sid of the calling application and compare with the 
+//!				identity key obtained from second authentication.
+//!				
+//! @SYMTestExpectedResults 	The authentication, registration and retrain are successful. Protection key generated 
+//!				by the identity resulting from first authentication must be the same as the protection key 
+//!				of the identity resulting from second authentication.
+//! @SYMDevelopedForRelease 	Diran
+//!
+START_TESTCASE SEC-AUT-CLIENTSIDSUPPORT-0002
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tclientsidsupport.ini Test0001
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	CLIENT_SID_CHECK	c:\tauth\tAuthSvr\scripts\tclientsidsupport.ini Test0003
+END_TESTCASE SEC-AUT-CLIENTSIDSUPPORT-0002
+
+
+////
+//! @SYMTestCaseID SEC-AUT-CLIENTSIDSUPPORT-0003
+//! @SYMTestCaseDesc 		When a client sid is non-zero and is not the same as the calling application's SID, 
+//!				a call to authenticate method fails if the calling application doesn't 
+//!				possess ReadUserData capability. 
+//! @SYMREQ 			REQ11236
+//! @SYMTestPriority 		Medium
+//! @SYMTestActions  		Have a default plugin defined, which is active, and a second one which is active as well
+//!				use a client that does not have ReadUserData capability to connect to the AuthServer.
+//! 
+//!				Successfully register a 2nd identity while using a specified PIN input
+//!				Authenticate using the same PIN input so that the identity to be trained is one
+//!				that has been previously trained.Authentication fails with KErrPermissionDenied,
+//!				since the calling appliction doesn't possess ReadUserData capability.
+//!				Authentication must fail with KErrPermissionDenied.
+//! @SYMDevelopedForRelease 	Diran
+//!
+START_TESTCASE SEC-AUT-CLIENTSIDSUPPORT-0003
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tclientsidsupport.ini Test0001
+RUN_TEST_STEP !Error=-46 100	tAuthSvr1 	CLIENT_SID_CHECK	c:\tauth\tAuthSvr\scripts\tclientsidsupport.ini Test0002
+END_TESTCASE SEC-AUT-CLIENTSIDSUPPORT-0003
+
+////
+//! @SYMTestCaseID SEC-AUT-CLIENTSIDSUPPORT-0004
+//! @SYMTestCaseDesc 		When a client sid is zero, a call to authenticate method succeeds even if the calling 
+//!				application doesn't have ReadUserData capability.
+//! @SYMREQ 			REQ11236
+//! @SYMTestPriority 		Medium
+//! @SYMTestActions  		Have a default plugin defined, which is active, and a second one which is active as well
+//!				use a client that doesn't possess ReadUserData capability to connect to the AuthServer.
+//! 
+//!				Successfully register a 2nd identity while using a specified PIN input
+//!				Authenticate using the same PIN input so that the identity to be trained is one
+//!				that has been previously trained.Store the Identity obtained as a result of authentication.
+//! 
+//!				Then call the Train() function, giving a different input. Attempt to authenticate,
+//!				giving the new input.Store the identity obtained as a result of authentication.
+//!			
+//!				Generate a protection key using the key of the identity resulting from the first 
+//!				authentication with the client sid of the calling application and compare with the 
+//!				identity key obtained from second authentication.
+//!				
+//! @SYMTestExpectedResults 	The authentication, registration and retrain are successful. Protection key generated 
+//!				by the identity resulting from first authentication must be the same as the protection key 
+//!				of the identity resulting from second authentication.
+//! @SYMDevelopedForRelease 	Diran
+//!
+
+START_TESTCASE SEC-AUT-CLIENTSIDSUPPORT-0004
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tclientsidsupport.ini Test0001
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr1 	CLIENT_SID_CHECK	c:\tauth\tAuthSvr\scripts\tclientsidsupport.ini Test0003
+END_TESTCASE SEC-AUT-CLIENTSIDSUPPORT-0004
+
+////
+//! @SYMTestCaseID SEC-AUT-CLIENTSIDSUPPORT-0005
+//! @SYMTestCaseDesc 		When a client sid is non-zero and is the same as the calling application's sid,
+//!				, a call to authenticate method succeeds even if the calling application doesn't 
+//!				have ReadUserData capability.
+//! @SYMREQ 			REQ11236
+//! @SYMTestPriority 		Medium
+//! @SYMTestActions  		Have a default plugin defined, which is active, and a second one which is active as well
+//!				use a client that doesn't possess ReadUserData capability to connect to the AuthServer.
+//! 
+//!				Successfully register a 2nd identity while using a specified PIN input
+//!				Authenticate using the same PIN input so that the identity to be trained is one
+//!				that has been previously trained.Store the Identity obtained as a result of authentication.
+//! 
+//!				Then call the Train() function, giving a different input. Attempt to authenticate,
+//!				giving the new input.Store the identity obtained as a result of authentication.
+//!			
+//!				Generate a protection key using the key of the identity resulting from the first 
+//!				authentication with the client sid of the calling application and compare with the 
+//!				identity key obtained from second authentication.
+//!				
+//! @SYMTestExpectedResults 	The authentication, registration and retrain are successful. Protection key generated 
+//!				by the identity resulting from first authentication must be the same as the protection key 
+//!				of the identity resulting from second authentication.
+//! @SYMDevelopedForRelease 	Diran
+//!
+
+START_TESTCASE SEC-AUT-CLIENTSIDSUPPORT-0005
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tclientsidsupport.ini Test0001
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr1 	CLIENT_SID_CHECK	c:\tauth\tAuthSvr\scripts\tclientsidsupport.ini Test0004
+END_TESTCASE SEC-AUT-CLIENTSIDSUPPORT-0005
+
+// This is to shut down the auth server
+DELAY 5000

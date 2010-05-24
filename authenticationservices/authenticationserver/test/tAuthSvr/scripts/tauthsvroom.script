@@ -1,0 +1,167 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+//! @file
+//AuthServer OOM Tests
+
+RUN_PROGRAM 100 SETCAP tAuthSvr.exe 188b0 -SID 102740FC tAuthSvr_new.exe
+LOAD_SUITE tAuthSvr_new
+LOAD_SUITE tAuthSvr
+
+
+//Delete plugin dat files and initialize default plugin value
+RUN_UTILS DeleteFile C:\pinplugin_inactive.txt
+RUN_UTILS DeleteFile  C:\t_pinplugindlg_in.dat
+RUN_UTILS DeleteFile  C:\t_pinplugindlg_out.dat
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr_new 	INIT_CENREP c:\tauth\tAuthSvr\scripts\tauthsvr2.ini defaultplugin
+
+
+
+//SEE tauthsvroom.ini for instructions on adding OOM tests.
+
+
+
+
+
+
+////
+//! @SYMTestCaseID SEC-AUT-AUTHSVROOM-0001
+//! @SYMTestCaseDesc Authserver OOM tests for all published api's
+//! @SYMREQ REQ4969 4970 4971 4972 4975 4976 4977 4978 4963 4985 5008 5009
+//! @SYMTestPriority Medium
+//! @SYMTestActions 
+//! @SYMTestExpectedResults All tests pass successfully
+//! @SYMDevelopedForRelease Intulo
+
+START_TESTCASE SEC-AUT-AUTHSVROOM-0001
+
+RUN_UTILS DELETEDIRECTORY C:\testplugin_active\
+//Synchronous Authenticate API check -- SERVER SIDE
+RUN_TEST_STEP_RESULT 0 1000	tAuthSvr 	OOM_TEST	c:\tauth\tAuthSvr\scripts\tauthsvroom.ini oom1
+
+
+//Register API check -- SERVER SIDE
+RUN_UTILS CopyFile C:\tauth\tauthsvr\testdata\pinplugin_inactive.txt C:\pinplugin_inactive.txt
+RUN_TEST_STEP_RESULT 0 1000	tAuthSvr 	OOM_TEST	c:\tauth\tAuthSvr\scripts\tauthsvroom.ini oom2
+RUN_UTILS DeleteFile C:\pinplugin_inactive.txt
+
+
+//Synchronous Authenticate API check -- CLIENT SIDE
+RUN_TEST_STEP_RESULT 0 1000	tAuthSvr 	OOM_TEST	c:\tauth\tAuthSvr\scripts\tauthsvroom.ini oom3
+
+
+//Register API check -- CLIENT SIDE
+RUN_UTILS CopyFile C:\tauth\tauthsvr\testdata\pinplugin_inactive.txt C:\pinplugin_inactive.txt
+RUN_TEST_STEP_RESULT 0 1000	tAuthSvr 	OOM_TEST	c:\tauth\tAuthSvr\scripts\tauthsvroom.ini oom4
+RUN_UTILS DeleteFile C:\pinplugin_inactive.txt
+
+
+//Asynchronous Authenticate API check -- SERVER SIDE
+RUN_TEST_STEP_RESULT 0 1000	tAuthSvr 	OOM_TEST	c:\tauth\tAuthSvr\scripts\tauthsvroom.ini oom5
+
+
+//Asynchronous Authenticate API check -- CLIENT SIDE
+RUN_TEST_STEP_RESULT 0 1000	tAuthSvr 	OOM_TEST	c:\tauth\tAuthSvr\scripts\tauthsvroom.ini oom6
+
+
+//Set preffered plugin type check -- SERVER SIDE
+RUN_TEST_STEP_RESULT 0 1000	tAuthSvr 	OOM_TEST	c:\tauth\tAuthSvr\scripts\tauthsvroom.ini oom7
+
+
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+RUN_TEST_STEP !RESULT=FAIL 100	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvroom.ini Test4
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHENTICATE	c:\tauth\tAuthSvr\scripts\tauthsvroom.ini Test3
+
+//Check Remove Identity API -- SERVER SIDE
+RUN_TEST_STEP_RESULT 0 1000	tAuthSvr 	OOM_TEST	c:\tauth\tAuthSvr\scripts\tauthsvroom.ini oom8
+
+
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+RUN_TEST_STEP !RESULT=FAIL 100	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvroom.ini Test4
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHENTICATE	c:\tauth\tAuthSvr\scripts\tauthsvroom.ini Test3
+
+
+//Check Retrain Plugin API -- SERVER SIDE
+RUN_TEST_STEP_RESULT 0 1000	tAuthSvr 	OOM_TEST	c:\tauth\tAuthSvr\scripts\tauthsvroom.ini oom10
+
+//Check List PluginsL API -- SERVER SIDE
+RUN_TEST_STEP_RESULT 0 1000	tAuthSvr 	OOM_TEST	c:\tauth\tAuthSvr\scripts\tauthsvroom.ini oom11
+
+
+//Check List Active Plugins API -- SERVER SIDE
+RUN_TEST_STEP_RESULT 0 1000	tAuthSvr 	OOM_TEST	c:\tauth\tAuthSvr\scripts\tauthsvroom.ini oom12
+
+
+//Check List Plugins of type API -- SERVER SIDE
+RUN_TEST_STEP_RESULT 0 1000	tAuthSvr 	OOM_TEST	c:\tauth\tAuthSvr\scripts\tauthsvroom.ini oom13
+
+
+//Check List Plugins With Training status API -- SERVER SIDE
+RUN_TEST_STEP_RESULT 0 1000	tAuthSvr 	OOM_TEST	c:\tauth\tAuthSvr\scripts\tauthsvroom.ini oom14
+
+
+//Check List Authentication aliases API
+RUN_TEST_STEP_RESULT 0 1000	tAuthSvr 	OOM_TEST	c:\tauth\tAuthSvr\scripts\tauthsvroom.ini oom15
+
+
+//Delete plugin dat files and initialize default plugin value
+RUN_UTILS DeleteFile C:\pinplugin_inactive.txt
+RUN_UTILS DeleteFile  C:\t_pinplugindlg_in.dat
+RUN_UTILS DeleteFile  C:\t_pinplugindlg_out.dat
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr_new 	INIT_CENREP c:\tauth\tAuthSvr\scripts\tauthsvr2.ini defaultplugin
+
+
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+
+//Expected result is fail because plugin count fails (tauthplugin.rsc is deleted). 
+//This identity is just used in the next few cases
+RUN_TEST_STEP !RESULT=FAIL	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvroom.ini Test1
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHENTICATE	c:\tauth\tAuthSvr\scripts\tauthsvroom.ini Test2
+
+
+
+//Check Reset Identity API (all plugins)
+
+RUN_TEST_STEP_RESULT 0 1000	tAuthSvr 	OOM_TEST	c:\tauth\tAuthSvr\scripts\tauthsvroom.ini oom16
+
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+//Expected result is fail because plugin count fails (tauthplugin.rsc is deleted). 
+//This identity is just used in the next few cases
+RUN_TEST_STEP !RESULT=FAIL	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvroom.ini Test1
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHENTICATE	c:\tauth\tAuthSvr\scripts\tauthsvroom.ini Test2
+
+
+//Check Reset Identity API (plugins of specified type)
+
+RUN_TEST_STEP_RESULT 0 1000	tAuthSvr 	OOM_TEST	c:\tauth\tAuthSvr\scripts\tauthsvroom.ini oom17
+
+
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	REMOVE_DBS
+//Expected result is fail because plugin count fails (tauthplugin.rsc is deleted). 
+//This identity is just used in the next few cases
+RUN_TEST_STEP !RESULT=FAIL	tAuthSvr 	REG_IDENTITY	c:\tauth\tAuthSvr\scripts\tauthsvroom.ini Test1
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr 	AUTHENTICATE	c:\tauth\tAuthSvr\scripts\tauthsvroom.ini Test2
+
+
+//Check Reset Identity API (specified plugins)
+RUN_TEST_STEP_RESULT 0 1000	tAuthSvr 	OOM_TEST	c:\tauth\tAuthSvr\scripts\tauthsvroom.ini oom18
+
+
+
+
+END_TESTCASE SEC-AUT-AUTHSVROOM-0001
+
+
