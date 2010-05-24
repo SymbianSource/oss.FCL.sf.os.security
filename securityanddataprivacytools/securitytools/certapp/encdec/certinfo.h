@@ -64,6 +64,8 @@ public:
 
 	TUint32 OutputCertificateId() const;
 	void SetOutputCertificateId(TUint32 aId);
+
+	TCertificateOwnerType CertificateOwnerType() const;
 	
 private:
 	EncDecObject<TUint8> iTmpCombinedDeletableAndFormat;

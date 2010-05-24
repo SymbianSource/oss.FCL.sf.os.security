@@ -18,3 +18,8 @@
 
 
 #include <asn1dec.h>
+
+// Dummy definition, just to satisfy SDK creation check
+EXPORT_C TASN1DecEnumerated::TASN1DecEnumerated()
+{
+}

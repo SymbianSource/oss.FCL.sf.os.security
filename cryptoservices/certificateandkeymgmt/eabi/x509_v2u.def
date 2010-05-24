@@ -397,5 +397,5 @@ EXPORTS
 	_ZNK30CCertificateValidationWarnings9CertIndexEv @ 396 NONAME
 	_ZTI30CCertificateValidationWarnings @ 397 NONAME
 	_ZTV30CCertificateValidationWarnings @ 398 NONAME
-	_ZN16CX509Certificate13SubjectKeyIdLEv @ 399 NONAME
+	_ZNK16CX509Certificate13SubjectKeyIdLEv @ 399 NONAME
 

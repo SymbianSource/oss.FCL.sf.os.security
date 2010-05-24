@@ -21,6 +21,10 @@
  @file
 */
 
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+#include "../../referencedrmagent/refcafhelper/group/bld.inf"
+#endif
+
 
 PRJ_PLATFORMS
 DEFAULT

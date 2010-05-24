@@ -130,4 +130,5 @@ EXPORTS
 	??1CASN1EncPrintableString@@UAE@XZ @ 129 NONAME ; CASN1EncPrintableString::~CASN1EncPrintableString(void)
 	?NewL@CASN1EncPrintableString@@SAPAV1@ABVTDesC8@@@Z @ 130 NONAME ; class CASN1EncPrintableString * CASN1EncPrintableString::NewL(class TDesC8 const &)
 	?NewLC@CASN1EncPrintableString@@SAPAV1@ABVTDesC8@@@Z @ 131 NONAME ; class CASN1EncPrintableString * CASN1EncPrintableString::NewLC(class TDesC8 const &)
+	??0TASN1DecEnumerated@@QAE@XZ @ 132 NONAME ; TASN1DecEnumerated::TASN1DecEnumerated(void)
 

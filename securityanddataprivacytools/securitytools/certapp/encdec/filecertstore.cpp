@@ -286,10 +286,11 @@ void CertStoreEntry::Decode(RDecodeReadStream &aReadStream)
 	if(iCertInfo.CertificateFormat() == EX509Certificate)
 		{
 		TKeyIdentifier subjectKeyId;
-		
+		bool isCA = ( iCertInfo.CertificateOwnerType() != EUserCertificate );
+
 		// nb. If processing a swicertstore we ignore any SubjectKeyId in the extension.
 		if(X509SubjectKeyId((iSwiMode)?(KIgnoreCertificateExtension) : (KUseCertificateExtension), 
-							false,
+							false, isCA,
 							iCertData,
 							iCertSubject, subjectKeyId))
 			{

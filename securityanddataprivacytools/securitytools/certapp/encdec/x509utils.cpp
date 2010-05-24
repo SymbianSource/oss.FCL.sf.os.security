@@ -191,7 +191,7 @@ RReadStream& operator>>(RReadStream& aStream, KeyIdentifierObject& aKeyId)
 #endif
 
 bool X509SubjectKeyId(EUseCertificateExtension aUseExtension, bool aUseRfc3280Algorithm,
-					  const std::string &aCert, 
+					  bool aIsCa, const std::string &aCert, 
 					  std::string &aSubject, TKeyIdentifier &aSubjectKeyId)
 {
 	bool done = false;
@@ -210,8 +210,17 @@ bool X509SubjectKeyId(EUseCertificateExtension aUseExtension, bool aUseRfc3280Al
 	// Return the Subject Name
 	prog << Log::Indent() << "Cert subject is '" << x509->name << "'" << Log::Endl();
 	aSubject = std::string(x509->name);
-
-	if(aUseExtension)
+	TUint32 ver = X509_get_version(x509);
+	prog << Log::Indent() << "Cert version is '" << ver << "'" << Log::Endl();
+	
+	// if the ver is a v1 or v2 type then there is no way of knowing which is a CA, treat all certs as CA as done in the certificate recognizer.
+	bool treatAsCa = false;  
+	if ( ver < 3 || aIsCa )
+		{
+		treatAsCa = true;
+		}
+	
+	if(treatAsCa && aUseExtension)
 		{
 		// Attempt to read Subject Key Id extension
 		ASN1_OCTET_STRING *subKeyId = (ASN1_OCTET_STRING *) X509_get_ext_d2i(x509, NID_subject_key_identifier, NULL, NULL);
