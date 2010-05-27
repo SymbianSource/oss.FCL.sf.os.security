@@ -151,15 +151,10 @@ EXPORT_C void RStaClient::SetSdpMediaFieldL(const CSdpMediaField& aSdp) const
  	@param aKey An SDP object data.
  */
 	{
-#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 	HBufC8* sdpBuf(0);
 	TPtr8 ptr(EncodeLC(aSdp, sdpBuf));
 	User::LeaveIfError(CallSessionFunction(ESetSdpKeyStream, TIpcArgs(&ptr)));
 	CleanupStack::PopAndDestroy(sdpBuf);
-#else
-	(void) aSdp;
-#endif
-
 	}
 
 EXPORT_C void RStaClient::SetSdpDocumentL(const CSdpDocument& aSdpDoc) const
@@ -168,15 +163,10 @@ EXPORT_C void RStaClient::SetSdpDocumentL(const CSdpDocument& aSdpDoc) const
  	@param aKey An SDP object data.
  */
 	{
-#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 	HBufC8* sdpDocBuf(0);
 	TPtr8 ptr(EncodeLC(aSdpDoc, sdpDocBuf));
 	User::LeaveIfError(CallSessionFunction(ESetSdpDocument, TIpcArgs(&ptr)));
 	CleanupStack::PopAndDestroy(sdpDocBuf);
-#else
-	(void) aSdpDoc;
-#endif
-
 	}
 
 EXPORT_C void RStaClient::SendIpSecAssociationL(TInt32 aSpi, HBufC8* aEncryptionKey, HBufC8* aAuthenticationKey) const

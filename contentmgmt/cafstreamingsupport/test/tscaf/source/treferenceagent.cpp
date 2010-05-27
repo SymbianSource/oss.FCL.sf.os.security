@@ -22,9 +22,7 @@
 
 using namespace StreamAccess;
 
-#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 const TUint32 KTestSpiBase = 667;
-#endif
 
 CScafRefAgent::CScafRefAgent(CScafServer& aParent): CScafIpSec(aParent)
 	{
@@ -34,7 +32,6 @@ CScafRefAgent::CScafRefAgent(CScafServer& aParent): CScafIpSec(aParent)
 
 TVerdict CScafRefAgent::doTestL()
 	{
-#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 	SetTestStepResult(EPass);
 	CleanAgentsPrivateFolderL(KSraPrivateFolder());
 	CopyFile2AgentsPrivateFolderL(iParent.Fs(), KProgramProtectedRo(), KSraPrivateFolder());
@@ -95,6 +92,5 @@ TVerdict CScafRefAgent::doTestL()
 	// Release the allocated memories
 	CleanupStack::PopAndDestroy(5, protectedStreamDesc);
 	CleanupStack::PopAndDestroy(); // sdpDoc
-#endif
 	return TestStepResult();	
 	}
