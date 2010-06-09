@@ -621,7 +621,7 @@ public:
 	* as an extension in the certificate, any other certificate it returns the keyidentifier as 
 	* calculated by Symbian's proprietary logic.
 	* @return	The subject key identifier for the certificate. */
-	IMPORT_C TKeyIdentifier SubjectKeyIdL();
+	IMPORT_C TKeyIdentifier SubjectKeyIdL() const;
 				
 	/** Destructor.
 	* 
