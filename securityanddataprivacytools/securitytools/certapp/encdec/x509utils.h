@@ -1,6 +1,6 @@
 #ifndef __X509UTILS_H__
 #define __X509UTILS_H__/*
-* Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2008-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -71,7 +71,7 @@ enum EUseCertificateExtension
    If the certificate is invalid then exit the program with an error message!
  */
 bool X509SubjectKeyId(EUseCertificateExtension aUseExtension, bool aUseRfc3280Algorithm,
-					  const std::string &aCert, 
+					  bool aIsCa, const std::string &aCert, 
 					  std::string &aSubject, TKeyIdentifier &aSubjectKeyId);
 
 /**

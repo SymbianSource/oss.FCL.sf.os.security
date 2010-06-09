@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2008-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -286,10 +286,11 @@ void CertStoreEntry::Decode(RDecodeReadStream &aReadStream)
 	if(iCertInfo.CertificateFormat() == EX509Certificate)
 		{
 		TKeyIdentifier subjectKeyId;
-		
+		bool isCA = ( iCertInfo.CertificateOwnerType() != EUserCertificate );
+
 		// nb. If processing a swicertstore we ignore any SubjectKeyId in the extension.
 		if(X509SubjectKeyId((iSwiMode)?(KIgnoreCertificateExtension) : (KUseCertificateExtension), 
-							false,
+							false, isCA,
 							iCertData,
 							iCertSubject, subjectKeyId))
 			{
