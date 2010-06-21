@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 1998-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 1998-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -161,7 +161,7 @@ void CTestActionBuild::ConstructL(const TTestActionSpec& aTestActionSpec)
 		{
 		}
 
-	while(AddAddCalls(*aBody, pos))
+	while(AddAddCallsL(*aBody, pos))
 		{
 		}
 
@@ -354,13 +354,14 @@ TBool CTestActionBuild::AddCert(const TDesC& aBuf,
 	return EFalse;
 	} 
 
-TBool CTestActionBuild::AddAddCalls(const TDesC& aBuf, TInt& aPos)
+TBool CTestActionBuild::AddAddCallsL(const TDesC& aBuf, TInt& aPos)
 	{
 	TPtrC addCallsBuf = Input::ParseElement(aBuf, KAddCallStart, KAddCallEnd, aPos);
 	if (addCallsBuf != KNullDesC)
 		{
-		CAddCall* addCall = CAddCall::NewL(addCallsBuf);
-		iAddCalls.Append(addCall);
+		CAddCall* addCall = CAddCall::NewLC(addCallsBuf);		
+		iAddCalls.AppendL(addCall);
+		CleanupStack::Pop(addCall);
 		return ETrue;
 		}
 	return EFalse;
