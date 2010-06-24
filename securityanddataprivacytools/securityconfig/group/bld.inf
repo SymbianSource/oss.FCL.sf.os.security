@@ -43,7 +43,7 @@ PRJ_EXPORTS
 #endif // SYMBIAN_AUTH_SERVER
 // ConfML Files
 ../conf/securityconfig.confml            OS_LAYER_EXPORTS_CONFML(securityconfig.confml)
-../conf/securityconfig_2001ea7f.crml	 OS_LAYER_EXPORTS_CRML(securityconfig_2001ea7f.crml)
+../conf/securityconfig_2002b28b.crml	 OS_LAYER_EXPORTS_CRML(securityconfig_2002b28b.crml)
 
 PRJ_TESTEXPORTS
 
