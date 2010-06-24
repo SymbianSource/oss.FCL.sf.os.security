@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2008-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -123,7 +123,7 @@ void CValidateCertChainStep::ValidateL(TTime aValidateTime, TDes& aConfigSection
 		if (policyIndex > 0)
 			{
 			TValidationError error = (TValidationError) qualifierWarning;
-			processedPolicyQualifiers.Append(TValidationStatus(error, policyIndex));
+			processedPolicyQualifiers.AppendL(TValidationStatus(error, policyIndex));
 			}
 
 		CleanupStack::PopAndDestroy(key);
@@ -157,7 +157,7 @@ void CValidateCertChainStep::ValidateL(TTime aValidateTime, TDes& aConfigSection
 		for (TInt i=0; i < configOldWarnings.Count(); ++i)
 			{
 			TValidationError error = (TValidationError) configOldWarnings[i];
-			processedConfigOldWarnings.Append(TValidationStatus(error, cert_index));
+			processedConfigOldWarnings.AppendL(TValidationStatus(error, cert_index));
 			}
 		
 		TransferToNewWarningsL(configOldWarnings, configNewWarnings, cert_index);
@@ -198,7 +198,7 @@ void CValidateCertChainStep::ValidateL(TTime aValidateTime, TDes& aConfigSection
 		if (policyIndex > 0)
 			{
 			TValidationError error = (TValidationError) qualifierWarning;
-			configNewWarnings.Append(TValidationStatus(error, policyIndex));
+			configNewWarnings.AppendL(TValidationStatus(error, policyIndex));
 			}
 
 		CleanupStack::PopAndDestroy(key);
