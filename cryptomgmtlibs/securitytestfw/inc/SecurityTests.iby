@@ -21,9 +21,11 @@
 // We need bigger ROFS files for tests with TBAS
 rofssize=0x2100000
 
+// conditionally included to avoid to be included in vasco image creation but needed in h4/h6 image creation
+#ifdef _SERIAL_DOWNLOAD
 // Save build details in ROM
 data=\buildid.txt                 \buildid.txt
-
+#endif
 
 // This should be included in the Techview.oby file
 // All test data and scripts gets copied to the root of ROM drive.
@@ -47,9 +49,7 @@ PlatSecProcessIsolation ON
 
 #include "securityframeworktestserver.iby"
 
-
 #if defined SYMBIAN_KEYSTORE_USE_AUTH_SERVER || defined SDP_ROM1
-
 	#include "ups.iby"
 	#include "tups.iby"
 	#include "asnpkcstests.iby"
@@ -57,6 +57,28 @@ PlatSecProcessIsolation ON
 	#include "tpkcs7server.iby"     
 	#include "tpkcs12integrationserver.iby"  	
 	#include "ctframeworktests.iby"
+	// conditionally included to avoid to be included in vasco image creation but needed in h4/h6 image creation
+	// temp added
+	#ifndef _SERIAL_DOWNLOAD
+		#include "streamingcaf.iby"
+		// iby files for caf
+		#include "caf.iby"
+		#include "caftest.iby"
+		#include "reccafconfig.iby"
+		#include "rta.iby"
+		#include "rtatest.iby"
+		#include "cryptotests.iby"
+		#include "tscaf.iby"	
+		#include "randomtests.iby"
+		#include "hashtests.iby"
+
+		#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+		#include "mtputils.iby"
+		#include "mtputilstest.iby"
+		#include "refcafhelper.iby"
+		#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+	#endif
+
 #else
 	#include "streamingcaf.iby"
 	// iby files for caf
@@ -75,9 +97,19 @@ PlatSecProcessIsolation ON
 	#include "mtputilstest.iby"
 	#include "refcafhelper.iby"
 	#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+	// conditionally included to avoid to be included in vasco image creation but needed in h4/h6 image creation
+	// temp added
+	#ifndef _SERIAL_DOWNLOAD
+		#include "ups.iby"
+		#include "tups.iby"
+		#include "asnpkcstests.iby"
+		#include "certmantests.iby"
+		#include "tpkcs7server.iby"     
+		#include "tpkcs12integrationserver.iby"  	
+		#include "ctframeworktests.iby"		
+	#endif 
 
-#endif
- 
+#endif 
 	
 // Common utils libraries
 #include "securitycommonutils.iby"
@@ -98,6 +130,10 @@ PlatSecProcessIsolation ON
 define ZDRIVE \epoc32\winscw\c
 // This is the bat file to run the security tests automatically
 // comms configuration (and configuration using sim.tsy)
+// temp addeed the next line
+#ifndef _SERIAL_DOWNLOAD
+data = ZDRIVE\auto.cfg                 \buildid.txt
+#endif
 data = ZDRIVE\auto.cfg					\auto.cfg
 data = ZDRIVE\auto_broken.cfg					\auto_broken.cfg
 data = ZDRIVE\autosimtsy.cfg					\autosimtsy.cfg
@@ -195,7 +231,10 @@ file=ABI_DIR\BUILD_DIR\ceddump.exe                  System\Programs\ceddump.exe
 
 file=ABI_DIR\BUILD_DIR\RUNTESTS.EXE                 System\Programs\RUNTESTS.EXE
 
+// conditionally included to avoid to be included in vasco image creation but needed in h4/h6 image creation
+#ifdef _SERIAL_DOWNLOAD
 #include "thindump.iby"
+#endif
 #include "sntpclient.iby"
 
 // *** Additional includes and configuration for SSM Requirements ***

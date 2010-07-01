@@ -25,4 +25,7 @@
 ; The VERIFY option is used to flag the files as non-modifiable so that SWI
 ; checks the hashes during restore.
 
+;Supports Series 60 v 5.2
+[0x20022E6D], 0, 0, 0, {"Series60ProductID"}
+
 "t_ups_101f7f1f_ff000001_version1.rsc"-"!:\private\10283558\policies\ups_101f7f1f_ff000001.rsc", VERIFY

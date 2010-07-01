@@ -21,10 +21,10 @@ cd %EPOCROOT%epoc32\WINSCW\c\tups\data\%2\
 makesis %3.pkg %4_unsigned.sis
 
 echo signsis
-if "%5"=="ROOT5CA" signsis %4_unsigned.sis %4.sis %SECURITYSOURCEDIR%\testframework\testcertificates\ups\test\root5ca\ca.pem  %SECURITYSOURCEDIR%\testframework\testcertificates\ups\test\root5ca\ca.key.pem
-if "%5"=="ALL" signsis %4_unsigned.sis %4.sis %SECURITYSOURCEDIR%\testframework\testcertificates\ups\test\symbiantestallcapabilitiesca\symbiantestallcapabilitiesca.pem  %SECURITYSOURCEDIR%\testframework\testcertificates\ups\test\symbiantestallcapabilitiesca\cakey.pem
-if "%5"=="TESTROOT" signsis %4_unsigned.sis %4.sis %SECURITYSOURCEDIR%\testframework\testcertificates\ups\test\symbiantestrootcadsa\ca.pem %SECURITYSOURCEDIR%\testframework\testcertificates\ups\test\symbiantestrootcadsa\ca.key.pem
-if "%5"=="SELF" signsis %4_unsigned.sis %4.sis %SECURITYSOURCEDIR%\testframework\testcertificates\ups\test\certificatesnotinstore\selfsigned_cert.pem %SECURITYSOURCEDIR%\testframework\testcertificates\ups\test\certificatesnotinstore\selfsigned_key.pem
+if "%5"=="ROOT5CA" signsis %4_unsigned.sis %4.sis "\common\generic\security\os\security\cryptomgmtlibs\securitytestfw\testcertificates\ups\test\root5ca\ca.pem"  "\common\generic\security\os\security\cryptomgmtlibs\securitytestfw\testcertificates\ups\test\root5ca\ca.key.pem"
+if "%5"=="ALL" signsis %4_unsigned.sis %4.sis "\common\generic\security\os\security\cryptomgmtlibs\securitytestfw\testcertificates\ups\test\symbiantestallcapabilitiesca\symbiantestallcapabilitiesca.pem"  "\common\generic\security\os\security\cryptomgmtlibs\securitytestfw\testcertificates\ups\test\symbiantestallcapabilitiesca\cakey.pem"
+if "%5"=="TESTROOT" signsis %4_unsigned.sis %4.sis "\common\generic\security\os\security\cryptomgmtlibs\securitytestfw\testcertificates\ups\test\symbiantestrootcadsa\ca.pem" "\common\generic\security\os\security\cryptomgmtlibs\securitytestfw\testcertificates\ups\test\symbiantestrootcadsa\ca.key.pem"
+if "%5"=="SELF" signsis %4_unsigned.sis %4.sis "\common\generic\security\os\security\cryptomgmtlibs\securitytestfw\testcertificates\ups\test\certificatesnotinstore\selfsigned_cert.pem" "\common\generic\security\os\security\cryptomgmtlibs\securitytestfw\testcertificates\ups\test\certificatesnotinstore\selfsigned_key.pem"
 
 if "%1"=="WINSCW" goto COPYWINSCW;
 if "%1"=="ARMV5" goto COPYARMV5;

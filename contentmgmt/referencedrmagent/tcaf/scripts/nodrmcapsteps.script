@@ -16,7 +16,7 @@
 
 // Test cases for validating the methods newly enforced DRM capability.
 
-RUN_PROGRAM 100 SETCAP tcaf.exe 0 -SID 80001234 tcafnodrmcap.exe
+RUN_PROGRAM 100 SETCAP tcaf.exe 0 -SID 80002345 tcafnodrmcap.exe
 
 LOAD_SUITE tcafnodrmcap
 
