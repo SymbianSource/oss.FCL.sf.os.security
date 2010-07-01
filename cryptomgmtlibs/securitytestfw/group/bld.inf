@@ -41,6 +41,8 @@ PRJ_TESTEXPORTS
 #endif
 ../inc/securitytestframework.iby	/epoc32/rom/include/securitytestframework.iby
 
+
+../test/autotesting/vascotests.bat	     /epoc32/winscw/c/autohardware/vascotests.bat
 // configuration file for the CommsDB set up
 ../test/autotesting/auto.cfg /epoc32/winscw/c/auto.cfg
 ../test/autotesting/auto_broken.cfg /epoc32/winscw/c/auto_broken.cfg
@@ -69,7 +71,7 @@ PRJ_TESTEXPORTS
 ../test/autotesting/testexecute.ini  /epoc32/winscw/c/system/data/testexecute.ini
 
 // batch files for automated hardware testing
-
+	../test/autotesting/copysecuritytestfiles.bat /epoc32/winscw/c/autohardware/copysecuritytestfiles.bat
 	../test/autotesting/hosts		     /epoc32/winscw/c/autohardware/hosts
 	../test/autotesting/testsecurity_sdp.bat	     /epoc32/winscw/c/autohardware/testsecurity_sdp.bat
 	../test/autotesting/testsecurity_sdp_auth.bat	     /epoc32/winscw/c/autohardware/testsecurity_sdp_auth.bat

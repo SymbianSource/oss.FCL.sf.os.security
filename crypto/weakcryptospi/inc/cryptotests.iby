@@ -24,7 +24,10 @@ define ZDRIVE \epoc32\winscw\c
 #include "pkcs5kdftests.iby"
 #include "paddingtests.iby"
 #include "tcryptospi.iby"
+// conditionally included to avoid to be included in vasco image creation but needed in h4/h6 image creation
+#ifdef _SERIAL_DOWNLOAD
 #include "cryptospi_testplugins.iby"
+#endif
 
 #if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
 #include "cryptospi_testwmdrmplugins.iby"
@@ -114,6 +117,9 @@ data = ZDRIVE\tbigint\tprimetests2.ini			tbigint\tprimetests2.ini
 data = ZDRIVE\tbigint\tprimefailuretests.ini		tbigint\tprimefailuretests.ini
 data = ZDRIVE\tbigint\tprimegen.ini             tbigint\tprimegen.ini
 
+// conditionally included to avoid to be included in vasco image creation but needed in h4/h6 image creation
+#ifdef _SERIAL_DOWNLOAD
+
 #if !defined(SMP)
 // Proof of concept KMS (Key Management Server)
 // Add them to the Core image (core.img) only. As rofs1.img does not support the device, and extension.
@@ -133,6 +139,7 @@ file=ABI_DIR\BUILD_DIR\kmsserver.exe		sys\bin\kmsserver.exe
 file=ABI_DIR\BUILD_DIR\kmsclient.dll		sys\bin\kmsclient.dll
 
 file=ABI_DIR\BUILD_DIR\kmstest.exe			sys\bin\kmstest.exe
+#endif
 
 #endif
 // End of cryptotests.iby 

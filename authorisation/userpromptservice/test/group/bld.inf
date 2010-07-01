@@ -80,13 +80,13 @@ tups_dialogcreator_session.mmp
 tups_dialogcreator_always.mmp
 tups_dialogcreator_never.mmp
 tups_dialogcreator07.mmp
-tups_notifier.mmp
+//tups_notifier.mmp
 tups_nopolicies_server.mmp
 
 tupsinteg_post1.mmp  // target need to be deleted after sis creation 
 
-//// create SIS files for postmanufacture tests and negative postmanufacture tests   /////
-makefile  ../tups/packages/integ_buildsis.fil
+//// create SIS files for postmanufact
+gnumakefile ../tups/packages/integ_buildsis.fil
 
 gnumakefile ../tups/packages/testromstub.mak
 

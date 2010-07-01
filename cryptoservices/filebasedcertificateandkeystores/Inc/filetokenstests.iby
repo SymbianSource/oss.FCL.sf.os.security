@@ -277,9 +277,11 @@ data = ZDRIVE\tcertapps\scripts\apipolicing.script	tcertapps\scripts\apipolicing
 data = ZDRIVE\tcertapps\scripts\script1.ini			tcertapps\scripts\script1.ini attrib=r
 data = ZDRIVE\tcertapps\scripts\apipolicing.ini	tcertapps\scripts\apipolicing.ini attrib=r
 
+
 #if defined SYMBIAN_KEYSTORE_USE_AUTH_SERVER || defined SDP_ROM1
 //Nothing is included
 #else
+#ifdef _SERIAL_DOWNLOAD
 // additional certstore needed in normal rom for sec-filetokens tests which uses certstore1 ,2,...
 ECOM_PLUGIN(tadditionalstores.dll, tadditionalstores.rsc)
 // The below test data needed for sec-filetokens-tools.script which will run only in normal image(testsecurity_sdp.bat)
@@ -298,6 +300,7 @@ data = ZDRIVE\system\data\test2certstore.dat			system\data\test2certstore.dat at
 // Test keystore. Contains two keys, a DSA key (label gm0) and a RSA key (label gm1)
 // The passphrase timeout is set to 30
 data = ZPRIVATE\101F72A6\keys.dat          	private\101F72A6\keys.dat
+#endif
 #endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 
 #endif

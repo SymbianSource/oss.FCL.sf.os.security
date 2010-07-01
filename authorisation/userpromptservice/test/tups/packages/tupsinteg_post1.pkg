@@ -21,6 +21,8 @@
 %{"Vendor"}
 :"ups integration test"
 
+;Supports Series 60 v 5.2
+[0x20022E6D], 0, 0, 0, {"Series60ProductID"}
 
 ; Do not be scare about this strange manouvre, this runs in conjuction with a .fil file.
 "tupsinteg_post1.exe"-"!:\sys\bin\tupsinteg_post1.exe" 

@@ -22,6 +22,8 @@
 %{"Symbian Software Ltd"}
 :"Symbian Software Ltd"
 
+;Supports Series 60 v 5.2
+[0x20022E6D], 0, 0, 0, {"Series60ProductID"}
 
 ; installs a new policy evaluator to be used for ups integration tests. 
 "tups_policyevaluator05.rsc"-"!:\resource\plugins\tups_policyevaluator05.rsc" 

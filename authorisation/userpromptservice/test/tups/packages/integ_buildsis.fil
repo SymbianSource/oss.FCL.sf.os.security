@@ -1,73 +1,11 @@
-MAKEDATA :
-!IF "$(PLATFORM)" == "GCCXML" || "$(PLATFORM)" == "TOOLS" || "$(PLATFORM)" == "TOOLS2" 
-	cd
-	echo ----------------
-	echo  Do nothing ...
-	echo ----------------
-!ELSE
-	cd
-	echo --------------------------------------------------------------
-	echo Copying required input datas
-	echo --------------------------------------------------------------
+ifeq "$(PLATFORM)" "WINSCW"
+ACTION=doaction
+endif
 
-	call copy.bat $(PLATFORM) $(CFG)
+ifeq "$(PLATFORM)" "ARMV5"
+ACTION=doaction
+endif
 
-	echo --------------------------------------------------------------
-	echo Building SIS file to install removable test client
-	echo --------------------------------------------------------------
-	
-	call create.bat $(PLATFORM) $(CFG) tupsinteg_post1 tupsinteg_post1 ROOT5CA
-	
-
-	echo --------------------------------------------------------------
-	echo Building SIS to install policy files post manufacture.
-	echo --------------------------------------------------------------
-	
-	call create.bat $(PLATFORM) $(CFG) tupsinteg_policies1 tupsinteg_policies1 ROOT5CA
-
-	echo --------------------------------------------------------------
-	echo Building SIS to install policy files post manufacture.
-	echo --------------------------------------------------------------
-	
-	call create.bat $(PLATFORM) $(CFG) tupsinteg_policies2 tupsinteg_policies2 ROOT5CA
-
-	echo --------------------------------------------------------------
-	echo Building SIS file to install a policy evaluator via SWI
-	echo --------------------------------------------------------------
-	
-	call create.bat $(PLATFORM) $(CFG) tupsinteg_evaluator1	tupsinteg_evaluator1 ALL
-    
-	echo ---------------------------------------------------------------------------
-	echo Building SIS file to install a policy evaluator and dialog creator via SWI
-	echo ---------------------------------------------------------------------------
-	
-	call create.bat $(PLATFORM) $(CFG) tupsinteg_dialog1 tupsinteg_dialog1 ALL
-
-	echo -------------------------------------- 
-	echo Building SIS to eclipse policy files.
-	echo --------------------------------------
-	
-	call create.bat $(PLATFORM) $(CFG) tupsinteg_eclipse1 tupsinteg_eclipse1 ROOT5CA
-
-	echo --------------------------------------------------------------------------
-	echo Building SIS to (attempt to) install policy files (incorrect cert used)
-	echo --------------------------------------------------------------------------
-	
-	call create.bat $(PLATFORM) $(CFG) tupsinteg_policies1	tupsinteg_policies1_negative TESTROOT
-
-	echo -----------------------------------------------------------------------
-	echo Building SIS to install policy files signed with CA cert not in store
-	echo -----------------------------------------------------------------------
-	
-	call create.bat $(PLATFORM) $(CFG) tupsinteg_ca_not_instore tupsinteg_ca_not_instore SELF
-
-	echo
-
-!ENDIF
-
-
-DO_NOTHING:
-	rem do nothing
 
 #
 # The targets invoked by abld...
@@ -85,9 +23,90 @@ SAVESPACE : BLD
 
 FINAL : MAKEDATA
 
+
+DO_NOTHING:
+	
+
+ifndef ACTION
+#
+# Not supported on this target so nothing to do
+#
+MAKEDATA :
+	@echo ----------------
+	@echo  Do nothing ...
+	@echo ----------------
+
+CLEAN:
+
+RELEASABLES:
+
+else
+#
+# WINSCW or ARM
+#
+MAKEDATA :
+	@cd
+	@echo --------------------------------------------------------------
+	@echo Copying required input datas
+	@echo --------------------------------------------------------------
+
+	call copy.bat $(PLATFORM) $(CFG)
+
+	@echo --------------------------------------------------------------
+	@echo Building SIS file to install removable test client
+	@echo --------------------------------------------------------------
+	
+	call create.bat $(PLATFORM) $(CFG) tupsinteg_post1 tupsinteg_post1 ROOT5CA
+	
+
+	@echo --------------------------------------------------------------
+	@echo Building SIS to install policy files post manufacture.
+	@echo --------------------------------------------------------------
+	
+	call create.bat $(PLATFORM) $(CFG) tupsinteg_policies1 tupsinteg_policies1 ROOT5CA
+
+	@echo --------------------------------------------------------------
+	@echo Building SIS to install policy files post manufacture.
+	@echo --------------------------------------------------------------
+	
+	call create.bat $(PLATFORM) $(CFG) tupsinteg_policies2 tupsinteg_policies2 ROOT5CA
+
+	@echo --------------------------------------------------------------
+	@echo Building SIS file to install a policy evaluator via SWI
+	@echo --------------------------------------------------------------
+	
+	call create.bat $(PLATFORM) $(CFG) tupsinteg_evaluator1	tupsinteg_evaluator1 ALL
+    
+	@echo ---------------------------------------------------------------------------
+	@echo Building SIS file to install a policy evaluator and dialog creator via SWI
+	@echo ---------------------------------------------------------------------------
+	
+	call create.bat $(PLATFORM) $(CFG) tupsinteg_dialog1 tupsinteg_dialog1 ALL
+
+	@echo -------------------------------------- 
+	@echo Building SIS to eclipse policy files.
+	@echo --------------------------------------
+	
+	call create.bat $(PLATFORM) $(CFG) tupsinteg_eclipse1 tupsinteg_eclipse1 ROOT5CA
+
+	@echo --------------------------------------------------------------------------
+	@echo Building SIS to (attempt to) install policy files (incorrect cert used)
+	@echo --------------------------------------------------------------------------
+	
+	call create.bat $(PLATFORM) $(CFG) tupsinteg_policies1	tupsinteg_policies1_negative TESTROOT
+
+	@echo -----------------------------------------------------------------------
+	@echo Building SIS to install policy files signed with CA cert not in store
+	@echo -----------------------------------------------------------------------
+	
+	call create.bat $(PLATFORM) $(CFG) tupsinteg_ca_not_instore tupsinteg_ca_not_instore SELF
+
+	@echo
+
+
 CLEAN : 
 	if exist %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\z\tups\integ\packages\tupsinteg_post1.sis 	del /q %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\z\tups\integ\packages\tupsinteg_post1.sis 
 	if exist %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\z\tups\integ\packages\tupsinteg_policies1.sis 	del /q %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\z\tups\integ\packages\tupsinteg_policies1.sis 
 	if exist %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\z\tups\integ\packages\tupsinteg_policies2.sis 	del /q %EPOCROOT%epoc32\release\"$(PLATFORM)"\"$(CFG)"\z\tups\integ\packages\tupsinteg_policies2.sis 
 	
-
+endif
