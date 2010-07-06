@@ -197,6 +197,11 @@ TCertificateFormat CertInfo::CertificateFormat() const
 	return (TCertificateFormat)iFormat.Value();
 }
 
+TCertificateOwnerType CertInfo::CertificateOwnerType() const
+{
+	return (TCertificateOwnerType)iCertificateOwnerType.Value();
+}
+
 
 KeyIdentifierObject &CertInfo::SubjectKeyId()
 {

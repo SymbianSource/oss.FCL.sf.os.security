@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 1998-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 1998-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -69,7 +69,7 @@ private:
 	TBool AddCert(const TDesC& aBuf, const TDesC& aStart,
 		const TDesC& aEnd, TInt& aPos, CDesCArray& aCertsFileName, 
 		CDesCArray& aCertsLabel);
-	TBool AddAddCalls(const TDesC& aBuf, TInt& aPos);
+	TBool AddAddCallsL(const TDesC& aBuf, TInt& aPos);
 	TBool CompareChainsL(const CPKIXCertChain& aChain);
 	TBool CompareCertL(const CX509Certificate& aCert, const TDesC& aFilename);
 

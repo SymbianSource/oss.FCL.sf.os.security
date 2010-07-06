@@ -71,7 +71,7 @@ enum EUseCertificateExtension
    If the certificate is invalid then exit the program with an error message!
  */
 bool X509SubjectKeyId(EUseCertificateExtension aUseExtension, bool aUseRfc3280Algorithm,
-					  const std::string &aCert, 
+					  bool aIsCa, const std::string &aCert, 
 					  std::string &aSubject, TKeyIdentifier &aSubjectKeyId);
 
 /**

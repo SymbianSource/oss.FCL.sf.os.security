@@ -1339,10 +1339,10 @@ EXPORT_C TKeyIdentifier CX509Certificate::SubjectKeyIdentifierL() const
 	}
 
 
-EXPORT_C TKeyIdentifier CX509Certificate::SubjectKeyIdL()
+EXPORT_C TKeyIdentifier CX509Certificate::SubjectKeyIdL() const
 	{
 	// if it is a v1 or v2 type then there is no way of knowing which is a CA, treat all certs as CA as done in the certificate recognizer.
-	if (Version() != 3 )
+	if (Version() < 3 )
 		{
 		return SubjectKeyIdentifierL();
 		}

@@ -28,7 +28,7 @@ PRJ_EXPORTS
 ../inc/euserext.h	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(euserext.h)
 ../inc/miscutil.h 	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(miscutil.h)
 ../inc/callbacktimer.h 	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(callbacktimer.h)
-../inc/SecSettingsclient.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(SecSettings/SecSettingsclient.h)
+../inc/secsettingsclient.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(secsettings/secsettingsclient.h)
 
 ../inc/securityerr.h	SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(securityerr.h)
 // ROMKIT includes
