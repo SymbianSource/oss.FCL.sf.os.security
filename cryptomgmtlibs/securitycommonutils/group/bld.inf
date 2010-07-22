@@ -27,11 +27,6 @@ PRJ_EXPORTS
 ../inc/scscommon.h   	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(scs/scscommon.h)
 ../inc/scscommon.inl 	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(scs/scscommon.inl)
 
-#ifndef SYMBIAN_ENABLE_SPLIT_HEADERS
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-../inc/scsserverconstants.h     /epoc32/include/scsserverconstants.h
-#endif
-#endif
 
 //IPCStream Exports
 ../inc/nullstream.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(scs/nullstream.h)

@@ -22,13 +22,6 @@ BASEDEFAULT
 
 PRJ_TESTEXPORTS
 
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-exported_include/keyhandle.h /epoc32/include/keyhandle.h
-#endif
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-exported_include/kmsclient.h /epoc32/include/kmsclient.h
-#endif
-
 PRJ_TESTMMPFILES
 
 // kmsldd/kmsldd

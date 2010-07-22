@@ -41,10 +41,8 @@ CTestSingleProcessKeyStreamDecoder::~CTestSingleProcessKeyStreamDecoder()
 	iFs.Close();
 	
 	delete iKeyStreamSink;
-#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY	
 	delete iSdp;
 	delete iSdpDoc;
-#endif
 	delete iRo;
 	}
 
@@ -93,13 +91,8 @@ void CTestSingleProcessKeyStreamDecoder::ConstructL(const CKeyStreamSink& aKeySt
 	iKeyStreamSink->SetEncryptionAlgorithmL(EAES_128_CBC);
 	iKeyStreamSink->SetAuthenticationAlgorithmL(EHMAC_SHA1);
 
-#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY	
 	iSdp = aSdpKeyStream.CloneL();
 	iSdpDoc = aSdpDoc.CloneL();
-#else
-    (void) aSdpKeyStream;
-	(void) aSdpDoc;
-#endif
 	SetRoL();
 	}
 

@@ -36,13 +36,9 @@ PRJ_EXPORTS
 
 PRJ_TESTEXPORTS
 
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-../inc/rtestwrapper.h /epoc32/include/scs/rtestwrapper.h
-#endif
 ../inc/securitytestframework.iby	/epoc32/rom/include/securitytestframework.iby
 
 
-../test/autotesting/vascotests.bat	     /epoc32/winscw/c/autohardware/vascotests.bat
 // configuration file for the CommsDB set up
 ../test/autotesting/auto.cfg /epoc32/winscw/c/auto.cfg
 ../test/autotesting/auto_broken.cfg /epoc32/winscw/c/auto_broken.cfg
@@ -122,75 +118,6 @@ PRJ_TESTEXPORTS
 ../inc/sntpclient.iby  /epoc32/rom/include/sntpclient.iby
 ../inc/cryptodeps.iby  /epoc32/rom/include/cryptodeps.iby
 
-// Include files for testhandler2
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-./../test/testhandler2/tcancel.h /epoc32/include/testhandler2/tcancel.h
-#endif
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-./../test/testhandler2/t_certstoreactionmemfail.h	/epoc32/include/testhandler2/t_certstoreactionmemfail.h
-#endif
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-./../test/testhandler2/Thardcodedsetup.h /epoc32/include/testhandler2/thardcodedsetup.h
-#endif
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-./../test/testhandler2/tHardcodedTests.h /epoc32/include/testhandler2/thardcodedtests.h
-#endif
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-./../test/testhandler2/t_input.h /epoc32/include/testhandler2/t_input.h
-#endif
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-./../test/testhandler2/t_message.h /epoc32/include/testhandler2/t_message.h
-#endif
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-./../test/testhandler2/t_mtestspec.h /epoc32/include/testhandler2/t_mtestspec.h
-#endif
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-./../test/testhandler2/t_output.h /epoc32/include/testhandler2/t_output.h
-#endif
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-./../test/testhandler2/tscriptandhardcoded.h /epoc32/include/testhandler2/tscriptandhardcoded.h
-#endif
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-./../test/testhandler2/tScriptSetup.h /epoc32/include/testhandler2/tscriptsetup.h
-#endif
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-./../test/testhandler2/tScriptTests.h /epoc32/include/testhandler2/tscripttests.h
-#endif
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-./../test/testhandler2/tSyncAction.h /epoc32/include/testhandler2/tsyncaction.h
-#endif
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-./../test/testhandler2/t_testaction.h /epoc32/include/testhandler2/t_testaction.h
-#endif
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-./../test/testhandler2/t_testactionspec.h /epoc32/include/testhandler2/t_testactionspec.h
-#endif
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-./../test/testhandler2/t_testhandler.h /epoc32/include/testhandler2/t_testhandler.h
-#endif
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-./../test/testhandler2/ttesthandlersettings.h /epoc32/include/testhandler2/ttesthandlersettings.h
-#endif
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-./../test/testhandler2/t_testsetup.h /epoc32/include/testhandler2/t_testsetup.h
-#endif
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-./../test/testhandler2/tTestSpec.h /epoc32/include/testhandler2/ttestspec.h
-#endif
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-./../test/testhandler2/t_utils.h /epoc32/include/testhandler2/t_utils.h
-#endif
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-./../test/testhandler2/t_errorconverter.h /epoc32/include/testhandler2/t_errorconverter.h
-#endif
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-./../test/testhandler2extra/t_inputextra.h /epoc32/include/testhandler2/t_inputextra.h
-#endif
-
-// testhandler_on_testexecute export
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-../inc/testexecuteinterface.h /epoc32/include/testexecuteinterface.h
-#endif
 
 ../test/securityframeworktestserver/group/securityframeworktestserver.iby /epoc32/rom/include/securityframeworktestserver.iby
 

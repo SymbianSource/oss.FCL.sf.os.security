@@ -26,7 +26,10 @@ UID 0 0x10285A1B
 CAPABILITY	All -Tcb
 
 USERINCLUDE 	../streamingrefagent/inc
-MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+USERINCLUDE 	../localsdp/inc
+USERINCLUDE 	../localsdp/api
+
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 SOURCEPATH 	../streamingrefagent/source/client
 SOURCE 		sraclient.cpp
@@ -36,9 +39,7 @@ deffile		../~/sraclient.def
 LIBRARY 	euser.lib 
 LIBRARY		estor.lib
 LIBRARY		cafutils.lib
-#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
-LIBRARY		sdpcodec.lib
-#endif
+LIBRARY		localsdpcodec.lib
 LIBRARY 	streamingcaf.lib 
 LIBRARY	    efsrv.lib
 SMPSAFE
