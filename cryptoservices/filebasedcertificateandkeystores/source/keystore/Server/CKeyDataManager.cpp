@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2004-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -92,12 +92,14 @@ void CFileKeyDataManager::ConstructL()
 	TInt count = lookupStream.ReadInt32L();
 	for (TInt index = 0; index < count; index++)
 		{
-		const CFileKeyData* keyData = CFileKeyData::NewL(lookupStream);
+		CFileKeyData* keyData = CFileKeyData::NewL(lookupStream);
+		CleanupStack::PushL(keyData);
 
 		if (keyData->Handle() > iKeyIdentifier)
 			iKeyIdentifier = keyData->Handle();
 
-		iKeys.Append(keyData);
+		iKeys.AppendL(keyData);
+		CleanupStack::Pop(keyData);
 		}
 	
 	CleanupStack::PopAndDestroy(&lookupStream);

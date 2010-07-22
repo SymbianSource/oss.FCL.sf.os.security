@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2005-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -135,8 +135,10 @@ void CExtensionTest::BuildStringListL(RPointerArray<HBufC>& aStrings, const TDes
 		// if it exists.
 		TPtrC str = Input::ParseElement(aBuf, aTag, pos, err);
 		if (err >= 0)
-			{			
-			aStrings.Append(str.AllocL());
+			{
+			HBufC* string = str.AllocLC();			
+			aStrings.AppendL(string);
+			CleanupStack::Pop(string);
 			}								
 		}
 	while (err >= 0);	
@@ -153,7 +155,9 @@ void CExtensionTest::BuildIntList(RArray<TInt>& aInts, const TDesC& aBuf, const 
 		TInt n = Input::ParseIntElement(aBuf, aTag, pos, err);
 		if (err >= 0)
 			{
-			aInts.Append(n);
+			// This append should not fail as the parsing went fine. 
+			// So, ignoring the leave just to satisfy non leaving method convention.
+			TRAP_IGNORE(aInts.AppendL(n));
 			}								
 		}
 	while (err >= 0);

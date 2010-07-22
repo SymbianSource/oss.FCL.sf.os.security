@@ -21,7 +21,7 @@
 /**
  @file
  @internalTechnology
- @prototype
+ @released
 */
 
 #ifndef IPCSTREAM_INL

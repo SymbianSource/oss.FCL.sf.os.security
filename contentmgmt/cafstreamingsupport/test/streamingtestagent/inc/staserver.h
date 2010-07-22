@@ -74,10 +74,8 @@ namespace StreamAccess
 	private:
 		HBufC8* iBuffer;
 		CKeyStreamSink* iKeyStreamSink;
-#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 		CSdpMediaField* iSdp;
 		CSdpDocument* iSdpDoc;
-#endif
 		CSraRightsObject* iRo;
 		};
 	

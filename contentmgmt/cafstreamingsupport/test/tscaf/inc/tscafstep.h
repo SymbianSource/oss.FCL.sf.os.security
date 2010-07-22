@@ -111,11 +111,9 @@ public:
 	TVerdict doTestStepL();
 	TVerdict doTestStepPostambleL();
 	void CleanAgentsPrivateFolderL(const TDesC& aPrivatePath);
-#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 	CSdpDocument* CreateSdpDocumentLC();
 	CSdpMediaField* CreateSdpLC(TInt aSdpNum);
 	void AddMediaFieldL(CSdpDocument& aSdpDoc, const CSdpMediaField* aSdpKeyStream);
-#endif
 	CKeyStreamSink* CreateKeyStreamSinkLC(const TDesC& aFilePath, const TDesC& aPrivPath);
 	void CopyFile2AgentsPrivateFolderL(RFs& aFs, const TDesC& aFileName, const TDesC& aPrivPath);
 	HBufC* GetFullPathLC(const TDesC& aPath, const TDesC& aFileName);
@@ -139,9 +137,7 @@ protected:
 									const TDesC& aExpectedValue);
 	
 private:
-#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 	void AddAttributes2SdpL(CSdpMediaField& aSdp, TInt aSdpNum);
-#endif
 	void PrintErrorAndLeaveL(TDesC& aKey);
 	static void DeleteSdpDocAndCloseCodecPool(TAny* aSdpDoc);
 	

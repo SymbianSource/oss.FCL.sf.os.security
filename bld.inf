@@ -1,0 +1,80 @@
+/*
+* Copyright (c) 2008-2010 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+* BLD.INF
+* Builds for the sdp subsystem 
+* This is the bld.inf file for building the secuirity subsystem.  It works for
+* both beech and cedar, using the appropriate macros (if defined) to determine
+* what gets built.
+*
+*/
+
+
+/**
+ @file
+*/
+
+#ifndef TOOLS2
+// Disable everything except security_tools for TOOLS2 target
+
+#include "cryptomgmtlibs/securityutils/group/bld.inf"
+#include "cryptomgmtlibs/securitycommonutils/group/bld.inf"
+#ifdef SYMBIAN_CRYPTOSPI
+	#include "crypto/weakcryptospi/group/bld.inf"
+	#include "crypto/weakcryptospi/strong/bld.inf"	
+	#include "cryptoplugins/cryptospiplugins/group/bld.inf"	
+#else
+	#ifndef __SECURITY_COVERAGE_BUILD__
+		#include "crypto/weakcrypto/group/bld.inf"
+		#include "crypto/weakcrypto/strong/bld.inf"	
+	#endif
+
+#endif
+
+#include "cryptomgmtlibs/cryptotokenfw/group/bld.inf"
+#include "cryptoservices/asnpkcs/group/bld.inf"
+#include "cryptoservices/certificateandkeymgmt/group/bld.inf"
+
+// DEF139848 fix - Forward Propogation from Symtb9.1 - Illegal dependency from OCSP to HTTP.
+//#include "mw/securitysrv/pkiutilities/ocsp/group/bld.inf"
+
+#include "cryptoservices/filebasedcertificateandkeystores/group/bld.inf"
+#include "securityanddataprivacytools/securityconfig/group/bld.inf"
+#include "cryptomgmtlibs/securitytestfw/group/bld.inf"
+#include "contentmgmt/cafrecogniserconfig/bld.inf"
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+#include "contentmgmt/referencedrmagent/refcafhelper/group/bld.inf"
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+#include "contentmgmt/contentaccessfwfordrm/group/bld.inf"
+#include "contentmgmt/cafstreamingsupport/group/bld.inf"
+#include "contentmgmt/referencedrmagent/RefTestAgent/group/bld.inf"
+
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+#include "contentmgmt/mtputils/group/bld.inf"
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+
+#include "authorisation/userpromptservice/group/bld.inf"
+#include "authorisation/userpromptutils/group/bld.inf"
+
+
+#ifdef SYMBIAN_AUTH_SERVER
+#include "authenticationservices/authenticationserver/group/bld.inf"
+#endif
+
+#endif //TOOLS2
+
+// Only the certapp build with TOOLS2
+#include "securityanddataprivacytools/securitytools/group/bld.inf"
+
+
