@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2005-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -34,7 +34,7 @@ PRJ_EXPORTS
 // ROMKIT includes
 ../inc/secutil.iby 	/epoc32/rom/include/secutil.iby
 ../inc/sectcbutil.iby	/epoc32/rom/include/sectcbutil.iby
-../inc/SecSettings.iby			/epoc32/rom/include/SecSettings.iby
+../inc/secsettings.iby			/epoc32/rom/include/secsettings.iby
 
 
 PRJ_TESTEXPORTS
