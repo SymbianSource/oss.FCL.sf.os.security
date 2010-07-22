@@ -30,9 +30,6 @@ DEFAULT GCCE
 
 PRJ_EXPORTS
 
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-../inc/authserver/authserver_client.h		/epoc32/include/authserver/authserver_client.h
-#endif
 ../inc/authserver/authclient.h				SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(authserver/authclient.h)
 ../inc/authserver/authexpression.h			SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(authserver/authexpression.h)
 ../inc/authserver/authexpression.inl		SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(authserver/authexpression.inl)
@@ -46,9 +43,6 @@ PRJ_EXPORTS
 ../inc/authserver/protectionkey.h			SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(authserver/protectionkey.h)
 ../inc/authserver/aspubsubdefs.h			SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(authserver/aspubsubdefs.h)
 ../inc/authserver/idandstring.h				SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(authserver/idandstring.h)
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-../inc/authserver/log.h						/epoc32/include/authserver/log.h
-#endif
 ../inc/authserver/authpatchdata.h				SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(authserver/authpatchdata.h)
 
 

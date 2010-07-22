@@ -20,7 +20,7 @@
 @file 
 
 @publishedPartner
-@prototype
+@released
 */
 
 #ifndef __CAFHELPER_H__
@@ -39,7 +39,7 @@ namespace ContentAccess
 	 of the dll,using which the appropriate error handling APIs can be called.
 
 	 @publishedPartner
-	 @prototype
+	 @released
 	 */
 	 	
 	NONSHARABLE_CLASS(CCAFHelper) : public CBase

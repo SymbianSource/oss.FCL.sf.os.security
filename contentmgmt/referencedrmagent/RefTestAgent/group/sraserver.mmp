@@ -24,9 +24,11 @@ UID		0 0x10285A1C
 
 CAPABILITY	DRM NetworkControl NetworkServices
 
-MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 USERINCLUDE ../streamingrefagent/inc
+USERINCLUDE 	../localsdp/inc
+USERINCLUDE 	../localsdp/api
 
 SOURCEPATH 	../streamingrefagent/source/server
 SOURCE 		sraserver.cpp
@@ -40,9 +42,7 @@ LIBRARY 	euser.lib
 LIBRARY		efsrv.lib
 LIBRARY		cafutils.lib
 LIBRARY		estor.lib
-#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
-LIBRARY		sdpcodec.lib
-#endif
+LIBRARY		localsdpcodec.lib
 LIBRARY		bafl.lib
 LIBRARY 	streamingcaf.lib
 LIBRARY 	srautils.lib

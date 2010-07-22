@@ -33,6 +33,8 @@ data=DATAZ_\rta\settings.ini			rta\settings.ini
 file=ABI_DIR\BUILD_DIR\sraserver.exe		System\Libs\sraserver.exe
 file=ABI_DIR\BUILD_DIR\sraclient.dll		System\Libs\sraclient.dll
 file=ABI_DIR\BUILD_DIR\srautils.dll			System\Libs\srautils.dll
+// Local SDP codec library. Added to avoid the dependency on middleware layer.
+file=ABI_DIR\BUILD_DIR\localsdpcodec.dll	System\Libs\localsdpcodec.dll
 
 ECOM_PLUGIN(sraplugin.dll,sraplugin.rsc)
 #endif // __RTA_IBY__

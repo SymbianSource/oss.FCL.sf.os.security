@@ -57,7 +57,6 @@ void DeleteFileL(RFs& aFs, const TDesC& aPath)
 
 TVerdict CScafPostAcquisition::doTestL()
 	{
-#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 	TBool createOutputFile = EFalse;
 	
 	if(!GetBoolFromConfig(ConfigSection(), KCreateOutputFiles, createOutputFile))
@@ -176,7 +175,6 @@ TVerdict CScafPostAcquisition::doTestL()
 		SetTestStepResult(EFail);		
 		}
 	CleanupStack::PopAndDestroy(3, content);
-#endif	
 	return TestStepResult();
 	}
 

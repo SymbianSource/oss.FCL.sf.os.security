@@ -43,9 +43,6 @@ PRJ_EXPORTS
 ../inc/rc2.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(rc2.h)
 ../inc/rijndael.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(rijndael.h)
 ../inc/streamcipher.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(streamcipher.h)
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-../inc/symmetric.h
-#endif
 ../inc/msymmetriccipher.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(msymmetriccipher.h)
 ../inc/mode.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(mode.h)
 ../inc/cryptostrength.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cryptostrength.h)

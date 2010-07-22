@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -107,40 +107,41 @@ TVerdict CUpsDbStepPerformance::doTestStepL()
 	filter->SetClientSid(clientId,EEqual);
 	
 	INFO_PRINTF2(_L("Lookup for ClientSid=%d"),clientId.iUid);
-	
-	RPointerArray<CDecisionRecord> recordList = GetDecisionsL(*decisionDb,*filter,EFalse);
-	recordList.Reset();
-	CleanupStack::PopAndDestroy(filter);
+	RPointerArray<CDecisionRecord> recordList;
+	CleanupResetAndDestroyPushL(recordList);
+
+	GetDecisionsL(*decisionDb, *filter, EFalse, recordList);	
+	CleanupStack::PopAndDestroy(2, filter);
 	
 	//Get a set of decision records with EvaluatorId
 	TUid evaluatorId = TUid::Uid(iRetrieveNum%iEvaluatorNum + 1000000 + iRecordNum);
 	filter = CDecisionFilter::NewLC();
 	filter->SetEvaluatorId(evaluatorId,EEqual);
-	
+	CleanupResetAndDestroyPushL(recordList);
 	INFO_PRINTF2(_L("Lookup for EvaluatorId=%d"),evaluatorId.iUid);
 	
-	GetDecisionsL(*decisionDb,*filter,EFalse);
-	CleanupStack::PopAndDestroy(filter);
+	GetDecisionsL(*decisionDb, *filter, EFalse, recordList);
+	CleanupStack::PopAndDestroy(2, filter);
 	
 	//Get a set of decision records with ServiceId
 	TUid serviceId = TUid::Uid(iRetrieveNum%iServiceNum + 10000 + iRecordNum);
 	filter = CDecisionFilter::NewLC();
 	filter->SetServiceId(serviceId,EEqual);
-	
+	CleanupResetAndDestroyPushL(recordList);
 	INFO_PRINTF2(_L("Lookup for ServiceId=%d"),serviceId.iUid);
 	
-	GetDecisionsL(*decisionDb,*filter,EFalse);
-	CleanupStack::PopAndDestroy(filter);
+	GetDecisionsL(*decisionDb, *filter, EFalse, recordList);
+	CleanupStack::PopAndDestroy(2, filter);
 	
 	//Get a set of decision records with ServerSid
 	TUid serverId = TUid::Uid(iRetrieveNum%iServerNum + 100000 + iRecordNum);
 	filter = CDecisionFilter::NewLC();
 	filter->SetServerSid(serverId,EEqual);
-	
+	CleanupResetAndDestroyPushL(recordList);
 	INFO_PRINTF2(_L("Lookup for ServerSid=%d"),serverId.iUid);
 	
-	GetDecisionsL(*decisionDb,*filter,EFalse);
-	CleanupStack::PopAndDestroy(filter);
+	GetDecisionsL(*decisionDb, *filter, EFalse, recordList);
+	CleanupStack::PopAndDestroy(2, filter);
 	
 	//Lookup for Fingerprint
 	TBuf8<KDbMaxName>bufFP;
@@ -151,11 +152,11 @@ TVerdict CUpsDbStepPerformance::doTestStepL()
 	filter = CDecisionFilter::NewLC();
 		
 	filter->SetFingerprintL(md5FP->Hash(bufFP),EEqual);
-	
+	CleanupResetAndDestroyPushL(recordList);
 	INFO_PRINTF1(_L("Lookup for a Fingerprint"));
 	
-	GetDecisionsL(*decisionDb,*filter,EFalse);
-	CleanupStack::PopAndDestroy(filter);
+	GetDecisionsL(*decisionDb, *filter, EFalse, recordList);
+	CleanupStack::PopAndDestroy(2, filter);
 	
 	//Lookup for ClientEntity
 	TBuf8<KDbMaxName>bufCE;
@@ -166,11 +167,11 @@ TVerdict CUpsDbStepPerformance::doTestStepL()
 	filter = CDecisionFilter::NewLC();
 	
 	filter->SetClientEntityL(md5CE->Hash(bufCE),EEqual);
-	
+	CleanupResetAndDestroyPushL(recordList);
 	INFO_PRINTF1(_L("Lookup for a ClientEntity"));
 	
-	GetDecisionsL(*decisionDb,*filter,EFalse);
-	CleanupStack::PopAndDestroy(filter);
+	GetDecisionsL(*decisionDb, *filter, EFalse, recordList);
+	CleanupStack::PopAndDestroy(2, filter);
 	
 	//Get a single record
 	md5FP->Reset();

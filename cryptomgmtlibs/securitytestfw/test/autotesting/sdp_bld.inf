@@ -66,6 +66,9 @@
 #include "os/security/authorisation/userpromptutils/group/bld.inf"
 
 
+//Test certificates temp added will be removed once filtered good certificates
+#include "os/security/cryptomgmtlibs/securitydocs/doxygen_docs/noncontributed/testcertificates/group/bld.inf"
+
 #ifdef SYMBIAN_AUTH_SERVER
 #include "os/security/authenticationservices/authenticationserver/group/bld.inf"
 #endif

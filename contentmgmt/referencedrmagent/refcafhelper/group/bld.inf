@@ -34,7 +34,6 @@ refcafhelper.mmp
 
 PRJ_TESTEXPORTS
 
-../inc/refcafhelper.h		/epoc32/include/test/refcafhelper.h
 
 // ROM test iby
 ../inc/refcafhelper.iby /epoc32/rom/include/refcafhelper.iby

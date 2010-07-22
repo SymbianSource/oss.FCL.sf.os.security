@@ -30,9 +30,6 @@ PRJ_EXPORTS
 ../inc/cryptopanic.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(cryptopanic.h)
 ../inc/hash.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(hash.h)
 ../inc/random.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(random.h)
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-../inc/keyidentifierutil.h
-#endif
 ../inc/randsvr.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(randsvr.h)
 ../inc/randcliserv.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(randcliserv.h)
 ../inc/pkcs5kdf.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(pkcs5kdf.h)
@@ -44,11 +41,6 @@ PRJ_EXPORTS
 ../inc/pbe.iby /epoc32/rom/include/pbe.iby
 
 
-#ifndef SYMBIAN_ENABLE_SPLIT_HEADERS
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-../inc/randsvrimpl.h 				/epoc32/include/randsvrimpl.h
-#endif
-#endif
 
 #ifndef SYMBIAN_CRYPTOSPI
 #ifndef TOOLS // Don't build anything for tools

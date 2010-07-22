@@ -53,12 +53,6 @@ PRJ_EXPORTS
 ../inc/spi/macplugin.h					SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cryptospi/macplugin.h)
 #endif
 
-#ifndef SYMBIAN_ENABLE_SPLIT_HEADERS
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-../inc/spi/rulecharacteristics.h		/epoc32/include/rulecharacteristics.h
-#endif
-#endif
-
 
 // Now, the export control measures do not apply for the below set of headers. Hence, they can be exported.
 ../inc/spi/asymmetriccipherplugin.h		      SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cryptospi/asymmetriccipherplugin.h)

@@ -26,7 +26,7 @@
 #include "CafUtilsStep.h"
 
 #ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-#include <test/refcafhelper.h>     
+#include "refcafhelper.h"
 #include <caf/cafhelper.h>     
 #endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT 
 

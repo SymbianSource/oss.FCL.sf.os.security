@@ -16,10 +16,8 @@
 //
 
 #include "tscafstep.h"
-#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
-#include <sdpconnectionfield.h>
-#include <sdporiginfield.h>
-#endif
+#include "sdpconnectionfield.h"
+#include "sdporiginfield.h"
 
 TSdpAttribute::TSdpAttribute()
 	{
@@ -121,7 +119,6 @@ TVerdict CScafStep::doTestStepPostambleL()
 	return TestStepResult();
 	}
 
-#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 // We need this dummy function because TCleanupItem c'tor (see below) does not accept functions without parameters
 void CloseSdpCodecPool(TAny *)
 	{
@@ -274,7 +271,6 @@ CSdpMediaField* CScafStep::CreateSdpLC(TInt aSdpNum)
 	
 	return sdp;
 	}
-#endif
 
 CKeyStreamSink* CScafStep::CreateKeyStreamSinkLC(const TDesC& aFileName, const TDesC& aPrivPath)
 /**
@@ -316,12 +312,8 @@ void CScafStep::DeleteSdpDocAndCloseCodecPool(TAny* aSdpDoc)
  	@param aSdp The SDP object which will be deleted.
  */
 	{
-#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 	delete reinterpret_cast<CSdpDocument *>(aSdpDoc);
 	SdpCodecStringPool::Close();
-#else
-	(void) aSdpDoc;
-#endif
 	}
 
 void CScafStep::CopyFile2AgentsPrivateFolderL(RFs& aFs, const TDesC& aFileName, const TDesC& aPrivPath)
@@ -356,7 +348,6 @@ void CScafStep::CopyFile2AgentsPrivateFolderL(RFs& aFs, const TDesC& aFileName, 
 	CleanupStack::PopAndDestroy(2, fTarget);
 	}
 
-#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 void CScafStep::AddAttributes2SdpL(CSdpMediaField& aSdp, TInt aSdpNum)
 /**
  * Add attributes from the instance within the CSdpConfiguration array, where 
@@ -404,7 +395,6 @@ void CScafStep::AddAttributes2SdpL(CSdpMediaField& aSdp, TInt aSdpNum)
 		CleanupStack::PopAndDestroy(3);
 		}//for
 	}//End of function
-#endif
 
 void CScafStep::PrintErrorAndLeaveL(TDesC& aKey)
 /**
