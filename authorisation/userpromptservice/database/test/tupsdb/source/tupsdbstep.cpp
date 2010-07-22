@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -449,23 +449,23 @@ TVerdict CUpsDbStepUnitTest::doTestL()
 			upsDb = CDecisionDbW::NewL(iDbLocation,iFs);
 			CleanupStack::PushL(upsDb);
 			
-			RPointerArray<CDecisionRecord> recordList = GetDecisionsL(*upsDb,*filter,iCancel);
+			RPointerArray<CDecisionRecord> recordList;
+			CleanupResetAndDestroyPushL(recordList);
+			GetDecisionsL(*upsDb, *filter, iCancel, recordList);
 			
 			TInt recNum;
 			recNum = recordList.Count();
 			if(recNum)
-				{
-				CleanupClosePushL(recordList);
+				{				
 				OpenDecisionFileL(EFileWrite);
 			
 				for(TInt i=0; i<recNum; ++i)
 					{
 					WriteDecisionL(*recordList[i]);
 					}
-				CloseDecisionFile();
-				CleanupStack::Pop(&recordList);
+				CloseDecisionFile();				
 				}
-			recordList.Close();
+			CleanupStack::PopAndDestroy(&recordList);			
 				
 			TInt expectedRecords;
 			if(EFalse == GetIntFromConfig(ConfigSection(),KExpectedRecords,expectedRecords))

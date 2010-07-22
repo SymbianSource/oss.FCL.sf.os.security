@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2005-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -70,8 +70,8 @@ void CCTTokenTypeInfoAttributes::PerformAction(TRequestStatus& aStatus)
 			RArray<TUid> uidArray;
 			CleanupClosePushL(uidArray);
 			TUid uid1 = { KInterfaceCertStore };
-				
-			uidArray.Append(uid1);
+						
+			uidArray.AppendL(uid1);
 			TCTFindTokenTypesByInterface filter(uidArray.Array());
 			CCTTokenTypeInfo::ListL(iTokenTypes, filter);
 

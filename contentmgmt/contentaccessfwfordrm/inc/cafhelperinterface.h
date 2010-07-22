@@ -20,7 +20,7 @@
 @file 
 
 @publishedPartner
-@prototype
+@released
 */
 
 #ifndef __CAFHELPERINTERFACE_H__
@@ -44,7 +44,7 @@ namespace ContentAccess
 	 implementing this interface class as a dll which is enforced to be named as cafhelper.dll.
 
 	 @publishedPartner
-	 @prototype
+	 @released
 	 */
 	 	
 	class MCAFHelperInterface

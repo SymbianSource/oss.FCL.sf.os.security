@@ -1,4 +1,4 @@
-// Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+// Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
 // All rights reserved.
 // This component and the accompanying materials are made available
 // under the terms of the License "Eclipse Public License v1.0"
@@ -23,10 +23,12 @@ UID		0 0x1028588B
 CAPABILITY	DRM NetworkControl NetworkServices
 
 OS_LAYER_SYSTEMINCLUDE_SYMBIAN
-MW_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 USERINCLUDE 	../test/streamingtestagent/inc
 USERINCLUDE 	../../referencedrmagent/RefTestAgent/streamingrefagent/inc
+USERINCLUDE 	../../referencedrmagent/RefTestAgent/localsdp/inc
+USERINCLUDE 	../../referencedrmagent/RefTestAgent/localsdp/api
+
 
 SOURCEPATH 	../test/streamingtestagent/source/server
 SOURCE 		staserver.cpp
@@ -38,9 +40,7 @@ LIBRARY		scsserver.lib
 LIBRARY		efsrv.lib
 LIBRARY		cafutils.lib
 LIBRARY		estor.lib
-#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
-LIBRARY		sdpcodec.lib
-#endif
+LIBRARY		localsdpcodec.lib
 LIBRARY		bafl.lib
 LIBRARY		stashared.lib
 LIBRARY 	streamingcaf.lib

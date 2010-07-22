@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2003-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2003-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -1084,16 +1084,13 @@ EXPORT_C RInteger TInteger::ExponentiateL(const TInteger& aExponent) const
 	// For i from 1 to (2^(k-1) -1) do g2i+1 <- g2i-1 * g2
 	TUint count = (1 << (slider.WindowSize()-1)) - 1; //2^(k-1) -1
 	RRArray<RInteger> powerArray(count+1); //+1 because we append g1
-	User::LeaveIfError(powerArray.Append(g1));
+	powerArray.AppendL(g1);
 	CleanupStack::Pop(); //g1
 	CleanupClosePushL(powerArray);
 	for(TUint k=1; k <= count; k++)
 		{
 		RInteger g2iplus1 = g2.TimesL(powerArray[k-1]);
-		//This append can't fail as the granularity is set high enough
-		//plus we've already called Append once which will alloc to the 
-		//set granularity
-		powerArray.Append(g2iplus1);
+		powerArray.AppendL(g2iplus1);
 		}
 
 	// 2 A <- 1, i <- t
