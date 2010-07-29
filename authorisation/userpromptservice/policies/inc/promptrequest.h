@@ -61,7 +61,7 @@ namespace UserPromptService
 		IMPORT_C const TProcessId& ClientProcessId() const;
 		IMPORT_C TBool SecurityResult() const;
 
-		~CPromptRequest();
+		IMPORT_C ~CPromptRequest();
 	private:
 	
 	CPromptRequest(	const TSecureId& aClientSid, const TVendorId& aClientVid, const TThreadId& aClientThreadId, TProcessId &aClientProcessId,
