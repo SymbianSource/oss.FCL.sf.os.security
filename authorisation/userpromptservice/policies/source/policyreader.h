@@ -74,7 +74,7 @@ public:
 private:
 	CPolicyReader();
 	void ConstructL(RFs& aRfs, const TDesC& aPolicyFileName);
-	CPolicy* ReadPolicyL();
+	IMPORT_C CPolicy* ReadPolicyL();
 	void ReadPolicyHeaderL();
 	
 	CResourceFile* iResourceFile;	///< Handle to the resource file	
