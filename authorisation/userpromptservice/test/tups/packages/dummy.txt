@@ -1,1 +1,0 @@
-I'm a dummy file used to signal SIS file installation is finished.

@@ -406,13 +406,6 @@ TVerdict CUpsClientStep::doTestStepL()
 					INFO_PRINTF3(_L("%S :Closing session to server: %S"),&iTEFServerName, &iArraySersToRequest[index].iServerName );    
 					CloseSessionL(iArraySersToRequest[index].iServerName);
 					}   
-
-				// If it needs to wait for file installation (via swi)
-				if(iArraySersToRequest[index].iWaitUntilFileAppears.CompareF(_L(""))!=0)
-					{
-					WaitThatFileAppearsL(iArraySersToRequest[index].iWaitUntilFileAppears);
-					INFO_PRINTF3(_L("%S :File installed by SWI found: %S"),&iTEFServerName,&iArraySersToRequest[index].iWaitUntilFileAppears);
-					}
 				}  // End of second loop
 			}// End of first loop
 		
@@ -856,46 +849,4 @@ TBool CUpsClientStep::CheckPolicyEvaluatorResultsL(TInt aIndex)
 		}
 		
 	return checkPassed;
-	}  // End of function.
-
-
-void  CUpsClientStep::WaitThatFileAppearsL(const TDesC& aFileName)
-	{
-	RFs aFs;
-	aFs.Connect();
-						
-	RProperty checkSwiState;
-	
-	User::LeaveIfError(checkSwiState.Attach(KUidSystemCategory, Swi::KUidSoftwareInstallKey));
-	CleanupClosePushL(checkSwiState);
-	
-    TRequestStatus swiStatus;
-    TInt swisState;
-
-  	while(ETrue)
-		{
-		checkSwiState.Subscribe(swiStatus);
-		checkSwiState.Get(KUidSystemCategory,Swi::KUidSoftwareInstallKey, swisState);
-		if(((swisState & Swi::KSwisOperationMask) == Swi::ESwisNone) && BaflUtils::FileExists(aFs,aFileName))
-	 		{
-	 		checkSwiState.Cancel();
-	 		break;
-	 		}
-		User::WaitForRequest(swiStatus);
-		}
-
-	CleanupStack::PopAndDestroy(&checkSwiState);
-
-	//Wait for swiobserver to shutdown
-    while(ETrue)
-	    {
-		_LIT(KSWIObserverName,"swiobserver.exe*");	    
-	    TFindProcess finder(KSWIObserverName);       
-	    TFullName result;
-	     if (KErrNone != finder.Next(result))
-	         {
-	         break;         
-	         }
-		User::After(4000);
-	    }
 	}  // End of function.
