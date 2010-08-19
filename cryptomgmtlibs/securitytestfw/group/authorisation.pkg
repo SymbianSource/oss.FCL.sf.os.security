@@ -22,7 +22,6 @@
 :"ups integration test"
 
 "\common\generic\security\os\security\cryptomgmtlibs\securitytestfw\test\autotesting\hosts"-"c:\private\10000882\hosts"
-"\common\generic\security\os\security\cryptomgmtlibs\securitytestfw\test\autotesting\copysecuritytestfiles.bat"-"c:\autotesting\copysecuritytestfiles.bat"
 "\common\generic\security\os\security\authorisation\userpromptservice\database\test\tupsdb\scripts\tupsdb.ini"-"c:\tups\tupsdb\scripts\tupsdb.ini"
 "\common\generic\security\os\security\authorisation\userpromptservice\database\test\tupsdb\scripts\tupsdb.script"-"c:\tups\tupsdb\scripts\tupsdb.script"
 "\common\generic\security\os\security\authorisation\userpromptservice\database\test\tupsdb\scripts\tupsdbperformance.ini"-"c:\tups\tupsdb\scripts\tupsdbperformance.ini"
@@ -105,21 +104,6 @@
 "\common\generic\security\os\security\authorisation\userpromptservice\test\tups\corrupted_db_integ\ups_corrupted2.db"-"c:\tups\integ\corrupted_db_integ\ups_corrupted2.db"
 
 
-;REM Integration test sis files and related.
-"\common\generic\security\os\security\authorisation\userpromptservice\test\tups\packages\uninstall.xml"-"c:\tups\integ\packages\uninstall.xml"
-"\common\generic\security\os\security\authorisation\userpromptservice\test\tups\packages\simple.xml"-"c:\tups\integ\packages\simple.xml"
-"\epoc32\data\z\tups\integ\packages\tupsinteg_post1.sis"-"c:\tups\integ\packages\tupsinteg_post1.sis"
-"\epoc32\data\z\tups\integ\packages\tupsinteg_policies1.sis"-"c:\tups\integ\packages\tupsinteg_policies1.sis"
-"\epoc32\data\z\tups\integ\packages\tupsinteg_policies2.sis"-"c:\tups\integ\packages\tupsinteg_policies2.sis"
-"\epoc32\data\z\tups\integ\packages\tupsinteg_evaluator1.sis"-"c:\tups\integ\packages\tupsinteg_evaluator1.sis"
-"\epoc32\data\z\tups\integ\packages\tupsinteg_dialog1.sis"-"c:\tups\integ\packages\tupsinteg_dialog1.sis"
-"\epoc32\data\z\tups\integ\packages\tupsinteg_eclipse1.sis"-"c:\tups\integ\packages\tupsinteg_eclipse1.sis"
-"\epoc32\data\z\tups\integ\packages\tupsinteg_ca_not_instore.sis"-"c:\tups\integ\packages\tupsinteg_ca_not_instore.sis"
-"\epoc32\data\z\tups\integ\packages\tupsinteg_policies1_negative.sis"-"c:\tups\integ\packages\tupsinteg_policies1_negative.sis"
-
-
-;REM Integration test, file to simulate tamper attempt for backup and restore.
-"\epoc32\data\Z\tups\integ\tampered_backup\backup10285777.1"-"c:\tups\integ\tampered_backup\backup10285777.1"
 
 "\common\generic\security\os\security\authorisation\userpromptservice\policies\test\tupspolicies\scripts\tpolicycache.script"-"c:\tups\tpolicies\scripts\tpolicycache.script"
 "\common\generic\security\os\security\authorisation\userpromptservice\policies\test\tupspolicies\scripts\policyerrors.ini"-"c:\tups\tpolicies\scripts\policyerrors.ini"

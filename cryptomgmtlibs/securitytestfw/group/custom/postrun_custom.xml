@@ -5,6 +5,8 @@
 			<parameter name="parameters" value="c:\test\tcaf\tscaf\tscaf.script1"/>
 			<parameter name="timeout" value="1000"/>
 			<parameter name="result-file" value="c:\logs\testexecute\tscaf.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -14,6 +16,8 @@
 			<parameter value="600" name="timeout"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\tmsgapp.log"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -23,6 +27,8 @@
 			<parameter value="600" name="timeout"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\t_random.log"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -32,6 +38,8 @@
 			<parameter name="parameters" value="c:\tasymmetric\tasymmetrictests.script1 c:\logs\testexecute\tasymmetrictests.htm"/>
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 			<parameter name="result-file" value="c:\logs\testexecute\tasymmetrictests.htm"/>
 		</parameters>
 	</task>
@@ -43,6 +51,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tsymmetrictests.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -53,6 +63,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\AESECBVectorsScript.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -63,6 +75,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\AESECB_KAT_VT.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -73,6 +87,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\AESECB_KAT_VK.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -83,6 +99,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\AESMonteCarloEncryptECB128.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -93,6 +111,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\AESMonteCarloEncryptECB192.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -103,6 +123,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\AESMonteCarloEncryptECB256.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -113,6 +135,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\AESMonteCarloDecryptECB128.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -123,6 +147,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\AESMonteCarloDecryptECB192.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -133,6 +159,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\AESMonteCarloDecryptECB256.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -143,6 +171,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\AESMonteCarloEncryptCBC128.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -153,6 +183,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\AESMonteCarloEncryptCBC192A.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -163,6 +195,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\AESMonteCarloEncryptCBC192B.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -173,6 +207,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\AESMonteCarloEncryptCBC256.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -183,6 +219,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\AESMonteCarloDecryptCBC128.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -193,6 +231,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\AESMonteCarloDecryptCBC192.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -203,6 +243,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\AESMonteCarloDecryptCBC256.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -213,6 +255,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tconstruction.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -223,6 +267,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tbasicmaths.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -233,6 +279,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tmontgomery.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -243,6 +291,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tprime.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -253,6 +303,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tprimefailure.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -263,6 +315,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tprimegen.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -273,6 +327,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tpkcs12kdftests.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -283,6 +339,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tpbetestsv2.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -293,6 +351,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tcertapps.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -303,6 +363,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tcertapps-apipolicing.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -313,6 +375,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tkeystore.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -323,6 +387,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tkeystore_authobjects.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -333,6 +399,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tkeystore_export.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -343,6 +411,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tkeystore_reload.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -353,6 +423,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\oldserver_newfeature.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -363,6 +435,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\thwkeystore.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -373,6 +447,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tasnpkcstests.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -382,6 +458,8 @@
 			<parameter value="600" name="timeout"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\T_CTFrameworkLog.txt"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -392,6 +470,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\t_certstore_sha2.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -402,6 +482,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\unifiedcertstore1-conf1.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -412,6 +494,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\unifiedcertstore2-conf1.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -422,6 +506,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\unifiedcertstore3-conf1.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -432,6 +518,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tcertstore-dsa.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -442,6 +530,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tcertstore-reload.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -452,6 +542,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tcertstore-apipolicing.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -462,6 +554,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tcertstore-errors.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -472,6 +566,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\swicertstore1.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -482,6 +578,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\swicertstore4.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -492,6 +590,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\wri-swicertstore1.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -502,6 +602,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tfilecertstore14.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -512,6 +614,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tx509.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -522,6 +626,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tx509-dnames.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -532,6 +638,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\TX509_DEV_CERTS.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -542,6 +650,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tasn1_log.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -552,6 +662,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\twtlscert.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -562,6 +674,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\twtlscert1.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -572,6 +686,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\twtlscert2.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -582,6 +698,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\twtlscert3.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -592,6 +710,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tpkixtest1.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -602,6 +722,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tpkixtest2.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -612,6 +734,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\cancel1.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -622,6 +746,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\TOCSP_openssl.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -632,6 +758,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\xcert_local.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -642,6 +770,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\xcert_openssl_local.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -652,6 +782,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\ocsp_error.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -662,6 +794,8 @@
 			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\TOCSP_DefaultPolicy.htm"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
@@ -671,30 +805,43 @@
 			<parameter value="2000" name="timeout"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\hashlog.txt"/>
+			<parameter name="result-download-retry-count" value="1"/>
+			<parameter name="result-download-reboot-retry-count" value="1"/>
 		</parameters>
 	</task>
+<finalization>
 	<task>
 		<type>FileDownloadTask</type>
 		<parameters>
 			<parameter name="src" value="c:\hashlog.txt"/>
+			<parameter name="reboot-retry-count" value="1"/>
+			<parameter name="retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
 		<type>FileDownloadTask</type>
 		<parameters>
 			<parameter name="src" value="c:\t_random.log"/>
+			<parameter name="reboot-retry-count" value="1"/>
+			<parameter name="retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
 		<type>FileDownloadTask</type>
 		<parameters>
 			<parameter name="src" value="c:\T_CTFrameworkLog.txt"/>
+			<parameter name="reboot-retry-count" value="1"/>
+			<parameter name="retry-count" value="1"/>
 		</parameters>
 	</task>
 	<task>
 		<type>FileDownloadTask</type>
 		<parameters>
 			<parameter name="src" value="c:\tmsgapp.log"/>
+			<parameter name="reboot-retry-count" value="1"/>
+			<parameter name="retry-count" value="1"/>
 		</parameters>
 	</task>
+</finalization>
+
 

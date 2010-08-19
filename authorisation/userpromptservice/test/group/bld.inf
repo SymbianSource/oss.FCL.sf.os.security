@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -27,9 +27,6 @@ PRJ_MMPFILES
 
 PRJ_TESTEXPORTS
 
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-../include/tups_clientapi_sysserver.h		/epoc32/include/test/tups_clientapi_sysserver.h
-#endif
 
 //// test scripts ////
 ../tups/scripts/tups_properties.ini     z:/tups/integ/scripts/tups_properties.ini
@@ -46,13 +43,6 @@ PRJ_TESTEXPORTS
 ../tups/corrupted_db_integ/ups_corrupted1.db     z:/tups/integ/corrupted_db_integ/ups_corrupted1.db
 ../tups/corrupted_db_integ/ups_corrupted2.db     z:/tups/integ/corrupted_db_integ/ups_corrupted2.db
 
-////  XML files to control sis files installations.
-../tups/packages/uninstall.xml		z:/tups/integ/packages/uninstall.xml
-../tups/packages/simple.xml		z:/tups/integ/packages/simple.xml
-
-
-//// File to simulate tamper attempt for backup and restore.
-../tups/tampered_backup/backup10285777.1         z:/tups/integ/tampered_backup/backup10285777.1
 
 PRJ_TESTMMPFILES
 
@@ -60,8 +50,6 @@ PRJ_TESTMMPFILES
 #ifndef TOOLS2
 #ifndef GCCXML
 
-tups_install.mmp
-tups_backuprestore.mmp
 tupsinteg.mmp
 tupsinteg_unprotected.mmp
 tups_clientapi_sysserver.mmp
@@ -84,9 +72,6 @@ tups_dialogcreator07.mmp
 tups_nopolicies_server.mmp
 
 tupsinteg_post1.mmp  // target need to be deleted after sis creation 
-
-//// create SIS files for postmanufact
-gnumakefile ../tups/packages/integ_buildsis.fil
 
 gnumakefile ../tups/packages/testromstub.mak
 

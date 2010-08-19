@@ -16,12 +16,6 @@
 			<parameter value="true" name="ignore-exitcode"/>
 		</parameters>
 	</task>
-	<task>
-		<type>CreateDirTask</type>
-		<parameters>                
-			<parameter name="dir" value="c:\tswi\tbackuprestore"/>
-		</parameters>
-	</task>
 
 
 
