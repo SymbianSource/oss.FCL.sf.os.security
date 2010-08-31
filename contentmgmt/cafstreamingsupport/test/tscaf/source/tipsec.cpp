@@ -360,7 +360,6 @@ CScafIpSecDecoderIntegration::CScafIpSecDecoderIntegration(CScafServer& aParent)
 
 TVerdict CScafIpSecDecoderIntegration::doTestL()
 	{	
-#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 	TBool integrationTest(ETrue);
 	GetBoolFromConfig(ConfigSection(), _L("IntegrationTest"), integrationTest);
 	
@@ -417,7 +416,6 @@ TVerdict CScafIpSecDecoderIntegration::doTestL()
 		}
 	CleanupStack::PopAndDestroy(2, keyStreamSink);
 	CleanupStack::PopAndDestroy(); // sdpDoc
-#endif
 	return TestStepResult();
 	}
 

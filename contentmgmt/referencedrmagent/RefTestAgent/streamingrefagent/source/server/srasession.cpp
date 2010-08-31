@@ -23,9 +23,7 @@
 #include "sraprocessor.h"
 #include "srautils.h"
 #include <s32file.h>
-#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
-#include <sdpconnectionfield.h>
-#endif
+#include "sdpconnectionfield.h"
 
 CSraSession::CSraSession()
 //constructor
@@ -42,10 +40,8 @@ CSraSession::~CSraSession()
 		
 	delete iKeyStreamSink;
 	delete iRo;
-#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 	delete iSdp;
 	delete iSdpDoc;
-#endif
 	delete iProcessor;
 	iMutex.Close();
 	}
@@ -331,7 +327,6 @@ void CSraSession::SetSdpMediaFieldL(const RMessage2& aMessage)
  	@param	aMessage	Standard server-side handle to message.
   */
 	{
-#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 	TInt len = aMessage.GetDesMaxLengthL(0);
 	HBufC8* des = HBufC8::NewLC(len);
 	TPtr8 ptr(des->Des());
@@ -355,10 +350,6 @@ void CSraSession::SetSdpMediaFieldL(const RMessage2& aMessage)
 		}
 	StartProcessorL();
 	aMessage.Complete(KErrNone);
-#else
-	(void) aMessage;
-	User::Leave(KErrCANoRights);
-#endif
 	}
 
 
@@ -369,7 +360,6 @@ void CSraSession::SetSdpDocumentL(const RMessage2& aMessage)
  	@param	aMessage	Standard server-side handle to message.
   */
 	{
-#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 	TInt len = aMessage.GetDesMaxLengthL(0);
 	HBufC8* des = HBufC8::NewLC(len);
 	TPtr8 ptr(des->Des());
@@ -384,9 +374,6 @@ void CSraSession::SetSdpDocumentL(const RMessage2& aMessage)
 	CleanupStack::PopAndDestroy(des);
 	
 	aMessage.Complete(KErrNone);
-#else
-	(void) aMessage;
-#endif
 	}
 
 
@@ -396,7 +383,6 @@ void CSraSession::StartProcessorL()
  	and then process that by using the key stream sink.
  */
 	{
-#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 	// Mutex is used to synchronise the agent with the test harness.
 	// A real-life agent should not need to use a mutex object.
 	User::LeaveIfError(iMutex.CreateGlobal(KSraMutexName));
@@ -433,5 +419,4 @@ void CSraSession::StartProcessorL()
 	
 	// Launch the processor
 	iProcessor->StartProcessing();
-#endif
 	}

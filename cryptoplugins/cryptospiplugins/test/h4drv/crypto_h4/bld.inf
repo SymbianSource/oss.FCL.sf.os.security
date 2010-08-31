@@ -23,8 +23,5 @@ cryptoh4.mmp
 cryptojobs.mmp
 
 PRJ_TESTEXPORTS
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-cryptodriver.h /epoc32/include/cryptodriver.h
-#endif
 
 // End of file

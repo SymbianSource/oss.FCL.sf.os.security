@@ -43,6 +43,26 @@ CF32AgentData* CF32AgentData::NewL(RFile& aFile, const TDesC& aUniqueId)
 	return self;
 	}
 
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+
+CF32AgentData* CF32AgentData::NewL(const TDesC8& aHeaderData)
+	{
+	CF32AgentData* self = new (ELeave) CF32AgentData;
+	CleanupStack::PushL(self);
+	self->ConstructL(aHeaderData);
+	CleanupStack::Pop(self);
+	return self;
+	}
+	
+void CF32AgentData::ConstructL(const TDesC8& aHeaderData)
+	{
+	if(aHeaderData.Length() > 0)
+		iHeaderData = aHeaderData.AllocL();
+	else
+		User::Leave(KErrMissingWmdrmHeaderData);
+	}
+	
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 
 CF32AgentData::CF32AgentData()
 	{
@@ -59,6 +79,9 @@ CF32AgentData::~CF32AgentData()
 
 	delete iVirtualPath;
 	
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+	delete iHeaderData;			
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 	}
   
 void CF32AgentData::ConstructL(const TVirtualPathPtr& aVirtualPath, TContentShareMode aShareMode)
@@ -211,6 +234,22 @@ TInt CF32AgentData::SetProperty(TAgentProperty aProperty, TInt aValue)
 
 TInt CF32AgentData::GetAttribute(TInt aAttribute, TInt& aValue)
 	{
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+	if(iHeaderData)
+		{
+		return TF32DefaultAttributes::GetAttribute(*iHeaderData, aAttribute, aValue);
+		}
+		
+	else if(iVirtualPath)
+		{
+		return TF32DefaultAttributes::GetAttribute(aAttribute, aValue, iVirtualPath->URI());
+		}
+		
+	else
+		{
+		return TF32DefaultAttributes::GetAttribute(aAttribute, aValue, iFile);
+		}
+#else
 	if(iVirtualPath)
 		{
 		return TF32DefaultAttributes::GetAttribute(aAttribute, aValue, iVirtualPath->URI());
@@ -219,10 +258,27 @@ TInt CF32AgentData::GetAttribute(TInt aAttribute, TInt& aValue)
 		{
 		return TF32DefaultAttributes::GetAttribute(aAttribute, aValue, iFile);
 		}
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 	}
 
 TInt CF32AgentData::GetAttributeSet(RAttributeSet& aAttributeSet)
 	{
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+	if(iHeaderData)
+		{
+		return TF32DefaultAttributes::GetAttributeSet(*iHeaderData, aAttributeSet);
+		}
+		
+	else if(iVirtualPath)
+		{
+		return TF32DefaultAttributes::GetAttributeSet(aAttributeSet, iVirtualPath->URI());
+		}
+			
+	else
+		{
+		return TF32DefaultAttributes::GetAttributeSet(aAttributeSet, iFile);
+		}
+#else
 	if(iVirtualPath)
 		{
 		return TF32DefaultAttributes::GetAttributeSet(aAttributeSet, iVirtualPath->URI());
@@ -231,10 +287,26 @@ TInt CF32AgentData::GetAttributeSet(RAttributeSet& aAttributeSet)
 		{
 		return TF32DefaultAttributes::GetAttributeSet(aAttributeSet, iFile);
 		}	
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT		
 	}
 
 TInt CF32AgentData::GetStringAttribute(TInt aAttribute, TDes& aValue)
 	{
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+	if(iHeaderData)
+		{
+		return TF32DefaultAttributes::GetStringAttribute(*iHeaderData, aAttribute, aValue);
+		}
+	
+	else if(iVirtualPath)
+		{
+		return TF32DefaultAttributes::GetStringAttribute(aAttribute, aValue, iVirtualPath->URI());
+		}
+	else
+		{
+		return TF32DefaultAttributes::GetStringAttribute(aAttribute, aValue, iFile);
+		}
+#else
 	if(iVirtualPath)
 		{
 		return TF32DefaultAttributes::GetStringAttribute(aAttribute, aValue, iVirtualPath->URI());
@@ -243,10 +315,26 @@ TInt CF32AgentData::GetStringAttribute(TInt aAttribute, TDes& aValue)
 		{
 		return TF32DefaultAttributes::GetStringAttribute(aAttribute, aValue, iFile);
 		}
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT	
 	}
 
 TInt CF32AgentData::GetStringAttributeSet(RStringAttributeSet& aStringAttributeSet)
 	{
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+	if(iHeaderData)
+		{
+		return TF32DefaultAttributes::GetStringAttributeSet(*iHeaderData, aStringAttributeSet);
+		}
+		
+	else if(iVirtualPath)
+		{
+		return TF32DefaultAttributes::GetStringAttributeSet(aStringAttributeSet, iVirtualPath->URI());
+		}
+	else
+		{
+		return TF32DefaultAttributes::GetStringAttributeSet(aStringAttributeSet, iFile);
+		}
+#else
 	if(iVirtualPath)
 		{
 		return TF32DefaultAttributes::GetStringAttributeSet(aStringAttributeSet, iVirtualPath->URI());
@@ -255,6 +343,7 @@ TInt CF32AgentData::GetStringAttributeSet(RStringAttributeSet& aStringAttributeS
 		{
 		return TF32DefaultAttributes::GetStringAttributeSet(aStringAttributeSet, iFile);
 		}
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 	}
 
 CF32AgentUi& CF32AgentData::AgentUiL()
@@ -267,4 +356,29 @@ CF32AgentUi& CF32AgentData::AgentUiL()
 	return *iAgentUi;
 	}
 
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 
+TInt CF32AgentData::Read(const TDesC8& aEncryptedInputDataPacket, TDes8& aDecryptedOutputDataPacket)
+	{
+	if(aEncryptedInputDataPacket.Length() <= 0)
+		{
+		return KErrInsufficientDataPacketLength;
+		}
+	
+	aDecryptedOutputDataPacket = aEncryptedInputDataPacket;
+	return KErrNone;
+	}
+			
+void CF32AgentData::Read(const TDesC8& aEncryptedInputDataPacket, TDes8& aDecryptedOutputDataPacket, TRequestStatus& aStatus)
+	{
+	TRequestStatus* status = &aStatus;
+	if(aEncryptedInputDataPacket.Length() <= 0)
+		{
+		User::RequestComplete(status, KErrInsufficientDataPacketLength);		
+		}
+	
+	aDecryptedOutputDataPacket = aEncryptedInputDataPacket;
+	User::RequestComplete(status, KErrNone);
+	}
+
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT

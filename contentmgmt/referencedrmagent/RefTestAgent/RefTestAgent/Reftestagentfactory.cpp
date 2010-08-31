@@ -71,3 +71,14 @@ CAgentRightsManager* CRefTestAgentFactory::CreateRightsManagerL()
 	return CRefTestAgentRightsManager::NewL();
 	}
 
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+CAgentData* CRefTestAgentFactory::CreateDataConsumerL(const TDesC8& aHeaderData)     
+    {     
+    return CRefTestAgentData::NewL(aHeaderData);     
+    }     
+      
+CAgentContent* CRefTestAgentFactory::CreateContentBrowserL(const TDesC8& aHeaderData)     
+    {     
+    return CRefTestAgentContent::NewL(aHeaderData);     
+    }     
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT 

@@ -60,6 +60,9 @@ public:
 	CCAFRecognizeStep(CCAFServer& aParent);
 	~CCAFRecognizeStep();
 	virtual TVerdict doTestStepL();
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT     
+    TVerdict doWmdrmTestStepL();     
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT 
 
 private:
 	void CheckResultL(TBool aResult, TDes8& aContainerMimeType, TDes8& aContentMimeType, TBool aExpectedResult, TDesC16& aExpectedContainerMime, TDesC16& aExpectedContentMime);

@@ -48,6 +48,16 @@ CAttribute* CAttribute::NewLC(TUid aAgentUid, const TDesC& aURI, TContentShareMo
 	return self;
 	}
 	
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+CAttribute* CAttribute::NewLC(TUid aAgentUid, const TDesC8& aHeaderData)
+	{
+	CAttribute* self = new(ELeave) CAttribute();
+	CleanupStack::PushL(self);
+	self->ConstructL(aAgentUid, aHeaderData);
+	return self;
+	}
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+
 CAttribute::CAttribute()
 	{
 	}
@@ -83,6 +93,18 @@ void CAttribute::ConstructL(TUid aAgentUid, RFile& aFile)
 	iQuerySet = CBitset::NewL(static_cast<TInt>(KAttrTop));
 	iResponseSet = CBitset::NewL(static_cast<TInt>(KAttrTop));
     }
+
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+void CAttribute::ConstructL(TUid aAgentUid, const TDesC8& aHeaderData)
+	{
+	// create a agent factory implementation (pseudo ECOM handle)
+	iAgentFactory = CAgentFactory::NewL(aAgentUid);
+	iAgentContent = iAgentFactory->CreateContentBrowserL(aHeaderData);
+
+	iQuerySet = CBitset::NewL(static_cast<TInt>(KAttrTop));
+	iResponseSet = CBitset::NewL(static_cast<TInt>(KAttrTop));
+    }
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 
 EXPORT_C void CAttribute::Reset()
 	{

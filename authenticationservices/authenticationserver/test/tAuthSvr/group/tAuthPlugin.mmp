@@ -1,0 +1,69 @@
+/*
+* Copyright (c) 2001-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+TARGET tauthplugin.dll
+TARGETTYPE PLUGIN
+
+// ECom Dll recognition UID followed by the unique UID for this dll
+UID 0x10009D8D 0x10204F10
+VENDORID 0x70000001
+CAPABILITY All -TCB
+
+SOURCEPATH	../src
+SOURCE		main.cpp
+SOURCE		proxy.cpp
+SOURCE		tPinAuthPlugin.cpp		//One of the implementations available
+
+
+start resource 10204F10.rss
+#ifdef SYMBIAN_SECURE_ECOM
+TARGET tauthplugin.rsc
+#endif
+end
+
+USERINCLUDE   	../src
+USERINCLUDE		../../../inc
+USERINCLUDE		../../../inc/authserver
+
+USERINCLUDE		../../../source/server
+USERINCLUDE		../../../source/common
+USERINCLUDE		../../../source/client
+USERINCLUDE		../../../inc_private
+
+OS_LAYER_SYSTEMINCLUDE
+SYSTEMINCLUDE OS_LAYER_PUBLIC_EXPORT_PATH(ecom)
+
+//Use of Test Execute logging functions
+//OS_LAYER_SYSTEMINCLUDE(test)
+//LIBRARY			testexecuteutils.lib
+//LIBRARY			testexecutelogclient.lib
+
+LIBRARY cinidata.lib	// add text INI file parsing ability
+LIBRARY ecom.lib	//ECOM plug-in DLLs must link against ECOM.lib
+
+LIBRARY	euser.lib 	//For LowerCase()
+LIBRARY	efsrv.lib
+
+LIBRARY	authcommon.lib
+
+//LIBRARY c32.lib bafl.lib	
+
+//#ifdef	__SWI_LOGGING__
+//LIBRARY			flogger.lib
+//#endif	/* __SWI_LOGGING__ */
+SMPSAFE

@@ -137,6 +137,7 @@ END_TESTCASE                  SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0001
 
 
 
+
 START_TESTCASE                SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0002
 
 //! @SYMTestCaseID            SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0002
@@ -799,6 +800,8 @@ RUN_TEST_STEP                 -1    CTestHandler        listcert               u
 RUN_TEST_STEP                 -1    CTestHandler        deletecert             unifiedcertstore2-conf1.ini   SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-FilterOnSubjectKeyId-013
 
 END_TESTCASE                  SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-FilterOnSubjectKeyId
+
+
 
 
 START_TESTCASE                SEC-CERTMAN-UNIFIEDCERTSTORE2-CONF1-0015

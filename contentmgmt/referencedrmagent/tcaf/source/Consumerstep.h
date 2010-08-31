@@ -46,6 +46,11 @@ _LIT(KCAFDataStringAttributeSetStep,"CAFDataStringAttributeSetStep");
 _LIT(KCAFExecuteIntentStep,"CAFExecuteIntentStep");
 _LIT(KCAFDRMFileOpenPerformanceStep, "CAFDRMFileOpenPerformanceStep");
 
+//#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+_LIT(KWmdrmCAFContentStep,"WmdrmCAFContentStep");     
+_LIT(KWmdrmCAFDataStep,"WmdrmCAFDataStep");     
+_LIT(KWmdrmCAFReadStep, "WmdrmCAFReadStep");     
+//#endif //SYMBIAN_SDP-WMDRM 
 
 /* 
 * Used to open one file with RFile and the DRM packaged version of the same file with 
@@ -281,6 +286,9 @@ public:
 	CCAFDataAttributeStep(CCAFServer& aParent);
 	~CCAFDataAttributeStep();
 	virtual TVerdict doTestStepL();
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+    TVerdict doWmdrmTestStepL();     
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT 
 private:
 	CCAFServer& iParent;
 	};
@@ -301,6 +309,9 @@ public:
 	CCAFDataAttributeSetStep(CCAFServer& aParent);
 	~CCAFDataAttributeSetStep();
 	virtual TVerdict doTestStepL();
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT     
+    TVerdict doWmdrmTestStepL();     
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT 
 private:
 	CCAFServer& iParent;
 	};
@@ -321,6 +332,9 @@ public:
 	CCAFDataStringAttributeStep(CCAFServer& aParent);
 	~CCAFDataStringAttributeStep();
 	virtual TVerdict doTestStepL();
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT     
+    TVerdict doWmdrmTestStepL();     
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT 
 private:
 	CCAFServer& iParent;
 	};
@@ -341,6 +355,9 @@ public:
 	CCAFDataStringAttributeSetStep(CCAFServer& aParent);
 	~CCAFDataStringAttributeSetStep();
 	virtual TVerdict doTestStepL();
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT     
+    TVerdict doWmdrmTestStepL();     
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT 
 private:
 	CCAFServer& iParent;
 	};
@@ -381,5 +398,46 @@ class CCAFDRMFileOpenPerformanceTest : public CCAFStep
 	TUint32 iIterationSum;
 	};
 
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT     
+/* Used to test behaviour of CContent object creation and attribute APIs for WMDRM content.  +-   
+* @internalComponent Exposure internally     
+*/     
+class CWmdrmCAFContentStep : public CCAFStep     
+    {     
+public:     
+    CWmdrmCAFContentStep();     
+    ~CWmdrmCAFContentStep();     
+    virtual TVerdict doTestStepL();     
+    };     
+      
+      
+/* Used to test the behaviour of CData object creation and attribute APIs for WMDRM content.     
+* @internalComponent Exposure internally     
+*/     
+class CWmdrmCAFDataStep : public CCAFStep     
+    {     
+public:     
+    CWmdrmCAFDataStep();     
+    ~CWmdrmCAFDataStep();     
+    virtual TVerdict doTestStepL();     
+    };     
+      
+         
+/* Used to test synchronous and asynchronous behaviour of ReadL() APIs of CData class for WMDRM content.     
+* @internalComponent Exposure internally     
+*/     
+class CWmdrmCAFReadStep : public CCAFStep     
+    {     
+public:     
+    CWmdrmCAFReadStep();     
+    ~CWmdrmCAFReadStep();     
+    virtual TVerdict doTestStepL();     
+      
+private:     
+    TInt TestSynchronousReadL(const TDesC8& aHeaderData, TBool aIntent, TDesC& aInputPacket, TDesC& aExpectedOuput);     
+    TInt TestAsynchronousReadL(const TDesC8& aHeaderData, TBool aIntent, TDesC& aInputPacket, TDesC& aExpectedOuput);     
+    };       
+      
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT 
 
 #endif

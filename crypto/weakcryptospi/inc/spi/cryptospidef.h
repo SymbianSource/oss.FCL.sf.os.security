@@ -641,6 +641,78 @@ namespace CryptoSpi
 	const TUid KExtractableKeyUid={KExtractableKey};
 	const TUid KNonExtractableKeyUid={KNonExtractableKey};
 
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+	/**
+	 * The UID below is not specific to ECC. This should be used 
+	 * as a CKey key param, whenever the user of CryptoSPI just has
+	 * the handle and not the actual key with him. The SPI plugin 
+	 * should search for this ID and invoke the right apis for 
+	 * getting access to keys.
+	 */
+    const TInt32 KPassedHandleToKey = 0x20025161;
+    const TUid KPassedHandleToKeyUid = {KPassedHandleToKey};
+
+#ifdef SYMBIAN_ENABLE_SDP_ECC
+    /**
+    UIDs related to Ecc (which is Asymmetric Cipher)
+    */
+    const TInt32 KAlgorithmCipherEcc = 0x20024482;
+    const TInt32 KAlgorithmSignerEcc = 0x20024483;
+    const TInt32 KAlgorithmVerifierEcc = 0x20024486;
+    const TInt32 KAlgorithmECCKeyPairGenerator = 0x20024487;
+
+    const TUid KEccCipherUid = {KAlgorithmCipherEcc};
+    const TUid KEccSignerUid = {KAlgorithmSignerEcc};
+    const TUid KEccVerifierUid = {KAlgorithmVerifierEcc};
+    const TUid KEccKeyPairGeneratorUid = {KAlgorithmECCKeyPairGenerator};
+
+    /**
+    UIDs related to ECC keys
+    */
+    const TInt32 KEccKeyType = 0x20025160;
+    const TInt32 KEccPublicKey = 0x20024484;
+    const TInt32 KEccPrivateKey = 0x20024485;
+
+    const TUid KEccKeyTypeUid = {KEccKeyType};
+    const TUid KEccPublicKeyUid = {KEccPublicKey};
+    const TUid KEccPrivateKeyUid = {KEccPrivateKey};
+
+    /**
+    UIDs related to ECC key params
+    */
+    const TInt32 KEccFiniteFieldFP = 0x20025151;
+    const TInt32 KEccFiniteFieldF2M = 0x20025152;
+    const TInt32 KEccKeyGenerationSeed = 0x20025153;
+    const TInt32 KEccKeyParameterP = 0x20025154;
+    const TInt32 KEccKeyParameterA = 0x20025155;
+    const TInt32 KEccKeyParameterB = 0x20025156;
+    const TInt32 KEccKeyParameterG = 0x20025157;
+    const TInt32 KEccKeyParameterN = 0x20025158;
+    const TInt32 KEccKeyParameterH = 0x20025159;
+    const TInt32 KEccKeyParameterM = 0x2002515A;
+    const TInt32 KEccKeyParameterF = 0x2002515B;
+    const TInt32 KEccKeyParameterD = 0x2002515C;
+    const TInt32 KEccKeyParameterQ = 0x2002515D;
+    const TInt32 KEccSignatureParameterR = 0x2002515E;
+    const TInt32 KEccSignatureParameterS = 0x2002515F;
+
+    const TUid KEccFiniteFieldFPUid = {KEccFiniteFieldFP};
+    const TUid KEccFiniteFieldF2MUid = {KEccFiniteFieldF2M};
+    const TUid KEccKeyGenerationSeedUid = {KEccKeyGenerationSeed};
+    const TUid KEccKeyParameterPUid = {KEccKeyParameterP};
+    const TUid KEccKeyParameterAUid = {KEccKeyParameterA};
+    const TUid KEccKeyParameterBUid = {KEccKeyParameterB};
+    const TUid KEccKeyParameterGUid = {KEccKeyParameterG};
+    const TUid KEccKeyParameterNUid = {KEccKeyParameterN};
+    const TUid KEccKeyParameterHUid = {KEccKeyParameterH};
+    const TUid KEccKeyParameterMUid = {KEccKeyParameterM};
+    const TUid KEccKeyParameterFUid = {KEccKeyParameterF};
+    const TUid KEccKeyParameterDUid = {KEccKeyParameterD};
+    const TUid KEccKeyParameterQUid = {KEccKeyParameterQ};
+    const TUid KEccSignatureParameterRUid = {KEccSignatureParameterR};
+    const TUid KEccSignatureParameterSUid = {KEccSignatureParameterS};
+#endif //SYMBIAN_ENABLE_SDP_ECC
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 	}
 
 

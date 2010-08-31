@@ -28,7 +28,11 @@ TARGETTYPE	DLL
 UID			0x101FD9B8
 VENDORID	0x70000001
 
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+deffile		cafutils_v2.def
+#else
 deffile		cafutils.def
+#endif
 UNPAGED
 
 SOURCEPATH	../source/cafutils
@@ -44,6 +48,9 @@ SOURCE		rightsinfo.cpp
 SOURCE		Virtualpathptr.cpp
 SOURCE		dirstreamable.cpp
 
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+SOURCE		cafhelper.cpp
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 
 #ifndef REMOVE_CAF1
 // deprecated stuff from CAF 1.0

@@ -141,7 +141,7 @@ void CExtensionTest::BuildStringListL(RPointerArray<HBufC>& aStrings, const TDes
 			CleanupStack::Pop(string);
 			}								
 		}
-	while (err >= 0);
+	while (err >= 0);	
 	}
 
 void CExtensionTest::BuildIntList(RArray<TInt>& aInts, const TDesC& aBuf, const TDesC& aTag)

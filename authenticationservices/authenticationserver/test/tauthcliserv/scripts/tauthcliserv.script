@@ -1,0 +1,107 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+//! @file
+// authentication client server classes tests
+
+
+// Prepare a clone of TAuthSvr to possess authserver's SID.
+// This is required for modifying the authserver's central repository file.
+// This clone must be deleted at the end of the test.
+
+RUN_PROGRAM 100 SETCAP tAuthSvr.exe 188b0 -SID 102740FC tAuthSvr_new.exe
+
+
+LOAD_SUITE tauthcliserv
+LOAD_SUITE tpinplugin
+LOAD_SUITE tAuthSvr_new
+
+////
+//! @SYMTestCaseID SEC-AUT-AUTHCLISVR-0004
+//! @SYMTestCaseDesc	Remove_PinPlugin_Data
+START_TESTCASE SEC-AUT-AUTHCLISVR-0004
+RUN_UTILS DeleteFile C:\pinplugin_inactive.txt
+RUN_TEST_STEP_RESULT 0 100	tAuthSvr_new 	INIT_CENREP c:\tauth\tAuthSvr\scripts\tauthsvr2.ini defaultplugin1
+
+RUN_UTILS DeleteFile  C:\t_pinplugindlg_in.dat
+RUN_UTILS DeleteFile  C:\t_pinplugindlg_out.dat
+END_TESTCASE SEC-AUT-AUTHCLISVR-0004
+
+////
+//! @SYMTestCaseID SEC-AUT-AUTHCLISVR-0005
+//! @SYMTestCaseDesc	Initialize_PinPlugin_Data
+START_TESTCASE SEC-AUT-AUTHCLISVR-0005
+RUN_TEST_STEP 100 tpinplugin CreateInputFile c:\tauth\tpinplugin\scripts\tpinplugin.ini datfile
+END_TESTCASE SEC-AUT-AUTHCLISVR-0005
+
+////
+//! @SYMTestCaseID SEC-AUT-AUTHCLISVR-0001
+//! @SYMTestCaseDesc	Tests that on first start only the default user in present in the database.
+//! @SYMREQ REQ 4953 
+//! @SYMTestPriority Medium
+//! @SYMTestActions  
+//! @SYMTestExpectedResults All tests pass.
+//! @SYMDevelopedForRelease 
+
+START_TESTCASE SEC-AUT-AUTHCLISVR-0001
+RUN_UTILS MKDIR C:\testplugin_active\
+RUN_TEST_STEP 40 tauthcliserv FIRSTSTART 
+RUN_UTILS DELETEDIRECTORY C:\testplugin_active\
+
+END_TESTCASE SEC-AUT-AUTHCLISVR-0001
+
+////
+//! @SYMTestCaseID SEC-AUT-AUTHCLISVR-0002
+//! @SYMTestCaseDesc	Tests that correct list of identities are retrieved from auth server 
+//!						database.
+//!						Expected plugins are listed correctly.
+//!						Authentication of a single and multiple user(s).
+//! @SYMREQ REQ 4948 
+//! @SYMTestPriority Medium
+//! @SYMTestActions  
+//! @SYMTestExpectedResults All tests pass.
+//! @SYMDevelopedForRelease 
+
+START_TESTCASE SEC-AUT-AUTHCLISVR-0002
+RUN_UTILS MKDIR C:\testplugin_active\
+RUN_TEST_STEP 120 tauthcliserv CLIENT 
+RUN_UTILS DELETEDIRECTORY C:\testplugin_active\
+
+END_TESTCASE SEC-AUT-AUTHCLISVR-0002
+
+////
+//! @SYMTestCaseID SEC-AUT-AUTHCLISVR-0003
+//! @SYMTestCaseDesc	Tests removal of identity, registration, training and retaining of plugin.
+//! @SYMREQ REQ 4948 
+//! @SYMTestPriority Medium
+//! @SYMTestActions  
+//! @SYMTestExpectedResults All tests pass.
+//! @SYMDevelopedForRelease 
+
+START_TESTCASE SEC-AUT-AUTHCLISVR-0003
+RUN_UTILS MKDIR C:\testplugin_active\
+RUN_TEST_STEP 120 tauthcliserv MGRCLIENT 
+RUN_UTILS DELETEDIRECTORY C:\testplugin_active\
+
+END_TESTCASE SEC-AUT-AUTHCLISVR-0003
+
+////
+//! @SYMTestCaseID SEC-AUT-AUTHCLISVR-0006
+//! @SYMTestCaseDesc	Remove_PinPlugin_Data
+START_TESTCASE SEC-AUT-AUTHCLISVR-0006
+RUN_UTILS DeleteFile  C:\t_pinplugindlg_in.dat
+RUN_UTILS DeleteFile  C:\t_pinplugindlg_out.dat
+END_TESTCASE SEC-AUT-AUTHCLISVR-0006

@@ -34,14 +34,14 @@ SOURCE		srafactory.cpp
 SOURCE		srakeystreamdecoder.cpp
 
 USERINCLUDE 	../streamingrefagent/inc
+USERINCLUDE 	../localsdp/inc
+USERINCLUDE 	../localsdp/api
 
-MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 LIBRARY 	euser.lib
 LIBRARY		streamingcaf.lib
-#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
-LIBRARY		sdpcodec.lib 
-#endif
+LIBRARY		localsdpcodec.lib 
 LIBRARY		sraclient.lib srautils.lib
 
 START RESOURCE 10285A34.rss

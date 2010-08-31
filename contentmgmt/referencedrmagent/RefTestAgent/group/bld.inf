@@ -48,6 +48,8 @@ sraclient.mmp
 sraserver.mmp
 sraplugin.mmp
 srautils.mmp
+// Local SDP codec library. Made this local to avoid the dependency on middleware layer.
+../localsdp/group/localsdpcodec.mmp
 #endif // TOOLS2
 #endif // TOOLS
 

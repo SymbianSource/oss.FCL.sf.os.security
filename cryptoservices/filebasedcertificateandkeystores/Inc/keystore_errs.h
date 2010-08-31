@@ -20,7 +20,7 @@
 /**
  @file 
  @publishedPartner
- @prototype
+ @released
 */
 
 #ifndef KEYSTORE_ERRS_H

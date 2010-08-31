@@ -280,7 +280,17 @@ CTestStep* CCAFServer::CreateTestStep(const TDesC& aStepName)
 		testStep = new CCAFManagerStringAttributeByFileHandleStep(*this);
 	else if(aStepName == KCAFManagerStringAttributeSetByFileHandleStep)
 		testStep = new CCAFManagerStringAttributeSetByFileHandleStep(*this);
-
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT     
+    else if(aStepName == KCAFHelperStep)     
+        testStep = new CCafHelperStep();     
+    else if(aStepName == KWmdrmCAFContentStep)     
+        testStep = new CWmdrmCAFContentStep();     
+    else if(aStepName == KWmdrmCAFDataStep)     
+        testStep = new CWmdrmCAFDataStep();     
+    else if(aStepName == KWmdrmCAFReadStep)     
+        testStep = new CWmdrmCAFReadStep();     
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT 
+	
 	return testStep;
 	}
 

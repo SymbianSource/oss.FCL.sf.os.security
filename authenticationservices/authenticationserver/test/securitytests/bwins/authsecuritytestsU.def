@@ -1,0 +1,3 @@
+EXPORTS
+	?CapabilityTestFactory@@YAPAVMCapabilityTestFactory@@XZ @ 1 NONAME ; class MCapabilityTestFactory * CapabilityTestFactory(void)
+

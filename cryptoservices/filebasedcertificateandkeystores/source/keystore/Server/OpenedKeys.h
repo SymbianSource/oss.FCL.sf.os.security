@@ -29,6 +29,10 @@
 #include "keystorepassphrase.h"
 #include "fsdatatypes.h"
 
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+#include <authserver/authclient.h>
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+
 class CRSAPrivateKey;
 class CRSASignature;
 class CDSAPrivateKey;
@@ -44,7 +48,11 @@ protected:
 	enum TState
 		{
 		EIdle,
-		EGetPassphrase
+		EGetPassphrase,
+		#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+		EDoAuthenticate,
+		EAuthenticate,
+		#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 		};
 	
 public:
@@ -80,6 +88,10 @@ protected:
 	/// Clean up, called after normal end error completion
 	virtual void Cleanup() = 0;
 
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+protected:
+	void AuthenticateL();
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	
 private:
 	virtual void RunL();
@@ -99,6 +111,11 @@ private:
 	
 	CPassphrase*		 iPassphrase;
 	CKeyInfo* 			iKeyInfo;
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	AuthServer::CIdentity* iUserIdentity;
+	AuthServer::RAuthClient iAuthClient;
+	AuthServer::CAuthExpression* iExpression;
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 protected:
 	TState				 iState;
 	TRequestStatus*		 iClientStatus;

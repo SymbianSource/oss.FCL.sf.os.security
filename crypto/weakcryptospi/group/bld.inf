@@ -53,32 +53,25 @@ PRJ_EXPORTS
 ../inc/spi/macplugin.h					SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cryptospi/macplugin.h)
 #endif
 
-#ifndef SYMBIAN_ENABLE_SPLIT_HEADERS
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-../inc/spi/rulecharacteristics.h		/epoc32/include/rulecharacteristics.h
-#endif
-#endif
-
-
 
 // Now, the export control measures do not apply for the below set of headers. Hence, they can be exported.
-../inc/spi/asymmetriccipherplugin.h		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cryptospi/asymmetriccipherplugin.h)
-../inc/spi/cryptosymmetriccipherapi.h	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cryptospi/cryptosymmetriccipherapi.h)
-../inc/spi/cryptoasymmetriccipherapi.h	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cryptospi/cryptoasymmetriccipherapi.h)
-../inc/spi/cryptosignatureapi.h		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cryptospi/cryptosignatureapi.h)
-../inc/spi/cryptokeypairgeneratorapi.h	SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cryptospi/cryptokeypairgeneratorapi.h)
-../inc/spi/keys.h					SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(cryptospi/keys.h)
-../inc/spi/keypair.h				SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cryptospi/keypair.h)
-../inc/spi/keypairgeneratorplugin.h		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cryptospi/keypairgeneratorplugin.h)
-../inc/spi/signerplugin.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cryptospi/signerplugin.h)
-../inc/spi/symmetriccipherplugin.h		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cryptospi/symmetriccipherplugin.h)
-../inc/spi/verifierplugin.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cryptospi/verifierplugin.h)
-../inc/spi/cryptokeyagreementapi.h		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cryptospi/cryptokeyagreementapi.h)
-../inc/spi/keyagreementplugin.h		SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cryptospi/keyagreementplugin.h)
+../inc/spi/asymmetriccipherplugin.h		      SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cryptospi/asymmetriccipherplugin.h)
+../inc/spi/cryptosymmetriccipherapi.h			  SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cryptospi/cryptosymmetriccipherapi.h)
+../inc/spi/cryptoasymmetriccipherapi.h	    SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cryptospi/cryptoasymmetriccipherapi.h)
+../inc/spi/cryptosignatureapi.h							SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cryptospi/cryptosignatureapi.h)
+../inc/spi/cryptokeypairgeneratorapi.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cryptospi/cryptokeypairgeneratorapi.h)
+../inc/spi/keys.h														SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(cryptospi/keys.h)
+../inc/spi/keypair.h												SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cryptospi/keypair.h)
+../inc/spi/keypairgeneratorplugin.h					SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cryptospi/keypairgeneratorplugin.h)
+../inc/spi/signerplugin.h										SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cryptospi/signerplugin.h)
+../inc/spi/symmetriccipherplugin.h					SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cryptospi/symmetriccipherplugin.h)
+../inc/spi/verifierplugin.h									SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cryptospi/verifierplugin.h)
+../inc/spi/cryptokeyagreementapi.h					SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cryptospi/cryptokeyagreementapi.h)
+../inc/spi/keyagreementplugin.h							SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cryptospi/keyagreementplugin.h)
 
 
 // Cryptospi error codes.
-../inc/spi/cryptospi_errs.h               SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(cryptospi/cryptospi_errs.h)
+../inc/spi/cryptospi_errs.h               	SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(cryptospi/cryptospi_errs.h)
 
 
 ../inc/cryptopanic.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(cryptopanic.h)
@@ -276,3 +269,4 @@ PRJ_TESTEXPORTS
 #ifdef SYMBIAN_SDP_IPSEC_VOIP_SUPPORT
 #include "../examples/bld.inf"
 #endif
+

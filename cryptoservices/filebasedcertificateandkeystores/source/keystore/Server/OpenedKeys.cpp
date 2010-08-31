@@ -30,6 +30,12 @@
 #include <e32base.h>
 #include <mctkeystoreuids.h>
 
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+#include <authserver/authtypes.h>
+#include <authserver/auth_srv_errs.h>
+#include <s32mem.h>
+#include "keystore_errs.h"
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 
 // COpenedKey //////////////////////////////////////////////////////////////////
 
@@ -70,6 +76,9 @@ COpenedKey::COpenedKey(const CFileKeyData& aKeyData, CFileKeyDataManager& aKeyDa
 	iKeyData(aKeyData),
 	iKeyDataMan(aKeyDataMan),
 	iPassMan(aPassMan)
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	,iUserIdentity(NULL)
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	{
 	}
 
@@ -80,6 +89,9 @@ void COpenedKey::ConstructL(const RMessage2& aMessage)
 	iKeyInfo = keyInfo;
 	CheckKeyL(aMessage);
 	iLabel = iKeyInfo->Label().AllocL();
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	User::LeaveIfError(iAuthClient.Connect());
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	CActiveScheduler::Add(this);
 	}
 
@@ -88,6 +100,11 @@ COpenedKey::~COpenedKey()
 	Cancel();
 	delete iLabel;
 	delete iKeyInfo;
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	iAuthClient.Close();
+	delete iExpression;
+	delete iUserIdentity;
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 
 	}
 
@@ -137,6 +154,7 @@ void COpenedKey::CheckKeyL(const RMessage2& aMessage)
 		
 	}
 
+#ifndef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 void COpenedKey::GetPassphrase(TRequestStatus& aStatus)
 	{
 	ASSERT(iState == EIdle);
@@ -150,7 +168,16 @@ void COpenedKey::GetPassphrase(TRequestStatus& aStatus)
 	iState = EGetPassphrase;
 	SetActive();
 	}
-
+#else
+void COpenedKey::AuthenticateL()
+	{	
+	iExpression = iAuthClient.CreateAuthExpressionL(iKeyInfo->AuthExpression());
+	TUid uid = TUid::Uid(0);
+	iAuthClient.AuthenticateL(*iExpression,iKeyInfo->Freshness(), EFalse, uid, EFalse, KNullDesC, iUserIdentity, iStatus);
+	iState = EAuthenticate;
+	SetActive();
+	}
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 
 void COpenedKey::RunL()
 	{
@@ -158,6 +185,41 @@ void COpenedKey::RunL()
 
 	switch (iState)
 		{
+		#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+		case EDoAuthenticate:
+			AuthenticateL();
+			break;
+			
+		case EAuthenticate:
+			if(iUserIdentity->Id() == AuthServer::KUnknownIdentity)
+				{
+				User::Leave(KErrAuthenticationFailure);
+				}
+					
+			if (!iKeyRead)
+				{
+				RStoreReadStream stream;
+				iKeyDataMan.OpenPrivateDataStreamLC(iKeyData, stream);
+				TPtrC8 key = iUserIdentity->Key().KeyData();
+				HBufC8* plaintext = DecryptFromStreamL(stream, key);
+				CleanupStack::PushL(plaintext);
+				TAny* ptr = const_cast<TAny*>(static_cast<const TAny*>(plaintext->Des().PtrZ()));
+							
+				RMemReadStream decryptedStream(ptr, plaintext->Length());
+				decryptedStream.PushL();
+				ReadPrivateKeyL(decryptedStream);
+				CleanupStack::PopAndDestroy(3,&stream); // plaintext, decryptedStream
+				iKeyRead = ETrue;
+				}
+			
+			delete iUserIdentity;
+			iUserIdentity = NULL;
+			delete iExpression;
+			iExpression = NULL;
+			PerformOperationL();
+			Complete(KErrNone);
+			break;
+		#else
 		case EGetPassphrase:
 			ASSERT(iPassphrase);
 			if (!iKeyRead)
@@ -171,6 +233,7 @@ void COpenedKey::RunL()
 			PerformOperationL();
 			Complete(KErrNone);
 			break;	
+		#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 		default:
 			ASSERT(EFalse);
 		}
@@ -200,7 +263,12 @@ void COpenedKey::Complete(TInt aError)
 
 void COpenedKey::Cleanup()
 	{
-
+	#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+		delete iUserIdentity;
+		iUserIdentity = NULL;
+		delete iExpression;
+		iExpression = NULL;
+	#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	}
 
 // CRSARepudiableSigner ////////////////////////////////////////////////////////
@@ -238,7 +306,16 @@ void CRSARepudiableSigner::Sign(const TDesC8& aPlaintext,
 	ASSERT(iSignaturePtr == NULL);
 	iPlaintext.Set(aPlaintext);
 	iSignaturePtr = &aSignature;
+#ifndef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	GetPassphrase(aStatus);
+#else
+	aStatus = KRequestPending;
+	iClientStatus = &aStatus;
+	iState = EDoAuthenticate;
+	SetActive();
+	TRequestStatus* status = &iStatus;
+	User::RequestComplete(status, KErrNone);
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	}
 
 void CRSARepudiableSigner::ReadPrivateKeyL(RReadStream& aStream)
@@ -259,6 +336,9 @@ void CRSARepudiableSigner::PerformOperationL()
 
 void CRSARepudiableSigner::Cleanup()
 	{
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	COpenedKey::Cleanup();
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	iPlaintext.Set(NULL, 0);
 	iSignaturePtr = NULL;
 	}
@@ -298,7 +378,16 @@ void CDSARepudiableSigner::Sign(const TDesC8& aPlaintext,
 	ASSERT(iSignaturePtr == NULL);
 	iPlaintext.Set(aPlaintext);
 	iSignaturePtr = &aSignature;
+#ifndef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	GetPassphrase(aStatus);
+#else
+	aStatus = KRequestPending;
+	iClientStatus = &aStatus;
+	iState = EDoAuthenticate;
+	SetActive();
+	TRequestStatus* status = &iStatus;
+	User::RequestComplete(status, KErrNone);
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	}
 
 void CDSARepudiableSigner::ReadPrivateKeyL(RReadStream& aStream)
@@ -319,6 +408,10 @@ void CDSARepudiableSigner::PerformOperationL()
 
 void CDSARepudiableSigner::Cleanup()
 	{
+	#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	COpenedKey::Cleanup();
+	#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+
 	iPlaintext.Set(NULL, 0);
 	iSignaturePtr = NULL;
 	}
@@ -358,7 +451,16 @@ void CFSRSADecryptor::Decrypt(const TDesC8& aCiphertext,
 	ASSERT(iPlaintextPtr == NULL);
 	iCiphertext.Set(aCiphertext);
 	iPlaintextPtr = &aPlaintext;
+#ifndef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	GetPassphrase(aStatus);
+#else
+	aStatus = KRequestPending;
+	iClientStatus = &aStatus;
+	iState = EDoAuthenticate;
+	SetActive();
+	TRequestStatus* status = &iStatus;
+	User::RequestComplete(status, KErrNone);
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	}
 
 void CFSRSADecryptor::ReadPrivateKeyL(RReadStream& aStream)
@@ -383,6 +485,10 @@ void CFSRSADecryptor::PerformOperationL()
 
 void CFSRSADecryptor::Cleanup()
 	{
+	#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	COpenedKey::Cleanup();
+	#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+
 	iCiphertext.Set(NULL, 0);
 	iPlaintextPtr = NULL;
 	}
@@ -421,7 +527,16 @@ void CDHAgreement::PublicKey(CDHParams& aParameters, RInteger& aPublicKey, TRequ
 	iPKParams = &aParameters;
 	iPKPublicKeyPtr = &aPublicKey;
 	iDHState = EPublicKey;
+#ifndef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	GetPassphrase(aStatus);
+#else
+	aStatus = KRequestPending;
+	iClientStatus = &aStatus;
+	iState = EDoAuthenticate;
+	SetActive();
+	TRequestStatus* status = &iStatus;
+	User::RequestComplete(status, KErrNone);
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	}
 
 void CDHAgreement::Agree(CDHPublicKey& aY, HBufC8*& aAgreedKey, TRequestStatus& aStatus)
@@ -431,7 +546,16 @@ void CDHAgreement::Agree(CDHPublicKey& aY, HBufC8*& aAgreedKey, TRequestStatus& 
 	iAKPublicKey = &aY;
 	iAKAgreedKeyPtr = &aAgreedKey;
 	iDHState = EAgree;
+#ifndef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	GetPassphrase(aStatus);
+#else
+	aStatus = KRequestPending;
+	iClientStatus = &aStatus;
+	iState = EDoAuthenticate;
+	SetActive();
+	TRequestStatus* status = &iStatus;
+	User::RequestComplete(status, KErrNone);
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	}
 
 void CDHAgreement::ReadPrivateKeyL(RReadStream& aStream)
@@ -496,6 +620,10 @@ void CDHAgreement::DoAgreeL()
 
 void CDHAgreement::Cleanup()
 	{
+	#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	COpenedKey::Cleanup();
+	#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+
 	iPKParams = NULL;
 	iPKPublicKeyPtr = NULL;
 	iAKPublicKey = NULL;

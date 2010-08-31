@@ -42,6 +42,9 @@ PRJ_TESTEXPORTS
 ./plug-ins.txt5 z:/resource/cryptospi/plug-ins.txt5
 ./plug-ins.txt6 z:/resource/cryptospi/plug-ins.txt6
 ./plug-ins.txt7 z:/resource/cryptospi/plug-ins.txt7
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+./tecchw-plug-ins.txt z:/resource/cryptospi/tecchw-plug-ins.txt
+#endif
 
 // Script Files
 ../scripts/te_symmetricciphertestcases.script		/epoc32/winscw/c/testdata/tcryptospi/scripts/te_symmetricciphertestcases.script
@@ -64,7 +67,9 @@ PRJ_TESTEXPORTS
 ../scripts/te_ruleselectiontestcases.script			/epoc32/winscw/c/testdata/tcryptospi/scripts/te_ruleselectiontestcases.script
 #endif
 
-
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+../scripts/te_dummyeccciphertestcases.script				/epoc32/winscw/c/testdata/tcryptospi/scripts/te_dummyeccciphertestcases.script
+#endif
 //***********************************************************************************************************************
 
 // Symmetric Step Configuration Files
@@ -149,6 +154,9 @@ PRJ_TESTEXPORTS
 ../testdata/ruleselection_matrix.ini						/epoc32/winscw/c/testdata/tcryptospi/configs/ruleselection_matrix.ini
 #endif
 
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+../testdata/dummyeccciphertestcases.ini						/epoc32/winscw/c/testdata/tcryptospi/configs/dummyeccciphertestcases.ini
+#endif
 //***********************************************************************************************************************
 
 // Asymmetric and Symmetric Data Files
@@ -254,3 +262,7 @@ PRJ_TESTEXPORTS
 ../testdata/nistsp800-38atestvectors/ctr-aes256ciphertext.ctr	/epoc32/winscw/c/testdata/tcryptospi/data/nistsp800-38atestvectors/ctr-aes256ciphertext.ctr
 
 // Copy Batch files
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+../scripts/batchfiles/pre_dummyeccplugin.bat					/epoc32/winscw/c/testdata/tcryptospi/scripts/batchfiles/pre_dummyeccplugin.bat
+../scripts/batchfiles/post_dummyeccplugin.bat					/epoc32/winscw/c/testdata/tcryptospi/scripts/batchfiles/post_dummyeccplugin.bat
+#endif

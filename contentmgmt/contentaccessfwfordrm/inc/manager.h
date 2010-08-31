@@ -690,6 +690,66 @@ namespace ContentAccess
 		IMPORT_C static void DeleteFileL (const TDesC &aFileName);
 #endif // REMOVE_CAF1
 
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+
+		/**  Get an attribute from WMDRM content.
+	
+		@param aAttribute	The attribute to retrieve, from ContentAccess::TAttribute.
+		@param aValue		Used to return the value of the attribute.
+		@param aHeaderData	Header data of WMDRM content.
+		@return				Whether the attribute value was updated.
+		@return				KErrNone if the attribute value was updated.
+		@return				KErrCANotSupported if the requested attribute is not supported for this content.
+		@return				Otherwise one of the other CAF error codes defined in \c caferr.h  or one of the 
+							other system-wide error codes for any other errors.
+		@capability DRM 	Access to DRM protected content is not permitted for processes without DRM capability. Access to unprotected content is unrestricted. 
+		*/
+		IMPORT_C TInt GetAttribute(const TDesC8& aHeaderData, TInt aAttribute, TInt& aValue) const;
+		
+		/** Get a set of attributes from WMDRM content.
+
+		@param aAttributeSet	The set of attributes to query and update.
+		@param aHeaderData		Header data of WMDRM content.
+		@return 				Whether the attribute set was updated.
+		@return 				KErrNone if the attribute set was updated successfully.
+		@return 				Otherwise one of the other CAF error codes defined in \c caferr.h  or one of the 
+								other system-wide error codes for any other errors.
+		@capability DRM 		Access to DRM protected content is not permitted for processes without DRM capability. Access to unprotected content is unrestricted. 
+		*/
+		IMPORT_C TInt GetAttributeSet(const TDesC8& aHeaderData, RAttributeSet& aAttributeSet) const;
+		
+		
+		/**  Get text string attributes or meta-data from WMDRM content.
+
+		@param aAttribute	The attribute to retrieve, from ContentAccess::TStringAttribute.
+		@param aValue		Used to return the value of the attribute.
+		@param aHeaderData	Header data of WMDRM content.
+		@return				Whether the value was updated.
+		@return				KErrNone if the attribute was retrieved successfully.
+		@return				KErrNotFound if the content object does not exist.
+		@return				KErrCANotSupported if the requested attribute does not apply to this content object.
+		@return				KErrOverflow if the buffer was not large enough to return the result.
+		@return				Otherwise one of the other CAF error codes defined in \c caferr.h  or one of the 
+							other system-wide error codes for any other errors.
+		@capability DRM 	Access to DRM protected content is not permitted for processes without DRM capability. Access to unprotected content is unrestricted. 
+		*/
+		IMPORT_C TInt GetStringAttribute(const TDesC8& aHeaderData, TInt aAttribute, TDes& aValue) const;
+		
+		/** Used to obtain a set of string attributes from WMDRM content.
+
+		@param aStringAttributeSet	The set of attributes to query and update.
+		@param aHeaderData			Header data of WMDRM content.
+		@return 					Whether the string attribute set was updated.
+		@return 					KErrNone if the attribute set was updated successfully.
+		@return 					KErrNotFound if the object with the given virtual path was not found.
+		@return 					Otherwise one of the other CAF error codes defined in \c caferr.h  or one of the 
+									other system-wide error codes for any other errors.
+		@capability DRM 			Access to DRM protected content is not permitted for processes without DRM capability. Access to unprotected content is unrestricted. 
+		*/
+		IMPORT_C TInt GetStringAttributeSet(const TDesC8& aHeaderData, RStringAttributeSet& aStringAttributeSet) const;
+
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+
 	private:
 		CManager();
 		void ConstructL();
@@ -723,6 +783,13 @@ namespace ContentAccess
 		void DoCancelNotifyStatusChangeL(const TDesC& aURI, TRequestStatus& aStatus);
 		void DoSetPropertyL(TAgentProperty aProperty, TInt aValue);
 		
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+		void DoGetAttributeL(const TDesC8& aHeaderData, TInt aAttribute, TInt& aValue) const;
+		void DoGetAttributeSetL(const TDesC8& aHeaderData, RAttributeSet& aAttributeSet) const;
+		void DoGetStringAttributeL(const TDesC8& aHeaderData, TInt aAttribute, TDes& aValue) const;
+		void DoGetStringAttributeSetL(const TDesC8& aHeaderData, RStringAttributeSet& aStringAttributeSet) const;	
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+	
 	private:
 		// Holds instances of all the agents
 		CAgentResolver* iResolver;

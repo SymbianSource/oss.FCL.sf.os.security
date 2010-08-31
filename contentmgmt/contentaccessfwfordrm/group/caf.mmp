@@ -31,7 +31,11 @@ VENDORID	0x70000001
 UNPAGED
 
 #ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+deffile		caf_v3.def
+#else
 deffile		caf_v2.def
+#endif
 #else
 deffile		caf.def
 #endif

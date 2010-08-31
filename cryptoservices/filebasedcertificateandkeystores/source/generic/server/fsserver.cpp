@@ -132,6 +132,13 @@ void CTokenServer::ConstructL()
 	FSDialog::InitialiseL();
 	
 	TPtrC serverName(KFSTokenServerName());
+		// Naming the server thread after the server helps to debug panics
+#ifdef __WINS__
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	serverName.Set(KFSNewTokenServerName());
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+#endif // __WINS__
+		
 	StartL(serverName);
 	
 	// Ensure that the server still exits even if the 1st client fails to connect
@@ -257,7 +264,12 @@ void CShutdown::RunL()
 static void RunServerL()
 	{
 	TPtrC serverName(KFSTokenServerName());
-
+	// Naming the server thread after the server helps to debug panics
+#ifdef __WINS__
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	serverName.Set(KFSNewTokenServerName());
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+#endif // __WINS__
 	
 	User::LeaveIfError(User::RenameThread(serverName));
 	
