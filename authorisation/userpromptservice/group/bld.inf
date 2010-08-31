@@ -24,11 +24,12 @@
 #include "../examples/bld.inf"
 
 PRJ_EXPORTS
-../inc/ups.hrh			/epoc32/include/ups/ups.hrh
+../inc/ups.hrh			SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(ups/ups.hrh)
 ../inc/upsconst.h		SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(ups/upsconst.h)
 ../inc/upserr.h			SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(ups/upserr.h)
 ../inc/upstypes.h		SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(ups/upstypes.h)
 ../inc/ups.iby			/epoc32/rom/include/ups.iby
+
 
 
 PRJ_TESTEXPORTS

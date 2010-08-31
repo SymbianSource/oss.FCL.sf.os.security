@@ -52,14 +52,6 @@ PRJ_EXPORTS
 ../inc/x509constraintext.h			SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(x509constraintext.h)
 
 ../inc/x509keyencoder.h				SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(x509keyencoder.h)
-#ifndef SYMBIAN_ENABLE_SPLIT_HEADERS
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-../inc/x509bitstring.h				/epoc32/include/x509bitstring.h
-#endif
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-../inc/pkcs7signedobject.h			/epoc32/include/pkcs7signedobject.h
-#endif
-#endif
 
 ../inc/swicertstore.h           SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(swicertstore.h)
 
@@ -74,9 +66,6 @@ PRJ_EXPORTS
 ../inc/wtlscertchain.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(wtlscertchain.h)
 ../inc/pkcs7excert.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(pkcs7excert.h)
 ../inc/pkcs7issuerserial.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(pkcs7issuerserial.h)
-#ifdef SYMBIAN_OLD_EXPORT_LOCATION
-../inc/pkcs7signerinfo.h
-#endif
 
 
 ../inc/cmssignedobject.h SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(cmssignedobject.h)
@@ -884,12 +873,12 @@ PRJ_TESTEXPORTS
 
 
 // Symbian signed root certs and swi cert store, from top-level rootcerts directory
-../../rootcertificates/SymbianA.der			/epoc32/winscw/c/rootcerts/symbiana.der
-../../rootcertificates/SymbianB.der			/epoc32/winscw/c/rootcerts/symbianb.der
-../../rootcertificates/symbianc.der			/epoc32/winscw/c/rootcerts/symbianc.der
-../../rootcertificates/symbiand.der			/epoc32/winscw/c/rootcerts/symbiand.der
-../../rootcertificates/SymbianSignedCerts.txt	/epoc32/winscw/c/rootcerts/symbiansignedcerts.txt
-../../rootcertificates/swicertstore.dat		/epoc32/winscw/c/rootcerts/swicertstore.dat
+../../rootcertificates/data/SymbianA.der			/epoc32/winscw/c/rootcerts/symbiana.der
+../../rootcertificates/data/SymbianB.der			/epoc32/winscw/c/rootcerts/symbianb.der
+../../rootcertificates/data/symbianc.der			/epoc32/winscw/c/rootcerts/symbianc.der
+../../rootcertificates/data/symbiand.der			/epoc32/winscw/c/rootcerts/symbiand.der
+../../rootcertificates/data/SymbianSignedCerts.txt	/epoc32/winscw/c/rootcerts/symbiansignedcerts.txt
+../../rootcertificates/data/swicertstore.dat		/epoc32/winscw/c/rootcerts/swicertstore.dat
 
 ../tpkcs12intgrtn/inc/tpkcs12integrationserver.iby /epoc32/rom/include/tpkcs12integrationserver.iby
 ../tpkcs7/tpkcs7server.iby /epoc32/rom/include/tpkcs7server.iby

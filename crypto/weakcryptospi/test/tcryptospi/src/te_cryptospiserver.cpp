@@ -105,6 +105,10 @@
 
 #include "ruleselectcommonstep.h"
 
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+#include "dummyecccipherloadstep.h"
+#include "dummyeccsignerloadstep.h"
+#endif
 //#include "pluginruleselectstep.h"
 
 _LIT(KServerName,"Te_CryptoSpi");
@@ -331,5 +335,12 @@ CTestStep* CTe_CryptoSpi::CreateTestStep(const TDesC& aStepName)
 	else if(aStepName == KRuleSelectCommonStep)
 		testStep = new CRuleSelectCommonStep();		
 
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+    else if(aStepName == KDummyEccCipherLoadStep)
+        testStep = new CDummyEccCipherLoadStep();
+	else if(aStepName == KDummyEccSignerLoadStep)
+	        testStep = new CDummyEccSignerLoadStep();
+#endif
+	
 	return testStep;
 	}

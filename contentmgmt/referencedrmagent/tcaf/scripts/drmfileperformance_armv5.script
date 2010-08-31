@@ -29,7 +29,7 @@ START_TESTCASE 			SEC-CAF-DRMFP-0001
 //! @SYMTestActions		Attempt to obtain the time taken to open a plaintext ile.
 //! @SYMTestExpectedResults	Test fails if the time to open the plaintext file exceeds the value specified in the INI file.
 
-RUN_TEST_STEP 100 tcaf CAFDRMFileOpenPerformanceStep c:\tcaf\consumerstep.ini DRMFileOpenPerformance
+RUN_TEST_STEP 100 tcaf CAFDRMFileOpenPerformanceStep z:\tcaf\consumerstep.ini DRMFileOpenPerformance
 END_TESTCASE 			SEC-CAF-DRMFP-0001
 
 START_TESTCASE 			SEC-CAF-DRMFP-0002
@@ -43,7 +43,7 @@ START_TESTCASE 			SEC-CAF-DRMFP-0002
 //! @SYMTestActions		Attempt to obtain the time taken to open a file containing single content object.
 //! @SYMTestExpectedResults	Test fails if the time to open a file containing single content object exceeds the value specified in the INI file.
 
-RUN_TEST_STEP 100 tcaf CAFDRMFileOpenPerformanceStep c:\tcaf\consumerstep.ini DRMFileOpenPerformance_SingleRTAObject
+RUN_TEST_STEP 100 tcaf CAFDRMFileOpenPerformanceStep z:\tcaf\consumerstep.ini DRMFileOpenPerformance_SingleRTAObject
 END_TESTCASE 			SEC-CAF-DRMFP-0002
 
 START_TESTCASE 			SEC-CAF-DRMFP-0003
@@ -57,7 +57,7 @@ START_TESTCASE 			SEC-CAF-DRMFP-0003
 //! @SYMTestActions		Attempt to obtain the time taken to open a file containing multiple content objects.
 //! @SYMTestExpectedResults	Test fails if the time to open a file containing multiple content objects exceeds the value specified in the INI file.
 
-RUN_TEST_STEP 100 tcaf CAFDRMFileOpenPerformanceStep c:\tcaf\consumerstep.ini DRMFileOpenPerformance_MultipleRTAObject
+RUN_TEST_STEP 100 tcaf CAFDRMFileOpenPerformanceStep z:\tcaf\consumerstep.ini DRMFileOpenPerformance_MultipleRTAObject
 END_TESTCASE 			SEC-CAF-DRMFP-0003
 
 

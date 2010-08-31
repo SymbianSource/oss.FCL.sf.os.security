@@ -33,6 +33,7 @@ VENDORID 0x70000001
 SOURCEPATH	../source/random
 SOURCE          random.cpp threadrandom.cpp randomshim.cpp
 
+USERINCLUDE	../inc
 USERINCLUDE ../../../cryptomgmtlibs/securityutils/inc
 USERINCLUDE	../../../cryptoplugins/cryptospiplugins/source/softwarecrypto
 OS_LAYER_SYSTEMINCLUDE

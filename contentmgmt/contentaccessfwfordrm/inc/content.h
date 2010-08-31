@@ -165,6 +165,30 @@ namespace ContentAccess
 		*/
 		IMPORT_C static CContent* NewL(RFile& aFile);
 
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT		
+		/** 
+		 Constructs a new CContent object.
+
+  		 @param aHeaderData	Header data of WMDRM file/stream content. 
+		 @return 			CContent object.
+		 @leave 			KErrMissingHeaderData if the header data is NULL or one of the CAF error codes defined in caferr.h  
+		 					or one of the system-wide error codes for any other errors.
+		 @capability DRM 	Access to DRM protected content is not permitted for processes without DRM capability. Access to unprotected content is unrestricted 
+	 	 */
+		IMPORT_C static CContent* NewL(const TDesC8& aHeaderData);
+		
+		/** 
+		 Constructs a new CContent object.
+  		 
+  		 @param aHeaderData	Header data of WMDRM file/stream content.  
+		 @return 			CContent object.
+		 @leave 			KErrMissingHeaderData if the header data is NULL or one of the CAF error codes defined in caferr.h  or one of the 
+							system-wide error codes for any other errors.
+		 @capability DRM 	Access to DRM protected content is not permitted for processes without DRM capability. Access to unprotected content is unrestricted 
+		 */
+		IMPORT_C static CContent* NewLC(const TDesC8& aHeaderData);
+		
+#endif //#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 
 		/** destructor */
 		virtual ~CContent();
@@ -967,6 +991,34 @@ namespace ContentAccess
 		CContent(); 
 		void ConstructL(RFile& aFile); 
 		void ConstructL(const TDesC& aURI, TContentShareMode aShareMode); 
+		
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+		void ConstructL(const TDesC8& aHeaderData);
+
+		/**
+		Create a CData object for reading WMDRM content.
+		
+		@param	aIntent		The intended use of the content.
+		@param	aHeaderData	Header data of WMDRM file/stream content.
+		@return				CData object.
+		@leave 				One of the CAF error codes defined in caferr.h  or one of the system-wide error codes for any errors.
+		@capability DRM 	Access to DRM agents is not permitted for processes without DRM capability.
+		*/
+		
+		CData* OpenContentL(TIntent aIntent, const TDesC8& aHeaderData);
+		
+		/**
+		Create a CData object for reading WMDRM content.
+		
+		@param	aIntent		The intended use of the content.
+		@param	aHeaderData	Header data of WMDRM file/stream content.
+		@return				CData object.
+		@leave 				One of the CAF error codes defined in caferr.h  or one of the system-wide error codes for any errors.
+		@capability DRM 	Access to DRM agents is not permitted for processes without DRM capability.
+		*/
+		CData* OpenContentLC(TIntent aIntent, const TDesC8& aHeaderData);
+		
+#endif //#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 
 	private:	
 	
@@ -999,6 +1051,10 @@ namespace ContentAccess
 #else
 		RFile iFile;
 #endif //SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+		HBufC8* iHeaderData;
+#endif //#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 
 		};
 

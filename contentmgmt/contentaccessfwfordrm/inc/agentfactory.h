@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2003 - 2007,2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2003 - 2007,2009-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -118,7 +118,7 @@ namespace ContentAccess
 		 @param aShareMode The share mode for opening the file containing the content object
 		 @return A pointer to the CAgentData object.
 		 */
-		virtual CAgentData* CreateDataConsumerL(const TVirtualPathPtr& aVirtualPath, TContentShareMode aShareMode)  = 0;
+		 virtual CAgentData* CreateDataConsumerL(const TVirtualPathPtr& aVirtualPath, TContentShareMode aShareMode)  = 0;
 
 		/**
 		 Factory function creates a CAgentData object for reading 
@@ -172,6 +172,26 @@ namespace ContentAccess
 		@leave KErrCANotSupported If the agent does not provide any rights management functions
 		*/
 		virtual CAgentRightsManager* CreateRightsManagerL() = 0;
+
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT		
+		/**
+		Factory function creates a CAgentData object from header data of WMDRM file or stream content
+		for reading/decrypting WMDRM data packets.
+		 
+		@param aHeaderData	Header data of WMDRM file or stream content.
+		@return				A pointer to CAgentData object.
+		*/
+		IMPORT_C virtual CAgentData* CreateDataConsumerL(const TDesC8& aHeaderData);
+		
+		/**
+		Factory function creates a CAgentContent object from header data of WMDRM file or stream content
+		for browsing WMDRM content.
+		 
+		@param aHeaderData	Header data of WMDRM file or stream content.
+		@return 			A pointer to CAgentContent object.
+		*/
+		IMPORT_C virtual CAgentContent* CreateContentBrowserL(const TDesC8& aHeaderData);
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 
 	private:
 		// ECOM session key. This is set by 

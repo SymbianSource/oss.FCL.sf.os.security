@@ -70,6 +70,14 @@ class CRefTestAgentManager : public ContentAccess::CAgentManager
 		virtual void AgentSpecificCommand(TInt aCommand, const TDesC8& aInputBuffer, TDes8& aOutputBuffer, TRequestStatus& aStatus);
 		virtual void DisplayManagementInfoL();
 		virtual void PrepareHTTPRequestHeaders(RStringPool& aStringPool, RHTTPHeaders& aRequestHeaders) const;
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+        virtual TBool IsRecognizedL(const TDesC8& aHeaderData) const;     
+        virtual TBool RecognizeContentL(const TDesC8& aHeaderData, TDes8& aFileMimeType, TDes8& aContentMimeType) const;     
+        virtual TInt GetAttribute(const TDesC8& aHeaderData, TInt aAttribute, TInt& aValue);     
+        virtual TInt GetAttributeSet(const TDesC8& aHeaderData, ContentAccess::RAttributeSet& aAttributeSet);     
+        virtual TInt GetStringAttributeSet(const TDesC8& aHeaderData, ContentAccess::RStringAttributeSet& aAttributeSet);     
+        virtual TInt GetStringAttribute(const TDesC8& aHeaderData, TInt aAttribute, TDes& aValue);     
+#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT 
 
 	private:
 		CRefTestAgentManager();

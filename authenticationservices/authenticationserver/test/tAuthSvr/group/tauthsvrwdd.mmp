@@ -1,0 +1,74 @@
+/*
+* Copyright (c) 2005-2009 Nokia Corporation and/or its subsidiary(-ies).
+* All rights reserved.
+* This component and the accompanying materials are made available
+* under the terms of the License "Eclipse Public License v1.0"
+* which accompanies this distribution, and is available
+* at the URL "http://www.eclipse.org/legal/epl-v10.html".
+*
+* Initial Contributors:
+* Nokia Corporation - initial contribution.
+*
+* Contributors:
+*
+* Description: 
+*
+*/
+
+
+TARGET			tauthsvrwdd.exe
+TARGETTYPE		exe
+UID				0x1000007A 0x10204F11
+VENDORID		0x70000001
+CAPABILITY		AllFiles ReadUserData WriteUserData ReadDeviceData WriteDeviceData
+
+OS_LAYER_SYSTEMINCLUDE
+SYSTEMINCLUDE OS_LAYER_PLATFORM_EXPORT_PATH(test)
+
+USERINCLUDE		../../../source/server
+USERINCLUDE		../../../source/common
+USERINCLUDE		../../../source/client
+USERINCLUDE		../../../../../cryptomgmtlibs/securitytestfw/test/testutil/client
+USERINCLUDE             ../../../inc/authserver
+
+USERINCLUDE		../../../inc_private
+SOURCEPATH  	../../tauthdb
+USERINCLUDE  	../../tauthdb
+SOURCE			step_createtestdb.cpp
+
+SOURCEPATH  		../src
+USERINCLUDE   	../src
+USERINCLUDE   	../../../inc_private
+
+SOURCE			tauthsvrserverwdd.cpp
+SOURCE			step_FirstStart.cpp
+SOURCE			step_base.cpp
+SOURCE			step_AuthSvrCheck.cpp
+SOURCE			step_RegIdentity.cpp
+SOURCE			step_IdentifyMultiple.cpp
+SOURCE			step_retrainplugin.cpp
+SOURCE			step_removedbs.cpp
+SOURCE			step_removeauthmethod.cpp
+SOURCE			step_removeidentity.cpp
+SOURCE			step_authenticate.cpp
+SOURCE			step_setauthprefs.cpp
+
+SOURCE          ../../../source/server/authdb.cpp
+SOURCE          ../../../source/server/transientkeyinfo.cpp
+SOURCE          ../../../source/server/transientkey.cpp
+SOURCE          ../../../source/server/encryptedprotectionkey.cpp
+
+LIBRARY			testexecutelogclient.lib testexecuteutils.lib
+LIBRARY			ecom.lib c32.lib bafl.lib
+LIBRARY			edbms.lib estor.lib efsrv.lib euser.lib
+LIBRARY         authclient.lib authcommon.lib scsclient.lib
+LIBRARY         random.lib pbe.lib cryptography.lib
+LIBRARY			sectcbutil.lib
+LIBRARY 		cinidata.lib	// add text INI file parsing ability
+LIBRARY			testutilclient.lib
+LIBRARY			centralrepository.lib
+#ifdef	__SWI_LOGGING__
+LIBRARY			flogger.lib
+#endif	/* __SWI_LOGGING__ */
+
+SMPSAFE

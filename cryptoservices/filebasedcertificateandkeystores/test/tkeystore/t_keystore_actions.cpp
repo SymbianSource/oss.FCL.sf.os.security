@@ -26,6 +26,11 @@
 #include <x509keys.h>
 #include <securityerr.h>
 
+#ifdef SYMBIAN_AUTH_SERVER
+#include <keystore_errs.h>
+#include <authserver/auth_srv_errs.h>
+#include <authserver/authclient.h>
+#endif // SYMBIAN_AUTH_SERVER
 
 static void TestKeyStorePanic(TKSPanicCode aPanicCode)
 {
@@ -76,6 +81,9 @@ CKeyStoreTestAction::~CKeyStoreTestAction()
 	delete iLabel;
 	iExpectedDialogs.ResetAndDestroy();
 	iKeys.Close();
+#ifdef SYMBIAN_AUTH_SERVER	
+	delete iAuthExpression;
+#endif // SYMBIAN_AUTH_SERVER
 
 	}
 
@@ -85,6 +93,13 @@ CKeyStoreTestAction::CKeyStoreTestAction(RFs& aFs, CConsoleBase& aConsole, Outpu
 	iFs(aFs),
 	iDisableCheckDialog(0),
 	iKeyStoreImplIndex(0)
+#ifdef SYMBIAN_AUTH_SERVER
+	,iUseNewApi(EFalse),
+	iFreshness(0)
+#endif // SYMBIAN_AUTH_SERVER
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+	,iHardwareType(-1)
+#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
 	{
 	iFilter.iPolicyFilter = TCTKeyAttributeFilter::EAllKeys;
 	}
@@ -117,7 +132,45 @@ void CKeyStoreTestAction::ConstructL(const TTestActionSpec& aTestActionSpec)
 
 	pos = 0;
 	iKeyStoreImplLabel.Copy(Input::ParseElement(aTestActionSpec.iActionBody, KUseKeyStoreStart, KUseKeyStoreEnd, pos));
+	
+#ifdef SYMBIAN_AUTH_SERVER
+	TPtrC8 authExpr;
+	TInt authExprPresent = KErrNone;
+	authExpr.Set(Input::ParseElement(aTestActionSpec.iActionBody, KAuthExpressionStart, KAuthExpressionEnd, pos , authExprPresent));
+	if(authExpr.Compare(_L8("null")) != 0)
+		{
+		TInt size = authExpr.Size();
+		if (size != 0)
+			{
+			iAuthExpression = HBufC::NewMaxL(size);
+			TPtr authExp(iAuthExpression->Des());
+			authExp.FillZ();
+			authExp.Copy(authExpr);
+			}
+		}
+	TInt freshnessPresent = KErrNone;
+	TInt negativeFreshness = Input::ParseIntElement(aTestActionSpec.iActionBody, KNegativeFreshnessStart, KNegativeFreshnessEnd);
+	if(negativeFreshness == 1)
+		{
+		iFreshness = -1;
+		}
+	else
+		{
+		iFreshness = Input::ParseIntElement(aTestActionSpec.iActionBody, KFreshnessStart, KFreshnessEnd, pos, freshnessPresent);
+		}
+	if(authExprPresent == KErrNone && freshnessPresent == KErrNone)
+		{
+		iUseNewApi = ETrue;
+		}
+	
+	iDeauthenticate = Input::ParseIntElement(aTestActionSpec.iActionBody, KAuthenticateStart, KAuthenticateEnd);
 		
+#endif // SYMBIAN_AUTH_SERVER
+	
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+	iHardwareType = Input::ParseIntElement(aTestActionSpec.iActionBody, KHwTypeStart, KHwTypeEnd, pos);
+#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
+	
 	}
 
 TBool CKeyStoreTestAction::AddExpectedDialogL(const TDesC8& aData)
@@ -296,6 +349,13 @@ TInt CKeyStoreTestAction::SetExpectedResultL(const TDesC8& aResult)
 		return KErrPermissionDenied;
 	else if (aResult==KErrNoMemoryString)
 			return KErrNoMemory;
+#ifdef SYMBIAN_AUTH_SERVER
+	else if (aResult==KErrAuthFailureString)
+		return KErrAuthenticationFailure;
+	else if (aResult==KErrUnknownAuthStrengthAliasString)
+		return KErrUnknownAuthStrengthAlias;
+#endif // SYMBIAN_AUTH_SERVER
+	
 	else
 		{
 		iOut.writeString(_L("Unknown expected result: "));
@@ -436,6 +496,15 @@ void CKeyStoreTestAction::SetKeyStoreIndex(CUnifiedKeyStore* aUnifiedKeyStore)
 void CKeyStoreTestAction::DoPerformPrerequisite(TRequestStatus& aStatus)
 	{
 	TInt err = KErrNone;
+	#ifdef SYMBIAN_AUTH_SERVER
+	if(iDeauthenticate == 1)
+		{
+		AuthServer::RAuthClient authClient;
+		authClient.Connect();
+		TRAP(err,authClient.DeauthenticateL());
+		authClient.Close();
+		}
+	#endif // SYMBIAN_AUTH_SERVER
 	
 	TRAP(err, WriteExpectedDialogDataL());
 	
@@ -602,6 +671,12 @@ void CKeyStoreTestAction::SetKeyType(const TDesC8& aKeyType)
 	{
 		iType = EDH;
 	}
+#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
+    else if (aKeyType.Compare(KAlgEcc)==0)
+        {
+        iType = EECC;
+        }
+#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
 }
 
 /////////////////////////////////////////////////////////////////

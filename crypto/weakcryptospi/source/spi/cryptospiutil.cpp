@@ -85,21 +85,25 @@ void CryptoSpiUtil::RetrieveCharacteristicsL(TInt32 aInterface, RPointerArray<CR
 
 TInt CryptoSpiUtil::RetrieveCharacteristicsL(TInt32 aInterface, RDesReadStream& aStream, RBuf8& aBuf, TInt& aCount)
 	{
-	TBuf8<KMaxFileName> buf;
+	// first we are only trying to retrieve the length of the buffer
+	TBuf8<sizeof(TInt32)> buf;
 	TInt testResult = RProperty::Get(KCryptoSpiPropertyCat, aInterface, buf);
 	if (testResult==KErrNotFound)
 		{
 		//run the exe to Publish the properties
 		RunCryptoSpiPropertySetupExe();
+		// testresult would be checked outside the loop
 		testResult = RProperty::Get(KCryptoSpiPropertyCat, aInterface, buf);
-		if (testResult==KErrNotFound)
-			{
-			//Error
-			User::Leave(testResult);
-			}
 		}
 	
-	//Try to read the length first
+	// overflow will occur as we are only retrieving the length first.
+	// any other error we should leave
+	if(testResult != KErrOverflow)
+		{
+		User::LeaveIfError(testResult);
+		}
+	
+	//read the length
 	RDesReadStream rStream(buf);
 	TInt32 len=rStream.ReadInt32L();
 	

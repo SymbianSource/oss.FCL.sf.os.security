@@ -71,6 +71,12 @@ RESOURCE TBUF r_keytool_usage4
 	buf = STRING_r_keytool_usage4;
 	}	
 
+#ifdef SYMBIAN_AUTH_SERVER
+RESOURCE TBUF r_keytool_usage5
+	{
+	buf = STRING_r_keytool_usage5;
+	}	
+#endif // SYMBIAN_AUTH_SERVER
 RESOURCE TBUF r_keytool_usage_list
 	{
 	buf = STRING_r_keytool_usage_list;
@@ -186,6 +192,68 @@ RESOURCE TBUF r_keytool_usage_noninteractive1
 	buf = STRING_r_keytool_usage_noninteractive1;
 	}
 
+#ifdef SYMBIAN_AUTH_SERVER
+RESOURCE TBUF r_keytool_usage_migrate
+	{
+	buf = STRING_r_keytool_usage_migrate;
+	}
+
+RESOURCE TBUF r_keytool_usage_migrate1
+	{
+	buf = STRING_r_keytool_usage_migrate1;
+	}
+
+RESOURCE TBUF r_keytool_usage_migrate2
+	{
+	buf = STRING_r_keytool_usage_migrate2;
+	}
+
+RESOURCE TBUF r_keytool_usage_migrate3
+	{
+	buf = STRING_r_keytool_usage_migrate3;
+	}
+
+RESOURCE TBUF r_keytool_usage_migrate4
+	{
+	buf = STRING_r_keytool_usage_migrate4;
+	}
+
+RESOURCE TBUF r_keytool_usage_migrate5
+	{
+	buf = STRING_r_keytool_usage_migrate5;
+	}
+
+RESOURCE TBUF r_keytool_usage_migrate6
+	{
+	buf = STRING_r_keytool_usage_migrate6;
+	}
+
+RESOURCE TBUF r_keytool_usage_migrate7
+	{
+	buf = STRING_r_keytool_usage_migrate7;
+	}
+
+RESOURCE TBUF r_keytool_usage_migrate8
+	{
+	buf = STRING_r_keytool_usage_migrate8;
+	}
+
+RESOURCE TBUF r_keytool_usage_migrate9
+	{
+	buf = STRING_r_keytool_usage_migrate9;
+	}
+
+RESOURCE TBUF r_keytool_usage_oldkey_absent
+	{
+	buf = STRING_r_keytool_usage_oldkey_absent;
+	}
+
+RESOURCE TBUF r_keytool_usage_passphrase_absent
+	{
+	buf = STRING_r_keytool_usage_passphrase_absent;
+	}
+
+#endif // SYMBIAN_AUTH_SERVER
 // Keytool error strings
 
 RESOURCE TBUF r_keytool_err_deletefail
@@ -363,6 +431,12 @@ RESOURCE TBUF r_keytool_err_remove
 	buf = STRING_r_keytool_err_remove;
 	}
 	
+#ifdef SYMBIAN_AUTH_SERVER
+RESOURCE TBUF r_keytool_err_migrationfail
+	{
+	buf = STRING_r_keytool_err_migrationfail;
+	}
+#endif // SYMBIAN_AUTH_SERVER
 	
 //\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\//\\
 

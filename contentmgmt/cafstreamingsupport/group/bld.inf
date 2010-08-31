@@ -49,6 +49,7 @@ PRJ_TESTMMPFILES
 
 #ifndef TOOLS
 #ifndef TOOLS2
+
 // Common test stream agent implementation projects 
 stashared.mmp
 staclient.mmp		
@@ -69,13 +70,8 @@ tscaf.mmp
 PRJ_TESTEXPORTS
 
 ../test/tscaf/scripts/tscaf.ini				z:/tcaf/tscaf/tscaf.ini
-#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 ../test/tscaf/scripts/tscaf.script				z:/tcaf/tscaf/tscaf.script
 ../test/tscaf/scripts/tscaf_oom.script			z:/tcaf/tscaf/tscaf_oom.script
-#else
-../test/tscaf/scripts/tscaf_without_upward_dependent.script				z:/tcaf/tscaf/tscaf.script
-../test/tscaf/scripts/tscaf_oom_without_upward_dependent.script			z:/tcaf/tscaf/tscaf_oom.script
-#endif
 ../test/tscaf/scripts/tscafipsec.script			z:/tcaf/tscaf/tscafipsec.script
 ../test/tscaf/scripts/tscafipsec_oom.script			z:/tcaf/tscaf/tscafipsec_oom.script
 ../test/tscaf/scripts/tscafipsecmanual.script			z:/tcaf/tscaf/tscafipsecmanual.script

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2003-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2003-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -227,36 +227,45 @@ void CApaCafRecognizer::DoRecognizeL(const TDesC& aName, const TDesC8& aBuffer)
 	else 
 		{
 		RFile* fileHandle = CApaCafRecognizer::FilePassedByHandleL();
+		
+		if( fileHandle == NULL )
+		{
+			return;
+		}
+
 		TBuf<KMaxDataTypeLength> fileName;
 		User::LeaveIfError(fileHandle->Name(fileName));
 		isRecognized = iResolver->DoRecognizeL(fileName, aBuffer, FileMimeType, ContentMimeType);
 		}
 	
-	if (isRecognized)
-		{
-		// If there is no content type but the file is recognized it is assumed
-		// to be a file that can be processed through the supplier interface
+	if (isRecognized == EFalse)
+	{
+		return;
+	}
+
+
+	// If there is no content type but the file is recognized it is assumed
+	// to be a file that can be processed through the supplier interface
 		
-		// dummy object for comparison in match function
-		CMimeTypeMapping* mimeTypeMapping = (ContentMimeType.Length() == 0) ?  
-												CMimeTypeMapping::NewL(FileMimeType) :
-												CMimeTypeMapping::NewL(ContentMimeType);
+	// dummy object for comparison in match function
+	CMimeTypeMapping* mimeTypeMapping = (ContentMimeType.Length() == 0) ?  
+										 CMimeTypeMapping::NewL(FileMimeType) :
+										 CMimeTypeMapping::NewL(ContentMimeType);
 
 
-		// check that the content mime type is one of the ones we
-		// told Apparc we can recognize in the beginning
-		// The mime type should always be found as the file has been recognised.
-		// If not it is because an agent, when recognising the file, has set a mime type not in its supplier list.
-		// Mime types are always forced to lower case therefore this match can be case sensitive.
-		TInt index = iContentTypes.Find(mimeTypeMapping, CMimeTypeMapping::ContentMimeTypeMatch);
-		if (index != KErrNotFound)
-			{
-			iDataType = TDataType(iContentTypes[index]->CafMimeType());
-			iConfidence=ECertain;
-			}
+	// check that the content mime type is one of the ones we
+	// told Apparc we can recognize in the beginning
+	// The mime type should always be found as the file has been recognised.
+	// If not it is because an agent, when recognising the file, has set a mime type not in its supplier list.
+	// Mime types are always forced to lower case therefore this match can be case sensitive.
+	TInt index = iContentTypes.Find(mimeTypeMapping, CMimeTypeMapping::ContentMimeTypeMatch);
+	if (index != KErrNotFound)
+	{
+	    iDataType = TDataType(iContentTypes[index]->CafMimeType());
+		iConfidence=ECertain;
+	}
 
-		delete mimeTypeMapping;
-		}
+	delete mimeTypeMapping;
 	}
 
 const TImplementationProxy ImplementationTable[] = 

@@ -82,10 +82,10 @@ void CFilter::ConstructL(const TDesC8& aFilter)
 	
 	// Set subjetkeyid filter
 	SetIssuerKeyIdFilter(Input::ParseElement(aFilter, KIssuerKeyIdStart));
-	
+
 	// Set subjetkeyid using the certificate details
 	SetSubjectKeyIdFromCertFilterL(Input::ParseElement(aFilter, KUseSubjectKeyIdStart));
-		
+
 	}
 
 void CFilter::SetLabelFilter(const TDesC8& aLabel)
@@ -408,5 +408,6 @@ void CFilter::SetSubjectKeyIdFromCertFilterL(const TDesC8& aCertPath)
 		iFilter->SetSubjectKeyId(id);
 		}
 	}
+
 
 CCertAttributeFilter* CFilter::iFilter = NULL;

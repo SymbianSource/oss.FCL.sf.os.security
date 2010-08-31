@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2004-2010 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -637,8 +637,9 @@ void CImportKey::SetKeyDataFileL(const TDesC8& aDes)
 		TPtr8 data(iKeyData->Des());
 		data.FillZ();
 		User::LeaveIfError(file.Read(data, fileSize));
+		CleanupStack::Pop(1);
 	}
-	CleanupStack::Pop(1);
+
 	file.Close();
 }
 

@@ -55,6 +55,13 @@ namespace ContentAccess
 		static TInt GetStringAttributeSet(RStringAttributeSet& aStringAttributeSet, RFile& aFile);
 		static void GetMimeTypeL(RFile& aFile, TDes8& aMimeType);
 		
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT		
+		static TInt GetAttribute(const TDesC8& aHeaderData, TInt aAttribute, TInt& aValue);
+		static TInt GetAttributeSet(const TDesC8& aHeaderData, RAttributeSet& aAttributeSet);
+		static TInt GetStringAttribute(const TDesC8& aHeaderData, TInt aAttribute, TDes& aValue);
+		static TInt GetStringAttributeSet(const TDesC8& aHeaderData, RStringAttributeSet& aStringAttributeSet);
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+
 		static TInt CheckUniqueId(const TDesC& aUniqueId);
 		static TInt CheckVirtualPath(const TVirtualPathPtr& aVirtualPath);	
 		static TUint GetFileMode(TContentShareMode aMode);

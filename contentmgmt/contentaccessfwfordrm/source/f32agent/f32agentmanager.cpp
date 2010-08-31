@@ -340,3 +340,38 @@ void CF32AgentManager::PrepareHTTPRequestHeaders(RStringPool& /*aStringPool*/, R
 	User::Panic(KCafPanicString, ECafPanicF32AgentPrepareHTTPHeadersNotSupported);
 	}
 
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+
+TBool CF32AgentManager::IsRecognizedL(const TDesC8& /*aHeaderData*/) const
+	{
+	// F32 should be the default agent and should never be called here
+	return EFalse;
+	}
+	
+TBool CF32AgentManager::RecognizeContentL(const TDesC8&, TDes8&, TDes8&) const
+	{
+	// F32 should be the default agent and should never be called here
+	return EFalse;
+	}
+	
+TInt CF32AgentManager::GetAttribute(const TDesC8& aHeaderData, TInt aAttribute, TInt& aValue)
+	{
+	return TF32DefaultAttributes::GetAttribute(aHeaderData, aAttribute, aValue);
+	}
+
+TInt CF32AgentManager::GetAttributeSet(const TDesC8& aHeaderData, RAttributeSet& aAttributeSet)
+	{
+	return TF32DefaultAttributes::GetAttributeSet(aHeaderData, aAttributeSet);
+	}
+
+TInt CF32AgentManager::GetStringAttribute(const TDesC8& aHeaderData, TInt aAttribute, TDes& aValue) 
+	{
+	return TF32DefaultAttributes::GetStringAttribute(aHeaderData, aAttribute, aValue);
+	}
+
+TInt CF32AgentManager::GetStringAttributeSet(const TDesC8& aHeaderData, RStringAttributeSet& aAttributeSet) 
+	{
+	return TF32DefaultAttributes::GetStringAttributeSet(aHeaderData, aAttributeSet);
+	}
+	
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT

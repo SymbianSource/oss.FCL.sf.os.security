@@ -32,6 +32,14 @@
 
 #include <mctkeystoremanager.h>
 
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+namespace CryptoSpi
+    {
+    class CSigner;
+    class CAsymmetricCipher;
+    class CCryptoParams;
+    }
+#endif
 
 /**
  * Unified KeyStore panics 
@@ -128,6 +136,22 @@ public:  // Implementation of MKeyStore interface
 							  TRequestStatus& aStatus);
 	virtual void CancelExportPublic();
 
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+    virtual void Open(const TCTTokenObjectHandle& aHandle,
+                      CryptoSpi::CSigner*& aSigner,
+                      TRequestStatus& aStatus);
+    virtual void Open(const TCTTokenObjectHandle& aHandle,
+                      CryptoSpi::CAsymmetricCipher*& asymmetricCipherObj,
+                      TRequestStatus& aStatus);
+    virtual void Decrypt(const TCTTokenObjectHandle& aHandle,
+                         const TDesC8& aCiphertext,
+                         HBufC8*& aPlaintextPtr,
+                         TRequestStatus& aStatus);
+    virtual void Sign(const TCTTokenObjectHandle& aHandle,
+                      const TDesC8& aPlaintext,
+                      CryptoSpi::CCryptoParams*& aSignature,
+                      TRequestStatus& aStatus);
+#endif
 
 public:		//	For MCTKeyStoreManager except those (CreateKey, ImportKey, ImportEncryptedKey)
 			//	that require a caller-specified store
@@ -435,6 +459,135 @@ public:
 	 * 								or equal to the value returned by KeyStoreManagerCount().
 	 */
 	IMPORT_C MCTKeyStoreManager& KeyStoreManager(TInt aIndex);
+
+#ifdef SYMBIAN_AUTH_SERVER
+public:
+	/**
+		 * Generates a new key pair. The creation of key is for currently authenticated 
+		 * user. If currently there is no authenticated user then authentication of an user 
+		 * would be required.
+		 *
+		 * For the software key store, the owner of the new key is set to the
+		 * calling process.  Users can subsequently be added by calling SetUsers().
+		 *	
+		 * @param aKeyStoreIndex  			The index of the key store manager in which to
+		 *                        			create the key.  Must be between zero and
+		 *	                      			KeyStoreMangerCount() exclusive.		
+		 * @param aUsage		  			The key usage flags in the PKCS#15 format.
+		 * @param aSize		      			The size of the key in bits.
+		 * @param aLabel		  			A textual label for the key.
+		 * @param aAlgorithm	  			The type of key.
+		 * @param aAccessType     			The key access type - a bitfield specifying key
+		 *	                      			access requirements.  Allowed values are zero, or
+		 *	                      			a comination of CCTKeyInfo::EKeyAccess::ESenstive
+		 *	                      			and CCTKeyInfo::EKeyAccess::EExtractable
+		 * @param aStartDate	  			The start of the validity period.
+		 * @param aEndDate		  			The end of the validity period.	
+		 * @param aAuthenticationString		The expression through which a user can be authenticated.
+		 * 									Currently this should correspond to one of the alias values
+		 * 									set by the licensee for authentication server configuration.
+		 * @param aFreshness				The validity to be considered for an already authenticated 
+		 * 									identity. Specification is in seconds.	
+		 * @param aKeyInfoOut     			A pointer that is set to a newly created key info
+		 *	                      			object on successful completion.
+		 * @param aStatus		  			Final status of the operation. 
+		 *   
+		 * @capability WriteUserData		Requires the caller to have WriteUserData capability
+		 * @leave KErrPermissionDenied		If the caller does not have WriteUserData capability
+		 * @leave KErrKeyUsage				If the key usage flags are not valid or not
+		 *									consistent with the key algorithm.
+		 * @leave KErrKeyValidity			If the validity start and end dates are specified
+		 *									but do not form a valid time period.
+		 * @leave KErrAuthenticationFailure	If the user authentication fails.
+		 * @leave ...						Any of the system wide error code.
+		 * @panic							If aKeyStoreIndex does not specify a valid keystore manager.
+	*/
+
+	IMPORT_C void CreateKey(TInt aKeyStoreIndex, TKeyUsagePKCS15 aUsage,TUint aSize, 
+							const TDesC& aLabel, CCTKeyInfo::EKeyAlgorithm aAlgorithm, 
+							TInt aAccessType, TTime aStartDate, TTime aEndDate,
+							const TDesC& aAuthenticationString, TInt aFreshness,
+							CCTKeyInfo*& aKeyInfoOut, TRequestStatus& aStatus) ;
+
+	/**
+		 * Imports a key pair. The import of key is for currently authenticated 
+		 * user. If currently there is no authenticated user then authentication 
+		 * of an user would be required.
+		 *
+		 * For the software key store, the owner of the new key is set to the
+		 * calling process.  Users can subsequently be added by calling SetUsers().
+		 *
+		 * The key data should be in PKCS#8 format.  Both encrypted and cleartext
+		 * versions are allowed.
+		 *
+		 * @param aKeyStoreIndex  			The index of the key store manager in which to
+		 *	                      			create the key.  Must be between zero and
+		 *	                      			KeyStoreMangerCount() exclusive.			
+		 * @param aKeyData		  			The key data to import, ASN.1 DER encoded PKCS#8.
+		 * @param aUsage		  			The key usage flags in the PKCS#15 format.
+		 * @param aLabel		  			A textual label for the key.
+		 * @param aAccessType     			The key access type - a bitfield specifying key
+		 *	                      			access requirements.  Allowed values are zero, or
+		 *	                      			a comination of CCTKeyInfo::EKeyAccess::ESenstive
+		 *	                      			and CCTKeyInfo::EKeyAccess::EExtractable
+		 * @param aStartDate	  			The start of the validity period.
+		 * @param aEndDate		  			The end of the validity period.
+		 * @param aAuthenticationString		The expression through which a user can be authenticated.
+		 * 									Currently this should correspond to one of the alias values
+		 * 									set by the licensee for authentication server configuration.
+		 * @param aFreshness				The validity to be considered for an already authenticated 
+		 * 									identity. Specification is in seconds.	
+		 * @param aKeyInfoOut     			A pointer that is set to a newly created key info
+		 *	                      			object on successful completion.
+		 * @param aStatus		  			Final status of the operation. 
+		 *	                      
+		 * @capability WriteUserData	Requires the caller to have WriteUserData capability
+		 * @leave KErrPermissionDenied	If the caller does not have WriteUserData capability
+		 * @leave KErrKeyUsage			If the key usage flags are not valid or not
+		 *								consistent with the key algorithm.
+		 * @leave KErrKeyValidity		If the validity start and end dates are specified
+		 *								but do not form a valid time period.
+		 * @leave KErrArgument			If the key data cannot be parsed.
+		 * @panic						If aKeyStoreIndex does not specify a valid keystore manager.
+	*/
+	
+	IMPORT_C void ImportKey(	TInt aKeyStoreIndex, const TDesC8& aKeyData,
+								TKeyUsagePKCS15 aUsage, const TDesC& aLabel, 
+								TInt aAccessType, TTime aStartDate, TTime aEndDate, 
+								const TDesC& aAuthenticationString, TInt aFreshness,
+								CCTKeyInfo*& aKeyInfoOut, TRequestStatus& aStatus);
+	
+	/**
+	 *  Set the authentication policy for an already existing key in the store.
+	 * 
+	 * @param aHandle					The handle of the key whose policy is to be changed.
+	 * @param aAuthenticationString		The expression associated to this key.
+	 * @param aFreshness				The validity associated to this key.
+	 * 									Specification is in seconds.
+	 * @param aStatus					Final status of the operation.  
+	*/
+	
+	IMPORT_C void SetAuthenticationPolicy(	const TCTTokenObjectHandle aHandle, 
+											const TDesC& aAuthenticationString,
+											TInt aFreshness,					
+											TRequestStatus& aStatus);
+
+	/**
+	 *  Retrieve authentication policy for an already existing key in the store.
+	 * 
+	 * @param aHandle					The handle of the key whose policy is to be retrieved.
+	 * @param aAuthenticationString		The expression associated to this key. The memory would
+	 * 									be allocated at the server side.
+	 * @param aFreshness				The validity associated to this key.
+	 * 									Specification is in seconds.
+	 * @param aStatus					Final status of the operation. 
+	*/
+	
+	IMPORT_C void GetAuthenticationPolicy(	const TCTTokenObjectHandle aHandle, 
+											HBufC*& aAuthenticationString,
+											TInt& aFreshness,					
+											TRequestStatus& aStatus);
+#endif // SYMBIAN_AUTH_SERVER
 	
 private:
 	CUnifiedKeyStore(RFs& aFs);

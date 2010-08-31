@@ -47,6 +47,13 @@ class CKeyInfo;
 class CKeyStoreSession;
 class CKeyStoreConduit;
 
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+
+#include <authserver/authclient.h>
+
+class CKeyStoreCenrep;
+
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 
 /**	Server side implementation of keystore interfaces as an active object. */
 class CFSKeyStoreServer : public CActive
@@ -61,6 +68,15 @@ private:
 		EExportKey,
 		EExportEncryptedKey,
 		EDoExportKey,
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+		ECreateUserKey,
+		EImportUserKey,
+		ESetAuthenticationPolicy,
+		ESetAuthPolicy,
+		EDoImportKey,
+		EDoSetAuthenticationPolicy,
+		EAuthenticate,
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 		EImportOpenPrivateStream,
 		EExportKeyGetPassphrase,
 		EExportEncryptedKeyGetPassphrase,
@@ -109,7 +125,30 @@ public:
 	void SetManagementPolicyL(TInt aObjectId, const TSecurityPolicy& aPolicy);
 	void CheckRangeL(TInt aFreshness);
 	
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	
+	void CreateUserKey(	CKeyInfo& aReturnedKey,
+						const TDesC& aAuthString,
+						TInt aFreshness,
+						TRequestStatus& aStatus);
 
+	void ImportUserKey(	const TDesC8& aKey, CKeyInfo& aReturnedKey, 
+						TBool aIsEncrypted,
+						const TDesC& aAuthString,
+						TInt aFreshness,
+						TRequestStatus& aStatus);
+	
+	void SetAuthenticationPolicy(	
+								TInt aObjectId, 
+								HBufC* aAuthString,
+								TInt aFreshness, 
+								TRequestStatus& aStatus);
+
+	HBufC* AuthExpressionL( TInt aObjectId);
+	TInt FreshnessL(TInt aObjectId);
+	CKeyInfo* KeyDetailsLC(TInt aObjectId);
+
+#else
 	// For MCTAuthenticationObject
 	void ChangePassphrase(TRequestStatus& aStatus);
 	void CancelChangePassphrase();
@@ -120,7 +159,7 @@ public:
 	TInt GetTimeRemainingL();
 	void SetTimeoutL(TInt aTimeout);
 	TInt GetTimeout();
-
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	
 private:
 	CFSKeyStoreServer();
@@ -150,10 +189,21 @@ private:
 	void CheckExportKeyPolicyL();
 	void CompleteClientRequest(TInt aCompletionCode);
 		
+#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+	template <class T> inline void EncryptAndStoreL(const T& aKey, RStoreWriteStream& aStream );
+	void StoreKeyL(const TDesC8& aKeyData, RStoreWriteStream& aStream);
+	
+	AuthServer::CIdentity* SyncAuthenticateLC(const TDesC& aAuthExpression, TInt aFreshness);
+	void AsyncAuthenticateL(const TDesC& aAuthString,
+							TInt aFreshness);
+	void SetDefaultAuthPolicyL();
+	void WriteAuthenticationPolicyL();
+#else	
 	void GetKeystorePassphrase(TCurrentAction aNextState);
 	void OpenPrivateStream();
 	void DoChangePassphrase();
 	void RemoveCachedPassphrases(TStreamId aStreamId);
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	
 private:
 	void PKCS8ToKeyL(CDecPKCS8Data* aPKCS8Data);
@@ -186,6 +236,16 @@ private:
 	const CFileKeyData* iKeyData;
 	CPassphrase* iPassphrase;
 	
+#ifdef 	SYMBIAN_KEYSTORE_USE_AUTH_SERVER
+
+private:
+	AuthServer::RAuthClient iAuthClient;
+	AuthServer::CIdentity* iUserIdentity;
+	AuthServer::TIdentityId iIdentityId;
+	CKeyStoreCenrep* iKeyStoreCenrep;
+	HBufC* iAuthString;
+	TInt iFreshness;
+#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	
 };
 

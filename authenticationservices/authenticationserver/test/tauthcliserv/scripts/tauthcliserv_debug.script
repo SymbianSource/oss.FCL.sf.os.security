@@ -1,0 +1,30 @@
+//
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+// All rights reserved.
+// This component and the accompanying materials are made available
+// under the terms of the License "Eclipse Public License v1.0"
+// which accompanies this distribution, and is available
+// at the URL "http://www.eclipse.org/legal/epl-v10.html".
+//
+// Initial Contributors:
+// Nokia Corporation - initial contribution.
+//
+// Contributors:
+//
+// Description: 
+//
+
+//! @file
+// authentication db classes tests
+
+LOAD_SUITE tauthcliserv
+
+////
+//! @SYMTestCaseID SEC-AUT-AUTHCLISVR-0007
+//! @SYMTestCaseDesc	Authentication db classes test
+START_TESTCASE SEC-AUT-AUTHCLISVR-0007
+RUN_PANIC_STEP_RESULT 64 AUTHEXPR 10 tauthcliserv AuthExprTypePanic
+RUN_PANIC_STEP_RESULT 64 AUTHEXPR 10 tauthcliserv AuthExprTypePanicBadLeft
+RUN_PANIC_STEP_RESULT 64 AUTHEXPR 10 tauthcliserv AuthExprTypePanicBadRight
+END_TESTCASE SEC-AUT-AUTHCLISVR-0007
+ 

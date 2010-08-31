@@ -39,10 +39,8 @@ CStaSession::~CStaSession()
 	delete iBuffer;	
 	delete iKeyStreamSink;
 	delete iRo;
-#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 	delete iSdp;
 	delete iSdpDoc;
-#endif
 	}
 
 	
@@ -347,7 +345,6 @@ void CStaSession::SetSdpMediaFieldL(const RMessage2& aMessage)
  	@param	aMessage	Standard server-side handle to message.
   */
 	{
-#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 	TInt len = aMessage.GetDesMaxLengthL(0);
 	HBufC8* des = HBufC8::NewLC(len);
 	TPtr8 ptr(des->Des());
@@ -367,10 +364,6 @@ void CStaSession::SetSdpMediaFieldL(const RMessage2& aMessage)
 		{
 		User::Leave(KErrCANoRights);
 		}
-#else
-	(void) aMessage;
-	User::Leave(KErrCANoRights);
-#endif
 	}
 
 void CStaSession::SetSdpDocumentL(const RMessage2& aMessage)
@@ -380,7 +373,6 @@ void CStaSession::SetSdpDocumentL(const RMessage2& aMessage)
  	@param	aMessage	Standard server-side handle to message.
   */
 	{
-#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 	TInt len = aMessage.GetDesMaxLengthL(0);
 	HBufC8* des = HBufC8::NewLC(len);
 	TPtr8 ptr(des->Des());
@@ -393,9 +385,6 @@ void CStaSession::SetSdpDocumentL(const RMessage2& aMessage)
 	// Decode the SDP document object from the encoded data
 	iSdpDoc = CSdpDocument::DecodeL(*des);
 	CleanupStack::PopAndDestroy(des);
-#else
-	(void) aMessage;
-#endif
 	}
 
 void CStaSession::VerifyRoL()

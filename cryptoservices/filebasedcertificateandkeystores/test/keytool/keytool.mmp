@@ -20,6 +20,10 @@
 /**
  @file
 */
+//RTEST
+#ifdef SYMBIAN_AUTH_SERVER
+MACRO KEYTOOL=1
+#endif // SYMBIAN_AUTH_SERVER
 
 TARGET		keytool.exe
 TARGETTYPE	exe
@@ -43,6 +47,17 @@ SOURCE 		controller.cpp
 SOURCE 		keytool_liststores.cpp
 SOURCE 		keytoolfileview.cpp  
 SOURCE 		keytool_setpolicy.cpp
+#ifdef SYMBIAN_AUTH_SERVER
+SOURCE		keytool_migratestore.cpp
+SOURCE		../../source/keystore/server/ckeydatamanager.cpp
+SOURCE		../../source/shared/ckeyinfo.cpp
+SOURCE		../../source/keystore/server/keystorecenrepconfig.cpp
+SOURCE		../../source/keystore/server/keystorepassphrase.cpp
+SOURCE		../../source/generic/server/fstokenutil.cpp
+SOURCE		../../source/keystore/server/keystreamutils.cpp
+SOURCE		../../source/generic/server/fsdialog.cpp
+SOURCE		../../source/generic/server/fsresources.cpp
+#endif // SYMBIAN_AUTH_SERVER
 
 START RESOURCE	keytool.rss
 HEADER
@@ -51,13 +66,30 @@ END
 
 USERINCLUDE	. 
 USERINCLUDE	../certtool
-
+#ifdef SYMBIAN_AUTH_SERVER
+USERINCLUDE	../../Inc
+USERINCLUDE	../../source/generic/common
+USERINCLUDE	../../source/generic/server
+USERINCLUDE	../../source/keystore/server
+#endif // SYMBIAN_AUTH_SERVER
 OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+
+#ifdef SYMBIAN_AUTH_SERVER
+SYSTEMINCLUDE OS_LAYER_PUBLIC_EXPORT_PATH(ct)
+#endif // SYMBIAN_AUTH_SERVER
 
 LIBRARY	euser.lib efsrv.lib 
 LIBRARY certstore.lib crypto.lib 
 LIBRARY ctframework.lib 
 LIBRARY bafl.lib charconv.lib
 LIBRARY estor.lib
+#ifdef SYMBIAN_AUTH_SERVER
+LIBRARY centralrepository.lib
+LIBRARY pbe.lib
+LIBRARY authclient.lib 
+LIBRARY	authcommon.lib
+LIBRARY fstokenshared.lib
+LIBRARY cryptography.lib
+#endif // SYMBIAN_AUTH_SERVER
 
 SMPSAFE

@@ -20,7 +20,7 @@
 /**
  @file 
  @publishedPartner
- @prototype
+ @released
 */
  
 #ifndef __CFSTOKENTYPECLIENT_H__

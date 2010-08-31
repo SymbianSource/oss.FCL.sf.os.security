@@ -32,7 +32,11 @@ VENDORID	0x70000001
 UNPAGED
 
 #ifdef SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+deffile     rtaparser_v3.def
+#else
 deffile		rtaparser_v2.def
+#endif
 #else
 deffile		rtaparser.def
 #endif
@@ -58,6 +62,9 @@ SOURCE		intent.cpp
 SOURCE		rightscriteriacount.cpp
 SOURCE		rightscriteriaexpiry.cpp
 
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT 
+SOURCE          wmdrmcontentparser.cpp 
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT 
 
 USERINCLUDE		../RTAParser
 USERINCLUDE		../inc

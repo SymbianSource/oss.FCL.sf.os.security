@@ -53,15 +53,25 @@
 #include "os/security/securityanddataprivacytools/securityconfig/group/bld.inf"
 #include "os/security/cryptomgmtlibs/securitytestfw/group/bld.inf"
 #include "os/security/contentmgmt/cafrecogniserconfig/bld.inf"
+
 #include "os/security/contentmgmt/contentaccessfwfordrm/group/bld.inf"
 #include "os/security/contentmgmt/cafstreamingsupport/group/bld.inf"
 #include "os/security/contentmgmt/referencedrmagent/RefTestAgent/group/bld.inf"
 
+#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
+#include "os/security/contentmgmt/mtputils/group/bld.inf"
+#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 
 #include "os/security/authorisation/userpromptservice/group/bld.inf"
 #include "os/security/authorisation/userpromptutils/group/bld.inf"
 
 
+//Test certificates temp added will be removed once filtered good certificates
+#include "os/security/cryptomgmtlibs/securitydocs/doxygen_docs/noncontributed/testcertificates/group/bld.inf"
+
+#ifdef SYMBIAN_AUTH_SERVER
+#include "os/security/authenticationservices/authenticationserver/group/bld.inf"
+#endif
 
 #endif //TOOLS2
 

@@ -28,7 +28,6 @@ PRJ_TESTEXPORTS
 
 // Certman Component
 ../certman/tcertstore/tdata/subjectkeycert.der		/epoc32/winscw/c/unifiedcertstore2/subjectkeycert.der
-../certman/tcertstore/tdata/SelfSignedCertificate.der	/epoc32/winscw/c/tcertstore/data/SelfSignedCertificate.der
 ../certman/tcertstore/unifiedcertstore2/URL1K1.cer	/epoc32/winscw/c/unifiedcertstore2/url1k1.cer
 ../certman/tcertstore/unifiedcertstore2/URL2K2.cer	/epoc32/winscw/c/unifiedcertstore2/url2k2.cer
 ../certman/tcertstore/unifiedcertstore2/URL3K5.cer	/epoc32/winscw/c/unifiedcertstore2/url3k5.cer
