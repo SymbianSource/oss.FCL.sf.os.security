@@ -6,7 +6,7 @@ EXPORTS
 	??0TSidClasses@UserPromptService@@QAE@G@Z @ 5 NONAME ; UserPromptService::TSidClasses::TSidClasses(unsigned short)
 	??1CDialogCreator@UserPromptService@@UAE@XZ @ 6 NONAME ; UserPromptService::CDialogCreator::~CDialogCreator(void)
 	??1CPolicyEvaluator@UserPromptService@@UAE@XZ @ 7 NONAME ; UserPromptService::CPolicyEvaluator::~CPolicyEvaluator(void)
-	??1CPromptRequest@UserPromptService@@UAE@XZ @ 8 NONAME ABSENT ; UserPromptService::CPromptRequest::~CPromptRequest(void)
+	??1CPromptRequest@UserPromptService@@UAE@XZ @ 8 NONAME ; UserPromptService::CPromptRequest::~CPromptRequest(void)
 	??8TId@CPolicyList@UserPromptService@@QBEHABV012@@Z @ 9 NONAME ; int UserPromptService::CPolicyList::TId::operator==(class UserPromptService::CPolicyList::TId const &) const
 	?PromptRequired@CPolicy@UserPromptService@@QBEHXZ @ 10 NONAME ; int UserPromptService::CPolicy::PromptRequired(void) const
 	?AppendNameToPath@TId@CPolicyList@UserPromptService@@QBEXAAVTDes16@@@Z @ 11 NONAME ; void UserPromptService::CPolicyList::TId::AppendNameToPath(class TDes16 &) const
@@ -59,7 +59,7 @@ EXPORTS
 	?OpaqueData@CPromptRequest@UserPromptService@@QBEABVTDesC8@@XZ @ 58 NONAME ; class TDesC8 const & UserPromptService::CPromptRequest::OpaqueData(void) const
 	?Options@CPolicy@UserPromptService@@QBE?AW4TOptions@12@XZ @ 59 NONAME ; enum UserPromptService::CPolicy::TOptions UserPromptService::CPolicy::Options(void) const
 	?PolicyEvaluator@CPolicy@UserPromptService@@QBEABVTUid@@XZ @ 60 NONAME ; class TUid const & UserPromptService::CPolicy::PolicyEvaluator(void) const
-	?ReadPolicyL@CPolicyReader@UserPromptService@@AAEPAVCPolicy@2@XZ @ 61 NONAME ABSENT ; class UserPromptService::CPolicy * UserPromptService::CPolicyReader::ReadPolicyL(void)
+	?ReadPolicyL@CPolicyReader@UserPromptService@@AAEPAVCPolicy@2@XZ @ 61 NONAME ; class UserPromptService::CPolicy * UserPromptService::CPolicyReader::ReadPolicyL(void)
 	?ReleasePlugin@CPluginManager@UserPromptService@@AAEXXZ @ 62 NONAME ; void UserPromptService::CPluginManager::ReleasePlugin(void)
 	?SecurityResult@CPromptRequest@UserPromptService@@QBEHXZ @ 63 NONAME ; int UserPromptService::CPromptRequest::SecurityResult(void) const
 	?ServerSid@CPromptRequest@UserPromptService@@QBEABVTSecureId@@XZ @ 64 NONAME ; class TSecureId const & UserPromptService::CPromptRequest::ServerSid(void) const

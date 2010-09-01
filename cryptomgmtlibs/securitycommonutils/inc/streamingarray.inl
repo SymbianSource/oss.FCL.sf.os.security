@@ -20,7 +20,7 @@
 /**
  @file 
  @internalTechnology
- @released
+ @prototype
 */
 
 #ifndef STREAMINGARRAY_INL

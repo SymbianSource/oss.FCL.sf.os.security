@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?> 
+<Script>
+	<dialog name="DisplayUninstall">
+		<return type="TBool">true</return>
+	</dialog>
+	<dialog name="DisplayDependencyBreak">
+		<return type="TBool">true</return> 
+	</dialog>
+  </Script>

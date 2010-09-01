@@ -113,36 +113,6 @@ public:
 	virtual void CancelSetPassphraseTimeout();	
 	virtual void Relock(TRequestStatus& aStatus);
 	virtual void CancelRelock();
-
-#ifdef SYMBIAN_AUTH_SERVER
-
-	virtual void CreateKey(	const TDesC& aAuthenticationString, 
-							TInt aFreshness,
-							CCTKeyInfo*& aReturnedKey,
-							TRequestStatus& aStatus );
-
-	virtual void ImportKey( const TDesC8& aKey, 
-							const TDesC& aAuthenticationString, 
-							TInt aFreshness, CCTKeyInfo*& aReturnedKey, 
-							TRequestStatus& aStatus );
-			
-
-	virtual void ImportEncryptedKey(const TDesC8& aKey, 
-									const TDesC& aAuthenticationString, 
-									TInt aFreshness, CCTKeyInfo*& aReturnedKey, 
-									TRequestStatus& aStatus );
-	
-	virtual void SetAuthenticationPolicy(	const TCTTokenObjectHandle aHandle,
-											const TDesC& aAuthenticationString,
-											TInt aFreshness,
-											TRequestStatus& aStatus);
-
-	virtual void GetAuthenticationPolicy(	const TCTTokenObjectHandle aHandle,
-											HBufC*& aAuthenticationString,
-											TInt& aFreshness,
-											TRequestStatus& aStatus);
-
-#endif // SYMBIAN_AUTH_SERVER
 	
 	void ReleaseObject(const TCTTokenObjectHandle& aObject);
 public:	
@@ -239,12 +209,6 @@ private:
 	CKeyStoreAuthObject* iAuthObject;   ///< The single auth object that serves as protector for all keys
 	CDHParams* iDHParams;				///< DH params for DH public key
 	HBufC8* iPbeParamsBuf;				///< Buffer holding PBE parameters for encrypted key export
-
-#ifdef SYMBIAN_AUTH_SERVER
-	TBool iUseNewKeyServer;
-	HBufC* iAuthExpression;
-	TInt iFreshness;
-#endif // SYMBIAN_AUTH_SERVER
 	
 };
 

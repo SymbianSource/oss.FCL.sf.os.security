@@ -33,11 +33,6 @@ class CKeyInfo;
 class CPassphraseManager;
 class CPassphrase;
 
-#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-#include <authserver/authtypes.h>
-#include <e32property.h>
-#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-
 #ifdef KEYTOOL
 #include <authserver/authtypes.h>
 #include <e32property.h>
@@ -57,12 +52,6 @@ public:
     /// Read a key data object from a stream
 	static CFileKeyData* NewL(RStoreReadStream& aReadStream);
 	
-#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-	static CFileKeyData* NewLC(	TInt aObjectId, const TDesC& aLabel, 
-								TStreamId aInfoData, TStreamId aPublicData, 
-								TStreamId aPrivateData, AuthServer::TIdentityId aIdentityId);
-#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-	
 #ifdef KEYTOOL
 	static CFileKeyData* CreateOldKeyL(RStoreReadStream& aReadStream);
 #endif // KEYTOOL
@@ -81,9 +70,6 @@ public:
 	inline TStreamId PassphraseStreamId() const;
 	inline TStreamId PublicDataStreamId() const;
 	inline TStreamId PrivateDataStreamId() const;
-#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-	inline AuthServer::TIdentityId Identity() const;
-#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 #ifdef KEYTOOL
 	inline void SetInfoDataStreamId( TStreamId& aInfoDataStreamId );
 	inline void SetPublicDataStreamId( TStreamId& aPublicDataStreamId );
@@ -93,12 +79,6 @@ public:
 private:
 	CFileKeyData(TInt aObjectId, TStreamId aInfoData, TStreamId aPassphraseId,
 				 TStreamId aPublicData, TStreamId aPrivateData);
-
-#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-	CFileKeyData(	TInt aObjectId, TStreamId aInfoData,  
-					TStreamId aPublicData, TStreamId aPrivateData, 
-					AuthServer::TIdentityId aIdentityId);
-#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 
 #ifdef KEYTOOL
 	CFileKeyData(	TInt aObjectId, TStreamId aInfoData,  
@@ -120,9 +100,6 @@ private:
 	TStreamId iPublicKeyData;	///< ID of stream holding public key data
 	TStreamId iPrivateKeyData;	///< ID of stream holding private key data
 	HBufC* iLabel;				///< Key label data
-#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-	AuthServer::TIdentityId iIdentityId;
-#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 #ifdef KEYTOOL
 	AuthServer::TIdentityId iIdentityId;
 #endif // KEYTOOL
@@ -158,12 +135,6 @@ inline TStreamId CFileKeyData::PrivateDataStreamId() const
 	return iPrivateKeyData;
 	}
 
-#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-inline AuthServer::TIdentityId CFileKeyData::Identity() const
-	{
-	return iIdentityId;
-	}
-#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 
 #ifdef KEYTOOL
 	inline void CFileKeyData::SetInfoDataStreamId( TStreamId& aInfoDataStreamId )
@@ -196,21 +167,12 @@ public:
 	CPassphraseManager* CreatePassphraseManagerLC();
 	void AddL(const CFileKeyData*);
 	void RemoveL(TInt aObjectId);
-#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-	TBool IsKeyAlreadyInStore(const TDesC& aKeyLabel, AuthServer::TIdentityId aIdentity) const;
-#else
 	TBool IsKeyAlreadyInStore(const TDesC& aKeyLabel) const;
-#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 public:
 	/// Get the id of the default passphrase, or KNullStreamId if it doesn't exist yet.
 	TStreamId DefaultPassphraseId() const;
 	/// Create a new key data object for a key create/import and leave it one the cleanup stack
 	const CFileKeyData* CreateKeyDataLC(const TDesC& aLabel, TStreamId aPassphrase);
-	
-#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-	const CFileKeyData* CreateKeyDataLC(const TDesC& aLabel, AuthServer::TIdentityId aIdentity);
-	TUint32 CachedIdentity();
-#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	
 	///	Reads the info data for a given key, returning a new CKeyInfo that's on the cleanup stack
 	CKeyInfo* ReadKeyInfoLC(const CFileKeyData& aKeyData) const;
@@ -224,13 +186,8 @@ public:
 	void OpenPublicDataStreamLC(const CFileKeyData& aKeyData, RStoreReadStream& aStream) const;
 	void OpenPrivateDataStreamLC(const CFileKeyData& aKeyData, CPassphrase& aPassphrase, RStoreReadStream& aStream);	
 	
-#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-	void OpenPrivateDataStreamLC(const CFileKeyData& aKeyData, RStoreWriteStream& aStream);
-	void OpenPrivateDataStreamLC(const CFileKeyData& aKeyData, RStoreReadStream& aStream) const;
-#else
 	void OpenPrivateDataStreamLC(const CFileKeyData& aKeyData, CPassphrase& aPassphrase, RStoreWriteStream& aStream);
 
-#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	
 	/*
 	 * not currently implemented, but might be someday
@@ -268,12 +225,7 @@ private:
 	void ReadPassphraseTimeoutL();
 	void WritePassphraseTimeoutL();
 	void CompactStore();
-#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-	const HBufC8* DecryptKey(const TDesC8& aEncryptedKey);
-	void WriteAuthDetailsL( RStoreWriteStream& aInfoStream, const CKeyInfo& aKeyInfo );
-	void ReadAuthDetailsL( RStoreReadStream& aInfoStream, CKeyInfo& aKeyInfo ) const;
-#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-	
+
 private:
 	RFile iFile;
 	RFs iFs;
@@ -281,12 +233,8 @@ private:
 	TStreamId iRootStreamId;	 		///< Root of the store
 	TStreamId iInfoStreamId;	 		///< Stream that contains list of key data
 	
-#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-	RProperty iIdentityId;
-#else
 	TStreamId iPassStreamId;	 		///< Stream for the default passphrase
 	TStreamId iTimeoutStreamId;  		///< Stream for timeout data
-#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	
 private:
 	TInt iKeyIdentifier;

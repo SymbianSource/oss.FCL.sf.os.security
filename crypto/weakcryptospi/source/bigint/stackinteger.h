@@ -35,7 +35,7 @@
  * allocated memory.
  * If you are not sure which integer you want, you want an RInteger.
  * @internalComponent
- * @released
+ * @prototype
  * @see RInteger
  */
 template <TUint W=2> 

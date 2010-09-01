@@ -20,7 +20,7 @@
 /**
  @file
  @internalTechnology
- @released
+ @prototype
 */
 #include <s32strm.h>
 #include <ups/upstypes.h>

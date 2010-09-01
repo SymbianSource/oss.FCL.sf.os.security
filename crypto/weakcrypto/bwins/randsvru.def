@@ -1,3 +1,0 @@
-EXPORTS
-	?RunRandomServer@@YAHPAX@Z @ 1 NONAME ; int RunRandomServer(void *)
-

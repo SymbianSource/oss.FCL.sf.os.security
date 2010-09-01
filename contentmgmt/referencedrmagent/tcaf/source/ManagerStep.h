@@ -368,9 +368,6 @@ public:
 	CCAFManagerAttributeStep(CCAFServer& aParent);
 	~CCAFManagerAttributeStep();
 	virtual TVerdict doTestStepL();
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT     
-    TVerdict doWmdrmTestStepL();     
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT 
 private:
 	CCAFServer& iParent;
 	};
@@ -393,9 +390,6 @@ public:
 	CCAFManagerAttributeSetStep(CCAFServer& aParent);
 	~CCAFManagerAttributeSetStep();
 	virtual TVerdict doTestStepL();
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT     
-    TVerdict doWmdrmTestStepL();     
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT     
   
 private:
 	CCAFServer& iParent;
@@ -419,9 +413,6 @@ public:
 	CCAFManagerStringAttributeStep(CCAFServer& aParent);
 	~CCAFManagerStringAttributeStep();
 	virtual TVerdict doTestStepL();
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT     
-    TVerdict doWmdrmTestStepL();     
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT     
   
 private:
 	CCAFServer& iParent;
@@ -445,10 +436,6 @@ public:
 	CCAFManagerStringAttributeSetStep(CCAFServer& aParent);
 	~CCAFManagerStringAttributeSetStep();
 	virtual TVerdict doTestStepL();
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT     
-    TVerdict doWmdrmTestStepL();     
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT     
-  
 private:
 	CCAFServer& iParent;
 	};

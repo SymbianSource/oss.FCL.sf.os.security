@@ -185,10 +185,14 @@ EXPORT_C void RSraClient::SendSdpMediaFieldL(const CSdpMediaField& aSdp) const
  	@param aKey An SDP object data.
  */
 	{
+#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 	HBufC8* sdpBuf(0);
 	TPtr8 ptr(EncodeLC(aSdp, sdpBuf));
 	User::LeaveIfError(RSessionBase::SendReceive(ESetSdpKeyStream, TIpcArgs(&ptr)));
 	CleanupStack::PopAndDestroy(sdpBuf);
+#else
+	(void) aSdp;
+#endif
 	}
 
 EXPORT_C void RSraClient::SendSdpDocumentL(const CSdpDocument& aSdpDoc) const
@@ -197,8 +201,13 @@ EXPORT_C void RSraClient::SendSdpDocumentL(const CSdpDocument& aSdpDoc) const
  	@param aKey An SDP object data.
  */
 	{
+#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 	HBufC8* sdpDocBuf(0);
 	TPtr8 ptr(EncodeLC(aSdpDoc, sdpDocBuf));
 	User::LeaveIfError(RSessionBase::SendReceive(ESetSdpDocument, TIpcArgs(&ptr)));
 	CleanupStack::PopAndDestroy(sdpDocBuf);
+#else
+	(void) aSdpDoc;
+#endif
+
 	}

@@ -33,11 +33,6 @@
 #include <cctcertinfo.h>
 #include <bigint.h>
 
-#ifdef SYMBIAN_AUTH_SERVER
-#include "authserver/authtypes.h"
-#endif // SYMBIAN_AUTH_SERVER
-
-
 /**
  * Server-side key info.
  * 
@@ -77,30 +72,9 @@ public:
 	/** Sets the set of DER encoded PKCS8 attributes. */
 	IMPORT_C void SetPKCS8AttributeSet(HBufC8* aPKCS8AttributeSet);
 	
-#ifdef SYMBIAN_AUTH_SERVER
-	inline AuthServer::TIdentityId Identity() const;
-	inline const TDesC& AuthExpression() const;
-	inline TInt Freshness() const;
-	inline void SetIdentity(AuthServer::TIdentityId aIdentityId);
-	// Will set the authexpresssion aasociated with this key. The
-	// ownership is not transferred to this object.
-	inline void SetAuthExpressionL(const TDesC& aAuthExpression);
-	inline void SetFreshness(TInt aFreshness);
-	inline void ResetAuthExpression();
-#endif // SYMBIAN_AUTH_SERVER
-	
 private:
 	
 	inline CKeyInfo();
-
-#ifdef SYMBIAN_AUTH_SERVER
-private:
-	AuthServer::TIdentityId iIdentityId;
-	HBufC* iAuthExpression;
-	TInt iFreshness;
-#endif // SYMBIAN_AUTH_SERVER
-
-	
 	};
 
 /**

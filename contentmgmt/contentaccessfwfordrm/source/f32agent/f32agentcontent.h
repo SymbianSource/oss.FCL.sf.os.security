@@ -52,10 +52,6 @@ namespace ContentAccess
 		// a file handle
 		static CF32AgentContent* NewL(RFile& aFile);
 		
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-		static CF32AgentContent* NewL(const TDesC8& aHeaderData);
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-
 		virtual ~CF32AgentContent();
 
 	public: 
@@ -82,10 +78,7 @@ namespace ContentAccess
 		CF32AgentContent();
 		void ConstructL(const TDesC& aURI, TContentShareMode aShareMode);
 		void ConstructL(RFile& aFile);
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-		void ConstructL(const TDesC8& aHeaderData);
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-		
+	
 		CF32AgentUi& AgentUiL();		
 		void SearchL(RStreamablePtrArray<CEmbeddedObject>& aArray, const TDesC8& aMimeType, TBool aRecursive);
 
@@ -99,9 +92,6 @@ namespace ContentAccess
 		RFile iFile;
 #endif //SYMBIAN_ENABLE_64_BIT_FILE_SERVER_API
 		CF32AgentUi* iAgentUi;
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-		HBufC8* iHeaderData;
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 		};
 } // namespace ContentAccess
 #endif // __F32AgentContent_H__

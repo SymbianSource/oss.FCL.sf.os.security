@@ -616,14 +616,13 @@ public:
 	* @return		The new X.509 certificate object. */
 	IMPORT_C static CX509Certificate* NewLC(const CX509Certificate& aCert);
 
-   /** Retrieves the subject key identifier of a certificate based on the decision whether
+	/** Retrieves the subject key identifier of a certificate based on the decision whether
 	* it is a CA certificate or not. If it is a CA certificate then returns the stored subject key id 
 	* as an extension in the certificate, any other certificate it returns the keyidentifier as 
 	* calculated by Symbian's proprietary logic.
 	* @return	The subject key identifier for the certificate. */
 	IMPORT_C TKeyIdentifier SubjectKeyIdL() const;
 				
-
 	/** Destructor.
 	* 
 	* Frees all resources owned by the object, prior to its destruction. */

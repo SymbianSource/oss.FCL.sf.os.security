@@ -67,9 +67,7 @@ _LIT8(KSetUsePolicy, "setusepolicy");
 _LIT8(KGetManagementPolicy, "getmanagementpolicy");
 _LIT8(KSetManagementPolicy, "setmanagementpolicy");
 _LIT8(KKeyStoreLabel, "getkeystorelabel");
-#ifdef SYMBIAN_AUTH_SERVER
-_LIT8(KAuthenticationPolicy, "authenticationpolicy");
-#endif // SYMBIAN_AUTH_SERVER
+
 // Action types for the key store
 _LIT8(KUnifiedKeyStoreInit, "UnifiedKeyStore Init");
 _LIT8(KUnifiedKeyStoreDelete, "UnifiedKeyStore Delete");
@@ -140,9 +138,6 @@ _LIT8(KKeyAlgorithmEnd, "</keyalgorithm>");
 _LIT8(KAlgRSA, "RSA");
 _LIT8(KAlgDSA, "DSA");
 _LIT8(KAlgDH, "DH");
-#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
-_LIT8(KAlgEcc,"ECC");
-#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
 _LIT8(KAlgBAD, "BAD");
 
 _LIT8(KKeyExportableStart, "<keyexportable>");
@@ -321,45 +316,5 @@ _LIT8(KErrListingSuccess,"pass");
 _LIT8(KUseKeyStoreStart,"<usekeystore>");
 _LIT8(KUseKeyStoreEnd,"</usekeystore>");
 
-#ifdef SYMBIAN_AUTH_SERVER
-// tags for authentication expression
-_LIT8(KAuthExpressionStart, "<authexpression>");
-_LIT8(KAuthExpressionEnd, "</authexpression>");
-
-// tags for freshness
-_LIT8(KFreshnessStart, "<freshness>");
-_LIT8(KFreshnessEnd, "</freshness>");
-
-// tags for freshness
-_LIT8(KNegativeFreshnessStart, "<negativefreshness>");
-_LIT8(KNegativeFreshnessEnd, "</negativefreshness>");
-
-// tags for authentication expression
-_LIT8(KExpectedExpressionStart, "<expectedexpression>");
-_LIT8(KExpectedExpressionEnd, "</expectedexpression>");
-
-// tags for freshness
-_LIT8(KExpectedFreshnessStart, "<expectedfreshness>");
-_LIT8(KExpectedFreshnessEnd, "</expectedfreshness>");
-
-_LIT8(KAuthModeStart, "<authmode>");
-_LIT8(KAuthModeEnd, "</authmode>");
-
-_LIT8(KAuthenticateStart, "<authenticate>");
-_LIT8(KAuthenticateEnd, "</authenticate>");
-
-#endif // SYMBIAN_AUTH_SERVER
-
-#if (defined(SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT) && defined(SYMBIAN_ENABLE_SDP_ECC))
-_LIT8(KHwTypeStart, "<hwtype>");
-_LIT8(KHwTypeEnd, "</hwtype>");
-_LIT8(KPublicKeyStart, "<publickey>");
-_LIT8(KPublicKeyEnd, "</publickey>");
-_LIT8(KPrivateKeyStart, "<privatekey>");
-_LIT8(KPrivateKeyEnd, "</privatekey>");
-_LIT8(KOperationTypeStart, "<operationtype>");
-_LIT8(KOperationTypeEnd, "</operationtype>");
-
-#endif // SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT && SYMBIAN_ENABLE_SDP_ECC
 
 #endif	//	__T_TCERTSTOREDEFS_H__

@@ -40,6 +40,7 @@ CScafKeyStreamDecoderConstruct::~CScafKeyStreamDecoderConstruct()
 
 TVerdict CScafKeyStreamDecoderConstruct::doTestL()
 	{
+#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 	// Assume the test has failed if the test step result hasn't been otherwise set to EPass
 	SetTestStepResult(EFail);
 	
@@ -86,5 +87,6 @@ TVerdict CScafKeyStreamDecoderConstruct::doTestL()
 	
 	// Delete the protected stream descriptor
 	CleanupStack::PopAndDestroy(2, sdpDoc);	//< protectStreamDesc, sdpDoc
+#endif	
 	return TestStepResult();
 	}

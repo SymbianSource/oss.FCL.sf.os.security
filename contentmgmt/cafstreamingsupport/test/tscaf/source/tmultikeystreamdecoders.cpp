@@ -54,6 +54,7 @@ TVerdict CScafMultiKeyStreamDecoders::doTestStepPreambleL()
 
 TVerdict CScafMultiKeyStreamDecoders::doTestL()
 	{
+#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 	// Assume the test has failed if the test step result hasn't been otherwise set to EPass
 	SetTestStepResult(EFail);
 	
@@ -162,6 +163,7 @@ TVerdict CScafMultiKeyStreamDecoders::doTestL()
 		}
 	
 	CleanupStack::PopAndDestroy(5, sdpDoc); //< decoderB, decoderA, protectStreamDescB, protectStreamDescA, sdpDoc
+#endif	
 	return TestStepResult();	
 	}
 

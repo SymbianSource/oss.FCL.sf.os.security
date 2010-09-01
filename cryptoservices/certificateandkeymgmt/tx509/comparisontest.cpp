@@ -123,7 +123,7 @@ Reads an X.509 certificate from a file.
 	TInt size;
 	User::LeaveIfError(file.Size(size));
 	RBuf8 buf;
-	buf.CreateL(size);
+	buf.Create(size);
 	CleanupClosePushL(buf);
 	
 	User::LeaveIfError(file.Read(buf, size));

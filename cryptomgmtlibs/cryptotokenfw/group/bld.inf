@@ -38,12 +38,14 @@ PRJ_EXPORTS
 ../inc/ct/TCTTokenTypeAttribute.h						SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(ct/tcttokentypeattribute.h)
 ../inc/ct/TCTFindTokenTypesByInterface.h				SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(ct/tctfindtokentypesbyinterface.h)
 ../inc/ct/TCTFindTokenTypesByInterfaceAndAttribute.h	SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(ct/tctfindtokentypesbyinterfaceandattribute.h)
-../inc/ct/InterfaceUID.hrh 							SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(ct/interfaceuid.hrh)
+../inc/ct/InterfaceUID.hrh 								/epoc32/include/ct/interfaceuid.hrh
 ../inc/CryptoTokenRegistryInfo.rh						SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(cryptotokenregistryinfo.rh)
 ../inc/ct/tcttokenhandle.h								SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(ct/tcttokenhandle.h)
 ../inc/ct/RCPointerArray.h								SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(ct/rcpointerarray.h)
 ../inc/ct/RMPointerArray.h								SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(ct/rmpointerarray.h)
-
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+../inc/ct/logger.h										/epoc32/include/ct/logger.h
+#endif
 ../inc/ct.h SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(ct.h)
 ../inc_interfaces/MCTAuthObject.h						SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(mctauthobject.h)
 ../inc_interfaces/mcertstore.h 							SYMBIAN_OS_LAYER_PUBLIC_EXPORT_PATH(mcertstore.h)
@@ -64,6 +66,14 @@ PRJ_EXPORTS
 ../inc/securitydefsconst.h								SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(securitydefsconst.h)
 ../inc_interfaces/MCTKeyStoreUIDs.h						SYMBIAN_OS_LAYER_PLATFORM_EXPORT_PATH(mctkeystoreuids.h)
 
+#ifndef SYMBIAN_ENABLE_SPLIT_HEADERS
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+../inc_interfaces/mctcertappinterface.h					/epoc32/include/mctcertappinterface.h
+#endif
+#ifdef SYMBIAN_OLD_EXPORT_LOCATION
+../inc/ct/cttokentypedeletehandler.h 					/epoc32/include/cttokentypedeletehandler.h
+#endif
+#endif
 
 PRJ_TESTEXPORTS
 

@@ -49,16 +49,6 @@ public:
 	*/
 	HBufC16* ConvertDes8toHBufC16LC(TDesC8& source);
 
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-      
-    /*     
-    * Utility method which creates dummy header data for WMDRM operations.     
-    * @return   A new HBufC8 allocated which contains the header data.     
-    */     
-    HBufC8* CreateWmdrmHeaderLC();     
-      
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT 
-
 	/* 
 	* Load CAFRECOGNIZER.MDL and create an instance of CApaCafRecognizer that can be used
 	* by derived classes

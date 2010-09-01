@@ -1,5 +1,5 @@
 @rem
-@rem Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
+@rem Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
 @rem All rights reserved.
 @rem This component and the accompanying materials are made available
 @rem under the terms of the License "Eclipse Public License v1.0"
@@ -44,6 +44,8 @@ runpkcs12tests.bat
 runasnpkcs.bat
 
 runcryptotokens.bat
+
+runtlsprovider.bat
 
 runcertman.bat
 

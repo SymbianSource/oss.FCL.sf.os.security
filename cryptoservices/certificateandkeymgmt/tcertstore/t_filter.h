@@ -67,7 +67,6 @@ class CFilter : public CBase
 		// Sets the subjetkeyid filter using the certificate.
 		void SetSubjectKeyIdFromCertFilterL(const TDesC8& aCertPath);
 				
-	
 	private:
 		static CCertAttributeFilter* iFilter;
 		Output& iOut;
