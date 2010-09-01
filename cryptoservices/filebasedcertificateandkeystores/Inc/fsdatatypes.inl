@@ -24,9 +24,6 @@ inline CKeyInfo::CKeyInfo() :
 
 inline CKeyInfo::~CKeyInfo()
 	{
-#ifdef SYMBIAN_AUTH_SERVER
-	delete iAuthExpression;
-#endif // SYMBIAN_AUTH_SERVER
 	}
 
 inline void CKeyInfo::CleanupPushL()
@@ -43,49 +40,6 @@ inline void CKeyInfo::SetAccessType(TInt aAccessType)
 	{
 	iAccessType = aAccessType;
 	}
-
-#ifdef SYMBIAN_AUTH_SERVER
-inline AuthServer::TIdentityId CKeyInfo::Identity() const
-	{
-	return iIdentityId;
-	}
-
-inline const TDesC& CKeyInfo::AuthExpression() const
-	{
-	return *iAuthExpression;
-	}
-
-inline TInt CKeyInfo::Freshness() const
-	{
-	return iFreshness;
-	}
-
-inline void CKeyInfo::SetIdentity(AuthServer::TIdentityId aIdentityId)
-	{
-	iIdentityId = aIdentityId;
-	}
-
-inline void CKeyInfo::SetAuthExpressionL(const TDesC& aAuthExpression)
-	{
-	delete iAuthExpression;
-	iAuthExpression = NULL;
-	iAuthExpression = aAuthExpression.AllocL();
-	iAuthExpression->Des().Copy(aAuthExpression);
-	}
-
-inline void CKeyInfo::SetFreshness(TInt aFreshness)
-	{
-	iFreshness = aFreshness;
-	}
-
-inline void CKeyInfo::ResetAuthExpression()
-	{
-	delete iAuthExpression;
-	iAuthExpression = NULL;
-	}
-
-#endif // SYMBIAN_AUTH_SERVER
-
 
 inline const TInteger& CDHParams::N() const
 	{

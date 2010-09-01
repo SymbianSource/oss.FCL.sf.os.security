@@ -24,9 +24,6 @@
 #include "paddingtests.iby"
 #ifdef SYMBIAN_CRYPTOSPI
 #include "tcryptospi.iby"
-
-// conditionally included to avoid to be included in vasco image creation but needed in h4/h6 image creation
-#ifdef _SERIAL_DOWNLOAD
 #include "cryptospi_testplugins.iby"
 	
 // Proof of concept KMS (Key Management Server)
@@ -48,9 +45,8 @@ file=ABI_DIR\BUILD_DIR\kmsserver.exe		sys\bin\kmsserver.exe
 file=ABI_DIR\BUILD_DIR\kmsclient.dll		sys\bin\kmsclient.dll
 
 file=ABI_DIR\BUILD_DIR\kmstest.exe			sys\bin\kmstest.exe
-#endif
+
 file=ABI_DIR\BUILD_DIR\tsymmetric.exe	System\Programs\tsymmetric.exe
 file=ABI_DIR\BUILD_DIR\tasymmetric.exe	System\Programs\tasymmetric.exe
 file=ABI_DIR\BUILD_DIR\tbigint.exe	System\Programs\tbigint.exe
 #endif
-

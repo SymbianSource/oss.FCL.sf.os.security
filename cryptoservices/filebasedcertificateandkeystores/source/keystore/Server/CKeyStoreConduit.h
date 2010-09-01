@@ -41,10 +41,6 @@ class CKeyInfo;
 class CPBEncryptParms;
 class CDHPublicKey;
 
-#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-#include <authserver/identity.h>
-#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-
 
 /**
  * The key store server object (CFSKeyStoreServer) owns one instance of this
@@ -94,18 +90,6 @@ class CKeyStoreConduit : public CActive
 	void OpenKeyL(const RMessage2& aMessage, CKeyStoreSession& aSession, TUid aType);
 	void CloseObjectL(const RMessage2& aMessage, CKeyStoreSession& aSession);
 	
-#ifdef SYMBIAN_AUTH_SERVER
-	void IsKeyServerNewL(const RMessage2& aMessage);
-#endif // SYMBIAN_AUTH_SERVER
-	
-#ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-	
-	void CreateUserKeyL(const RMessage2& aMessage);
-	void ImportUserKeyL(const RMessage2& aMessage);
-	void SetAuthenticationPolicyL(const RMessage2& aMessage);
-	void GetAuthenticationPolicyL(const RMessage2& aMessage);
-	
-#endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	
  private:
 	// For MCTAuthenticationObject

@@ -572,11 +572,11 @@ void CUpsDbBaseStep::TestFingerprintValuesL(CDecisionDbW& aUpsDb)
 		if(recordList.Count() != 1)
 			{
 			SetTestStepResult(EFail);
-			CleanupStack::PopAndDestroy(3, record);
+			CleanupStack::PopAndDestroy(3,record);
 			break;
-			}		
-		CleanupStack::PopAndDestroy(3, record);
-		}	
+			}
+		CleanupStack::PopAndDestroy(3,record);	
+		}				
 	}
 
 

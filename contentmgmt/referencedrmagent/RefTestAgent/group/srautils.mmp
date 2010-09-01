@@ -28,10 +28,8 @@ UID 		0 0x10285A3A
 CAPABILITY	All -Tcb
 
 USERINCLUDE 	../streamingrefagent/inc
-USERINCLUDE 	../localsdp/inc
-USERINCLUDE 	../localsdp/api
-
-OS_LAYER_SYSTEMINCLUDE_SYMBIAN
+MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+APP_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 SOURCEPATH 	../streamingrefagent/source/utils
 SOURCE		srautils.cpp
@@ -43,7 +41,9 @@ deffile		../~/srautils.def
 LIBRARY 	euser.lib
 LIBRARY 	estor.lib
 LIBRARY		streamingcaf.lib
-LIBRARY		localsdpcodec.lib
+#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
+LIBRARY		sdpcodec.lib
+#endif
 LIBRARY     efsrv.lib 
 LIBRARY		bafl.lib
 SMPSAFE

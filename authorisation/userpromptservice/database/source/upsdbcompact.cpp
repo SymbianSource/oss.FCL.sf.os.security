@@ -20,7 +20,7 @@
 /**
  @file
  @internalTechnology
- @released
+ @prototype
 */
  
 #include "upsdbw.h"

@@ -1,5 +1,5 @@
 #
-# Copyright (c) 2008-2010 Nokia Corporation and/or its subsidiary(-ies).
+# Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies).
 # All rights reserved.
 # This component and the accompanying materials are made available
 # under the terms of the License "Eclipse Public License v1.0"
@@ -25,7 +25,7 @@
 # 6. Run or modify the relevant wrapper batch file for your component, which will be stored in the root of the test directory.
 # Components Summary
 # This script works fine with the following components: Asnpkcs, Caf2, Certman, Common, Crypto, Cryptospi, CryptoTokens,
-# FileTokens, Sistools, Streamingcaf, Swi, Switools, Ups. Other components must be tested and therefore 
+# FileTokens, Sistools, Streamingcaf, Swi, Switools, Tlsprovider, Ups. Other components must be tested and therefore 
 # further extensions may be needed.
 #
 

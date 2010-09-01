@@ -132,18 +132,7 @@ enum TFSTokenMessages
 	ERemoveApp              = 121,
 	EGetAppCount            = 122,
 	EGetApps                = 123,
-	EGetApplication         = 124,
-	
-#ifdef SYMBIAN_AUTH_SERVER
-	
-	EUseNewKeyServer = 125,
-	ECreateUserKey		= 126,
-	EImportUserKey		= 127,
-	EImportEncryptedUserKey	= 128,
-	ESetAuthenticationPolicy = 129,
-	EGetAuthenticationPolicy = 130,
-
-#endif // SYMBIAN_AUTH_SERVER	
+	EGetApplication         = 124,	
 	
 	};
 

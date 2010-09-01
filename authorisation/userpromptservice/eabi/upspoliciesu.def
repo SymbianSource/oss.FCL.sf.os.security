@@ -16,7 +16,7 @@ EXPORTS
 	_ZN17UserPromptService13CClientEntity4NewLERK6TDesC8 @ 15 NONAME
 	_ZN17UserPromptService13CClientEntity5NewLCERK6TDesC8 @ 16 NONAME
 	_ZN17UserPromptService13CPolicyReader11NextPolicyLEv @ 17 NONAME
-	_ZN17UserPromptService13CPolicyReader11ReadPolicyLEv @ 18 NONAME ABSENT
+	_ZN17UserPromptService13CPolicyReader11ReadPolicyLEv @ 18 NONAME
 	_ZN17UserPromptService13CPolicyReader14DefaultPolicyLEv @ 19 NONAME
 	_ZN17UserPromptService13CPolicyReader4NewLER3RFsRK7TDesC16 @ 20 NONAME
 	_ZN17UserPromptService13CPolicyReader5NewLCER3RFsRK7TDesC16 @ 21 NONAME
@@ -34,9 +34,9 @@ EXPORTS
 	_ZN17UserPromptService14CPluginManager6UnloadEv @ 33 NONAME
 	_ZN17UserPromptService14CPromptRequest4NewLERK9TSecureIdRK9TVendorIdRK9TThreadIdR10TProcessIdS3_RK4TUidR6RBuf16R5RBuf8i @ 34 NONAME
 	_ZN17UserPromptService14CPromptRequest5NewLCERK9TSecureIdRK9TVendorIdRK9TThreadIdR10TProcessIdS3_RK4TUidR6RBuf16R5RBuf8i @ 35 NONAME
-	_ZN17UserPromptService14CPromptRequestD0Ev @ 36 NONAME ABSENT
-	_ZN17UserPromptService14CPromptRequestD1Ev @ 37 NONAME ABSENT
-	_ZN17UserPromptService14CPromptRequestD2Ev @ 38 NONAME ABSENT
+	_ZN17UserPromptService14CPromptRequestD0Ev @ 36 NONAME
+	_ZN17UserPromptService14CPromptRequestD1Ev @ 37 NONAME
+	_ZN17UserPromptService14CPromptRequestD2Ev @ 38 NONAME
 	_ZN17UserPromptService16CPolicyEvaluator10Extension_EjRPvS1_ @ 39 NONAME
 	_ZN17UserPromptService16CPolicyEvaluator12ForcePromptLERKNS_15CDecisionRecordERj @ 40 NONAME
 	_ZN17UserPromptService16CPolicyEvaluator12GetExtensionEjRPvS1_ @ 41 NONAME

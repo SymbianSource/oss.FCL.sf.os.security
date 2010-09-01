@@ -133,5 +133,20 @@ data = ZDRIVE\tups\integ\corrupted_db_integ\ups_corrupted1.db	\tups\integ\corrup
 data = ZDRIVE\tups\integ\corrupted_db_integ\ups_corrupted2.db	\tups\integ\corrupted_db_integ\ups_corrupted2.db
 
 
+REM Integration test sis files and related.
+data = ZDRIVE\tups\integ\packages\uninstall.xml					\tups\integ\packages\uninstall.xml
+data = ZDRIVE\tups\integ\packages\simple.xml					\tups\integ\packages\simple.xml
+data = ZDRIVE\tups\integ\packages\tupsinteg_post1.sis			\tups\integ\packages\tupsinteg_post1.sis
+data = ZDRIVE\tups\integ\packages\tupsinteg_policies1.sis 			\tups\integ\packages\tupsinteg_policies1.sis
+data = ZDRIVE\tups\integ\packages\tupsinteg_policies2.sis			\tups\integ\packages\tupsinteg_policies2.sis
+data = ZDRIVE\tups\integ\packages\tupsinteg_evaluator1.sis			\tups\integ\packages\tupsinteg_evaluator1.sis
+data = ZDRIVE\tups\integ\packages\tupsinteg_dialog1.sis				\tups\integ\packages\tupsinteg_dialog1.sis
+data = ZDRIVE\tups\integ\packages\tupsinteg_eclipse1.sis			\tups\integ\packages\tupsinteg_eclipse1.sis
+data = ZDRIVE\tups\integ\packages\tupsinteg_ca_not_instore.sis		    \tups\integ\packages\tupsinteg_ca_not_instore.sis
+data = ZDRIVE\tups\integ\packages\tupsinteg_policies1_negative.sis     \tups\integ\packages\tupsinteg_policies1_negative.sis
+
+
+REM Integration test, file to simulate tamper attempt for backup and restore.
+data = ZDRIVE\tups\integ\tampered_backup\backup10285777.1			\tups\integ\tampered_backup\backup10285777.1
 
 #endif

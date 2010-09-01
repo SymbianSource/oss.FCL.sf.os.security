@@ -80,14 +80,3 @@ CAgentRightsManager* CF32AgentFactory::CreateRightsManagerL()
 	return NULL;
 	}
 
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-CAgentData* CF32AgentFactory::CreateDataConsumerL(const TDesC8& aHeaderData)
-	{
-	return CF32AgentData::NewL(aHeaderData);
-	}
-
-CAgentContent* CF32AgentFactory::CreateContentBrowserL(const TDesC8& aHeaderData)
-	{
-	return CF32AgentContent::NewL(aHeaderData);
-	}
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT

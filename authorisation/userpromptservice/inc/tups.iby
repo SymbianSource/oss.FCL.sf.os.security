@@ -22,11 +22,8 @@
 #include <testexecute.iby>
 #include <tupspolicies.iby>
 #include <tups_integ.iby>
-#ifdef _SERIAL_DOWNLOAD
 #include <upstechview.iby>
-#else
-#include <security_ups_utils.iby>
-#endif
+
 define ZDRIVE \epoc32\data\Z
 
 REM User Prompt Service Tests

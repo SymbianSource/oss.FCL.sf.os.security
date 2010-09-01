@@ -13,6 +13,9 @@
 @rem
 @rem Description: 
 @rem
+temb
+move c:\temblog.txt c:\testresults\
+move c:\testresults\temblog.txt e:\testresults\temblog.txt
 
 REM hash
 copy /s z:\thash\ c:\thash\

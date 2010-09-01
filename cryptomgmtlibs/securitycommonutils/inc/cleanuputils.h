@@ -21,7 +21,7 @@
 /**
  @file
  @internalTechnology
- @released
+ @prototype
 */
 
 #ifndef CLEANUPUTILS_H

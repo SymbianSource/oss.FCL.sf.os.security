@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -26,6 +26,7 @@
 #define  UPSQUERRY_STEP_H 
 #include <test/testexecutestepbase.h>
 #include <bautils.h>
+#include <swi/swispubsubdefs.h>
 #include "tupsintegstepbase.h"
 #include "tups_clientapi_sysserver.h"
 #include "tupsproperty.h"
@@ -93,6 +94,7 @@ public:
 	TBool 				CheckResultsL(TInt aIndex);
 	TBool				CheckDialogCreatorResultsL(TInt aIndex);	
 	TBool				CheckPolicyEvaluatorResultsL(TInt aIndex);
+	void				WaitThatFileAppearsL(const TDesC& aFileName);			
 	void 				HoldClientL(void);
 		
 	// Array containing pointers to open sessions

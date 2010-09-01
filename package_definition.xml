@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SystemDefinition schema="3.0.0">
   <package id="security" name="OS Security" levels="physical-abstraction plugins libraries management services utilities">
-	<collection id="authenticationservices" name="Authentication Services" level="utilities">
-      <component id="authenticationserver" name="Authentication Server" introduced="^4" purpose="optional">
-        <unit bldFile="authenticationservices/authenticationserver/group" mrp="authenticationservices/authenticationserver/group/security_authserver.mrp"/>
-      </component>
-    </collection>
     <collection id="authorisation" name="Authorisation" level="utilities">
       <component id="userpromptservice" name="User Prompt Service" introduced="^3" purpose="mandatory">
         <unit bldFile="authorisation/userpromptservice/group" mrp="authorisation/userpromptservice/group/security_ups.mrp"/>
@@ -72,12 +67,6 @@
       </component>
       <component id="filebasedcertificateandkeystores" name="File-based Certificate and Key Stores" introduced="8.0" purpose="optional">
         <unit bldFile="cryptoservices/filebasedcertificateandkeystores/group" mrp="cryptoservices/filebasedcertificateandkeystores/group/security_filetokens.mrp"/>
-      </component>
-      <component id="rootcertificates" name="Root Certificates" introduced="7.0s" purpose="optional" filter="sf_build">
-        <unit bldFile="cryptoservices/rootcertificates/group" mrp="cryptoservices/rootcertificates/group/rootcerts.mrp"/>
-      </component>
-      <component id="browserrootcertificates" name="Browser Root Certificates" introduced="^2" purpose="optional" filter="sf_build">
-        <unit mrp="cryptoservices/browserrootcertificates/browserrootcerts.mrp"/>
       </component>
       <component id="asnpkcs" name="ASN PKCS" introduced="8.0" purpose="optional">
         <unit bldFile="cryptoservices/asnpkcs/group" mrp="cryptoservices/asnpkcs/group/security_asnpkcs.mrp"/>

@@ -21,27 +21,27 @@ LOAD_SUITE Te_CryptoSpi
 //
 
 //Symmetric Test Cases
-RUN_SCRIPT z:\testdata\tcryptospi\scripts\te_SymmetricCipherTestCases.script
+RUN_SCRIPT c:\testdata\tcryptospi\scripts\te_SymmetricCipherTestCases.script
 
 //Asymmertric Test Cases
-RUN_SCRIPT z:\testdata\tcryptospi\scripts\te_ASymmetricCipherTestCases.script
+RUN_SCRIPT c:\testdata\tcryptospi\scripts\te_ASymmetricCipherTestCases.script
 
 //Hash and Hmac Test Cases
-RUN_SCRIPT z:\testdata\tcryptospi\scripts\te_HashHmacTestCases.script
+RUN_SCRIPT c:\testdata\tcryptospi\scripts\te_HashHmacTestCases.script
 
 //Random Test Cases
-RUN_SCRIPT z:\testdata\tcryptospi\scripts\te_RandomTestCases.script
+RUN_SCRIPT c:\testdata\tcryptospi\scripts\te_RandomTestCases.script
 
 //Key Exchange, Generation, Signer and Verifier Test Cases
-RUN_SCRIPT z:\testdata\tcryptospi\scripts\te_MiscellaneousTestCases.script
+RUN_SCRIPT c:\testdata\tcryptospi\scripts\te_MiscellaneousTestCases.script
 
 //Plug-in Load Test Cases
-RUN_SCRIPT z:\testdata\tcryptospi\scripts\te_pluginloadtestcases.script
+RUN_SCRIPT c:\testdata\tcryptospi\scripts\te_pluginloadtestcases.script
 
 //Plug-in Characteristics
-RUN_SCRIPT z:\testdata\tcryptospi\scripts\te_plugincharstestcases.script
+RUN_SCRIPT c:\testdata\tcryptospi\scripts\te_plugincharstestcases.script
 
 //Plug-in Rule Based Selection
-RUN_SCRIPT z:\testdata\tcryptospi\scripts\te_ruleselectiontestcases.script
+RUN_SCRIPT c:\testdata\tcryptospi\scripts\te_ruleselectiontestcases.script
 
 PRINT Complate_Te_CryptoSpi_Tests

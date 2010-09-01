@@ -1,5 +1,5 @@
 //
-// Copyright (c) 2009-2010 Nokia Corporation and/or its subsidiary(-ies).
+// Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
 // All rights reserved.
 // This component and the accompanying materials are made available
 // under the terms of the License "Eclipse Public License v1.0"
@@ -1168,6 +1168,323 @@ RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_int
 END_TESTCASE SEC-UPS-D004
 
 
+//! @SYMTestCaseID 	SEC-INTEG-UPS-D006
+//! @SYMTestCaseDesc 	Removal of decision from DB by uninstalling client. 
+//!                     (client_removal)
+//!		
+//! @SYMPREQ		PREQ1262
+//! @SYMREQ		REQ7387
+//! @SYMTestPriority 	Critical
+//! @SYMTestStatus   	Implemented
+//! @SYMTestActions  	Preconditions:
+//!		     	• For each of the services There is an appropriate policy, policy evaluator and dialog 
+//!			creator that matches the UID of the service offered by the “system server”.
+//!		     	• The test clients used for this test case were installed with a SIS file that did not 
+//!			install the policy or policy evaluator mapped to these test clients.
+//!		     	• There is more than one decision stored for test applications. 
+//!		     	
+//!			Test Actions:
+//!		     	• Populate decision DB for 3 test clients (A, B, C) with “Always” decisions for 3 Clients.
+//!                  	• Uninstall test client B. 
+//!		     	• Launch test clients (A & C), these two Clients should have normal access to test service 
+//!			without need for security dialog prompt.
+//!
+//! @SYMTestExpectedResults  	• Decision for test client B was removed from decision DB. Decisions for test clients 
+//!				A & C are still present in DB with value “always”
+//!			     	• Test client A & C are granted access to test service. 
+//!
+//! @SYMTestType CIT
+
+START_TESTCASE SEC-INTEG-UPS-D006
+
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+// populate decision database with some inital values.
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_sample
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_sample
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_sample
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+
+// Installs new client via swi (tupsinteg_post1)
+RUN_TEST_STEP !Heap=0x150000 100 tups_install InstallStep z:\tups\integ\scripts\tups_integ.ini  install_post1
+LOAD_SUITE tupsinteg_post1
+
+// creates decision for new installed client.
+// This odd jump to another script is indispensable in this situation. 
+RUN_SCRIPT z:\tups\integ\scripts\tups_integ_post1.script
+
+CONCURRENT
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+// Unsinstall  new client via swi (tupsinteg_post1)
+RUN_TEST_STEP 100 tups_install UninstallStep z:\tups\integ\scripts\tups_integ.ini  uninstall_post1 
+CONSECUTIVE
+
+// Need to reinstall client to be able to check decisions
+RUN_TEST_STEP !Heap=0x150000 100 tups_install InstallStep z:\tups\integ\scripts\tups_integ.ini  install_post1
+
+// creates decision for new installed client.
+// This odd jump to another script is indispensable in this situation. 
+RUN_SCRIPT z:\tups\integ\scripts\tups_integ_post1.script
+
+// decisions for other clients are expected to be unchanged. 
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+
+// Last Unsinstall of new client via swi (tupsinteg_post1) (clean up)
+RUN_TEST_STEP 100 tups_install UninstallStep z:\tups\integ\scripts\tups_integ.ini  uninstall_post1 
+
+END_TESTCASE SEC-INTEG-UPS-D006
+
+
+//! @SYMTestCaseID SEC-INTEG-UPS-D007
+//! @SYMTestCaseDesc Removal of decision from DB by upgrading client. 
+//!                  (client_update)
+//!		
+//! @SYMPREQ PREQ1262
+//! @SYMREQ REQ7387 REQ7470
+//! @SYMTestPriority Critical
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions  Preconditions:
+//!		     •	For each of the services There is an appropriate policy, policy evaluator 
+//!			and dialog creator that matches the UID of the service offered by the “system server”.
+//!                  •  The test clients used for this test case were installed with a SIS file that did not 
+//!			install the policy or policy evaluator mapped to these test clients.
+//!		     •	More than 1 decision is associated to test client.
+//!		     Test Actions:
+//!                  •  Populate decision DB for 3 test clients (A, B, C) with “Always” decisions for 3 Clients.
+//!		     •	Upgrade test client B by using SIS file. This SIS file should replace EXE file associated 
+//!			to test client B. 
+//!		     •	Launch test clients (A, B, C), A & C should have normal access to test service without 
+//!			need for security dialog prompt. UPS should display security dialog for Client B, select  “Never”.
+//!
+//! @SYMTestExpectedResults  •	Decision for test client B was changed in the decision DB from “Always” to “Never”. 
+//!				Decisions for test clients A & C are still present in DB with value “always”
+//! 			     •	Test client A & C are granted access to test service.
+//!
+//! @SYMTestType CIT
+
+START_TESTCASE SEC-INTEG-UPS-D007
+
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+// populate decision database with some inital values.
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_sample
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_sample
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_sample
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+
+// Installs new client via swi (tupsinteg_post1)
+RUN_TEST_STEP !Heap=0x150000 100 tups_install InstallStep z:\tups\integ\scripts\tups_integ.ini  install_post1
+
+// creates decision for new installed client.
+// This odd jump to another script is indispensable in this situation. 
+RUN_SCRIPT z:\tups\integ\scripts\tups_integ_post1.script
+
+CONCURRENT
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+// Reinstall client via swi, this counts as an upgrate (tupsinteg_post1)
+RUN_TEST_STEP !Heap=0x150000 100 tups_install InstallStep z:\tups\integ\scripts\tups_integ.ini  install_post1
+CONSECUTIVE
+
+// creates decision for new installed client.
+// This odd jump to another script is indispensable in this situation. 
+RUN_SCRIPT z:\tups\integ\scripts\tups_integ_post1_check.script
+
+// decisions for other clients are expected to be unchanged. 
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+
+// Last Unsinstall of new client via swi (tupsinteg_post1) (clean up)
+RUN_TEST_STEP 100 tups_install UninstallStep z:\tups\integ\scripts\tups_integ.ini  uninstall_post1 
+
+END_TESTCASE SEC-INTEG-UPS-D007
+
+//! @SYMTestCaseID SEC-INTEG-UPS-D009
+//! @SYMTestCaseDesc Removal of decision from DB by uninstalling policy file
+//!                  (policy_removal)
+//!		
+//! @SYMPREQ PREQ1262
+//! @SYMREQ REQ7397 REQ7399 REQ7400
+//! @SYMTestPriority Critical
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions   
+//!		     Preconditions:
+//!			•  For each of the services there is an appropriate policy, policy evaluator and dialog creator 
+//!			   that matches the UID of the service offered by the “system server”.
+//!			•  The SIS file used to install test policy did NOT install any executable client that could be 
+//!			   mapped to this policy. 
+//!			Test Actions:
+//!			•  Populate decision DB for 3 test clients (A, B, C) with “Always” decisions for 3 Clients.
+//!			•  Uninstall policy mapped to Client B.
+//!			•  Launch test clients (A, B, C).  Clients A & C should have normal access test service.
+//!			•  For Client B, test system server should receive a KErrUpsMissingPolicyFile form UPS. 
+//!			•  Check that Client A & C can access test service.
+//!
+//! @SYMTestExpectedResults  •	Decision DB contains only “Always” decision stored for Clients A & C, Client B 
+//!				should not have any decision associated to it.
+//!			     •	Test client A & C are granted access to test service.
+//!			     •	Test client B is granted not granted service.
+//!			     •	KErrUpsMissingPolicyFile issued to system server when request security dialog for client B.
+//!
+//! @SYMTestType CIT
+START_TESTCASE SEC-INTEG-UPS-D009
+
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+// populate decision database with some inital values.
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_sample
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_sample
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_sample
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+
+// installs policy file version 1
+RUN_TEST_STEP 100 tups_install InstallStep z:\tups\integ\scripts\tups_integ.ini  install_policies1v1
+
+
+// populates decisions related to policy just installed
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini policies1v1_populate
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini policies1v1_check
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini count_29
+
+// uninstall policy file.
+RUN_TEST_STEP 100 tups_install UninstallAugStep z:\tups\integ\scripts\tups_integ.ini  un_install_policies1v1
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini count_27
+
+END_TESTCASE SEC-INTEG-UPS-D009
+
+//! @SYMTestCaseID SEC-INTEG-UPS-D010
+//! @SYMTestCaseDesc Removal of decision from DB by upgrading policy file
+//!                  (policy_update)
+//!		
+//! @SYMPREQ PREQ1262
+//! @SYMREQ REQ7397 REQ7399 REQ7400
+//! @SYMTestPriority Critical
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions  Preconditions:
+//!		     Preconditions:
+//!			• For each of the services There is an appropriate policy, policy evaluator and 
+//!    			 dialog creator that matches the UID of the service offered by the “system server”.
+//!			• The SIS file used to install test policy did NOT install any executable client that 
+//!			  could be mapped to this policy. 
+//!			Test Actions:
+//!			• Populate decision DB for 3 test clients (A, B, C) with “Always” decisions for 3 Clients.
+//!			• Upgrade policy mapped to Client B via SWI.
+//!			• Launch test clients (A, B, C).  Clients A & C should have normal access test service (no
+//!			 prompting). For Client B, UPS should prompt again for user permission, select “never” option.
+//!			• Check that Client A & C can access test service.
+//! @SYMTestExpectedResults  •	Decision DB contains only “Always” decision stored for Clients A & C, for Client
+//!				 B the decision stored now is “never”.  
+//!			     •	 Test client A & C are granted access to test service.
+//!			     •	Policy files were installed in private directory
+//!
+//! @SYMTestType CIT
+START_TESTCASE SEC-INTEG-UPS-D010
+
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+// populate decision database with some inital values.
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_sample
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_sample
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_sample
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+
+// installs policy file version 1
+RUN_TEST_STEP 100 tups_install InstallStep z:\tups\integ\scripts\tups_integ.ini  install_policies1v1
+
+
+// populates decisions related to policy just installed
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini policies1v1_populate
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini policies1v1_check
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini count_29
+
+// installs policy file version 2, this should cause decisions to be deleted
+CONCURRENT
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 tups_install InstallStep z:\tups\integ\scripts\tups_integ.ini  install_policies1v2
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini policies1v2_inflight_change
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+CONSECUTIVE
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini count_29
+
+// Cleanup 
+RUN_TEST_STEP 100 tups_install UninstallAugStep z:\tups\integ\scripts\tups_integ.ini  un_install_policies1v2
+
+////////////     repeats same test sequence but without concurrency  /////////////////////////
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+// populate decision database with some inital values.
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_sample
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_sample
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_sample
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+
+// installs policy file version 1
+RUN_TEST_STEP 100 tups_install InstallStep z:\tups\integ\scripts\tups_integ.ini  install_policies1v1
+
+// populates decisions related to policy just installed
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini policies1v1_populate
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini policies1v1_check
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini count_29
+
+// installs policy file version 2, this should cause decisions to be deleted.
+RUN_TEST_STEP 100 tups_install InstallStep z:\tups\integ\scripts\tups_integ.ini  install_policies1v2
+
+// populates decisions that are expected to be deleted.
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini policies1v2_populate
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini policies1v2_check
+
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini count_29
+
+// Cleanup 
+RUN_TEST_STEP 100 tups_install UninstallAugStep z:\tups\integ\scripts\tups_integ.ini  un_install_policies1v2
+
+
+
+END_TESTCASE SEC-INTEG-UPS-D010
+
+
 //********************** SEC-UPS-E : SECURITY POLICIES AND POLICY EVALUATOR PLUG-INS  **********************
 //! @SYMTestCaseID SEC-UPS-INTEG-E001
 //! @SYMTestCaseDesc To ensure that when a single bit is set in the “options” no security
@@ -1414,6 +1731,133 @@ END_TESTCASE SEC-UPS-INTEG-E008
 START_TESTCASE SEC-UPS-INTEG-E009
 RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini question_mark_card
 END_TESTCASE SEC-UPS-INTEG-E009
+
+//! @SYMTestCaseID SEC-INTEG-UPS-E017
+//! @SYMTestCaseDesc Post manufacture install of Policy Evaluator
+//!                  (policy_evaluator_install)
+//!		
+//! @SYMPREQ PREQ1262
+//! @SYMREQ REQ7408
+//! @SYMTestPriority Critical
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions   
+//!		     Preconditions:
+//!			•  There a policy file associated to test service, however the policy evaluator specified 
+//!			   in the “Policy evaluator field”  is not present in the phone
+//!			Test Actions:
+//!			•  Using SIS file install new policy evaluator that is listed in policy file (This SIS file 
+//!			   only installs policy evaluator plug-in, it does NOT install policy file).
+//! 			•  Launch test client which uses policy file that invokes use of new policy evaluator, verify 
+//!			   that UPS invokes the new policy evaluator, use test client to store new “never” and “always” 
+//!			   decisions.
+//!			•  Uninstall the policy evaluator that was just previously installed, re-install again the same
+//!			   policy evaluator; as decisions are not expected to be deleted verify that the decisions are 
+//!			   still there in database.
+//!			•  Run the previous test sequence concurrently with other clients using decisions stored in DB not
+//!		           related to new policy evaluator, check that these decisions are not affected by installation 
+//!			   and removal of policy evaluator.  
+//!
+//! @SYMTestExpectedResults  •	Newly installed policy evaluator is used after installation by SIS file.
+//!			     •	Decisions in DB are not affected by installation/removal of policy evaluator.
+//! @SYMTestType CIT
+
+START_TESTCASE SEC-INTEG-UPS-E017
+
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+// populate decision database with some inital values.
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_sample
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_sample
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_sample
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+
+// installs new policy evaluator 
+RUN_TEST_STEP !Heap=0x150000 100 tups_install InstallStep z:\tups\integ\scripts\tups_integ.ini  install_evaluator5
+
+// Delay added to alow new plugin to be scaned by some magic entity in the phone 
+DELAY 8000
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini newevaluator5
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+
+// uninstall policy file.
+RUN_TEST_STEP 100 tups_install UninstallStep z:\tups\integ\scripts\tups_integ.ini  uninstall_evaluator5
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini count_30
+
+END_TESTCASE SEC-INTEG-UPS-E017
+
+
+//! @SYMTestCaseID SEC-INTEG-UPS-E018
+//! @SYMTestCaseDesc Post manufacture install of dialog creator
+//!                  (dialog_creator_install)
+//!		
+//! @SYMPREQ PREQ1262
+//! @SYMREQ REQ7408
+//! @SYMTestPriority Critical
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions   
+//!		     Preconditions:
+//!			• Existence of SIS file that can install new dialog creator and policy file.
+//!		     Test Actions:     
+//!			• Using SIS file install new dialog creator and policy file.
+//!			• Request specific services to test system server that will invoke ups for 
+//!			  authorization and using the new dialog creator and policy file installed. Make 
+//!			  sure that an “always” and “never” decisions are stored in DB.
+//!			• Uninstall the SIS file, check the new decisions related to previously installed 
+//!			  dialog creator were removed for DB.
+//!
+//! @SYMTestExpectedResults  
+//!			• Newly installed dialog and policy are used by UPS after installation by 
+//!			  SIS file. 
+//!			• New decisions related to new dialog creator and policy file are stored correctly
+//!			  into decision DB. 
+//!			• Decisions related to policy file (installed by the same SIS file) are removed 
+//!			  from DB. 
+//! @SYMTestType CIT
+
+START_TESTCASE SEC-INTEG-UPS-E018
+
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+// populate decision database with some inital values.
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_sample
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_sample
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_sample
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+
+// installs new policy evaluator 
+RUN_TEST_STEP !Heap=0x150000 100 tups_install InstallStep z:\tups\integ\scripts\tups_integ.ini  install_dialog7
+// Delay Allows new plugin to be scanned by ECOM
+DELAY 8000
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini newdialog7
+
+
+// uninstall policy file.
+RUN_TEST_STEP 100 tups_install UninstallAugStep z:\tups\integ\scripts\tups_integ.ini  uninstall_dialog7
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini count_27
+
+END_TESTCASE SEC-INTEG-UPS-E018
+
 
 
 //! @SYMTestCaseID SEC-INTEG-UPS-E024
@@ -2156,6 +2600,109 @@ END_TESTCASE SEC-INTEG-UPS-E036
 
 //********************** SEC-UPS-G : NEGATIVE TEST CASES  **********************
 
+//! @SYMTestCaseID SEC-INTEG-UPS-G001
+//! @SYMTestCaseDesc Policy installation via SWI signed with CA certificate non present in certstore. 
+//!                  (policy_file_ca_not_in_store)
+//!		
+//! @SYMPREQ PREQ1262
+//! @SYMREQ REQ7398
+//! @SYMTestPriority Critical
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions   
+//!		     Preconditions:
+//!			• Policy to be installed does not currently exist in phone
+//!			• The SIS file to attempt a policy file installation has been signed with 
+//!			  a CA certificate is not present in the SWI CA store.
+//!		     Test Actions: 
+//!			• Install sis that installs policy.
+//!
+//! @SYMTestExpectedResults  
+//!			• SWI should reject SIS file for security reasons.
+//!			 
+//! @SYMTestType CIT
+
+START_TESTCASE SEC-INTEG-UPS-G001
+
+RUN_TEST_STEP_RESULT -10254 100 tups_install InstallStep z:\tups\integ\scripts\tups_integ.ini ca_cert_no_stored
+
+END_TESTCASE SEC-INTEG-UPS-G001
+
+
+
+
+
+
+
+
+//! @SYMTestCaseID SEC-INTEG-UPS-G002
+//! @SYMTestCaseDesc Tamper attempt in policy files backup and restore
+//!                  (tampered_policy_file_backup_restore)
+//!		
+//! @SYMPREQ PREQ1262
+//! @SYMREQ REQ4701
+//! @SYMTestPriority Critical
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions   
+//!		     Preconditions:
+//!			• There is a set of static policies already present in phone. 
+//!			• The policy files installed via SIS file to be used for test purpose was flagged 
+//!			  with “VERIFY” in the package file.
+//!		     Test Actions: 
+//!			• Install policy file flagged with “VERIFY”, populate decisions in database.
+//!			• Back up policy files.
+//!			• Delete policy file form private directory.
+//!			• Try to restore static policies from a backed up archive that is different that the 
+//!			  one obtained originally.
+//!			
+//!
+//! @SYMTestExpectedResults  
+//!			•	Restore operation should fail and tampered archive rejected.
+//!			 
+//! @SYMTestType CIT
+
+START_TESTCASE SEC-INTEG-UPS-G002
+
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+RUN_UTILS MakeReadWrite c:\tswi\tbackuprestore\backup10285777.1
+RUN_UTILS DeleteFile C:\tswi\tbackuprestore\backup10285777.1
+
+// populate decision database with some inital values.
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_sample
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+
+
+// installs policy file with VERIFY flag
+RUN_TEST_STEP 100 tups_install InstallStep z:\tups\integ\scripts\tups_integ.ini  install_policies1v2
+
+// populates decisions related to policy just installed
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini policies1v2_populate
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini policies1v2_check
+
+// backs up policy file
+RUN_TEST_STEP 100 tups_backuprestore  BACKUP  z:\tups\integ\scripts\tups_integ.ini	backup_policy_file2
+
+// deletes valid backup files
+RUN_UTILS MakeReadWrite c:\tswi\tbackuprestore\backup10285777.1
+RUN_UTILS DeleteFile c:\tswi\tbackuprestore\backup10285777.1
+
+//copies altered backup files to replace the valid ones.
+RUN_UTILS CopyFile z:\tups\integ\tampered_backup\backup10285777.1  c:\tswi\tbackuprestore\backup10285777.1
+RUN_UTILS MakeReadWrite c:\tswi\tbackuprestore\backup10285777.1
+
+//Deletes current policy file been used by 
+RUN_UTILS DeleteFile c:\private\10283558\policies\ups_101f7f1f_ff000001.rsc
+
+// restores policy file
+RUN_TEST_STEP_RESULT -11 100 tups_backuprestore  RESTORE  z:\tups\integ\scripts\tups_integ.ini	backup_policy_file2
+
+// uninstall SIS files previously installed
+RUN_TEST_STEP 100 tups_install UninstallAugStep z:\tups\integ\scripts\tups_integ.ini  un_install_policies1v2
+
+END_TESTCASE SEC-INTEG-UPS-G002
+
+
+
 //! @SYMTestCaseID SEC-UPS-INTEG-G004
 //! @SYMTestCaseDesc Non ProtServ capability system server   
 //!                  (no_protser_cap)
@@ -2186,6 +2733,30 @@ RUN_TEST_STEP 100 TUPSInteg_1 NonProtServAuthorisation z:\tups\integ\scripts\tup
 RUN_TEST_STEP 100 TUPSInteg_1 NonProtServAuthorisation z:\tups\integ\scripts\tups_integ.ini no_protser_cap_b
 END_TESTCASE SEC-UPS-INTEG-G004
 
+//! @SYMTestCaseID SEC-UPS-INTEG-G006
+//! @SYMTestCaseDesc Non AllFiles capability CA   
+//!                  (no_allfiles_cap_ca)
+//!		
+//! @SYMPREQ PREQ1262
+//! @SYMREQ REQ7398
+//!
+//! @SYMTestPriority Critical
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions 	Preconditions:
+//!			•  Policy to be installed does not currently exist in phone.
+//!			•  The SIS file to attempt a policy file installation has been 
+//!			signed with a CA certificate but this CA certificate has not Installation via SWI of policy file signed with a CA certificate with no All_files  capabilities.
+//!
+//!			Test Actions:
+//!			•  Install non CA signed sis that installs policy.
+//!
+//! @SYMTestExpectedResults 	• System server receives a KErrSecurityError from SWI. 
+//!
+//! @SYMTestType CIT
+
+START_TESTCASE SEC-UPS-INTEG-G006
+RUN_TEST_STEP_RESULT -10254 100 tups_install InstallStep z:\tups\integ\scripts\tups_integ.ini no_allfiles_ca
+END_TESTCASE SEC-UPS-INTEG-G006
 
 //! @SYMTestCaseID 	SEC-UPS-G007
 //! @SYMTestCaseDesc 	Protected deletion and update of decisions.
@@ -2393,6 +2964,162 @@ END_TESTCASE SEC-UPS-G010
 
 
 //********************** SEC-UPS-H : MISCELLANEOUS  **********************
+
+
+//! @SYMTestCaseID SEC-INTEG-UPS-H008
+//! @SYMTestCaseDesc Eclipsing of policy via SWI.
+//!                  (policy_file_eclipse)
+//!		
+//! @SYMPREQ PREQ1262
+//! @SYMREQ REQ7393 REQ7498
+//! @SYMTestPriority Critical
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions   
+//!		     Preconditions:
+//!			• There is a policy file in ROM that matches the UID of the service offered by 
+//!			  the “system server”. (uses policy evaluator A)
+//! 			• The policy to be deployed via SWI to eclipse the policy above maps the policy to 
+//!			  a different policy evaluator. (uses policy evaluator B). New policy is written in 
+//!			  system drive.  
+//!			• There are some decisions stored in DB related to policy file about to be eclipsed.
+//!		     Test Actions: 
+//!			• Launch “test client” which tries to use system servers. System server should invoke 
+//!			  UPS to display security dialog.
+//!			• Select “always” option on security dialog, make sure that “policy evaluator A” was 
+//!			  invoked, check that test client can access intended service. 
+//!			• Deploy new policy using SIS file to eclipse existing ROM policy.
+//!			• Check that previous entries related to policy file were deleted from DB.
+//!			• Launch the same test client again, the security dialog should be displayed again as the
+//!			  existing “always” decision stored in DB is expected to be deleted. 
+//! 			• Select “always” option on security dialog, make sure that “policy evaluator B” was 
+//!			  invoked, check that test client can access intended service. 
+//!			
+//!
+//! @SYMTestExpectedResults  
+//!			• After deployment of new policy a different policy evaluator is invoked for system 
+//!			  server.
+//!			• Related decisions were removed after eclipsing.
+//! @SYMTestType CIT
+
+START_TESTCASE SEC-INTEG-UPS-H008
+
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+
+// populate decision database with some inital values.
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_sample
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_sample
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_sample
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini pre_eclipse
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini count_30
+
+// SIS file eclipses policy file from ROM
+RUN_TEST_STEP 100 tups_install InstallStep z:\tups\integ\scripts\tups_integ.ini  install_eclipse1
+
+// Eclipsing of policy file is expected to remove some decisions 
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini count_27
+
+// cheks new policy file (on C drive)
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini post_eclipse
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini count_32
+
+// uninstall last eclipse.
+RUN_TEST_STEP 100 tups_install UninstallAugStep z:\tups\integ\scripts\tups_integ.ini  uninstall_eclipse1
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini count_27
+
+END_TESTCASE SEC-INTEG-UPS-H008
+
+
+//! @SYMTestCaseID SEC-INTEG-UPS-H009
+//! @SYMTestCaseDesc Policy files backup and restore.
+//!                  (policy_file_backup_restore)
+//!		
+//! @SYMPREQ PREQ1262
+//! @SYMREQ REQ4701
+//! @SYMTestPriority Critical
+//! @SYMTestStatus   Implemented
+//! @SYMTestActions   
+//!		     Preconditions:
+//!			• There is a set of static policies already present in phone. 
+//!			• The policy files installed via SIS file to be used for test purpose was flagged 
+//!			  with “VERIFY” in the package file.
+//!		     Test Actions: 
+//!			• Install policy file flagged with “VERIFY”, populate decisions in database.
+//!			• Back up static policies.
+//!			• Uninstall the policy file.
+//!			• Try to restore static policies.
+//!			• Verify that policy files can be reused correctly, verify correctness of decision 
+//!			  database.
+//!			
+//!
+//! @SYMTestExpectedResults  
+//!			• Restore operation does not show any problem in operation.
+//!			• Policy file restored is equal to policy file backed up.
+//! @SYMTestType CIT
+
+START_TESTCASE SEC-INTEG-UPS-H009
+
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+RUN_UTILS DeleteFile c:\private\10283558\database\ups.db
+RUN_UTILS MakeReadWrite c:\tswi\tbackuprestore\backup10285777.1
+RUN_UTILS DeleteFile C:\tswi\tbackuprestore\backup10285777.1
+
+// populate decision database with some inital values.
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_sample
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_sample
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini populate_sample
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+
+// installs policy file with VERIFY flag
+RUN_TEST_STEP 100 tups_install InstallStep z:\tups\integ\scripts\tups_integ.ini  install_policies1v2
+
+// populates decisions related to policy just installed
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini policies1v2_populate
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini policies1v2_check
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini count_29
+
+// backs up policy file
+RUN_TEST_STEP 100 tups_backuprestore  BACKUP  z:\tups\integ\scripts\tups_integ.ini	backup_policy_file2
+
+RUN_TEST_STEP 100 TUPSInteg_1 UtilsCloseUps
+
+// uninstall the augmentation before trying to restore the policy file
+RUN_TEST_STEP 100 tups_install UninstallAugStep z:\tups\integ\scripts\tups_integ.ini  un_install_policies1v2
+
+// restores policy file
+RUN_TEST_STEP 100 tups_backuprestore  RESTORE  z:\tups\integ\scripts\tups_integ.ini	backup_policy_file2
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini count_27
+
+// uninstall SIS files previously installed
+RUN_TEST_STEP 100 tups_install UninstallAugStep z:\tups\integ\scripts\tups_integ.ini  un_install_policies1v2
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_2 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+RUN_TEST_STEP 100 TUPSInteg_3 UPSClientStep z:\tups\integ\scripts\tups_integ.ini check_sample
+
+RUN_TEST_STEP 100 TUPSInteg_1 UPSDbManagementStep z:\tups\integ\scripts\tups_integ.ini count_27
+
+END_TESTCASE SEC-INTEG-UPS-H009
+
 
 //! @SYMTestCaseID SEC-UPS-INTEG-H010
 //! @SYMTestCaseDesc Simple request cancelation        

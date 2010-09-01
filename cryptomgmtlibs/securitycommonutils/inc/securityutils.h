@@ -20,7 +20,7 @@
 /**
  @file 
  @publishedPartner
- @released
+ @prototype
 */
 
 #ifndef SECURITYUTILS_H

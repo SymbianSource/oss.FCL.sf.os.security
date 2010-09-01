@@ -67,6 +67,7 @@ TVerdict CScafKeyStreamSink::doTestL()
 	encryptedStr.Append(*ro->Key());
 	CleanupStack::PopAndDestroy(ro);
 	
+#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 	//Create an SDP document object and set the created key stream field object
 	CSdpDocument* sdpDoc = CreateSdpDocumentLC();
 	//Create an SDP key stream field object with an attribute requiring the service protected RO
@@ -112,6 +113,9 @@ TVerdict CScafKeyStreamSink::doTestL()
 		}
 
 	CleanupStack::PopAndDestroy(4, sdpDoc); // fOutputKey, decoder, sink, sdpDoc
+#endif
+
+	
 	return TestStepResult();
 	}
 
@@ -171,6 +175,7 @@ TVerdict CScafConcurrentKeyStreamSinks::doTestL()
 	CopyFile2AgentsPrivateFolderL(iParent.Fs(), KProgramProtectedRo(), privatePathA);
 	CopyFile2AgentsPrivateFolderL(iParent.Fs(), KProgramProtectedRo(), privatePathB);
 
+#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 	//Create an SDP document object and set the created key stream field object for each decoder
 	CSdpDocument* sdpDoc = CreateSdpDocumentLC();
 	
@@ -279,5 +284,6 @@ TVerdict CScafConcurrentKeyStreamSinks::doTestL()
 	CleanupStack::PopAndDestroy(2, sinkB);		//< decoderB, sink B
 	CleanupStack::PopAndDestroy(2, sinkA);		//< decoderA, sinkA
 	CleanupStack::PopAndDestroy(sdpDoc); 		//< sdpDoc
+#endif	
 	return TestStepResult();
 	}

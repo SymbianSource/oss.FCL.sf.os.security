@@ -68,9 +68,6 @@ CRtaManagerHandler::~CRtaManagerHandler()
 	{
 	delete iArchive;
 	iFile.Close();
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT     
-    delete iWmdrmContentObject;     
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT 
 	}
 
 void CRtaManagerHandler::ServiceL(const RMessage2& aMessage)
@@ -173,27 +170,7 @@ void CRtaManagerHandler::ServiceL(const RMessage2& aMessage)
 	case ENoEnforceManagerDisplayManagementInfo:
 		DisplayManagementInfoL(aMessage);
 		break;
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-    case EWMDRMGetAttribute:     
-    case ENoEnforceWMDRMGetAttribute:     
-        GetWMDRMAttributeL(aMessage);     
-        break;     
-             
-    case EWMDRMGetAttributeSet:     
-    case ENoEnforceWMDRMGetAttributeSet:     
-        GetWMDRMAttributeSetL(aMessage);     
-        break;     
-         
-    case EWMDRMGetStringAttribute:     
-    case ENoEnforceWMDRMGetStringAttribute:     
-        GetWMDRMStringAttributeL(aMessage);     
-        break;     
-             
-    case EWMDRMGetStringAttributeSet:     
-    case ENoEnforceWMDRMGetStringAttributeSet:     
-        GetWMDRMStringAttributeSetL(aMessage);     
-        break;     
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT 
+
 	default:
 		CRtaSession::PanicClient(aMessage,EPanicIllegalFunction);
 		break;
@@ -570,108 +547,3 @@ void CRtaManagerHandler::DisplayManagementInfoL(const RMessage2& /*aMessage*/)
 	User::Leave(KErrCANotSupported);
 	}
 
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT     
-      
-void CRtaManagerHandler::OpenWmdrmContentObjectL(const RMessage2& aMessage, TInt aHeaderParameter)     
-    {     
-    HBufC8* headerData = ReadDesC8LC(aMessage, aHeaderParameter);        
-    iWmdrmContentObject = CWmdrmContentParser::NewL(*headerData);     
-         
-    CleanupStack::PopAndDestroy(headerData);     
-    }     
-      
-void CRtaManagerHandler::GetWMDRMAttributeL(const RMessage2& aMessage)     
-    {     
-    OpenWmdrmContentObjectL(aMessage, 0);     
-         
-    TInt attribute = aMessage.Int1();     
-    TInt value;     
-    TPckg<TInt> valuePckg(value);     
-      
-    User::LeaveIfError(iWmdrmContentObject->GetAttribute(attribute, value));     
-    WriteL(aMessage, 2, valuePckg);     
-    }     
-         
-void CRtaManagerHandler::GetWMDRMStringAttributeL(const RMessage2& aMessage)     
-    {     
-    OpenWmdrmContentObjectL(aMessage, 0);     
-      
-    TInt attribute = aMessage.Int1();     
-    HBufC* value = ReadDes16LC(aMessage, 2);     
-    TPtr valuePtr = value->Des();     
-      
-    User::LeaveIfError(iWmdrmContentObject->GetStringAttribute(attribute, valuePtr));     
-    WriteL(aMessage, 2, valuePtr);     
-         
-    CleanupStack::PopAndDestroy(value);     
-    }     
-         
-void CRtaManagerHandler::GetWMDRMAttributeSetL(const RMessage2& aMessage)     
-    {     
-    OpenWmdrmContentObjectL(aMessage, 0);     
-         
-    RAttributeSet attributeSet;     
-    CleanupClosePushL(attributeSet);     
-         
-    HBufC8* value = ReadDes8LC(aMessage, 1);     
-    TPtr8 valuePtr = value->Des();     
-    RDesReadStream readStream(valuePtr);     
-    CleanupClosePushL(readStream);     
-         
-    attributeSet.InternalizeL(readStream);     
-    CleanupStack::PopAndDestroy(2, value);     
-         
-    iWmdrmContentObject->GetAttributeSet(attributeSet);     
-      
-    // Write the object out to a buffer, send to client     
-    CBufFlat* buf = CBufFlat::NewL(50);     
-    CleanupStack::PushL(buf);     
-    // create write stream     
-    RBufWriteStream writeStream(*buf);     
-    CleanupClosePushL(writeStream);     
-         
-    // write the directory to the stream     
-    attributeSet.ExternalizeL(writeStream);     
-    CleanupStack::PopAndDestroy(&writeStream);     
-         
-    TPtr8 bufPtr = buf->Ptr(0);     
-    WriteL(aMessage, 1, bufPtr);     
-             
-    CleanupStack::PopAndDestroy(2, &attributeSet); // buf, attributeSet     
-    }     
-         
-void CRtaManagerHandler::GetWMDRMStringAttributeSetL(const RMessage2& aMessage)     
-    {     
-    OpenWmdrmContentObjectL(aMessage, 0);     
-         
-    RStringAttributeSet attributeSet;     
-    CleanupClosePushL(attributeSet);     
-         
-    HBufC8* value = ReadDes8LC(aMessage, 1);     
-    TPtr8 valuePtr = value->Des();     
-    RDesReadStream readStream(valuePtr);     
-    CleanupClosePushL(readStream);     
-         
-    attributeSet.InternalizeL(readStream);     
-    CleanupStack::PopAndDestroy(2, value);     
-         
-    iWmdrmContentObject->GetStringAttributeSetL(attributeSet);     
-      
-    // Write the object out to a buffer, send to client     
-    CBufFlat* buf = CBufFlat::NewL(50);     
-    CleanupStack::PushL(buf);     
-    // create write stream     
-    RBufWriteStream writeStream(*buf);     
-    CleanupClosePushL(writeStream);     
-         
-    // write the directory to the stream     
-    attributeSet.ExternalizeL(writeStream);     
-    CleanupStack::PopAndDestroy(&writeStream);     
-         
-    TPtr8 bufPtr = buf->Ptr(0);     
-    WriteL(aMessage, 1, bufPtr);     
-             
-    CleanupStack::PopAndDestroy(2, &attributeSet); // buf, attributeSet     
-    }     
-      
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT 

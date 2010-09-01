@@ -55,6 +55,7 @@ TVerdict CScafKeyStreamDecoderAttributes::doTestStepPreambleL()
 
 TVerdict CScafKeyStreamDecoderAttributes::doTestL()
 	{
+#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 	// Assume faliure, unless all is successful
 	SetTestStepResult(EFail);
 	
@@ -105,6 +106,7 @@ TVerdict CScafKeyStreamDecoderAttributes::doTestL()
 		}
 	
 	CleanupStack::PopAndDestroy(3, sdpDoc); //< decoder, protectStreamDesc, sdpDoc
+#endif	
 	return TestStepResult();
 	}
 

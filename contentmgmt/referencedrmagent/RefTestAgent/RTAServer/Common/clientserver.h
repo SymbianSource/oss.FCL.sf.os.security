@@ -116,30 +116,13 @@ namespace ReferenceTestAgent
 		EManagerDisplayManagementInfo = 105,
 
 		EDataSetProperty = 106,
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-        EReadWMDRMHeaderData = 107,     
-        EReadWMDRMDataPacket = 108,     
-        EWMDRMGetAttribute = 109,     
-        EWMDRMGetStringAttribute = 110,     
-        EWMDRMGetAttributeSet = 111,     
-        EWMDRMGetStringAttributeSet = 112,     
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT 
-		
+
 		// These operations do not require DRM capability
 		ESeparatorUnprotected   = 500,
 		EGetAttribute			= 501,
 		EGetAttributeSet		= 502,
 		EGetStringAttribute 	= 503,
 		EGetStringAttributeSet  = 504,
-
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT     
-        ENoEnforceReadWMDRMHeaderData = 701,     
-        ENoEnforceReadWMDRMDataPacket = 702,     
-        ENoEnforceWMDRMGetAttribute = 703,     
-        ENoEnforceWMDRMGetStringAttribute = 704,     
-        ENoEnforceWMDRMGetAttributeSet = 705,     
-        ENoEnforceWMDRMGetStringAttributeSet = 706,     
-#endif //SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT 
 
 		// IPC messages to use when DRM capability enforcing is disabled
 		ENoEnforceAddRights		 = 1001,

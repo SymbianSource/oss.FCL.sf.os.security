@@ -97,8 +97,10 @@ private:
 	CSraProcessor* iProcessor;
 	CKeyStreamSink* iKeyStreamSink;
 	CSraRightsObject* iRo;
+#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 	CSdpMediaField* iSdp;
 	CSdpDocument* iSdpDoc;
+#endif
 	/**
 	 A handle to a mutex which is used to signal the client that the key has been implemented. 
 	 Not necessary in real-life agents and is present here only for testing.

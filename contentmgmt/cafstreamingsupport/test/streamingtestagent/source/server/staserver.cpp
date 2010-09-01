@@ -66,7 +66,9 @@ CStaServer::~CStaServer()
  */
 	{
 	iFs.Close();
+#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 	SdpCodecStringPool::Close();
+#endif
 	}
 	
 	
@@ -94,7 +96,9 @@ void CStaServer::ConstructL()
 	User::LeaveIfError(iFs.Connect());
 	User::LeaveIfError(iFs.ShareProtected());
 	User::LeaveIfError(iFs.CreatePrivatePath(iFs.GetSystemDrive()));
+#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
 	SdpCodecStringPool::OpenL();
+#endif
 	StartL(KStaName);
 	}
 

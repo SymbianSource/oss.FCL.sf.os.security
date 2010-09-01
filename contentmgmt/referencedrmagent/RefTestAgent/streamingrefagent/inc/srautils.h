@@ -27,7 +27,11 @@
 #define SRAUTILS_H
 
 #include "srarightsobject.h"
-#include "sdpmediafield.h"
+#ifdef INTERNALLY_ENABLE_UPWARD_DEPENDENCY
+#include <sdpmediafield.h>
+#else
+class CSdpMediaField;
+#endif
 #include <f32file.h>
 
 

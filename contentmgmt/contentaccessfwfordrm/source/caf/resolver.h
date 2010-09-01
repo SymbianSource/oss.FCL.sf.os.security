@@ -90,16 +90,7 @@ namespace ContentAccess
 			*/
 			CAgentInfo& ResolveFileL(RFile& aFile) const;			
 
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-			
-			/** Finds the agent which handles this piece of content.
-			@param aHeaderData	Header data of WMDRM file or stream content.
-			@return				CAgentInfo object associated with the agent that will handle WMDRM content.	
-			*/
-			CAgentInfo& ResolveFileL(const TDesC8& aHeaderData);
-			
-#endif //#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
-						
+					
 			/** Finds the agent that handles a file and returns the actual URI of the content.
 			
 			If the aUri is of the form "c:\\private\\agent_name\\" 
@@ -173,20 +164,6 @@ namespace ContentAccess
 			* @return	An array of consumer MIME types supported by CAF agents.
 			*/
 			IMPORT_C const RArray<TPtrC8>& ConsumerMimeTypes() const;
-
-#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT			
-			/** This function should only be used by the CAF recogizer DLL.
-			
-			@param aHeader			Header data of WMDRM content.
-			@param aFileMimeType	If the content is recognized this will be populated with 
-									the mime type of the content.
-			@param aContentMimeType	If the content is recognized this will be populated with the mime type of the content. 
-
-			@return					ETrue if the content is recognized by content access agent
-			@return					EFalse if the content is not recognized by a content access agent
-			*/
-			IMPORT_C TBool DoRecognizeL(const TDesC8& aHeader, TDes8& aFileMimeType, TDes8& aContentMimeType);
-#endif //#ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT	
 
 			/** Find an agent by it's Uid */
 			CAgentInfo& AgentInfoL(const TUid& aUid) const;
