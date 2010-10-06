@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2004-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -24,7 +24,7 @@
 #include "virtualpath.h"
 #include "content.h"
 #include "manager.h"
-#include "embeddedobject.h"
+#include "EmbeddedObject.h"
 #include "FileContentIteratorBase.h"
 #include "EmbeddedcontentIterator.h"
 

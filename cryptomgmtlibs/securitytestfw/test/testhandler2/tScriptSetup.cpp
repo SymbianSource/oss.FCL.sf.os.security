@@ -206,7 +206,7 @@ EXPORT_C TBool CScriptSetup::InitialiseL(RFs &aFs, const TDesC& aDefaultScript, 
 		else
 			{
 			TPtr scriptFileNameDes = iScriptPath->Des();
-			if (scriptFileNameDes.Right(8) == _L(".script1"))
+			if (scriptFileNameDes.Right(8) == _L(".script1") || scriptFileNameDes.Right(7) == _L(".script"))
 				{
 				iTefScript = ETrue;
 				}

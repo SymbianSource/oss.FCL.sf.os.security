@@ -26,10 +26,7 @@
 #include <s32mem.h>
 #include "clientserver.h"
 #include "rtaclient.h"
-
-#ifndef __INIPARSER_H__
-	#include <cinidata.h>
-#endif // __INIPARSER_H__
+#include <iniparser.h>
 
 using namespace ReferenceTestAgent;
 

@@ -95,6 +95,8 @@ del c:\*.*
 rem TOCSP
 rem copy tocsp test data
 copy /s z:\system\tocsp\ c:\system\tocsp\
+// copy this file to use wi-fi access point to connect to ocsp server
+copy z:\private\10202be9\cccccc00_wifi.cre c:\private\10202be9\cccccc00.cre
 del c:\system\data\cacerts.dat
 
 rem run tocsp tests

@@ -15,8 +15,13 @@
 //
 
 
-LOAD_SUITE tcaf
 LOAD_SUITE RTAUtils
+LOAD_SUITE tcaf
+
+// Required for managerstep.script test cases
+RUN_UTILS MkDir C:\private\
+RUN_UTILS MkDir C:\private\Reference Test Agent\
+
 
 RUN_UTILS Delete c:\tcaf\testdata\sample.content
 

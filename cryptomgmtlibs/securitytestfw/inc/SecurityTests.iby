@@ -138,6 +138,8 @@ data = ZDRIVE\auto.cfg					\auto.cfg
 data = ZDRIVE\auto_broken.cfg					\auto_broken.cfg
 data = ZDRIVE\autosimtsy.cfg					\autosimtsy.cfg
 data = ZDRIVE\prompt.cfg					\prompt.cfg
+data = ZDRIVE\private\10202be9\persists\cccccc00_wifi.cre	\private\10202be9\persists\cccccc00_wifi.cre
+
 
 // This the file which used to redirect the request from cam-ocsptest01 to ban-ocsptest01
 data = ZDRIVE\autohardware\hosts		     \hosts

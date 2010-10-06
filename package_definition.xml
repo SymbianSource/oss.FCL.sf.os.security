@@ -1,11 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <SystemDefinition schema="3.0.0">
   <package id="security" name="OS Security" levels="physical-abstraction plugins libraries management services utilities">
-	<collection id="authenticationservices" name="Authentication Services" level="utilities">
-      <component id="authenticationserver" name="Authentication Server" introduced="^4" purpose="optional">
-        <unit bldFile="authenticationservices/authenticationserver/group" mrp="authenticationservices/authenticationserver/group/security_authserver.mrp"/>
-      </component>
-    </collection>
     <collection id="authorisation" name="Authorisation" level="utilities">
       <component id="userpromptservice" name="User Prompt Service" introduced="^3" purpose="mandatory">
         <unit bldFile="authorisation/userpromptservice/group" mrp="authorisation/userpromptservice/group/security_ups.mrp"/>
@@ -43,9 +38,6 @@
       <component id="securitytestfw" name="Security Test Framework" deprecated="^3" introduced="7.0" purpose="development" filter="test">
         <unit mrp="cryptomgmtlibs/securitytestfw/group/security_testframework.mrp" bldFile="cryptomgmtlibs/securitytestfw/group"/>
       </component>
-      <component id="securitydocs" name="Security Documentation" purpose="development" class="doc">
-        <unit mrp="cryptomgmtlibs/securitydocs/security_documentation.mrp"/>
-      </component>
       <component id="cryptotokenfw" name="Crypto Token Framework" introduced="7.0" purpose="optional">
         <unit bldFile="cryptomgmtlibs/cryptotokenfw/group" mrp="cryptomgmtlibs/cryptotokenfw/group/security_cryptotokens.mrp"/>
       </component>
@@ -56,6 +48,9 @@
     <collection id="securityanddataprivacytools" name="Security and Data Privacy Tools" level="services">
       <component id="securityconfig" name="Security Config" introduced="9.1" purpose="optional">
         <unit bldFile="securityanddataprivacytools/securityconfig/group" mrp="securityanddataprivacytools/securityconfig/group/security_config.mrp"/>
+      </component>
+      <component id="openssllib" name="Openssl Lib" introduced="^4" purpose="optional">
+        <unit mrp="securityanddataprivacytools/openssllib/security_openssllib.mrp"/>
       </component>
       <component id="securitytools" name="Security Tools" introduced="^3" purpose="optional" target="desktop">
         <unit bldFile="securityanddataprivacytools/securitytools/group" mrp="securityanddataprivacytools/securitytools/group/security_tools.mrp"/>

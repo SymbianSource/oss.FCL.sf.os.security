@@ -56,6 +56,6 @@ LIBRARY		cafutils.lib
 LIBRARY		rtaclient.lib
 LIBRARY		rtaparser.lib
 LIBRARY		rtavirtualfile.lib
-LIBRARY		cinidata.lib
+LIBRARY		iniparser.lib
 SMPSAFE
 
