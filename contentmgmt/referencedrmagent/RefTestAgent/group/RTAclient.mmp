@@ -63,5 +63,5 @@ LIBRARY		estor.lib
 LIBRARY		efsrv.lib
 LIBRARY		rtaparser.lib
 LIBRARY		cafutils.lib
-LIBRARY		cinidata.lib
+LIBRARY		iniparser.lib
 SMPSAFE

@@ -25,9 +25,9 @@
 #include "_sdpdefs.h"
 #include "sdpcodecstringconstants.h"
 #include "sdpdocument.h"
-#include "sdpcodecConstants.h"
-#include "sdpcodecErr.h"
-#include "sdpcodecStringPool.h"
+#include "sdpcodecconstants.h"
+#include "sdpcodecerr.h"
+#include "sdpcodecstringpool.h"
 
 
 // -----------------------------------------------------------------------------

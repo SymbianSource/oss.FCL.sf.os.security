@@ -43,10 +43,6 @@ LOAD_SUITE TUPSInteg_readdevice
 LOAD_SUITE TUPSInteg_writedevice
 LOAD_SUITE TUPSInteg_minor
 
-// Load software step installer.
-LOAD_SUITE tups_install
-LOAD_SUITE tups_backuprestore
-
 
 //! @SYMTestCaseID SEC-UPS-MISC-0001
 //! @SYMTestCaseDesc Set up properties for policy evaluators and dialog creators, and Delete Existing Database

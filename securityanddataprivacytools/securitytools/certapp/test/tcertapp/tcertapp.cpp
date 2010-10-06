@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2008-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2008-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -27,7 +27,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
-#include <sys\timeb.h>
+#include <sys/timeb.h>
 #include "logger.h"
 #include "utils.h"
 
@@ -163,9 +163,16 @@ void writeTMSResult(ofstream &aLogFile, stringstream &aTestCaseType, int aTestCa
 	timeinfo = localtime(&rawtime);
 	strftime(standardTimeBuffer, 10, "%H:%M:%S", timeinfo);
 	
-	struct _timeb tstruct;
 	char millisecondTimeBuffer[6];
-	_ftime(&tstruct);
+
+	#ifdef __TOOLS2_LINUX__
+		struct timeb tstruct;		
+		ftime(&tstruct);
+	#else
+		struct _timeb tstruct;		
+		_ftime(&tstruct);
+	#endif
+
 	sprintf(millisecondTimeBuffer, ":%03u ", tstruct.millitm);
 	
 	stringstream timeBuffer;

@@ -54,6 +54,6 @@ template<class T> class SdpCodecTemplate
 
 	};
 
-#include "SdpCodecTemplate.inl"
+#include "sdpcodectemplate.inl"
 
 #endif

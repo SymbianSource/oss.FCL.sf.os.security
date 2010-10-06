@@ -25,7 +25,7 @@
 #include "rightsobject.h"
 #include "reftestagentconstants.h"
 #include "rtapanic.h"
-#include <cinidata.h>
+#include <iniparser.h>
 
 using namespace ReferenceTestAgent;
 

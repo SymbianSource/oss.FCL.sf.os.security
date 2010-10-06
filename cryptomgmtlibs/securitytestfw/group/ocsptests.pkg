@@ -22,11 +22,11 @@
 :"Ocsp integration test"
 
 
-"\epoc32\winscw\c\system\tocsp\scripts\Valicert.txt"-"c:\system\TOCSP\scripts\Valicert.txt
-"\epoc32\winscw\c\system\tocsp\scripts\CertCo.txt"-"c:\system\TOCSP\scripts\CertCo.txt
+"\epoc32\winscw\c\system\tocsp\scripts\Valicert.txt"-"c:\system\TOCSP\scripts\Valicert.txt"
+"\epoc32\winscw\c\system\tocsp\scripts\CertCo.txt"-"c:\system\TOCSP\scripts\CertCo.txt"
 
 
-//OCSP tests TMS support
+;//OCSP tests TMS support
 
 "\epoc32\winscw\c\system\TOCSP\scripts\openssl.script"-"c:\system\TOCSP\scripts\openssl.script1"
 "\epoc32\winscw\c\system\tocsp\scripts\XCert-local.script"-"c:\system\TOCSP\scripts\XCert-local.script1"
@@ -48,7 +48,7 @@
 "\epoc32\winscw\c\system\tocsp\scripts\defaultpolicy.ini"-"c:\system\TOCSP\scripts\defaultpolicy.ini"
 "\epoc32\winscw\c\system\tocsp\scripts\httpinterface.ini"-"c:\system\tocsp\scripts\httpinterface.ini"
 
-//
+
 "\epoc32\winscw\c\system\tocsp\responses\response.n1"-"c:\system\TOCSP\responses\response.n1"
 "\epoc32\winscw\c\system\tocsp\responses\response.n2"-"c:\system\TOCSP\responses\response.n2"
 
