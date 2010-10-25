@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 1997-2010 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 1997-2009 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -149,34 +149,6 @@ TBool CPKIXChainBuilder::ResolveIssuersL(CArrayPtr<CX509Certificate>& aChain,
 				}
 			}
 		CleanupStack::PopAndDestroy();//aki
-		}
-	
-	// If more then one subject matching candidates are found and they doesn't contain SKI/AKI,
-	// consider the most recently imported/added candidate as the issuer.
-	for(TInt index = count - 1; index >= 0; --index)
-		{
-		TTime currentTime;
-		// if secure time is not available then fall back to the insecure version.
-		if(currentTime.UniversalTimeSecure() == KErrNoSecureTime)
-			{
-			currentTime.UniversalTime();
-			}
-
-		CX509Certificate* cert = CX509Certificate::NewLC(*aCandidates[index]);
-		// SKI/AKI are optional in versions lower than 3. So, relax the candidate selection rules only for version 1 & 2
-		// If the recent candidate is not valid enough(cert expired), consider it's previous valid candidate.
-		if((cert->Version() < 3) && (cert->ValidityPeriod().Valid(currentTime)))
-			{				
-			aChain.AppendL(cert);
-			++(*iNumberOfCertsAdded);
-			CleanupStack::Pop(cert);
-			return ETrue;				
-			}
-		else
-			{
-			CleanupStack::PopAndDestroy(cert);
-			continue;
-			}			
 		}
 
 	return EFalse;
