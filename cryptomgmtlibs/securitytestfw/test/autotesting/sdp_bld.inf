@@ -25,6 +25,7 @@
  @file
 */
 
+#ifndef TOOLS 
 #ifndef TOOLS2
 // Disable everything except security_tools for TOOLS2 target
 
@@ -67,6 +68,7 @@
 
 
 #endif //TOOLS2
+#endif //TOOLS
 
 // Only the certapp build with TOOLS2
 #include "os/security/securityanddataprivacytools/securitytools/group/bld.inf"

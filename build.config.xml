@@ -73,7 +73,6 @@
 	<layer name="unit_test_layer">
 			<module name="Securityfw_test">
 				<unit name="secdo.securitytestfw" unitID="secdo.securitytestfw.test" bldFile="&layer_real_source_path;\cryptomgmtlibs\securitytestfw\group" mrp="&layer_real_source_path;\cryptomgmtlibs\securitytestfw\group\security_testframework.mrp"/>
-				<unit name="secdo.securitytestcert" unitID="secdo.securitytestcert.test" bldFile="&layer_real_source_path;\cryptomgmtlibs\securitytestfw\testcertificates\noncontributed\testcertificates\group" mrp=""/>
 			<!-- 
 				<unit name="secdo.authserver" unitID="secdo.authserver.test" bldFile="&layer_real_source_path;\authenticationservices\authenticationserver\group" mrp="&layer_real_source_path;\authenticationservices\authenticationserver\group\security_authserver.mrp"/>
 			-->

@@ -69,7 +69,7 @@ SOURCE          wmdrmcontentparser.cpp
 USERINCLUDE		../RTAParser
 USERINCLUDE		../inc
 
-MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN
 
 LIBRARY		euser.lib
 LIBRARY		estor.lib

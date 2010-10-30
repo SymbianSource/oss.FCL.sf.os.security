@@ -509,16 +509,23 @@ CKeyInfo* CFileKeyDataManager::ReadKeyInfoLC(const CFileKeyData& aKeyData) const
 	RStoreReadStream stream;
 	stream.OpenLC(*iFileStore, aKeyData.InfoDataStreamId());
 	CKeyInfo* info = CKeyInfo::NewL(stream);
-	
+		
+	info->CleanupPushL();
+
 #ifdef SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 	ReadAuthDetailsL(stream, *info);
 #endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
-	CleanupStack::PopAndDestroy(&stream);
+
+    CleanupStack::Pop(1);
+	CleanupStack::PopAndDestroy(&stream);  
 	info->CleanupPushL();
+
 	if (info->Handle() != aKeyData.Handle())
 		{
 		User::Leave(KErrCorrupt); // is this appropriate?
-		}
+		}	
+
+
 	return info;
 	}
 

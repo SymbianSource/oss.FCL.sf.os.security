@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 1998-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 1998-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -48,7 +48,8 @@ TTestActionSpec::TTestActionSpec()
 
 TTestActionSpec::~TTestActionSpec()
 	{
-	iniSectionResultBody.Close();
+    iIniSectionResultBody.Close();
+	iTestIniFilePtr.Close();
 	}
 
 TInt TTestActionSpec::Init(const TDesC8& aInput, 
@@ -188,8 +189,6 @@ TInt TTestActionSpec::TEFInit(RFs& aFs,
 	TBuf8<512> 	prevTestCaseID;
 	TBuf8<512> 	prevTestDescription;
 
-
-	
 // Checks if the first word from the script file is an error code
 // if(error code)
 //		sets 'actionResult' to the relevent error code with the <return></return> tags
@@ -227,11 +226,14 @@ TInt TTestActionSpec::TEFInit(RFs& aFs,
 			err = Tefinput::ParseiniPath(iniFileName, aScriptPath, iniFilePath);
 			if(err == KErrNone)
 				{
-				aTestIniFilePtr.Assign(Tefinput::GetiniFile(aFs, iniFilePath, err)); // Load up our local RBuf ptr to takeover the management of the inifile data in Heap
-				
+				iTestIniFilePtr.Assign(Tefinput::GetiniFile(aFs, iniFilePath, err)); // Load up our local RBuf ptr to takeover the management of the inifile data in Heap
 				if(err == KErrNone)
 					{
-					TPtrC8 iniFile = aTestIniFilePtr.Ptr();
+					TPtrC8 iniFile;
+                    if (iTestIniFilePtr.Length() == iTestIniFilePtr.MaxLength())
+						iniFile.Set(iTestIniFilePtr.Ptr());
+					else
+						iniFile.Set(iTestIniFilePtr.PtrZ());
 					inifile = ETrue;
 					err = Tefinput::ParseActionbody(iniFile, iniSectionName, iniSectionData);
 					if(err == KErrNone)
@@ -273,15 +275,15 @@ TInt TTestActionSpec::TEFInit(RFs& aFs,
 		if (err == KErrNone)
 			{
 			resultlen = scriptResult.Length() + tempResult.Length();
-			iniSectionResultBody.Create(tempResult,resultlen);
-			iniSectionResultBody.Insert(0,scriptResult);			
-			iActionResult.Set(iniSectionResultBody);
+			iIniSectionResultBody.Create(tempResult,resultlen);
+			iIniSectionResultBody.Insert(0,scriptResult);			
+			iActionResult.Set(iIniSectionResultBody);
 //			iniactionResultSet = ETrue;
 			}
 		else
 			{
-			iniSectionResultBody.Create(scriptResult);
-			iActionResult.Set(iniSectionResultBody);
+            iIniSectionResultBody.Create(scriptResult);
+			iActionResult.Set(iIniSectionResultBody);
 			}
 		}
 	else
@@ -292,14 +294,14 @@ TInt TTestActionSpec::TEFInit(RFs& aFs,
 			{
 			scriptResult.Set(aScriptResult);
 			resultlen = tempResult.Length() + scriptResult.Length();
-			iniSectionResultBody.Create(tempResult, resultlen);
-			iniSectionResultBody.Insert(0,aScriptResult);
-			iActionResult.Set(iniSectionResultBody);
+			iIniSectionResultBody.Create(tempResult, resultlen);
+			iIniSectionResultBody.Insert(0,aScriptResult);
+			iActionResult.Set(iIniSectionResultBody);
 			}
 		else
 			{
-			iniSectionResultBody.Create(tempResult);
-			iActionResult.Set(iniSectionResultBody);
+            iIniSectionResultBody.Create(tempResult);
+			iActionResult.Set(iIniSectionResultBody);
 			}
 		}
 	
@@ -340,14 +342,9 @@ TInt TTestActionSpec::TEFInit(RFs& aFs,
 		aOut.writeNewLine();
 		return err;
 		}
-
 	
-
 	iTefScript = tefFile;
 
-
-	
-	
 	return KErrNone; 
 	}
 

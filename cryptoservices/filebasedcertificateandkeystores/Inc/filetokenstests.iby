@@ -37,8 +37,15 @@ file=ABI_DIR\BUILD_DIR\tfiletokens.exe	sys\bin\tfiletokens.exe
 // tsecdlg is required to run tests without a passphrase dialog popping up.
 // SecDlg will also need to be removed
 // Note: If SecDlg and tsecdlg are both present the tests will crash
-// both on the emulator and on hardware! 
-ECOM_PLUGIN(tsecdlg.dll, 10204789.rsc)
+// both on the emulator and on hardware!
+
+REM #ifndef __TEXTSHELL_OBY__
+REM ECOM_PLUGIN(tsecdlg.dll, 10204789.rsc)
+
+file=ABI_DIR\BUILD_DIR\tsecdlg_text.dll	sys\bin\tnotifiers\tsecdlg_text.dll
+
+ 
+
 
 // Test plugins
 ECOM_PLUGIN(101faaa1.dll, 101faaa1.rsc)
@@ -277,6 +284,9 @@ data = ZDRIVE\tcertapps\scripts\apipolicing.script	tcertapps\scripts\apipolicing
 data = ZDRIVE\tcertapps\scripts\script1.ini			tcertapps\scripts\script1.ini attrib=r
 data = ZDRIVE\tcertapps\scripts\apipolicing.ini	tcertapps\scripts\apipolicing.ini attrib=r
 
+// Test keystore. Contains two keys, a DSA key (label gm0) and a RSA key (label gm1)
+// The passphrase timeout is set to 30
+data = ZPRIVATE\101F72A6\keys.dat          	private\101F72A6\keys.dat
 
 #if defined SYMBIAN_KEYSTORE_USE_AUTH_SERVER || defined SDP_ROM1
 //Nothing is included
@@ -297,9 +307,6 @@ data = ZDRIVE\tcertstore\data\cert_dsa1.der			tcertstore\data\cert_dsa1.der attr
 data = ZDRIVE\system\data\test1certstore.dat			system\data\test1certstore.dat attrib=r
 data = ZDRIVE\system\data\test2certstore.dat			system\data\test2certstore.dat attrib=r
 
-// Test keystore. Contains two keys, a DSA key (label gm0) and a RSA key (label gm1)
-// The passphrase timeout is set to 30
-data = ZPRIVATE\101F72A6\keys.dat          	private\101F72A6\keys.dat
 #endif
 #endif // SYMBIAN_KEYSTORE_USE_AUTH_SERVER
 

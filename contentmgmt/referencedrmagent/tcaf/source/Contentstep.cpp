@@ -93,8 +93,10 @@ TVerdict CCAFContentAttributeStep::doTestStepL()
 		{
 		RFile file;
 		file.Open(iParent.Fs(), uri, EFileShareReadersOnly);		
-		content = CContent::NewLC(file);
-		file.Close();
+		CleanupClosePushL(file);
+		content = CContent::NewL(file);
+		CleanupStack::PopAndDestroy(&file);
+		CleanupStack::PushL(content);
 		value = expectedValue+1;
 		User::LeaveIfError(content->GetAttribute(attribute, value, uniqueId));
 		if(expectedValue != value)
@@ -195,8 +197,10 @@ TVerdict CCAFContentAttributeSetStep::doTestStepL()
 		{
 		RFile file;
 		file.Open(iParent.Fs(), uri, EFileShareReadersOnly);		
-		content = CContent::NewLC(file);
-		file.Close(); 		
+		CleanupClosePushL(file);
+		content = CContent::NewL(file);
+		CleanupStack::PopAndDestroy(&file);
+		CleanupStack::PushL(content);
 	    		
 		CleanupClosePushL(attributeSet);
 		attributeSet.AddL(attribute1);
@@ -301,8 +305,10 @@ TVerdict CCAFContentStringAttributeStep::doTestStepL()
 	   	{
 		RFile file;
 		file.Open(iParent.Fs(), uri, EFileShareReadersOnly);		
-		content = CContent::NewLC(file);
-		file.Close(); 		
+		CleanupClosePushL(file);
+		content = CContent::NewL(file);
+		CleanupStack::PopAndDestroy(&file);
+		CleanupStack::PushL(content);		
 
 		result = content->GetStringAttribute(attribute, value, uniqueId);
 		if(result != expectedResult)
@@ -420,8 +426,10 @@ TVerdict CCAFContentStringAttributeSetStep::doTestStepL()
 		{	
 		RFile file;
 		file.Open(iParent.Fs(), uri, EFileShareReadersOnly);		
-		content = CContent::NewLC(file);
-		file.Close(); 		
+		CleanupClosePushL(file);
+		content = CContent::NewL(file);
+		CleanupStack::PopAndDestroy(&file);
+		CleanupStack::PushL(content);	
 
 		CleanupClosePushL(attributeSet);
 		attributeSet.AddL(attribute1);

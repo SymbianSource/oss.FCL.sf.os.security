@@ -39,8 +39,7 @@ END
 USERINCLUDE		../source/caf 
 USERINCLUDE		../source/reccaf
 
-// OS_LAYER_SYSTEMINCLUDE_SYMBIAN -- should be this but has an upward dependency on apmstd.h in the MW layer.
-MW_LAYER_SYSTEMINCLUDE_SYMBIAN
+OS_LAYER_SYSTEMINCLUDE_SYMBIAN 
 
 LIBRARY			euser.lib apmime.lib estor.lib
 LIBRARY			caf.lib efsrv.lib 

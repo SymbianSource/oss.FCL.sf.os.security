@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 1998-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 1998-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -293,7 +293,8 @@ HBufC8* CCorruptionTest::readCertLC(const TDesC& aFilename)
 
 	RFileReadStream stream;
 	User::LeaveIfError(stream.Open(iFs, fullname, EFileStream));
+	CleanupClosePushL(stream);
 	stream.ReadL(p, size);
-	stream.Close();
+	CleanupStack::PopAndDestroy(&stream);
 	return res;
 	}

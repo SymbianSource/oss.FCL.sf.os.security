@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2003-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2003-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -1291,10 +1291,13 @@ TVerdict CCAFContentIteratorStep::doTestStepL()
 	__UHEAP_MARK;
 	
 	CIteratorTestStateMachine *t = new CIteratorTestStateMachine(this);
-	
+
+	CleanupStack::PushL(t);
+
 	t->RunTestL(path, ETrue, mimeType8);
+
+	CleanupStack::PopAndDestroy(t);
 	
-	delete t;	
 	__UHEAP_MARKEND;
 	return TestStepResult();
 	}

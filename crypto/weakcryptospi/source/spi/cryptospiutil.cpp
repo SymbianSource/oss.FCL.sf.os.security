@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2006-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2006-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -41,10 +41,12 @@ void CryptoSpiUtil::RetrieveCharacteristicsL(TInt32 aInterface, RPointerArray<CC
 	RBuf8 rBuf;
 	TInt count=0;
 	CleanupClosePushL(rBuf);
+
+	CleanupClosePushL(stream);
 	TInt length=RetrieveCharacteristicsL(aInterface, stream, rBuf, count);
 	if (length<=4)	
 		{
-		CleanupStack::PopAndDestroy(&rBuf);
+		CleanupStack::PopAndDestroy(2);
 		return;
 		}
 		
@@ -56,6 +58,8 @@ void CryptoSpiUtil::RetrieveCharacteristicsL(TInt32 aInterface, RPointerArray<CC
 		aList.AppendL(temp);
 		CleanupStack::Pop(temp); //temp
 		}
+
+	CleanupStack::PopAndDestroy(&stream);
 	CleanupStack::PopAndDestroy(&rBuf);
 	}
 
@@ -65,10 +69,12 @@ void CryptoSpiUtil::RetrieveCharacteristicsL(TInt32 aInterface, RPointerArray<CR
 	RBuf8 rBuf;
 	TInt count=0;
 	CleanupClosePushL(rBuf);
+	CleanupClosePushL(stream);
+
 	TInt length=RetrieveCharacteristicsL(aInterface, stream, rBuf, count);
 	if (length<=4)	
 		{
-		CleanupStack::PopAndDestroy(&rBuf);
+		CleanupStack::PopAndDestroy(2);
 		return;
 		}
 		
@@ -80,6 +86,8 @@ void CryptoSpiUtil::RetrieveCharacteristicsL(TInt32 aInterface, RPointerArray<CR
 		aList.AppendL(temp);
 		CleanupStack::Pop(temp); //temp
 		}
+
+	CleanupStack::PopAndDestroy(&stream);
 	CleanupStack::PopAndDestroy(&rBuf);
 	}
 
@@ -119,10 +127,12 @@ TInt CryptoSpiUtil::RetrieveCharacteristicsL(TInt32 aInterface, RDesReadStream& 
 	
 	//Read the length
 	aStream.Open(aBuf);
+
 	len=aStream.ReadInt32L();
 	
 	//Read the count of the characteristics
 	aCount=aStream.ReadInt16L();
+
 	return len;	
 	}
 

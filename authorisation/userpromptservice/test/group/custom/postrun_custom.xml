@@ -2,7 +2,7 @@
 		<type>ExecutableTestCaseTask</type>
         <parameters>
 			<parameter value="tmsgapp.exe" name="file"/>
-			<parameter value="2800" name="timeout"/>
+			<parameter value="600" name="timeout"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\tmsgapp.log"/>
 			<parameter name="result-download-retry-count" value="1"/>

@@ -239,6 +239,7 @@ file=ABI_DIR\BUILD_DIR\RUNTESTS.EXE                 System\Programs\RUNTESTS.EXE
 #endif
 #include "sntpclient.iby"
 
+#ifndef NCP_TEST_IMAGE_CREATION
 // *** Additional includes and configuration for SSM Requirements ***
 #ifdef _SSMSTARTUPMODE
 data=MULTI_LINGUIFY(RSC EPOCROOT##epoc32\data\z\private\2000d75b\startup\0\eshell  private\2000d75b\startup\0\eshell)
@@ -254,5 +255,5 @@ data=MULTI_LINGUIFY(RSC EPOCROOT##epoc32\data\z\private\2000d75b\startup\0\eshel
 // DEF139848 fix - Forward Propogation from Symtb9.1 - Illegal dependency from OCSP to HTTP.
 #include "ocsp.iby" 
 #include "ocsptests.iby"
-
+#endif
 #endif
