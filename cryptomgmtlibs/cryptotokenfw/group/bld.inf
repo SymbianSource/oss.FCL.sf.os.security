@@ -83,7 +83,6 @@ PRJ_TESTMMPFILES
 #ifndef TOOLS2
 ../tframework/TestPlugin.mmp
 ../tframework/t_ctframework.mmp
-../tsecdlg/t_secdlg.mmp
 ../tsecdlg/t_secdlg_text.mmp
 #endif //TOOLS2
 #endif //TOOLS

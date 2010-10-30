@@ -24,8 +24,8 @@ PRJ_PLATFORMS
 DEFAULT
 
 PRJ_EXPORTS
-../data/swicertstore.dat  /epoc32/release/winscw/udeb/Z/resource/swicertstore.dat
-../data/swicertstore.dat  /epoc32/release/winscw/urel/Z/resource/swicertstore.dat
+../data/swicertstore.dat  /epoc32/release/winscw/udeb/z/resource/swicertstore.dat
+../data/swicertstore.dat  /epoc32/release/winscw/urel/z/resource/swicertstore.dat
 ../data/swicertstore.dat  /epoc32/data/z/resource/swicertstore.dat
 
 // ROMKIT includes

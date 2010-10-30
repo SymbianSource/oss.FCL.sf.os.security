@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2003-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2003-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -335,12 +335,16 @@ TVerdict CCAFApparcStep::doTestStepL()
 	User::LeaveIfError(apparcSession.AppForDocument(fileName, uid, dataType));
 
 	RFile fileHandle;
-	fileHandle.Open(iParent.Fs(), uri, EFileRead);
+
+	CleanupClosePushL(fileHandle);
+	User::LeaveIfError(fileHandle.Open(iParent.Fs(), uri, EFileRead));
+
 	User::LeaveIfError(apparcSession.AppForDocument(fileHandle, uid, dataType2));
 
 	// Pass in a null file name to make sure it doesn't panic 
 	User::LeaveIfError(apparcSession.AppForDocument(nullFileName, uid, dataType3));
 
+	CleanupStack::PopAndDestroy(&fileHandle);
 	CleanupStack::PopAndDestroy(&apparcSession);	// close
 
 

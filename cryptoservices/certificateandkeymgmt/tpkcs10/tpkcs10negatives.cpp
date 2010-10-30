@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -393,10 +393,15 @@ TVerdict CPKCS10NegPKCS10Request::doTestStepL()
 	//////////////////////////////////////////////////////////////////////////////
 	// Test for invalid DN for NewL
 	CActiveScheduler* sch = new(ELeave) CActiveScheduler;   
+	CleanupStack::PushL(sch);
+
 	CActiveScheduler::Install(sch);
 
 	// Import the key
 	CPKCS10NegTesterActive* activeObj = new (ELeave) CPKCS10NegTesterActive(Logger());
+
+	CleanupStack::PushL(activeObj);
+
 	CCTKeyInfo *keyInfo = activeObj->doImportKeyL(this);
 
 	// Try to generate a cert req
@@ -471,8 +476,9 @@ TVerdict CPKCS10NegPKCS10Request::doTestStepL()
 		SetTestStepResult(EFail);
 		}
 
-	delete activeObj;		// Will release keyInfo
-	delete sch;
+	CleanupStack::PopAndDestroy(activeObj);       // Will release keyInfo
+	CActiveScheduler::Install(NULL); // Stop sch.
+	CleanupStack::PopAndDestroy(sch);  
 
 	return TestStepResult();
 	}

@@ -16,6 +16,10 @@
 *
 */
 
+/*t_secdlg not usable anymore, it can be used as example plugin for UI Notifiers
+This code can be ported to QT and used with QT notifiers if the security code need to
+be tested in UI mode*/
+
 
 #include "t_secdlg.mmh"
 

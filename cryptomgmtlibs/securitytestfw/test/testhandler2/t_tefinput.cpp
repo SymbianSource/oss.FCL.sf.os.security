@@ -256,6 +256,7 @@ EXPORT_C HBufC8* Tefinput::GetiniFile(RFs& aFs,
 //	iniFileread.TDesC8();
 	
 	CleanupStack::PopAndDestroy(1); // stream, 
+	CleanupStack::Pop(); //hbufc
 	
 	return testInput;  // Return a valid HBuf8 pointer where the ini file has been loaded (on the heap)
 	}

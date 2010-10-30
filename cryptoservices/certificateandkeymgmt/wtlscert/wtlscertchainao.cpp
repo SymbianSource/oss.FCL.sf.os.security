@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 1998-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 1998-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -449,7 +449,10 @@ void CWTLSCertChainAO::HandleEAddRootToListL()
 	//are we guarenteed that a cert from the store is a valid WTLScert?
 	//ie is this going to leave for reasons other than OOM?
 	CWTLSCertificate *cert = CWTLSCertificate::NewL( iEncodedCert );
+
+	CleanupStack::PushL(cert);
 	User::LeaveIfError( iRootsFromStore.Append(cert) );
+	CleanupStack::Pop(cert);
 
 	iState = ERetrieveRoots;
 	TRequestStatus* status = &iStatus;

@@ -2,7 +2,7 @@
 		<type>ExecutableTestCaseTask</type>
         <parameters>
 			<parameter value="t_random.exe" name="file"/>
-			<parameter value="2800" name="timeout"/>
+			<parameter value="600" name="timeout"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\t_random.log"/>
 			<parameter name="result-download-retry-count" value="1"/>
@@ -14,7 +14,7 @@
 		<parameters>
 			<parameter name="file" value="tasymmetric.exe"/>
 			<parameter name="parameters" value="c:\tasymmetric\tasymmetrictests.script1 c:\logs\testexecute\tasymmetrictests.htm"/>
-			<parameter name="timeout" value="2800"/>
+			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-download-retry-count" value="1"/>
 			<parameter name="result-download-reboot-retry-count" value="1"/>
@@ -26,7 +26,7 @@
 		<parameters>
 			<parameter name="file" value="tsymmetric.exe"/>
 			<parameter name="parameters" value="c:\tsymmetric\tsymmetrictests.script1 c:\logs\testexecute\tsymmetrictests.htm"/>
-			<parameter name="timeout" value="2800"/>
+			<parameter name="timeout" value="2500"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tsymmetrictests.htm"/>
 			<parameter name="result-download-retry-count" value="1"/>
@@ -38,7 +38,7 @@
 		<parameters>
 			<parameter name="file" value="tsymmetric.exe"/>
 			<parameter name="parameters" value="c:\tsymmetric\AESECBVectorsScript.script1 c:\logs\testexecute\AESECBVectorsScript.htm"/>
-			<parameter name="timeout" value="2800"/>
+			<parameter name="timeout" value="1100"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\AESECBVectorsScript.htm"/>
 			<parameter name="result-download-retry-count" value="1"/>
@@ -50,7 +50,7 @@
 		<parameters>
 			<parameter name="file" value="tsymmetric.exe"/>
 			<parameter name="parameters" value="c:\tsymmetric\AESECB_KAT_VT.script1 c:\logs\testexecute\AESECB_KAT_VT.htm"/>
-			<parameter name="timeout" value="2800"/>
+			<parameter name="timeout" value="1100"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\AESECB_KAT_VT.htm"/>
 			<parameter name="result-download-retry-count" value="1"/>
@@ -62,7 +62,7 @@
 		<parameters>
 			<parameter name="file" value="tsymmetric.exe"/>
 			<parameter name="parameters" value="c:\tsymmetric\AESECB_KAT_VK.script1 c:\logs\testexecute\AESECB_KAT_VK.htm"/>
-			<parameter name="timeout" value="2800"/>
+			<parameter name="timeout" value="1600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\AESECB_KAT_VK.htm"/>
 			<parameter name="result-download-retry-count" value="1"/>
@@ -74,7 +74,7 @@
 		<parameters>
 			<parameter name="file" value="tsymmetric.exe"/>
 			<parameter name="parameters" value="c:\tsymmetric\AESMonteCarloEncryptECB128.script1 c:\logs\testexecute\AESMonteCarloEncryptECB128.htm"/>
-			<parameter name="timeout" value="2800"/>
+			<parameter name="timeout" value="1100"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\AESMonteCarloEncryptECB128.htm"/>
 			<parameter name="result-download-retry-count" value="1"/>
@@ -86,7 +86,7 @@
 		<parameters>
 			<parameter name="file" value="tsymmetric.exe"/>
 			<parameter name="parameters" value="c:\tsymmetric\AESMonteCarloEncryptECB192.script1 c:\logs\testexecute\AESMonteCarloEncryptECB192.htm"/>
-			<parameter name="timeout" value="2800"/>
+			<parameter name="timeout" value="1100"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\AESMonteCarloEncryptECB192.htm"/>
 			<parameter name="result-download-retry-count" value="1"/>
@@ -98,7 +98,7 @@
 		<parameters>
 			<parameter name="file" value="tsymmetric.exe"/>
 			<parameter name="parameters" value="c:\tsymmetric\AESMonteCarloEncryptECB256.script1 c:\logs\testexecute\AESMonteCarloEncryptECB256.htm"/>
-			<parameter name="timeout" value="2800"/>
+			<parameter name="timeout" value="1100"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\AESMonteCarloEncryptECB256.htm"/>
 			<parameter name="result-download-retry-count" value="1"/>
@@ -110,7 +110,7 @@
 		<parameters>
 			<parameter name="file" value="tsymmetric.exe"/>
 			<parameter name="parameters" value="c:\tsymmetric\AESMonteCarloDecryptECB128.script1 c:\logs\testexecute\AESMonteCarloDecryptECB128.htm"/>
-			<parameter name="timeout" value="2800"/>
+			<parameter name="timeout" value="1100"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\AESMonteCarloDecryptECB128.htm"/>
 			<parameter name="result-download-retry-count" value="1"/>
@@ -122,7 +122,7 @@
 		<parameters>
 			<parameter name="file" value="tsymmetric.exe"/>
 			<parameter name="parameters" value="c:\tsymmetric\AESMonteCarloDecryptECB192.script1 c:\logs\testexecute\AESMonteCarloDecryptECB192.htm"/>
-			<parameter name="timeout" value="2800"/>
+			<parameter name="timeout" value="1100"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\AESMonteCarloDecryptECB192.htm"/>
 			<parameter name="result-download-retry-count" value="1"/>
@@ -134,7 +134,7 @@
 		<parameters>
 			<parameter name="file" value="tsymmetric.exe"/>
 			<parameter name="parameters" value="c:\tsymmetric\AESMonteCarloDecryptECB256.script1 c:\logs\testexecute\AESMonteCarloDecryptECB256.htm"/>
-			<parameter name="timeout" value="2800"/>
+			<parameter name="timeout" value="1100"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\AESMonteCarloDecryptECB256.htm"/>
 			<parameter name="result-download-retry-count" value="1"/>
@@ -146,7 +146,7 @@
 		<parameters>
 			<parameter name="file" value="tsymmetric.exe"/>
 			<parameter name="parameters" value="c:\tsymmetric\AESMonteCarloEncryptCBC128.script1 c:\logs\testexecute\AESMonteCarloEncryptCBC128.htm"/>
-			<parameter name="timeout" value="2800"/>
+			<parameter name="timeout" value="1100"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\AESMonteCarloEncryptCBC128.htm"/>
 			<parameter name="result-download-retry-count" value="1"/>
@@ -158,7 +158,7 @@
 		<parameters>
 			<parameter name="file" value="tsymmetric.exe"/>
 			<parameter name="parameters" value="c:\tsymmetric\AESMonteCarloEncryptCBC192A.script1 c:\logs\testexecute\AESMonteCarloEncryptCBC192A.htm"/>
-			<parameter name="timeout" value="3800"/>
+			<parameter name="timeout" value="2000"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\AESMonteCarloEncryptCBC192A.htm"/>
 			<parameter name="result-download-retry-count" value="1"/>
@@ -170,7 +170,7 @@
 		<parameters>
 			<parameter name="file" value="tsymmetric.exe"/>
 			<parameter name="parameters" value="c:\tsymmetric\AESMonteCarloEncryptCBC192B.script1 c:\logs\testexecute\AESMonteCarloEncryptCBC192B.htm"/>
-			<parameter name="timeout" value="2800"/>
+			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\AESMonteCarloEncryptCBC192B.htm"/>
 			<parameter name="result-download-retry-count" value="1"/>
@@ -182,7 +182,7 @@
 		<parameters>
 			<parameter name="file" value="tsymmetric.exe"/>
 			<parameter name="parameters" value="c:\tsymmetric\AESMonteCarloEncryptCBC256.script1 c:\logs\testexecute\AESMonteCarloEncryptCBC256.htm"/>
-			<parameter name="timeout" value="2800"/>
+			<parameter name="timeout" value="1100"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\AESMonteCarloEncryptCBC256.htm"/>
 			<parameter name="result-download-retry-count" value="1"/>
@@ -194,7 +194,7 @@
 		<parameters>
 			<parameter name="file" value="tsymmetric.exe"/>
 			<parameter name="parameters" value="c:\tsymmetric\AESMonteCarloDecryptCBC128.script1 c:\logs\testexecute\AESMonteCarloDecryptCBC128.htm"/>
-			<parameter name="timeout" value="2800"/>
+			<parameter name="timeout" value="1100"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\AESMonteCarloDecryptCBC128.htm"/>
 			<parameter name="result-download-retry-count" value="1"/>
@@ -206,7 +206,7 @@
 		<parameters>
 			<parameter name="file" value="tsymmetric.exe"/>
 			<parameter name="parameters" value="c:\tsymmetric\AESMonteCarloDecryptCBC192.script1 c:\logs\testexecute\AESMonteCarloDecryptCBC192.htm"/>
-			<parameter name="timeout" value="2800"/>
+			<parameter name="timeout" value="1100"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\AESMonteCarloDecryptCBC192.htm"/>
 			<parameter name="result-download-retry-count" value="1"/>
@@ -218,7 +218,7 @@
 		<parameters>
 			<parameter name="file" value="tsymmetric.exe"/>
 			<parameter name="parameters" value="c:\tsymmetric\AESMonteCarloDecryptCBC256.script1 c:\logs\testexecute\AESMonteCarloDecryptCBC256.htm"/>
-			<parameter name="timeout" value="2800"/>
+			<parameter name="timeout" value="1100"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\AESMonteCarloDecryptCBC256.htm"/>
 			<parameter name="result-download-retry-count" value="1"/>
@@ -230,7 +230,7 @@
 		<parameters>
 			<parameter name="file" value="tbigint.exe"/>
 			<parameter name="parameters" value="c:\tbigint\tconstructiontests.script1 c:\logs\testexecute\tconstruction.htm"/>
-			<parameter name="timeout" value="2800"/>
+			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tconstruction.htm"/>
 			<parameter name="result-download-retry-count" value="1"/>
@@ -242,7 +242,7 @@
 		<parameters>
 			<parameter name="file" value="tbigint.exe"/>
 			<parameter name="parameters" value="c:\tbigint\tbasicmathstests.script1 c:\logs\testexecute\tbasicmaths.htm"/>
-			<parameter name="timeout" value="2800"/>
+			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tbasicmaths.htm"/>
 			<parameter name="result-download-retry-count" value="1"/>
@@ -254,7 +254,7 @@
 		<parameters>
 			<parameter name="file" value="tbigint.exe"/>
 			<parameter name="parameters" value="c:\tbigint\tmontgomerytests.script1 c:\logs\testexecute\tmontgomery.htm"/>
-			<parameter name="timeout" value="2800"/>
+			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tmontgomery.htm"/>
 			<parameter name="result-download-retry-count" value="1"/>
@@ -266,7 +266,7 @@
 		<parameters>
 			<parameter name="file" value="tbigint.exe"/>
 			<parameter name="parameters" value="c:\tbigint\tprimetests.script1 c:\logs\testexecute\tprime.htm"/>
-			<parameter name="timeout" value="2800"/>
+			<parameter name="timeout" value="2500"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tprime.htm"/>
 			<parameter name="result-download-retry-count" value="1"/>
@@ -278,7 +278,7 @@
 		<parameters>
 			<parameter name="file" value="tbigint.exe"/>
 			<parameter name="parameters" value="c:\tbigint\tprimefailuretests.script1 c:\logs\testexecute\tprimefailure.htm"/>
-			<parameter name="timeout" value="2800"/>
+			<parameter name="timeout" value="2000"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tprimefailure.htm"/>
 			<parameter name="result-download-retry-count" value="1"/>
@@ -290,7 +290,7 @@
 		<parameters>
 			<parameter name="file" value="tbigint.exe"/>
 			<parameter name="parameters" value="c:\tbigint\tprimegen.script1 c:\logs\testexecute\tprimegen.htm"/>
-			<parameter name="timeout" value="2800"/>
+			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tprimegen.htm"/>
 			<parameter name="result-download-retry-count" value="1"/>
@@ -302,7 +302,7 @@
 		<parameters>
 			<parameter name="file" value="tpkcs5kdf.exe"/>
 			<parameter name="parameters" value="c:\tpkcs12kdftests.script1 c:\logs\testexecute\tpkcs12kdftests.htm"/>
-			<parameter name="timeout" value="2800"/>
+			<parameter name="timeout" value="1500"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tpkcs12kdftests.htm"/>
 			<parameter name="result-download-retry-count" value="1"/>
@@ -314,7 +314,7 @@
 		<parameters>
 			<parameter name="file" value="tpbe.exe"/>
 			<parameter name="parameters" value="c:\tpbe\tpbetests_v2.script1 c:\logs\testexecute\tpbetestsv2.htm"/>
-			<parameter name="timeout" value="2800"/>
+			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tpbetestsv2.htm"/>
 			<parameter name="result-download-retry-count" value="1"/>
@@ -325,7 +325,7 @@
 		<type>ExecutableTestCaseTask</type>
         <parameters>
 			<parameter value="thash.exe" name="file"/>
-			<parameter value="8000" name="timeout"/>
+			<parameter value="1600" name="timeout"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\hashlog.txt"/>
 			<parameter name="result-download-retry-count" value="1"/>

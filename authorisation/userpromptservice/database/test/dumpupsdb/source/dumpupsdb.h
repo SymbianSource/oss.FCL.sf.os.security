@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -170,7 +170,7 @@ the database is created is specified by the user.
 	User::LeaveIfError(fs.Connect());
 	CleanupClosePushL(fs);
 	
-	CConsoleBase *console = Console::NewL(KAppName,TSize(KDefaultConsWidth, KDefaultConsHeight));
+	CConsoleBase *console = Console::NewL(KAppName,TSize(KConsFullScreen, KConsFullScreen));
 	CleanupStack::PushL(console);
 	
 	CCommandLineArguments *cmdLineArgs = CCommandLineArguments::NewLC();

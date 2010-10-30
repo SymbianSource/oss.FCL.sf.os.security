@@ -3,7 +3,7 @@
 		<parameters>
 			<parameter name="file" value="t_certapps.exe"/>
 			<parameter name="parameters" value="c:\tcertapps\scripts\script1.script1 c:\logs\testexecute\tcertapps.htm"/>
-			<parameter name="timeout" value="2800"/>
+			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tcertapps.htm"/>
 			<parameter name="result-download-retry-count" value="1"/>
@@ -15,7 +15,7 @@
 		<parameters>
 			<parameter name="file" value="t_certapps.exe"/>
 			<parameter name="parameters" value="c:\tcertapps\scripts\apipolicing.script1 c:\logs\testexecute\tcertapps-apipolicing.htm"/>
-			<parameter name="timeout" value="2800"/>
+			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tcertapps-apipolicing.htm"/>
 			<parameter name="result-download-retry-count" value="1"/>
@@ -27,7 +27,7 @@
 		<parameters>
 			<parameter name="file" value="t_keystore.exe"/>
 			<parameter name="parameters" value="c:\tkeystore\scripts\tkeystore.script1 c:\logs\testexecute\tkeystore.htm"/>
-			<parameter name="timeout" value="2800"/>
+			<parameter name="timeout" value="800"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tkeystore.htm"/>
 			<parameter name="result-download-retry-count" value="1"/>
@@ -39,7 +39,7 @@
 		<parameters>
 			<parameter name="file" value="t_keystore.exe"/>
 			<parameter name="parameters" value="c:\tkeystore\scripts\authobjects.script1 c:\logs\testexecute\tkeystore_authobjects.htm"/>
-			<parameter name="timeout" value="2800"/>
+			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tkeystore_authobjects.htm"/>
 			<parameter name="result-download-retry-count" value="1"/>
@@ -51,7 +51,7 @@
 		<parameters>
 			<parameter name="file" value="t_keystore.exe"/>
 			<parameter name="parameters" value="c:\tkeystore\scripts\exportscript.script1 c:\logs\testexecute\tkeystore_export.htm"/>
-			<parameter name="timeout" value="2800"/>
+			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tkeystore_export.htm"/>
 			<parameter name="result-download-retry-count" value="1"/>
@@ -63,7 +63,7 @@
 		<parameters>
 			<parameter name="file" value="t_keystore.exe"/>
 			<parameter name="parameters" value="c:\tkeystore\scripts\reload.script1 c:\logs\testexecute\tkeystore_reload.htm"/>
-			<parameter name="timeout" value="2800"/>
+			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\tkeystore_reload.htm"/>
 			<parameter name="result-download-retry-count" value="1"/>
@@ -75,7 +75,7 @@
 		<parameters>
 			<parameter name="file" value="t_keystore.exe"/>
 			<parameter name="parameters" value="c:\tkeystore\scripts\oldserver_newfeature.script1 c:\logs\testexecute\oldserver_newfeature.htm"/>
-			<parameter name="timeout" value="2800"/>
+			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\oldserver_newfeature.htm"/>
 			<parameter name="result-download-retry-count" value="1"/>
@@ -87,7 +87,7 @@
 		<parameters>
 			<parameter name="file" value="t_keystore.exe"/>
 			<parameter name="parameters" value="c:\tkeystore\scripts\thwkeystore.script1 c:\logs\testexecute\thwkeystore.htm"/>
-			<parameter name="timeout" value="2800"/>
+			<parameter name="timeout" value="600"/>
 			<parameter name="parser" value="RTestResultParser" />
 			<parameter name="result-file" value="c:\logs\testexecute\thwkeystore.htm"/>
 			<parameter name="result-download-retry-count" value="1"/>

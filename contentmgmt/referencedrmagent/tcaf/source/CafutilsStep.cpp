@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2004-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2004-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -61,6 +61,8 @@ TVerdict CCafCDirStreamStep::doTestStepL()
 	
 	CDirStreamable *newFileList = CDirStreamable::NewL(*fileList);
 	delete fileList;
+
+	CleanupStack::PushL(newFileList);
 	
 	// Create a buffer
 	CBufFlat* buf = CBufFlat::NewL(50);
@@ -96,7 +98,8 @@ TVerdict CCafCDirStreamStep::doTestStepL()
 	
 	CleanupStack::PopAndDestroy(buf);
 	
-	delete newFileList;
+	CleanupStack::PopAndDestroy(newFileList); 
+
 	delete streamDir;
 	CleanupStack::PopAndDestroy(manager);
 	
@@ -124,14 +127,14 @@ TVerdict CCafRAttributeSetStreamStep::doTestStepL()
 	__UHEAP_MARK;
 	
 
-	RAttributeSet aSet;
-	CleanupClosePushL(aSet);
-	aSet.AddL(EIsProtected);
-	aSet.AddL(EIsForwardable);
-	aSet.AddL(EIsForwardable);
+	RAttributeSet tempSet;
+	CleanupClosePushL(tempSet);
+	tempSet.AddL(EIsProtected);
+	tempSet.AddL(EIsForwardable);
+	tempSet.AddL(EIsForwardable);
 	
-	aSet.SetValue(EIsProtected, (TInt) ETrue, KErrNone);
-	aSet.SetValue(EIsForwardable, (TInt) EFalse, KErrNone);
+	tempSet.SetValue(EIsProtected, (TInt) ETrue, KErrNone);
+	tempSet.SetValue(EIsForwardable, (TInt) EFalse, KErrNone);
 		
 	// Create a buffer
 	CBufFlat* buf = CBufFlat::NewL(50);
@@ -142,7 +145,7 @@ TVerdict CCafRAttributeSetStreamStep::doTestStepL()
 	CleanupClosePushL(writeStream);
 
 	// write the directory to the stream
-	aSet.ExternalizeL(writeStream);
+	tempSet.ExternalizeL(writeStream);
 	CleanupStack::PopAndDestroy(&writeStream);
 
 	// create read stream
@@ -155,16 +158,16 @@ TVerdict CCafRAttributeSetStreamStep::doTestStepL()
 	bSet.InternalizeL(readStream);
 		
 	TInt valueA, valueB;
-	if(aSet.Count() != bSet.Count())
+	if(tempSet.Count() != bSet.Count())
 		{
 		SetTestStepResult(EFail);
 		}
 	
-	for(TInt i = 0; i < aSet.Count(); i++)
+	for(TInt i = 0; i < tempSet.Count(); i++)
 		{
 		valueA = -1;
 		valueB = -1;
-		if(aSet.GetValue(aSet[i],valueA) != bSet.GetValue(aSet[i],valueB))
+		if(tempSet.GetValue(tempSet[i],valueA) != bSet.GetValue(tempSet[i],valueB))
 			{
 			SetTestStepResult(EFail);
 			}
@@ -178,7 +181,7 @@ TVerdict CCafRAttributeSetStreamStep::doTestStepL()
 	CleanupStack::PopAndDestroy(&bSet);
 	CleanupStack::PopAndDestroy(&readStream);
 	CleanupStack::PopAndDestroy(buf);
-	CleanupStack::PopAndDestroy(&aSet);
+	CleanupStack::PopAndDestroy(&tempSet);
 	
 	__UHEAP_MARKEND;
 
@@ -206,14 +209,14 @@ TVerdict CCafRStringAttributeSetStreamStep::doTestStepL()
 
 	__UHEAP_MARK;
 	
-	RStringAttributeSet aSet;
-	CleanupClosePushL(aSet);
-	aSet.AddL(EMimeType);
-	aSet.AddL(EDescription);
+	RStringAttributeSet tempSet;
+	CleanupClosePushL(tempSet);
+	tempSet.AddL(EMimeType);
+	tempSet.AddL(EDescription);
 	
 	// Set some values, normally be done by the agent
-	aSet.SetValue(EMimeType, KMimeType(), KErrNone);	
-	aSet.SetValue(EDescription, KNullDesC(), KErrNotSupported);	
+	tempSet.SetValue(EMimeType, KMimeType(), KErrNone);	
+	tempSet.SetValue(EDescription, KNullDesC(), KErrNotSupported);	
 	
 	// Create a buffer
 	CBufFlat* buf = CBufFlat::NewL(50);
@@ -224,7 +227,7 @@ TVerdict CCafRStringAttributeSetStreamStep::doTestStepL()
 	CleanupClosePushL(writeStream);
 
 	// write the directory to the stream
-	aSet.ExternalizeL(writeStream);
+	tempSet.ExternalizeL(writeStream);
 	CleanupStack::PopAndDestroy(&writeStream);
 
 	// create read stream
@@ -238,16 +241,16 @@ TVerdict CCafRStringAttributeSetStreamStep::doTestStepL()
 		
 	TBuf <1024> valueA;
 	TBuf <1024> valueB;
-	if(aSet.Count() != bSet.Count())
+	if(tempSet.Count() != bSet.Count())
 		{
 		SetTestStepResult(EFail);
 		}
 	
-	for(TInt i = 0; i < aSet.Count(); i++)
+	for(TInt i = 0; i < tempSet.Count(); i++)
 		{
 		valueA.SetLength(0);
 		valueB.SetLength(0);
-		if(aSet.GetValue(aSet[i],valueA) != bSet.GetValue(aSet[i],valueB))
+		if(tempSet.GetValue(tempSet[i],valueA) != bSet.GetValue(tempSet[i],valueB))
 			{
 			SetTestStepResult(EFail);
 			}
@@ -261,7 +264,7 @@ TVerdict CCafRStringAttributeSetStreamStep::doTestStepL()
 	CleanupStack::PopAndDestroy(&bSet);
 	CleanupStack::PopAndDestroy(&readStream);
 	CleanupStack::PopAndDestroy(buf);
-	CleanupStack::PopAndDestroy(&aSet);
+	CleanupStack::PopAndDestroy(&tempSet);
 	
 	__UHEAP_MARKEND;
 
@@ -293,6 +296,8 @@ TVerdict CCafSupplierOutputFileStreamStep::doTestStepL()
 	__UHEAP_MARK;
 	
 	CSupplierOutputFile *outputFile = CSupplierOutputFile::NewL(KDummyName(), EContent, KDummyType());
+
+	CleanupStack::PushL(outputFile);
 	
 	// Create a buffer
 	CBufFlat* buf = CBufFlat::NewL(50);
@@ -313,6 +318,8 @@ TVerdict CCafSupplierOutputFileStreamStep::doTestStepL()
 	// construct a new CSupplierOutputFile from the stream
 	CSupplierOutputFile *outputFile2= CSupplierOutputFile::NewL(readStream);
 	CleanupStack::PopAndDestroy(&readStream);
+
+	CleanupStack::PushL(outputFile2);
 	
 	if(outputFile->FileName() != outputFile2->FileName())
 			{
@@ -327,10 +334,7 @@ TVerdict CCafSupplierOutputFileStreamStep::doTestStepL()
 			SetTestStepResult(EFail);
 			}
 	
-	CleanupStack::PopAndDestroy(buf);
-	
-	delete outputFile;
-	delete outputFile2;
+	CleanupStack::PopAndDestroy(3); // Relinquishes buf, outputFile and outputFile2.	
 	
 	__UHEAP_MARKEND;
 
@@ -454,7 +458,8 @@ TVerdict CCafEmbeddedObjectStep::doTestStepL()
 
 	__UHEAP_MARK;
 	
-	CEmbeddedObject *aObject = CEmbeddedObject::NewL(KTestUniqueId(), KTestName(), KTestMimeType(), EContentObject);
+    CEmbeddedObject *tempObject = CEmbeddedObject::NewL(KTestUniqueId(), KTestName(), KTestMimeType(), EContentObject);
+    CleanupStack::PushL(tempObject);
 	
 	// Create a buffer
 	CBufFlat* buf = CBufFlat::NewL(50);
@@ -465,7 +470,7 @@ TVerdict CCafEmbeddedObjectStep::doTestStepL()
 	CleanupClosePushL(writeStream);
 
 	// write the directory to the stream
-	aObject->ExternalizeL(writeStream);
+    tempObject ->ExternalizeL(writeStream);
 	CleanupStack::PopAndDestroy(&writeStream);
 
 	// create read stream
@@ -477,26 +482,27 @@ TVerdict CCafEmbeddedObjectStep::doTestStepL()
 	CleanupStack::PopAndDestroy(&readStream);
 	
 	
-	if(aObject->UniqueId() != bObject->UniqueId())
+    if(tempObject ->UniqueId() != bObject->UniqueId())
 			{
 			SetTestStepResult(EFail);
 			}
 			
-	if(aObject->Name() != bObject->Name())
+    if(tempObject ->Name() != bObject->Name())
 			{
 			SetTestStepResult(EFail);
 			}			
-	if(aObject->Type() != bObject->Type())
+    if(tempObject ->Type() != bObject->Type())
 			{
 			SetTestStepResult(EFail);
 			}			
-	if(aObject->MimeType() != bObject->MimeType())
+    if(tempObject ->MimeType() != bObject->MimeType())
 			{
 			SetTestStepResult(EFail);
 			}			
 	
 	CleanupStack::PopAndDestroy(buf);
-	delete aObject;
+
+    CleanupStack::PopAndDestroy(tempObject );
 	delete bObject;
 	
 	__UHEAP_MARKEND;
@@ -617,8 +623,9 @@ TVerdict CCafVirtualPathStep::doTestStepL()
 		}
 
 
-	CVirtualPath *aPath= CVirtualPath::NewL(KTestUri(), KTestUniqueId());
+	CVirtualPath *tempPath= CVirtualPath::NewL(KTestUri(), KTestUniqueId());
 	
+	CleanupStack::PushL(tempPath);
 	// Create a buffer
 	CBufFlat* buf = CBufFlat::NewL(50);
 	CleanupStack::PushL(buf);
@@ -628,7 +635,7 @@ TVerdict CCafVirtualPathStep::doTestStepL()
 	CleanupClosePushL(writeStream);
 
 	// write the directory to the stream
-	aPath->ExternalizeL(writeStream);
+	tempPath->ExternalizeL(writeStream);
 	CleanupStack::PopAndDestroy(&writeStream);
 
 	// create read stream
@@ -639,26 +646,27 @@ TVerdict CCafVirtualPathStep::doTestStepL()
 	CVirtualPath *bPath= CVirtualPath::NewL(readStream);
 	CleanupStack::PopAndDestroy(&readStream);
 	
+	CleanupStack::PushL(bPath);  
 	
-	if(aPath->UniqueId() != bPath->UniqueId())
+	if(tempPath->UniqueId() != bPath->UniqueId())
 			{
 			SetTestStepResult(EFail);
 			}
 			
-	if(aPath->URI() != bPath->URI())
+	if(tempPath->URI() != bPath->URI())
 			{
 			SetTestStepResult(EFail);
 			}			
 
 	// Test that if a uniqueID of length greater than ContentAccess::KMaxCafUniqueId
 	// is given then it will not treat it as a valid uniqueID
-	HBufC* longUID = HBufC::NewLC(aPath->UniqueId().Length() * 100+aPath->URI().Length()+1);
-	longUID->Des().Append(aPath->URI());
+	HBufC* longUID = HBufC::NewLC(tempPath->UniqueId().Length() * 100+tempPath->URI().Length()+1);
+	longUID->Des().Append(tempPath->URI());
 	longUID->Des().Append(KCafVirtualPathSeparator);
 	// create a very long concatenated URI and UniqueID
 	for ( i = 0; i < 100; ++i )
 		{
-		longUID->Des().Append(aPath->UniqueId());
+		longUID->Des().Append(tempPath->UniqueId());
 		}
 	// create a TVirtualPathPtr with the concatenated URI and UniqueID
 	TVirtualPathPtr longPath(longUID->Des());
@@ -672,10 +680,7 @@ TVerdict CCafVirtualPathStep::doTestStepL()
 		SetTestStepResult(EFail);
 		}
 		
-	CleanupStack::PopAndDestroy(longUID);
-	CleanupStack::PopAndDestroy(buf);
-	delete aPath;
-	delete bPath;
+	CleanupStack::PopAndDestroy(4);	// Relinquishes longUID, bPath, buf, tempPath.
 	
 	
 	__UHEAP_MARKEND;
@@ -707,8 +712,9 @@ TVerdict CCafRightsInfoStep::doTestStepL()
 
 	__UHEAP_MARK;
 	
-	CRightsInfo *aRights= CRightsInfo::NewL(KTestDescription(), KTestUniqueId(), ERightsTypeConsumable, ERightsStatusNone);
-	
+	CRightsInfo *tempRights= CRightsInfo::NewL(KTestDescription(), KTestUniqueId(), ERightsTypeConsumable, ERightsStatusNone);
+
+	CleanupStack::PushL(tempRights);	
 	
 	// Create a buffer
 	CBufFlat* buf = CBufFlat::NewL(50);
@@ -719,7 +725,7 @@ TVerdict CCafRightsInfoStep::doTestStepL()
 	CleanupClosePushL(writeStream);
 
 	// write the directory to the stream
-	aRights->ExternalizeL(writeStream);
+	tempRights->ExternalizeL(writeStream);
 	CleanupStack::PopAndDestroy(&writeStream);
 
 	// create read stream
@@ -731,28 +737,30 @@ TVerdict CCafRightsInfoStep::doTestStepL()
 	CleanupStack::PopAndDestroy(&readStream);
 	
 	
-	if(aRights->UniqueId() != bRights->UniqueId())
+	if(tempRights->UniqueId() != bRights->UniqueId())
 			{
 			SetTestStepResult(EFail);
 			}
 			
-	if(aRights->Description() != bRights->Description())
+	if(tempRights->Description() != bRights->Description())
 			{
 			SetTestStepResult(EFail);
 			}			
 
-	if(aRights->RightsType() != bRights->RightsType())
+	if(tempRights->RightsType() != bRights->RightsType())
 			{
 			SetTestStepResult(EFail);
 			}			
 
-	if(aRights->RightsStatus() != bRights->RightsStatus())
+	if(tempRights->RightsStatus() != bRights->RightsStatus())
 			{
 			SetTestStepResult(EFail);
 			}			
 	
 	CleanupStack::PopAndDestroy(buf);
-	delete aRights;
+
+	CleanupStack::PopAndDestroy(tempRights); 
+
 	delete bRights;
 	
 	__UHEAP_MARKEND;
@@ -785,15 +793,23 @@ TVerdict CCafStreamablePtrArrayStep::doTestStepL()
 	__UHEAP_MARK;
 	
 	RStreamablePtrArray <CEmbeddedObject> array;
+
+	CleanupClosePushL(array); // This itself is a resource. So need to be pushed in advance.
 	
-	CEmbeddedObject *aObject = CEmbeddedObject::NewL(KTestUniqueId(), KTestName(), KTestMimeType(), EContentObject);
-	CEmbeddedObject *bObject = CEmbeddedObject::NewL(KTestUniqueId(), KTestName(), KTestMimeType(), EContentObject);
-	CEmbeddedObject *cObject = CEmbeddedObject::NewL(KTestUniqueId(), KTestName(), KTestMimeType(), EContentObject);
-	
-	array.AppendL(aObject);
-	array.AppendL(bObject);
-	array.AppendL(cObject);
-	
+	CEmbeddedObject *e1Object = CEmbeddedObject::NewL(KTestUniqueId(), KTestName(), KTestMimeType(), EContentObject);
+	CleanupStack::PushL(e1Object);
+	array.AppendL(e1Object);
+	CleanupStack::Pop(e1Object); // Immediately pop off, since the ownership has been transferred to "array".
+
+	CEmbeddedObject *e2Object = CEmbeddedObject::NewL(KTestUniqueId(), KTestName(), KTestMimeType(), EContentObject);
+	CleanupStack::PushL(e2Object);
+	array.AppendL(e2Object);
+	CleanupStack::Pop(e2Object); // Immediately pop off, since the ownership has been transferred to "array".
+
+	CEmbeddedObject *e3Object = CEmbeddedObject::NewL(KTestUniqueId(), KTestName(), KTestMimeType(), EContentObject);
+	CleanupStack::PushL(e3Object);
+	array.AppendL(e3Object);
+	CleanupStack::Pop(e3Object); // Immediately pop off, since the ownership has been transferred to "array".
 
 	// Create a buffer
 	CBufFlat* buf = CBufFlat::NewL(50);
@@ -807,12 +823,14 @@ TVerdict CCafStreamablePtrArrayStep::doTestStepL()
 	array.ExternalizeL(writeStream);
 	CleanupStack::PopAndDestroy(&writeStream);
 
+	// Construct a new CSupplierOutputFile from the read stream
+	// being constructed in the next step.
+	RStreamablePtrArray <CEmbeddedObject> bArray;
+	CleanupClosePushL(bArray);
+
 	// create read stream
 	RBufReadStream readStream(*buf);
 	CleanupClosePushL(readStream);
-
-	// construct a new CSupplierOutputFile from the stream
-	RStreamablePtrArray <CEmbeddedObject> bArray;
 	bArray.InternalizeL(readStream);
 	CleanupStack::PopAndDestroy(&readStream);
 	
@@ -833,15 +851,16 @@ TVerdict CCafStreamablePtrArrayStep::doTestStepL()
 			SetTestStepResult(EFail);
 			}			
 		}
-	
+
+	CleanupStack::PopAndDestroy(&bArray);
 	CleanupStack::PopAndDestroy(buf);
-	array.Close();
-	bArray.Close();
-	
+	CleanupStack::PopAndDestroy(&array); // Relinquishes array consisting of 
+										// e1Object, e2Object and e3Object.
 	__UHEAP_MARKEND;
 
 	return TestStepResult();
 	}
+
 
 #ifdef SYMBIAN_ENABLE_SDP_WMDRM_SUPPORT
 

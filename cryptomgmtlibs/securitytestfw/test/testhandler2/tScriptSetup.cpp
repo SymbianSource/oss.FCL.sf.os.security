@@ -182,10 +182,6 @@ EXPORT_C void CScriptSetup::SetupTestsL(RFs& aFs,
 		User::LeaveIfError(aTestSpec.AddNextTest(newAction));
 		CleanupStack::Pop(newAction);
 	
-		if(iniFile)
-			{
-			CleanupStack::PopAndDestroy(1);
-			}
 		}
 	}
 
@@ -198,6 +194,7 @@ EXPORT_C TBool CScriptSetup::InitialiseL(RFs &aFs, const TDesC& aDefaultScript, 
 	if (aUseCommandLine)
 		{
 		iScriptPath = GetArgument();
+		
 		if(iScriptPath->Length()==0)
 			{
 			delete iScriptPath;  

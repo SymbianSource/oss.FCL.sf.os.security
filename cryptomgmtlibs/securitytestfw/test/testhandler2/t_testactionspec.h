@@ -52,8 +52,8 @@ public:
 	
 	TPtrC8 iActionDescription;
 
-	RBuf8  iniSectionResultBody;
-	RBuf8 aTestIniFilePtr;		// This will hold the location in Heap where the ini file has been loaded for general use
+	RBuf8  iIniSectionResultBody;
+	RBuf8 iTestIniFilePtr;		// This will hold the location in Heap where the ini file has been loaded for general use
 
 	/**
 	 * This member indicates the expected result of the action.

@@ -1,5 +1,5 @@
 /*
-* Copyright (c) 2007-2009 Nokia Corporation and/or its subsidiary(-ies).
+* Copyright (c) 2007-2010 Nokia Corporation and/or its subsidiary(-ies).
 * All rights reserved.
 * This component and the accompanying materials are made available
 * under the terms of the License "Eclipse Public License v1.0"
@@ -434,7 +434,7 @@ Main function to retrieve and log the characteristics
 void DoMainL()
 	{
 	//New a console and print tool information
-	CConsoleBase* console = Console::NewL(KShortName, TSize(KDefaultConsWidth, KDefaultConsHeight));
+	CConsoleBase* console = Console::NewL(KShortName, TSize(KConsFullScreen, KConsFullScreen));
 	CleanupStack::PushL(console);
 	BoilerPlate(console);
 	TRAPD(err, DoProcessL(console));
