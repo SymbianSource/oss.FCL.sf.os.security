@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<SystemDefinition xmlns:sf="http://www.symbian.org/system-definition" schema="3.0.0" id-namespace="http://www.nokia.com/schema/drd/system-definition">
+ <package id="sf:security" name="OS Security" levels="physical-abstraction plugins libraries management services utilities">
+    <collection id="sf:cryptoservices" name="Crypto Services" level="plugins">
+     <component id="rootcertificates" name="Root Certificates" introduced="7.0s" purpose="optional" before="sf:asnpkcs">
+      <unit mrp="../../cryptoservices/rootcertificates/rootcerts.mrp"/>
+	</component>
+    </collection>
+   <collection id="sf:security_info" name="OS Security Info" level="utilities">
+   <component id="nokia_security_metadata" name="Nokia OS Security Metadata" class="config" introduced="^2" purpose="development" target="desktop">
+    <unit mrp="nokia_security_metadata.mrp"/>
+   </component>
+  </collection>
+ </package>
+</SystemDefinition>
